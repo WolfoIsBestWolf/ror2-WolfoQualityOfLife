@@ -118,44 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AffixAetheriumSanguine" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixAetheriumSanguine.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="AffixLostTranistBlighted" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixLostTranistBlighted.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\ModdedEquipment\AffixLostTranistBlighted.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AffixLostTransitFrenzied" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixLostTransitFrenzied.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\ModdedEquipment\AffixLostTransitFrenzied.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AffixLostTransitLeech" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixLostTransitLeech.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\ModdedEquipment\AffixLostTransitLeech.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AffixLostTransitVolatile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixLostTransitVolatile.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\ModdedEquipment\AffixLostTransitVolatile.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AffixRoR2Echo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixRoR2Echo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\ModdedEquipment\AffixRoR2Echo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="AffixRoR2Lunar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixRoR2Lunar.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AffixVarietyArmor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixVarietyArmor.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AffixVarietyBanner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixVarietyBanner.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AffixVarietyGold" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixVarietyGold.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AffixVarietyImp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixVarietyImp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AffixVarietySandstorm" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixVarietySandstorm.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="AffixVarietyTinker" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Aspects\AffixVarietyTinker.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\ModdedEquipment\AffixRoR2Lunar.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="autogen_AncientWispBody" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>autogen_AncientWispBody.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -187,212 +166,206 @@
   <data name="betaWicked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>betaWicked.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="BodyIconDevastatorBody" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>VoidAllyStuff\BodyIconDevastatorBody.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="BodyIconNullifierBody" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>VoidAllyStuff\BodyIconNullifierBody.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="BodyIconVoidJailer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>VoidAllyStuff\BodyIconVoidJailer.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="CauldronIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>CauldronIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\CauldronIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CellIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>CellIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\CellIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestCasinoIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestCasinoIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestCasinoIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestDamageIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestDamageIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestDamageIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestEquipIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestEquipIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestEquipIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestHealIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestInvisibleIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestInvisibleIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestInvisibleIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestLargeDamageIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestLargeDamageIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestLargeDamageIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestLargeHealIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestLargeHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestLargeHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestLargeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestLargeIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestLargeIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestLargeUtilIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestLargeUtilIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestLargeUtilIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestLegendaryIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestLegendaryIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestLegendaryIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestLunarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestLunarIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestLunarIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestTimedIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestTimedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestTimedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestUtilIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestUtilIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestUtilIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestVoid" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ChestVoidPotential" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ChestVoidPotential.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ChestVoidPotential.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CleanseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>CleanseIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\CleanseIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DroneEmergencyIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DroneEmergencyIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\DroneEmergencyIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DroneEquipmentIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DroneEquipmentIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\DroneEquipmentIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DroneFlameIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DroneFlameIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\DroneFlameIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DroneHealIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DroneHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\DroneHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DroneMegaIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DroneMegaIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\DroneMegaIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DroneMissileIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DroneMissileIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\DroneMissileIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DroneTurretIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>DroneTurretIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EQUIPMENT_CLAYFLOWER" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\EQUIPMENT_CLAYFLOWER.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EQUIPMENT_LUNARTELEPORT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\EQUIPMENT_LUNARTELEPORT.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EQUIPMENT_TSUNAMI_EVSD" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\EQUIPMENT_TSUNAMI_EVSD.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EQUIPMENT_TSUNAMI_VOID_CLAM" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\EQUIPMENT_TSUNAMI_VOID_CLAM.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\DroneTurretIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ExclamationIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ExclamationIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ExclamationIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="LockedIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>LockedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\LockedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="LockedIconAlt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>LockedIconAlt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MysticsItems_FragileMask" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\MysticsItems_FragileMask.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MysticsItems_GateChalice" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\MysticsItems_GateChalice.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MysticsItems_TuningFork" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\MysticsItems_TuningFork.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\LockedIconAlt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="oldduplicatorbundle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>oldduplicatorbundle;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexAffixBlueIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexAffixBlueIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexAffixBlueIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexAffixGreenIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexAffixGreenIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexAffixGreenIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexAffixHauntedIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexAffixHauntedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexAffixHauntedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexAffixLunarIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexAffixLunarIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexAffixLunarIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexAffixPoisonIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexAffixPoisonIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexAffixPoisonIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexAffixRedIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexAffixRedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexAffixRedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexAffixWhiteIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexAffixWhiteIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexAffixWhiteIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexEffigyIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexEffigyIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexEffigyIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexMeteorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexMeteorIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexMeteorIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexPotionIconChanged" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexPotionIconChanged.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexPotionIconChanged.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="OutlineChangedtexTonicIcontonic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\OutlineChangedtexTonicIcontonic.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\OutlineChangedtexTonicIcontonic.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PingIconShippingDrone" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PingIconShippingDrone.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PingIconShippingDrone.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PingIconVoidEradicator" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PingIconVoidEradicator.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PingIconVoidEradicator.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PortalIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PortalIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PortalIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PrimordialTeleporterChargedIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PrimordialTeleporterChargedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PrimordialTeleporterChargedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PrimordialTeleporterIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PrimordialTeleporterIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PrimordialTeleporterIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PrinterIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PrinterIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PrinterIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PrinterLargeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PrinterLargeIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PrinterLargeIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PrinterMiliIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PrinterMiliIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PrinterMiliIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="PrinterWildIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>PrinterWildIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="RuinaBackwardsClock" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\modded\RuinaBackwardsClock.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\PrinterWildIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ScavBagIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ScavBagIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ScavBagIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ScrapperIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ScrapperIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ScrapperIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SeerIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>SeerIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\SeerIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShrineBloodIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ShrineBloodIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ShrineBloodIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShrineChanceIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ShrineChanceIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ShrineChanceIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShrineGoldIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ShrineGoldIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ShrineGoldIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShrineHealIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ShrineHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ShrineHealIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShrineMountainIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ShrineMountainIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ShrineMountainIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ShrineOrderIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>ShrineOrderIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>PingIcons\ShrineOrderIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SpStShrineAegis" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\SpStShrineAegis.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SpStShrineCloaked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\SpStShrineCloaked .png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SS2_DroneDuplicate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\SS2_DroneDuplicate.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SS2_DroneScrapper" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\SS2_DroneScrapper.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SS2_DroneShock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\SS2_DroneShock.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texAffixCloakIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ColorChanger\ModdedElite2\texAffixCloakIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texAffixGravityIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ColorChanger\ModdedElite2\texAffixGravityIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texAffixPlatedIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ColorChanger\ModdedElite2\texAffixPlatedIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texAffixRaging" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ColorChanger\ModdedElite2\texAffixRaging.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texBodyBrother" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texBodyBrother.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -460,26 +433,17 @@
   <data name="texBuffMercExposeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texBuffMercExposeIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="texBuffRaincoat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texBuffRaincoat.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texBuffRoundShieldBuff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texBuffRoundShieldBuff.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texBuffShuriken" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texBuffShuriken.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="texBuffSleep" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>texBuffSleep.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="texBuffTincture" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texBuffTincture.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texCaptainJacketDiffuseW" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skins\redcaptain\texCaptainJacketDiffuseW.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texCaptainPaletteW" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skins\redcaptain\texCaptainPaletteW.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texCaptainPaletteW2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skins\redcaptain\texCaptainPaletteW2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texCrocoBlightSkin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texCrocoBlightSkin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -496,6 +460,9 @@
   <data name="texCrocoPoisonMaskBlight" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texCrocoPoisonMaskBlight.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="texCrocoPoisonMask___Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texCrocoPoisonMask - Copy.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texCrocoSkinFlow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texCrocoSkinFlow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -508,11 +475,8 @@
   <data name="texEquipmentLunarBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ColorChanger\texEquipmentLunarBG.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="texItemUntieredCaptain" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>texItemUntieredCaptain.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texItemUsedArtifactKey" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>texItemUsedArtifactKey.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="texItemNullEquip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texItemNullEquip.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texItemUsedKey" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texItemUsedKey.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -522,9 +486,6 @@
   </data>
   <data name="texMercOniBlues" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texMercOniBlues.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texNullifierDiffuse2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>VoidAllyStuff\texNullifierDiffuse2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texOniMercSwordDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texOniMercSwordDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -568,19 +529,7 @@
   <data name="texRampMercDustRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampMercDustRed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="texTrimsheetJailerDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>VoidAllyStuff\texTrimsheetJailerDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texTrimSheetVeryRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>texTrimSheetVeryRed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texVoidJailerDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>VoidAllyStuff\texVoidJailerDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texVoidMegaCrabDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>VoidAllyStuff\texVoidMegaCrabDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="UniqueAffixVoid" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>changed\UniqueAffixVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>ColorChanger\UniqueAffixVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
