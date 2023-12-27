@@ -1,4 +1,4 @@
-#### Visuals
+## Visuals
 Mercenaries Oni Skin now uses a red sword and red particle effects for his attacks.\
 
 Acrids attacks now have a different coloration if you use blight.

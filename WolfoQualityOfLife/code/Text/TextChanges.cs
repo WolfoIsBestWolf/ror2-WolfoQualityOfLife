@@ -11,10 +11,19 @@ namespace WolfoQualityOfLife
     {
         public static void Main()
         {
-            ItemText();
-            CharacterText();
-            OtherText();
-
+            if (WConfig.cfgTextItems.Value)
+            {
+                ItemText();
+            }
+            if (WConfig.cfgTextCharacters.Value)
+            {
+                CharacterText();
+            }
+            if (WConfig.cfgTextMain.Value)
+            {
+                OtherText();
+            }
+           
             LanguageAPI.Add("CHEST2_NAME", "Groﬂe Kiste", "de");
             LanguageAPI.Add("VOIDCOINBARREL_NAME", "Stengel", "de");
 
