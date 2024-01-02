@@ -521,16 +521,6 @@ namespace WolfoQualityOfLife
             TexPrimordialTeleporterC.filterMode = FilterMode.Bilinear;
             PrimordialTeleporterChargedIcon = Sprite.Create(TexPrimordialTeleporterC, v.rec512, v.half);
 
-            /*
-            if (PrimordialTPEnable.Value == false)
-            {
-                Sprite TeleporterIcon = RoR2.LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texTeleporterIconOutlined");
-                Sprite TeleporterChargedIcon = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/PositionIndicators/TeleporterChargingPositionIndicator").GetComponent<RoR2.UI.ChargeIndicatorController>().iconSprites[0].sprite;
-                PrimordialTeleporterIcon = TeleporterIcon;
-                PrimordialTeleporterChargedIcon = TeleporterChargedIcon;
-            }
-            */
-
 
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporter Variant").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PrimordialTeleporterIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporterProngs").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PrimordialTeleporterIcon;

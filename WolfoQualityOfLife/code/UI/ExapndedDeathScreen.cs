@@ -1,4 +1,5 @@
 using RoR2;
+using RoR2.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -102,8 +103,6 @@ namespace WolfoQualityOfLife
                 DeathEquipPlayer2 = playerInfo.equipment[1];
             }
             //
-
-
             //Killer Inventory Display
             DeathEquipEnemy1 = EquipmentIndex.None;
             DeathEquipEnemy2 = EquipmentIndex.None;
@@ -132,6 +131,7 @@ namespace WolfoQualityOfLife
                 string KillerNameBase = "Killed By: <color=#FFFF7F>" + helper.killerName;
                 bool IsLossToPlanet = false;
                 bool IsWinWithEvo = false;
+                bool HasViewableEquipment = helper.primaryEquipment != EquipmentIndex.None && EquipmentCatalog.GetEquipmentDef(helper.primaryEquipment).passiveBuffDef == null;
 
                 //Set detailed name like with Elite prefix
                 if (helper.killerName != "")
@@ -142,16 +142,13 @@ namespace WolfoQualityOfLife
                 {
                     IsLossToPlanet = true;
                 }
-
-
                 self.playerBodyLabel.alignment = TMPro.TextAlignmentOptions.Left;
 
                 //Make it so this can run without a Helper present too
-                if (self.displayData.runReport.gameEnding.isWin || helper.itemAcquisitionOrder.Count == 0 || IsLossToPlanet == true)
+                if (self.displayData.runReport.gameEnding.isWin || helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment || IsLossToPlanet == true)
                 {
                     Debug.Log("Could not find Killer Inventory or Inventory empty");
-
-                    if (RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.monsterTeamGainsItemsArtifactDef))
+                    if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.monsterTeamGainsItemsArtifactDef))
                     {
                         IsWinWithEvo = true;
                         GameObject EvoInventory = GameObject.Find("MonsterTeamGainsItemsArtifactInventory(Clone)");
@@ -159,7 +156,6 @@ namespace WolfoQualityOfLife
                         {
                             helper.AddItemsFrom(EvoInventory.GetComponent<Inventory>().itemStacks, AllowAllItemFilterDelegate);
                         }
-
                     }
                     if (Run.instance && Run.instance.name.StartsWith("InfiniteTowerRun(Clone)"))
                     {
@@ -174,14 +170,9 @@ namespace WolfoQualityOfLife
                     }
                 }
 
-
-
-                if (helper.itemAcquisitionOrder.Count != 0)
+                if (helper.itemAcquisitionOrder.Count != 0 || HasViewableEquipment)
                 {
                     self.unlockContentArea.parent.parent.parent.gameObject.SetActive(false);
-
-                    //int[] writestacks = new int[ItemCatalog.itemCount];
-                    //KillerMaster.WriteItemStacks(writestacks);
 
                     GameObject KillerInvDisplayObj;
                     if (self.itemInventoryDisplay.gameObject.transform.parent.parent.parent.parent.childCount == 4)
@@ -197,7 +188,6 @@ namespace WolfoQualityOfLife
 
                     if (KillerInvDisplayObj)
                     {
-
                         if (IsWinWithEvo)
                         {
                             KillerInvDisplayObj.name = "EvolutionArea";
@@ -212,7 +202,6 @@ namespace WolfoQualityOfLife
 
                         DeathEquipEnemy1 = helper.primaryEquipment;
                         DeathEquipEnemy2 = helper.secondaryEquipment;
-
 
                         KillerInvDisplay.SetItems(helper.itemAcquisitionOrder, helper.itemStacks);
                         KillerInvDisplay.UpdateDisplay();
@@ -247,11 +236,25 @@ namespace WolfoQualityOfLife
 
         public static void GameEndEquipInv(On.RoR2.UI.ItemInventoryDisplay.orig_AllocateIcons orig, global::RoR2.UI.ItemInventoryDisplay self, int desiredItemCount)
         {
+            //History Fix adds equipment Icons too, gotta add compatibility 
             //Debug.LogWarning("ItemInventoryDisplay : AllocateIcons");
             if (self.name.StartsWith("Content"))
             {
                 //Debug.LogWarning(DeathEquip1);
                 //Debug.LogWarning(DeathEquip2);
+
+
+                int num = 0;
+                ItemIndex[] array = ItemCatalog.RequestItemOrderBuffer();
+                for (int i = 0; i < self.itemOrderCount; i++)
+                {
+                    if (ItemInventoryDisplay.ItemIsVisible(self.itemOrder[i]))
+                    {
+                        array[num++] = self.itemOrder[i];
+                    }
+                }
+                desiredItemCount = num;
+  
                 if (self.transform.parent.parent.parent.name.StartsWith("ItemArea(Clone)"))
                 {
                     if (DeathEquipEnemy1 != EquipmentIndex.None && DeathEquipEnemy2 == EquipmentIndex.None)
@@ -310,6 +313,13 @@ namespace WolfoQualityOfLife
                 }
                 else
                 {
+                    if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("local.fix.history"))
+                    {
+                        //Debug.Log("someone elses problem now");
+                        orig(self, desiredItemCount);
+                        return;
+                    }
+
                     if (DeathEquipPlayer1 != EquipmentIndex.None && DeathEquipPlayer2 == EquipmentIndex.None)
                     {
                         orig(self, desiredItemCount + 1);
@@ -362,6 +372,7 @@ namespace WolfoQualityOfLife
                     }
                 }
 
+
                 RoR2.UI.HGTextMeshProUGUI tempHeader = self.gameObject.transform.parent.parent.parent.GetChild(0).GetChild(0).gameObject.GetComponent<RoR2.UI.HGTextMeshProUGUI>();
                 if (tempHeader)
                 {
@@ -399,6 +410,7 @@ namespace WolfoQualityOfLife
 
         public static void MakeEquipmentIcon(GameObject equipmentIcon, EquipmentIndex equipmentIndex)
         {
+            Debug.Log("Making EquipmentIcon");
             EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
             equipmentIcon.GetComponent<UnityEngine.UI.RawImage>().texture = equipmentDef.pickupIconTexture;
             RoR2.UI.TooltipProvider tempTooltip = equipmentIcon.GetComponent<RoR2.UI.TooltipProvider>();

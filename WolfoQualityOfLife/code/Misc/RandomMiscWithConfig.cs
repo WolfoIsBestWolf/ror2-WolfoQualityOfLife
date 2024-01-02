@@ -1,5 +1,7 @@
-﻿using RoR2;
-//using System;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using RoR2;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -16,6 +18,27 @@ namespace WolfoQualityOfLife
 
         public static void Start()
         {
+            //Mod shouldn't be used with HistoryFix
+            On.RoR2.MorgueManager.EnforceHistoryLimit += (orig) =>
+            {
+                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("local.fix.history"))
+                {
+                    orig();
+                    return;
+                }
+                List<MorgueManager.HistoryFileInfo> list = HG.CollectionPool<MorgueManager.HistoryFileInfo, List<MorgueManager.HistoryFileInfo>>.RentCollection();
+                MorgueManager.GetHistoryFiles(list);
+                int i = list.Count - 1;
+                int num = System.Math.Max(MorgueManager.morgueHistoryLimit.value, 0);
+                while (i >= num)
+                {
+                    i--;
+                    MorgueManager.RemoveOldestHistoryFile();
+                }
+                HG.CollectionPool<MorgueManager.HistoryFileInfo, List<MorgueManager.HistoryFileInfo>>.ReturnCollection(list);
+            };
+
+
             if (WConfig.cfgMountainStacks.Value == true)
             {
                 //Goofy, rather compact and did it before RoRR

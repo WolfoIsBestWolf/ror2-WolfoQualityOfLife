@@ -104,10 +104,25 @@ namespace WolfoQualityOfLife
             //Can't get item counts here idk dude
             orig(characterMaster, oldIndex, newIndex, transformationType);
 
-            if (oldIndex == DLC1Content.Items.HealingPotion.itemIndex && newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
-                string token = "<style=cEvent>You drank a <color=#FFFFFF>Elixir</color></style>";
-                Chat.AddMessage(token);
+                if (newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
+                {
+                    string token = "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>";
+                    Chat.AddMessage(token);
+                }
+                else if (newIndex == DLC1Content.Items.FragileDamageBonusConsumed.itemIndex)
+                {
+                    string token = "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>";
+                    Chat.AddMessage(token);
+                }
+                else if (ItemCatalog.GetItemDef(newIndex).name.EndsWith("BROKEN_MESS"))
+                {
+                    string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
+                    hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
+                    string token = "<style=cEvent>"+ hex + " ran out of time...</style>";
+                    Chat.AddMessage(token);
+                }
             }
         }
 
@@ -260,7 +275,6 @@ namespace WolfoQualityOfLife
                                 hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(payResults.itemsTaken[0]).pickupDef.baseColor);
                                 message += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken) + " </color>";
                                 message2P += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken) + " </color>";
-
                             }
                             else
                             {

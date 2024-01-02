@@ -109,10 +109,6 @@ namespace WolfoQualityOfLife
             VoidStageDiorama.minDistance = 20;
             VoidStageDiorama.minDistance = 240;
 
-
-
-
-
             //Rachis Radius is slightly wrong, noticible on high stacks 
             GameObject RachisObject = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/DamageZoneWard");
             RachisObject.transform.GetChild(1).GetChild(2).GetChild(1).localScale = new Vector3(2f, 2f, 2f);
@@ -123,7 +119,7 @@ namespace WolfoQualityOfLife
             //Unused like blue explosion so he doesn't use magma explosion ig, probably unused for a reason but it looks fine
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion().GetComponent<WormBodyPositions2>().blastAttackEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Junk/ElectricWorm/ElectricWormImpactExplosion.prefab").WaitForCompletion();
 
-
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
             //Add unused cool bubbly noise
             On.RoR2.ShopTerminalBehavior.Start += (orig, self) =>
             {
@@ -133,8 +129,20 @@ namespace WolfoQualityOfLife
                     RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
                     RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
                     RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
-                };
+                }
+                /*else if (self.name.StartsWith("Duplicator"))
+                {
+                    if (self.pickupIndex != PickupIndex.none && self.pickupIndex.pickupDef.isLunar)
+                    {
+                        GameObject LunarInfection = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion(), self.gameObject.transform,false);
+                        LunarInfection.transform.localPosition = new Vector3(-1.2f, 1.6f, -0.45f);
+                        LunarInfection.transform.localScale = new Vector3(0.35f, 0.6f, 0.6f);
+                        LunarInfection.transform.localEulerAngles = new Vector3(345f, 330f, 270f);
+
+                    }
+                }*/
             };
+
             On.RoR2.ShopTerminalBehavior.DropPickup += (orig, self) =>
             {
                 orig(self);
@@ -190,15 +198,21 @@ namespace WolfoQualityOfLife
 
         public static void VoidAffix()
         {
-
-
             EquipmentDef VoidAffix = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteVoid/EliteVoidEquipment.asset").WaitForCompletion();
             GameObject VoidAffixDisplay = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteVoid/DisplayAffixVoid.prefab").WaitForCompletion(), "PickupAffixVoidW", false);
             VoidAffixDisplay.transform.GetChild(0).GetChild(1).SetAsFirstSibling();
             VoidAffixDisplay.transform.GetChild(1).localPosition = new Vector3(0f, 0.7f, 0f);
-            VoidAffixDisplay.transform.GetChild(0).eulerAngles = new Vector3(330, 0, 0);
+            VoidAffixDisplay.transform.GetChild(1).GetChild(0).localPosition = new Vector3(0, -0.5f, -0.6f);
+            VoidAffixDisplay.transform.GetChild(1).GetChild(0).localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            VoidAffixDisplay.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+            VoidAffixDisplay.transform.GetChild(1).GetChild(3).gameObject.SetActive(false);
+            VoidAffixDisplay.transform.GetChild(0).eulerAngles = new Vector3(310, 0, 0);
+            VoidAffixDisplay.transform.GetChild(0).localScale = new Vector3(0.75f, 0.75f, 0.75f);
 
-            LanguageAPI.Add("EQUIPMENT_AFFIXVOID_NAME", "Voidborn Curiosity", "en");
+            ItemDisplay display = VoidAffixDisplay.GetComponent<ItemDisplay>();
+            display.rendererInfos = display.rendererInfos.Remove(display.rendererInfos[4]);
+
+            LanguageAPI.Add("EQUIPMENT_AFFIXVOID_NAME", "Voidborne Curiosity", "en");
             LanguageAPI.Add("EQUIPMENT_AFFIXVOID_PICKUP", "Lose your aspect of self.", "en");
             LanguageAPI.Add("EQUIPMENT_AFFIXVOID_DESC", "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>50%</style> and decrease <style=cIsDamage>base damage</style> by <style=cIsDamage>30%</style>. <style=cIsDamage>Collapse</style> enemies on hit and <style=cIsHealing>block</style> incoming damage once every <style=cIsUtility>15 seconds</style>. ", "en");
 

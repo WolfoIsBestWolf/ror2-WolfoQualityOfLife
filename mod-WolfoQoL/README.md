@@ -81,13 +81,16 @@ Lunar Seers include their destination when pinged and in the purchase context.
 ![](https://cdn.discordapp.com/attachments/743886063738683413/1188859177574072360/image.png?ex=659c0e63&is=65899963&hm=1c6521e2aea8f0b54a6031557b6fbc2c7cb7bad37d35fb1fb47177dcf9bf9352&)
 
 
-###Other
+### Other
 Scavenger in the main menu is back.\
-Main Menu theme now changes randomly. 
+Main Menu theme now changes randomly.\
+Fixes Run History deleting wrong runs.  
 
 More "tp like" structures get flowers if you have Lepton Daisy.\
 Captains Shock Beacon now has a range indicator.\
-Sprinting UI is slightly different to support charge attacks.
+Scavengers play a sound when spawning.\
+Sprinting UI is slightly different to support charge attacks.\
+Void Fiends Mouse2 now has a crosshair response like other charging attacks.
 
 When winning a chat message will be displayed of the characters win quote.
 
@@ -105,8 +108,22 @@ Also download my other mods:\
 [VanillaArtifactsPlus](https://thunderstore.io/package/Wolfo/VanillaArtifactsPlus) for updated vanilla artifacts.  
 [WolfoArtifacts](https://thunderstore.io/package/Wolfo/WolfoArtifacts) for some fun extra Artifacts.   
 
+# 
+#### Mods to Not use alongside this one
+This mod already does what those mods do in a different way so they become kind of redundant.\
+There shouldn't be any compatibility issues if you use both but I still don't recommend it.  
+[ShowDeathCause](https://thunderstore.io/package/NotTsunami/ShowDeathCause/)   
+[HistoryFix](https://thunderstore.io/package/6thmoon/HistoryFix/)     
+
 
 ## Changelog:
+v2.5.1
+Fix Text config not working.  
+HistoryFix compatibility.   
+(This mod does what that mod does anyways so i'm not sure why you'd have both)  
+Watch message again and VV watch message.  
+Loader hook fist changes with skin again.    
+
 v2.5.0 - Cleanup  
 -IL Code hopefully making it cleaner  
 -Networking fixes  

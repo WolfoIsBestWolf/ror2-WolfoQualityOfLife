@@ -331,14 +331,14 @@ namespace WolfoQualityOfLife
             };
 
             //Loader correct Hand/Pylon color, seems whatever at this point
-            /*On.EntityStates.Loader.FireHook.SetHookReference += (orig, self, hook) =>
+            On.EntityStates.Loader.FireHook.SetHookReference += (orig, self, hook) =>
              {
                  if (self.characterBody.skinIndex != 0)
                  {
                      hook.transform.GetChild(0).GetComponent<MeshRenderer>().material = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial;
                  }
                  orig(self, hook);
-             };*/
+             };
             /*
             On.EntityStates.Loader.ThrowPylon.OnEnter += (orig, self) =>
             {
