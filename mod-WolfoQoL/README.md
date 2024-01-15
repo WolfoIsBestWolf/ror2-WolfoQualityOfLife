@@ -98,7 +98,8 @@ When winning a chat message will be displayed of the characters win quote.
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
 
-No, i'm not making the mod client side.
+No, i'm not making the mod client side.\
+Every played needs this mod installed.
 
 A lot of things are configurable. If you feel something should be configurable yet it isn't you can suggest it to me.
 
@@ -117,6 +118,13 @@ There shouldn't be any compatibility issues if you use both but I still don't re
 
 
 ## Changelog:
+```
+v2.5.2
+Fixed Brass Balls not getting elite skins on clients
+Fixed Expanded Death Info not working in multiplayer when dying multiple times throughout a run.
+Fixed Blight Acid Pool being a wrong projectile if used by Clients.
+Elite Equipment won't be in the logbook if ZetAspects is enabled.
+
 v2.5.1
 Fix Text config not working.  
 HistoryFix compatibility.   

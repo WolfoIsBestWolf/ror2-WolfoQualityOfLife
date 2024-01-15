@@ -121,7 +121,7 @@ namespace WolfoQualityOfLife
 
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
             //Add unused cool bubbly noise
-            On.RoR2.ShopTerminalBehavior.Start += (orig, self) =>
+            On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
             {
                 orig(self);
                 if (self.name.StartsWith("LunarCauldron,") || self.name.StartsWith("ShrineCleanse"))

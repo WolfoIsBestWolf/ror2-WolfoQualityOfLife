@@ -550,6 +550,7 @@ namespace WolfoQualityOfLife
 
             R2API.ContentAddition.AddProjectile(CrocoDiseaseProjectileBlight);
             R2API.ContentAddition.AddProjectile(CrocoSpitBlight);
+            R2API.ContentAddition.AddProjectile(CrocoLeapAcidBlight);
 
 
             if (WConfig.cfgSkinAcridBlight.Value == true)

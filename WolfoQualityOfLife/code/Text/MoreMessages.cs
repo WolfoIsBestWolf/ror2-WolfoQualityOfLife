@@ -273,8 +273,8 @@ namespace WolfoQualityOfLife
                             if (payResults.itemsTaken.Count == 1)
                             {
                                 hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(payResults.itemsTaken[0]).pickupDef.baseColor);
-                                message += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken) + " </color>";
-                                message2P += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken) + " </color>";
+                                message += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken, "en") + " </color>";
+                                message2P += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken, "en") + " </color>";
                             }
                             else
                             {
@@ -285,7 +285,7 @@ namespace WolfoQualityOfLife
                                 {
                                     string countS = "";
                                     int count = 0;
-                                    name = Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[i]).nameToken);
+                                    name = Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[i]).nameToken, "en");
                                     hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(payResults.itemsTaken[i]).pickupDef.baseColor);
 
                                     for (int z = 0; z < tempList.Count; z++)
@@ -319,8 +319,8 @@ namespace WolfoQualityOfLife
                         else if (payResults.equipmentTaken.Count > 0)
                         {
                             hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(payResults.equipmentTaken[0]).pickupDef.baseColor);
-                            message += "<color=#" + hex + ">" + Language.GetString(EquipmentCatalog.GetEquipmentDef(payResults.equipmentTaken[0]).nameToken) + " </color>";
-                            message2P += "<color=#" + hex + ">" + Language.GetString(EquipmentCatalog.GetEquipmentDef(payResults.equipmentTaken[0]).nameToken) + " </color>";
+                            message += "<color=#" + hex + ">" + Language.GetString(EquipmentCatalog.GetEquipmentDef(payResults.equipmentTaken[0]).nameToken, "en") + " </color>";
+                            message2P += "<color=#" + hex + ">" + Language.GetString(EquipmentCatalog.GetEquipmentDef(payResults.equipmentTaken[0]).nameToken, "en") + " </color>";
                         }
                         message += "</style>";
                         message2P += "</style>";

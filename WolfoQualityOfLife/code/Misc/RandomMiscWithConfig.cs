@@ -12,7 +12,6 @@ namespace WolfoQualityOfLife
     public class RandomMiscWithConfig
     {
         public static GameObject SprintingCrosshair = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/SprintingCrosshair.prefab").WaitForCompletion();
-        public static RoR2.UI.CrosshairController SprintingCrosshairUI = SprintingCrosshair.GetComponent<RoR2.UI.CrosshairController>();
         public static GameObject LoaderCrosshair = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Loader/LoaderCrosshair.prefab").WaitForCompletion();
 
 
@@ -74,6 +73,8 @@ namespace WolfoQualityOfLife
                     GameObject RightBracket = Object.Instantiate(LoaderCrosshair.transform.GetChild(2).gameObject);
                     GameObject LeftBracket = Object.Instantiate(LoaderCrosshair.transform.GetChild(3).gameObject);
 
+                    RoR2.UI.CrosshairController SprintingCrosshairUI = SprintingCrosshair.GetComponent<RoR2.UI.CrosshairController>();
+
                     RightBracket.transform.SetParent(SprintingCrosshair.transform);
                     LeftBracket.transform.SetParent(SprintingCrosshair.transform);
 
@@ -110,9 +111,10 @@ namespace WolfoQualityOfLife
 
         public static void SprintUICallLate()
         {
+            RoR2.UI.CrosshairController SprintingCrosshairUI = SprintingCrosshair.GetComponent<RoR2.UI.CrosshairController>();
             RandomMiscWithConfig.SprintingCrosshair.GetComponent<UnityEngine.UI.RawImage>().texture = RandomMiscWithConfig.LoaderCrosshair.GetComponent<UnityEngine.UI.RawImage>().texture;
-            RandomMiscWithConfig.SprintingCrosshairUI.maxSpreadAngle = 11;
-            RandomMiscWithConfig.SprintingCrosshairUI.spriteSpreadPositions = new RoR2.UI.CrosshairController.SpritePosition[]
+            SprintingCrosshairUI.maxSpreadAngle = 11;
+            SprintingCrosshairUI.spriteSpreadPositions = new RoR2.UI.CrosshairController.SpritePosition[]
             {
                 new RoR2.UI.CrosshairController.SpritePosition
                 {
@@ -250,43 +252,45 @@ namespace WolfoQualityOfLife
             int invoutput = EquipmentCatalog.equipmentCount;
             System.Collections.Generic.List<EquipmentDef> tempList = new System.Collections.Generic.List<EquipmentDef>();
 
-            if (WConfig.MoreLogEntriesAspect.Value == true)
+            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects"))
             {
-                for (var i = 0; i < invoutput; i++)
+                if (WConfig.MoreLogEntriesAspect.Value == true)
                 {
-                    EquipmentDef tempequipdef = EquipmentCatalog.GetEquipmentDef((EquipmentIndex)i);
-                    string tempname = tempequipdef.name;
-                    //Debug.LogWarning(tempequipdef + "   " + tempname + "   " + tempequipdef.pickupModelPrefab);
-
-                    if (tempequipdef.passiveBuffDef && tempequipdef.passiveBuffDef.isElite)
+                    for (var i = 0; i < invoutput; i++)
                     {
-                        if (tempname.StartsWith("EliteEcho") || tempname.StartsWith("EliteSecretSpeed"))
-                        {
-                        }
-                        else
-                        {
-                            if (!tempname.StartsWith("ElitePoison") && !tempname.StartsWith("EliteHaunted"))
-                            {
-                            }
-                            if (WConfig.EnableColorChangeModule.Value == true)
-                            {
-                                tempequipdef.isBoss = true;
-                                tempequipdef.colorIndex = ColorCatalog.ColorIndex.BossItem;
-                            }
-                            if (tempequipdef.dropOnDeathChance != 0)
-                            {
-                                tempequipdef.canDrop = true;
-                                tempList.Add(tempequipdef);
-                            }
-                        }
-                    }
-                    //Debug.LogWarning(tempequipdef.GetPropertyValue<Texture>("bgIconTexture"));
-                }
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isBoss = false;
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isLunar = true;
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").colorIndex = ColorCatalog.ColorIndex.LunarItem;
-            }
+                        EquipmentDef tempequipdef = EquipmentCatalog.GetEquipmentDef((EquipmentIndex)i);
+                        string tempname = tempequipdef.name;
+                        //Debug.LogWarning(tempequipdef + "   " + tempname + "   " + tempequipdef.pickupModelPrefab);
 
+                        if (tempequipdef.passiveBuffDef && tempequipdef.passiveBuffDef.isElite)
+                        {
+                            if (tempname.StartsWith("EliteEcho") || tempname.StartsWith("EliteSecretSpeed"))
+                            {
+                            }
+                            else
+                            {
+                                if (!tempname.StartsWith("ElitePoison") && !tempname.StartsWith("EliteHaunted"))
+                                {
+                                }
+                                if (WConfig.EnableColorChangeModule.Value == true)
+                                {
+                                    tempequipdef.isBoss = true;
+                                    tempequipdef.colorIndex = ColorCatalog.ColorIndex.BossItem;
+                                }
+                                if (tempequipdef.dropOnDeathChance != 0)
+                                {
+                                    tempequipdef.canDrop = true;
+                                    tempList.Add(tempequipdef);
+                                }
+                            }
+                        }
+                        //Debug.LogWarning(tempequipdef.GetPropertyValue<Texture>("bgIconTexture"));
+                    }
+                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isBoss = false;
+                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isLunar = true;
+                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").colorIndex = ColorCatalog.ColorIndex.LunarItem;
+                }
+            }
             //Idk what the hell this is 
             for (int i = 0; i < PickupCatalog.entries.Length; i++)
             {

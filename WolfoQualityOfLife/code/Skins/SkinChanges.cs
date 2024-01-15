@@ -68,6 +68,10 @@ namespace WolfoQualityOfLife
                     {
                         //ballPrep; //Do Ball Stuff
                         //ballPrep.transform.GetChild(0).GetComponent<UnityEngine.MeshRenderer>().material = EquipmentCatalog.GetEquipmentDef(entityState.characterBody.equipmentSlot.equipmentIndex).pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
+                        if (!entityState.isAuthority)
+                        {
+                            BellBallGhostElite.transform.GetChild(0).GetComponent<UnityEngine.MeshRenderer>().material = entityState.characterBody.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
+                        }
                         ballPrep.transform.GetChild(0).GetComponent<UnityEngine.MeshRenderer>().material = entityState.characterBody.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
                     }
                     return ballPrep;

@@ -298,10 +298,8 @@ namespace WolfoQualityOfLife
                     }
                 };
             }
-
-
-
-
+            //
+            //
             BuffDef MedkitDelay = RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/MedkitHeal");
 
             FakeShieldDelay = ScriptableObject.CreateInstance<BuffDef>();
@@ -311,7 +309,7 @@ namespace WolfoQualityOfLife
             FakeShieldDelay.name = "visual_ShieldDelay";
             FakeShieldDelay.isDebuff = false;
             FakeShieldDelay.canStack = false;
-            FakeShieldDelay.isCooldown = true;
+            FakeShieldDelay.isCooldown = false;
             R2API.ContentAddition.AddBuffDef(FakeShieldDelay);
 
             FakeShieldDelayPink = ScriptableObject.CreateInstance<BuffDef>();
@@ -321,7 +319,7 @@ namespace WolfoQualityOfLife
             FakeShieldDelayPink.name = "visual_ShieldDelayPink";
             FakeShieldDelayPink.isDebuff = false;
             FakeShieldDelayPink.canStack = false;
-            FakeShieldDelayPink.isCooldown = true;
+            FakeShieldDelayPink.isCooldown = false;
             R2API.ContentAddition.AddBuffDef(FakeShieldDelayPink);
 
 
@@ -332,7 +330,7 @@ namespace WolfoQualityOfLife
             FakeOpalCooldown.name = "visual_OutOfCombatArmorCooldown";
             FakeOpalCooldown.isDebuff = false;
             FakeOpalCooldown.canStack = false;
-            FakeOpalCooldown.isCooldown = true;
+            FakeOpalCooldown.isCooldown = false;
             R2API.ContentAddition.AddBuffDef(FakeOpalCooldown);
 
             //If disabled

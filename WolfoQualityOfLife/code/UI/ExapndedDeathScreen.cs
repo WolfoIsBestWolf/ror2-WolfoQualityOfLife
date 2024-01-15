@@ -145,7 +145,9 @@ namespace WolfoQualityOfLife
                 self.playerBodyLabel.alignment = TMPro.TextAlignmentOptions.Left;
 
                 //Make it so this can run without a Helper present too
-                if (self.displayData.runReport.gameEnding.isWin || helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment || IsLossToPlanet == true)
+                //self.displayData.runReport.gameEnding.isWin || 
+                //|| IsLossToPlanet == true
+                if (helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment )
                 {
                     Debug.Log("Could not find Killer Inventory or Inventory empty");
                     if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.monsterTeamGainsItemsArtifactDef))
@@ -186,6 +188,9 @@ namespace WolfoQualityOfLife
                         KillerInvDisplayObj = self.itemInventoryDisplay.gameObject.transform.parent.parent.parent.parent.GetChild(4).gameObject;
                     }
 
+                    DeathEquipEnemy1 = helper.primaryEquipment;
+                    DeathEquipEnemy2 = helper.secondaryEquipment;
+
                     if (KillerInvDisplayObj)
                     {
                         if (IsWinWithEvo)
@@ -199,9 +204,6 @@ namespace WolfoQualityOfLife
 
                         RoR2.UI.ItemInventoryDisplay KillerInvDisplay = KillerInvDisplayObj.GetComponentInChildren<RoR2.UI.ItemInventoryDisplay>();
                         KillerInvDisplay.enabled = true;
-
-                        DeathEquipEnemy1 = helper.primaryEquipment;
-                        DeathEquipEnemy2 = helper.secondaryEquipment;
 
                         KillerInvDisplay.SetItems(helper.itemAcquisitionOrder, helper.itemStacks);
                         KillerInvDisplay.UpdateDisplay();
@@ -511,7 +513,7 @@ namespace WolfoQualityOfLife
                 GameEndInventoryHelper helper = victimMaster.GetComponent<GameEndInventoryHelper>();
                 if (helper != null)
                 {
-                    Destroy(victimMaster.AddComponent<GameEndInventoryHelper>());
+                    Destroy(victimMaster.GetComponent<GameEndInventoryHelper>());
                 }
                 helper = victimMaster.AddComponent<GameEndInventoryHelper>();
 

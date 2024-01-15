@@ -65,6 +65,9 @@ namespace WolfoQualityOfLife
             {
                 //RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/EscapeSequenceFailed").icon = RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/MainEnding").icon;
 
+                GameEndingDef ObliterationEnding = RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/ObliterationEnding");
+                ObliterationEnding.foregroundColor = ObliterationEnding.backgroundColor;
+
                 GameEndingDef LimboEnding = RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/LimboEnding");
                 LanguageAPI.Add("GAME_RESULT_LIMBOWIN", "At Peace..", "en");
                 LanguageAPI.Add("GAME_RESULT_LIMBOWIN", "In Frieden..", "de");
