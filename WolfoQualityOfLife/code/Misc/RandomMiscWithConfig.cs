@@ -85,18 +85,8 @@ namespace WolfoQualityOfLife
             //Equipment Drone Equipment Name
             if (WConfig.cfgEquipmentDroneName.Value == true)
             {
-                On.RoR2.Items.MinionLeashBodyBehavior.Start += (orig, self) =>
-                {
-                    orig(self);
-                    //Debug.LogWarning("CharacterBody.MinionLeashBehavior.Start");
-                    if (self.name.StartsWith("EquipmentDrone") && self.body)
-                    {
-                        if (self.body.inventory.currentEquipmentIndex != EquipmentIndex.None && self.body.inventory.currentEquipmentIndex != DLC1Content.Equipment.BossHunterConsumed.equipmentIndex && !RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.enigmaArtifactDef))
-                        {
-                            self.body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(EquipmentCatalog.GetEquipmentDef(self.body.inventory.currentEquipmentIndex).nameToken) + ")";
-                        }
-                    }
-                };
+                GameObject EquipmentDrone = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EquipmentDroneBody");
+                EquipmentDrone.AddComponent<EquipmentDroneNameComponent>();
             }
 
             /*
@@ -197,7 +187,7 @@ namespace WolfoQualityOfLife
                 }
                 else
                 {
-                    Debug.LogWarning("Sent ExtraMountainIcon withut Teleporter Object");
+                    Debug.LogWarning("Sent ExtraMountainIcon without Teleporter Object");
                 }
 
 
@@ -223,6 +213,38 @@ namespace WolfoQualityOfLife
                 teleporterObject = reader.ReadGameObject();
             }
 
+        }
+
+        public class EquipmentDroneNameComponent : MonoBehaviour
+        {
+            //Start for some reason refuses to work on Clients so I guess we'll just fucking run it until it works
+
+            public void Start()
+            {
+                //Debug.LogWarning("Start");
+                if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.enigmaArtifactDef))
+                {
+                    Destroy(this);
+                }
+            }
+
+            public void FixedUpdate()
+            {
+                //Debug.LogWarning("FixedUpdate");
+                CharacterBody body = this.GetComponent<CharacterBody>();
+                if (body && body.inventory)
+                {
+                    if (body.inventory.currentEquipmentIndex != DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
+                    {
+                        Destroy(this);
+                    }
+                    if (body.inventory.currentEquipmentIndex != EquipmentIndex.None)
+                    {
+                        body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(EquipmentCatalog.GetEquipmentDef(body.inventory.currentEquipmentIndex).nameToken) + ")";
+                        Destroy(this);
+                    }
+                }    
+            }
         }
 
         public static void LogbookEntryAdder(On.RoR2.UI.LogBook.LogBookController.orig_BuildStaticData orig)

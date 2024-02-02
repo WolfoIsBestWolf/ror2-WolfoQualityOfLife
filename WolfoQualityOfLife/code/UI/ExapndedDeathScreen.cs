@@ -47,11 +47,12 @@ namespace WolfoQualityOfLife
                 }
             };
 
+            GameObject hud = LegacyResourcesAPI.Load<GameObject>("Prefabs/HUDSimple");
+            hud.GetComponent<RoR2.UI.HUD>().lunarCoinContainer.transform.GetChild(0).GetComponent<UnityEngine.UI.RawImage>().color = new Color(0.5199f, 0.5837f, 0.66f, 0.1333f);//0.6288 0.4514 0.6509 0.1333
         }
 
         private static void GameEndInventoryHelp(On.RoR2.GlobalEventManager.orig_OnPlayerCharacterDeath orig, GlobalEventManager self, DamageReport damageReport, NetworkUser victimNetworkUser)
         {
-            //
             orig(self, damageReport, victimNetworkUser);
 
             if (damageReport.victimMaster.IsDeadAndOutOfLivesServer())
@@ -145,8 +146,10 @@ namespace WolfoQualityOfLife
                 self.playerBodyLabel.alignment = TMPro.TextAlignmentOptions.Left;
 
                 //Make it so this can run without a Helper present too
-                //self.displayData.runReport.gameEnding.isWin || 
-                //|| IsLossToPlanet == true
+                if (self.displayData.runReport.gameEnding.isWin)
+                {
+                    helper.itemAcquisitionOrder = new List<ItemIndex>();
+                }
                 if (helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment )
                 {
                     Debug.Log("Could not find Killer Inventory or Inventory empty");
@@ -174,8 +177,6 @@ namespace WolfoQualityOfLife
 
                 if (helper.itemAcquisitionOrder.Count != 0 || HasViewableEquipment)
                 {
-                    self.unlockContentArea.parent.parent.parent.gameObject.SetActive(false);
-
                     GameObject KillerInvDisplayObj;
                     if (self.itemInventoryDisplay.gameObject.transform.parent.parent.parent.parent.childCount == 4)
                     {
@@ -213,6 +214,10 @@ namespace WolfoQualityOfLife
                             self.unlockContentArea.parent.parent.parent.SetAsLastSibling();
                             self.unlockContentArea.parent.parent.parent.gameObject.SetActive(true);
                         }
+                        else
+                        {
+                            self.unlockContentArea.parent.parent.parent.gameObject.SetActive(false);
+                        }
                     }
                 }
                 else if (self.itemInventoryDisplay.gameObject.transform.parent.parent.parent.parent.childCount == 5)
@@ -231,7 +236,6 @@ namespace WolfoQualityOfLife
                         self.unlockContentArea.parent.parent.parent.gameObject.SetActive(true);
                     }
                 }
-
 
             };
         }
@@ -502,6 +506,8 @@ namespace WolfoQualityOfLife
             public EquipmentIndex primaryEquipment = EquipmentIndex.None;
             public EquipmentIndex secondaryEquipment = EquipmentIndex.None;
 
+            private bool overwrittenByWin = false;
+
             public static void SetupFromData(string killerName, GameObject victimMaster, int[] itemStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment)
             {
                 Debug.Log("GameEndInventoryHelp : SetupFromData");
@@ -517,15 +523,12 @@ namespace WolfoQualityOfLife
                 }
                 helper = victimMaster.AddComponent<GameEndInventoryHelper>();
 
-
                 helper.victimMaster = victimMaster;
                 helper.killerName = killerName;
                 helper.primaryEquipment = primaryEquipment;
                 helper.secondaryEquipment = secondaryEquipment;
                 helper.SetItems(itemStacks);
             }
-
-
 
             public void SetItems(int[] otherItemStacks)
             {

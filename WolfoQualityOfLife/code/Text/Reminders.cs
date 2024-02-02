@@ -2,6 +2,7 @@
 //using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.AddressableAssets;
 
 namespace WolfoQualityOfLife
@@ -73,32 +74,14 @@ namespace WolfoQualityOfLife
                 On.RoR2.SceneExitController.Begin += (orig, self) =>
                 {
                     orig(self);
-                    if (self.exitState == SceneExitController.ExitState.ExtractExp || self.exitState == SceneExitController.ExitState.TeleportOut)
+                    RoR2.Chat.SendBroadcastChat(new DestroyPortalReminderClients
                     {
-                        GenericObjectiveProvider objective = self.GetComponent<GenericObjectiveProvider>();
-                        if (objective)
-                        {
-                            Object.Destroy(objective);
-                        }
-                    }
+                        portalObject = self.gameObject
+                    });
                 };
 
-                On.RoR2.SceneExitController.SetState += (orig, self, newState) =>
-                {
-                    orig(self, newState);
-                    if (newState == SceneExitController.ExitState.ExtractExp || newState == SceneExitController.ExitState.TeleportOut)
-                    {
-                        GenericObjectiveProvider objective = self.GetComponent<GenericObjectiveProvider>();
-                        if (objective)
-                        {
-                            Object.Destroy(objective);
-                        }
-                    }
-                };
             }
         }
-
-
 
         public class TreasureReminder : MonoBehaviour
         {
@@ -224,7 +207,6 @@ namespace WolfoQualityOfLife
             }
         }
 
-        //This is like really fucking stupid
         public class UpdateTreasureReminderCounts : RoR2.Chat.SimpleChatMessage
         {
             public override string ConstructChatString()
@@ -249,6 +231,38 @@ namespace WolfoQualityOfLife
             }
         }
 
-    }
+        public class DestroyPortalReminderClients : RoR2.ChatMessageBase
+        {
+            public override string ConstructChatString()
+            {
+                GenericObjectiveProvider objective = portalObject.GetComponent<GenericObjectiveProvider>();
+                if (objective)
+                {
+                    Object.Destroy(objective);
+                }
+                else
+                {
+                    Debug.LogWarning("Sent DestroyPortalReminderClients without portalObject");
+                }
+                return null;
+            }
 
+            public GameObject portalObject;
+
+
+            public override void Serialize(NetworkWriter writer)
+            {
+                base.Serialize(writer);
+                writer.Write(portalObject);
+
+            }
+
+            public override void Deserialize(NetworkReader reader)
+            {
+                base.Deserialize(reader);
+                portalObject = reader.ReadGameObject();
+            }
+
+        }
+    }
 }

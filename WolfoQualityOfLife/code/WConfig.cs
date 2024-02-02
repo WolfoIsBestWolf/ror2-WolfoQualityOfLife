@@ -15,6 +15,7 @@ namespace WolfoQualityOfLife
         //MoreMessages
         public static ConfigEntry<bool> cfgMessageDeath;
         public static ConfigEntry<bool> cfgMessagePrint;
+        public static ConfigEntry<bool> cfgMessageScrap;
         public static ConfigEntry<bool> cfgMessageVictory;
         public static ConfigEntry<bool> cfgMessageVoidTransform;
         public static ConfigEntry<bool> cfgMessageElixir;
@@ -117,6 +118,12 @@ namespace WolfoQualityOfLife
                 "Enable Item Loss Messages",
                 true,
                 "When someone Prints, Reforges or Cleanses a message will be sent"
+            );
+            cfgMessageScrap = ConfigFileUNSORTED.Bind(
+                "More Messages",
+                "Enable Item Loss Scrapping",
+                true,
+                "When someone Scraps, a message will be sent"
             );
             cfgMessageVictory = ConfigFileUNSORTED.Bind(
                 "More Messages",

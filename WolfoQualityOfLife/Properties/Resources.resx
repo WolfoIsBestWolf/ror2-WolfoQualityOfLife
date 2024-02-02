@@ -466,8 +466,8 @@
   <data name="texCrocoSkinFlow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texCrocoSkinFlow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="texEngiDiffuseAlt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>texEngiDiffuseAlt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="texEngiTurretDiffuseAlt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texEngiTurretDiffuseAlt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texEquipmentBossBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ColorChanger\texEquipmentBossBG.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

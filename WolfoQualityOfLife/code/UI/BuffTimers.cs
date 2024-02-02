@@ -208,12 +208,12 @@ namespace WolfoQualityOfLife
                 On.EntityStates.FrozenState.OnEnter += (orig, self) =>
                 {
                     orig(self);
-
                     if (NetworkServer.active)
                     {
                         for (float num5 = 0; num5 <= self.freezeDuration; num5 = num5 + 0.5f)
                         {
-                            self.characterBody.AddTimedBuff(FakeFrozen, (float)num5);
+                            //self.characterBody.AddTimedBuff(FakeFrozen, (float)num5);
+                            self.characterBody.AddTimedBuffAuthority(FakeFrozen.buffIndex, (float)num5);
                         }
                     }
                 };
@@ -357,10 +357,13 @@ namespace WolfoQualityOfLife
                                     self.AddTimedBuff(FakeShieldDelay, 7);
                                 }
                             }
-                            if (self.inventory.GetItemCount(DLC1Content.Items.OutOfCombatArmor) > 0)
+                            if (self.inventory)
                             {
-                                self.AddTimedBuff(FakeOpalCooldown, 7);
-                            }
+                                if (self.inventory.GetItemCount(DLC1Content.Items.OutOfCombatArmor) > 0)
+                                {
+                                    self.AddTimedBuff(FakeOpalCooldown, 7);
+                                }
+                            }    
                         }
                     }
                 };
@@ -516,37 +519,9 @@ namespace WolfoQualityOfLife
             FakeVoidFeather.canStack = true;
             R2API.ContentAddition.AddBuffDef(FakeVoidFeather);
 
-            if (WConfig.cfgBuff_Feather.Value == true)
-            {
-                //Has effective authority or smth
 
-                //These hooks are soemehow fuckin client only
-                On.RoR2.CharacterMotor.OnLanded += (orig, self) =>
-                {
-                    orig(self);
-                    if (self.body && self.body.isPlayerControlled)
-                    {
-                        self.body.SetBuffCount(FakeFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
-                    }
-                };
-
-                On.EntityStates.GenericCharacterMain.ApplyJumpVelocity += FeatherRemoveBuffs;
-            }
 
         }
-
-
-        private static void FeatherRemoveBuffs(On.EntityStates.GenericCharacterMain.orig_ApplyJumpVelocity orig, CharacterMotor characterMotor, CharacterBody characterBody, float horizontalBonus, float verticalBonus, bool vault)
-        {
-            orig(characterMotor, characterBody, horizontalBonus, verticalBonus, vault);
-            if (characterBody.isPlayerControlled && characterMotor.jumpCount + 1 > characterBody.baseJumpCount)
-            {
-                characterBody.SetBuffCount(FakeFeather.buffIndex, characterBody.GetBuffCount(FakeFeather) - 1);
-                characterBody.SetBuffCount(FakeVoidFeather.buffIndex, characterBody.GetBuffCount(FakeVoidFeather) - 1);
-            }
-        }
-
-
 
 
         public static BuffDef FakeVoidFeather;
@@ -559,24 +534,98 @@ namespace WolfoQualityOfLife
             VV_VoidFeather = ItemCatalog.FindItemIndex("VV_ITEM_DASHQUILL_ITEM");
             //Debug.LogWarning("Void Feather "+VV_VoidFeather);
 
-            if (VV_VoidFeather != ItemIndex.None && WConfig.cfgBuff_Feather.Value == true)
+
+            if (WConfig.cfgBuff_Feather.Value == true)
             {
-                FakeVoidFeather.isHidden = false;
-                On.RoR2.CharacterMotor.OnLanded += (orig, self) =>
+                if (VV_VoidFeather != ItemIndex.None)
                 {
-                    orig(self);
-                    if (self.body && self.body.isPlayerControlled)
+                    FakeVoidFeather.isHidden = false;
+                    On.RoR2.CharacterMotor.OnLanded += (orig, self) =>
                     {
-                        self.body.SetBuffCount(FakeVoidFeather.buffIndex, self.body.inventory.GetItemCount(VV_VoidFeather));
-                    }
-                };
+                        orig(self);
+                        if (self.body && self.body.isPlayerControlled)
+                        {
+                            self.body.SetBuffCount(FakeFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
+                            self.body.SetBuffCount(FakeVoidFeather.buffIndex, self.body.inventory.GetItemCount(VV_VoidFeather));
+                            if (!NetworkServer.active)
+                            {
+                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(FakeFeather), self.body.GetBuffCount(FakeVoidFeather));
+                            }                        
+                        }
+                    };
+                }
+                else
+                {
+                    On.RoR2.CharacterMotor.OnLanded += (orig, self) =>
+                    {
+                        orig(self);
+                        if (self.body && self.body.isPlayerControlled)
+                        {
+                            self.body.SetBuffCount(FakeFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
+                            if (!NetworkServer.active)
+                            {
+                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(FakeFeather), self.body.GetBuffCount(FakeVoidFeather));
+                            }
+                        }
+                    };
+                }
+
+                On.EntityStates.GenericCharacterMain.ApplyJumpVelocity += FeatherRemoveBuffs;
+                On.RoR2.CharacterBody.ReadBuffs += FeatherClient;
+                RoR2.CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             }
 
 
         }
 
+        private static void CharacterBody_onBodyStartGlobal(CharacterBody obj)
+        {
+            if (!NetworkServer.active)
+            {
+                if (obj.isPlayerControlled)
+                {
+                    obj.gameObject.AddComponent<FeatherTrackerClients>();
+                }
+            }
+        }
+
+        private static void FeatherClient(On.RoR2.CharacterBody.orig_ReadBuffs orig, CharacterBody self, NetworkReader reader)
+        {
+            orig(self, reader);
+            if (self.isPlayerControlled)
+            {
+                FeatherTrackerClients feather = self.GetComponent<FeatherTrackerClients>();
+                self.SetBuffCount(FakeFeather.buffIndex, feather.amount);
+                self.SetBuffCount(FakeVoidFeather.buffIndex, feather.amountVoid);
+            }
+        }
+
+        private static void FeatherRemoveBuffs(On.EntityStates.GenericCharacterMain.orig_ApplyJumpVelocity orig, CharacterMotor characterMotor, CharacterBody characterBody, float horizontalBonus, float verticalBonus, bool vault)
+        {
+            orig(characterMotor, characterBody, horizontalBonus, verticalBonus, vault);
+            if (characterBody.isPlayerControlled && characterMotor.jumpCount + 1 > characterBody.baseJumpCount)
+            {
+                characterBody.SetBuffCount(FakeFeather.buffIndex, characterBody.GetBuffCount(FakeFeather) - 1);
+                characterBody.SetBuffCount(FakeVoidFeather.buffIndex, characterBody.GetBuffCount(FakeVoidFeather) - 1);
+                if (!NetworkServer.active)
+                {
+                    characterBody.GetComponent<FeatherTrackerClients>().SetVal(characterBody.GetBuffCount(FakeFeather), characterBody.GetBuffCount(FakeVoidFeather));
+                }
+            }
+        }
 
 
+
+        public class FeatherTrackerClients : MonoBehaviour
+        {
+            public int amount = 0;
+            public int amountVoid = 0;
+            public void SetVal(int one, int two)
+            {
+                amount = one;
+                amountVoid = two;
+            }
+        }
 
         public static void GetDotDef()
         {

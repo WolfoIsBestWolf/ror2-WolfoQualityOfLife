@@ -167,13 +167,10 @@ namespace WolfoQualityOfLife
             matCrocoBlight.SetTexture("_EmTex", texCrocoEmissionBlight);
             matCrocoBlight.SetTexture("_FlowHeightmap", texCrocoPoisonMaskBlight);
             matCrocoBlight.SetTexture("_FlowHeightRamp", texRampCrocoDiseaseDarkLessDark);//texRampCrocoDiseaseBlight
-            matCrocoBlight.SetColor("_EmColor", new Color(1.1f, 1f, 1.1f, 1));
-
+            matCrocoBlight.SetColor("_EmColor", new Color(1.2f, 1.2f, 0.75f, 1));
 
             AcridBlightedRenderInfos[0].defaultMaterial = matCrocoBlight;  //matCroco
             AcridBlightedRenderInfos[2].defaultMaterial = matCrocoDiseaseDrippingsBlight; //matCrocoDiseaseDrippings
-
-
 
             if (WConfig.cfgSkinAcridBlight.Value == true)
             {

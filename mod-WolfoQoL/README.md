@@ -119,6 +119,19 @@ There shouldn't be any compatibility issues if you use both but I still don't re
 
 ## Changelog:
 ```
+v2.5.3
+SimuAddtions Red Merc support
+ReAdded Scrapping messages cuz I like much info. (configurable of course)
+Lunar Coin amount backdrop is blue instead of pink
+
+((IDK maybe colored pylons)
+-(TODO) like game end inv fixes maybe you really gotta like redo a lot of code which blows
+-Should be more consistent on Clients : 
+--Equipment Drone with Equipment Names
+--Portal Reminder messages 
+--Feather buffs being not properly synced
+
+
 v2.5.2
 Fixed Brass Balls not getting elite skins on clients
 Fixed Expanded Death Info not working in multiplayer when dying multiple times throughout a run.

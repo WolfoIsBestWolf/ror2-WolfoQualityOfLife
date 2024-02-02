@@ -16,7 +16,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQualityOfLife
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "2.5.0")]
+    [BepInPlugin("com.Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "2.5.3")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LoadoutAPI), nameof(PrefabAPI), nameof(LanguageAPI), nameof(ItemAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -73,6 +73,8 @@ namespace WolfoQualityOfLife
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(Reminders.UpdateTreasureReminderCounts), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(Reminders.UpdateTreasureReminderCounts));
 
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(Reminders.DestroyPortalReminderClients), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(Reminders.DestroyPortalReminderClients));
 
             //Main Menu Stuff
             On.RoR2.UI.MainMenu.MainMenuController.Start += MainMenuExtras;
@@ -221,7 +223,6 @@ namespace WolfoQualityOfLife
 
         public void PingIconChanger(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
-
             Debug.Log("WolfoQoL preSceneDirector");
 
             if (!SceneInfo.instance) { orig(self); return; }
@@ -433,7 +434,7 @@ namespace WolfoQualityOfLife
                         for (var i = 0; i < highlightlist.Length; i++)
                         {
                             //Debug.LogWarning(highlightlist[i]); ////DISABLE THIS
-                            if (highlightlist[i].name.StartsWith("MoonBatteryDesign"))
+                            if (highlightlist[i].name.StartsWith("MoonBattery"))
                             {
                                 highlightlist[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
                             }

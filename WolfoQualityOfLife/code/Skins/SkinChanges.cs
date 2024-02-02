@@ -131,7 +131,7 @@ namespace WolfoQualityOfLife
             MatEngiAltTrail.SetTexture("_RemapTex", texRampEngiAlt);
 
             Texture2D TexEngiTurretAlt = new Texture2D(256, 512, TextureFormat.DXT5, false);
-            TexEngiTurretAlt.LoadImage(Properties.Resources.texEngiDiffuseAlt, true);
+            TexEngiTurretAlt.LoadImage(Properties.Resources.texEngiTurretDiffuseAlt, true);
             TexEngiTurretAlt.filterMode = FilterMode.Bilinear;
 
             MatEngiTurretGreen = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
@@ -171,7 +171,7 @@ namespace WolfoQualityOfLife
                 {
                     if (WConfig.cfgSkinMercRed.Value == true)
                     {
-                        if (self.name.Equals("skinMercAlt"))
+                        if (self.name.EndsWith("Alt") || self.name.EndsWith("Wolfo2"))
                         {
                             if (modelObject)
                             {
@@ -179,7 +179,6 @@ namespace WolfoQualityOfLife
                                 {
                                     modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercRed>();
                                 }
-
 
                                 CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
                                 tempmodel.baseLightInfos[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);

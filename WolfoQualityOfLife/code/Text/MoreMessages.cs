@@ -28,6 +28,10 @@ namespace WolfoQualityOfLife
             {
                 IL.RoR2.PurchaseInteraction.OnInteractionBegin += ItemGiveUpMessages;
             }
+            if (WConfig.cfgMessageScrap.Value == true)
+            {
+                On.RoR2.ScrapperController.BeginScrapping += ScrappingMessage;
+            }
             if (WConfig.cfgMessageVoidTransform.Value == true)
             {
                 On.RoR2.CharacterMasterNotificationQueue.PushItemTransformNotification += VoidLunarTransformMessages;
@@ -43,6 +47,41 @@ namespace WolfoQualityOfLife
             if (WConfig.cfgMessagesColoredItemPings.Value)
             {
                 ColoredItemNamesPings();
+            }
+        }
+
+        private static void ScrappingMessage(On.RoR2.ScrapperController.orig_BeginScrapping orig, ScrapperController self, int intPickupIndex)
+        {
+            orig(self, intPickupIndex);
+
+            if (self.interactor)
+            {
+                CharacterBody component = self.interactor.GetComponent<CharacterBody>();
+                PickupDef pickupDef = PickupCatalog.GetPickupDef(new PickupIndex(intPickupIndex));
+                if (component && component.inventory && pickupDef != null)
+                {
+                    string hex = ColorUtility.ToHtmlStringRGB(pickupDef.baseColor);
+                    string nameToken = Language.GetString(ItemCatalog.GetItemDef(pickupDef.itemIndex).nameToken, "en");
+
+                    string message = "<style=cEvent>You scrapped <color=#" + hex + ">"+ nameToken + "</color>";
+                    string message2P = "<style=cEvent>"+component.GetUserName()+ " scrapped <color=#" + hex + ">"+ nameToken + "</color>";
+
+                    if (self.itemsEaten > 1)
+                    {
+                        message += "("+ self.itemsEaten + ")";
+                        message2P += "(" + self.itemsEaten + ")";
+                    }
+
+                    message += "</style>";
+                    message2P += "</style>";
+
+                    Chat.SendBroadcastChat(new FakeSubjectMessage
+                    {
+                        baseToken = message,
+                        secondPersonToken = message2P,
+                        subjectAsNetworkUser = component.master.playerCharacterMasterController.networkUser,
+                    });
+                }
             }
         }
 

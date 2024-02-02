@@ -1223,9 +1223,9 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texEngiDiffuseAlt {
+        public static byte[] texEngiTurretDiffuseAlt {
             get {
-                object obj = ResourceManager.GetObject("texEngiDiffuseAlt", resourceCulture);
+                object obj = ResourceManager.GetObject("texEngiTurretDiffuseAlt", resourceCulture);
                 return ((byte[])(obj));
             }
         }

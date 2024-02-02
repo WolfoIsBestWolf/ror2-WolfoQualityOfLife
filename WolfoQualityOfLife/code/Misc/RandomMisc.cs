@@ -17,8 +17,6 @@ namespace WolfoQualityOfLife
         public static GameObject LeptonDaisyTeleporterDecoration = null;
         public static GameObject GlowFlowerForPillar = null;
 
-
-
         public static void Start()
         {
             RandomMiscWithConfig.Start();
@@ -95,7 +93,7 @@ namespace WolfoQualityOfLife
 
 
             //Makes it so both slots are shown on start IG, only gets called like once so should be completely fine but hella unnecessary
-            On.EntityStates.Toolbot.ToolbotStanceA.OnEnter += MULTEquipmentThing;
+            //On.EntityStates.Toolbot.ToolbotStanceA.OnEnter += MULTEquipmentThing;
 
 
             //Sulfur Pools Diagram is Red instead of Yellow for ???
