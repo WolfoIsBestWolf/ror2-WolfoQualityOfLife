@@ -65,7 +65,6 @@ namespace WolfoQualityOfLife
             R2API.ContentAddition.AddEffect(AcridBlight.CrocoDiseaseOrbEffectBlight);
             R2API.ContentAddition.AddEffect(AcridBlight.CrocoLeapExplosionBlight);
 
-
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnEnable += (orig, self) =>
             {
                 orig(self);
@@ -95,31 +94,39 @@ namespace WolfoQualityOfLife
                 }
             };
 
-
-
+            /*
             On.RoR2.Orbs.LightningOrb.Begin += (orig, self) =>
             {
                 //if (self.lightningType == RoR2.Orbs.LightningOrb.LightningType.CrocoDisease && self.damageType == DamageType.BlightOnHit)
                 if (self.damageType == DamageType.BlightOnHit) { BlightedOrb = true; }
                 else { BlightedOrb = false; }
                 orig(self);
-            };
+            }; */
 
-            //Not a big fan
-            On.RoR2.Orbs.OrbEffect.Start += (orig, self) =>
+            IL.RoR2.Orbs.LightningOrb.Begin += BlightedOrbEffect;
+        }
+
+        private static void BlightedOrbEffect(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchCall("RoR2.LegacyResourcesAPI", "Load")))
             {
-                //Debug.LogWarning(self);
-                if (BlightedOrb == true)
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<Func<GameObject, RoR2.Orbs.LightningOrb, GameObject>>((target, orb) =>
                 {
-                    if (self.name.StartsWith("Croc")) //Name check needed?
+                    if (orb.damageType == DamageType.BlightOnHit) 
                     {
-                        self.gameObject.transform.GetChild(1).GetChild(0).GetComponent<TrailRenderer>().sharedMaterial = matCrocoDiseaseTrailOrangeBlight;
-                        self.gameObject.transform.GetChild(1).GetChild(1).GetComponent<TrailRenderer>().sharedMaterial = matCrocoDiseaseTrailLesserBlight;
-                        self.endEffect = CrocoDiseaseImpactEffectBlight;
+                        return CrocoDiseaseOrbEffectBlight;
                     }
-                }
-                orig(self);
-            };
+                    return target;
+                });
+                Debug.Log("IL Found: Blight: IL.RoR2.Orbs.LightningOrb.Begin");
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: Blight: IL.RoR2.Orbs.LightningOrb.Begin");
+            }
         }
 
         public static void CrocoBlightSkin()
@@ -653,7 +660,7 @@ namespace WolfoQualityOfLife
             x => x.MatchLdsfld("EntityStates.Croco.BaseLeap", "projectilePrefab")))
             {
                 c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<Func<GameObject, EntityStates.Merc.Weapon.GroundLight2, GameObject>>((target, entityState) =>
+                c.EmitDelegate<Func<GameObject, EntityStates.Croco.BaseLeap, GameObject>>((target, entityState) =>
                 {
                     if (entityState.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
                     {

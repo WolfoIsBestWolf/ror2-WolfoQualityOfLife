@@ -132,8 +132,7 @@ namespace WolfoQualityOfLife
                 string KillerNameBase = "Killed By: <color=#FFFF7F>" + helper.killerName;
                 bool IsLossToPlanet = false;
                 bool IsWinWithEvo = false;
-                bool HasViewableEquipment = helper.primaryEquipment != EquipmentIndex.None && EquipmentCatalog.GetEquipmentDef(helper.primaryEquipment).passiveBuffDef == null;
-
+                
                 //Set detailed name like with Elite prefix
                 if (helper.killerName != "")
                 {
@@ -148,8 +147,12 @@ namespace WolfoQualityOfLife
                 //Make it so this can run without a Helper present too
                 if (self.displayData.runReport.gameEnding.isWin)
                 {
+                    helper.primaryEquipment = EquipmentIndex.None;
                     helper.itemAcquisitionOrder = new List<ItemIndex>();
                 }
+
+                bool HasViewableEquipment = helper.primaryEquipment != EquipmentIndex.None && EquipmentCatalog.GetEquipmentDef(helper.primaryEquipment).passiveBuffDef == null;
+
                 if (helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment )
                 {
                     Debug.Log("Could not find Killer Inventory or Inventory empty");
@@ -516,12 +519,15 @@ namespace WolfoQualityOfLife
                     Debug.LogWarning("GameEndInventoryHelper : Victim Object is null");
                 }
 
-                GameEndInventoryHelper helper = victimMaster.GetComponent<GameEndInventoryHelper>();
-                if (helper != null)
+                GameEndInventoryHelper[] oldHelpers = victimMaster.GetComponents<GameEndInventoryHelper>();
+                if (oldHelpers.Length > 0)
                 {
-                    Destroy(victimMaster.GetComponent<GameEndInventoryHelper>());
+                    for (int i = 0; i < oldHelpers.Length; i++)
+                    {
+                        DestroyImmediate(oldHelpers[i]);
+                    }
                 }
-                helper = victimMaster.AddComponent<GameEndInventoryHelper>();
+                GameEndInventoryHelper helper = victimMaster.AddComponent<GameEndInventoryHelper>();
 
                 helper.victimMaster = victimMaster;
                 helper.killerName = killerName;

@@ -171,7 +171,7 @@ namespace WolfoQualityOfLife
                 {
                     if (WConfig.cfgSkinMercRed.Value == true)
                     {
-                        if (self.name.EndsWith("Alt") || self.name.EndsWith("Wolfo2"))
+                        if (self.name.EndsWith("Alt") || self.name.EndsWith("Wolfo2") || self.name.EndsWith("Red"))
                         {
                             if (modelObject)
                             {
@@ -342,21 +342,16 @@ namespace WolfoQualityOfLife
                  }
                  orig(self, hook);
              };
-            /*
+
             On.EntityStates.Loader.ThrowPylon.OnEnter += (orig, self) =>
             {
+                //orig(self);
+                SkinnedMeshRenderer temprender = EntityStates.Loader.ThrowPylon.projectilePrefab.transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
+                temprender.materials[1].mainTexture = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial.mainTexture;
+                //Debug.LogWarning("CHANGE LOADER PYLON");
                 orig(self);
-
-                if (self.characterBody.skinIndex != LoaderPylonSkinIndex)
-                {
-                    LoaderPylonSkinIndex = self.characterBody.skinIndex;
-                    SkinnedMeshRenderer temprender = EntityStates.Loader.ThrowPylon.projectilePrefab.transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
-                    temprender.materials[1] = UnityEngine.Object.Instantiate(temprender.materials[1]);
-                    temprender.materials[1].mainTexture = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial.mainTexture;
-                    //Debug.LogWarning("CHANGE LOADER PYLON");
-                }
             };
-            */
+
         }
 
         public static void REXSkinnedAttacks()

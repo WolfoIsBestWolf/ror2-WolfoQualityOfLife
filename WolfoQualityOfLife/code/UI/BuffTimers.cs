@@ -520,9 +520,30 @@ namespace WolfoQualityOfLife
             R2API.ContentAddition.AddBuffDef(FakeVoidFeather);
 
 
-
+            On.RoR2.BuffCatalog.SetBuffDefs += ReplaceBuffOrderIGuess;
         }
 
+        private static void ReplaceBuffOrderIGuess(On.RoR2.BuffCatalog.orig_SetBuffDefs orig, BuffDef[] newBuffDefs)
+        {
+            bool FoundOpal = false;
+            for (int i = 0; i < newBuffDefs.Length; i++)
+            {
+                if (newBuffDefs[i] == FakeOpalCooldown)
+                {
+                    FoundOpal = true;
+                }
+                else if (newBuffDefs[i] == DLC1Content.Buffs.OutOfCombatArmorBuff)
+                {
+                    FoundOpal = false;
+                    newBuffDefs[i] = FakeOpalCooldown;
+                }
+                if (FoundOpal)
+                {
+                    newBuffDefs[i] = newBuffDefs[i + 1];
+                }
+            }
+            orig(newBuffDefs);
+        }
 
         public static BuffDef FakeVoidFeather;
         public static ItemIndex VV_VoidFeather = ItemIndex.None;
@@ -595,8 +616,11 @@ namespace WolfoQualityOfLife
             if (self.isPlayerControlled)
             {
                 FeatherTrackerClients feather = self.GetComponent<FeatherTrackerClients>();
-                self.SetBuffCount(FakeFeather.buffIndex, feather.amount);
-                self.SetBuffCount(FakeVoidFeather.buffIndex, feather.amountVoid);
+                if (feather)
+                {
+                    self.SetBuffCount(FakeFeather.buffIndex, feather.amount);
+                    self.SetBuffCount(FakeVoidFeather.buffIndex, feather.amountVoid);
+                }       
             }
         }
 
