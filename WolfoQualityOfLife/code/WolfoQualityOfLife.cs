@@ -213,6 +213,34 @@ namespace WolfoQualityOfLife
                 RandomMiscWithConfig.SprintUICallLate();
             }
 
+
+            //Move backup ONI skin last
+            if (WConfig.cfgSkinMakeOniBackup.Value == true)
+            {
+                GameObject MercBody = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody");
+
+                BodyIndex MercBodyIndex = MercBody.GetComponent<CharacterBody>().bodyIndex;
+                ModelSkinController modelSkinController = MercBody.transform.GetChild(0).GetChild(0).GetComponent<ModelSkinController>();
+
+                SkinDef[] skinsNew = new SkinDef[modelSkinController.skins.Length];
+                skinsNew[skinsNew.Length - 1] = modelSkinController.skins[2];
+
+                //IDK??
+                int j = 0;
+                for (int i = 0; i < modelSkinController.skins.Length; i++)
+                {
+                    if (i == 2)
+                    {
+                        i++;
+                    }
+                    skinsNew[j] = modelSkinController.skins[i];
+                    j++;
+                }
+                modelSkinController.skins = skinsNew;
+                BodyCatalog.skins[(int)MercBodyIndex] = skinsNew;
+            }
+
+
             On.RoR2.UI.MainMenu.MainMenuController.Start -= OneTimeOnlyLateRunner;
         }
 

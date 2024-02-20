@@ -493,10 +493,6 @@ namespace WolfoQualityOfLife
             }
 
             //0.4706 0.1686 0.7765 1
-
-
-
-
             Texture2D FeatherBuff = new Texture2D(128, 128, TextureFormat.DXT5, false);
             FeatherBuff.LoadImage(Properties.Resources.texBuffFeather, true);
             FeatherBuff.filterMode = FilterMode.Bilinear;
@@ -519,29 +515,42 @@ namespace WolfoQualityOfLife
             FakeVoidFeather.canStack = true;
             R2API.ContentAddition.AddBuffDef(FakeVoidFeather);
 
-
-            On.RoR2.BuffCatalog.SetBuffDefs += ReplaceBuffOrderIGuess;
+            //Bro this is so annoying
+            //On.RoR2.BuffCatalog.SetBuffDefs += ReplaceBuffOrderIGuess;
         }
 
         private static void ReplaceBuffOrderIGuess(On.RoR2.BuffCatalog.orig_SetBuffDefs orig, BuffDef[] newBuffDefs)
         {
-            bool FoundOpal = false;
-            for (int i = 0; i < newBuffDefs.Length; i++)
+            try
             {
-                if (newBuffDefs[i] == FakeOpalCooldown)
+                BuffDef[] new2Buffs = new BuffDef[newBuffDefs.Length+1];
+                int j = 0;
+                for (int i = 0; i < newBuffDefs.Length; i++)
                 {
-                    FoundOpal = true;
+                    if (newBuffDefs[i] == DLC1Content.Buffs.OutOfCombatArmorBuff)
+                    {
+                        new2Buffs[j] = newBuffDefs[i];
+                        j++;
+                        new2Buffs[j] = FakeOpalCooldown;
+                    }
+                    else
+                    {
+                        new2Buffs[j] = newBuffDefs[i];
+                    }            
+                    Debug.Log(newBuffDefs[i]);
+                    Debug.Log(new2Buffs[j]);
+                    j++;
                 }
-                else if (newBuffDefs[i] == DLC1Content.Buffs.OutOfCombatArmorBuff)
-                {
-                    FoundOpal = false;
-                    newBuffDefs[i] = FakeOpalCooldown;
-                }
-                if (FoundOpal)
-                {
-                    newBuffDefs[i] = newBuffDefs[i + 1];
-                }
+                orig(new2Buffs);
+                return;
             }
+            catch(System.Exception e)
+            {
+                Debug.LogWarning(e);
+                orig(newBuffDefs);
+                return;
+            }
+            Debug.LogWarning("How did this run");
             orig(newBuffDefs);
         }
 

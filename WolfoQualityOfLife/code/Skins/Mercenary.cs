@@ -158,7 +158,7 @@ namespace WolfoQualityOfLife
             SkinDef SkinDefMercOni = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Merc/skinMercAlt.asset").WaitForCompletion();
 
             //Replace this
-            if (WConfig.cfgSkinMercRed.Value == true)
+            if (WConfig.cfgSkinMercRed.Value == true && WConfig.cfgSkinMakeOniBackup.Value == true)
             {
                 Texture2D texMercOniBlues = new Texture2D(128, 128, TextureFormat.DXT5, false);
                 texMercOniBlues.LoadImage(Properties.Resources.texMercOniBlues, true);
@@ -182,10 +182,6 @@ namespace WolfoQualityOfLife
                 LoadoutAPI.AddSkinToCharacter(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), SkinDefMercOniOriginalSkinInfo);
 
             }
-
-
-
-
 
             ////Putting it in the attack hooks so it works on Clients too
             //Expose Visual

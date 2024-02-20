@@ -157,10 +157,22 @@ namespace WolfoQualityOfLife
             TexRedSwordDiffuse.filterMode = FilterMode.Bilinear;
             TexRedSwordDiffuse.name = "texOniMercSwordDiffuse";
 
+            Texture2D texRampFallbootsRed = new Texture2D(16, 256, TextureFormat.DXT1, false);
+            texRampFallbootsRed.LoadImage(Properties.Resources.texRampFallbootsRed, true);
+            texRampFallbootsRed.filterMode = FilterMode.Bilinear;
+            texRampFallbootsRed.wrapMode = TextureWrapMode.Clamp;
+
+            Texture2D texRampHuntressRed = new Texture2D(16, 256, TextureFormat.DXT1, false);
+            texRampHuntressRed.LoadImage(Properties.Resources.texRampHuntressRed, true);
+            texRampHuntressRed.filterMode = FilterMode.Point;
+            texRampHuntressRed.wrapMode = TextureWrapMode.Clamp;
+
             MatOniSword = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody").transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<SkinnedMeshRenderer>().material);
             MatOniSword.name = "matOniMercSword";
             MatOniSword.mainTexture = TexRedSwordDiffuse;
             MatOniSword.SetColor("_EmColor", new Color32(125, 64, 64, 255));
+            MatOniSword.SetTexture("_FlowHeightRamp", texRampFallbootsRed);
+            MatOniSword.SetTexture("_FresnelRamp", texRampHuntressRed);
 
             On.RoR2.SkinDef.Apply += (orig, self, modelObject) =>
             {
@@ -171,7 +183,25 @@ namespace WolfoQualityOfLife
                 {
                     if (WConfig.cfgSkinMercRed.Value == true)
                     {
-                        if (self.name.EndsWith("Alt") || self.name.EndsWith("Wolfo2") || self.name.EndsWith("Red"))
+                        if (self.name.EndsWith("Red"))
+                        {
+                            if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
+                            {
+                                modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercRed>();
+                            }
+                            ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+                            if (childLocator)
+                            {
+                                Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
+                                PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
+                                PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
+                                PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
+                                PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnitionRed; //matMercIgnition (Instance)
+                                PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
+                                PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnitionRed; //matMercIgnition (Instance)
+                            }
+                        } 
+                        else if (self.name.EndsWith("Alt"))
                         {
                             if (modelObject)
                             {

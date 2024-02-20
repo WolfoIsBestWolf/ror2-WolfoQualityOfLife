@@ -11,8 +11,10 @@ namespace WolfoQualityOfLife
     public class RandomMisc
     {
         //public static GameObject CaptainShockBeacon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Shocking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).gameObject;
-        public static GameObject CaptainHackingBeaconIndicator = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject;
-        public static Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainHackingBeaconIndicator.transform.GetChild(0).GetComponent<MeshRenderer>().material);
+        //public static GameObject CaptainHackingBeaconIndicator = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject;
+        //public static Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainHackingBeaconIndicator.transform.GetChild(0).GetComponent<MeshRenderer>().material);
+
+        //public static GameObject CaptainShockBeaconRadius = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
 
         public static GameObject LeptonDaisyTeleporterDecoration = null;
         public static GameObject GlowFlowerForPillar = null;
@@ -62,12 +64,25 @@ namespace WolfoQualityOfLife
             //
 
             //Captain Shock Beacon Radius
+            GameObject CaptainShockBeaconRadius = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
+            Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainShockBeaconRadius.transform.GetChild(0).GetComponent<MeshRenderer>().material);
             CaptainHackingBeaconIndicatorMaterial.SetColor("_TintColor", new Color(0, 0.4f, 0.8f, 1f));
+            CaptainShockBeaconRadius.transform.GetChild(0).GetComponent<MeshRenderer>().material = CaptainHackingBeaconIndicatorMaterial;
+            CaptainShockBeaconRadius.transform.localScale = new Vector3(6.67f, 6.67f, 6.67f);
 
-            On.EntityStates.Captain.Weapon.CallSupplyDropBase.OnEnter += (orig, self) =>
+
+            GameObject shockBeacon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Shocking.prefab").WaitForCompletion();
+            shockBeacon.transform.GetChild(2).GetChild(0).gameObject.AddComponent<InstantiateGameObjectAtLocation>().objectToInstantiate = CaptainShockBeaconRadius;
+
+
+           /* On.EntityStates.Captain.Weapon.CallSupplyDropBase.OnEnter += (orig, self) =>
             {
-                if (self.supplyDropPrefab.name == "CaptainSupplyDrop, Shocking")
+                Debug.Log(self.supplyDropPrefab);
+                if (self.supplyDropPrefab.name.StartsWith("CaptainSupplyDrop, Shocking"))
                 {
+                    self.supplyDropPrefab.GetComponent<ModelLocator>();
+
+
                     GameObject beacon = Object.Instantiate(CaptainHackingBeaconIndicator);
                     //Debug.Log(self.supplyDropPrefab.transform.GetChild(2));
                     //Debug.Log(self.supplyDropPrefab.transform.GetChild(2).GetChild(0));
@@ -76,7 +91,7 @@ namespace WolfoQualityOfLife
                     beacon.transform.SetParent(self.supplyDropPrefab.transform.GetChild(2).GetChild(0), false);
                 }
                 orig(self);
-            };
+            };*/
             //
 
             //UI spreading like how charging works on other characters
@@ -117,7 +132,7 @@ namespace WolfoQualityOfLife
             //Unused like blue explosion so he doesn't use magma explosion ig, probably unused for a reason but it looks fine
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion().GetComponent<WormBodyPositions2>().blastAttackEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Junk/ElectricWorm/ElectricWormImpactExplosion.prefab").WaitForCompletion();
 
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
+            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
             //Add unused cool bubbly noise
             On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
             {
@@ -128,7 +143,12 @@ namespace WolfoQualityOfLife
                     RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
                     RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
                 }
-                /*else if (self.name.StartsWith("Duplicator"))
+            };
+
+            /*On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
+            {
+                orig(self);
+                if (self.name.StartsWith("Duplicator"))
                 {
                     if (self.pickupIndex != PickupIndex.none && self.pickupIndex.pickupDef.isLunar)
                     {
@@ -138,8 +158,8 @@ namespace WolfoQualityOfLife
                         LunarInfection.transform.localEulerAngles = new Vector3(345f, 330f, 270f);
 
                     }
-                }*/
-            };
+                }
+            }; */
 
             On.RoR2.ShopTerminalBehavior.DropPickup += (orig, self) =>
             {
@@ -191,6 +211,18 @@ namespace WolfoQualityOfLife
                     Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
                     Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
                 }
+            };
+
+            On.RoR2.ShopTerminalBehavior.UpdatePickupDisplayAndAnimations += (orig, self) =>
+            {
+                if (self.pickupIndex == PickupIndex.none && self.GetComponent<PurchaseInteraction>().available)
+                {
+                    self.hasStarted = false;
+                    orig(self);
+                    self.hasStarted = true;
+                    return;
+                }
+                orig(self);              
             };
         }
 
@@ -554,6 +586,16 @@ namespace WolfoQualityOfLife
             orig(self);
         }
 
+
+        public class InstantiateGameObjectAtLocation : MonoBehaviour
+        {
+            public GameObject objectToInstantiate;
+
+            public void Start()
+            {
+                Instantiate(objectToInstantiate, this.transform);
+            }
+        }
     }
 
 }

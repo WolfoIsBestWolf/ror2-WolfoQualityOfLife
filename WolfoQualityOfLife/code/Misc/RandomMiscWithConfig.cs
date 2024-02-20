@@ -60,6 +60,7 @@ namespace WolfoQualityOfLife
             {
                 orig(self);
                 self.fixedTimer *= 2;
+                //self.fixedTimer *= WConfig.cfgPingDurationMultiplier.Value;
             };
 
 
@@ -218,6 +219,7 @@ namespace WolfoQualityOfLife
         public class EquipmentDroneNameComponent : MonoBehaviour
         {
             //Start for some reason refuses to work on Clients so I guess we'll just fucking run it until it works
+            public static CharacterBody body;
 
             public void Start()
             {
@@ -225,21 +227,22 @@ namespace WolfoQualityOfLife
                 if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.enigmaArtifactDef))
                 {
                     Destroy(this);
-                }
+                };
+                body = this.GetComponent<CharacterBody>();
             }
 
             public void FixedUpdate()
             {
-                //Debug.LogWarning("FixedUpdate");
-                CharacterBody body = this.GetComponent<CharacterBody>();
+                //Debug.LogWarning("FixedUpdate");          
                 if (body && body.inventory)
                 {
-                    if (body.inventory.currentEquipmentIndex != DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
-                    {
-                        Destroy(this);
-                    }
+                    //Debug.Log(body.inventory.currentEquipmentIndex);
                     if (body.inventory.currentEquipmentIndex != EquipmentIndex.None)
                     {
+                        if (body.inventory.currentEquipmentIndex == DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
+                        {
+                            Destroy(this);
+                        }
                         body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(EquipmentCatalog.GetEquipmentDef(body.inventory.currentEquipmentIndex).nameToken) + ")";
                         Destroy(this);
                     }

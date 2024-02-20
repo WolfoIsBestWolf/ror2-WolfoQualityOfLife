@@ -53,15 +53,15 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgSkinMisc;
         public static ConfigEntry<bool> cfgSkinBellBalls;
 
+        public static ConfigEntry<bool> cfgSkinMakeOniBackup;
+        public static ConfigEntry<bool> cfgSkinMakeBlightedAcrid;
+
         public static ConfigEntry<bool> cfgLunarEliteDisplay;
-
         public static ConfigEntry<bool> OldModelDuplcators;
-
 
         //UI
         public static ConfigEntry<bool> cfgIconsUsedKey;
         public static ConfigEntry<bool> cfgIconsBodyIcons;
-
 
         //Buff Timers
         public static ConfigEntry<bool> cfgBuff_BugFlight;
@@ -91,7 +91,10 @@ namespace WolfoQualityOfLife
 
 
         public static ConfigEntry<bool> DummyModelViewer;
- 
+
+        public static ConfigEntry<bool> cfgRiskyStuff;
+
+
         public static void Start()
         {
             InitConfig();
@@ -101,6 +104,13 @@ namespace WolfoQualityOfLife
 
         public static void InitConfig()
         {
+            cfgRiskyStuff = ConfigFileUNSORTED.Bind(
+               "Oddities",
+               "Disable buff sorter",
+               true,
+               "As an emergency in case it breaks I guess."
+            );
+
             cfgMainMenuRandomizer = ConfigFileUNSORTED.Bind(
                "Other",
                "Main Menu Colors",
@@ -235,6 +245,12 @@ namespace WolfoQualityOfLife
                 "Oni Merc Red Sword and Red Attack Visuals",
                 true,
                 "To fit better with his Red skin. Includes a skin that keeps the blue sword for people who prefer it."
+            );
+            cfgSkinMakeOniBackup = ConfigFileUNSORTED.Bind(
+                 "Visuals",
+                "Make a backup of the Oni with blue sword skin so you can have both a Red and a Blue",
+                true,
+                ""
             );
             cfgSkinAcridBlight = ConfigFileUNSORTED.Bind(
                 "Visuals",

@@ -119,11 +119,20 @@ There shouldn't be any compatibility issues if you use both but I still don't re
 
 ## Changelog:
 ```
+v2.5.7
+More various fixes for minor network oddities. (Equipment Drone names, Shock Beacon visible Radius)
+-Moved backup Blue Sword Oni Merc to the end of the skin list and added config to disable it.
+-Fixed an issue with mods using red merc effects.
+Attempted fix for vanilla bug where Multishops would sometimes look closed for clients.
+
+v2.5.6
+Removed buff order manipulator because it seemed to cause issues for people.
+
 v2.5.5
 Fixed Blight Contagious Trail not being Blight colored on Clients
 More ExpandedDeathScreen fixes
 Loader Pylon will match the skins color again
-Moved Opal Cooldown buff next to Opal Ready
+//Moved Opal Cooldown buff next to Opal Ready//
 
 v2.5.4
 Added missing saftey check related to feather buff which could cause desyncs
