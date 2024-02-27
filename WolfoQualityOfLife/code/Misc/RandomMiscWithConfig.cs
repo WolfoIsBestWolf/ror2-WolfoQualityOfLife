@@ -219,7 +219,8 @@ namespace WolfoQualityOfLife
         public class EquipmentDroneNameComponent : MonoBehaviour
         {
             //Start for some reason refuses to work on Clients so I guess we'll just fucking run it until it works
-            public static CharacterBody body;
+            public CharacterBody body;
+            private bool changed = false;
 
             public void Start()
             {
@@ -233,18 +234,24 @@ namespace WolfoQualityOfLife
 
             public void FixedUpdate()
             {
-                //Debug.LogWarning("FixedUpdate");          
-                if (body && body.inventory)
+                if (changed)
                 {
-                    //Debug.Log(body.inventory.currentEquipmentIndex);
+                    Destroy(this);
+                }
+                if (!changed && body && body.inventory)
+                {
                     if (body.inventory.currentEquipmentIndex != EquipmentIndex.None)
                     {
                         if (body.inventory.currentEquipmentIndex == DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
                         {
-                            Destroy(this);
+                            changed = true;
                         }
-                        body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(EquipmentCatalog.GetEquipmentDef(body.inventory.currentEquipmentIndex).nameToken) + ")";
-                        Destroy(this);
+                        else
+                        {
+                            body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(EquipmentCatalog.GetEquipmentDef(body.inventory.currentEquipmentIndex).nameToken) + ")";
+                            Debug.Log(body.baseNameToken);
+                            changed = true;
+                        }
                     }
                 }    
             }

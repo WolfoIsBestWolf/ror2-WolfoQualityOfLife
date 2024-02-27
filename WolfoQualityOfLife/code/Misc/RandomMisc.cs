@@ -29,6 +29,15 @@ namespace WolfoQualityOfLife
             Unused();
             VoidAffix();
 
+
+            Material voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Nullifier/matNullifierAlly.mat").WaitForCompletion();
+            voidAlly.SetColor("_EmColor", new Color(0, 3, 4, 1)); //1,1,1
+            voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/VoidJailer/matVoidJailerEyesAlly.mat").WaitForCompletion();
+            voidAlly.SetColor("_EmColor", new Color(0f, 1f, 1.33f, 1)); //0.8706 0.4764 1 1
+            voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/VoidMegaCrab/matVoidMegaCrabAlly.mat").WaitForCompletion();
+            voidAlly.SetColor("_EmColor", new Color(0f,1.5f,2.5f,1f)); //0.7306 0 0.8208 1
+
+
             //Fix error spam on Captain Spawn
             On.RoR2.CaptainDefenseMatrixController.TryGrantItem += (orig, self) =>
             {

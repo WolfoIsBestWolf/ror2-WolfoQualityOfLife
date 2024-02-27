@@ -18,13 +18,13 @@ Added Perfected Elite displays for all enemies that were missing it.
 
 Readds the old large chunky printer Model for Uncommon and Mili Tech Printers.
 
-![](https://cdn.discordapp.com/attachments/743886063738683413/1188862360065167522/image.png?ex=659c115a&is=65899c5a&hm=1f42b821340f6f434615eb2f505cbd499eac16bc723139e89403d724498d8c3b&)
+![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/1188862360065167522/image.png?ex=659c115a&is=65899c5a&hm=1f42b821340f6f434615eb2f505cbd499eac16bc723139e89403d724498d8c3b&)
 
 
 
 
 ## More Icons
-![](https://cdn.discordapp.com/attachments/743886063738683413/900120860717883443/unknown.png)\
+![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/900120860717883443/unknown.png)\
  
 A Unique Ping Icon for the vast majority of Interactables.
 
@@ -75,10 +75,10 @@ Lunar Seers include their destination when pinged and in the purchase context.
 
 ##
 
-![](https://cdn.discordapp.com/attachments/743886063738683413/1188865145963806740/image.png?ex=659c13f2&is=65899ef2&hm=b85047c25d9aab943893aaba6189c0f3841565ffabc7f9de12fff8d5f366a50d&)
+![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/1188865145963806740/image.png?ex=659c13f2&is=65899ef2&hm=b85047c25d9aab943893aaba6189c0f3841565ffabc7f9de12fff8d5f366a50d&)
 
 
-![](https://cdn.discordapp.com/attachments/743886063738683413/1188859177574072360/image.png?ex=659c0e63&is=65899963&hm=1c6521e2aea8f0b54a6031557b6fbc2c7cb7bad37d35fb1fb47177dcf9bf9352&)
+![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/1188859177574072360/image.png?ex=659c0e63&is=65899963&hm=1c6521e2aea8f0b54a6031557b6fbc2c7cb7bad37d35fb1fb47177dcf9bf9352&)
 
 
 ### Other
@@ -119,6 +119,9 @@ There shouldn't be any compatibility issues if you use both but I still don't re
 
 ## Changelog:
 ```
+v2.5.8 - Fixed storepage image being gone due to Discord.
+-Gave Void allies cyan eyes for easier identifaction.
+
 v2.5.7
 More various fixes for minor network oddities. (Equipment Drone names, Shock Beacon visible Radius)
 -Moved backup Blue Sword Oni Merc to the end of the skin list and added config to disable it.
