@@ -374,6 +374,7 @@ namespace WolfoQualityOfLife
             Sprite ChestHealingIcon = Sprite.Create(TexChestHealingIcon, v.rec256, v.half);
             Sprite ChestUtilIcon = Sprite.Create(TexChestUtilIcon, v.rec256, v.half);
 
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/Chest1").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestDamage").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestDamageIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestHealing").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestHealingIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestUtility").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestUtilIcon;
@@ -524,10 +525,18 @@ namespace WolfoQualityOfLife
 
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporter Variant").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PrimordialTeleporterIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporterProngs").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PrimordialTeleporterIcon;
- 
+
             //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/AmmoPack").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ExclamationIcon;
             //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BonusMoneyPack").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ExclamationIcon;
             //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/HealPacks").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ExclamationIcon;
+
+            Texture2D PingLemurianEgg = new Texture2D(256, 256, TextureFormat.DXT5, false);
+            PingLemurianEgg.LoadImage(Properties.Resources.PingLemurianEgg, true);
+            PingLemurianEgg.filterMode = FilterMode.Bilinear;
+            Sprite PingLemurianEggS = Sprite.Create(PingLemurianEgg, v.rec256, v.half);
+
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/CU8/LemurianEgg/LemurianEgg.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingLemurianEggS;
+
 
         }
 

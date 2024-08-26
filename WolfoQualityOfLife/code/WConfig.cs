@@ -45,7 +45,8 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgEquipmentDroneName;
         public static ConfigEntry<bool> cfgMainMenuTheme;
         public static ConfigEntry<bool> cfgMountainStacks;
- 
+       
+
 
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
@@ -78,7 +79,7 @@ namespace WolfoQualityOfLife
         //public static ConfigEntry<bool> cfgBuff_Egg;
         //public static ConfigEntry<bool> cfgBuff_HelfireDuration;
         //
-
+        public static ConfigEntry<bool> cfgVoidAllyCyanEyes;
         public static ConfigEntry<bool> cfgNewGeysers;
         public static ConfigEntry<bool> cfgExpandedDeathScreen;
         public static ConfigEntry<bool> cfgDeathScreenStats;
@@ -297,6 +298,12 @@ namespace WolfoQualityOfLife
                 "Change Geyser colors",
                 true,
                 "Abyssal Depths will have lava-like instead of water and Sulfur Pools will have greener Geysers"
+            );
+            cfgVoidAllyCyanEyes = ConfigFileUNSORTED.Bind(
+                "Visuals",
+                "Void Ally Cyan Eyes",
+                true,
+                "Void Allies from Newly Hatched Zoea will have bright Cyan eyes for easier identification."
             );
 
             cfgMountainStacks = ConfigFileUNSORTED.Bind(

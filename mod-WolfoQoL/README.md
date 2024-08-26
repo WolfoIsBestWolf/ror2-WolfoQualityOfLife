@@ -18,13 +18,10 @@ Added Perfected Elite displays for all enemies that were missing it.
 
 Readds the old large chunky printer Model for Uncommon and Mili Tech Printers.
 
-![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/1188862360065167522/image.png?ex=659c115a&is=65899c5a&hm=1f42b821340f6f434615eb2f505cbd499eac16bc723139e89403d724498d8c3b&)
-
-
-
+![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
 
 ## More Icons
-![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/900120860717883443/unknown.png)\
+![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)\
  
 A Unique Ping Icon for the vast majority of Interactables.
 
@@ -37,9 +34,6 @@ Consumed Keys item like how there's consumed Elixir/Watches.
 
 New Icon for Engineer Walker Turrets, Empathy Cores.
 
-
-
- 
 ## Information
 A updated Death Screen showing what Equipment you used, Elite Prefix of the killer included in their name, the Inventory of the enemy that killed you or the enemy items of the run.
 
@@ -71,15 +65,11 @@ The Void and Limbo ending now have their own coloration/text.
 
 Lunar Seers include their destination when pinged and in the purchase context.
 
-
+![Image of various features](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures1.png)
 
 ##
 
-![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/1188865145963806740/image.png?ex=659c13f2&is=65899ef2&hm=b85047c25d9aab943893aaba6189c0f3841565ffabc7f9de12fff8d5f366a50d&)
-
-
-![bbbbbbbbbbbbbbbbbbbb](https://cdn.discordapp.com/attachments/743886063738683413/1188859177574072360/image.png?ex=659c0e63&is=65899963&hm=1c6521e2aea8f0b54a6031557b6fbc2c7cb7bad37d35fb1fb47177dcf9bf9352&)
-
+![Image of Expanded Death Screen](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolDeath.png)
 
 ### Other
 Scavenger in the main menu is back.\
@@ -90,7 +80,8 @@ More "tp like" structures get flowers if you have Lepton Daisy.\
 Captains Shock Beacon now has a range indicator.\
 Scavengers play a sound when spawning.\
 Sprinting UI is slightly different to support charge attacks.\
-Void Fiends Mouse2 now has a crosshair response like other charging attacks.
+Void Fiends Mouse2 now has a crosshair response like other charging attacks.\
+Void Allies have cyan eyes for easier identification.
 
 When winning a chat message will be displayed of the characters win quote.
 
@@ -119,8 +110,14 @@ There shouldn't be any compatibility issues if you use both but I still don't re
 
 ## Changelog:
 ```
+v2.5.9
+Added icon for Egg
+Fixed Lunar enemy lore not displaying due to the name change.
+Fixed strange issue involving Sawmarang infinitely duplicating.
+
 v2.5.8 - Fixed storepage image being gone due to Discord.
 -Gave Void allies cyan eyes for easier identifaction.
+-Made Stomp/Freeze buff not get added when Risky Mod is loaded as they add their own.
 
 v2.5.7
 More various fixes for minor network oddities. (Equipment Drone names, Shock Beacon visible Radius)

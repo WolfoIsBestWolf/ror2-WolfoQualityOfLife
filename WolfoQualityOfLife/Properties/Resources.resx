@@ -292,6 +292,9 @@
   <data name="PingIconVoidEradicator" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>PingIcons\PingIconVoidEradicator.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="PingLemurianEgg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\PingLemurianEgg.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="PortalIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>PingIcons\PortalIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

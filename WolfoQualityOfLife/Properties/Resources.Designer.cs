@@ -643,6 +643,16 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] PingLemurianEgg {
+            get {
+                object obj = ResourceManager.GetObject("PingLemurianEgg", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] PortalIcon {
             get {
                 object obj = ResourceManager.GetObject("PortalIcon", resourceCulture);

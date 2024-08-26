@@ -31,7 +31,7 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("STATNAME_HIGHESTLUNARPURCHASES", "Most Lunar Purchases", "en");
             LanguageAPI.Add("STATNAME_HIGHESTBLOODPURCHASES", "Most Blood Purchases", "en");
 
-            LanguageAPI.Add("LUNARWISP_BODY_NAME_LONG", "Lunar Chimera Wisp", "en");
+            /*LanguageAPI.Add("LUNARWISP_BODY_NAME_LONG", "Lunar Chimera Wisp", "en");
             LanguageAPI.Add("LUNARGOLEM_BODY_NAME_LONG", "Lunar Chimera Golem", "en");
             LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_LONG", "Lunar Chimera Exploder", "en");
             LanguageAPI.Add("LUNARWISP_BODY_NAME_LONG", "Mondchimäre Wisch", "de");
@@ -43,21 +43,26 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_SHORT", "Lunar Exploder", "en");
             LanguageAPI.Add("LUNARWISP_BODY_NAME_SHORT", "Mond Wisch", "de");
             LanguageAPI.Add("LUNARGOLEM_BODY_NAME_SHORT", "Mond Golem", "de");
-            LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_SHORT", "Mond Sprengkapsel", "de");
+            LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_SHORT", "Mond Sprengkapsel", "de");*/
 
 
             if (WConfig.LunarChimeraNameChange.Value == "Long")
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarWispBody").GetComponent<CharacterBody>().baseNameToken = "LUNARWISP_BODY_NAME_LONG";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponent<CharacterBody>().baseNameToken = "LUNARGOLEM_BODY_NAME_LONG";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().baseNameToken = "LUNAREXPLODER_BODY_NAME_LONG";
+                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Lunar Chimera Wisp", "en");
+                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Lunar Chimera Golem", "en");
+                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Lunar Chimera Exploder", "en");
+                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Mondchimäre Wisch", "de");
+                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Mondchimäre Golem", "de");
+                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Mondchimäre Sprengkapsel", "de");
             }
             else if (WConfig.LunarChimeraNameChange.Value == "Short")
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarWispBody").GetComponent<CharacterBody>().baseNameToken = "LUNARWISP_BODY_NAME_SHORT";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponent<CharacterBody>().baseNameToken = "LUNARGOLEM_BODY_NAME_SHORT";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().baseNameToken = "LUNAREXPLODER_BODY_NAME_SHORT";
-
+                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Lunar Wisp", "en");
+                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Lunar Golem", "en");
+                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Lunar Exploder", "en");
+                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Mond Wisch", "de");
+                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Mond Golem", "de");
+                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Mond Sprengkapsel", "de");
             }
 
 

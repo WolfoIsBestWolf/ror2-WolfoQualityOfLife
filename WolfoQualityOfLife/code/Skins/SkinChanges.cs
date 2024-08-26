@@ -287,19 +287,25 @@ namespace WolfoQualityOfLife
 
 
 
-
+            On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
 
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += (orig, self, networkUser) =>
             {
                 orig(self, networkUser);
                 //This works on all Models at once, when any user changes stuff, how do we filter Models
                 //Well it should work maybe it's the Multiplayer test mods issue
+                if (networkUser != self.networkUser)
+                {
+                    return;
+                }
+
                 Debug.Log(self + " User: " + networkUser.id.value);
 
-                if (self.name.StartsWith("EngiDisplay(Clone)"))
+
+                if (self.name.StartsWith("EngiDisplay"))
                 {
                     Loadout temploadout = self.networkUser.networkLoadout.loadout;
-                    BodyIndex Engi = BodyCatalog.FindBodyIndexCaseInsensitive("EngiBody");
+                    BodyIndex Engi = BodyCatalog.FindBodyIndex("EngiBody");
                     if (temploadout != null && self.networkUser.bodyIndexPreference == Engi)
                     {
                         uint skin = temploadout.bodyLoadoutManager.GetSkinIndex(Engi);
@@ -309,7 +315,7 @@ namespace WolfoQualityOfLife
                         }
                     }
                 }
-                else if (self.name.StartsWith("CrocoDisplay(Clone)"))
+                else if (self.name.StartsWith("CrocoDisplay"))
                 {
                     if (WConfig.cfgSkinAcridBlight.Value == true)
                     {
@@ -382,6 +388,69 @@ namespace WolfoQualityOfLife
                 orig(self);
             };
 
+        }
+
+        private static void SkinTouchUpsLobby(On.RoR2.CharacterSelectSurvivorPreviewDisplayController.orig_OnLoadoutChangedGlobal orig, CharacterSelectSurvivorPreviewDisplayController self, NetworkUser changedNetworkUser)
+        {
+            orig(self, changedNetworkUser);
+            //This works on all Models at once, when any user changes stuff, how do we filter Models
+            //Well it should work maybe it's the Multiplayer test mods issue
+            if (changedNetworkUser != self.networkUser)
+            {
+                return;
+            }
+            Debug.Log(self + " User: " + changedNetworkUser.id.value);
+
+            if (self.name.StartsWith("EngiDisplay"))
+            {
+                Loadout temploadout = self.currentLoadout;
+                BodyIndex Engi = BodyCatalog.FindBodyIndex("EngiBody");
+                if (temploadout != null && self.networkUser.bodyIndexPreference == Engi)
+                {
+                    uint skin = temploadout.bodyLoadoutManager.GetSkinIndex(Engi);
+                    if (skin == 1)
+                    {
+                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
+                    }
+                }
+            }
+            else if (self.name.StartsWith("CrocoDisplay"))
+            {
+                if (WConfig.cfgSkinAcridBlight.Value == true)
+                {
+                    Loadout temploadout = self.currentLoadout;
+                    BodyIndex Croco = BodyCatalog.FindBodyIndex("CrocoBody");
+                    //Debug.LogWarning(Croco);
+                    if (temploadout != null && self.networkUser.bodyIndexPreference == Croco)
+                    {
+                        uint skill = temploadout.bodyLoadoutManager.GetSkillVariant(Croco, 0);
+
+                        if (!self.transform.GetChild(0).GetChild(4).name.StartsWith("SpawnActive"))
+                        {
+                            self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
+                            self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            self.transform.GetChild(0).GetChild(4).name = "SpawnInactive";
+                        }
+
+                        if (skill == 0)
+                        {
+                            self.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
+                            self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
+                            self.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
+                        }
+                        else if (skill == 1)
+                        {
+                            self.transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
+                            self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
+                            self.transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
+                        }
+                    }
+                }
+
+            }
         }
 
         public static void REXSkinnedAttacks()

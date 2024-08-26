@@ -27,6 +27,12 @@ namespace WolfoQualityOfLife
 
         public static void BuffColorChanger()
         {
+            bool riskyModEnabled = false;
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.RiskyLives.RiskyMod"))
+            {
+                riskyModEnabled = true;
+            }
+
 
             if (WConfig.cfgBuff_RepeatColors.Value == true)
             {
@@ -38,12 +44,14 @@ namespace WolfoQualityOfLife
                 texBuffRaincoat.LoadImage(Properties.Resources.texBuffRaincoat, true);
                 texBuffRaincoat.filterMode = FilterMode.Bilinear;
                 Sprite texBuffRaincoatS = Sprite.Create(texBuffRaincoat, new Rect(0, 0, 128, 128), v.half);
-                Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC1/ImmuneToDebuff/bdImmuneToDebuffReady.asset").WaitForCompletion().iconSprite = texBuffRaincoatS;
+                BuffDef RainCoat = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC1/ImmuneToDebuff/bdImmuneToDebuffReady.asset").WaitForCompletion();
+
+                if (RainCoat.iconSprite.name.StartsWith("texBuffImmune"))
+                {
+                    RainCoat.iconSprite = texBuffRaincoatS;
+                }
+              
             }
-
-
-
-
 
             BuffDef NormalBurn = RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/OnFire");
             FakeHellFire = ScriptableObject.CreateInstance<BuffDef>();
@@ -203,7 +211,7 @@ namespace WolfoQualityOfLife
             FakeFrozen.canStack = true;
             R2API.ContentAddition.AddBuffDef(FakeFrozen);
 
-            if (WConfig.cfgBuff_Frozen.Value == true)
+            if (WConfig.cfgBuff_Frozen.Value == true && riskyModEnabled == false)
             {
                 On.EntityStates.FrozenState.OnEnter += (orig, self) =>
                 {
@@ -256,7 +264,7 @@ namespace WolfoQualityOfLife
             R2API.ContentAddition.AddBuffDef(FakeHeadstompOff);
 
 
-            if (WConfig.cfgBuff_Headstomper.Value == true)
+            if (WConfig.cfgBuff_Headstomper.Value == true && riskyModEnabled == false)
             {
                 On.EntityStates.Headstompers.BaseHeadstompersState.OnEnter += (orig, self) =>
                 {
