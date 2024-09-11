@@ -3,6 +3,7 @@ using MonoMod.Cil;
 using RoR2;
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace WolfoQualityOfLife
 {
@@ -11,7 +12,10 @@ namespace WolfoQualityOfLife
         public static Material MatOniSword;
         public static Material MatHANDToolbot;
         public static Material MatGreenFlowerRex;
+        public static Material MatTreebot_VineSots;
+
         public static Material MatEngiTurretGreen;
+        public static Material MatEngiTurret_Sots;
         public static Material MatEngiAltTrail;
 
         //public static uint LoaderPylonSkinIndex = 255;
@@ -37,7 +41,7 @@ namespace WolfoQualityOfLife
             if (WConfig.cfgSkinMisc.Value == true)
             {
                 SkinTouchups();
-                REXSkinnedAttacks();
+                //REXSkinnedAttacks();
             }
 
             BellBallElite.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = BellBallGhostElite;
@@ -102,7 +106,9 @@ namespace WolfoQualityOfLife
         {
             MatHANDToolbot = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ToolbotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
             MatGreenFlowerRex = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TreebotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
+            MatTreebot_VineSots = GameObject.Instantiate(MatGreenFlowerRex);
             MatEngiTurretGreen = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
+            MatEngiTurret_Sots = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
             MatEngiAltTrail = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponents<SprintEffectController>()[1].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material);
 
             Material MatCrocoAlt = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody").transform.GetChild(0).GetChild(2).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[0].defaultMaterial;
@@ -121,8 +127,13 @@ namespace WolfoQualityOfLife
             //SkinDefEngiAlt.projectileGhostReplacements[1].projectileGhostReplacementPrefab.GetComponentInChildren<Light>().color = new Color(0.251f, 0.7373f, 0.6451f, 1);
             //SkinDefEngiAlt.projectileGhostReplacements[2].projectileGhostReplacementPrefab.GetComponentInChildren<Light>().color = new Color(0.251f, 0.7373f, 0.6451f, 1);
 
+            //Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Treebot/matTreebotColossus.mat").WaitForCompletion();
 
-
+            Texture2D texTreebotVineForColossus = new Texture2D(512, 512, TextureFormat.DXT5, false);
+            texTreebotVineForColossus.LoadImage(Properties.Resources.texTreebotVineForColossus, true);
+            texTreebotVineForColossus.filterMode = FilterMode.Bilinear;
+            texTreebotVineForColossus.wrapMode = TextureWrapMode.Clamp;
+            MatTreebot_VineSots.mainTexture = texTreebotVineForColossus;
 
             Texture2D texRampEngiAlt = new Texture2D(256, 16, TextureFormat.DXT5, false);
             texRampEngiAlt.LoadImage(Properties.Resources.texRampEngiAlt, true);
@@ -134,19 +145,37 @@ namespace WolfoQualityOfLife
             TexEngiTurretAlt.LoadImage(Properties.Resources.texEngiTurretDiffuseAlt, true);
             TexEngiTurretAlt.filterMode = FilterMode.Bilinear;
 
+            Texture2D texEngiTurretAltColossusDiffuse = new Texture2D(256, 512, TextureFormat.DXT5, false);
+            texEngiTurretAltColossusDiffuse.LoadImage(Properties.Resources.texEngiTurretAltColossusDiffuse, true);
+            texEngiTurretAltColossusDiffuse.filterMode = FilterMode.Bilinear;
+
+
             MatEngiTurretGreen = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
             MatEngiTurretGreen.mainTexture = TexEngiTurretAlt;
             MatEngiTurretGreen.SetColor("_EmColor", new Color32(28, 194, 182, 255));
 
+            MatEngiTurret_Sots = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
+            MatEngiTurret_Sots.mainTexture = texEngiTurretAltColossusDiffuse;
+            MatEngiTurret_Sots.SetColor("_EmColor", new Color(1, 0.5f, 0.1f, 1f));
+
+
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiGrenadeGhostSkin2").GetComponentInChildren<MeshRenderer>().material = MatEngiTurretGreen;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
+
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiGrenadeGhostSkin3.prefab").WaitForCompletion().GetComponentInChildren<MeshRenderer>().material = MatEngiTurret_Sots;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiMineGhost3.prefab").WaitForCompletion().GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurret_Sots;
+
             //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/SpiderMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
 
             var EngiDisplayMines = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/characterdisplays/EngiDisplay").transform.GetChild(1).GetChild(0).gameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             //Debug.LogWarning(EngiDisplayMines.Length);
             for (int i = 0; i < EngiDisplayMines.Length; i++)
             {
-                if (EngiDisplayMines[i].material.name.StartsWith("matEngiAlt (Instance)") && EngiDisplayMines[i].name.StartsWith("EngiMineMesh"))
+                if (EngiDisplayMines[i].material.name.StartsWith("matEngiAltCol") && EngiDisplayMines[i].name.StartsWith("EngiMineMesh"))
+                {
+                    EngiDisplayMines[i].material = MatEngiTurret_Sots;
+                }
+                else if (EngiDisplayMines[i].material.name.StartsWith("matEngiAlt") && EngiDisplayMines[i].name.StartsWith("EngiMineMesh"))
                 {
                     EngiDisplayMines[i].material = MatEngiTurretGreen;
                 };
@@ -179,16 +208,33 @@ namespace WolfoQualityOfLife
                 orig(self, modelObject);
                 //Debug.LogWarning(self + " SkinDef Apply " + modelObject);
 
+                if (!modelObject)
+                {
+                    return;
+                }
+
                 if (modelObject.name.StartsWith("mdlMerc"))
                 {
                     if (WConfig.cfgSkinMercRed.Value == true)
                     {
-                        if (self.name.EndsWith("Red"))
+                        bool alt = self.name.EndsWith("Alt");
+                        bool Colossus = self.name.EndsWith("Colossus");
+
+
+                        if (alt || self.name.EndsWith("Red"))
                         {
                             if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
                             {
                                 modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercRed>();
                             }
+                            if (alt)
+                            {
+                                CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
+                                tempmodel.baseLightInfos[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);
+                                tempmodel.baseLightInfos[1].defaultColor = new Color(1, 0.15f, 0.15f, 1);
+                                tempmodel.baseRendererInfos[1].defaultMaterial = MatOniSword;
+                            }
+
                             ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
                             if (childLocator)
                             {
@@ -200,33 +246,30 @@ namespace WolfoQualityOfLife
                                 PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
                                 PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnitionRed; //matMercIgnition (Instance)
                             }
-                        } 
-                        else if (self.name.EndsWith("Alt"))
+                        }
+                        else if (Colossus || self.name.EndsWith("Green"))
                         {
-                            if (modelObject)
+                            if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
                             {
-                                if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
-                                {
-                                    modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercRed>();
-                                }
-
+                                modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercGreen>();
+                            }
+                            if (Colossus)
+                            {
                                 CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
-                                tempmodel.baseLightInfos[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);
-                                tempmodel.baseLightInfos[1].defaultColor = new Color(1, 0.15f, 0.15f, 1);
-                                tempmodel.baseRendererInfos[1].defaultMaterial = MatOniSword;
+                                tempmodel.baseLightInfos[0].defaultColor = new Color(0.2f, 1f, 0.1f, 1);
+                                tempmodel.baseLightInfos[1].defaultColor = new Color(0.15f, 1f, 0.15f, 1);
+                            }
 
-                                ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
-                                if (childLocator)
-                                {
-                                    Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                                    PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
-                                    PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
-                                    PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
-                                    PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnitionRed; //matMercIgnition (Instance)
-                                    PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
-                                    PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnitionRed; //matMercIgnition (Instance)
-                                }
-
+                            ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+                            if (childLocator)
+                            {
+                                Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
+                                PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
+                                PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
+                                PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
+                                PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnition_Green; //matMercIgnition (Instance)
+                                PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
+                                PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnition_Green; //matMercIgnition (Instance)
                             }
                         }
                         else
@@ -239,19 +282,31 @@ namespace WolfoQualityOfLife
                 }
                 else if (modelObject.name.StartsWith("mdlTreebot"))
                 {
-                    if (!self.name.StartsWith("skinTreebotDefault"))
+                    if (self.name.EndsWith("Colossus"))
+                    {
+                        if (modelObject.transform.childCount > 5)
+                        {
+                            modelObject.transform.GetChild(5).GetChild(0).GetChild(2).gameObject.GetComponent<ParticleSystemRenderer>().material = MatTreebot_VineSots;
+                        }      
+                    }
+                    else if (!self.name.EndsWith("Default"))
                     {
                         if (modelObject.transform.childCount > 5)
                         {
                             modelObject.transform.GetChild(5).GetChild(0).GetChild(2).gameObject.GetComponent<ParticleSystemRenderer>().material = modelObject.GetComponent<CharacterModel>().baseRendererInfos[1].defaultMaterial;
                         }
                     }
+
                 }
                 else if (modelObject.name.StartsWith("mdlEngiTurret"))
                 {
-                    if (self.name.StartsWith("skinEngiTurretAlt"))
+                    if (self.name.Equals("skinEngiTurretAlt"))
                     {
                         modelObject.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial = MatEngiTurretGreen;
+                    }
+                    else if (self.name.EndsWith("Colossus"))
+                    {
+                        modelObject.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial = MatEngiTurret_Sots;
                     }
                 }
                 else if (modelObject.name.StartsWith("mdlEngi"))
@@ -288,7 +343,7 @@ namespace WolfoQualityOfLife
 
 
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
-
+            /*
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += (orig, self, networkUser) =>
             {
                 orig(self, networkUser);
@@ -339,20 +394,20 @@ namespace WolfoQualityOfLife
                             if (skill == 0)
                             {
                                 self.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
-                                self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
+                                //self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
                                 self.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
                             }
                             else if (skill == 1)
                             {
                                 self.transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
-                                self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
+                                //self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
                                 self.transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
                             }
                         }
                     }
 
                 }
-            };
+            };*/
 
 
             On.EntityStates.Toolbot.ToolbotDualWield.OnEnter += (orig, self) =>
@@ -399,11 +454,13 @@ namespace WolfoQualityOfLife
             {
                 return;
             }
+
             Debug.Log(self + " User: " + changedNetworkUser.id.value);
+
 
             if (self.name.StartsWith("EngiDisplay"))
             {
-                Loadout temploadout = self.currentLoadout;
+                Loadout temploadout = self.networkUser.networkLoadout.loadout;
                 BodyIndex Engi = BodyCatalog.FindBodyIndex("EngiBody");
                 if (temploadout != null && self.networkUser.bodyIndexPreference == Engi)
                 {
@@ -412,14 +469,18 @@ namespace WolfoQualityOfLife
                     {
                         self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
                     }
+                    else if (skin == 2)
+                    {
+                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurret_Sots;
+                    }
                 }
             }
             else if (self.name.StartsWith("CrocoDisplay"))
             {
                 if (WConfig.cfgSkinAcridBlight.Value == true)
                 {
-                    Loadout temploadout = self.currentLoadout;
-                    BodyIndex Croco = BodyCatalog.FindBodyIndex("CrocoBody");
+                    Loadout temploadout = self.networkUser.networkLoadout.loadout;
+                    BodyIndex Croco = BodyCatalog.FindBodyIndexCaseInsensitive("CrocoBody");
                     //Debug.LogWarning(Croco);
                     if (temploadout != null && self.networkUser.bodyIndexPreference == Croco)
                     {
@@ -438,17 +499,18 @@ namespace WolfoQualityOfLife
                         if (skill == 0)
                         {
                             self.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
-                            self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
+                            //self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
                             self.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
                         }
                         else if (skill == 1)
                         {
                             self.transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
-                            self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
+                            //self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
                             self.transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
                         }
                     }
                 }
+
 
             }
         }
@@ -596,6 +658,10 @@ namespace WolfoQualityOfLife
     public class MakeThisMercRed : MonoBehaviour
     {
         public bool real;
+    }
+    public class MakeThisMercGreen : MonoBehaviour
+    {
+        public bool theGreen;
     }
 
 }

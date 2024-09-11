@@ -21,7 +21,7 @@ namespace WolfoQualityOfLife
             {
                 On.RoR2.PurchaseInteraction.OnInteractionBegin += UsedKeyGiver;
             }
-            CreateUsedKey(); 
+            CreateUsedKey();
         }
 
         public static void NewBodyIcons()

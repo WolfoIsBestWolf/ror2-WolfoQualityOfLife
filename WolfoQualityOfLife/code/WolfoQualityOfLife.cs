@@ -1,6 +1,5 @@
 ﻿using BepInEx;
 using R2API.Utils;
-using R2API;
 using RoR2;
 using System;
 using System.Security;
@@ -16,7 +15,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQualityOfLife
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "2.5.3")]
+    [BepInPlugin("com.Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.1.0")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LoadoutAPI), nameof(PrefabAPI), nameof(LanguageAPI), nameof(ItemAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -27,7 +26,7 @@ namespace WolfoQualityOfLife
 
         //public static GameObject RedToWhiteSoup = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant");
         //Surely you could just activate an already existing soup
- 
+
         public void Awake()
         {
             WConfig.Start();
@@ -53,14 +52,17 @@ namespace WolfoQualityOfLife
             {
                 PingIcons.Start();
             }
-            
+
             GameModeCatalog.availability.CallWhenAvailable(ModSupport);
 
             On.RoR2.SceneDirector.Start += PingIconChanger;
 
-            On.RoR2.UI.LogBook.LogBookController.BuildStaticData += RandomMiscWithConfig.LogbookEntryAdder;
+            On.RoR2.UI.LogBook.LogBookController.BuildMonsterEntries += RandomMiscWithConfig.LogbookEntryAdderMonsters;
+            On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += RandomMiscWithConfig.LogbookEliteAspectAdder;
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
 
+            //
+            //
 
             //
             //This is such a dogshit way to circumvent learning proper Networking but it's all the same I imagine
@@ -215,6 +217,7 @@ namespace WolfoQualityOfLife
 
 
             //Move backup ONI skin last
+            
             if (WConfig.cfgSkinMakeOniBackup.Value == true)
             {
                 GameObject MercBody = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody");
@@ -223,7 +226,7 @@ namespace WolfoQualityOfLife
                 ModelSkinController modelSkinController = MercBody.transform.GetChild(0).GetChild(0).GetComponent<ModelSkinController>();
 
                 SkinDef[] skinsNew = new SkinDef[modelSkinController.skins.Length];
-                skinsNew[skinsNew.Length - 1] = modelSkinController.skins[2];
+                skinsNew[skinsNew.Length - 1] = modelSkinController.skins[3];
 
                 //IDK??
                 int j = 0;
@@ -239,7 +242,7 @@ namespace WolfoQualityOfLife
                 modelSkinController.skins = skinsNew;
                 BodyCatalog.skins[(int)MercBodyIndex] = skinsNew;
             }
-
+            
 
             On.RoR2.UI.MainMenu.MainMenuController.Start -= OneTimeOnlyLateRunner;
         }
@@ -257,6 +260,9 @@ namespace WolfoQualityOfLife
 
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
+                case "helminthroost":
+                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                    break;
                 case "skymeadow":
                     GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                     GameObject.Find("/HOLDER: Zones/OOB Zone").GetComponent<MapZone>().zoneType = MapZone.ZoneType.OutOfBounds;
@@ -274,7 +280,7 @@ namespace WolfoQualityOfLife
                         for (var i = 0; i < genericlist.Length; i++)
                         {
                             //Debug.LogWarning(genericlist[i]); ////DISABLE THIS
-                            if (genericlist[i].name.StartsWith("HumanFan"))
+                            if (genericlist[i].name.StartsWith("FW_HumanFan"))
                             {
                                 genericlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                             }
@@ -490,6 +496,41 @@ namespace WolfoQualityOfLife
                             {
                                 bossgrouplist[i].bestObservedName = Language.GetString("LUNARGOLEM_BODY_NAME");
                                 bossgrouplist[i].bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
+                            }
+                        }
+                    }
+                    break;
+                case "meridian":
+                    if (WConfig.cfgPingIcons.Value)
+                    {
+                        Highlight[] highlightlist = FindObjectsOfType(typeof(Highlight)) as Highlight[];
+                        for (var i = 0; i < highlightlist.Length; i++)
+                        {
+                            //Debug.LogWarning(highlightlist[i]); ////DISABLE THIS
+                            if (highlightlist[i].name.StartsWith("LunarCauldron,"))
+                            {
+                                highlightlist[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.CauldronIcon;
+                            }
+                            else if (highlightlist[i].name.StartsWith("Chest2"))
+                            {
+                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+                            }
+                            else if (highlightlist[i].name.StartsWith("Geode"))
+                            {
+                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                            }
+                        }
+                    }
+                    break;
+                case "goldshores":
+                    if (WConfig.cfgPingIcons.Value)
+                    {
+                        ChestBehavior[] highlightlist = FindObjectsOfType(typeof(ChestBehavior)) as ChestBehavior[];
+                        for (var i = 0; i < highlightlist.Length; i++)
+                        {
+                            if (highlightlist[i].name.StartsWith("Chest"))
+                            {
+                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestIcon;
                             }
                         }
                     }

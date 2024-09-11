@@ -1,7 +1,6 @@
 ﻿using R2API;
 using RoR2;
 //using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -22,15 +21,31 @@ namespace WolfoQualityOfLife
         public static void Start()
         {
             RandomMiscWithConfig.Start();
-            
+
             FlowersForOtherHoldoutZones();
             LunarSeerStuff();
             PriceTransformStuff();
             Unused();
             VoidAffix();
+            GameObject LowerPricedChestsGlow = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow");
+
+            LowerPricedChestsGlow.transform.GetChild(0).localPosition = new Vector3(0, 0.6f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(1).localPosition = new Vector3(0, 0.6f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(2).localPosition = new Vector3(0, 0.4f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(3).localPosition = new Vector3(0, 0.7f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(3).localScale = new Vector3(1, 1.4f, 1f);
+
+
+
+            Color SuperGreen = new Color(0.3f, 1f, 0.1f, 1f);
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/shrines/ShrineChance").GetComponent<ShrineChanceBehavior>().colorShrineRewardJackpot = SuperGreen;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineChance/ShrineChanceSandy Variant.prefab").WaitForCompletion().GetComponent<ShrineChanceBehavior>().colorShrineRewardJackpot = SuperGreen;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineChance/ShrineChanceSnowy Variant.prefab").WaitForCompletion().GetComponent<ShrineChanceBehavior>().colorShrineRewardJackpot = SuperGreen;
+
+
 
             //Mod shouldn't be used with HistoryFix
-            On.RoR2.MorgueManager.EnforceHistoryLimit += (orig) =>
+            /*On.RoR2.MorgueManager.EnforceHistoryLimit += (orig) =>
             {
                 if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("local.fix.history"))
                 {
@@ -47,7 +62,7 @@ namespace WolfoQualityOfLife
                     MorgueManager.RemoveOldestHistoryFile();
                 }
                 HG.CollectionPool<MorgueManager.HistoryFileInfo, List<MorgueManager.HistoryFileInfo>>.ReturnCollection(list);
-            };
+            };*/
 
 
             //Fix error spam on Captain Spawn
@@ -71,8 +86,8 @@ namespace WolfoQualityOfLife
             RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 105;
             RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 106;
             RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").stageOrder = 107;
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").stageOrder = 108;
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 108;
+            //RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").stageOrder = 108;
+            //RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 108;
 
             //Bead Giver
             GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
@@ -96,23 +111,23 @@ namespace WolfoQualityOfLife
             shockBeacon.transform.GetChild(2).GetChild(0).gameObject.AddComponent<InstantiateGameObjectAtLocation>().objectToInstantiate = CaptainShockBeaconRadius;
 
 
-           /* On.EntityStates.Captain.Weapon.CallSupplyDropBase.OnEnter += (orig, self) =>
-            {
-                Debug.Log(self.supplyDropPrefab);
-                if (self.supplyDropPrefab.name.StartsWith("CaptainSupplyDrop, Shocking"))
-                {
-                    self.supplyDropPrefab.GetComponent<ModelLocator>();
+            /* On.EntityStates.Captain.Weapon.CallSupplyDropBase.OnEnter += (orig, self) =>
+             {
+                 Debug.Log(self.supplyDropPrefab);
+                 if (self.supplyDropPrefab.name.StartsWith("CaptainSupplyDrop, Shocking"))
+                 {
+                     self.supplyDropPrefab.GetComponent<ModelLocator>();
 
 
-                    GameObject beacon = Object.Instantiate(CaptainHackingBeaconIndicator);
-                    //Debug.Log(self.supplyDropPrefab.transform.GetChild(2));
-                    //Debug.Log(self.supplyDropPrefab.transform.GetChild(2).GetChild(0));
-                    beacon.transform.localScale = new Vector3(6.67f, 6.67f, 6.67f);
-                    beacon.transform.GetChild(0).GetComponent<MeshRenderer>().material = CaptainHackingBeaconIndicatorMaterial;
-                    beacon.transform.SetParent(self.supplyDropPrefab.transform.GetChild(2).GetChild(0), false);
-                }
-                orig(self);
-            };*/
+                     GameObject beacon = Object.Instantiate(CaptainHackingBeaconIndicator);
+                     //Debug.Log(self.supplyDropPrefab.transform.GetChild(2));
+                     //Debug.Log(self.supplyDropPrefab.transform.GetChild(2).GetChild(0));
+                     beacon.transform.localScale = new Vector3(6.67f, 6.67f, 6.67f);
+                     beacon.transform.GetChild(0).GetComponent<MeshRenderer>().material = CaptainHackingBeaconIndicatorMaterial;
+                     beacon.transform.SetParent(self.supplyDropPrefab.transform.GetChild(2).GetChild(0), false);
+                 }
+                 orig(self);
+             };*/
             //
 
             //UI spreading like how charging works on other characters
@@ -243,7 +258,7 @@ namespace WolfoQualityOfLife
                     self.hasStarted = true;
                     return;
                 }
-                orig(self);              
+                orig(self);
             };
         }
 
@@ -432,6 +447,15 @@ namespace WolfoQualityOfLife
                             case "voidraid":
                                 tempportal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortal/DeepVoidPortal.prefab").WaitForCompletion();
                                 break;
+                            case "lemuriantemple":
+                            case "habitat":
+                            case "habitatfall":
+                            case "meridian":
+                                tempportal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion();
+                                break;
+                            /*case "helminthroost":
+                                tempportal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion();
+                                break;*/
                             default:
                                 tempportal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalShop/PortalShop.prefab").WaitForCompletion();
                                 break;
@@ -497,57 +521,7 @@ namespace WolfoQualityOfLife
 
             //Debug.LogWarning(LeptonDaisyTeleporterDecoration);
 
-
-
-            On.RoR2.HoldoutZoneController.Awake += (orig, self) =>
-            {
-                orig(self);
-                //Debug.LogWarning(self);
-                if (self.applyHealingNova)
-                {
-                    if (!self.healingNovaItemEffect)
-                    {
-                        if (self.name.StartsWith("InfiniteTowerSafeWardAwaitingInteraction(Clone)"))
-                        {
-                            self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform.GetChild(0).GetChild(0).GetChild(7).GetChild(0).GetChild(1).GetChild(0));
-                            self.healingNovaItemEffect.transform.rotation = new Quaternion(0, -0.7071f, -0.7071f, 0);
-                            self.healingNovaItemEffect.transform.localScale = new Vector3(0.1928f, 0.1928f, 0.1928f);
-                            self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4193f, 0);
-                        }
-                        else if (self.name.StartsWith("MoonBattery"))
-                        {
-                            self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
-                            //self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.683f, -0.183f, -0.183f, 0.683f);
-                            //self.healingNovaItemEffect.transform.localScale = new Vector3(0.6f, 0.6f, 0.55f);
-                            //self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -2.4f, 0f);
-                        }
-                        else if (self.name.StartsWith("NullSafeZone"))
-                        {
-                            self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform);
-                            self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.5649f, -0.4254f, -0.4254f, 0.5649f);
-                            self.healingNovaItemEffect.transform.localScale = new Vector3(0.275f, 0.275f, 0.225f);
-                            self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.3f, 0f);
-                        }
-                        else if (self.name.StartsWith("DeepVoidPortalBattery(Clone)"))
-                        {
-                            self.healingNovaItemEffect = self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetChild(0));
-                            self.healingNovaItemEffect.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
-                            self.healingNovaItemEffect.transform.localScale = new Vector3(0.375f, 0.375f, 0.375f);
-                            self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4f, 0f);
-                        }
-
-                    }
-                    if (Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.TPHealingNova.itemIndex, false, true) > 0)
-                    {
-                        if (self.healingNovaItemEffect)
-                        {
-                            self.healingNovaItemEffect.SetActive(true);
-                            self.healingNovaItemEffect = null;
-                        }
-                    }
-                }
-                //Debug.LogWarning("HoldoutZoneController.Awake");
-            };
+            On.RoR2.HoldoutZoneController.Awake += AddFlowersToMiscHoldoutZone;
 
             On.RoR2.HoldoutZoneController.Start += (orig, self) =>
             {
@@ -575,7 +549,54 @@ namespace WolfoQualityOfLife
 
         }
 
+        private static void AddFlowersToMiscHoldoutZone(On.RoR2.HoldoutZoneController.orig_Awake orig, HoldoutZoneController self)
+        {
+            orig(self);
+            //Debug.LogWarning(self);
+            if (self.applyHealingNova)
+            {
+                if (!self.healingNovaItemEffect)
+                {
+                    if (self.name.StartsWith("InfiniteTowerSafeWard"))
+                    {
+                        self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(0).GetChild(1).GetChild(0));
+                        self.healingNovaItemEffect.transform.rotation = new Quaternion(0, -0.7071f, -0.7071f, 0);
+                        self.healingNovaItemEffect.transform.localScale = new Vector3(0.1928f, 0.1928f, 0.1928f);
+                        self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4193f, 0);
+                    }
+                    else if (self.name.StartsWith("MoonBattery"))
+                    {
+                        self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
+                        //self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.683f, -0.183f, -0.183f, 0.683f);
+                        //self.healingNovaItemEffect.transform.localScale = new Vector3(0.6f, 0.6f, 0.55f);
+                        //self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -2.4f, 0f);
+                    }
+                    else if (self.name.StartsWith("NullSafeZone"))
+                    {
+                        self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform);
+                        self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.5649f, -0.4254f, -0.4254f, 0.5649f);
+                        self.healingNovaItemEffect.transform.localScale = new Vector3(0.275f, 0.275f, 0.225f);
+                        self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.3f, 0f);
+                    }
+                    else if (self.name.StartsWith("DeepVoidPortalBattery(Clone)"))
+                    {
+                        self.healingNovaItemEffect = self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetChild(0));
+                        self.healingNovaItemEffect.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
+                        self.healingNovaItemEffect.transform.localScale = new Vector3(0.375f, 0.375f, 0.375f);
+                        self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4f, 0f);
+                    }
 
+                }
+                if (Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.TPHealingNova.itemIndex, false, true) > 0)
+                {
+                    if (self.healingNovaItemEffect)
+                    {
+                        self.healingNovaItemEffect.SetActive(true);
+                        self.healingNovaItemEffect = null;
+                    }
+                }
+            }
+        }
 
         public static void MULTEquipmentThing(On.EntityStates.Toolbot.ToolbotStanceA.orig_OnEnter orig, global::EntityStates.Toolbot.ToolbotStanceA self)
         {

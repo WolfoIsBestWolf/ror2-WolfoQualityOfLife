@@ -32,6 +32,7 @@ namespace WolfoQualityOfLife
 
         public static ConfigEntry<string> LunarChimeraNameChange;
         public static ConfigEntry<bool> cfgTextEndings;
+        public static ConfigEntry<bool> cfgBlueTextPrimordial;
 
         public static ConfigEntry<bool> MoreLogEntries;
         public static ConfigEntry<bool> MoreLogEntriesAspect;
@@ -45,7 +46,7 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgEquipmentDroneName;
         public static ConfigEntry<bool> cfgMainMenuTheme;
         public static ConfigEntry<bool> cfgMountainStacks;
-       
+
 
 
         //Visuals
@@ -79,6 +80,7 @@ namespace WolfoQualityOfLife
         //public static ConfigEntry<bool> cfgBuff_Egg;
         //public static ConfigEntry<bool> cfgBuff_HelfireDuration;
         //
+        public static ConfigEntry<bool> cfgTpIconDiscoveredRed;
         public static ConfigEntry<bool> cfgVoidAllyCyanEyes;
         public static ConfigEntry<bool> cfgNewGeysers;
         public static ConfigEntry<bool> cfgExpandedDeathScreen;
@@ -207,6 +209,12 @@ namespace WolfoQualityOfLife
                 true,
                 "Twisted Scav and Void ending have their color and text changed to reflect their ending."
             );
+            cfgBlueTextPrimordial = ConfigFileUNSORTED.Bind(
+                "Text Changes",
+                "Blue Text Primordial TP",
+                true,
+                "Make the objective have blue text when it is a primordial teleporter."
+            );
             //
             //Extra Icons
             cfgIconsBodyIcons = ConfigFileUNSORTED.Bind(
@@ -249,8 +257,8 @@ namespace WolfoQualityOfLife
             );
             cfgSkinMakeOniBackup = ConfigFileUNSORTED.Bind(
                  "Visuals",
-                "Make a backup of the Oni with blue sword skin so you can have both a Red and a Blue",
-                true,
+                "Make a backup of the Oni with blue sword skin so you can have both a Red and a Blue (v2)",
+                false,
                 ""
             );
             cfgSkinAcridBlight = ConfigFileUNSORTED.Bind(
@@ -259,7 +267,7 @@ namespace WolfoQualityOfLife
                true,
                "Attacks that apply blight are colored Purple/Orange instead of Green/Yellow. Includes a variant of the default skin."
            );
- 
+
 
             cfgPingIcons = ConfigFileUNSORTED.Bind(
                 "Extra Icons",
@@ -305,6 +313,12 @@ namespace WolfoQualityOfLife
                 true,
                 "Void Allies from Newly Hatched Zoea will have bright Cyan eyes for easier identification."
             );
+            cfgTpIconDiscoveredRed = ConfigFileUNSORTED.Bind(
+                "Extra Icons",
+                "Teleporter Icon Discovered Color Red",
+                true,
+                "When you have the discover teleporter icon setting on. Makes the icon light red at first and only white when charged."
+            );
 
             cfgMountainStacks = ConfigFileUNSORTED.Bind(
                             "Visuals",
@@ -332,7 +346,7 @@ namespace WolfoQualityOfLife
                 true,
                 "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
             );
- 
+
 
             cfgExpandedDeathScreen = ConfigFileUNSORTED.Bind(
                 "Main",
@@ -348,14 +362,14 @@ namespace WolfoQualityOfLife
                 true,
                 "Change the colors of Lunar/Elite equipment to something unique. Lunar Coins will use their color for their outline. Void items will have tiered colors."
             );
- 
+
             ArtifactOutline = ConfigFileUNSORTED.Bind(
                 "Other",
                 "Artifact Outline",
                 false,
                 "Should Artifact Pickups in the Artifact World have a purple (Artifact Color) outline."
             );
- 
+
             ///////////////////////////////
             DummyModelViewer = ConfigFileUNSORTED.Bind(
                 "Other",
@@ -368,9 +382,9 @@ namespace WolfoQualityOfLife
 
         }
 
- 
 
- 
+
+
 
 
 

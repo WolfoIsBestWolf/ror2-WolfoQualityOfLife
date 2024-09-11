@@ -1,14 +1,23 @@
 using R2API;
 using RoR2;
+using RoR2.UI;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 
 namespace WolfoQualityOfLife
 {
+
     public class TextChanges
     {
+        public static R2API.LanguageAPI.LanguageOverlay TPLunar1;
+        public static R2API.LanguageAPI.LanguageOverlay TPLunar2;
+        public static bool LunaredAllOverIt = false;
+        //public static R2API.LanguageAPI.LanguageOverlay TPLunar3;
+        //public static R2API.LanguageAPI.LanguageOverlay TPLunar4;
+
         public static void Main()
         {
             if (WConfig.cfgTextItems.Value)
@@ -23,7 +32,43 @@ namespace WolfoQualityOfLife
             {
                 OtherText();
             }
-           
+
+            //IL.RoR2.UI.ObjectivePanelController.GetObjectiveSources += BlueTextTeleporter;
+
+
+
+
+
+            if (WConfig.cfgBlueTextPrimordial.Value)
+            {
+                On.RoR2.TeleporterInteraction.Start += (orig, self) =>
+                {
+                    orig(self);
+                    if (!LunaredAllOverIt && self.name.StartsWith("Lunar"))
+                    {
+                        LunaredAllOverIt = true;
+                        TPLunar1 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
+                        TPLunar2 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
+                    }
+                    else if (LunaredAllOverIt)
+                    {
+                        TPLunar1.Remove();
+                        TPLunar2.Remove();
+                    }
+                };
+
+                GameObject LunarTeleporter = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Teleporters/LunarTeleporter Variant.prefab").WaitForCompletion();
+                LunarTeleporter.GetComponent<HoldoutZoneController>().inBoundsObjectiveToken = "OBJECTIVE_CHARGE_TELEPORTER_LUNAR";
+                LunarTeleporter.GetComponent<HoldoutZoneController>().inBoundsObjectiveToken = "OBJECTIVE_CHARGE_TELEPORTER_OOB_LUNAR";
+
+                LanguageAPI.Add("OBJECTIVE_CHARGE_TELEPORTER_LUNAR", "Charge the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style> ({0}%)", "en");
+                LanguageAPI.Add("OBJECTIVE_CHARGE_TELEPORTER_OOB_LUNAR", "Enter the <style=cIsLunar>Teleporter zone!</style> ({0}%)", "en");
+                LanguageAPI.Add("OBJECTIVE_FIND_TELEPORTER_LUNAR", "Find and activate the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
+                LanguageAPI.Add("OBJECTIVE_FINISH_TELEPORTER_LUNAR", "Proceed through the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
+
+            }
+
+
             LanguageAPI.Add("CHEST2_NAME", "Große Kiste", "de");
             LanguageAPI.Add("VOIDCOINBARREL_NAME", "Stengel", "de");
 
@@ -77,7 +122,7 @@ namespace WolfoQualityOfLife
                 LanguageAPI.Add("GAME_RESULT_LIMBOWIN", "At Peace..", "en");
                 LanguageAPI.Add("GAME_RESULT_LIMBOWIN", "In Frieden..", "de");
                 LimboEnding.endingTextToken = "GAME_RESULT_LIMBOWIN";
- 
+
                 LimboEnding.backgroundColor = new Color32(227, 236, 252, 215);
                 LimboEnding.foregroundColor = new Color32(232, 239, 255, 190);
 
@@ -99,6 +144,40 @@ namespace WolfoQualityOfLife
 
         }
 
+        private static void BlueTextTeleporter(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.Before,
+            x => x.MatchCallOrCallvirt("RoR2.TeleporterInteraction", "get_isIdle"));
+
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchStfld("RoR2.UI.ObjectivePanelController/ObjectiveSourceDescriptor", "objectiveType")))
+            {
+                c.EmitDelegate<System.Func<System.Type, System.Type>>((value) =>
+                {
+                    if (value != null)
+                    {
+                        if (TeleporterInteraction.instance.name.StartsWith("L"))
+                        {
+                            if (TeleporterInteraction.instance.isCharged && !TeleporterInteraction.instance.isInFinalSequence)
+                            {
+                                value = typeof(FinishTeleporterObjectiveTracker_LUNAR);
+                            }
+                            else if (TeleporterInteraction.instance.isIdle)
+                            {
+                                value = typeof(FindTeleporterObjectiveTracker_LUNAR);
+                            }
+                        }
+                    }
+                    return value;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: TP DISCOVER CHANGE");
+            }
+        }
+
         internal static void OtherText()
         {
             //Additional Key Words
@@ -115,7 +194,7 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("PET_FROG", "{0} pet the glass frog.", "en");
             LanguageAPI.Add("PET_FROG_2P", "You pet the glass frog.", "en");*/
 
- 
+
             LanguageAPI.Add("BAZAAR_SEER_SNOWYFOREST", "<style=cWorldEvent>You dream of campfires and ice.</style>", "en");
             LanguageAPI.Add("BAZAAR_SEER_SHIPGRAVEYARD", "<style=cWorldEvent>You dream of windy cliffs.</style>", "en");
             LanguageAPI.Add("BAZAAR_SEER_DAMPCAVESIMPLE", "<style=cWorldEvent>You dream of fiery caverns.</style>", "en");
@@ -156,7 +235,7 @@ namespace WolfoQualityOfLife
 
 
 
-            LanguageAPI.Add("MAP_ARENA_TITLE", "Void Fields", "en");
+            //LanguageAPI.Add("MAP_ARENA_TITLE", "Void Fields", "en");
             LanguageAPI.Add("MAP_VOIDSTAGE_TITLE", "Void Locus", "en");
             LanguageAPI.Add("MAP_VOIDRAID_TITLE", "The Planetarium", "en");
 
@@ -238,10 +317,9 @@ namespace WolfoQualityOfLife
             //LanguageAPI.Add("ITEM_ELEMENTALRINGVOID_DESC", "Hits that deal <style=cIsDamage>more than 400% damage</style> also fire a black hole that <style=cIsUtility>draws enemies within 15m into its center</style>. Lasts <style=cIsUtility>5</style> seconds before collapsing, dealing <style=cIsDamage>100%</style> <style=cStack>(+100% per stack)</style> TOTAL damage. Recharges every <style=cIsUtility>20</style> seconds. <style=cIsVoid>Corrupts all Runald's and Kjaro's Bands.</style>.", "en");
             //LanguageAPI.Add("ITEM_VOIDMEGACRABITEM_DESC", "Every <style=cIsUtility>60</style><style=cStack>(-50% per stack)</style> seconds, gain a random <style=cIsVoid>Void</style> ally. Can have up to <style=cIsUtility>1</style><style=cStack>(+1 per stack)</style> allies at a time. <style=cIsVoid>Corrupts all </style><style=cIsTierBoss>yellow items</style><style=cIsVoid>.</style>", "en");
             //LanguageAPI.Add("EQUIPMENT_GUMMYCLONE_DESC", "Spawn a gummy clone that has <style=cIsDamage>170% damage</style> and <style=cIsHealing>170% health</style>. Expires in <style=cIsUtility>30</style> seconds.", "en");
-            LanguageAPI.Add("EQUIPMENT_BOSSHUNTERCONSUMED_DESC", "Exclaim an Ahoy!", "en");
+            LanguageAPI.Add("EQUIPMENT_BOSSHUNTERCONSUMED_DESC", "Exclaim an Ahoy! Looks kinda cool, but that's about it.", "en");
             LanguageAPI.Add("ITEM_TREASURECACHEVOID_DESC", "A <style=cIsUtility>hidden cache</style> containing an item (42%/<style=cIsHealing>42%</style>/<style=cIsHealth>16%</style>) will appear in a random location <style=cIsUtility>on each stage</style>. Opening the cache <style=cIsUtility>consumes</style> this item. <style=cIsVoid>Corrupts all Rusted Keys</style>.", "en");
             //LanguageAPI.Add("text", "text", "en");
-
 
 
             //LanguageAPI.Add("ITEM_WARCRYONMULTIKILL_PICKUP", "Enter a frenzy after killing 4 enemies in quick succession.", "en");
@@ -289,6 +367,9 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("EQUIPMENT_AFFIXLUNAR_DESC", "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>25%</style> and <style=cIsUtility>movement speed</style> by <style=cIsUtility>30%</style>. \nConvert all <style=cIsHealing>health</style> into <style=cIsHealing>regenerating shields</style>. \n<style=cIsDamage>Cripple</style> enemies on hit for <style=cIsUtility>4s</style> reducing <style=cIsUtility>movement speed</style> by <style=cIsUtility>100%</style> and <style=cIsDamage>armor</style> by <style=cIsDamage>20</style>. \nPeriodically shoot out 4 orbs dealing <style=cIsDamage>30%</style> base damage when attacking. ", "en");
 
             LanguageAPI.Add("EQUIPMENT_AFFIXEARTH_DESC", "<style=cIsHealing>Heal</style> a nearby hurt ally for <style=cIsHealing>120%</style> of your <style=cIsDamage>base damage</style> per second. <style=cDeath>On death</style> leave a <style=cIsHealing>Healing Core</style> which will <style=cIsHealing>heal</style> all creatures for <style=cIsHealing>80</style> health.", "en");
+
+            LanguageAPI.Add("EQUIPMENT_AFFIXAURELIONITE_DESC", "Every <style=cIsHealing>20</style> seconds gain a shield that grants <style=cIsHealing>60</style> <style=cStack>(+0.1 per gold)</style> armor for <style=cIsHealing>5</style> seconds", "en");
+            LanguageAPI.Add("EQUIPMENT_AFFIXBEAD_DESC", "Nearby allies reflect damage, dealing <style=cIsDamage>2.5% of the victims maximum health</style> as damage.", "en");
 
 
             //LanguageAPI.Add("ITEM_DRONEWEAPONS_DESC", "Gain <style=cIsDamage>Col. Droneman</style>. \nDrones gain <style=cIsDamage>+50%</style> <style=cStack>(+50% per stack)</style> attack speed and cooldown reduction. \nDrones gain <style=cIsDamage>10%</style> chance to fire a <style=cIsDamage>missile</style> on hit, dealing <style=cIsDamage>300%</style> base damage. \nDrones gain an <style=cIsDamage>automatic chain gun</style> that deals <style=cIsDamage>6x100%</style>damage, bouncing to <style=cIsDamage>2</style> enemies.", "en");
@@ -509,6 +590,8 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("EQUIPMENT_AFFIXSECRETSPEED_DESC", "Bunny", "en");
 
 
+
+
             RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").nameToken = "EQUIPMENT_AFFIXYELLOW_NAME";
             RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").pickupToken = "EQUIPMENT_AFFIXUNFINISHED_PICKUP";
             RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").descriptionToken = "EQUIPMENT_AFFIXYELLOW_DESC";
@@ -565,6 +648,24 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("ITEM_LUNARUTILITYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Utility Skill</style> with <style=cIsUtility>Shadowfade</style>. \n\nFade away, becoming <style=cIsUtility>intangible</style> and gaining <style=cIsUtility>+30% movement speed</style>. <style=cIsHealing>Heal</style> for <style=cIsHealing>18% <style=cStack>(+18% per stack)</style> of your maximum health</style>. Lasts 3 <style=cStack>(+3 per stack)</style> seconds.");
 
 
+        }
+
+        private class FindTeleporterObjectiveTracker_LUNAR : ObjectivePanelController.ObjectiveTracker
+        {
+            // Token: 0x06006498 RID: 25752 RVA: 0x001A0703 File Offset: 0x0019E903
+            public FindTeleporterObjectiveTracker_LUNAR()
+            {
+                this.baseToken = "OBJECTIVE_FIND_TELEPORTER_LUNAR";
+                this.isPrimary = true;
+            }
+        }
+        private class FinishTeleporterObjectiveTracker_LUNAR : ObjectivePanelController.ObjectiveTracker
+        {
+            // Token: 0x060064A4 RID: 25764 RVA: 0x001A0886 File Offset: 0x0019EA86
+            public FinishTeleporterObjectiveTracker_LUNAR()
+            {
+                this.baseToken = "OBJECTIVE_FINISH_TELEPORTER_LUNAR";
+            }
         }
 
     }

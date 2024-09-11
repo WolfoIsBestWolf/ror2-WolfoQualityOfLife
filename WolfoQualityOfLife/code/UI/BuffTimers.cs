@@ -50,7 +50,7 @@ namespace WolfoQualityOfLife
                 {
                     RainCoat.iconSprite = texBuffRaincoatS;
                 }
-              
+
             }
 
             BuffDef NormalBurn = RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/OnFire");
@@ -60,6 +60,7 @@ namespace WolfoQualityOfLife
             FakeHellFire.name = "visual_HelFire";
             FakeHellFire.isDebuff = false;
             FakeHellFire.canStack = true;
+            FakeHellFire.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeHellFire);
 
             //Obsolete
@@ -70,6 +71,7 @@ namespace WolfoQualityOfLife
             FakePercentBurn.name = "visual_EnemyBurn";
             FakePercentBurn.isDebuff = false;
             FakePercentBurn.canStack = true;
+            FakePercentBurn.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakePercentBurn);
             //
 
@@ -86,6 +88,7 @@ namespace WolfoQualityOfLife
             FakeBugWings.name = "visual_BugFlight";
             FakeBugWings.isDebuff = false;
             FakeBugWings.canStack = false;
+            FakeBugWings.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeBugWings);
 
             if (WConfig.cfgBuff_BugFlight.Value == true)
@@ -123,7 +126,7 @@ namespace WolfoQualityOfLife
             FakeStrides.name = "visual_ShadowIntangible";
             FakeStrides.isDebuff = false;
             FakeStrides.canStack = false;
-
+            FakeStrides.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeStrides);
 
 
@@ -167,6 +170,7 @@ namespace WolfoQualityOfLife
             FakeRoseBuckle.name = "visual_SprintArmor";
             FakeRoseBuckle.isDebuff = false;
             FakeRoseBuckle.canStack = false;
+            FakeRoseBuckle.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeRoseBuckle);
 
             if (WConfig.cfgBuff_SprintArmor.Value == true)
@@ -209,6 +213,7 @@ namespace WolfoQualityOfLife
             FakeFrozen.name = "visual_Frozen";
             FakeFrozen.isDebuff = false;
             FakeFrozen.canStack = true;
+            FakeFrozen.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeFrozen);
 
             if (WConfig.cfgBuff_Frozen.Value == true && riskyModEnabled == false)
@@ -252,6 +257,7 @@ namespace WolfoQualityOfLife
             FakeHeadstompOn.name = "visual_HeadstomperReady";
             FakeHeadstompOn.isDebuff = false;
             FakeHeadstompOn.canStack = false;
+            FakeHeadstompOn.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeHeadstompOn);
 
 
@@ -261,6 +267,7 @@ namespace WolfoQualityOfLife
             FakeHeadstompOff.name = "visual_HeadstomperCooldown";
             FakeHeadstompOff.isDebuff = false;
             FakeHeadstompOff.canStack = true;
+            FakeHeadstompOff.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeHeadstompOff);
 
 
@@ -318,6 +325,7 @@ namespace WolfoQualityOfLife
             FakeShieldDelay.isDebuff = false;
             FakeShieldDelay.canStack = false;
             FakeShieldDelay.isCooldown = false;
+            FakeShieldDelay.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeShieldDelay);
 
             FakeShieldDelayPink = ScriptableObject.CreateInstance<BuffDef>();
@@ -328,6 +336,7 @@ namespace WolfoQualityOfLife
             FakeShieldDelayPink.isDebuff = false;
             FakeShieldDelayPink.canStack = false;
             FakeShieldDelayPink.isCooldown = false;
+            FakeShieldDelayPink.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeShieldDelayPink);
 
 
@@ -339,18 +348,19 @@ namespace WolfoQualityOfLife
             FakeOpalCooldown.isDebuff = false;
             FakeOpalCooldown.canStack = false;
             FakeOpalCooldown.isCooldown = false;
+            FakeOpalCooldown.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeOpalCooldown);
 
             //If disabled
             //FakeOpalCooldown.isHidden = true;
 
- 
+
             if (WConfig.cfgBuff_ShieldOpalCooldown.Value == true)
             {
                 On.RoR2.CharacterBody.OnTakeDamageServer += (orig, self, damageReport) =>
                 {
                     orig(self, damageReport);
-                    if (NetworkServer.active  && self.teamComponent.teamIndex == TeamIndex.Player)
+                    if (NetworkServer.active && self.teamComponent.teamIndex == TeamIndex.Player)
                     {
                         if (damageReport.damageDealt > 0f)
                         {
@@ -371,7 +381,7 @@ namespace WolfoQualityOfLife
                                 {
                                     self.AddTimedBuff(FakeOpalCooldown, 7);
                                 }
-                            }    
+                            }
                         }
                     }
                 };
@@ -479,7 +489,7 @@ namespace WolfoQualityOfLife
             FakeFrostRelic.name = "visual_FrostRelicGrowth";
             FakeFrostRelic.isDebuff = false;
             FakeFrostRelic.canStack = true;
-
+            FakeFrostRelic.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeFrostRelic);
 
             if (WConfig.cfgBuff_FrostRelic.Value == true)
@@ -512,6 +522,7 @@ namespace WolfoQualityOfLife
             FakeFeather.name = "visual_BonusJump";
             FakeFeather.isDebuff = false;
             FakeFeather.canStack = true;
+            FakeFeather.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeFeather);
 
             FakeVoidFeather = ScriptableObject.CreateInstance<BuffDef>();
@@ -521,6 +532,7 @@ namespace WolfoQualityOfLife
             FakeVoidFeather.name = "visual_BonusJumpVoid";
             FakeVoidFeather.isDebuff = false;
             FakeVoidFeather.canStack = true;
+            FakeVoidFeather.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeVoidFeather);
 
             //Bro this is so annoying
@@ -531,7 +543,7 @@ namespace WolfoQualityOfLife
         {
             try
             {
-                BuffDef[] new2Buffs = new BuffDef[newBuffDefs.Length+1];
+                BuffDef[] new2Buffs = new BuffDef[newBuffDefs.Length + 1];
                 int j = 0;
                 for (int i = 0; i < newBuffDefs.Length; i++)
                 {
@@ -544,7 +556,7 @@ namespace WolfoQualityOfLife
                     else
                     {
                         new2Buffs[j] = newBuffDefs[i];
-                    }            
+                    }
                     Debug.Log(newBuffDefs[i]);
                     Debug.Log(new2Buffs[j]);
                     j++;
@@ -552,7 +564,7 @@ namespace WolfoQualityOfLife
                 orig(new2Buffs);
                 return;
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 Debug.LogWarning(e);
                 orig(newBuffDefs);
@@ -588,7 +600,7 @@ namespace WolfoQualityOfLife
                             if (!NetworkServer.active)
                             {
                                 self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(FakeFeather), self.body.GetBuffCount(FakeVoidFeather));
-                            }                        
+                            }
                         }
                     };
                 }
@@ -637,7 +649,7 @@ namespace WolfoQualityOfLife
                 {
                     self.SetBuffCount(FakeFeather.buffIndex, feather.amount);
                     self.SetBuffCount(FakeVoidFeather.buffIndex, feather.amountVoid);
-                }       
+                }
             }
         }
 

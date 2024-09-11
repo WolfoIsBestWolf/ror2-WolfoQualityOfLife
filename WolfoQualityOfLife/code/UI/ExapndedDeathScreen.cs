@@ -74,7 +74,7 @@ namespace WolfoQualityOfLife
                     });
                     //GameEndInventoryHelper.SetupFromData(newString, victimNetworkUser.gameObject, damageReport.attackerMaster.inventory.itemStacks, damageReport.attackerMaster.inventory.currentEquipmentIndex, damageReport.attackerMaster.inventory.alternateEquipmentIndex);
                 }
-                else if(damageReport.attackerBody != null)
+                else if (damageReport.attackerBody != null)
                 {
                     string newString = RoR2.Util.GetBestBodyName(damageReport.attacker);
                     newString = newString.Replace("\n", " ");
@@ -88,9 +88,9 @@ namespace WolfoQualityOfLife
             }
         }
 
-        public static void GameEndMakeKillerInventory(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, global::RoR2.UI.GameEndReportPanelController self, global::RoR2.RunReport.PlayerInfo playerInfo)
+        public static void GameEndMakeKillerInventory(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, global::RoR2.UI.GameEndReportPanelController self, global::RoR2.RunReport.PlayerInfo playerInfo, int playerIndex)
         {
-            orig(self, playerInfo);
+            orig(self, playerInfo, playerIndex);
 
             //This seems kinda stupid but it seems to work 
             DeathEquipPlayer1 = EquipmentIndex.None;
@@ -132,7 +132,7 @@ namespace WolfoQualityOfLife
                 string KillerNameBase = "Killed By: <color=#FFFF7F>" + helper.killerName;
                 bool IsLossToPlanet = false;
                 bool IsWinWithEvo = false;
-                
+
                 //Set detailed name like with Elite prefix
                 if (helper.killerName != "")
                 {
@@ -153,7 +153,7 @@ namespace WolfoQualityOfLife
 
                 bool HasViewableEquipment = helper.primaryEquipment != EquipmentIndex.None && EquipmentCatalog.GetEquipmentDef(helper.primaryEquipment).passiveBuffDef == null;
 
-                if (helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment )
+                if (helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment)
                 {
                     Debug.Log("Could not find Killer Inventory or Inventory empty");
                     if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.monsterTeamGainsItemsArtifactDef))
@@ -263,7 +263,7 @@ namespace WolfoQualityOfLife
                     }
                 }
                 desiredItemCount = num;
-  
+
                 if (self.transform.parent.parent.parent.name.StartsWith("ItemArea(Clone)"))
                 {
                     if (DeathEquipEnemy1 != EquipmentIndex.None && DeathEquipEnemy2 == EquipmentIndex.None)
@@ -607,7 +607,7 @@ namespace WolfoQualityOfLife
             }
 
         }
-    
+
     }
 
 }

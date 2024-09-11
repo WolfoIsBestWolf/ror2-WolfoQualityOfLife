@@ -10,19 +10,6 @@ namespace WolfoQualityOfLife
 {
     public class RedMercSkin
     {
-        //These were for double checking or smth ideally they should become obsolete
-        //public static uint MercSkinExpose = 255;
-        public static bool MercExposeIsRed = false;
-        //public static uint MercSkinPrimary = 255;
-        //public static uint MercSkinSecondary = 255;
-        //public static uint MercSkinSecondaryAlt = 255;
-        //public static uint MercSkinUtility = 255;
-        //public static uint MercSkinUtilityAlt = 255;
-        //public static uint MercSkinSpecial = 255;
-        //public static uint MercSkinSpecialAlt = 255;
-
-        //public static Texture2D texRampHuntressSoft = null;
-        //public static Texture2D texRampHuntressSoftRed = null;
 
         public static Material matMercDelayedBillboard2Red = null;
         public static Material matMercFocusedAssaultIconRed = null;
@@ -40,30 +27,14 @@ namespace WolfoQualityOfLife
         public static Material matOmniHitspark4MercRed = null;
 
 
-        //public static Material matMercEnergized = RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEnergized");
         public static Material matMercEnergizedRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
-        //public static Material matMercEvisTarget = RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"); //Visual desplayed over the enemies being hit I guess
         public static Material matMercEvisTargetRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
-        //public static Material matMercHologram = RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercHologram");
         public static Material matMercHologramRed = RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercHologram");
 
-
-        //public static Material matHuntressFlashBright = RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright");
         public static Material matHuntressFlashBrightRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
-        //public static Material matHuntressFlashExpanded = RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded");
         public static Material matHuntressFlashExpandedRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
 
         public static GameObject MercFocusedAssaultOrbEffectRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffectRed", false);
-
-        //public static GameObject OmniImpactVFXSlashMerc = null; //Primary, Secondary1, Secondary2
-        //public static GameObject MercSwordSlash = null; //Primary
-        //public static GameObject MercSwordFinisherSlash = null; //Primary, Special2
-
-        //public static GameObject MercSwordSlashWhirlwind = null;  //Secondary1
-        //public static GameObject MercDashHitOverlay = null; //Utility1, Utility2
-
-        //public static GameObject MercSwordUppercutSlash = null;  //Secondary2
-
 
         public static GameObject OmniImpactVFXSlashMercRed = null; //Primary, Secondary1, Secondary2
         public static GameObject MercSwordSlashRed = null; //Primary
@@ -72,15 +43,8 @@ namespace WolfoQualityOfLife
         public static GameObject MercSwordSlashWhirlwindRed = null;  //Secondary1
         public static GameObject MercDashHitOverlayRed = null; //Utility1, Utility2
 
-
-
-        //public static GameObject HuntressBlinkEffect = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"); //Special1 (Enter)
         public static GameObject HuntressBlinkEffectRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffectRed", false); //Special1 (Enter)
-
-        //public static GameObject HuntressFireArrowRain = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"); //Special1 (Attack)
         public static GameObject HuntressFireArrowRainRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRainRed", false); //Special1 (Attack)
-
-        //public static GameObject OmniImpactVFXSlashMercEvis = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"); //Special1 (Attack)
         public static GameObject OmniImpactVFXSlashMercEvisRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvisRed", false); //Special1 (Attack)
 
         public static Material matHuntressSwipeRed;
@@ -109,6 +73,71 @@ namespace WolfoQualityOfLife
         public static GameObject MercExposeConsumeEffect = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/MercExposeConsumeEffect");
         public static GameObject MercExposeEffectRed = R2API.PrefabAPI.InstantiateClone(MercExposeEffect, "MercExposeEffectRed", false);
         public static GameObject MercExposeConsumeEffectRed = R2API.PrefabAPI.InstantiateClone(MercExposeConsumeEffect, "MercExposeConsumeEffectRed", false);
+
+
+        //GREEN AHHH
+        public static Material matMercDelayedBillboard2_Green = null;
+        public static Material matMercFocusedAssaultIcon_Green = null;
+        public static Material matMercExposedBackdrop_Green = null;
+
+        public static Material matMercSwipe1_Green = null;
+        public static Material matMercSwipe2_Green = null;
+        public static Material matMercSwipe3_Green = null;
+
+        public static Material matMercIgnition_Green = null;
+
+        public static Material matMercExposedSlash_Green = null;
+        public static Material matOmniHitspark3Merc_Green = null;
+        public static Material matOmniRadialSlash1Merc_Green = null;
+        public static Material matOmniHitspark4Merc_Green = null;
+
+
+        public static Material matMercEnergized_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
+        public static Material matMercEvisTarget_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
+        public static Material matMercHologram_Green = RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercHologram");
+
+
+        //public static Material matHuntressFlashBright = RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright");
+        public static Material matHuntressFlashBright_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
+        public static Material matHuntressFlashExpanded_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
+
+        public static GameObject MercFocusedAssaultOrbEffect_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffect_Green", false);
+
+        public static GameObject OmniImpactVFXSlashMerc_Green = null; //Primary, Secondary1, Secondary2
+        public static GameObject MercSwordSlash_Green = null; //Primary
+        public static GameObject MercSwordFinisherSlash_Green = null; //Primary, Special2
+
+        public static GameObject MercSwordSlashWhirlwind_Green = null;  //Secondary1
+        public static GameObject MercDashHitOverlay_Green = null; //Utility1, Utility2
+
+        public static GameObject HuntressBlinkEffect_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffect_Green", false); //Special1 (Enter)
+
+        public static GameObject HuntressFireArrowRain_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRain_Green", false); //Special1 (Attack)
+
+        public static GameObject OmniImpactVFXSlashMercEvis_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvis_Green", false); //Special1 (Attack)
+
+        public static Material matHuntressSwipe_Green;
+        public static Material matHuntressCharged_Green;
+
+
+
+        public static GameObject MercSwordUppercutSlash_Green = null;  //Secondary2
+        public static GameObject ImpactMercFocusedAssault_Green = null;  //Utility2
+        public static GameObject ImpactMercAssaulter_Green = null;  //Utility2
+        public static GameObject MercAssaulterEffect_Green = null;  //Utility2
+
+        public static GameObject EvisProjectile_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectile_Green", true);  //Special2
+        public static GameObject EvisProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhost_Green", false);
+        public static GameObject EvisOverlapProjectile_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectile_Green", true);
+        public static GameObject EvisOverlapProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhost_Green", false);
+
+        public static GameObject ImpactMercEvis_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvis_Green", false);
+
+        public static Material matMercExposed_Green;
+
+
+        public static GameObject MercExposeEffect_Green = R2API.PrefabAPI.InstantiateClone(MercExposeEffect, "MercExposeEffect_Green", false);
+        public static GameObject MercExposeConsumeEffect_Green = R2API.PrefabAPI.InstantiateClone(MercExposeConsumeEffect, "MercExposeConsumeEffect_Green", false);
 
 
 
@@ -144,13 +173,44 @@ namespace WolfoQualityOfLife
             ImpactMercFocusedAssaultRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercFocusedAssault.prefab").WaitForCompletion(), "ImpactMercFocusedAssaultRed", false);
             R2API.ContentAddition.AddEffect(ImpactMercFocusedAssaultRed);
 
+            #region GREEN 
+            MercSwordSlash_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlash.prefab").WaitForCompletion(), "MercSwordSlash_Green", false);
+
+            //MercSwordFinisherSlash = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion();
+            MercSwordFinisherSlash_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion(), "MercSwordFinisherSlash_Green", false);
+
+            //MercSwordSlashWhirlwind = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion();
+            MercSwordSlashWhirlwind_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion(), "MercSwordSlashWhirlwind_Green", false);
+            R2API.ContentAddition.AddEffect(MercSwordSlashWhirlwind_Green);
+
+            //MercSwordUppercutSlash = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion();
+            MercSwordUppercutSlash_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion(), "MercSwordUppercutSlash_Green", false);
+            R2API.ContentAddition.AddEffect(MercSwordUppercutSlash_Green);
+
+            //OmniImpactVFXSlashMerc = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion();
+            OmniImpactVFXSlashMerc_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion(), "OmniImpactVFXSlashMerc_Green", false);
+            R2API.ContentAddition.AddEffect(OmniImpactVFXSlashMerc_Green);
+
+            //OmniImpactVFXSlashMerc = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion();
+            MercAssaulterEffect_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion(), "MercAssaulterEffect_Green", false);
+            //R2API.ContentAddition.AddEffect(MercAssaulterEffect_Green);
+
+            MercDashHitOverlay_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercDashHitOverlay.prefab").WaitForCompletion(), "MercDashHitOverlay_Green", false);
+            //R2API.ContentAddition.AddEffect(MercDashHitOverlay_Green);
+
+            ImpactMercAssaulter_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercAssaulter.prefab").WaitForCompletion(), "ImpactMercAssaulter_Green", false);
+            R2API.ContentAddition.AddEffect(ImpactMercAssaulter_Green);
+
+            ImpactMercFocusedAssault_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercFocusedAssault.prefab").WaitForCompletion(), "ImpactMercFocusedAssault_Green", false);
+            R2API.ContentAddition.AddEffect(ImpactMercFocusedAssault_Green);
+            #endregion
 
             MercRedEffects();
+            Merc_GreenEffects();
             RedMercHooks();
             if (WConfig.cfgSkinMercRed.Value == true)
             { }
         }
-
 
         public static void RedMercHooks()
         {
@@ -158,6 +218,7 @@ namespace WolfoQualityOfLife
             SkinDef SkinDefMercOni = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Merc/skinMercAlt.asset").WaitForCompletion();
 
             //Replace this
+            
             if (WConfig.cfgSkinMercRed.Value == true && WConfig.cfgSkinMakeOniBackup.Value == true)
             {
                 Texture2D texMercOniBlues = new Texture2D(128, 128, TextureFormat.DXT5, false);
@@ -182,56 +243,7 @@ namespace WolfoQualityOfLife
                 LoadoutAPI.AddSkinToCharacter(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), SkinDefMercOniOriginalSkinInfo);
 
             }
-
-            ////Putting it in the attack hooks so it works on Clients too
-            //Expose Visual
-            //I don't think I can really make these work
-            //IL.RoR2.CharacterBody.UpdateAllTemporaryVisualEffects += CharacterBody_UpdateAllTemporaryVisualEffects;
-            //IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
-
-            //This does not run on servers
-            /*On.RoR2.HealthComponent.TakeDamage += (orig, self, damageInfo) =>
-            {
-                orig(self, damageInfo);
-
-                if (damageInfo.damageType == DamageType.ApplyMercExpose)
-                {
-                    if (damageInfo.attacker.GetComponent<MakeThisMercRed>())
-                    {
-                        RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffectRed;
-                        RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffectRed;
-                    }
-                    else
-                    {
-                        RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffect;
-                        RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffect;
-                    }
-                }
-            };*/
-
-            //This is probably more annoying to run than just hooking into some of the Merc Abilities and doing it there
-            /*
-            On.RoR2.GlobalEventManager.OnHitEnemy += (orig, self, damageInfo, victim) =>
-            {
-                orig(self, damageInfo, victim);
-
-                if (damageInfo.damageType == DamageType.ApplyMercExpose)
-                {
-                    if (damageInfo.attacker.GetComponent<MakeThisMercRed>())
-                    {
-                        RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffectRed;
-                        RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffectRed;
-                    }
-                    else
-                    {
-                        RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffect;
-                        RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffect;
-                    }
-                }
-
-            };*/
-
-
+            
 
             //Primary
             On.EntityStates.Merc.Weapon.GroundLight2.OnEnter += (orig, self) =>
@@ -240,9 +252,12 @@ namespace WolfoQualityOfLife
                 {
                     self.hitEffectPrefab = OmniImpactVFXSlashMercRed;
                     self.swingEffectPrefab = MercSwordSlashRed;
-                    //EntityStates.Merc.Weapon.GroundLight2.comboFinisherSwingEffectPrefab = MercSwordFinisherSlashRed;
                 }
-                //EntityStates.Merc.Weapon.GroundLight2.comboFinisherSwingEffectPrefab = MercSwordFinisherSlash;
+                else if (self.gameObject.GetComponent<MakeThisMercGreen>())
+                {
+                    self.hitEffectPrefab = OmniImpactVFXSlashMerc_Green;
+                    self.swingEffectPrefab = MercSwordSlash_Green;
+                }
                 orig(self);
             };
             IL.EntityStates.Merc.Weapon.GroundLight2.OnEnter += GroundLight2_OnEnter;
@@ -264,9 +279,13 @@ namespace WolfoQualityOfLife
                     self.hitEffectPrefab = OmniImpactVFXSlashMercRed;
                     self.swingEffectPrefab = MercAssaulterEffectRed;
                 }
+                else if (self.gameObject.GetComponent<MakeThisMercGreen>())
+                {
+                    self.hitEffectPrefab = OmniImpactVFXSlashMerc_Green;
+                    self.swingEffectPrefab = MercAssaulterEffect_Green;
+                }
                 orig(self);
             };
-
 
 
             //Utility Alt
@@ -282,6 +301,17 @@ namespace WolfoQualityOfLife
                     self.orbEffect = MercFocusedAssaultOrbEffectRed;
                     RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffectRed;
                     RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffectRed;
+                }
+                else if (self.gameObject.GetComponent<MakeThisMercGreen>())
+                {
+                    self.delayedEffectPrefab = ImpactMercFocusedAssault_Green;
+                    self.hitEffectPrefab = ImpactMercAssaulter_Green;
+                    //self.selfOnHitOverlayEffectPrefab = MercDashHitOverlay_Green;
+                    self.swingEffectPrefab = MercAssaulterEffect_Green;
+                    self.enterOverlayMaterial = matMercEnergized_Green;
+                    self.orbEffect = MercFocusedAssaultOrbEffect_Green;
+                    RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffect_Green;
+                    RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffect_Green;
                 }
                 else
                 {
@@ -313,6 +343,12 @@ namespace WolfoQualityOfLife
                     RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffectRed;
                     RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffectRed;
                 }
+                else if (self.gameObject.GetComponent<MakeThisMercGreen>())
+                {
+                    self.projectilePrefab = EvisProjectile_Green; //Replace Ghost Prefab not actual projectile
+                    RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffect_Green;
+                    RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffect_Green;
+                }
                 else
                 {
                     RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffect;
@@ -327,18 +363,22 @@ namespace WolfoQualityOfLife
             ILCursor c = new ILCursor(il);
 
             if (c.TryGotoNext(MoveType.Before,
-                    x => x.MatchStfld("RoR2.TemporaryOverlay", "originalMaterial")))
+                    x => x.MatchStfld("RoR2.TemporaryOverlayInstance", "originalMaterial")))
             {
                 //First one is matMercEvisTarget probably not needed
                 c.Index += 4;
                 c.TryGotoNext(MoveType.Before,
-                x => x.MatchStfld("RoR2.TemporaryOverlay", "originalMaterial"));
+                x => x.MatchStfld("RoR2.TemporaryOverlayInstance", "originalMaterial"));
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EntityStates.Merc.EvisDash, Material>>((material, entityState) =>
                 {
                     if (entityState.gameObject.GetComponent<MakeThisMercRed>())
                     {
                         return matHuntressFlashExpandedRed;
+                    }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return matHuntressFlashExpanded_Green;
                     }
                     return material;
                 });
@@ -412,6 +452,12 @@ namespace WolfoQualityOfLife
                         RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffectRed;
                         return MercSwordFinisherSlashRed;
                     }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffect_Green;
+                        RoR2.HealthComponent.AssetReferences.mercExposeConsumeEffectPrefab = MercExposeConsumeEffect_Green;
+                        return MercSwordFinisherSlash_Green;
+                    }
                     else
                     {
                         RoR2.CharacterBody.AssetReferences.mercExposeEffectPrefab = MercExposeEffect;
@@ -419,7 +465,7 @@ namespace WolfoQualityOfLife
                     }
                     return target;
                 });
-                //Debug.Log("IL Found: Red Merc: GroundLight2_OnEnter");
+                Debug.Log("IL Found: Red Merc: GroundLight2_OnEnter");
             }
             else
             {
@@ -440,9 +486,13 @@ namespace WolfoQualityOfLife
                     {
                         return MercSwordSlashWhirlwindRed;
                     }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return MercSwordSlashWhirlwind_Green;
+                    }
                     return target;
                 });
-                //Debug.Log("IL Found: Red Merc: WhirlwindBase_FixedUpdate");
+                Debug.Log("IL Found: Red Merc: WhirlwindBase_FixedUpdate");
             }
             else
             {
@@ -462,6 +512,10 @@ namespace WolfoQualityOfLife
                     if (entityState.gameObject.GetComponent<MakeThisMercRed>())
                     {
                         return OmniImpactVFXSlashMercRed;
+                    }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return OmniImpactVFXSlashMerc_Green;
                     }
                     return target;
                 });
@@ -487,6 +541,10 @@ namespace WolfoQualityOfLife
                     {
                         return MercSwordUppercutSlashRed;
                     }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return MercSwordUppercutSlash_Green;
+                    }
                     return target;
                 });
                 //Debug.Log("IL Found: Red Merc: Uppercut_FixedUpdate");
@@ -510,6 +568,10 @@ namespace WolfoQualityOfLife
                     {
                         return OmniImpactVFXSlashMercRed;
                     }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return OmniImpactVFXSlashMerc_Green;
+                    }
                     return target;
                 });
                 //Debug.Log("IL Found: Red Merc: Uppercut_OnEnter");
@@ -525,7 +587,7 @@ namespace WolfoQualityOfLife
             ILCursor c = new ILCursor(il);
 
             if (c.TryGotoNext(MoveType.Before,
-            x => x.MatchStfld("RoR2.TemporaryOverlay", "originalMaterial")))
+            x => x.MatchStfld("RoR2.TemporaryOverlayInstance", "originalMaterial")))
             {
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EntityStates.Merc.EvisDash, Material>>((material, entityState) =>
@@ -534,9 +596,13 @@ namespace WolfoQualityOfLife
                     {
                         return matMercEnergizedRed;
                     }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return matMercEnergized_Green;
+                    }
                     return material;
                 });
-                //Debug.Log("IL Found: Red Merc: Assaulter2_OnEnter");
+                Debug.Log("IL Found: Red Merc: Assaulter2_OnEnter");
             }
             else
             {
@@ -557,6 +623,10 @@ namespace WolfoQualityOfLife
                     if (entityState.gameObject.GetComponent<MakeThisMercRed>())
                     {
                         return HuntressFireArrowRainRed;
+                    }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return HuntressFireArrowRain_Green;
                     }
                     return target;
                 });
@@ -582,9 +652,13 @@ namespace WolfoQualityOfLife
                     {
                         return OmniImpactVFXSlashMercEvisRed;
                     }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return OmniImpactVFXSlashMercEvis_Green;
+                    }
                     return target;
                 });
-                //Debug.Log("IL Found: Red Merc: Evis_FixedUpdate");
+                Debug.Log("IL Found: Red Merc: Evis_FixedUpdate");
             }
             else
             {
@@ -597,7 +671,7 @@ namespace WolfoQualityOfLife
             ILCursor c = new ILCursor(il);
 
             if (c.TryGotoNext(MoveType.Before,
-                    x => x.MatchStfld("RoR2.TemporaryOverlay", "originalMaterial")))
+                    x => x.MatchStfld("RoR2.TemporaryOverlayInstance", "originalMaterial")))
             {
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EntityStates.Merc.EvisDash, Material>>((material, entityState) =>
@@ -606,17 +680,25 @@ namespace WolfoQualityOfLife
                     {
                         return matHuntressFlashBrightRed;
                     }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return matHuntressFlashBright_Green;
+                    }
                     return material;
                 });
                 c.Index += 4;
                 c.TryGotoNext(MoveType.Before,
-                x => x.MatchStfld("RoR2.TemporaryOverlay", "originalMaterial"));
+                x => x.MatchStfld("RoR2.TemporaryOverlayInstance", "originalMaterial"));
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EntityStates.Merc.EvisDash, Material>>((material, entityState) =>
                 {
                     if (entityState.gameObject.GetComponent<MakeThisMercRed>())
                     {
                         return matHuntressFlashExpandedRed;
+                    }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return matHuntressFlashExpanded_Green;
                     }
                     return material;
                 });
@@ -918,6 +1000,294 @@ namespace WolfoQualityOfLife
 
         }
 
+        [Obsolete]
+        public static void Merc_GreenEffects()
+        {
+            matHuntressFlashBright_Green.SetColor("_TintColor", new Color(0.6f, 1.3f, 0.6f, 1f));//0.0191 1.1386 1.2973 1 
+            matHuntressFlashExpanded_Green.SetColor("_TintColor", new Color(0.2f, 0.58f, 0.2f, 1f));//0 0.4367 0.5809 1
 
+            Texture2D texRampFallboots_Green = new Texture2D(256, 16, TextureFormat.DXT1, false);
+            texRampFallboots_Green.LoadImage(Properties.Resources.texRampFallbootsGreen, true);
+            texRampFallboots_Green.filterMode = FilterMode.Bilinear;
+            texRampFallboots_Green.wrapMode = TextureWrapMode.Clamp;
+
+            Texture2D texRampMercDust_Green = new Texture2D(128, 4, TextureFormat.DXT5, false);
+            texRampMercDust_Green.LoadImage(Properties.Resources.texRampMercDustGreen, true);
+            texRampMercDust_Green.filterMode = FilterMode.Bilinear;
+            texRampMercDust_Green.wrapMode = TextureWrapMode.Clamp;
+
+            /*texRampHuntressSoft = new Texture2D(256, 16, TextureFormat.DXT5, false);
+            texRampHuntressSoft.LoadImage(Properties.Resources.texRampHuntressSoft, true);
+            texRampHuntressSoft.wrapMode = TextureWrapMode.Clamp;
+            texRampHuntressSoft.filterMode = FilterMode.Point;*/
+
+            Texture2D texRampHuntressSoft_Green = null;
+            texRampHuntressSoft_Green = new Texture2D(256, 16, TextureFormat.DXT5, false);
+            texRampHuntressSoft_Green.LoadImage(Properties.Resources.texRampHuntressSoftGreen, true);
+            texRampHuntressSoft_Green.wrapMode = TextureWrapMode.Clamp;
+            texRampHuntressSoft_Green.filterMode = FilterMode.Point;
+
+            Texture2D texRampHuntress_Green = new Texture2D(256, 16, TextureFormat.DXT1, false);
+            texRampHuntress_Green.LoadImage(Properties.Resources.texRampHuntressGreen, true);
+            texRampHuntress_Green.wrapMode = TextureWrapMode.Clamp;
+            texRampHuntress_Green.filterMode = FilterMode.Point;
+
+            ParticleSystemRenderer MercSwordSlash_GreenRenderer0 = MercSwordSlash_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            matMercSwipe1_Green = UnityEngine.Object.Instantiate(MercSwordSlash_GreenRenderer0.material);
+            matMercSwipe1_Green.SetTexture("_RemapTex", texRampFallboots_Green);
+            matMercSwipe1_Green.SetColor("_TintColor", new Color(0, 1, 0, 1));        //Default Color : {r: 0, g: 0.314069, b: 1, a: 1}
+            MercSwordSlash_GreenRenderer0.material = matMercSwipe1_Green;
+
+            //Child 0 has weird TracerBright
+            ParticleSystem MercSwordFinisherSlash_GreenParticle0 = MercSwordFinisherSlash_Green.transform.GetChild(0).GetComponent<ParticleSystem>();
+            MercSwordFinisherSlash_GreenParticle0.startColor = new Color(0.2f, 1f, 0.2f, 1);
+            ParticleSystemRenderer MercSwordFinisherSlash_GreenRenderer1 = MercSwordFinisherSlash_Green.transform.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            matMercSwipe2_Green = UnityEngine.Object.Instantiate(MercSwordFinisherSlash_GreenRenderer1.material);
+            matMercSwipe2_Green.SetTexture("_RemapTex", texRampFallboots_Green);
+            matMercSwipe2_Green.SetColor("_TintColor", new Color(0.22f, 1, 0.22f, 1));  //Default Color r: 0.3632075, g: 0.6593511, b: 1, a: 1
+            MercSwordFinisherSlash_GreenRenderer1.material = matMercSwipe2_Green;
+
+            ParticleSystemRenderer MercSwordSlashWhirlwind_GreenRenderer0 = MercSwordSlashWhirlwind_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            MercSwordSlashWhirlwind_GreenRenderer0.material = matMercSwipe1_Green;
+
+            ParticleSystemRenderer MercSwordUppercutSlash_GreenRenderer0 = MercSwordUppercutSlash_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            ParticleSystemRenderer MercSwordUppercutSlash_GreenRenderer1 = MercSwordUppercutSlash_Green.transform.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            MercSwordUppercutSlash_GreenRenderer0.material = matMercSwipe2_Green;
+            MercSwordUppercutSlash_GreenRenderer1.material = matMercSwipe1_Green;
+
+
+
+
+            OmniEffect OmniImpactVFXSlashMerc_GreenOmniEffect = OmniImpactVFXSlashMerc_Green.GetComponent<OmniEffect>();
+
+
+            //Material matOmniHitspark4Merc = UnityEngine.Object.Instantiate(OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[1].omniEffectElements[0].particleSystemOverrideMaterial);
+            //OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[1].omniEffectElements[0].particleSystemOverrideMaterial = matOmniHitspark4Merc;
+
+            Material matOmniRadialSlash1Merc = UnityEngine.Object.Instantiate(OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[3].omniEffectElements[1].particleSystemOverrideMaterial);
+            matOmniRadialSlash1Merc.SetTexture("_RemapTex", texRampMercDust_Green);
+            OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[3].omniEffectElements[1].particleSystemOverrideMaterial = matOmniRadialSlash1Merc;
+
+            Material matOmniHitspark3Merc = UnityEngine.Object.Instantiate(OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[4].omniEffectElements[1].particleSystemOverrideMaterial);
+            matOmniHitspark3Merc.SetTexture("_RemapTex", texRampMercDust_Green);
+            OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[4].omniEffectElements[1].particleSystemOverrideMaterial = matOmniHitspark3Merc;
+
+            Material matOmniHitspark2Merc_Green = UnityEngine.Object.Instantiate(OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[6].omniEffectElements[0].particleSystemOverrideMaterial);
+            matOmniHitspark2Merc_Green.SetTexture("_RemapTex", texRampMercDust_Green);
+            OmniImpactVFXSlashMerc_GreenOmniEffect.omniEffectGroups[6].omniEffectElements[0].particleSystemOverrideMaterial = matOmniHitspark2Merc_Green;
+
+            ParticleSystem OmniImpactVFXSlashMerc_GreenParticle1 = OmniImpactVFXSlashMerc_Green.transform.GetChild(1).GetComponent<ParticleSystem>(); //matOmniHitspark3 (Instance)
+            OmniImpactVFXSlashMerc_GreenParticle1.startColor = new Color(0.3f, 0.7264f, 0.3f, 1); //Default C0lor 0 0.7264 0.7039 1
+
+            ParticleSystem OmniImpactVFXSlashMerc_GreenParticle2 = OmniImpactVFXSlashMerc_Green.transform.GetChild(2).GetComponent<ParticleSystem>(); //matGenericFlash (Instance)
+            OmniImpactVFXSlashMerc_GreenParticle2.startColor = new Color(0.2f, 0.9333f, 0.2f, 1); //0 0.4951 0.9333 1
+
+            ParticleSystem OmniImpactVFXSlashMerc_GreenParticle3 = OmniImpactVFXSlashMerc_Green.transform.GetChild(3).GetComponent<ParticleSystem>(); //matTracerBright (Instance)
+            OmniImpactVFXSlashMerc_GreenParticle3.startColor = new Color(0.4245f, 0.5f, 0.0501f, 1); //0.3854 0.4245 0.0501 1
+
+
+
+
+
+            //Figure out if start color needs to actually be changed because they all use it
+            ParticleSystemRenderer MercAssaulterEffect_GreenRenderer5 = MercAssaulterEffect_Green.transform.GetChild(5).GetComponent<ParticleSystemRenderer>();
+            matMercIgnition_Green = UnityEngine.Object.Instantiate(MercAssaulterEffect_GreenRenderer5.material);
+            matMercIgnition_Green.SetTexture("_RemapTex", texRampHuntress_Green);
+            matMercIgnition_Green.SetColor("_TintColor", new Color(0.06f, 0.8867924f, 0.06f, 1)); //{r: 0, g: 0.1362783, b: 0.8867924, a: 1}
+            MercAssaulterEffect_GreenRenderer5.material = matMercIgnition_Green;
+
+            MercAssaulterEffect_Green.transform.GetChild(6).GetComponent<ParticleSystem>().startColor = new Color(0.3f, 1f, 0.3f, 1); //0 0.4409 0.9811 1
+            MercAssaulterEffect_Green.transform.GetChild(8).GetComponent<Light>().color = new Color(0.3765f, 0.9804f, 0.4868f, 1); //0.3765 0.4868 0.9804 1
+            MercAssaulterEffect_Green.transform.GetChild(9).GetComponent<TrailRenderer>().material = matMercSwipe1_Green;
+            MercAssaulterEffect_Green.transform.GetChild(10).GetChild(2).GetComponent<TrailRenderer>().material = matMercIgnition_Green;
+            MercAssaulterEffect_Green.transform.GetChild(10).GetChild(3).GetComponent<TrailRenderer>().material = matMercIgnition_Green;
+
+
+
+
+            ParticleSystem particleSystem = ImpactMercAssaulter_Green.transform.GetChild(0).GetComponent<ParticleSystem>();
+            particleSystem.startColor = new Color(0.45f, 1f, 0.45f, 1f);//0.3538 0.6316 1 1
+            particleSystem = ImpactMercAssaulter_Green.transform.GetChild(1).GetComponent<ParticleSystem>();
+            particleSystem.startColor = new Color(0.575f, 1f, 0.575f, 1f);//0.467 0.7022 1 1
+
+            ParticleSystemRenderer particleSystemRenderer = ImpactMercAssaulter_Green.transform.GetChild(2).GetComponent<ParticleSystemRenderer>();
+            particleSystemRenderer.material = matMercSwipe1_Green;
+
+
+
+
+            particleSystem = ImpactMercFocusedAssault_Green.transform.GetChild(0).GetComponent<ParticleSystem>();
+            particleSystem.startColor = new Color(0.45f, 1f, 0.45f, 0.2667f);//0.3538 0.6316 1 0.2667
+            particleSystem = ImpactMercFocusedAssault_Green.transform.GetChild(1).GetComponent<ParticleSystem>();
+            particleSystem.startColor = new Color(0.26f, 0.934f, 0.26f, 1f);//0.0925 0.4637 0.934 1
+            particleSystemRenderer = ImpactMercFocusedAssault_Green.transform.GetChild(2).GetComponent<ParticleSystemRenderer>();
+            matMercSwipe3_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercSwipe3_Green.SetTexture("_RemapTex", texRampMercDust_Green);
+            particleSystemRenderer.material = matMercSwipe3_Green;
+
+
+
+            particleSystemRenderer = MercFocusedAssaultOrbEffect_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            matMercDelayedBillboard2_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercDelayedBillboard2_Green.SetTexture("_RemapTex", texRampMercDust_Green);
+            particleSystemRenderer.material = matMercDelayedBillboard2_Green;
+
+            particleSystemRenderer = MercFocusedAssaultOrbEffect_Green.transform.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            matMercFocusedAssaultIcon_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercFocusedAssaultIcon_Green.SetTexture("_RemapTex", texRampMercDust_Green);
+            particleSystemRenderer.material = matMercFocusedAssaultIcon_Green;
+
+            particleSystemRenderer = MercFocusedAssaultOrbEffect_Green.transform.GetChild(2).GetComponent<ParticleSystemRenderer>();
+            matMercExposedBackdrop_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            //matMercExposedBackdrop = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercExposedBackdrop_Green.SetColor("_TintColor", new Color(-2f, 3f, -2f, 0.9f));
+            particleSystemRenderer.material = matMercExposedBackdrop_Green;
+
+            particleSystemRenderer = MercFocusedAssaultOrbEffect_Green.transform.GetChild(3).GetComponent<ParticleSystemRenderer>();
+            matMercExposedSlash_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercExposedSlash_Green.SetTexture("_RemapTex", texRampHuntress_Green);
+            matMercExposedSlash_Green.SetColor("_TintColor", new Color(0.06f, 0.8868f, 0.06f, 1)); //r: 0, g: 0.1362783, b: 0.8867924, a: 1
+            particleSystemRenderer.material = matMercExposedSlash_Green;
+
+            R2API.ContentAddition.AddEffect(MercFocusedAssaultOrbEffect_Green);
+
+            matMercEnergized_Green.SetTexture("_RemapTex", texRampHuntressSoft_Green);
+            matMercEnergized_Green.SetColor("_TintColor", new Color(0.35f, 1.8f, 0.35f, 1));
+
+
+
+            //HuntressBlinkEffect_Green
+            particleSystem = HuntressBlinkEffect_Green.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
+            particleSystem.startColor = new Color(0.154f, 0.6324f, 0.154f, 1f);//0.1534 0.1567 0.6324 1
+            //particleSystem.colorOverLifetime.SetPropertyValue<bool>("enabled", false);
+            var stupid = particleSystem.colorOverLifetime;
+            stupid.enabled = false;
+            //particleSystem.SetPropertyValue("colorOverLifetime", stupid);
+
+            Light light = HuntressBlinkEffect_Green.transform.GetChild(0).GetChild(2).GetComponent<Light>();
+            light.color = new Color(0.6f, 1f, 0.6f, 1); //0.2721 0.9699 1 1
+
+            particleSystemRenderer = HuntressBlinkEffect_Green.transform.GetChild(0).GetChild(4).GetComponent<ParticleSystemRenderer>();
+            matHuntressSwipe_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matHuntressSwipe_Green.SetTexture("_RemapTex", texRampHuntressSoft_Green);
+            particleSystemRenderer.material = matHuntressSwipe_Green;
+
+            particleSystemRenderer = HuntressBlinkEffect_Green.transform.GetChild(0).GetChild(5).GetComponent<ParticleSystemRenderer>();
+            particleSystemRenderer.material = matHuntressSwipe_Green;
+            R2API.ContentAddition.AddEffect(HuntressBlinkEffect_Green);
+            //
+
+            //HuntressFireArrowRain_Green
+            particleSystemRenderer = HuntressFireArrowRain_Green.transform.GetChild(2).GetComponent<ParticleSystemRenderer>();
+            particleSystemRenderer.material = matHuntressSwipe_Green;
+
+            particleSystemRenderer = HuntressFireArrowRain_Green.transform.GetChild(3).GetComponent<ParticleSystemRenderer>();
+            particleSystemRenderer.material = matHuntressSwipe_Green;
+
+            particleSystemRenderer = HuntressFireArrowRain_Green.transform.GetChild(4).GetComponent<ParticleSystemRenderer>();
+            matHuntressCharged_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matHuntressCharged_Green.SetTexture("_RemapTex", texRampHuntress_Green);
+            particleSystemRenderer.material = matHuntressCharged_Green;
+
+            light = HuntressFireArrowRain_Green.transform.GetChild(5).GetComponent<Light>();
+            light.color = new Color(0.55f, 1f, 0.55f, 1f); //0.3456 0.7563 1 1
+            R2API.ContentAddition.AddEffect(HuntressFireArrowRain_Green);
+            //
+
+            //OmniImpactVFXSlashMercEvis_Green
+            OmniEffect omniEffect = OmniImpactVFXSlashMercEvis_Green.GetComponent<OmniEffect>();
+
+            omniEffect.omniEffectGroups[1].omniEffectElements[0].particleSystemOverrideMaterial = matOmniHitspark4Merc_Green;
+
+
+
+
+            matOmniRadialSlash1Merc_Green = UnityEngine.Object.Instantiate(omniEffect.omniEffectGroups[3].omniEffectElements[1].particleSystemOverrideMaterial);
+            matOmniRadialSlash1Merc_Green.SetTexture("_RemapTex", texRampMercDust_Green);
+
+            omniEffect.omniEffectGroups[3].omniEffectElements[1].particleSystemOverrideMaterial = matOmniRadialSlash1Merc_Green;
+
+
+            omniEffect.omniEffectGroups[4].omniEffectElements[1].particleSystemOverrideMaterial = matOmniHitspark3Merc_Green;
+            omniEffect.omniEffectGroups[6].omniEffectElements[0].particleSystemOverrideMaterial = matOmniHitspark2Merc_Green;
+
+            particleSystemRenderer = OmniImpactVFXSlashMercEvis_Green.transform.GetChild(7).GetComponent<ParticleSystemRenderer>();
+            matMercHologram_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercHologram_Green.SetTexture("_RemapTex", texRampFallboots_Green);
+            matMercHologram_Green.SetColor("_TintColor", new Color(-0.25f, 1.825f, 0f, 1f));//0.2842 0.4328 1.826 1
+            particleSystemRenderer.material = matMercHologram_Green;
+
+
+            R2API.ContentAddition.AddEffect(OmniImpactVFXSlashMercEvis_Green);
+
+
+
+
+            EvisProjectile_Green.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = EvisProjectileGhost_Green;
+            EvisProjectile_Green.GetComponent<RoR2.Projectile.ProjectileImpactExplosion>().impactEffect = MercSwordFinisherSlash_Green;
+            EvisProjectile_Green.GetComponent<RoR2.Projectile.ProjectileImpactExplosion>().childrenProjectilePrefab = EvisOverlapProjectile_Green;
+            R2API.ContentAddition.AddProjectile(EvisProjectile_Green);
+
+
+            EvisOverlapProjectile_Green.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = EvisOverlapProjectileGhost_Green;
+            EvisOverlapProjectile_Green.GetComponent<RoR2.Projectile.ProjectileOverlapAttack>().impactEffect = ImpactMercEvis_Green;
+
+
+            EvisProjectileGhost_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercSwipe2_Green;
+            EvisProjectileGhost_Green.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercSwipe1_Green;
+            EvisProjectileGhost_Green.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().material = matMercIgnition_Green;
+            EvisProjectileGhost_Green.transform.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0f, 1f, 0f, 1f); //0 0.5827 1 1
+            EvisProjectileGhost_Green.transform.GetChild(5).GetComponent<Light>().color = new Color(0.3f, 1f, 0.3f, 1f); //0.1274 0.4704 1 1
+
+
+            EvisOverlapProjectileGhost_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercSwipe2_Green;
+            EvisOverlapProjectileGhost_Green.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = matOmniRadialSlash1Merc_Green;
+            EvisOverlapProjectileGhost_Green.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().material = matOmniHitspark2Merc_Green;
+            EvisOverlapProjectileGhost_Green.transform.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.51f, 1f, 0.51f, 1f);//0.3066 0.7276 1 1
+            EvisOverlapProjectileGhost_Green.transform.GetChild(4).GetComponent<Light>().color = new Color(0.3f, 1f, 0.3f, 1f);//0.1274 0.4704 1 1
+            EvisOverlapProjectileGhost_Green.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().material = matMercHologram_Green;
+            EvisOverlapProjectileGhost_Green.transform.GetChild(6).GetComponent<ParticleSystemRenderer>().material = matMercHologram_Green;
+
+            ImpactMercEvis_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercHologram_Green;
+            ImpactMercEvis_Green.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercSwipe1_Green;
+            ImpactMercEvis_Green.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().material = matMercSwipe1_Green;
+            ImpactMercEvis_Green.transform.GetChild(3).GetComponent<Light>().color = new Color(0.425f, 1f, 0.425f, 1f);//0 0.8542 1 1
+
+            R2API.ContentAddition.AddEffect(ImpactMercEvis_Green);
+
+
+
+
+
+            particleSystemRenderer = MercExposeEffect_Green.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>();
+            //matMercExposed = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercExposed_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
+            matMercExposed_Green.SetTexture("_RemapTex", texRampHuntress_Green);
+            matMercExposed_Green.SetColor("_TintColor", new Color(-0.1f, 1f, -0.1f, 1f));//r: 0, g: 0.1362783, b: 0.8867924, a: 1
+            particleSystemRenderer.material = matMercExposed_Green;
+            particleSystemRenderer = MercExposeEffect_Green.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>();
+            particleSystemRenderer.material = matMercExposedBackdrop_Green;
+
+
+            particleSystemRenderer = MercExposeConsumeEffect_Green.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>();
+            particleSystemRenderer.material = matMercExposed_Green;
+            particleSystemRenderer = MercExposeConsumeEffect_Green.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>();
+            particleSystemRenderer.material = matMercExposedSlash_Green;
+
+
+            MercExposeEffect_Green.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercExposed_Green;
+            MercExposeEffect_Green.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().startColor = new Color(0.100f, 0.23f, 0.080f, 0.29f);//0.1335 0.1455 0.2264 0.3412
+            MercExposeEffect_Green.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercExposedBackdrop_Green;
+
+            MercExposeConsumeEffect_Green.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercExposed_Green;
+            MercExposeConsumeEffect_Green.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercExposedBackdrop_Green;
+            MercExposeConsumeEffect_Green.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().startColor = new Color(0.2f, 0.35f, 0.2f, 0.175f);
+
+            MercExposeConsumeEffect_Green.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>().material = matMercExposed_Green;
+            ContentAddition.AddEffect(MercExposeConsumeEffect_Green);
+
+            //ContentAddition.AddEffect(MercSwordFinisherSlash_Green); //Game tries to spawn this as an effect even tho it isn't one
+
+        }
     }
 }

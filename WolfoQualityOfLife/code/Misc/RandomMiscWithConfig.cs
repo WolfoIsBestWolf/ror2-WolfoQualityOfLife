@@ -1,11 +1,10 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using RoR2;
+﻿using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 
 namespace WolfoQualityOfLife
 {
@@ -14,9 +13,19 @@ namespace WolfoQualityOfLife
         public static GameObject SprintingCrosshair = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/SprintingCrosshair.prefab").WaitForCompletion();
         public static GameObject LoaderCrosshair = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Loader/LoaderCrosshair.prefab").WaitForCompletion();
 
+        public static UnlockableDef RobVag;
 
         public static void Start()
         {
+            if (WConfig.cfgTpIconDiscoveredRed.Value)
+            {
+                IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
+            }
+
+            RobVag = Object.Instantiate(Addressables.LoadAssetAsync<UnlockableDef>(key: "RoR2/Base/Jellyfish/Logs.JellyfishBody.0.asset").WaitForCompletion());
+            RobVag.cachedName = "Logs.RobYoungVagrant.0";
+            R2API.ContentAddition.AddUnlockableDef(RobVag);
+
             if (WConfig.cfgVoidAllyCyanEyes.Value)
             {
                 Material voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Nullifier/matNullifierAlly.mat").WaitForCompletion();
@@ -65,12 +74,19 @@ namespace WolfoQualityOfLife
 
                     RoR2.UI.CrosshairController SprintingCrosshairUI = SprintingCrosshair.GetComponent<RoR2.UI.CrosshairController>();
 
+                    if (SprintingCrosshair.transform.childCount > 0)
+                    {
+                        Object.Destroy(SprintingCrosshair.transform.GetChild(1).gameObject);
+                        Object.Destroy(SprintingCrosshair.transform.GetChild(0).gameObject);
+                    }
+
                     RightBracket.transform.SetParent(SprintingCrosshair.transform);
                     LeftBracket.transform.SetParent(SprintingCrosshair.transform);
 
                     SprintingCrosshairUI.spriteSpreadPositions[0].target = LeftBracket.GetComponent<RectTransform>();
                     SprintingCrosshairUI.spriteSpreadPositions[1].target = RightBracket.GetComponent<RectTransform>();
                 };
+
             }
             //Equipment Drone Equipment Name
             if (WConfig.cfgEquipmentDroneName.Value == true)
@@ -87,6 +103,29 @@ namespace WolfoQualityOfLife
             mdlGeep.AddComponent<ModelPanelParameters>();
             mdlGip.AddComponent<ModelPanelParameters>();
             */
+        }
+
+        private static void TeleporterDiscoveredRed(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdfld("RoR2.UI.ChargeIndicatorController", "isDiscovered"));
+
+
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchLdfld("RoR2.UI.ChargeIndicatorController", "spriteChargedColor")))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<System.Func<Color, RoR2.UI.ChargeIndicatorController, Color>>((value, charg) =>
+                {
+                    return charg.spriteFlashColor;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: TP RED DISCOVER CHANGE");
+            }
         }
 
         public static void SprintUICallLate()
@@ -242,11 +281,11 @@ namespace WolfoQualityOfLife
                             changed = true;
                         }
                     }
-                }    
+                }
             }
         }
 
-        public static void LogbookEntryAdder(On.RoR2.UI.LogBook.LogBookController.orig_BuildStaticData orig)
+        public static RoR2.UI.LogBook.Entry[] LogbookEntryAdderMonsters(On.RoR2.UI.LogBook.LogBookController.orig_BuildMonsterEntries orig, Dictionary<RoR2.ExpansionManagement.ExpansionDef, bool> expansionAvailability)
         {
             if (WConfig.MoreLogEntries.Value == true)
             {
@@ -257,19 +296,44 @@ namespace WolfoQualityOfLife
                 UnlockableDef bazaar = RoR2.LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.bazaar");
                 UnlockableDef limbo = RoR2.LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.limbo");
 
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR_BODY_SUBTITLE";
+                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR_BODY_SUBTITLE";
 
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<DeathRewards>().logUnlockableDef = limbo;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = bazaar;
+                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<DeathRewards>().logUnlockableDef = limbo;
+                //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = bazaar;
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/UrchinTurretBody").AddComponent<DeathRewards>().logUnlockableDef = loopunlock;
 
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GeepBody").GetComponent<DeathRewards>().logUnlockableDef = gupunlock;
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GipBody").GetComponent<DeathRewards>().logUnlockableDef = gupunlock;
 
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/QuestVolatileBattery").canDrop = true;
-                //RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = true;
             }
 
+            GameObject RobYoungVagrant = BodyCatalog.GetBodyPrefab(BodyCatalog.FindBodyIndex("RobYoungVagrantBody"));
+            if (RobYoungVagrant)
+            {
+                if (RobYoungVagrant.GetComponent<DeathRewards>().logUnlockableDef)
+                {
+                    RobYoungVagrant.GetComponent<DeathRewards>().logUnlockableDef = RobVag;
+                    RobYoungVagrant.GetComponent<DeathRewards>().bossDropTable = null;
+                }
+            }
+
+
+            var VALUES = orig(expansionAvailability);
+
+            if (WConfig.MoreLogEntries.Value == true)
+            {
+                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR3_BODY_NAME";
+                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("limbo");
+                //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("bazaar");
+            }
+            Debug.Log("WolfoQoL: LogbookChanger");
+
+            return VALUES;
+        }
+
+
+        public static RoR2.UI.LogBook.Entry[] LogbookEliteAspectAdder(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<RoR2.ExpansionManagement.ExpansionDef, bool> expansionAvailability)
+        {
             int invoutput = EquipmentCatalog.equipmentCount;
             System.Collections.Generic.List<EquipmentDef> tempList = new System.Collections.Generic.List<EquipmentDef>();
 
@@ -280,19 +344,16 @@ namespace WolfoQualityOfLife
                     for (var i = 0; i < invoutput; i++)
                     {
                         EquipmentDef tempequipdef = EquipmentCatalog.GetEquipmentDef((EquipmentIndex)i);
-                        string tempname = tempequipdef.name;
-                        //Debug.LogWarning(tempequipdef + "   " + tempname + "   " + tempequipdef.pickupModelPrefab);
-
                         if (tempequipdef.passiveBuffDef && tempequipdef.passiveBuffDef.isElite)
                         {
+                            string tempname = tempequipdef.name;
+                            //Debug.LogWarning(tempequipdef + "   " + tempname + "   " + tempequipdef.pickupModelPrefab);
+
                             if (tempname.StartsWith("EliteEcho") || tempname.StartsWith("EliteSecretSpeed"))
                             {
                             }
                             else
                             {
-                                if (!tempname.StartsWith("ElitePoison") && !tempname.StartsWith("EliteHaunted"))
-                                {
-                                }
                                 if (WConfig.EnableColorChangeModule.Value == true)
                                 {
                                     tempequipdef.isBoss = true;
@@ -307,41 +368,38 @@ namespace WolfoQualityOfLife
                         }
                         //Debug.LogWarning(tempequipdef.GetPropertyValue<Texture>("bgIconTexture"));
                     }
-                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isBoss = false;
+                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isBoss = true;
                     RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isLunar = true;
                     RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").colorIndex = ColorCatalog.ColorIndex.LunarItem;
                 }
             }
-            //Idk what the hell this is 
-            for (int i = 0; i < PickupCatalog.entries.Length; i++)
-            {
-                if (PickupCatalog.entries[i].itemIndex != ItemIndex.None)
-                {
-                    PickupCatalog.entries[i].iconSprite = ItemCatalog.GetItemDef(PickupCatalog.entries[i].itemIndex).pickupIconSprite;
-                }
-                else if (PickupCatalog.entries[i].equipmentIndex != EquipmentIndex.None)
-                {
-                    PickupCatalog.entries[i].iconSprite = EquipmentCatalog.GetEquipmentDef(PickupCatalog.entries[i].equipmentIndex).pickupIconSprite;
-                }
-            }
-
-            orig();
 
             if (WConfig.MoreLogEntries.Value == true)
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR3_BODY_NAME";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("limbo");
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("bazaar");
+                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/QuestVolatileBattery").canDrop = true;
+                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = true;
+                EquipmentDef HealAndReviveConsumed = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/HealAndRevive/HealAndReviveConsumed.asset").WaitForCompletion();
+                HealAndReviveConsumed.canDrop = true;
+                ModelPanelParameters camera = HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
+                camera.cameraPositionTransform = camera.transform;
+                camera.focusPointTransform = camera.transform;
+                camera.maxDistance = 3;
+                camera.modelRotation = new Quaternion(0, 0.7071f, 0f, -0.7071f);
+            }
+            var VALUES = orig(expansionAvailability);
+            if (WConfig.MoreLogEntries.Value == true)
+            {
                 RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/QuestVolatileBattery").canDrop = false;
-                //RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = false;
+                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = false;
+                Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/HealAndRevive/HealAndReviveConsumed.asset").WaitForCompletion().canDrop = false;
             }
 
             for (var i = 0; i < tempList.Count; i++)
             {
                 tempList[i].canDrop = false;
             }
-            Debug.Log("WolfoQoL: LogbookChanger");
-
+            Debug.Log("WolfoQoL: LogbookChangerELITE");
+            return VALUES;
         }
 
     }

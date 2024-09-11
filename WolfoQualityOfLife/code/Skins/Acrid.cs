@@ -41,7 +41,8 @@ namespace WolfoQualityOfLife
         public static GameObject CrocoLeapExplosionBlight = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/CrocoLeapExplosion"), "CrocoLeapExplosionBlight", false); //CrocoLeapExplosion //Leap
         public static GameObject CrocoFistEffectBlight = null; //CrocoFistEffect //Leap
         //public static GameObject CrocoChainableFistEffect = null; //CrocoFistEffect //Leap
-        public static GameObject CrocoLeapAcidBlight = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoLeapAcid"), "CrocoLeapAcidBlight", true); //CrocoLeapAcid //Leap
+        public static GameObject CrocoLeapAcid_Ghost = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoLeapAcidGhost.prefab").WaitForCompletion(); //CrocoLeapAcid //Leap
+        public static GameObject CrocoLeapAcid_GhostBlight = R2API.PrefabAPI.InstantiateClone(CrocoLeapAcid_Ghost, "CrocoLeapAcidBlight", true); //CrocoLeapAcid //Leap
         //public static GameObject CrocoLeapAcidPoison = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoLeapAcid"); //CrocoLeapAcid //Leap
 
         public static bool BlightedOrb = false;
@@ -104,20 +105,22 @@ namespace WolfoQualityOfLife
             }; */
 
             IL.RoR2.Orbs.LightningOrb.Begin += BlightedOrbEffect;
+            RoR2.Orbs.OrbStorageUtility._orbDictionary.Add("BlightOrb", CrocoDiseaseOrbEffectBlight);
+            //x => x.MatchLdstr("Prefabs/Effects/OrbEffects/CrocoDiseaseOrbEffect")))
         }
 
         private static void BlightedOrbEffect(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.After,
-            x => x.MatchCall("RoR2.LegacyResourcesAPI", "Load")))
+            x => x.MatchLdstr("Prefabs/Effects/OrbEffects/CrocoDiseaseOrbEffect")))
             {
                 c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<Func<GameObject, RoR2.Orbs.LightningOrb, GameObject>>((target, orb) =>
+                c.EmitDelegate<Func<string, RoR2.Orbs.LightningOrb, string>>((target, orb) =>
                 {
-                    if (orb.damageType == DamageType.BlightOnHit) 
+                    if (orb.damageType == DamageType.BlightOnHit)
                     {
-                        return CrocoDiseaseOrbEffectBlight;
+                        return "BlightOrb";
                     }
                     return target;
                 });
@@ -131,7 +134,7 @@ namespace WolfoQualityOfLife
 
         public static void CrocoBlightSkin()
         {
-            
+
             //Textures
             Texture2D texCrocoDiffuseBlight = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
             texCrocoDiffuseBlight.LoadImage(Properties.Resources.texCrocoDiffuseBlight, true);
@@ -223,10 +226,6 @@ namespace WolfoQualityOfLife
             };
             CrocoCSSPD.skillChangeResponses = new CharacterSelectSurvivorPreviewDisplayController.SkillChangeResponse[] { CrocoChangeToBlight, CrocoChangeToPoison };
             */
-
-
-
-
 
             Texture2D texRampCrocoDiseaseBlight = new Texture2D(256, 16, TextureFormat.DXT5, false);
             texRampCrocoDiseaseBlight.LoadImage(Properties.Resources.texRampCrocoDiseaseBlight, true);
@@ -453,7 +452,7 @@ namespace WolfoQualityOfLife
             matCrocoDiseaseHeadBlight.SetTexture("_RemapTex", texRampCrocoDiseaseDarkDark);
             matCrocoDiseaseHeadBlight.SetColor("_TintColor", new Color(2.5f, 1.5f, 1.5f, 1f));
             //
-            matCrocoGooDecalBlight = UnityEngine.Object.Instantiate(CrocoLeapAcidBlight.transform.GetChild(0).GetChild(0).GetComponent<ThreeEyedGames.Decal>().Material);
+            matCrocoGooDecalBlight = UnityEngine.Object.Instantiate(CrocoLeapAcid_GhostBlight.transform.GetChild(0).GetChild(0).GetComponent<ThreeEyedGames.Decal>().Material);
             matCrocoGooDecalBlight.name = "matCrocoGooDecalBlight";
             matCrocoGooDecalBlight.color = new Color(2f, 0.5f, 1.8f, 1.1f);
             //matCrocoGooDecalBlight.SetColor("_EmissionColor", new Color(1.3f, 1.3f, 1.3f, 1f));
@@ -523,11 +522,11 @@ namespace WolfoQualityOfLife
             CrocoFistEffectBlight.transform.GetChild(2).GetComponent<Light>().color = new Color(1f, 0.72f, 0f, 1f);
             //
             //Leap Acid Pool
-            CrocoLeapAcidBlight.transform.GetChild(0).GetChild(0).GetComponent<ThreeEyedGames.Decal>().Material = matCrocoGooDecalBlight;
-            CrocoLeapAcidBlight.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoDiseaseSporeBlight;
-            CrocoLeapAcidBlight.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoDiseaseDrippingsBlight;
+            CrocoLeapAcid_GhostBlight.transform.GetChild(0).GetChild(0).GetComponent<ThreeEyedGames.Decal>().Material = matCrocoGooDecalBlight;
+            CrocoLeapAcid_GhostBlight.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoDiseaseSporeBlight;
+            CrocoLeapAcid_GhostBlight.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoDiseaseDrippingsBlight;
             //CrocoLeapAcidBlight.transform.GetChild(0).GetChild(3).GetComponent<Light>().color = new Color32(255, 110, 177, 255);
-            CrocoLeapAcidBlight.transform.GetChild(0).GetChild(3).GetComponent<Light>().color = new Color32(255, 177, 110, 200);
+            CrocoLeapAcid_GhostBlight.transform.GetChild(0).GetChild(3).GetComponent<Light>().color = new Color32(255, 177, 110, 200);
             //
             //Leap Explosion
             CrocoLeapExplosionBlight.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoGooSmallBlightD;
@@ -554,7 +553,7 @@ namespace WolfoQualityOfLife
 
             R2API.ContentAddition.AddProjectile(CrocoDiseaseProjectileBlight);
             R2API.ContentAddition.AddProjectile(CrocoSpitBlight);
-            R2API.ContentAddition.AddProjectile(CrocoLeapAcidBlight);
+            //R2API.ContentAddition.AddProjectile(CrocoLeapAcid_GhostBlight);
 
 
             if (WConfig.cfgSkinAcridBlight.Value == true)
@@ -576,13 +575,6 @@ namespace WolfoQualityOfLife
                     };
                     orig(self);
                 };
-
-
-
-
-
-
-
 
 
                 On.EntityStates.Croco.FireSpit.OnEnter += (orig, self) =>
@@ -638,18 +630,6 @@ namespace WolfoQualityOfLife
                     orig(self);
                 };
 
-
-
-
-
-
-
-
-
-
-
-
-
             }
         }
 
@@ -664,7 +644,11 @@ namespace WolfoQualityOfLife
                 {
                     if (entityState.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
                     {
-                        return CrocoLeapAcidBlight;
+                        target.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = CrocoLeapAcid_GhostBlight;
+                    }
+                    else
+                    {
+                        target.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = CrocoLeapAcid_Ghost;
                     }
                     return target;
                 });

@@ -14,7 +14,7 @@ namespace WolfoQualityOfLife
     {
         //public static string DetailedDeathString = "UNASSIGNED";
         //public static string DetailedDeathString_P2 = "UNASSIGNED_P2";
-        public static MusicTrackDef CreditsTrack = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/Base/Common/muSong21.asset").WaitForCompletion();
+        public static MusicTrackDef CreditsTrack = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/Base/Common/MusicTrackDefs/muSong21.asset").WaitForCompletion();
         public static MusicTrackDef CreditsTrackVoid = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muMenuDLC1.asset").WaitForCompletion();
         public static GameObject CreditsPanel = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/CreditsPanel.prefab").WaitForCompletion();
 
@@ -63,12 +63,12 @@ namespace WolfoQualityOfLife
                     string hex = ColorUtility.ToHtmlStringRGB(pickupDef.baseColor);
                     string nameToken = Language.GetString(ItemCatalog.GetItemDef(pickupDef.itemIndex).nameToken, "en");
 
-                    string message = "<style=cEvent>You scrapped <color=#" + hex + ">"+ nameToken + "</color>";
-                    string message2P = "<style=cEvent>"+component.GetUserName()+ " scrapped <color=#" + hex + ">"+ nameToken + "</color>";
+                    string message = "<style=cEvent>You scrapped <color=#" + hex + ">" + nameToken + "</color>";
+                    string message2P = "<style=cEvent>" + component.GetUserName() + " scrapped <color=#" + hex + ">" + nameToken + "</color>";
 
                     if (self.itemsEaten > 1)
                     {
-                        message += "("+ self.itemsEaten + ")";
+                        message += "(" + self.itemsEaten + ")";
                         message2P += "(" + self.itemsEaten + ")";
                     }
 
@@ -109,27 +109,27 @@ namespace WolfoQualityOfLife
                 //x => x.MatchLdstr("?")
                 ))
                 {
-                        //Debug.Log(c +"  Next:"+ c.Next.Operand);
-                        var A = c.Next.Operand;
+                    //Debug.Log(c +"  Next:"+ c.Next.Operand);
+                    var A = c.Next.Operand;
                     c.Index += 27; //UnIdeal
                                    //Debug.Log(c + "  Next:" + c.Next.Operand);
-                        c.Emit(OpCodes.Ldloc_S, A);
+                    c.Emit(OpCodes.Ldloc_S, A);
                     c.EmitDelegate<Func<string, PickupIndex, string>>((text, pickupIndex) =>
                     {
                         PickupDef pickupDef = PickupCatalog.GetPickupDef(pickupIndex);
-                            //Debug.Log(pickupDef);
-                            if (pickupDef != null)
+                        //Debug.Log(pickupDef);
+                        if (pickupDef != null)
                         {
                             string hex = ColorUtility.ToHtmlStringRGB(pickupDef.baseColor);
-                                //Debug.Log(text);
-                                text = text.Replace("(", "(<color=#" + hex + ">");
+                            //Debug.Log(text);
+                            text = text.Replace("(", "(<color=#" + hex + ">");
                             text = text.Replace(")", "</color>)");
-                                //Debug.Log(text);
-                            }
+                            //Debug.Log(text);
+                        }
                         return text;
                     });
-                        //Debug.Log("IL Found : IL.RoR2.UI.PingIndicator.RebuildPing");
-                    }
+                    //Debug.Log("IL Found : IL.RoR2.UI.PingIndicator.RebuildPing");
+                }
                 else
                 {
                     Debug.LogWarning("IL Failed : IL.RoR2.UI.PingIndicator.RebuildPing");
@@ -159,7 +159,7 @@ namespace WolfoQualityOfLife
                 {
                     string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
                     hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
-                    string token = "<style=cEvent>"+ hex + " ran out of time...</style>";
+                    string token = "<style=cEvent>" + hex + " ran out of time...</style>";
                     Chat.AddMessage(token);
                 }
             }
@@ -390,7 +390,7 @@ namespace WolfoQualityOfLife
             }
 
 
-            string KillerName = "Unknown Killer";
+            string KillerName = "the Planet";
             string VictimName = RoR2.Util.GetBestBodyName(damageReport.victimBody.gameObject);
             if (damageReport.attackerBody != null)
             {
@@ -439,16 +439,21 @@ namespace WolfoQualityOfLife
                     }
                 }
             }
-            else if (damageReport.damageInfo.damageType.HasFlag(DamageType.BypassArmor | DamageType.BypassBlock) && damageReport.damageInfo.damageColorIndex == DamageColorIndex.Void)
+            else if (damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.BypassArmor | DamageType.BypassBlock) && damageReport.damageInfo.damageColorIndex == DamageColorIndex.Void)
             {
                 //Simu Void Death maybe other Voids too
                 tokenYou += $"You drowned in the void.";
                 token += $"{VictimName} drowned in the void.";
             }
-            else if (damageReport.damageInfo.damageType.HasFlag(DamageType.VoidDeath))
+            else if (damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.VoidDeath))
             {
                 tokenYou += $"You were detained by {KillerName}</style>";
                 token += $"{VictimName} was detained by {KillerName}</style>";
+            }
+            else if (damageReport.damageInfo.procChainMask.HasProc(ProcType.Thorns))
+            {
+                tokenYou += $"You got twisted by {KillerName}";
+                token += $"{VictimName} got twisted by {KillerName}";
             }
             else if (damageReport.isFallDamage)
             {
@@ -470,20 +475,28 @@ namespace WolfoQualityOfLife
             }
             else if (damageReport.attackerBody != null)
             {
-                tokenYou += $"You were killed by {KillerName}.";
-                token += $"{VictimName} was killed by {KillerName}.";
+                if (damageReport.victimBody.isGlass)
+                {
+                    tokenYou += $"You were shattered by {KillerName}.";
+                    token += $"{VictimName} was shattered by {KillerName}.";
+                }
+                else
+                {
+                    tokenYou += $"You were killed by {KillerName}.";
+                    token += $"{VictimName} was killed by {KillerName}.";
+                }
             }
             else
             {
                 tokenYou += $"You were killed by the planet.";
                 token += $"{VictimName} was killed by the planet.";
             }
-            if (!damageReport.damageInfo.damageType.HasFlag(DamageType.VoidDeath))
+            if (!damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.VoidDeath))
             {
                 tokenYou += $" ({DamageValue:F2} damage taken)</style>";
                 token += $" ({DamageValue:F2} damage taken)</style>";
             }
-            
+
 
             //DetailedDeathString = tokenYou;
             //DetailedDeathString_P2 = token;

@@ -2,8 +2,10 @@
 //using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 
 namespace WolfoQualityOfLife
 {
@@ -11,6 +13,8 @@ namespace WolfoQualityOfLife
     {
         public static void Start()
         {
+            //if (WConfig.cfgRemindersTreasure.Value) ;
+
             On.RoR2.PurchaseInteraction.OnInteractionBegin += (orig, self, activator) =>
             {
                 orig(self, activator);
@@ -62,14 +66,29 @@ namespace WolfoQualityOfLife
                 }
             };
 
+            IL.RoR2.PurchaseInteraction.OnInteractionBegin += SaleStarReminderRemover;
+
+            if (WConfig.cfgRemindersTreasure.Value)
+            {
+                //Objectives spacing
+                GameObject Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ClassicRun/ClassicRunInfoHudPanel.prefab").WaitForCompletion();
+                Hud.transform.GetChild(5).GetChild(1).GetChild(1).GetComponent<UnityEngine.UI.VerticalLayoutGroup>().spacing = -2;
+
+            }
+
+
             if (WConfig.cfgRemindersPortal.Value == true)
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cArtifact>Artifact Portal</style>";
+                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cDeath>Artifact Portal</style>";
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalGoldshores").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <color=#FFE880>Gold Portal</color>";
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalShop").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsLunar>Blue Portal</style>";
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalMS").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <color=#A0FFD6>Celestial Portal</color>";
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsVoid>Void Portal</style>";
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortal/DeepVoidPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_VOID_DEEP_PORTAL";
+
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <color=#00D863>Green Portal</color>";
+                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Green Portal</style>";
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Destination Portal</style>";
 
                 On.RoR2.SceneExitController.Begin += (orig, self) =>
                 {
@@ -83,15 +102,41 @@ namespace WolfoQualityOfLife
             }
         }
 
+        private static void SaleStarReminderRemover(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchLdsfld("RoR2.DLC2Content/Items", "LowerPricedChestsConsumed")))
+            {
+                c.EmitDelegate<System.Func<ItemDef, ItemDef>>((itemDef) =>
+                {
+                    TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
+                    if (treasure && treasure.saleStarInfo)
+                    {
+                        Object.Destroy(treasure.saleStarInfo);
+                    }
+                    return itemDef;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: Sale Star Reminder");
+            }
+        }
+
         public class TreasureReminder : MonoBehaviour
         {
             public int lockboxCount = 0;
             public int lockboxVoidCount = 0;
             public int freeChestCount = 0;
+            public int freeChestVoidCount = 0;
+            public bool saleStar = false;
 
             public RoR2.GenericObjectiveProvider lockboxInfo;
             public RoR2.GenericObjectiveProvider lockboxVoidInfo;
             public RoR2.GenericObjectiveProvider freeChestInfo;
+            public RoR2.GenericObjectiveProvider saleStarInfo;
 
             public static void SetupReminders()
             {
@@ -103,6 +148,21 @@ namespace WolfoQualityOfLife
                 treasureReminder.lockboxCount = 0;
                 treasureReminder.lockboxVoidCount = 0;
                 treasureReminder.freeChestCount = 0;
+                treasureReminder.freeChestVoidCount = 0;
+                treasureReminder.saleStar = false;
+
+
+                using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        if (enumerator.Current.networkUser.isLocalPlayer)
+                        {
+                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0) { treasureReminder.saleStar = true; }
+                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { treasureReminder.saleStar = true; }
+                        }
+                    }
+                }
 
                 using (IEnumerator<CharacterMaster> enumerator = CharacterMaster.readOnlyInstancesList.GetEnumerator())
                 {
@@ -111,7 +171,6 @@ namespace WolfoQualityOfLife
                         if (enumerator.Current.inventory.GetItemCount(RoR2Content.Items.TreasureCache) > 0) { treasureReminder.lockboxCount++; }
                         if (enumerator.Current.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid) > 0) { treasureReminder.lockboxVoidCount++; }
                         if (enumerator.Current.inventory.GetItemCount(DLC1Content.Items.FreeChest) > 0) { treasureReminder.freeChestCount++; }
-
                     }
                 }
                 if (treasureReminder.lockboxCount > 0)
@@ -146,6 +205,13 @@ namespace WolfoQualityOfLife
                     }
                     treasureReminder.freeChestInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     treasureReminder.freeChestInfo.objectiveToken = token;
+                }
+                if (treasureReminder.saleStar)
+                {
+                    Debug.Log("SaleStar " + treasureReminder.saleStar);
+                    string token = "Make use of <style=cIsHealing>Sale Star</style>";
+                    treasureReminder.saleStarInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
+                    treasureReminder.saleStarInfo.objectiveToken = token;
                 }
             }
 
@@ -205,6 +271,8 @@ namespace WolfoQualityOfLife
                     }
                 }
             }
+        
+        
         }
 
         public class UpdateTreasureReminderCounts : RoR2.Chat.SimpleChatMessage

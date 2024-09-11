@@ -295,6 +295,9 @@
   <data name="PingLemurianEgg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>PingIcons\PingLemurianEgg.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="pingShrineShaping" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\DLC2\pingShrineShaping.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="PortalIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>PingIcons\PortalIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -357,6 +360,12 @@
   </data>
   <data name="SS2_DroneShock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>PingIcons\SS2_DroneShock.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texAffixAurelioniteIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ColorChanger\texAffixAurelioniteIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texAffixBeadIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ColorChanger\texAffixBeadIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texAffixCloakIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ColorChanger\ModdedElite2\texAffixCloakIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -469,6 +478,9 @@
   <data name="texCrocoSkinFlow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texCrocoSkinFlow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="texEngiTurretAltColossusDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texEngiTurretAltColossusDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texEngiTurretDiffuseAlt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texEngiTurretDiffuseAlt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -486,6 +498,9 @@
   </data>
   <data name="texItemUsedKeyVoid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texItemUsedKeyVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texLunarPortalOnUseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>ColorChanger\texLunarPortalOnUseIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texMercOniBlues" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texMercOniBlues.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -514,11 +529,17 @@
   <data name="texRampEngiAlt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampEngiAlt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="texRampFallbootsGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texRampFallbootsGreen.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texRampFallbootsRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampFallbootsRed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texRampHuntress" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampHuntress.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texRampHuntressGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texRampHuntressGreen.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texRampHuntressRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampHuntressRed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -526,11 +547,20 @@
   <data name="texRampHuntressSoft" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampHuntressSoft.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="texRampHuntressSoftGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texRampHuntressSoftGreen.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texRampHuntressSoftRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampHuntressSoftRed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="texRampMercDustGreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texRampMercDustGreen.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texRampMercDustRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRampMercDustRed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texTreebotVineForColossus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texTreebotVineForColossus.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="UniqueAffixVoid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ColorChanger\UniqueAffixVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

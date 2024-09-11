@@ -53,7 +53,7 @@ namespace WolfoQualityOfLife
             //Bro ColorAPI don't do shit
             OrbMaker();
             ColorUtility.TryParseHtmlString("#78AFFF", out ColorLunarEquip);
-            ColorUtility.TryParseHtmlString("#FFC211", out ColorBossEquip);      
+            ColorUtility.TryParseHtmlString("#FFC211", out ColorBossEquip);
 
             //Void Green stays the default
             ColorUtility.TryParseHtmlString("#FF9EEC", out ColorVoidWhite);
@@ -82,6 +82,11 @@ namespace WolfoQualityOfLife
                 On.RoR2.UI.EquipmentIcon.Update += UIEquipmentIconColorChanger; //When you hover over it I guess
                 On.RoR2.PickupPickerController.OnDisplayBegin += PickupPickerController_OnDisplayBegin; //Command I think?
             }
+
+
+            GameObject GoldFragmentPotential = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/FragmentPotentialPickup.prefab").WaitForCompletion();
+            GoldFragmentPotential.GetComponent<Highlight>().highlightColor = Highlight.HighlightColor.custom;
+            GoldFragmentPotential.GetComponent<Highlight>().CustomColor = new Color(0.9f, 0.8f, 0.4f);
         }
 
         private static void PickupNotifColorOverrideItems(On.RoR2.UI.GenericNotification.orig_SetItem orig, RoR2.UI.GenericNotification self, ItemDef itemDef)
@@ -155,6 +160,22 @@ namespace WolfoQualityOfLife
 
 
 
+            Texture2D texAffixBeadIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
+            texAffixBeadIcon.LoadImage(Properties.Resources.texAffixBeadIcon, true);
+            texAffixBeadIcon.filterMode = FilterMode.Bilinear;
+            texAffixBeadIcon.wrapMode = TextureWrapMode.Clamp;
+            Sprite texAffixBeadIconS = Sprite.Create(texAffixBeadIcon, v.rec128, v.half);
+            Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/Elites/EliteBead/EliteBeadEquipment.asset").WaitForCompletion().pickupIconSprite = texAffixBeadIconS;
+
+            Texture2D texAffixAurelioniteIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
+            texAffixAurelioniteIcon.LoadImage(Properties.Resources.texAffixAurelioniteIcon, true);
+            texAffixAurelioniteIcon.filterMode = FilterMode.Bilinear;
+            texAffixAurelioniteIcon.wrapMode = TextureWrapMode.Clamp;
+            Sprite texAffixAurelioniteIconS = Sprite.Create(texAffixAurelioniteIcon, v.rec128, v.half);
+            Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/Elites/EliteAurelionite/EliteAurelioniteEquipment.asset").WaitForCompletion().pickupIconSprite = texAffixAurelioniteIconS;
+
+
+
             //Lunar Equipment
             Texture2D OutlineChangedtexEffigyIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
             OutlineChangedtexEffigyIcon.LoadImage(Properties.Resources.OutlineChangedtexEffigyIcon, true);
@@ -185,8 +206,14 @@ namespace WolfoQualityOfLife
             RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/Tonic").pickupIconSprite = OutlineChangedtexTonicIcontonicS;
 
 
+            Texture2D texLunarPortalOnUseIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
+            texLunarPortalOnUseIcon.LoadImage(Properties.Resources.texAffixAurelioniteIcon, true);
+            texLunarPortalOnUseIcon.filterMode = FilterMode.Bilinear;
+            texLunarPortalOnUseIcon.wrapMode = TextureWrapMode.Clamp;
+            Sprite texLunarPortalOnUseIconS = Sprite.Create(texLunarPortalOnUseIcon, v.rec128, v.half);
+            Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/LunarPortalOnUse/LunarPortalOnUse.asset").WaitForCompletion().pickupIconSprite = texLunarPortalOnUseIconS;
 
-
+            
 
 
 
@@ -326,77 +353,70 @@ namespace WolfoQualityOfLife
         public static RoR2.UI.LogBook.Entry[] ChangeEquipmentBGLogbook(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<RoR2.ExpansionManagement.ExpansionDef, bool> expansionAvailability)
         {
             RoR2.UI.LogBook.Entry[] array = orig(expansionAvailability);
-
+            
             //Sorting Boss Equips after Boss items ripped from some Boss Equip mod
-            bool flag = false;
+            bool bossTierFound = false;
             int num = -1;
-            for (int i = 0; i < array.Length; i++)
+            /*for (int i = 0; i < array.Length; i++)
             {
-                bool flag2 = false;
+                bool bossTierItem = false;
                 PickupDef pickupDef = ((PickupIndex)array[i].extraData).pickupDef;
                 ItemIndex itemIndex = pickupDef.itemIndex;
-                bool flag3 = itemIndex != ItemIndex.None;
-                if (flag3)
+                if (itemIndex != ItemIndex.None)
                 {
                     ItemDef itemDef = ItemCatalog.GetItemDef(itemIndex);
                     bool flag4 = itemDef && itemDef.tier == ItemTier.Boss;
                     if (flag4)
                     {
-                        flag2 = true;
+                        bossTierItem = true;
                     }
                 }
-                bool flag5 = !flag && flag2;
-                if (flag5)
+                if (bossTierItem)
                 {
                     //base.Logger.LogInfo("Found boss item start");
-                    flag = true;
+                    bossTierFound = true;
                 }
-                bool flag6 = flag && !flag2 && num == -1;
-                if (flag6)
+                if (bossTierFound && !bossTierItem && num == -1)
                 {
                     //base.Logger.LogInfo("Found boss item end");
                     num = i;
                 }
-            }
-            bool flag7 = false;
-            bool flag8 = num == -1;
-            if (flag8)
-            {
-                //base.Logger.LogError("Did not find boss items: Placing equipment at logbook end");
-                flag7 = true;
-            }
+            }*/
+
+            bool sortAtEnd = true;
+
             List<RoR2.UI.LogBook.Entry> list = new List<RoR2.UI.LogBook.Entry>();
+           
+
             for (int j = 0; j < array.Length; j++)
             {
-                bool flag9 = !list.Contains(array[j]);
-                if (flag9)
+                if (!list.Contains(array[j]))
                 {
                     PickupDef pickupDef2 = ((PickupIndex)array[j].extraData).pickupDef;
                     EquipmentIndex equipmentIndex = pickupDef2.equipmentIndex;
-                    bool flag10 = equipmentIndex != EquipmentIndex.None;
-                    if (flag10)
+                    if (equipmentIndex != EquipmentIndex.None)
                     {
                         EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
-                        bool flag11 = equipmentDef && equipmentDef.isBoss;
-                        if (flag11)
+                        //Debug.Log("Found Equipment : " + equipmentDef.name);
+                        if (equipmentDef && equipmentDef.isBoss)
                         {
-                            //base.Logger.LogInfo("Found Boss Equipment : " + equipmentDef.name);
+                            //Debug.LogWarning("Found Boss Equipment : " + equipmentDef.name);
                             RoR2.UI.LogBook.Entry entry = array[j];
                             list.Add(array[j]);
-                            //entry.bgTexture = Resources.Load<Texture>("Textures/ItemIcons/BG/texBossBGIcon");
+
                             HG.ArrayUtils.ArrayRemoveAtAndResize<RoR2.UI.LogBook.Entry>(ref array, j, 1);
-                            bool flag12 = flag7;
-                            if (flag12)
+                            if (sortAtEnd || num == -1)
                             {
                                 num = array.Length;
+                                j--;
                             }
                             HG.ArrayUtils.ArrayInsert<RoR2.UI.LogBook.Entry>(ref array, num, entry);
-                            num++;
+                            num++;  
                         }
                     }
                 }
             }
-
+            
             //Custom BG
             for (int i = 0; i < array.Length; i++)
             {
@@ -440,7 +460,7 @@ namespace WolfoQualityOfLife
         }
 
         public static void ChangeColors()
-        {  
+        {
             Debug.Log("WolfoQoL : Changing Colors");
 
 
@@ -505,6 +525,7 @@ namespace WolfoQualityOfLife
                     else if (tempequipdef.isLunar == true)
                     {
                         tempequipdef.colorIndex = ColorCatalog.ColorIndex.LunarItem;
+                        tempPickupDef.isBoss = true;
                         tempPickupDef.isLunar = true;
                     }
                 }
@@ -550,7 +571,7 @@ namespace WolfoQualityOfLife
             ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3).highlightPrefab = HighlightPinkT3Item;
             ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss).highlightPrefab = HighlightPinkT3Item;
 
-           
+
             On.RoR2.Inventory.SetEquipmentIndex += (orig, self, equipmentIndex) =>
             {
                 //self.gameObject.GetComponent<RoR2.PlayerCharacterMasterController>() && equipmentIndex != self.currentEquipmentIndex && 
@@ -669,10 +690,6 @@ namespace WolfoQualityOfLife
             }
 
         }
-
-
-
-
 
 
         public static void ModSupport()

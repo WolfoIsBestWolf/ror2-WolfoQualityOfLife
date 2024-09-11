@@ -14,6 +14,7 @@ namespace WolfoQualityOfLife
         public static Sprite LegendaryChestIcon = Sprite.Create(v.dummytexwide, v.recwide, v.half);
         public static Sprite ChestLunarIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite ShrineOrderIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
+        public static Sprite ChestLargeIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite NullVentIcon = Sprite.Create(v.dummytex320, v.rec320, v.half);
         public static Sprite TimedChestIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite PortalIcon = Sprite.Create(v.dummytexhalftall, v.rechalftall, v.half);
@@ -256,7 +257,7 @@ namespace WolfoQualityOfLife
             TexDroneMissileIcon.filterMode = FilterMode.Bilinear;
             TexDroneEmergencyIcon.filterMode = FilterMode.Bilinear;
 
-            Sprite ChestLargeIcon = Sprite.Create(TexChestLargeIcon, v.rec256, v.half);
+            ChestLargeIcon = Sprite.Create(TexChestLargeIcon, v.rec256, v.half);
             Sprite ChestEquipmentIcon = Sprite.Create(TexChestEquipmentIcon, v.rec256, v.half);
 
             Sprite ShrineBloodIcon = Sprite.Create(TexShrineBloodIcon, v.rec256, v.half);
@@ -289,22 +290,22 @@ namespace WolfoQualityOfLife
             TexChestTimedIcon.filterMode = FilterMode.Bilinear;
 
 
- 
+
             ChestLunarIcon = Sprite.Create(TexChestLunarIcon, v.rec256, v.half);
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/EquipmentBarrel").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestEquipmentIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestEquipmentIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/LunarChest").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestLunarIcon;
- 
+
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Chest2").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestLargeIcon;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestLargeIcon;
             TimedChestIcon = Sprite.Create(TexChestTimedIcon, v.rec256, v.half);
 
- 
+
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CasinoChest").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestCasinoIcon;
- 
+
 
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Chest1StealthedVariant").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ChestInvisibleIcon;
- 
+
             LegendaryChestIcon = Sprite.Create(TexChestLegendaryIcon, v.recwide, v.half);
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/GoldChest").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = LegendaryChestIcon;
 
@@ -536,6 +537,26 @@ namespace WolfoQualityOfLife
             Sprite PingLemurianEggS = Sprite.Create(PingLemurianEgg, v.rec256, v.half);
 
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/CU8/LemurianEgg/LemurianEgg.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingLemurianEggS;
+
+
+
+
+
+
+            //Seekers of the Storm
+
+            Texture2D pingShrineShaping = new Texture2D(256, 256, TextureFormat.DXT5, false);
+            pingShrineShaping.LoadImage(Properties.Resources.pingShrineShaping, true);
+            pingShrineShaping.filterMode = FilterMode.Bilinear;
+            Sprite pingShrineShapingS = Sprite.Create(pingShrineShaping, v.rec256, v.half);
+
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/ShrineHalcyonite.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = CubeIcon;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Geode.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = ExclamationIcon;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/ShrineColossusAccess.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = pingShrineShapingS;
+
+
 
 
         }
