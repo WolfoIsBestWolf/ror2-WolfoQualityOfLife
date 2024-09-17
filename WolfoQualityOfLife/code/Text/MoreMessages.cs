@@ -390,7 +390,7 @@ namespace WolfoQualityOfLife
             }
 
 
-            string KillerName = "the Planet";
+            string KillerName = "the planet";
             string VictimName = RoR2.Util.GetBestBodyName(damageReport.victimBody.gameObject);
             if (damageReport.attackerBody != null)
             {
@@ -413,30 +413,14 @@ namespace WolfoQualityOfLife
                 //Voidtouched Dot Death
                 if (damageReport.dotType == DotController.DotIndex.Fracture)
                 {
-                    if (damageReport.attackerBody != null)
-                    {
-                        tokenYou += $"You were collapsed by {KillerName}.";
-                        token += $"{VictimName} was collapsed by {KillerName}.";
-                    }
-                    else
-                    {
-                        tokenYou += $"You were collapsed by someone unknown.";
-                        token += $"{VictimName} was collapsed by someone unknown.";
-                    }
+                    tokenYou += $"You were collapsed by {KillerName}.";
+                    token += $"{VictimName} was collapsed by {KillerName}.";
                 }
                 else
                 {
                     //General death to Dot such as Bleed/Burn
-                    if (damageReport.attackerBody != null)
-                    {
-                        tokenYou += $"You slowly died to {KillerName}.";
-                        token += $"{VictimName} slowly died to {KillerName}.";
-                    }
-                    else
-                    {
-                        tokenYou += $"You slowly died to unknown causes.";
-                        token += $"{VictimName} slowly died to unknown causes.";
-                    }
+                    tokenYou += $"You slowly died to {KillerName}.";
+                    token += $"{VictimName} slowly died to {KillerName}.";
                 }
             }
             else if (damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.BypassArmor | DamageType.BypassBlock) && damageReport.damageInfo.damageColorIndex == DamageColorIndex.Void)
@@ -462,7 +446,7 @@ namespace WolfoQualityOfLife
             }
             else if (damageReport.attackerBody != null && damageReport.isFriendlyFire)
             {
-                if (VictimName.Equals(KillerName))
+                if (damageReport.attackerBody == damageReport.victimBody)
                 {
                     tokenYou += $"You were killed by yourself.";
                     token += $"{VictimName} was killed by themselves.";
@@ -473,12 +457,17 @@ namespace WolfoQualityOfLife
                     token += $"{VictimName} was betrayed by {KillerName}";
                 }
             }
-            else if (damageReport.attackerBody != null)
+            else
             {
                 if (damageReport.victimBody.isGlass)
                 {
                     tokenYou += $"You were shattered by {KillerName}.";
                     token += $"{VictimName} was shattered by {KillerName}.";
+                }
+                else if (damageReport.damageInfo.delayedDamageSecondHalf)
+                {
+                    tokenYou += $"Echoes of {KillerName} killed you.";
+                    token += $"Echoes of {KillerName} killed {VictimName}.";
                 }
                 else
                 {
@@ -486,11 +475,7 @@ namespace WolfoQualityOfLife
                     token += $"{VictimName} was killed by {KillerName}.";
                 }
             }
-            else
-            {
-                tokenYou += $"You were killed by the planet.";
-                token += $"{VictimName} was killed by the planet.";
-            }
+
             if (!damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.VoidDeath))
             {
                 tokenYou += $" ({DamageValue:F2} damage taken)</style>";

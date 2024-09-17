@@ -8,13 +8,15 @@ namespace WolfoQualityOfLife
 {
     public class PingIcons
     {
+        public static Sprite ChestLargeIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
+        public static Sprite ScrapperIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
+
         public static Sprite CauldronIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite SeerIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite ExclamationIcon = Sprite.Create(v.dummytex192, v.rec192, v.half);
         public static Sprite LegendaryChestIcon = Sprite.Create(v.dummytexwide, v.recwide, v.half);
         public static Sprite ChestLunarIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite ShrineOrderIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
-        public static Sprite ChestLargeIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite NullVentIcon = Sprite.Create(v.dummytex320, v.rec320, v.half);
         public static Sprite TimedChestIcon = Sprite.Create(v.dummytex256, v.rec256, v.half);
         public static Sprite PortalIcon = Sprite.Create(v.dummytexhalftall, v.rechalftall, v.half);
@@ -25,6 +27,7 @@ namespace WolfoQualityOfLife
         public static Sprite CubeIcon = RoR2.LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texLunarPillarIcon");
         public static Sprite ChestIcon = RoR2.LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texInventoryIconOutlined");
         public static Sprite ShrineIcon = RoR2.LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texShrineIconOutlined");
+        public static Sprite QuestionMarkIcon = RoR2.LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texMysteryIcon");
 
         public static GameObject NullTempPosIndicator = null;
         public static Color VoidDefault = new Color(0.8211f, 0.5f, 1, 1);
@@ -151,7 +154,7 @@ namespace WolfoQualityOfLife
             Sprite CleanseIcon = Sprite.Create(TexCleanseIcon, v.rec256, v.half);
             Sprite LockedIcon = Sprite.Create(TexLockedIcon, v.rec256, v.half);
             Sprite PrinterIcon = Sprite.Create(TexPrinterIcon, v.rec256, v.half);
-            Sprite ScrapperIcon = Sprite.Create(TexScrapperIcon, v.rec256, v.half);
+            ScrapperIcon = Sprite.Create(TexScrapperIcon, v.rec256, v.half);
 
 
 
@@ -344,20 +347,24 @@ namespace WolfoQualityOfLife
             //
             Texture2D TexDuplicatorLarge = new Texture2D(256, 256, TextureFormat.DXT5, false);
             Texture2D TexDuplicatorMili = new Texture2D(320, 256, TextureFormat.DXT5, false);
+            Texture2D TexDuplicatorMili2 = new Texture2D(320, 256, TextureFormat.DXT5, false);
             Texture2D TexDuplicatorWild = new Texture2D(256, 256, TextureFormat.DXT5, false);
             TexDuplicatorLarge.LoadImage(Properties.Resources.PrinterLargeIcon, true);
             TexDuplicatorMili.LoadImage(Properties.Resources.PrinterMiliIcon, true);
+            TexDuplicatorMili2.LoadImage(Properties.Resources.PrinterSuperLarge, true);
             TexDuplicatorWild.LoadImage(Properties.Resources.PrinterWildIcon, true);
             TexDuplicatorLarge.filterMode = FilterMode.Bilinear;
             TexDuplicatorMili.filterMode = FilterMode.Bilinear;
+            TexDuplicatorMili2.filterMode = FilterMode.Bilinear;
             TexDuplicatorWild.filterMode = FilterMode.Bilinear;
             Sprite DuplicatorLarge = Sprite.Create(TexDuplicatorLarge, v.rec256, v.half);
             Sprite DuplicatorMili = Sprite.Create(TexDuplicatorMili, v.rechalfwide, v.half);
+            Sprite DuplicatorMili2 = Sprite.Create(TexDuplicatorMili2, v.rechalfwide, v.half);
             Sprite DuplicatorWild = Sprite.Create(TexDuplicatorWild, v.rec256, v.half);
             //
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PrinterIcon;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = DuplicatorLarge;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = DuplicatorMili;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = DuplicatorMili;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = DuplicatorMili2;
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorWild").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = DuplicatorWild;
             //
             //

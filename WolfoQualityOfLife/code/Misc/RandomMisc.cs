@@ -1,6 +1,8 @@
 ﻿using R2API;
 using RoR2;
 //using System;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -27,6 +29,15 @@ namespace WolfoQualityOfLife
             PriceTransformStuff();
             Unused();
             VoidAffix();
+
+            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE_2P", "<style=cShrine>You offer to the shrine and are rewarded (Lucky)!</color>");
+            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE", "<style=cShrine>{0} offered to the shrine and was rewarded (Lucky)!</color>");
+
+            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL_2P", "<style=cShrine>Your chance doll felt lucky!</color>");
+            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL", "<style=cShrine>{0}'s chance doll felt lucky!</color>");
+
+            On.RoR2.ShrineChanceBehavior.AddShrineStack += ShrineChanceBehavior_AddShrineStack;
+
             GameObject LowerPricedChestsGlow = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow");
 
             LowerPricedChestsGlow.transform.GetChild(0).localPosition = new Vector3(0, 0.6f, 0f);
@@ -235,6 +246,8 @@ namespace WolfoQualityOfLife
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallRedBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallGreenBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
 
+            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Seeker/SeekerBody.prefab").WaitForCompletion().AddComponent<HuntressTracker>();
+
             //Sound is just too quiet
             On.RoR2.CharacterMaster.PlayExtraLifeSFX += (orig, self) =>
             {
@@ -262,6 +275,21 @@ namespace WolfoQualityOfLife
             };
         }
 
+        private static void ShrineChanceBehavior_AddShrineStack(On.RoR2.ShrineChanceBehavior.orig_AddShrineStack orig, ShrineChanceBehavior self, Interactor activator)
+        {
+            orig(self,activator);
+            if (self.chanceDollWin)
+            {
+                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
+                {
+                    subjectAsCharacterBody = activator.GetComponent<CharacterBody>(),
+                    baseToken = "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL"
+                });
+            }
+        }
+           
+
+   
         public static void VoidAffix()
         {
             EquipmentDef VoidAffix = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteVoid/EliteVoidEquipment.asset").WaitForCompletion();

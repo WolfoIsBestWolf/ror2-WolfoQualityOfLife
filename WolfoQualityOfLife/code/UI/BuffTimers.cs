@@ -362,24 +362,26 @@ namespace WolfoQualityOfLife
                     orig(self, damageReport);
                     if (NetworkServer.active && self.teamComponent.teamIndex == TeamIndex.Player)
                     {
-                        if (damageReport.damageDealt > 0f)
+                        if (self.outOfDangerStopwatch < 0.5f)
                         {
                             if (self.healthComponent.fullShield > 0 && self.healthComponent.shield < self.healthComponent.fullShield)
                             {
+                                float duration = 7f - self.outOfDangerStopwatch;
                                 if (self.healthComponent.itemCounts.missileVoid > 0)
                                 {
-                                    self.AddTimedBuff(FakeShieldDelayPink, 7);
+                                    self.AddTimedBuff(FakeShieldDelayPink, duration);
                                 }
                                 else
                                 {
-                                    self.AddTimedBuff(FakeShieldDelay, 7);
+                                    self.AddTimedBuff(FakeShieldDelay, duration);
                                 }
                             }
                             if (self.inventory)
                             {
+                                float duration = 7f - self.outOfDangerStopwatch;
                                 if (self.inventory.GetItemCount(DLC1Content.Items.OutOfCombatArmor) > 0)
                                 {
-                                    self.AddTimedBuff(FakeOpalCooldown, 7);
+                                    self.AddTimedBuff(FakeOpalCooldown, duration);
                                 }
                             }
                         }

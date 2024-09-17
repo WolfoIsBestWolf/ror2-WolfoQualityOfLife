@@ -24,6 +24,7 @@ namespace WolfoQualityOfLife
         //Reminders
         public static ConfigEntry<bool> cfgRemindersPortal;
         public static ConfigEntry<bool> cfgRemindersTreasure;
+        public static ConfigEntry<bool> cfgChargeHalcyShrine;
 
         //Text Changes
         public static ConfigEntry<bool> cfgTextMain;
@@ -63,6 +64,7 @@ namespace WolfoQualityOfLife
 
         //UI
         public static ConfigEntry<bool> cfgIconsUsedKey;
+        public static ConfigEntry<bool> cfgIconsUsedPrayer;
         public static ConfigEntry<bool> cfgIconsBodyIcons;
 
         //Buff Timers
@@ -177,6 +179,13 @@ namespace WolfoQualityOfLife
                 true,
                 "Friendly reminder to open your Lockboxes and get your free items from Shipping Form."
             );
+            cfgChargeHalcyShrine = ConfigFileUNSORTED.Bind(
+                "Reminders",
+                "Objective for charging any activated Halcyon Shrines",
+                true,
+                "To match other waiting sections in the game."
+            );
+
             //
             //Text
             cfgTextMain = ConfigFileUNSORTED.Bind(

@@ -76,7 +76,6 @@ namespace WolfoQualityOfLife
 
             }
 
-
             if (WConfig.cfgRemindersPortal.Value == true)
             {
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cDeath>Artifact Portal</style>";
@@ -100,6 +99,59 @@ namespace WolfoQualityOfLife
                 };
 
             }
+
+
+
+            R2API.LanguageAPI.Add("OBJECTIVE_CHARGE_HALCSHRINE", "Charge the <color=#FFE880>Halcyon Shrine</color> ({0}%)", "en");
+            R2API.LanguageAPI.Add("OBJECTIVE_KILL_HALCSHRINE", "Defeat the <color=#FFE880>Guardian</color>", "en");
+
+            bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
+
+            if (!otherMod && WConfig.cfgChargeHalcyShrine.Value)
+            {
+                On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.OnEnter += AddObjective_ShrineHalcyoniteActivatedState_OnEnter;
+                On.RoR2.HalcyoniteShrineInteractable.StoreDrainValue += TrackObjective_HalcyoniteShrineInteractable_StoreDrainValue;
+                On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteMaxQuality.OnEnter += ShrineHalcyoniteMaxQuality_OnEnter;
+                On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished.OnEnter += RemoveAll_ShrineHalcyoniteFinished_OnEnter;
+            }
+
+
+        }
+
+        private static void RemoveAll_ShrineHalcyoniteFinished_OnEnter(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished self)
+        {
+            orig(self);
+
+            Object.Destroy(self.gameObject.gameObject.GetComponent<GenericObjectiveProvider>());
+        }
+
+        private static void ShrineHalcyoniteMaxQuality_OnEnter(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteMaxQuality.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteMaxQuality self)
+        {
+            orig(self);
+
+            Object.Destroy(self.gameObject.gameObject.GetComponent<GenericObjectiveProvider>());
+            string text = Language.GetString("OBJECTIVE_KILL_HALCSHRINE");
+            self.gameObject.gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = text;
+        }
+
+        private static void AddObjective_ShrineHalcyoniteActivatedState_OnEnter(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState self)
+        {
+            orig(self);
+            
+            if (!self.gameObject.gameObject.GetComponent<GenericObjectiveProvider>())
+            {
+                string text = string.Format(Language.GetString("OBJECTIVE_CHARGE_HALCSHRINE"), 0);
+                self.gameObject.gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = text;
+            }
+        }
+
+        private static void TrackObjective_HalcyoniteShrineInteractable_StoreDrainValue(On.RoR2.HalcyoniteShrineInteractable.orig_StoreDrainValue orig, HalcyoniteShrineInteractable self, int value)
+        {
+            orig(self, value);
+
+            int chargeFrac = self.goldDrained*100 / self.maxGoldCost;
+            string text = string.Format(Language.GetString("OBJECTIVE_CHARGE_HALCSHRINE"), chargeFrac);
+            self.gameObject.gameObject.GetComponent<GenericObjectiveProvider>().objectiveToken = text;
         }
 
         private static void SaleStarReminderRemover(MonoMod.Cil.ILContext il)
@@ -152,14 +204,18 @@ namespace WolfoQualityOfLife
                 treasureReminder.saleStar = false;
 
 
-                using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
+
+                if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder <= 5)
                 {
-                    while (enumerator.MoveNext())
+                    using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
                     {
-                        if (enumerator.Current.networkUser.isLocalPlayer)
+                        while (enumerator.MoveNext())
                         {
-                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0) { treasureReminder.saleStar = true; }
-                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { treasureReminder.saleStar = true; }
+                            if (enumerator.Current.networkUser.isLocalPlayer)
+                            {
+                                if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0) { treasureReminder.saleStar = true; }
+                                if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { treasureReminder.saleStar = true; }
+                            }
                         }
                     }
                 }

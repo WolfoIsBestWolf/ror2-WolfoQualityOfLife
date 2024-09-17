@@ -723,6 +723,16 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] PrinterSuperLarge {
+            get {
+                object obj = ResourceManager.GetObject("PrinterSuperLarge", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] PrinterWildIcon {
             get {
                 object obj = ResourceManager.GetObject("PrinterWildIcon", resourceCulture);
@@ -1326,6 +1336,16 @@ namespace WolfoQualityOfLife.Properties {
         public static byte[] texItemUsedKeyVoid {
             get {
                 object obj = ResourceManager.GetObject("texItemUsedKeyVoid", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texItemUsedPrayer {
+            get {
+                object obj = ResourceManager.GetObject("texItemUsedPrayer", resourceCulture);
                 return ((byte[])(obj));
             }
         }

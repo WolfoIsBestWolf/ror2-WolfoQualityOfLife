@@ -1,5 +1,24 @@
 ## Changelog:
 ```
+v3.1.3
+Added Halcion Shrine charge percentage. (Automatically disabled with NoMath mod)
+Added Unique line for when Chance Doll activates.
+Added Prayer Beads (Blessing), to show you how much of a bonus you got. 
+(The item notification and description tell you how many bonus levels you got from all blessings.)
+Made the previous Red Printer ping icon the Green Printer one. Red Printer now has a more unique icon.
+Death messages for Glass, Twisted and Echo conditions.
+
+Removed Sale Star reminder for non-standard but timed stages. (ie Moon, Planetarium)
+Fixed more guaranteed interactables using wrong interactables. (Verdant, Impact)
+Fixed Blue Tp description not working multiple times.
+
+v3.1.2
+-Mod loads later for hopefully better compatibility with other mods that change strings.
+(Changed name from com.Wolfo.WolfoQualityOfLife to just Wolfo.WolfoQualityOfLife)
+-Made Opal/Shield cooldown buff get applied differently to support modded Warped Echo.
+-Tagged used Keys as consumed.
+-Fixed issue with previous blue tp objective.
+
 v3.1.1
 Added a objective reminder for Sale Star (I forgot I had this item so many times)
 Made the Sale Star effect bigger.

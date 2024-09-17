@@ -44,14 +44,18 @@ namespace WolfoQualityOfLife
                 On.RoR2.TeleporterInteraction.Start += (orig, self) =>
                 {
                     orig(self);
-                    if (!LunaredAllOverIt && self.name.StartsWith("Lunar"))
+                    if (self.name.StartsWith("Lunar"))
                     {
-                        LunaredAllOverIt = true;
-                        TPLunar1 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
-                        TPLunar2 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
+                        if (LunaredAllOverIt == false)
+                        {
+                            LunaredAllOverIt = true;
+                            TPLunar1 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
+                            TPLunar2 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style>", "en");
+                        }
                     }
                     else if (LunaredAllOverIt)
                     {
+                        LunaredAllOverIt = false;
                         TPLunar1.Remove();
                         TPLunar2.Remove();
                     }
@@ -59,7 +63,7 @@ namespace WolfoQualityOfLife
 
                 GameObject LunarTeleporter = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Teleporters/LunarTeleporter Variant.prefab").WaitForCompletion();
                 LunarTeleporter.GetComponent<HoldoutZoneController>().inBoundsObjectiveToken = "OBJECTIVE_CHARGE_TELEPORTER_LUNAR";
-                LunarTeleporter.GetComponent<HoldoutZoneController>().inBoundsObjectiveToken = "OBJECTIVE_CHARGE_TELEPORTER_OOB_LUNAR";
+                LunarTeleporter.GetComponent<HoldoutZoneController>().outOfBoundsObjectiveToken = "OBJECTIVE_CHARGE_TELEPORTER_OOB_LUNAR";
 
                 LanguageAPI.Add("OBJECTIVE_CHARGE_TELEPORTER_LUNAR", "Charge the <style=cIsLunar>Teleporter <sprite name=\"TP\" tint=1></style> ({0}%)", "en");
                 LanguageAPI.Add("OBJECTIVE_CHARGE_TELEPORTER_OOB_LUNAR", "Enter the <style=cIsLunar>Teleporter zone!</style> ({0}%)", "en");
@@ -292,6 +296,8 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("ITEM_ANCESTRALINCUBATOR_DESC", "<style=cIsDamage>7%</style> chance <style=cStack>(+1% per stack)</style> on kill to <style=cIsUtility>summon an Ancestral Pod</style> that distracts enemies. \nOnce it fully grows, it will hatch into an allied <style=cIsDamage>Parent</style> with <style=cIsHealing>200% health</style> <style=cStack>(+100% per stack)</style> and with <style=cIsDamage>400% damage</style>. <style=cIsDamage>Parents</style> limited to 1 <style=cStack>(+1 per stack)</style>", "en");
 
             LanguageAPI.Add("ITEM_SHINYPEARL_DESC", "Increases <style=cIsDamage>damage</style>, <style=cIsDamage>attack speed</style>, <style=cIsDamage>critical strike chance</style>, <style=cIsHealing>maximum health</style>, <style=cIsHealing>base health regeneration</style>, <style=cIsHealing>base armor</style>, <style=cIsUtility>movement speed</style> by <style=cIsDamage>1<style=cIsHealing>0<style=cIsUtility>%<style=cStack> (+10% per stack)</style></style></style></style>", "en");
+
+            LanguageAPI.Add("ITEM_HEALWHILESAFE_DESC", "Increases <style=cIsHealing>base health regeneration</style> by <style=cIsHealing>+3 hp/s</style> <style=cStack>(+3 hp/s per stack)</style> while outside of danger.", "en");
 
 
             LanguageAPI.Add("ITEM_SCRAPWHITE_PICKUP", "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color>.", "en");
@@ -646,7 +652,6 @@ namespace WolfoQualityOfLife
 
             LanguageAPI.Add("ITEM_LUNARSECONDARYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Secondary Skill </style> with <style=cIsUtility>Slicing Maelstrom</style>.  \n\nCharge up a projectile that deals <style=cIsDamage>875% damage per second</style> to nearby enemies, exploding after <style=cIsUtility>3</style> seconds to deal <style=cIsDamage>700% damage</style> and <style=cIsDamage>root</style> enemies for <style=cIsUtility>3</style> <style=cStack>(+3 per stack)</style> seconds. Recharges after 5 <style=cStack>(+5 per stack)</style> seconds.");
             LanguageAPI.Add("ITEM_LUNARUTILITYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Utility Skill</style> with <style=cIsUtility>Shadowfade</style>. \n\nFade away, becoming <style=cIsUtility>intangible</style> and gaining <style=cIsUtility>+30% movement speed</style>. <style=cIsHealing>Heal</style> for <style=cIsHealing>18% <style=cStack>(+18% per stack)</style> of your maximum health</style>. Lasts 3 <style=cStack>(+3 per stack)</style> seconds.");
-
 
         }
 

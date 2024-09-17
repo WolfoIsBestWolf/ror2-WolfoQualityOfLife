@@ -15,7 +15,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQualityOfLife
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.1.0")]
+    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.1.3")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LoadoutAPI), nameof(PrefabAPI), nameof(LanguageAPI), nameof(ItemAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -260,6 +260,25 @@ namespace WolfoQualityOfLife
 
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
+                case "villagenight":
+                    if (WConfig.cfgPingIcons.Value)
+                    {
+                        ChestBehavior[] highlightlist = FindObjectsOfType(typeof(ChestBehavior)) as ChestBehavior[];
+                        for (var i = 0; i < highlightlist.Length; i++)
+                        {
+                            if (highlightlist[i].name.StartsWith("Chest2"))
+                            {
+                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+                            }
+                        }
+                    }
+                    break;
+                case "lakes":
+                    GameObject Preplaced = GameObject.Find("/HOLDER: Preplaced Interactables");
+                    Preplaced.transform.GetChild(0).gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ScrapperIcon;
+                    Preplaced.transform.GetChild(1).gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+
+                    break;
                 case "helminthroost":
                     GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                     break;
@@ -554,7 +573,8 @@ namespace WolfoQualityOfLife
                     }
                     break;
                 case "mysteryspace":
-                    GameObject MSObelisk = GameObject.Find("/MSObelisk");
+                    GameObject MSObelisk = GameObject.Find("/MS_Obelisk");
+                    MSObelisk.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.QuestionMarkIcon;
                     MSObelisk.AddComponent<GenericObjectiveProvider>().objectiveToken = "Obliterate yourself from existence";
                     break;
                 case "artifactworld":

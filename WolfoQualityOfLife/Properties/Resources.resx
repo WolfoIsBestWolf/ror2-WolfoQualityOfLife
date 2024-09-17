@@ -316,6 +316,9 @@
   <data name="PrinterMiliIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>PingIcons\PrinterMiliIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="PrinterSuperLarge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>PingIcons\PrinterSuperLarge.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="PrinterWildIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>PingIcons\PrinterWildIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -498,6 +501,9 @@
   </data>
   <data name="texItemUsedKeyVoid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texItemUsedKeyVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texItemUsedPrayer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texItemUsedPrayer.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texLunarPortalOnUseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>ColorChanger\texLunarPortalOnUseIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
