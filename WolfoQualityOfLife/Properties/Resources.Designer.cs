@@ -973,6 +973,26 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] texBodyDevotedElder {
+            get {
+                object obj = ResourceManager.GetObject("texBodyDevotedElder", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texBodyDevotedLemurian {
+            get {
+                object obj = ResourceManager.GetObject("texBodyDevotedLemurian", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] texBodyEngiWalkerTurret {
             get {
                 object obj = ResourceManager.GetObject("texBodyEngiWalkerTurret", resourceCulture);

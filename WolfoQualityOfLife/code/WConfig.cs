@@ -45,7 +45,8 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<float> cfgPingDurationMultiplier;
         public static ConfigEntry<bool> cfgNewSprintCrosshair;
         public static ConfigEntry<bool> cfgEquipmentDroneName;
-        public static ConfigEntry<bool> cfgMainMenuTheme;
+        public static ConfigEntry<bool> cfgMainMenuRandomizer;
+        public static ConfigEntry<bool> cfgMainMenuScav;
         public static ConfigEntry<bool> cfgMountainStacks;
 
 
@@ -89,7 +90,7 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgDeathScreenStats;
 
         public static ConfigEntry<bool> cfgPingIcons;
-        public static ConfigEntry<bool> cfgMainMenuRandomizer;
+    
         public static ConfigEntry<bool> EnableColorChangeModule;
 
         public static ConfigEntry<bool> ArtifactOutline;
@@ -122,6 +123,12 @@ namespace WolfoQualityOfLife
                true,
                "Should the Main Menu change between themes. If Starstorm is enabled stormtheme will also random be disabled"
            );
+            cfgMainMenuScav = ConfigFileUNSORTED.Bind(
+    "Other",
+    "Main Menu Scav",
+    true,
+    "Should a Scav be readded to the options screen like in CU3, and a Gup added to the alternative game modes screen."
+);
             cfgMessageDeath = ConfigFileUNSORTED.Bind(
                "More Messages",
                "Enable Detailed Death Messages",
@@ -220,8 +227,8 @@ namespace WolfoQualityOfLife
             );
             cfgBlueTextPrimordial = ConfigFileUNSORTED.Bind(
                 "Text Changes",
-                "Blue Text Primordial TP",
-                true,
+                "Blue Text Primordial TP objective",
+                false,
                 "Make the objective have blue text when it is a primordial teleporter."
             );
             //

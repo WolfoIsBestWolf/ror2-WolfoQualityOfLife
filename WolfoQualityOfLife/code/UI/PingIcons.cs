@@ -493,7 +493,10 @@ namespace WolfoQualityOfLife
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalMS").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
 
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidOutroPortal/VoidOutroPortal.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
+            GameObject PortalVoid = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion();
+            PortalVoid.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
+            PortalVoid.transform.GetChild(0).GetChild(5).gameObject.SetActive(true);
+            PortalVoid.transform.GetChild(0).GetChild(6).gameObject.SetActive(false);
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortal/DeepVoidPortal.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/PortalInfiniteTower.prefab").WaitForCompletion().AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PortalIcon;
 
@@ -578,21 +581,21 @@ namespace WolfoQualityOfLife
                 //Debug.LogWarning(ISCList[i]);
                 switch (ISCList[i].name)
                 {
-                    case "midcDroneTable":
+                    case "iscDroneTable":
                         Texture2D SS2_DroneScrapper = new Texture2D(256, 256, TextureFormat.DXT5, false);
                         SS2_DroneScrapper.LoadImage(Properties.Resources.SS2_DroneScrapper, true);
                         SS2_DroneScrapper.filterMode = FilterMode.Bilinear;
                         Sprite SS2_DroneScrapperS = Sprite.Create(SS2_DroneScrapper, v.rec256, v.half);
                         ISCList[i].prefab.GetComponent<PingInfoProvider>().pingIconOverride = SS2_DroneScrapperS;
                         break;
-                    case "msidcCloneDrone":
+                    case "iscCloneDrone":
                         Texture2D SS2_DroneDuplicate = new Texture2D(256, 256, TextureFormat.DXT5, false);
                         SS2_DroneDuplicate.LoadImage(Properties.Resources.SS2_DroneDuplicate, true);
                         SS2_DroneDuplicate.filterMode = FilterMode.Bilinear;
                         Sprite SS2_DroneDuplicateS = Sprite.Create(SS2_DroneDuplicate, v.rec256, v.half);
                         ISCList[i].prefab.AddComponent<PingInfoProvider>().pingIconOverride = SS2_DroneDuplicateS;
                         break;
-                    case "msidcShockDrone":
+                    case "iscShockDrone":
                         Texture2D SS2_DroneShock = new Texture2D(256, 320, TextureFormat.DXT5, false);
                         SS2_DroneShock.LoadImage(Properties.Resources.SS2_DroneShock, true);
                         SS2_DroneShock.filterMode = FilterMode.Bilinear;

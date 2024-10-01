@@ -30,13 +30,15 @@ namespace WolfoQualityOfLife
             Unused();
             VoidAffix();
 
-            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE_2P", "<style=cShrine>You offer to the shrine and are rewarded (Lucky)!</color>");
-            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE", "<style=cShrine>{0} offered to the shrine and was rewarded (Lucky)!</color>");
+            //IL.RoR2.PortalSpawner.Start += DelayThunderMessage;
 
-            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL_2P", "<style=cShrine>Your chance doll felt lucky!</color>");
-            LanguageAPI.Add("SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL", "<style=cShrine>{0}'s chance doll felt lucky!</color>");
-
-            On.RoR2.ShrineChanceBehavior.AddShrineStack += ShrineChanceBehavior_AddShrineStack;
+            bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("0p41.Sots_Items_Reworked");
+            if (!otherMod)
+            {
+                //This like runs for every character in the game for a very minor benefit idk if that's really worth it.
+                IL.RoR2.InteractionDriver.MyFixedUpdate += BiggerSaleStarRange;
+            }
+            On.RoR2.ShrineChanceBehavior.AddShrineStack += ChanceDollUniqueLine;
 
             GameObject LowerPricedChestsGlow = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow");
 
@@ -275,7 +277,126 @@ namespace WolfoQualityOfLife
             };
         }
 
-        private static void ShrineChanceBehavior_AddShrineStack(On.RoR2.ShrineChanceBehavior.orig_AddShrineStack orig, ShrineChanceBehavior self, Interactor activator)
+        private static void DelayThunderMessage(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdfld("RoR2.PortalSpawner", "spawnPreviewMessageToken")))
+            {
+                c.EmitDelegate<System.Func<string, string>>((target) =>
+                {
+                    Debug.Log(ClassicStageInfo.instance);
+                    if (ClassicStageInfo.instance && !string.IsNullOrEmpty(target))
+                    {
+                        ClassicStageInfo.instance.BroadcastFamilySelection(target);
+                        return null;
+                    }
+                    else
+                    {
+                         DelayedBroadCast(target);
+                    }
+                    return target;
+                });
+                Debug.Log("IL Found: Delay Thunder Message");
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: Delay Thunder Message");
+            }
+        }
+
+        private static void BiggerSaleStarRange(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.After,
+            x => x.MatchLdsfld("RoR2.DLC2Content/Items", "LowerPricedChests"));
+
+            if (c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "currentInteractable")))
+            {
+
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<System.Func<GameObject, InteractionDriver, GameObject>>((target, interactionDriver) =>
+                {
+                    if (interactionDriver.networkIdentity.hasAuthority) //Only players
+                    {
+                        //IS checkign for an item less intensive
+                        //Or checking for every interactable in a decent radius
+                        if (interactionDriver.characterBody.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0)
+                        {
+                            if (target == null)
+                            {
+                                /*if (interactionDriver.interactableCheckCooldown > 0f)
+                                {
+                                    return interactionDriver.currentInteractable;
+                                }
+                                //What?
+                                interactionDriver.interactableCheckCooldown = 0f;*/
+                                float num = 0f;
+                                float num2 = interactionDriver.interactor.maxInteractionDistance * 2f;
+
+                                Vector3 vector = interactionDriver.inputBank.aimOrigin;
+                                Vector3 vector2 = interactionDriver.inputBank.aimDirection;
+                                if (interactionDriver.useAimOffset)
+                                {
+                                    Vector3 a = vector + vector2 * num2;
+                                    vector = interactionDriver.inputBank.aimOrigin + interactionDriver.aimOffset;
+                                    vector2 = (a - vector) / num2;
+                                }
+                                Ray originalAimRay = new Ray(vector, vector2);
+                                Ray raycastRay = CameraRigController.ModifyAimRayIfApplicable(originalAimRay, interactionDriver.gameObject, out num);
+                                target = interactionDriver.interactor.FindBestInteractableObject(raycastRay, num2 + num, originalAimRay.origin, num2);
+                            };
+                            if (target)
+                            {
+                                PurchaseInteraction component = target.GetComponent<PurchaseInteraction>();
+                                if (component != null && component.saleStarCompatible && !interactionDriver.saleStarEffect)
+                                {
+                                    interactionDriver.saleStarEffect = UnityEngine.Object.Instantiate<GameObject>(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow"), target.transform.position, Quaternion.identity, target.transform);
+                                    return null;
+                                }
+                            }
+                            else if (interactionDriver.saleStarEffect)
+                            {
+                                UnityEngine.Object.Destroy(interactionDriver.saleStarEffect);
+                                return null;
+                            }
+                        }
+                        else if (interactionDriver.saleStarEffect)
+                        {
+                            UnityEngine.Object.Destroy(interactionDriver.saleStarEffect);
+                            return null;
+                        }
+                    }
+                    return null;
+                });
+
+                c.TryGotoNext(MoveType.Before,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"),
+                x => x.MatchCall("UnityEngine.Object", "Destroy"));
+                c.TryGotoNext(MoveType.Before,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"),
+                x => x.MatchCall("UnityEngine.Object", "Destroy"));
+                c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"));
+                Debug.Log(c);
+                c.EmitDelegate<System.Func<GameObject, GameObject>>((target) =>
+                {
+                    return null;
+                });
+
+
+
+                Debug.Log("IL Found: Sale Star Range");
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: Sale Star Range");
+            }
+        }
+
+        private static void ChanceDollUniqueLine(On.RoR2.ShrineChanceBehavior.orig_AddShrineStack orig, ShrineChanceBehavior self, Interactor activator)
         {
             orig(self,activator);
             if (self.chanceDollWin)
@@ -657,6 +778,15 @@ namespace WolfoQualityOfLife
         }
 
 
+        public static System.Collections.IEnumerator DelayedBroadCast(string familySelectionChatString)
+        {
+            yield return new WaitForSeconds(1f);
+            Chat.SendBroadcastChat(new Chat.SimpleChatMessage
+            {
+                baseToken = familySelectionChatString
+            });
+            yield break;
+        }
         public class InstantiateGameObjectAtLocation : MonoBehaviour
         {
             public GameObject objectToInstantiate;

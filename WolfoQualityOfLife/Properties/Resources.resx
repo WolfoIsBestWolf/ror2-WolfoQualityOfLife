@@ -391,6 +391,12 @@
   <data name="texBodyClayMan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texBodyClayMan.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="texBodyDevotedElder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texBodyDevotedElder.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texBodyDevotedLemurian" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>texBodyDevotedLemurian.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texBodyEngiWalkerTurret" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texBodyEngiWalkerTurret.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

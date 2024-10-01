@@ -1,5 +1,32 @@
 ## Changelog:
 ```
+v3.1.6
+Added config to remove Scav/Gup on title screen.
+Added friendly-outline to Devoted Lemurians
+
+You won't get more Rusted Chest reminders than keys.
+-If Devotees spawn 17 Rusty chests, but you only have 2 keys. You only have a reminder for 2.
+
+Fixed bug where Devoted Lemurians are in the log instead of Wild ones. (Vanilla bug)
+
+
+v3.1.5
+Fixed SS2 interactables not having ping icon assigned anymore.
+Doubled range at which Sale Star effect spawns.
+
+Hopefully fixed issue with Prayer Beads Blessing having really long numbers sometimes.
+Reminder for VanillaVoid Cornucopia
+Made BlueTP objective disabled by default.
+Fixed KipKip being named TwipTwip
+
+
+v3.1.4 - Requests
+Made Prayer Beads Blessing tell you how many stats you get in the full descrption.
+Prime Meridian tells you how many Geodes are left to crack for the secret aurelionite fragment.
+Saftey checked Acrid Blight stuff for mods that reuse Acrids parts.
+Treasure reminders now get marked as failed when Mithrix/False Son fight starts & Voidling Phase 1 dies.
+
+
 v3.1.3
 Added Halcion Shrine charge percentage. (Automatically disabled with NoMath mod)
 Added Unique line for when Chance Doll activates.
@@ -12,12 +39,14 @@ Removed Sale Star reminder for non-standard but timed stages. (ie Moon, Planetar
 Fixed more guaranteed interactables using wrong interactables. (Verdant, Impact)
 Fixed Blue Tp description not working multiple times.
 
+
 v3.1.2
 -Mod loads later for hopefully better compatibility with other mods that change strings.
 (Changed name from com.Wolfo.WolfoQualityOfLife to just Wolfo.WolfoQualityOfLife)
 -Made Opal/Shield cooldown buff get applied differently to support modded Warped Echo.
 -Tagged used Keys as consumed.
 -Fixed issue with previous blue tp objective.
+
 
 v3.1.1
 Added a objective reminder for Sale Star (I forgot I had this item so many times)

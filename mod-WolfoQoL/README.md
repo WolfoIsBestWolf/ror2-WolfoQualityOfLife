@@ -29,11 +29,13 @@ A Unique Ping Icon for the vast majority of Interactables.
 Many visual buff icons to convey more information.\
 How many Feather Jumps you have left, Headstomper Cooldown and Freeze duration as the important ones.\
 Best used with mods like LookingGlass.\
+(None of the buffs this mod adds will help Growth Nectar.)\
 Also recolors some buff icons because they looked the same as others yet had different effects.
 
-Consumed Keys item like how there's consumed Elixir/Watches.
+Consumed Keys item like how there's consumed Elixir/Watches.\
+"Consumed" Prayer Beads that tell you how many stats you are getting.
 
-New Icon for Engineer Walker Turrets, Empathy Cores.
+Unique new Icon for Engineer Walker Turrets, Empathy Cores.
 
 ## Information
 A updated Death Screen showing what Equipment you used, Elite Prefix of the killer included in their name, the Inventory of the enemy that killed you or the enemy items of the run.
@@ -41,10 +43,12 @@ A updated Death Screen showing what Equipment you used, Elite Prefix of the kill
 When you die a more detailed death message is shown to everyone
 
 A reminder to open your Lockbox and Shipping Terminal will be added to your objectives.\
-Reminders for Portals are also added.
+Reminders for Portals are also added.\
+A reminder that you have Sale Star in hopes that you don't waste it.
 
 Messages upon losing items to Printing/Cauldron/Cleansing. (Global)\
 Messages for Void Upgrades and Egocentrism. (Private)\
+Message for when Chance Doll activates.\
 Item names will be colored in pings.\
 Pings last twice as long.
 
@@ -54,11 +58,11 @@ For each activated Mountain Shrine a mountain shrine symbol will be displayed
  
 Fixed many wrong descriptions.
 
-A Cost Hologram for the Cleansing Shrines, Lockboxes, Lunar Recycler and Broken Rex as they Lacked one.  
-A Charge/Position Indicator for Void Field Cell events so you can see the charge percentage when active.  
+A Cost Hologram for the Cleansing Shrines, Lockboxes, Lunar Recycler and Broken Rex as they Lacked one.    
+A Charge/Position Indicator for Void Field Cell events so you can see the charge percentage when active.   
+Halcyon Shrines will have an objective showing their charge amount.    
 
-
-Elite Aspects, Geep, Gip, Twisted Scav, Newt and Malachite Urchin show up in the Logbook.   
+Elite Aspects, Geep, Gip, Twisted Scav and Malachite Urchin show up in the Logbook.   
 Changes the name of Lunar Chimera to include their type.    
 Adds a description for Aspects, Fuel Array, Tonic Afflictions (and many unused items) so it doesn't show a blank one with UI mods.  
 

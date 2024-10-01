@@ -15,7 +15,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQualityOfLife
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.1.3")]
+    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.1.4")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LoadoutAPI), nameof(PrefabAPI), nameof(LanguageAPI), nameof(ItemAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -32,6 +32,9 @@ namespace WolfoQualityOfLife
             WConfig.Start();
 
             SkinChanges.Start();
+
+            Language_English.Start();
+ 
 
             //Misc
             RandomMisc.Start();
@@ -93,25 +96,26 @@ namespace WolfoQualityOfLife
         private void MainMenuExtras(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
         {
             orig(self);
-            GameObject tempmain = GameObject.Find("/HOLDER: Title Background");
-            GameObject ScavHolder = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU3 Props.prefab").WaitForCompletion(), tempmain.transform);
+            if (WConfig.cfgMainMenuScav.Value)
+            {
+                GameObject tempmain = GameObject.Find("/HOLDER: Title Background");
+                GameObject ScavHolder = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU3 Props.prefab").WaitForCompletion(), tempmain.transform);
 
-            Destroy(ScavHolder.transform.GetChild(3).gameObject);
-            Destroy(ScavHolder.transform.GetChild(1).gameObject);
-            Destroy(ScavHolder.transform.GetChild(0).gameObject);
-            ScavHolder.SetActive(true);
+                Destroy(ScavHolder.transform.GetChild(3).gameObject);
+                Destroy(ScavHolder.transform.GetChild(1).gameObject);
+                Destroy(ScavHolder.transform.GetChild(0).gameObject);
+                ScavHolder.SetActive(true);
 
-            GameObject mdlGup = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion().transform.GetChild(0).GetChild(0).gameObject);
-            mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
-            mdlGup.transform.localScale = new Vector3(7, 7, 7);
-            mdlGup.transform.localPosition = new Vector3(55.2201f, -0.9796f, 11.5f);
-            mdlGup.transform.localEulerAngles = new Vector3(5.7003f, 247.4198f, 0);
+                GameObject mdlGup = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion().transform.GetChild(0).GetChild(0).gameObject);
+                mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
+                mdlGup.transform.localScale = new Vector3(7, 7, 7);
+                mdlGup.transform.localPosition = new Vector3(55.2201f, -0.9796f, 11.5f);
+                mdlGup.transform.localEulerAngles = new Vector3(5.7003f, 247.4198f, 0);
 
-            Transform extragamemodepos = self.extraGameModeMenuScreen.gameObject.transform.parent.GetChild(1);
-            extragamemodepos.localPosition = new Vector3(36.24f, 2.7204f, 3.1807f);
-            extragamemodepos.localEulerAngles = new Vector3(5.2085f, 38.4904f, 0);
-
-
+                Transform extragamemodepos = self.extraGameModeMenuScreen.gameObject.transform.parent.GetChild(1);
+                extragamemodepos.localPosition = new Vector3(36.24f, 2.7204f, 3.1807f);
+                extragamemodepos.localEulerAngles = new Vector3(5.2085f, 38.4904f, 0);
+            }
             if (WConfig.cfgMainMenuRandomizer.Value)
             {
                 GameObject StarStorm2 = GameObject.Find("/StormMainMenuEffect(Clone)");
@@ -192,6 +196,8 @@ namespace WolfoQualityOfLife
             RuleCatalog.FindRuleDef("Difficulty").FindChoice("Eclipse6").tooltipNameColor = new Color(0.257f, 0.257f, 0.357f, 1);
             RuleCatalog.FindRuleDef("Difficulty").FindChoice("Eclipse7").tooltipNameColor = new Color(0.228f, 0.228f, 0.328f, 1);
             RuleCatalog.FindRuleDef("Difficulty").FindChoice("Eclipse8").tooltipNameColor = new Color(0.2f, 0.2f, 0.3f, 1);
+
+            RoR2Content.Buffs.HiddenInvincibility.canStack = false;
         }
 
 
@@ -513,7 +519,7 @@ namespace WolfoQualityOfLife
                         {
                             if (bossgrouplist[i].name.StartsWith("BrotherEncounter, Phase 2"))
                             {
-                                bossgrouplist[i].bestObservedName = Language.GetString("LUNARGOLEM_BODY_NAME");
+                                bossgrouplist[i].bestObservedName = "Lunar Chimera";
                                 bossgrouplist[i].bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
                             }
                         }
@@ -611,7 +617,14 @@ namespace WolfoQualityOfLife
                 case "voidraid":
                     break;
             };
-
+            if (Run.instance)
+            {
+                Reminders.TreasureReminder treasureReminder = Run.instance.gameObject.GetComponent<Reminders.TreasureReminder>();
+                if (treasureReminder)
+                {
+                    treasureReminder.freeChestVoidBool = false;
+                }
+            }
             orig(self);
 
             GC.Collect();
@@ -619,6 +632,7 @@ namespace WolfoQualityOfLife
             {
                 if (SceneInfo.instance.countsAsStage)
                 {
+
                     Reminders.TreasureReminder.SetupReminders();
                 }
             }

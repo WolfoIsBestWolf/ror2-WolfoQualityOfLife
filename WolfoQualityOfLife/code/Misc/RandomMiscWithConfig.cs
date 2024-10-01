@@ -23,7 +23,7 @@ namespace WolfoQualityOfLife
             }
 
             RobVag = Object.Instantiate(Addressables.LoadAssetAsync<UnlockableDef>(key: "RoR2/Base/Jellyfish/Logs.JellyfishBody.0.asset").WaitForCompletion());
-            RobVag.cachedName = "Logs.RobYoungVagrant.0";
+            RobVag.cachedName = "Logs.RobYoungVagrant.1";
             R2API.ContentAddition.AddUnlockableDef(RobVag);
 
             if (WConfig.cfgVoidAllyCyanEyes.Value)
@@ -307,22 +307,22 @@ namespace WolfoQualityOfLife
 
             }
 
-            GameObject RobYoungVagrant = BodyCatalog.GetBodyPrefab(BodyCatalog.FindBodyIndex("RobYoungVagrantBody"));
+            /*GameObject RobYoungVagrant = BodyCatalog.GetBodyPrefab(BodyCatalog.FindBodyIndex("RobYoungVagrantBody"));
             if (RobYoungVagrant)
             {
-                if (RobYoungVagrant.GetComponent<DeathRewards>().logUnlockableDef)
+                if (!RobYoungVagrant.GetComponent<DeathRewards>().logUnlockableDef)
                 {
                     RobYoungVagrant.GetComponent<DeathRewards>().logUnlockableDef = RobVag;
                     RobYoungVagrant.GetComponent<DeathRewards>().bossDropTable = null;
                 }
-            }
+            }*/
 
 
             var VALUES = orig(expansionAvailability);
 
             if (WConfig.MoreLogEntries.Value == true)
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR3_BODY_NAME";
+                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR1_BODY_NAME";
                 RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("limbo");
                 //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("bazaar");
             }

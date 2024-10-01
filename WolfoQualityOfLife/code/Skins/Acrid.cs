@@ -558,82 +558,86 @@ namespace WolfoQualityOfLife
 
             if (WConfig.cfgSkinAcridBlight.Value == true)
             {
+                On.EntityStates.Croco.Slash.BeginMeleeAttackEffect += AcridBlight_M1;
 
-                On.EntityStates.Croco.Slash.BeginMeleeAttackEffect += (orig, self) =>
-                {
+                On.EntityStates.Croco.FireSpit.OnEnter += AcridBlight_M2_M4;
 
-                    if (self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
-                    {
-                        if (self.isComboFinisher)
-                        {
-                            self.swingEffectPrefab = CrocoComboFinisherSlashBlight;
-                        }
-                        else
-                        {
-                            self.swingEffectPrefab = CrocoSlashBlight;
-                        }
-                    };
-                    orig(self);
-                };
+                On.EntityStates.Croco.Bite.BeginMeleeAttackEffect += AcridBlight_M2Alt;
 
+                On.EntityStates.Croco.BaseLeap.OnEnter += AcridBlight_M3_Start;
+                On.EntityStates.Croco.Leap.DoImpactAuthority += AcridBlight_M3_Pool;
 
-                On.EntityStates.Croco.FireSpit.OnEnter += (orig, self) =>
-                {
-                    if (self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
-                    {
-                        //Debug.Log(self.projectilePrefab);
-                        if (self.projectilePrefab.name.StartsWith("CrocoSpit"))
-                        {
-                            self.projectilePrefab = CrocoSpitBlight;
-                        }
-                        else if (self.projectilePrefab.name.StartsWith("CrocoDiseaseProjectile"))
-                        {
-                            self.projectilePrefab = CrocoDiseaseProjectileBlight;
-                        }
-                        self.effectPrefab = MuzzleflashCrocoBlight;
-                    };
-                    orig(self);
-                };
-
-
-                On.EntityStates.Croco.Bite.BeginMeleeAttackEffect += (orig, self) =>
-                {
-                    if (self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
-                    {
-                        self.swingEffectPrefab = CrocoBiteEffectBlight;
-                    };
-                    orig(self);
-                };
-
-
-                //Not Base Leap, Leap is Default Leap so probably better idk
-                On.EntityStates.Croco.Leap.DoImpactAuthority += (orig, self) =>
-                {
-                    if (self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
-                    {
-                        self.blastEffectPrefab = CrocoLeapExplosionBlight;
-                        //EntityStates.Croco.BaseLeap.projectilePrefab = CrocoLeapAcidBlight;
-                    }
-                    orig(self);
-                };
-                IL.EntityStates.Croco.BaseLeap.DropAcidPoolAuthority += BaseLeap_DropAcidPoolAuthority;
-
-                On.EntityStates.Croco.BaseLeap.OnEnter += (orig, self) =>
-                {
-                    if (self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
-                    {
-                        if (self.fistEffectPrefab.name.StartsWith("CrocoFistEffect"))
-                        {
-                            self.fistEffectPrefab = CrocoFistEffectBlight;
-                        };
-                    };
-                    orig(self);
-                };
+                IL.EntityStates.Croco.BaseLeap.DropAcidPoolAuthority += AcridBlight_M3_IL_BaseLeap_DropAcidPoolAuthority;
 
             }
         }
 
-        private static void BaseLeap_DropAcidPoolAuthority(ILContext il)
+        private static void AcridBlight_M3_Start(On.EntityStates.Croco.BaseLeap.orig_OnEnter orig, EntityStates.Croco.BaseLeap self)
+        {
+            if (self.outer.GetComponent<CrocoDamageTypeController>() && self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
+            {
+                if (self.fistEffectPrefab.name.StartsWith("CrocoFistEffect"))
+                {
+                    self.fistEffectPrefab = CrocoFistEffectBlight;
+                };
+            };
+            orig(self);
+        }
+
+        private static void AcridBlight_M3_Pool(On.EntityStates.Croco.Leap.orig_DoImpactAuthority orig, EntityStates.Croco.Leap self)
+        {
+            if (self.outer.GetComponent<CrocoDamageTypeController>() && self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
+            {
+                self.blastEffectPrefab = CrocoLeapExplosionBlight;
+                //EntityStates.Croco.BaseLeap.projectilePrefab = CrocoLeapAcidBlight;
+            }
+            orig(self);
+        }
+
+        private static void AcridBlight_M2Alt(On.EntityStates.Croco.Bite.orig_BeginMeleeAttackEffect orig, EntityStates.Croco.Bite self)
+        {
+            if (self.outer.GetComponent<CrocoDamageTypeController>() && self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
+            {
+                self.swingEffectPrefab = CrocoBiteEffectBlight;
+            };
+            orig(self);
+        }
+
+        private static void AcridBlight_M2_M4(On.EntityStates.Croco.FireSpit.orig_OnEnter orig, EntityStates.Croco.FireSpit self)
+        {
+            if (self.outer.GetComponent<CrocoDamageTypeController>() && self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
+            {
+                //Debug.Log(self.projectilePrefab);
+                if (self.projectilePrefab.name.StartsWith("CrocoSpit"))
+                {
+                    self.projectilePrefab = CrocoSpitBlight;
+                }
+                else if (self.projectilePrefab.name.StartsWith("CrocoDisease"))
+                {
+                    self.projectilePrefab = CrocoDiseaseProjectileBlight;
+                }
+                self.effectPrefab = MuzzleflashCrocoBlight;
+            };
+            orig(self);
+        }
+
+        private static void AcridBlight_M1(On.EntityStates.Croco.Slash.orig_BeginMeleeAttackEffect orig, EntityStates.Croco.Slash self)
+        {
+            if (self.outer.GetComponent<CrocoDamageTypeController>() && self.outer.GetComponent<CrocoDamageTypeController>().GetDamageType() == DamageType.BlightOnHit)
+            {
+                if (self.isComboFinisher)
+                {
+                    self.swingEffectPrefab = CrocoComboFinisherSlashBlight;
+                }
+                else
+                {
+                    self.swingEffectPrefab = CrocoSlashBlight;
+                }
+            };
+            orig(self);
+        }
+
+        private static void AcridBlight_M3_IL_BaseLeap_DropAcidPoolAuthority(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.After,

@@ -93,7 +93,7 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("LUNARWISP_BODY_NAME_SHORT", "Mond Wisch", "de");
             LanguageAPI.Add("LUNARGOLEM_BODY_NAME_SHORT", "Mond Golem", "de");
             LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_SHORT", "Mond Sprengkapsel", "de");*/
-
+            LanguageAPI.Add("LUNAR_CHIMERA", "Lunar Chimera", "en");
 
             if (WConfig.LunarChimeraNameChange.Value == "Long")
             {
@@ -193,10 +193,10 @@ namespace WolfoQualityOfLife
             //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Merc/MercBodyFocusedAssault.asset").WaitForCompletion().keywordTokens = new string[] { "KEYWORD_STUNNING", "KEYWORD_EXPOSE" };
 
 
-            LanguageAPI.Add("FROG_NAME", "Glass frog", "en");
-            /*LanguageAPI.Add("FROG_CONTEXT", "Pet the glass frog", "en");
-            LanguageAPI.Add("PET_FROG", "{0} pet the glass frog.", "en");
-            LanguageAPI.Add("PET_FROG_2P", "You pet the glass frog.", "en");*/
+            LanguageAPI.Add("FROG_NAME", "Glass Frog", "en");
+            LanguageAPI.Add("FROG_CONTEXT", "Pet the glass frog", "en");
+            LanguageAPI.Add("PET_FROG", "<style=cWorldEvent>{0} pet the glass frog.</style>", "en");
+            LanguageAPI.Add("PET_FROG_2P", "<style=cWorldEvent>You pet the glass frog.</style>", "en");
 
 
             LanguageAPI.Add("BAZAAR_SEER_SNOWYFOREST", "<style=cWorldEvent>You dream of campfires and ice.</style>", "en");
@@ -211,12 +211,7 @@ namespace WolfoQualityOfLife
             //LanguageAPI.Add("ACIDLARVA_BODY_NAME", "Acid Larva", "en");
 
 
-            Texture GenericPlanetDeath = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").GetComponent<CharacterBody>().portraitIcon;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ExplosivePotDestructibleBody").GetComponent<CharacterBody>().portraitIcon = GenericPlanetDeath;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/FusionCellDestructibleBody").GetComponent<CharacterBody>().portraitIcon = GenericPlanetDeath;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TimeCrystalBody").GetComponent<CharacterBody>().portraitIcon = GenericPlanetDeath;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/AltarSkeletonBody").GetComponent<CharacterBody>().portraitIcon = GenericPlanetDeath; //
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/SulfurPodBody").GetComponent<CharacterBody>().portraitIcon = GenericPlanetDeath; //
+
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().subtitleNameToken = "LUNAREXPLODER_BODY_SUBTITLE";
             //LanguageAPI.Add("IMP_TINY_BODY_NAME", "Tiny Imp", "en");
             //LanguageAPI.Add("SNIPER_BODY_NAME", "Sniper", "en");
@@ -255,6 +250,9 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("OBJECTIVE_CLEAR_ARENA", "Activate all <style=cIsVoid>Cell Vents</style> ({0}/{1})", "en");
             LanguageAPI.Add("OBJECTIVE_ARENA_CHARGE_CELL", "Breach the <style=cIsVoid>Cell</style> ({0}%)", "en");
 
+
+            R2API.LanguageAPI.Add("OBJECTIVE_REBIRTH_OUTRO_SHRINE_1", "Approach the <color=#7CFE7C>Shrine</color>", "en");
+            R2API.LanguageAPI.Add("OBJECTIVE_REBIRTH_OUTRO_SHRINE_2", "Be <color=#7CFE7C>Reborn</color> or Linger", "en");
 
             //Updated Interactable Names
             LanguageAPI.Add("DRONE_MEGA_CONTEXT", "Repair TC-280", "en");
