@@ -136,23 +136,15 @@ namespace WolfoQualityOfLife
         {
 
             //Textures
-            Texture2D texCrocoDiffuseBlight = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texCrocoDiffuseBlight.LoadImage(Properties.Resources.texCrocoDiffuseBlight, true);
-            texCrocoDiffuseBlight.filterMode = FilterMode.Bilinear;
-
-            Texture2D texCrocoEmissionBlight = new Texture2D(2048, 2048, TextureFormat.DXT5, false);
-            texCrocoEmissionBlight.LoadImage(Properties.Resources.texCrocoEmissionBlight, true);
-            texCrocoEmissionBlight.filterMode = FilterMode.Bilinear;
-
-            Texture2D texCrocoPoisonMaskBlight = new Texture2D(512, 512, TextureFormat.DXT5, false);
-            texCrocoPoisonMaskBlight.LoadImage(Properties.Resources.texCrocoPoisonMaskBlight, true);
-            texCrocoPoisonMaskBlight.filterMode = FilterMode.Bilinear;
+            Texture2D texCrocoDiffuseBlight = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texCrocoEmissionAlt.png");
+            Texture2D texCrocoEmissionBlight = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texCrocoEmissionBlight.png");
+            Texture2D texCrocoPoisonMaskBlight = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texCrocoPoisonMaskBlight.png");
 
             Texture2D texCrocoBlightSkin = new Texture2D(128, 128, TextureFormat.DXT5, false);
             texCrocoBlightSkin.LoadImage(Properties.Resources.texCrocoBlightSkin, true);
             texCrocoBlightSkin.filterMode = FilterMode.Bilinear;
             Sprite texCrocoBlightSkinS = Sprite.Create(texCrocoBlightSkin, v.rec128, v.half);
-
+ 
             Texture2D texCrocoSkinFlow = new Texture2D(256, 16, TextureFormat.DXT5, false);
             texCrocoSkinFlow.LoadImage(Properties.Resources.texCrocoSkinFlow, true);
             texCrocoSkinFlow.filterMode = FilterMode.Bilinear;

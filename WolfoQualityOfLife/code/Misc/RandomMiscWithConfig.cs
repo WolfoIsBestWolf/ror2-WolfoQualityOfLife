@@ -17,6 +17,11 @@ namespace WolfoQualityOfLife
 
         public static void Start()
         {
+            if (WConfig.cfgDelayGreenOrb.Value)
+            {
+                IL.RoR2.PortalSpawner.Start += DelayThunderMessage;
+            }
+
             if (WConfig.cfgTpIconDiscoveredRed.Value)
             {
                 IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
@@ -93,6 +98,9 @@ namespace WolfoQualityOfLife
             {
                 GameObject EquipmentDrone = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EquipmentDroneBody");
                 EquipmentDrone.AddComponent<EquipmentDroneNameComponent>();
+
+                On.RoR2.CharacterMasterNotificationQueue.SendTransformNotification_CharacterMaster_EquipmentIndex_EquipmentIndex_TransformationType += CharacterMasterNotificationQueue_SendTransformNotification_CharacterMaster_EquipmentIndex_EquipmentIndex_TransformationType;
+                //On.RoR2.Artifacts.EnigmaArtifactManager.OnServerEquipmentActivated += Enigma_EquipmentDroneName;
             }
 
             /*
@@ -103,6 +111,60 @@ namespace WolfoQualityOfLife
             mdlGeep.AddComponent<ModelPanelParameters>();
             mdlGip.AddComponent<ModelPanelParameters>();
             */
+        }
+
+        private static void DelayThunderMessage(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoNext(MoveType.After,
+                x => x.MatchLdfld("RoR2.PortalSpawner", "spawnPreviewMessageToken")))
+            {
+                c.EmitDelegate<System.Func<string, string>>((target) =>
+                {
+                    if (ClassicStageInfo.instance && !string.IsNullOrEmpty(target))
+                    {
+                        //Debug.Log(target);
+                        ClassicStageInfo.instance.StartCoroutine("BroadcastFamilySelection", target);
+                        return null;
+                    }
+                    else
+                    {
+                        //DelayedBroadCast(target);
+                    }
+                    return target;
+                });
+                Debug.Log("IL Found: Delay Thunder Message");
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: Delay Thunder Message");
+            }
+        }
+
+
+        private static void Enigma_EquipmentDroneName(On.RoR2.Artifacts.EnigmaArtifactManager.orig_OnServerEquipmentActivated orig, EquipmentSlot equipmentSlot, EquipmentIndex equipmentIndex)
+        {
+            orig(equipmentSlot, equipmentIndex);
+            if (equipmentSlot.characterBody)
+            {
+                if (equipmentSlot.characterBody.name.StartsWith("EquipmentDr"))
+                {
+                    equipmentSlot.characterBody.gameObject.AddComponent<EquipmentDroneNameComponent>();
+                }
+            }
+        }
+
+        private static void CharacterMasterNotificationQueue_SendTransformNotification_CharacterMaster_EquipmentIndex_EquipmentIndex_TransformationType(On.RoR2.CharacterMasterNotificationQueue.orig_SendTransformNotification_CharacterMaster_EquipmentIndex_EquipmentIndex_TransformationType orig, CharacterMaster characterMaster, EquipmentIndex oldIndex, EquipmentIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
+        {
+            orig(characterMaster, oldIndex, newIndex, transformationType);
+            if (characterMaster.name.StartsWith("EquipmentDr"))
+            {
+                if (characterMaster.GetBody())
+                {
+                    characterMaster.GetBody().gameObject.AddComponent<EquipmentDroneNameComponent>();
+                }
+            }
         }
 
         private static void TeleporterDiscoveredRed(MonoMod.Cil.ILContext il)
@@ -249,6 +311,7 @@ namespace WolfoQualityOfLife
             //Start for some reason refuses to work on Clients so I guess we'll just fucking run it until it works
             public CharacterBody body;
             private bool changed = false;
+            private bool enigma = false;
 
             public void Start()
             {
@@ -256,6 +319,7 @@ namespace WolfoQualityOfLife
                 if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.enigmaArtifactDef))
                 {
                     Destroy(this);
+                    enigma = true;
                 };
                 body = this.GetComponent<CharacterBody>();
             }
@@ -273,6 +337,7 @@ namespace WolfoQualityOfLife
                         if (body.inventory.currentEquipmentIndex == DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
                         {
                             changed = true;
+                            body.baseNameToken = "EQUIPMENTDRONE_BODY_NAME";
                         }
                         else
                         {

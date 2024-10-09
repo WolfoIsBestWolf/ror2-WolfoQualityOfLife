@@ -1233,79 +1233,9 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texCrocoDiffuseBlight {
-            get {
-                object obj = ResourceManager.GetObject("texCrocoDiffuseBlight", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] texCrocoEmissionAlt {
-            get {
-                object obj = ResourceManager.GetObject("texCrocoEmissionAlt", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] texCrocoEmissionBlight {
-            get {
-                object obj = ResourceManager.GetObject("texCrocoEmissionBlight", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] texCrocoPoisonMask___Copy {
-            get {
-                object obj = ResourceManager.GetObject("texCrocoPoisonMask___Copy", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] texCrocoPoisonMaskBlight {
-            get {
-                object obj = ResourceManager.GetObject("texCrocoPoisonMaskBlight", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] texCrocoSkinFlow {
             get {
                 object obj = ResourceManager.GetObject("texCrocoSkinFlow", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] texEngiTurretAltColossusDiffuse {
-            get {
-                object obj = ResourceManager.GetObject("texEngiTurretAltColossusDiffuse", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] texEngiTurretDiffuseAlt {
-            get {
-                object obj = ResourceManager.GetObject("texEngiTurretDiffuseAlt", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1393,16 +1323,6 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texOniMercSwordDiffuse {
-            get {
-                object obj = ResourceManager.GetObject("texOniMercSwordDiffuse", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         public static byte[] texRampBeetleBreathBlight {
             get {
                 object obj = ResourceManager.GetObject("texRampBeetleBreathBlight", resourceCulture);
@@ -1456,6 +1376,16 @@ namespace WolfoQualityOfLife.Properties {
         public static byte[] texRampCrocoDiseaseDarkLessDark {
             get {
                 object obj = ResourceManager.GetObject("texRampCrocoDiseaseDarkLessDark", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRampCrocoDiseaseDarkLessDarkOLD {
+            get {
+                object obj = ResourceManager.GetObject("texRampCrocoDiseaseDarkLessDarkOLD", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1573,9 +1503,9 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texTreebotVineForColossus {
+        public static byte[] UniqueAffixVoid {
             get {
-                object obj = ResourceManager.GetObject("texTreebotVineForColossus", resourceCulture);
+                object obj = ResourceManager.GetObject("UniqueAffixVoid", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -1583,9 +1513,9 @@ namespace WolfoQualityOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] UniqueAffixVoid {
+        public static byte[] wolfoqualityoflife {
             get {
-                object obj = ResourceManager.GetObject("UniqueAffixVoid", resourceCulture);
+                object obj = ResourceManager.GetObject("wolfoqualityoflife", resourceCulture);
                 return ((byte[])(obj));
             }
         }

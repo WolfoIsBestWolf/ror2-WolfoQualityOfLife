@@ -46,10 +46,14 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgNewSprintCrosshair;
         public static ConfigEntry<bool> cfgEquipmentDroneName;
         public static ConfigEntry<bool> cfgMainMenuRandomizer;
+        public static ConfigEntry<int> cfgMainMenuRandomizerSelector;
         public static ConfigEntry<bool> cfgMainMenuScav;
         public static ConfigEntry<bool> cfgMountainStacks;
 
+        public static ConfigEntry<bool> cfgUISimuBorder;
+        public static ConfigEntry<bool> cfgUIEclipseBorder;
 
+        public static ConfigEntry<bool> cfgDelayGreenOrb;
 
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
@@ -116,19 +120,31 @@ namespace WolfoQualityOfLife
                true,
                "As an emergency in case it breaks I guess."
             );
+            cfgDelayGreenOrb = ConfigFileUNSORTED.Bind(
+               "Other",
+               "Delayed Green Orb message",
+               true,
+               "Delays Thunder Rumbling Sots message by 1s so it opens the chat box"
+            );
 
             cfgMainMenuRandomizer = ConfigFileUNSORTED.Bind(
                "Other",
                "Main Menu Colors",
                true,
                "Should the Main Menu change between themes. If Starstorm is enabled stormtheme will also random be disabled"
-           );
+            );
+            cfgMainMenuRandomizerSelector = ConfigFileUNSORTED.Bind(
+               "Other",
+               "Main Menu Selector",
+               0,
+               "Specifically select a main menu color :\n0 : Default or Random depending on other config \n1 : Acres update\n2 : Sirens update\n3 : Void Fields update\n4 : Artifact update\n11, 12, 13, 14 : Same but force off SS2 Storm"
+            );
             cfgMainMenuScav = ConfigFileUNSORTED.Bind(
-    "Other",
-    "Main Menu Scav",
-    true,
-    "Should a Scav be readded to the options screen like in CU3, and a Gup added to the alternative game modes screen."
-);
+                "Other",
+                "Main Menu Scav",
+                true,
+                "Should a Scav be readded to the options screen like in CU3, and a Gup added to the alternative game modes screen."
+            );
             cfgMessageDeath = ConfigFileUNSORTED.Bind(
                "More Messages",
                "Enable Detailed Death Messages",
@@ -192,6 +208,20 @@ namespace WolfoQualityOfLife
                 true,
                 "To match other waiting sections in the game."
             );
+            //
+            cfgUISimuBorder = ConfigFileUNSORTED.Bind(
+               "UI",
+               "Simulacrum Completed Border",
+               true,
+               "Border for having beaten wave 50"
+           ); 
+            cfgUIEclipseBorder = ConfigFileUNSORTED.Bind(
+                "UI",
+                "Eclipse Number",
+                true,
+                "What eclipse was beaten as number under character."
+            );
+
 
             //
             //Text
@@ -255,9 +285,9 @@ namespace WolfoQualityOfLife
             );
             cfgSkinBellBalls = ConfigFileUNSORTED.Bind(
                 "Visuals",
-                "Elite Brass Contraption colored Balls",
-                true,
-                "Their balls use the elite aspects texture."
+                "Elite Brass Contraption colored Balls. (Auto Disabled)",
+                false,
+                "Their balls use the elite aspects texture. (This is currently broken, the effect system was reworked and this doesn't work properly with it anymore because the new version is lacking.)"
             );
             cfgSkinMisc = ConfigFileUNSORTED.Bind(
                 "Visuals",

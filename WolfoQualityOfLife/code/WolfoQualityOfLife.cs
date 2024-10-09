@@ -50,6 +50,7 @@ namespace WolfoQualityOfLife
             ExpandedDeathScreen.Start();
             ExtraIcons.Start();
             ItemColorModule.Main();
+            UIBorders.Start();
 
             if (WConfig.cfgPingIcons.Value)
             {
@@ -116,7 +117,36 @@ namespace WolfoQualityOfLife
                 extragamemodepos.localPosition = new Vector3(36.24f, 2.7204f, 3.1807f);
                 extragamemodepos.localEulerAngles = new Vector3(5.2085f, 38.4904f, 0);
             }
-            if (WConfig.cfgMainMenuRandomizer.Value)
+
+            int selector = WConfig.cfgMainMenuRandomizerSelector.Value;
+            if (selector != 0)
+            {
+                if (selector == 1 || selector == 11)
+                {
+                    GameObject CU1 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU1 Props.prefab").WaitForCompletion());
+                }
+                else if (selector == 2 || selector == 12)
+                {
+                    GameObject CU2 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU2 Props.prefab").WaitForCompletion());
+                }
+                else if (selector == 3 || selector == 13)
+                {
+                    GameObject CU2 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU3 Props.prefab").WaitForCompletion());
+                }
+                else if (selector == 4 || selector == 14)
+                {
+                    GameObject CU2 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU4 Props.prefab").WaitForCompletion());
+                }
+                else if (selector > 10)
+                {
+                    GameObject StarStorm2 = GameObject.Find("/StormMainMenuEffect(Clone)");
+                    if (StarStorm2)
+                    {
+                        StarStorm2.SetActive(false);
+                    }
+                }
+            }
+            else if (WConfig.cfgMainMenuRandomizer.Value)
             {
                 GameObject StarStorm2 = GameObject.Find("/StormMainMenuEffect(Clone)");
                 GameObject CU1 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU1 Props.prefab").WaitForCompletion());
@@ -266,6 +296,26 @@ namespace WolfoQualityOfLife
 
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
+                case "lakes":
+                    if (WConfig.cfgPingIcons.Value)
+                    {
+                        GenericInspectInfoProvider[] purchaserlist = FindObjectsOfType(typeof(GenericInspectInfoProvider)) as GenericInspectInfoProvider[];
+                        for (var i = 0; i < purchaserlist.Length; i++)
+                        {
+                            //Debug.Log(purchaserlist[i]);
+                            if (purchaserlist[i].name.StartsWith("Chest2"))
+                            {
+                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+                            }
+                            else if (purchaserlist[i].name.StartsWith("Scrapper"))
+                            {
+                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ScrapperIcon;
+                            }
+                        }
+                        //They have 2 fukin same named objects
+                        //GameObject Preplaced = GameObject.Find("/HOLDER: Preplaced Interactables");
+                    }
+                    break;
                 case "villagenight":
                     if (WConfig.cfgPingIcons.Value)
                     {
@@ -279,23 +329,26 @@ namespace WolfoQualityOfLife
                         }
                     }
                     break;
-                case "lakes":
-                    GameObject Preplaced = GameObject.Find("/HOLDER: Preplaced Interactables");
-                    Preplaced.transform.GetChild(0).gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ScrapperIcon;
-                    Preplaced.transform.GetChild(1).gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+                case "goolake":
+                    //GameObject DoorIsOpenedEffect = GameObject.Find("/HOLDER: Secret Ring Area Content/Entrance/GLRuinGate/DoorIsOpenedEffect/");
+                    //DoorIsOpenedEffect.AddComponent<GenericObjectiveProvider>().objectiveToken = "Explore the hidden chamber";
 
+                    /*DummyPingableInteraction[] desertplatelist = FindObjectsOfType(typeof(DummyPingableInteraction)) as DummyPingableInteraction[];
+                    for (var i = 0; i < desertplatelist.Length; i++)
+                    {
+                        //Debug.LogWarning(desertplatelist[i]); ////DISABLE THIS
+                        if (desertplatelist[i].name.Contains("GLPressurePlate"))
+                        {
+                            desertplatelist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                        }
+                    }*/
                     break;
-                case "helminthroost":
-                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
-                    break;
-                case "skymeadow":
-                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
-                    GameObject.Find("/HOLDER: Zones/OOB Zone").GetComponent<MapZone>().zoneType = MapZone.ZoneType.OutOfBounds;
-
-                    Material CorrectGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser (2)/mdlGeyser").GetComponent<MeshRenderer>().material;
-                    Transform WrongGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser").transform;
-                    WrongGeyser.GetChild(0).GetComponent<MeshRenderer>().material = CorrectGeyser;
-                    WrongGeyser.GetChild(1).GetComponent<MeshRenderer>().material = CorrectGeyser;
+                case "foggyswamp":
+                    GameObjectUnlockableFilter[] dummylist = FindObjectsOfType(typeof(RoR2.GameObjectUnlockableFilter)) as RoR2.GameObjectUnlockableFilter[];
+                    for (var i = 0; i < dummylist.Length; i++)
+                    {
+                        Destroy(dummylist[i]);
+                    }
                     break;
                 case "frozenwall":
                 case "itfrozenwall":
@@ -316,20 +369,6 @@ namespace WolfoQualityOfLife
                         }
                     }
                     break;
-                case "goolake":
-                    //GameObject DoorIsOpenedEffect = GameObject.Find("/HOLDER: Secret Ring Area Content/Entrance/GLRuinGate/DoorIsOpenedEffect/");
-                    //DoorIsOpenedEffect.AddComponent<GenericObjectiveProvider>().objectiveToken = "Explore the hidden chamber";
-
-                    /*DummyPingableInteraction[] desertplatelist = FindObjectsOfType(typeof(DummyPingableInteraction)) as DummyPingableInteraction[];
-                    for (var i = 0; i < desertplatelist.Length; i++)
-                    {
-                        //Debug.LogWarning(desertplatelist[i]); ////DISABLE THIS
-                        if (desertplatelist[i].name.Contains("GLPressurePlate"))
-                        {
-                            desertplatelist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
-                        }
-                    }*/
-                    break;
                 case "sulfurpools":
                     if (WConfig.cfgNewGeysers.Value)
                     {
@@ -344,13 +383,6 @@ namespace WolfoQualityOfLife
                             LoopParticles.GetChild(2).GetComponent<ParticleSystemRenderer>().material = MatGeyserSulfurPools;
                             LoopParticles.GetChild(3).GetComponent<ParticleSystemRenderer>().material = MatGeyserSulfurPools;
                         }
-                    }
-                    break;
-                case "foggyswamp":
-                    GameObjectUnlockableFilter[] dummylist = FindObjectsOfType(typeof(RoR2.GameObjectUnlockableFilter)) as RoR2.GameObjectUnlockableFilter[];
-                    for (var i = 0; i < dummylist.Length; i++)
-                    {
-                        Destroy(dummylist[i]);
                     }
                     break;
                 case "dampcavesimple":
@@ -429,7 +461,57 @@ namespace WolfoQualityOfLife
                         }
                     }
                     break;
-                case "wispgraveyard":
+                case "skymeadow":
+                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                    GameObject.Find("/HOLDER: Zones/OOB Zone").GetComponent<MapZone>().zoneType = MapZone.ZoneType.OutOfBounds;
+
+                    Material CorrectGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser (2)/mdlGeyser").GetComponent<MeshRenderer>().material;
+                    Transform WrongGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser").transform;
+                    WrongGeyser.GetChild(0).GetComponent<MeshRenderer>().material = CorrectGeyser;
+                    WrongGeyser.GetChild(1).GetComponent<MeshRenderer>().material = CorrectGeyser;
+                    break;
+                case "helminthroost":
+                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                    break;
+                case "moon2":
+                    if (WConfig.cfgPingIcons.Value)
+                    {
+                        Highlight[] highlightlist = FindObjectsOfType(typeof(Highlight)) as Highlight[];
+                        BossGroup[] bossgrouplist = FindObjectsOfType(typeof(BossGroup)) as BossGroup[];
+                        for (var i = 0; i < highlightlist.Length; i++)
+                        {
+                            //Debug.LogWarning(highlightlist[i]); ////DISABLE THIS
+                            if (highlightlist[i].name.StartsWith("MoonBattery"))
+                            {
+                                highlightlist[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
+                            }
+                            else if (highlightlist[i].name.StartsWith("LunarCauldron,"))
+                            {
+                                highlightlist[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.CauldronIcon;
+                            }
+                            else if (highlightlist[i].name.StartsWith("MoonElevator"))
+                            {
+                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                            }
+                            else if (highlightlist[i].name.StartsWith("LunarChest"))
+                            {
+                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLunarIcon;
+                            }
+                            else if (highlightlist[i].name.StartsWith("ShrineRestack"))
+                            {
+                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ShrineOrderIcon;
+                            }
+                        }
+
+                        for (var i = 0; i < bossgrouplist.Length; i++)
+                        {
+                            if (bossgrouplist[i].name.StartsWith("BrotherEncounter, Phase 2"))
+                            {
+                                bossgrouplist[i].bestObservedName = "Lunar Chimera";
+                                bossgrouplist[i].bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
+                            }
+                        }
+                    }
                     break;
                 case "bazaar":
                     if (WConfig.cfgPingIcons.Value)
@@ -484,47 +566,7 @@ namespace WolfoQualityOfLife
                             }
                         }
                     }
-                    break;
-                case "moon2":
-                    if (WConfig.cfgPingIcons.Value)
-                    {
-                        Highlight[] highlightlist = FindObjectsOfType(typeof(Highlight)) as Highlight[];
-                        BossGroup[] bossgrouplist = FindObjectsOfType(typeof(BossGroup)) as BossGroup[];
-                        for (var i = 0; i < highlightlist.Length; i++)
-                        {
-                            //Debug.LogWarning(highlightlist[i]); ////DISABLE THIS
-                            if (highlightlist[i].name.StartsWith("MoonBattery"))
-                            {
-                                highlightlist[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
-                            }
-                            else if (highlightlist[i].name.StartsWith("LunarCauldron,"))
-                            {
-                                highlightlist[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.CauldronIcon;
-                            }
-                            else if (highlightlist[i].name.StartsWith("MoonElevator"))
-                            {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
-                            }
-                            else if (highlightlist[i].name.StartsWith("LunarChest"))
-                            {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLunarIcon;
-                            }
-                            else if (highlightlist[i].name.StartsWith("ShrineRestack"))
-                            {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ShrineOrderIcon;
-                            }
-                        }
-
-                        for (var i = 0; i < bossgrouplist.Length; i++)
-                        {
-                            if (bossgrouplist[i].name.StartsWith("BrotherEncounter, Phase 2"))
-                            {
-                                bossgrouplist[i].bestObservedName = "Lunar Chimera";
-                                bossgrouplist[i].bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
-                            }
-                        }
-                    }
-                    break;
+                    break;      
                 case "meridian":
                     if (WConfig.cfgPingIcons.Value)
                     {
@@ -613,8 +655,6 @@ namespace WolfoQualityOfLife
                 case "voidstage":
                     GameObject MissionController = GameObject.Find("/MissionController");
                     MissionController.GetComponent<VoidStageMissionController>().deepVoidPortalObjectiveProvider = null;
-                    break;
-                case "voidraid":
                     break;
             };
             if (Run.instance)

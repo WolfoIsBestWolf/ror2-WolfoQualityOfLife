@@ -30,8 +30,6 @@ namespace WolfoQualityOfLife
             Unused();
             VoidAffix();
 
-            //IL.RoR2.PortalSpawner.Start += DelayThunderMessage;
-
             bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("0p41.Sots_Items_Reworked");
             if (!otherMod)
             {
@@ -147,12 +145,12 @@ namespace WolfoQualityOfLife
             On.EntityStates.VoidSurvivor.Weapon.ReadyMegaBlaster.OnEnter += (orig, self) =>
             {
                 orig(self);
-                self.characterBody.AddSpreadBloom(0.5f);
+                self.characterBody.AddSpreadBloom(0.4f);
             };
             On.EntityStates.VoidSurvivor.Weapon.ReadyMegaBlaster.FixedUpdate += (orig, self) =>
             {
                 orig(self);
-                self.characterBody.SetSpreadBloom(0.25f, true);
+                self.characterBody.SetSpreadBloom(0.2f, true);
             };
 
 
@@ -277,35 +275,7 @@ namespace WolfoQualityOfLife
             };
         }
 
-        private static void DelayThunderMessage(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-
-            if (c.TryGotoPrev(MoveType.After,
-                x => x.MatchLdfld("RoR2.PortalSpawner", "spawnPreviewMessageToken")))
-            {
-                c.EmitDelegate<System.Func<string, string>>((target) =>
-                {
-                    Debug.Log(ClassicStageInfo.instance);
-                    if (ClassicStageInfo.instance && !string.IsNullOrEmpty(target))
-                    {
-                        ClassicStageInfo.instance.BroadcastFamilySelection(target);
-                        return null;
-                    }
-                    else
-                    {
-                         DelayedBroadCast(target);
-                    }
-                    return target;
-                });
-                Debug.Log("IL Found: Delay Thunder Message");
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: Delay Thunder Message");
-            }
-        }
-
+       
         private static void BiggerSaleStarRange(ILContext il)
         {
             ILCursor c = new ILCursor(il);

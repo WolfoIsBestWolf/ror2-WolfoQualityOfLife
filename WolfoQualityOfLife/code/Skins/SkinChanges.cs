@@ -89,7 +89,7 @@ namespace WolfoQualityOfLife
                 {
                     if (entityState.characterBody.isElite)
                     {
-                        BellBallGhostElite.transform.GetChild(0).GetComponent<UnityEngine.MeshRenderer>().material = entityState.characterBody.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
+                        BellBallGhostElite.transform.GetChild(0).GetComponent<MeshRenderer>().material = entityState.characterBody.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
                         return BellBallElite;
                     }
                     return ballProj;
@@ -110,7 +110,7 @@ namespace WolfoQualityOfLife
             MatEngiTurretGreen = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
             MatEngiTurret_Sots = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
             MatEngiAltTrail = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponents<SprintEffectController>()[1].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material);
-
+            /*
             Material MatCrocoAlt = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody").transform.GetChild(0).GetChild(2).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[0].defaultMaterial;
 
 
@@ -119,7 +119,7 @@ namespace WolfoQualityOfLife
             texCrocoEmissionAlt.filterMode = FilterMode.Bilinear;
             texCrocoEmissionAlt.wrapMode = TextureWrapMode.Clamp;
 
-            MatCrocoAlt.SetTexture("_Emtex", texCrocoEmissionAlt);
+            MatCrocoAlt.SetTexture("_Emtex", texCrocoEmissionAlt);*/
 
 
             //SkinDef SkinDefEngiAlt = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1];
@@ -129,9 +129,10 @@ namespace WolfoQualityOfLife
 
             //Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Treebot/matTreebotColossus.mat").WaitForCompletion();
 
-            Texture2D texTreebotVineForColossus = new Texture2D(512, 512, TextureFormat.DXT5, false);
-            texTreebotVineForColossus.LoadImage(Properties.Resources.texTreebotVineForColossus, true);
-            texTreebotVineForColossus.filterMode = FilterMode.Bilinear;
+
+            
+
+            Texture2D texTreebotVineForColossus = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texTreebotVineForColossus.png");
             texTreebotVineForColossus.wrapMode = TextureWrapMode.Clamp;
             MatTreebot_VineSots.mainTexture = texTreebotVineForColossus;
 
@@ -141,14 +142,9 @@ namespace WolfoQualityOfLife
             texRampEngiAlt.wrapMode = TextureWrapMode.Clamp;
             MatEngiAltTrail.SetTexture("_RemapTex", texRampEngiAlt);
 
-            Texture2D TexEngiTurretAlt = new Texture2D(256, 512, TextureFormat.DXT5, false);
-            TexEngiTurretAlt.LoadImage(Properties.Resources.texEngiTurretDiffuseAlt, true);
-            TexEngiTurretAlt.filterMode = FilterMode.Bilinear;
-
-            Texture2D texEngiTurretAltColossusDiffuse = new Texture2D(256, 512, TextureFormat.DXT5, false);
-            texEngiTurretAltColossusDiffuse.LoadImage(Properties.Resources.texEngiTurretAltColossusDiffuse, true);
-            texEngiTurretAltColossusDiffuse.filterMode = FilterMode.Bilinear;
-
+            Texture2D TexEngiTurretAlt = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texEngiTurretDiffuseAlt.png");
+            Texture2D texEngiTurretAltColossusDiffuse = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texEngiTurretAltColossusDiffuse.png");
+ 
 
             MatEngiTurretGreen = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
             MatEngiTurretGreen.mainTexture = TexEngiTurretAlt;
@@ -181,10 +177,8 @@ namespace WolfoQualityOfLife
                 };
             };
 
-            Texture2D TexRedSwordDiffuse = new Texture2D(256, 512, TextureFormat.DXT5, false);
-            TexRedSwordDiffuse.LoadImage(Properties.Resources.texOniMercSwordDiffuse, true);
-            TexRedSwordDiffuse.filterMode = FilterMode.Bilinear;
-            TexRedSwordDiffuse.name = "texOniMercSwordDiffuse";
+            Texture2D TexRedSwordDiffuse = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texOniMercSwordDiffuse.png");
+
 
             Texture2D texRampFallbootsRed = new Texture2D(16, 256, TextureFormat.DXT1, false);
             texRampFallbootsRed.LoadImage(Properties.Resources.texRampFallbootsRed, true);

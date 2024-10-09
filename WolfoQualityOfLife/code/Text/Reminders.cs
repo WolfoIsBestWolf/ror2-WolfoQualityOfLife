@@ -378,15 +378,14 @@ namespace WolfoQualityOfLife
                 using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
                 {
                     while (enumerator.MoveNext())
-                    {
-                        maximumKeys += enumerator.Current.master.inventory.GetItemCount(RoR2Content.Items.TreasureCache);
-                        maximumKeysVoid += enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid);
+                    {                
                         if (enumerator.Current.networkUser.isLocalPlayer)
                         {                  
                             if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0) { treasureReminder.saleStarBool = true; }
                             if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { treasureReminder.saleStarBool = true; }
-                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { treasureReminder.saleStarBool = true; }
                         }
+                        maximumKeys += enumerator.Current.master.inventory.GetItemCount(RoR2Content.Items.TreasureCache);
+                        maximumKeysVoid += enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid);
                     }
                 }
 
@@ -408,7 +407,7 @@ namespace WolfoQualityOfLife
                 {
                     treasureReminder.lockboxVoidCount = maximumKeysVoid;
                 }
-                if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder <= 5)
+                if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder >= 5)
                 {
                     treasureReminder.saleStarBool = false;
                 }

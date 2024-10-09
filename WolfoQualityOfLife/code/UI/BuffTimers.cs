@@ -684,6 +684,11 @@ namespace WolfoQualityOfLife
 
         public static void GetDotDef()
         {
+            DotController.GetDotDef(DotController.DotIndex.Burn).terminalTimedBuff = null;
+            DotController.GetDotDef(DotController.DotIndex.Burn).terminalTimedBuffDuration = 0;
+            DotController.GetDotDef(DotController.DotIndex.StrongerBurn).terminalTimedBuff = null;
+            DotController.GetDotDef(DotController.DotIndex.StrongerBurn).terminalTimedBuffDuration = 0;
+
             DotController.GetDotDef(DotController.DotIndex.Helfire).associatedBuff = FakeHellFire;
             DotController.GetDotDef(DotController.DotIndex.PercentBurn).associatedBuff = FakePercentBurn;
         }

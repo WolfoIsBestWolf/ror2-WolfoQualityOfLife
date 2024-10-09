@@ -1,5 +1,20 @@
 ## Changelog:
 ```
+v3.1.8
+Green/Purple orb messages are now delayed by 1s so that they open chat box. (Shrine of Halc)
+Eclipse display now automatically disabled if you have other Eclipse Display mod.
+
+v3.1.7
+Added a number displaying beaten eclipse level during Eclipse character selects.
+Added a void outline for if having beaten Wave 50 on a character during Simu character selects.
+(Bit function over form but it's usefull, can be turned off if undesired)
+
+Equipment Drone Names now update properly on equipment transformation.
+Fixed Sale Star reminder only working on stages it's not supposed to.
+Fixed skin textures added by mod not being able to scale down.
+Fixed ping icon with Verdant Falls guaranteed interactables.
+Disabled Brass Elite Balls because changes to the effect system don't really allow for this. (Until they fix it)
+
 v3.1.6
 Added config to remove Scav/Gup on title screen.
 Added friendly-outline to Devoted Lemurians

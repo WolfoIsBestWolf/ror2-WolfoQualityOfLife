@@ -80,12 +80,16 @@ Lunar Seers include their destination when pinged and in the purchase context.
 Scavenger in the main menu is back.\
 Main Menu theme now changes randomly.
 
+Adds a Eclipse counter to character icons to show what level they have. (in Eclipse lobbies)
+Adds a Void Item border around character icons if you have beaten Wave 50 in Simulacrum. (in Simu lobbies)
+
+
 More "tp like" structures get flowers if you have Lepton Daisy.\
 Captains Shock Beacon now has a range indicator.\
 Scavengers play a sound when spawning.\
 Sprinting UI is slightly different to support charge attacks.\
 Void Fiends Mouse2 now has a crosshair response like other charging attacks.\
-Void Allies have cyan eyes for easier identification.
+Void Allies have cyan eyes for slighty easier identification in the dark.
 
 When winning a chat message will be displayed of the characters win quote.
 
