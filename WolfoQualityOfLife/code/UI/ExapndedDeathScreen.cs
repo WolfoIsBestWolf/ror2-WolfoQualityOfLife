@@ -67,6 +67,7 @@ namespace WolfoQualityOfLife
                     RoR2.Chat.SendBroadcastChat(new SendGameEndInvHelper
                     {
                         killerName = newString,
+                        killerObject = damageReport.attacker,
                         victimMaster = damageReport.victimMaster.gameObject,
                         itemStacks = damageReport.attackerMaster.inventory.itemStacks,
                         primaryEquipment = damageReport.attackerMaster.inventory.currentEquipmentIndex,
@@ -129,14 +130,33 @@ namespace WolfoQualityOfLife
                 }
                 Debug.Log("Applying Killer Inventory Screen");
 
+
+
+                string KillerName;
+               
                 string KillerNameBase = "Killed By: <color=#FFFF7F>" + helper.killerName;
+
+
+
+               
+
+
                 bool IsLossToPlanet = false;
                 bool IsWinWithEvo = false;
+                if (helper.killerObject)
+                {
+                    helper.killerName = Util.GetBestBodyName(helper.killerObject);
+                }
+                else
+                {
+                    helper.killerName = "";
+                }
 
                 //Set detailed name like with Elite prefix
                 if (helper.killerName != "")
                 {
-                    self.killerBodyLabel.SetText(KillerNameBase);
+                    string KillerNameOverride = string.Format(Language.GetString("STAT_KILLER_NAME_FORMAT"), helper.killerName);
+                    self.killerBodyLabel.SetText(KillerNameOverride);
                 }
                 else
                 {
@@ -387,11 +407,11 @@ namespace WolfoQualityOfLife
                 {
                     if (self.transform.parent.parent.parent.name.StartsWith("ItemArea(Clone)"))
                     {
-                        tempHeader.GetComponent<RoR2.UI.HGTextMeshProUGUI>().SetText("Killers Items");
+                        tempHeader.GetComponent<RoR2.UI.HGTextMeshProUGUI>().SetText(Language.GetString("INVENTORY_KILLER"));
                     }
                     else if (self.transform.parent.parent.parent.name.StartsWith("EvolutionArea"))
                     {
-                        tempHeader.GetComponent<RoR2.UI.HGTextMeshProUGUI>().SetText("Monsters Items");
+                        tempHeader.GetComponent<RoR2.UI.HGTextMeshProUGUI>().SetText(Language.GetString("INVENTORY_MONSTER"));
                     }
                     else
                     {
@@ -501,6 +521,7 @@ namespace WolfoQualityOfLife
         public class GameEndInventoryHelper : MonoBehaviour
         {
             public string killerName = "The Planet";
+            public GameObject killerObject;
             public GameObject victimMaster;
 
             public List<ItemIndex> itemAcquisitionOrder = new List<ItemIndex>();
@@ -511,7 +532,7 @@ namespace WolfoQualityOfLife
 
             private bool overwrittenByWin = false;
 
-            public static void SetupFromData(string killerName, GameObject victimMaster, int[] itemStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment)
+            public static void SetupFromData(string killerName, GameObject killerObject, GameObject victimMaster, int[] itemStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment)
             {
                 Debug.Log("GameEndInventoryHelp : SetupFromData");
                 if (victimMaster == null)
@@ -531,6 +552,7 @@ namespace WolfoQualityOfLife
 
                 helper.victimMaster = victimMaster;
                 helper.killerName = killerName;
+                helper.killerObject = killerObject;
                 helper.primaryEquipment = primaryEquipment;
                 helper.secondaryEquipment = secondaryEquipment;
                 helper.SetItems(itemStacks);
@@ -576,11 +598,12 @@ namespace WolfoQualityOfLife
             public override string ConstructChatString()
             {
                 Debug.Log("SendGameEndInvHelper");
-                ExpandedDeathScreen.GameEndInventoryHelper.SetupFromData(killerName, victimMaster, itemStacks, primaryEquipment, secondaryEquipment);
+                ExpandedDeathScreen.GameEndInventoryHelper.SetupFromData(killerName, killerObject, victimMaster, itemStacks, primaryEquipment, secondaryEquipment);
                 return null;
             }
 
             public string killerName;
+            public GameObject killerObject;
             public GameObject victimMaster;
             public int[] itemStacks = ItemCatalog.RequestItemStackArray();
             public EquipmentIndex primaryEquipment = EquipmentIndex.None;
@@ -590,6 +613,7 @@ namespace WolfoQualityOfLife
             {
                 base.Serialize(writer);
                 writer.Write(killerName);
+                writer.Write(killerObject);
                 writer.Write(victimMaster);
                 writer.Write(primaryEquipment);
                 writer.Write(secondaryEquipment);
@@ -600,6 +624,7 @@ namespace WolfoQualityOfLife
             {
                 base.Deserialize(reader);
                 killerName = reader.ReadString();
+                killerObject = reader.ReadGameObject();
                 victimMaster = reader.ReadGameObject();
                 primaryEquipment = reader.ReadEquipmentIndex();
                 secondaryEquipment = reader.ReadEquipmentIndex();

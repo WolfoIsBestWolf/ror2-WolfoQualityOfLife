@@ -2,7 +2,6 @@
 using MonoMod.Cil;
 using RoR2;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -14,15 +13,16 @@ namespace WolfoQualityOfLife
     {
         //public static string DetailedDeathString = "UNASSIGNED";
         //public static string DetailedDeathString_P2 = "UNASSIGNED_P2";
-        public static MusicTrackDef CreditsTrack = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/Base/Common/MusicTrackDefs/muSong21.asset").WaitForCompletion();
-        public static MusicTrackDef CreditsTrackVoid = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muMenuDLC1.asset").WaitForCompletion();
-        public static GameObject CreditsPanel = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/CreditsPanel.prefab").WaitForCompletion();
+        //public static MusicTrackDef CreditsTrack = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/Base/Common/MusicTrackDefs/muSong21.asset").WaitForCompletion();
+        //public static MusicTrackDef CreditsTrackVoid = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muMenuDLC1.asset").WaitForCompletion();
+        //public static GameObject CreditsPanel = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/CreditsPanel.prefab").WaitForCompletion();
+        private static GameEndingDef EscapeSequenceFailed = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/EscapeSequenceFailed.asset").WaitForCompletion();
 
         public static void Start()
         {
             if (WConfig.cfgMessageDeath.Value == true)
             {
-                On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += DetailedDeathMessages;
+                On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += DeathMessage.DetailedDeathMessages;
             }
             if (WConfig.cfgMessagePrint.Value == true)
             {
@@ -42,7 +42,8 @@ namespace WolfoQualityOfLife
             }
             if (WConfig.cfgMessageVictory.Value)
             {
-                WinVanishingMessages();
+                On.RoR2.Run.BeginGameOver += WinVanishMessage;
+                //WinVanishingMessages();
             }
             if (WConfig.cfgMessagesColoredItemPings.Value)
             {
@@ -50,6 +51,7 @@ namespace WolfoQualityOfLife
             }
         }
 
+        //Server only
         private static void ScrappingMessage(On.RoR2.ScrapperController.orig_BeginScrapping orig, ScrapperController self, int intPickupIndex)
         {
             orig(self, intPickupIndex);
@@ -60,25 +62,11 @@ namespace WolfoQualityOfLife
                 PickupDef pickupDef = PickupCatalog.GetPickupDef(new PickupIndex(intPickupIndex));
                 if (component && component.inventory && pickupDef != null)
                 {
-                    string hex = ColorUtility.ToHtmlStringRGB(pickupDef.baseColor);
-                    string nameToken = Language.GetString(ItemCatalog.GetItemDef(pickupDef.itemIndex).nameToken, "en");
-
-                    string message = "<style=cEvent>You scrapped <color=#" + hex + ">" + nameToken + "</color>";
-                    string message2P = "<style=cEvent>" + component.GetUserName() + " scrapped <color=#" + hex + ">" + nameToken + "</color>";
-
-                    if (self.itemsEaten > 1)
+                    Chat.SendBroadcastChat(new ItemMessage
                     {
-                        message += "(" + self.itemsEaten + ")";
-                        message2P += "(" + self.itemsEaten + ")";
-                    }
-
-                    message += "</style>";
-                    message2P += "</style>";
-
-                    Chat.SendBroadcastChat(new FakeSubjectMessage
-                    {
-                        baseToken = message,
-                        secondPersonToken = message2P,
+                        baseToken = "ITEM_LOSS_SCRAP",
+                        itemCount = self.itemsEaten,
+                        pickupIndex = new PickupIndex(intPickupIndex),
                         subjectAsNetworkUser = component.master.playerCharacterMasterController.networkUser,
                     });
                 }
@@ -147,20 +135,22 @@ namespace WolfoQualityOfLife
             {
                 if (newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
                 {
-                    string token = "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>";
-                    Chat.AddMessage(token);
+                    //string result = "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>";
+                    Chat.AddMessage(Language.GetString("ITEM_USE_ELIXIR"));
                 }
                 else if (newIndex == DLC1Content.Items.FragileDamageBonusConsumed.itemIndex)
                 {
-                    string token = "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>";
-                    Chat.AddMessage(token);
+                    //string result = "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>";
+                    Chat.AddMessage(Language.GetString("ITEM_USE_WATCH"));
                 }
                 else if (ItemCatalog.GetItemDef(newIndex).name.EndsWith("BROKEN_MESS"))
                 {
                     string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
                     hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
-                    string token = "<style=cEvent>" + hex + " ran out of time...</style>";
-                    Chat.AddMessage(token);
+                    //string result = "<style=cEvent>" + hex + " ran out of time...</style>";
+                    string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH"), hex);
+
+                    Chat.AddMessage(result);
                 }
             }
         }
@@ -168,6 +158,7 @@ namespace WolfoQualityOfLife
         public static void WinVanishingMessages()
         {
             //Victory Vanishing messages
+            /*
             On.RoR2.Run.BeginGameOver += (orig, self, gameEnd) =>
             {
                 orig(self, gameEnd);
@@ -178,7 +169,7 @@ namespace WolfoQualityOfLife
                     {
                         if (gameEnd == RoR2Content.GameEndings.LimboEnding | gameEnd == RoR2Content.GameEndings.ObliterationEnding)
                         {
-                            SurvivorDef tempsurv = SurvivorCatalog.FindSurvivorDefFromBody(playerController.master.bodyPrefab);
+                           
                             if (tempsurv && tempsurv.mainEndingEscapeFailureFlavorToken != null)
                             {
                                 string token = "<style=cLunarObjective>   <sprite name=\"CloudLeft\" tint=1> " + Language.GetString(tempsurv.mainEndingEscapeFailureFlavorToken) + " <sprite name=\"CloudRight\" tint=1></style>";
@@ -190,18 +181,14 @@ namespace WolfoQualityOfLife
                                 Chat.SendBroadcastChat(new Chat.SimpleChatMessage { baseToken = token });
                             }
                         }
-                        else if (gameEnd.cachedName.Equals("InfiniteTowerEnding"))
-                        {
-
-                        }
                     }
                 }
-            };
+            };*/
 
             On.EntityStates.GameOver.VoidEndingFadeToBlack.OnExit += (orig, self) =>
             {
                 orig(self);
-                CreditsPanel.transform.GetChild(4).GetComponent<MusicTrackOverride>().track = CreditsTrackVoid;
+                //CreditsPanel.transform.GetChild(4).GetComponent<MusicTrackOverride>().track = CreditsTrackVoid;
 
                 foreach (var playerController in PlayerCharacterMasterController.instances)
                 {
@@ -222,7 +209,7 @@ namespace WolfoQualityOfLife
             On.RoR2.OutroCutsceneController.OnEnable += (orig, self) =>
             {
                 orig(self);
-                CreditsPanel.transform.GetChild(4).GetComponent<MusicTrackOverride>().track = CreditsTrack;
+                //CreditsPanel.transform.GetChild(4).GetComponent<MusicTrackOverride>().track = CreditsTrack;
                 foreach (var playerController in PlayerCharacterMasterController.instances)
                 {
                     SurvivorDef tempsurv = SurvivorCatalog.FindSurvivorDefFromBody(playerController.master.bodyPrefab);
@@ -258,6 +245,63 @@ namespace WolfoQualityOfLife
             };
         }
 
+        private static void WinVanishMessage(On.RoR2.Run.orig_BeginGameOver orig, Run self, GameEndingDef gameEnd)
+        {
+            orig(self, gameEnd);
+            if (gameEnd == DLC2Content.GameEndings.RebirthEndingDef)
+            {
+                string token = "<color=#7CFE7C>   <sprite name=\"CloudLeft\" tint=1> " + Language.GetString("REBIRTH_ENDING_CHAT") + " <sprite name=\"CloudRight\" tint=1></color>";
+                Chat.SendBroadcastChat(new Chat.SimpleChatMessage { baseToken = token });
+            }
+            else if (gameEnd != RoR2Content.GameEndings.StandardLoss)
+            {
+                foreach (var playerController in PlayerCharacterMasterController.instances)
+                {
+                    SurvivorDef tempsurv = SurvivorCatalog.FindSurvivorDefFromBody(playerController.master.bodyPrefab);
+                    string survToken_WIN = "GENERIC_OUTRO_FLAVOR";
+                    string survToken_VANISH = "GENERIC_MAIN_ENDING_ESCAPE_FAILURE_FLAVOR";
+                    if (tempsurv && tempsurv.mainEndingEscapeFailureFlavorToken != null)
+                    {
+                        survToken_WIN = tempsurv.outroFlavorToken;
+                        survToken_VANISH = tempsurv.mainEndingEscapeFailureFlavorToken;
+                    }
+                    survToken_WIN = Language.GetString(survToken_WIN);
+                    survToken_VANISH = Language.GetString(survToken_VANISH);
+
+                    if (gameEnd == RoR2Content.GameEndings.MainEnding)
+                    {
+                        if (playerController.master.lostBodyToDeath)
+                        {
+                            string token = "<style=cDeath><sprite name=\"Skull\" tint=1> " + survToken_VANISH + " <sprite name=\"Skull\" tint=1></style>";
+                            Chat.SendBroadcastChat(new Chat.SimpleChatMessage { baseToken = token });
+                        }
+                        else
+                        {
+                            string token2 = "<style=cIsHealing>   <sprite name=\"CloudLeft\" tint=1> " + survToken_WIN + " <sprite name=\"CloudRight\" tint=1></style>";
+                            Chat.SendBroadcastChat(new Chat.SimpleChatMessage { baseToken = token2 });
+                        }
+                    }
+                    else if (gameEnd == EscapeSequenceFailed)
+                    {
+                        string token2 = "<style=cIsHealing>   <sprite name=\"CloudLeft\" tint=1> " + survToken_VANISH + " <sprite name=\"CloudRight\" tint=1></style>";
+                        Chat.SendBroadcastChat(new Chat.SimpleChatMessage { baseToken = token2 });
+                    }
+                    else if (gameEnd == RoR2Content.GameEndings.LimboEnding | gameEnd == RoR2Content.GameEndings.ObliterationEnding)
+                    {
+                        string token = "<style=cLunarObjective>   <sprite name=\"CloudLeft\" tint=1> " + survToken_VANISH + " <sprite name=\"CloudRight\" tint=1></style>";
+                        Chat.SendBroadcastChat(new Chat.SimpleChatMessage { baseToken = token });
+                    }
+                    else if (gameEnd == DLC1Content.GameEndings.VoidEnding)
+                    {
+                        string token = "<style=cIsVoid>   <sprite name=\"CloudLeft\" tint=1> " + survToken_VANISH + " <sprite name=\"CloudRight\" tint=1></style>";
+                        Chat.SendBroadcastChat(new Chat.SimpleChatMessage { baseToken = token });
+                    }
+                    
+                }
+            }
+        }
+
+        //Server only
         private static void ItemGiveUpMessages(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -274,102 +318,65 @@ namespace WolfoQualityOfLife
                     {
 
                         //Might need some saftey checks for this idk
-                        bool isFirstPerson = IsFirstPerson(interactor.gameObject.GetComponent<CharacterBody>().master.playerCharacterMasterController.networkUser);
+                        string token = "";
                         string message = "";
                         string message2P = "";
 
-                        message += "You";
-                        message2P += interactor.GetComponent<CharacterBody>().GetUserName();
+
+                        string user = interactor.GetComponent<CharacterBody>().GetUserName();
+
+
+
+
 
 
                         if (purchase.gameObject.name.StartsWith("LunarCauldron"))
                         {
-                            message = "<style=cEvent>" + message;
-                            message += " reforged ";
-
-                            message2P = "<style=cEvent>" + message2P;
-                            message2P += " reforged ";
+                            token = "ITEM_LOSS_CAULDRON";
                         }
                         else if (purchase.gameObject.name.StartsWith("ShrineCleanse"))
                         {
-                            message = "<style=cShrine>" + message;
-                            message += " have cleansed yourself of ";
-
-                            message2P = "<style=cShrine>" + message2P;
-                            message2P += " has cleansed themselves of ";
+                            token = "ITEM_LOSS_CLEANSING";
                         }
                         else
                         {
-                            message = "<style=cEvent>" + message;
-                            message += " got rid of ";
-
-                            message2P = "<style=cEvent>" + message2P;
-                            message2P += " got rid of ";
+                            token = "ITEM_LOSS_GENERIC";
                         }
-                        string hex;
-                        if (payResults.itemsTaken.Count > 0)
+
+                        if (payResults.equipmentTaken.Count > 0)
                         {
-                            if (payResults.itemsTaken.Count == 1)
+                            Chat.SendBroadcastChat(new ItemMessage
                             {
-                                hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(payResults.itemsTaken[0]).pickupDef.baseColor);
-                                message += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken, "en") + " </color>";
-                                message2P += "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[0]).nameToken, "en") + " </color>";
-                            }
-                            else
+                                baseToken = token,
+                                pickupIndex = PickupCatalog.FindPickupIndex(payResults.equipmentTaken[0]),
+                                subjectAsNetworkUser = interactor.gameObject.GetComponent<CharacterBody>().master.playerCharacterMasterController.networkUser,
+                            });
+                        }
+                        else if (payResults.itemsTaken.Count == 1)
+                        {
+                            Chat.SendBroadcastChat(new ItemMessage
                             {
-                                string name;
-                                List<ItemIndex> tempList = new List<ItemIndex>(payResults.itemsTaken);
-
-                                for (int i = 0; i < payResults.itemsTaken.Count; i++)
-                                {
-                                    string countS = "";
-                                    int count = 0;
-                                    name = Language.GetString(ItemCatalog.GetItemDef(payResults.itemsTaken[i]).nameToken, "en");
-                                    hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(payResults.itemsTaken[i]).pickupDef.baseColor);
-
-                                    for (int z = 0; z < tempList.Count; z++)
-                                    {
-                                        //Debug.Log("CheckingChecking " + payResults.itemsTaken[i] + " / " + tempList[z]);
-                                        if (payResults.itemsTaken[i] == tempList[z])
-                                        {
-                                            count++;
-                                            tempList.Remove(tempList[z]);
-                                            z--;
-                                        }
-                                    }
-                                    if (count > 0)
-                                    {
-                                        if (count > 1)
-                                        {
-                                            countS = count.ToString() + "x ";
-                                        }
-                                        if (i > 0)
-                                        {
-                                            message += ", ";
-                                            message2P += ", ";
-                                        }
-
-                                        message += countS + "<color=#" + hex + ">" + name + "</color>";
-                                        message2P += countS + "<color=#" + hex + ">" + name + "</color>";
-                                    }
-                                }
+                                baseToken = token,
+                                pickupIndex = PickupCatalog.FindPickupIndex(payResults.itemsTaken[0]),
+                                itemCount = 1,
+                                subjectAsNetworkUser = interactor.gameObject.GetComponent<CharacterBody>().master.playerCharacterMasterController.networkUser,
+                            });
+                        }
+                        else if (payResults.itemsTaken.Count > 1)
+                        {
+                            int[] itemStacks = ItemCatalog.RequestItemStackArray();
+                            for (int i = 0; i < payResults.itemsTaken.Count; i++)
+                            {
+                                itemStacks[(int)payResults.itemsTaken[i]]++;
                             }
+                            Chat.SendBroadcastChat(new ItemMessage
+                            {
+                                baseToken = token,
+                                itemStacks = itemStacks,
+                                subjectAsNetworkUser = interactor.gameObject.GetComponent<CharacterBody>().master.playerCharacterMasterController.networkUser,
+                            });
                         }
-                        else if (payResults.equipmentTaken.Count > 0)
-                        {
-                            hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(payResults.equipmentTaken[0]).pickupDef.baseColor);
-                            message += "<color=#" + hex + ">" + Language.GetString(EquipmentCatalog.GetEquipmentDef(payResults.equipmentTaken[0]).nameToken, "en") + " </color>";
-                            message2P += "<color=#" + hex + ">" + Language.GetString(EquipmentCatalog.GetEquipmentDef(payResults.equipmentTaken[0]).nameToken, "en") + " </color>";
-                        }
-                        message += "</style>";
-                        message2P += "</style>";
 
-                        Chat.SendBroadcastChat(new FakeSubjectMessage
-                        {
-                            baseToken = message,
-                            secondPersonToken = message2P,
-                            subjectAsNetworkUser = interactor.gameObject.GetComponent<CharacterBody>().master.playerCharacterMasterController.networkUser,
-                        });
                     }
                     return payResults;
                 });
@@ -381,120 +388,6 @@ namespace WolfoQualityOfLife
             }
         }
 
-        private static void DetailedDeathMessages(On.RoR2.GlobalEventManager.orig_OnPlayerCharacterDeath orig, GlobalEventManager self, DamageReport damageReport, NetworkUser victimNetworkUser)
-        {
-            if (!victimNetworkUser || damageReport.victimBody == null || damageReport.damageInfo == null)
-            {
-                orig(self, damageReport, victimNetworkUser);
-                return;
-            }
-
-
-            string KillerName = "the planet";
-            string VictimName = RoR2.Util.GetBestBodyName(damageReport.victimBody.gameObject);
-            if (damageReport.attackerBody != null)
-            {
-                KillerName = RoR2.Util.GetBestBodyName(damageReport.attacker);
-                KillerName = KillerName.Replace("\n", " ");
-            }
-            float DamageValue = damageReport.damageInfo.damage;
-
-
-            Debug.Log(VictimName);
-            Debug.Log(KillerName);
-            //Debug.LogWarning(DamageValue);
-            //Debug.LogWarning(damageReport.damageInfo.damageType);
-
-            string tokenYou = $"<style=cDeath>";
-            string token = $"<style=cDeath>";
-
-            if (damageReport.dotType != DotController.DotIndex.None && damageReport.isFriendlyFire == false)
-            {
-                //Voidtouched Dot Death
-                if (damageReport.dotType == DotController.DotIndex.Fracture)
-                {
-                    tokenYou += $"You were collapsed by {KillerName}.";
-                    token += $"{VictimName} was collapsed by {KillerName}.";
-                }
-                else
-                {
-                    //General death to Dot such as Bleed/Burn
-                    tokenYou += $"You slowly died to {KillerName}.";
-                    token += $"{VictimName} slowly died to {KillerName}.";
-                }
-            }
-            else if (damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.BypassArmor | DamageType.BypassBlock) && damageReport.damageInfo.damageColorIndex == DamageColorIndex.Void)
-            {
-                //Simu Void Death maybe other Voids too
-                tokenYou += $"You drowned in the void.";
-                token += $"{VictimName} drowned in the void.";
-            }
-            else if (damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.VoidDeath))
-            {
-                tokenYou += $"You were detained by {KillerName}</style>";
-                token += $"{VictimName} was detained by {KillerName}</style>";
-            }
-            else if (damageReport.damageInfo.procChainMask.HasProc(ProcType.Thorns))
-            {
-                tokenYou += $"You got twisted by {KillerName}";
-                token += $"{VictimName} got twisted by {KillerName}";
-            }
-            else if (damageReport.isFallDamage)
-            {
-                tokenYou += $"You succumbed to gravity.";
-                token += $"{VictimName} succumbed to gravity.";
-            }
-            else if (damageReport.attackerBody != null && damageReport.isFriendlyFire)
-            {
-                if (damageReport.attackerBody == damageReport.victimBody)
-                {
-                    tokenYou += $"You were killed by yourself.";
-                    token += $"{VictimName} was killed by themselves.";
-                }
-                else
-                {
-                    tokenYou += $"You were betrayed by {KillerName}";
-                    token += $"{VictimName} was betrayed by {KillerName}";
-                }
-            }
-            else
-            {
-                if (damageReport.victimBody.isGlass)
-                {
-                    tokenYou += $"You were shattered by {KillerName}.";
-                    token += $"{VictimName} was shattered by {KillerName}.";
-                }
-                else if (damageReport.damageInfo.delayedDamageSecondHalf)
-                {
-                    tokenYou += $"Echoes of {KillerName} killed you.";
-                    token += $"Echoes of {KillerName} killed {VictimName}.";
-                }
-                else
-                {
-                    tokenYou += $"You were killed by {KillerName}.";
-                    token += $"{VictimName} was killed by {KillerName}.";
-                }
-            }
-
-            if (!damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.VoidDeath))
-            {
-                tokenYou += $" ({DamageValue:F2} damage taken)</style>";
-                token += $" ({DamageValue:F2} damage taken)</style>";
-            }
-
-
-            //DetailedDeathString = tokenYou;
-            //DetailedDeathString_P2 = token;
-            Chat.SendBroadcastChat(new FakeSubjectMessage
-            {
-                baseToken = tokenYou,
-                secondPersonToken = token,
-                subjectAsNetworkUser = victimNetworkUser,
-            });
-
-            orig(self, damageReport, victimNetworkUser);
-        }
-
         private static void VoidLunarTransformMessages(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
             orig(characterMaster, oldIndex, newIndex, transformationType);
@@ -503,9 +396,13 @@ namespace WolfoQualityOfLife
             {
                 string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
                 string name = Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken);
-                //int count = characterMaster.inventory.GetItemCount(DLC1Content.Items.LunarSun);
-                string token = "<style=cEvent><color=#458CFF>Egocentrism</color> assimilated <color=#" + hex + ">" + name + "</color></style>";
-                Chat.AddMessage(token);
+                string ego = Language.GetString("ITEM_LUNARSUN_NAME");
+                string token = Language.GetString("ITEM_TRANSFORM_EGO");
+
+                //string result = "<style=cEvent><color=#458CFF>Egocentrism</color> assimilated <color=#" + hex + ">" + name + "</color></style>";
+                string result = string.Format(token, ego, hex, name);
+
+                Chat.AddMessage(result);
             }
             else if (transformationType == CharacterMasterNotificationQueue.TransformationType.CloverVoid)
             {
@@ -519,20 +416,17 @@ namespace WolfoQualityOfLife
                 string name = Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
                 string name2 = Language.GetString(ItemCatalog.GetItemDef(newIndex).nameToken) + "</color>";
                 int newitemcount = characterMaster.inventory.GetItemCount(newIndex);
-                /*if (!name2.EndsWith("s"))
-                {
-                    name2 += "s";
-                }*/
-                /*if (VoidCloverInventory == characterMaster.inventory && VoidCloverCount > 1)
-                {
-                    name += "(" + VoidCloverCount + ")";
-                }*/
+
                 if (newitemcount > 1)
                 {
                     name2 += "(" + newitemcount + ")";
                 }
-                string token = "<style=cEvent><style=cIsVoid>The Void</style> upgraded <color=#" + hex + ">" + name + " into <color=#" + hex2 + ">" + name2 + "</style>";
-                characterMaster.StartCoroutine(DelayedChatMessageNonGlobal(token, 0.5f));
+
+                string token = Language.GetString("ITEM_TRANSFORM_VOID");
+                //string result = "<style=cEvent><style=cIsVoid>The Void</style> upgraded <color=#" + hex + ">" + name + " into <color=#" + hex2 + ">" + name2 + "</style>";
+                string result = string.Format(token, hex, name, hex2, name2);
+
+                characterMaster.StartCoroutine(DelayedChatMessageNonGlobal(result, 0.5f));
             }
         }
 
@@ -570,48 +464,103 @@ namespace WolfoQualityOfLife
             }
         }
 
-
-
-
-
         public static System.Collections.IEnumerator DelayedChatMessageNonGlobal(string chatMessage, float Delay)
         {
             yield return new WaitForSeconds(Delay);
             Chat.AddMessage(chatMessage);
         }
 
-        public static bool IsFirstPerson(NetworkUser networkUser)
-        {
-            return LocalUserManager.readOnlyLocalUsersList.Count == 1 && networkUser.isLocalPlayer;
-        }
 
-        public class FakeSubjectMessage : RoR2.SubjectChatMessage
+
+        public class ItemMessage : RoR2.SubjectChatMessage
         {
             public override string ConstructChatString()
             {
-                //Debug.LogWarning("ConstructChatString");
-                //Debug.LogWarning(baseToken);
-                //Debug.LogWarning(secondPersonToken);
                 if (!base.IsSecondPerson())
                 {
-                    return secondPersonToken;
+                    baseToken += "_P2";
                 }
-                return baseToken;
+                string itemsLost = "";
+                string hex = "";
+                string nameToken = "";
+
+                if (pickupIndex != PickupIndex.none)
+                {
+                    hex = ColorUtility.ToHtmlStringRGB(pickupIndex.pickupDef.baseColor);
+                    if (pickupIndex.pickupDef.equipmentIndex != EquipmentIndex.None)
+                    {
+                        nameToken = Language.GetString(EquipmentCatalog.GetEquipmentDef(pickupIndex.pickupDef.equipmentIndex).nameToken);
+
+                        itemsLost = "<color=#" + hex + ">" + nameToken + " </color>";
+                    }
+                    else if (pickupIndex.pickupDef.itemIndex != ItemIndex.None)
+                    {
+                        nameToken = Language.GetString(ItemCatalog.GetItemDef(pickupIndex.pickupDef.itemIndex).nameToken);
+
+                        itemsLost = "<color=#" + hex + ">" + nameToken + "</color>";
+
+                        if (this.itemCount > 1)
+                        {
+                            itemsLost += "(" + this.itemCount + ")";
+                        }
+                    }
+                }
+                else
+                {
+                    bool addedItem = false;
+                    for (int i = 0; i < itemStacks.Length; i++)
+                    {
+                        if (itemStacks[i] > 0)
+                        {
+                            nameToken = Language.GetString(ItemCatalog.GetItemDef((ItemIndex)i).nameToken);
+                            hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex((ItemIndex)i).pickupDef.baseColor);
+
+                            if (addedItem == true)
+                            {
+                                itemsLost += ", ";
+                            }
+                            addedItem = true;
+                            if (itemStacks[i] > 1)
+                            {
+                                itemsLost += itemStacks[i].ToString() + "x ";
+                            }
+                            itemsLost += "<color=#" + hex + ">" + nameToken + "</color>";
+                        }
+                    }
+                }
+
+
+
+                string result = string.Format(Language.GetString(baseToken), this.subjectAsCharacterBody.GetDisplayName(), itemsLost);
+                return result;
             }
 
-            public string secondPersonToken;
+
+            public int itemCount;
+            public PickupIndex pickupIndex = PickupIndex.none;
+            public int[] itemStacks = ItemCatalog.RequestItemStackArray();
 
             public override void Serialize(NetworkWriter writer)
             {
                 base.Serialize(writer);
-                writer.Write(secondPersonToken);
-                //Debug.LogWarning("Serialize " + writer);
+                writer.Write(itemCount);
+                writer.Write(pickupIndex);
+                if (pickupIndex == PickupIndex.none)
+                {
+                    writer.WriteItemStacks(itemStacks);
+                }
+
             }
 
             public override void Deserialize(NetworkReader reader)
             {
                 base.Deserialize(reader);
-                secondPersonToken = reader.ReadString();
+                itemCount = reader.ReadInt32();
+                pickupIndex = reader.ReadPickupIndex();
+                if (pickupIndex == PickupIndex.none)
+                {
+                    reader.ReadItemStacks(itemStacks);
+                }
                 //Debug.LogWarning("Deserialize " + reader);
             }
         }

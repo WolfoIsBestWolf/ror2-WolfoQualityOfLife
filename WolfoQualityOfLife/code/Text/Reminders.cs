@@ -44,14 +44,14 @@ namespace WolfoQualityOfLife
 
             if (WConfig.cfgRemindersPortal.Value == true)
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cDeath>Artifact Portal</style>";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalGoldshores").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <color=#FFE880>Gold Portal</color>";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalShop").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsLunar>Blue Portal</style>";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalMS").AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <color=#7CFEF3>Celestial Portal</color>";
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsVoid>Void Portal</style>";
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_ARTIFACT";
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalGoldshores").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_GOLD";
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalShop").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_LUNAR";
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalMS").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_MS";
+                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_VOID";
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortal/DeepVoidPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_VOID_DEEP_PORTAL";
 
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <color=#7CFE7C>Green Portal</color>";
+                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_GREEN";
                
                 //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Green Portal</style>";
                 //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Destination Portal</style>";
@@ -67,13 +67,7 @@ namespace WolfoQualityOfLife
 
             }
 
-            
-
-            R2API.LanguageAPI.Add("OBJECTIVE_CHARGE_HALCSHRINE", "Charge the <color=#FFE880>Halcyon Shrine</color> ({0}%)", "en");
-            R2API.LanguageAPI.Add("OBJECTIVE_KILL_HALCSHRINE", "Defeat the <color=#FFE880>Guardian</color>", "en");
-
             bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
-
             if (!otherMod && WConfig.cfgChargeHalcyShrine.Value)
             {
                 On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.OnEnter += AddObjective_ShrineHalcyoniteActivatedState_OnEnter;
@@ -81,13 +75,6 @@ namespace WolfoQualityOfLife
                 On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteMaxQuality.OnEnter += ShrineHalcyoniteMaxQuality_OnEnter;
                 On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished.OnEnter += RemoveAll_ShrineHalcyoniteFinished_OnEnter;
             }
-
-
-
-
-
-
-             
 
         }
 
@@ -201,13 +188,19 @@ namespace WolfoQualityOfLife
             if (!self.available && self.name.StartsWith("FreeChestMultiShop"))
             {
                 TreasureReminder reminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
-                if (reminder && reminder.freeChestInfo)
+                if (reminder && reminder.lockboxVoidInfo)
                 {
-                    RoR2.Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                    if (WConfig.NotRequireByAll.Value)
                     {
-                        baseToken = "UPDATE_FREECHESTCOUNT"
-                    });
-                    //reminder.UpdateFreeChestCount();
+                        reminder.DeductFreeChestCount();
+                    }
+                    else
+                    {
+                        Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                        {
+                            baseToken = "UPDATE_FREECHESTCOUNT"
+                        });
+                    }
                 }
             }
         }
@@ -223,10 +216,18 @@ namespace WolfoQualityOfLife
                     TreasureReminder reminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
                     if (reminder && reminder.lockboxInfo)
                     {
-                        RoR2.Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                        if (WConfig.NotRequireByAll.Value)
                         {
-                            baseToken = "UPDATE_LOCKBOXCOUNT"
-                        });
+                            reminder.DeductLockboxCount();
+                        }
+                        else
+                        {
+                            Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                            {
+                                baseToken = "UPDATE_LOCKBOXCOUNT"
+                            });
+                        }
+                       
                     }
                 }
                 else if (self.costType == CostTypeIndex.TreasureCacheVoidItem)
@@ -234,10 +235,17 @@ namespace WolfoQualityOfLife
                     TreasureReminder reminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
                     if (reminder && reminder.lockboxVoidInfo)
                     {
-                        RoR2.Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                        if (WConfig.NotRequireByAll.Value)
                         {
-                            baseToken = "UPDATE_LOCKBOXVOIDCOUNT"
-                        });
+                            reminder.DeductLockboxVoidCount();
+                        }
+                        else
+                        {
+                            Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                            {
+                                baseToken = "UPDATE_LOCKBOXVOIDCOUNT"
+                            });
+                        }
                     }
                 }
             }
@@ -257,7 +265,7 @@ namespace WolfoQualityOfLife
             Debug.LogWarning("Secret Geode Start");
             if (self.geodeSecretMissionController.geodeInteractionsTracker == 0)
             {
-                string text = string.Format(Language.GetString("OBJECTIVE_SECRET_GEODE"), 0, self.geodeSecretMissionController.numberOfGeodesNecessary);
+                string text = string.Format(Language.GetString("REMINDER_SECRET_GEODE"), 0, self.geodeSecretMissionController.numberOfGeodesNecessary);
                 self.gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = text;
             }
         }
@@ -268,7 +276,7 @@ namespace WolfoQualityOfLife
             Debug.LogWarning("Secret Geode Advance");
             if (self.gameObject.GetComponent<GenericObjectiveProvider>())
             {
-                string text = string.Format(Language.GetString("OBJECTIVE_SECRET_GEODE"), self.geodeInteractionsTracker, self.numberOfGeodesNecessary);
+                string text = string.Format(Language.GetString("REMINDER_SECRET_GEODE"), self.geodeInteractionsTracker, self.numberOfGeodesNecessary);
                 self.gameObject.GetComponent<GenericObjectiveProvider>().objectiveToken = text;
             }
         }
@@ -351,6 +359,8 @@ namespace WolfoQualityOfLife
             public bool freeChestVoidBool = false;
             public bool saleStarBool = false;
 
+            public RoR2.GenericObjectiveProvider newtAltarInfo;
+
             public RoR2.GenericObjectiveProvider lockboxInfo;
             public RoR2.GenericObjectiveProvider lockboxVoidInfo;
             public RoR2.GenericObjectiveProvider freeChestInfo;
@@ -407,7 +417,7 @@ namespace WolfoQualityOfLife
                 {
                     treasureReminder.lockboxVoidCount = maximumKeysVoid;
                 }
-                if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder >= 5)
+                if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder > 5)
                 {
                     treasureReminder.saleStarBool = false;
                 }
@@ -415,8 +425,7 @@ namespace WolfoQualityOfLife
                 if (treasureReminder.lockboxVoidCount > 0)
                 {
                     Debug.Log("TreasureCacheVoidCount " + treasureReminder.lockboxVoidCount);
-                    string token = "Unlock the <color=#FF9EEC>Encrusted Lockbox</color>";
-                    //string token = "Unlock the <color=#E59562>Encrusted Lockbox</color>";
+                    string token = Language.GetString("REMINDER_KEYVOID");
                     if (treasureReminder.lockboxVoidCount > 1)
                     {
                         token += " (" + treasureReminder.lockboxVoidCount + "/" + treasureReminder.lockboxVoidCount + ")";
@@ -427,7 +436,7 @@ namespace WolfoQualityOfLife
                 if (treasureReminder.lockboxCount > 0)
                 {
                     Debug.Log("TreasureCacheCount " + treasureReminder.lockboxCount);
-                    string token = "Unlock the <style=cisDamage>Rusty Lockbox</style>";
+                    string token = Language.GetString("REMINDER_KEY");
                     if (treasureReminder.lockboxCount > 1)
                     {
                         token += " (" + treasureReminder.lockboxCount + "/" + treasureReminder.lockboxCount + ")";
@@ -438,7 +447,7 @@ namespace WolfoQualityOfLife
                 if (treasureReminder.freeChestCount > 0)
                 {
                     Debug.Log("FreeChestCount " + treasureReminder.freeChestCount);
-                    string token = "Collect free <style=cIsHealing>delivery</style>";
+                    string token = Language.GetString("REMINDER_FREECHEST");
                     if (treasureReminder.freeChestCount > 1)
                     {
                         token += " (" + treasureReminder.freeChestCount + "/" + treasureReminder.freeChestCount + ")";
@@ -449,17 +458,17 @@ namespace WolfoQualityOfLife
                 if (treasureReminder.saleStarBool)
                 {
                     Debug.Log("SaleStar " + treasureReminder.saleStarBool);
-                    string token = "Make use of <style=cIsUtility>Sale Star</style>";
+                    string token = Language.GetString("REMINDER_SALESTAR");
                     treasureReminder.saleStarInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     treasureReminder.saleStarInfo.objectiveToken = token;
                 }
-                if (treasureReminder.freeChestVoidBool)
+                /*if (treasureReminder.freeChestVoidBool)
                 {
                     Debug.Log("FreeChestVoid " + treasureReminder.freeChestVoidBool);
                     string token = Language.GetString("REMINDER_FREECHESTVOID");
                     treasureReminder.freeChestVoidInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     treasureReminder.freeChestVoidInfo.objectiveToken = token;
-                }
+                }*/
             }
 
             public void DeductLockboxCount()

@@ -1,3 +1,16 @@
+## Info
+Every play needs this mod by default.
+
+If you wish to use this mod with players who do Not have the mod, you can enable compatibility for that in the config.\
+Many features will need to be disabled for this to work however.
+
+The config will disable anything related to adding stuff that is indexed/Id driven by the game.\
+(Items, Buffs, Projectiles and Effects).\
+This means changes related to those, such as Red Oni Merc and Blight Acrid, will be disabled.
+
+If you are a Client when the Host doesn't have the mod additional features likely also do not work.\
+Such as Mountain Symbol Stacking, Treasure Reminders, Loss Messages.
+
 ## Visuals
 Mercenaries Oni Skin now uses a red sword and red particle effects for his attacks.\
 Mercenaries Frail Skin now uses green particle effects for his attacks.
@@ -11,7 +24,7 @@ Fixes Engineers Mastery and Colossus Skin Turrets looking wrong. (improper glow)
 Lunar/Elite Equipment, Void White/Red/Boss, Lunar Coins now use their own color.\
 Adds colored highlights for Tiers that were using the default one and Equipment.
 
-Elite Brass Contraptions projectiles match their color.
+Elite Brass Contraptions projectiles match their color. (Disabled currently due to Sots changes to effect system)
 
 Geysers in Sulfur Pools and Abyssal Depths have different fluid color to match their environment.
 
@@ -56,6 +69,7 @@ Equipment name will be shown under Equipment Drones name
 
 For each activated Mountain Shrine a mountain shrine symbol will be displayed
  
+Adds descriptions to items lacking one. (Elite Equipment, Tonic Debuff, Fuel Array)\
 Fixed many wrong descriptions.
 
 A Cost Hologram for the Cleansing Shrines, Lockboxes, Lunar Recycler and Broken Rex as they Lacked one.    
@@ -80,9 +94,8 @@ Lunar Seers include their destination when pinged and in the purchase context.
 Scavenger in the main menu is back.\
 Main Menu theme now changes randomly.
 
-Adds a Eclipse counter to character icons to show what level they have. (in Eclipse lobbies)
-Adds a Void Item border around character icons if you have beaten Wave 50 in Simulacrum. (in Simu lobbies)
-
+Adds a Eclipse counter to character icons to show what level they have. (in Eclipse lobbies)\
+Adds a Void border around character icons if you beat Wave 50 in Simulacrum. (in Simu lobbies)
 
 More "tp like" structures get flowers if you have Lepton Daisy.\
 Captains Shock Beacon now has a range indicator.\
@@ -97,17 +110,13 @@ When winning a chat message will be displayed of the characters win quote.
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
 
-
-
-##
-### Every player needs this mod installed!!
-No, i'm not making the mod client side.
-##
-
-
 A lot of things are configurable. If you feel something should be configurable yet it isn't you can suggest it to me.
 
-Also download my other mods 
+
+
+### Translations
+Translations are possible as of version 3.2.0. None are included as of now.
+
 
 # 
 #### Mods to Not use alongside this one

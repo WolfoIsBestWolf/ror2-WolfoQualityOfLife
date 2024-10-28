@@ -15,26 +15,24 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQualityOfLife
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.1.4")]
+    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.2.0")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LoadoutAPI), nameof(PrefabAPI), nameof(LanguageAPI), nameof(ItemAPI))]
-    [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
+    [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
 
     public class WolfoMain : BaseUnityPlugin
     {
         static readonly System.Random random = new System.Random();
 
-        //public static GameObject RedToWhiteSoup = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant");
+        //public static GameObject RedToWhiteSoup = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant");
         //Surely you could just activate an already existing soup
 
         public void Awake()
         {
+            Assets.Init(Info);
             WConfig.Start();
-
+            
             SkinChanges.Start();
-
-            Language_English.Start();
- 
 
             //Misc
             RandomMisc.Start();
@@ -43,10 +41,19 @@ namespace WolfoQualityOfLife
             //Text
             MoreMessages.Start();
             Reminders.Start();
-            TextChanges.Main();
+            
 
             //UI
-            BuffTimers.BuffColorChanger();
+
+            if (!WConfig.NotRequireByAll.Value)
+            {
+                BuffTimers.Buffs_NewBuffs();
+            }
+            if (WConfig.cfgBuff_RepeatColors.Value == true)
+            {
+                BuffTimers.BuffColorChanger();    
+            }
+
             ExpandedDeathScreen.Start();
             ExtraIcons.Start();
             ItemColorModule.Main();
@@ -70,12 +77,18 @@ namespace WolfoQualityOfLife
 
             //
             //This is such a dogshit way to circumvent learning proper Networking but it's all the same I imagine
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(MoreMessages.FakeSubjectMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(MoreMessages.FakeSubjectMessage));
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(MoreMessages.ItemMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(MoreMessages.ItemMessage));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DeathMessage.DeathSubjectMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(DeathMessage.DeathSubjectMessage));
+
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ExpandedDeathScreen.SendGameEndInvHelper), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ExpandedDeathScreen.SendGameEndInvHelper));
+
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(RandomMiscWithConfig.SendExtraMountainIcon), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(RandomMiscWithConfig.SendExtraMountainIcon));
+
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(Reminders.UpdateTreasureReminderCounts), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(Reminders.UpdateTreasureReminderCounts));
 
@@ -93,6 +106,13 @@ namespace WolfoQualityOfLife
                 GameModeCatalog.availability.CallWhenAvailable(Stupid.ModelViewer);
             }
         }
+
+
+        public void Start()
+        {
+            TextChanges.Main();
+        }
+
 
         private void MainMenuExtras(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
         {
@@ -123,21 +143,25 @@ namespace WolfoQualityOfLife
             {
                 if (selector == 1 || selector == 11)
                 {
-                    GameObject CU1 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU1 Props.prefab").WaitForCompletion());
+                    GameObject CU2 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU1 Props.prefab").WaitForCompletion());
+                    CU2.SetActive(true);
                 }
                 else if (selector == 2 || selector == 12)
                 {
                     GameObject CU2 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU2 Props.prefab").WaitForCompletion());
+                    CU2.SetActive(true);
                 }
                 else if (selector == 3 || selector == 13)
                 {
                     GameObject CU2 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU3 Props.prefab").WaitForCompletion());
+                    CU2.SetActive(true);
                 }
                 else if (selector == 4 || selector == 14)
                 {
                     GameObject CU2 = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU4 Props.prefab").WaitForCompletion());
+                    CU2.SetActive(true);
                 }
-                else if (selector > 10)
+                if (selector > 10)
                 {
                     GameObject StarStorm2 = GameObject.Find("/StormMainMenuEffect(Clone)");
                     if (StarStorm2)
@@ -190,6 +214,11 @@ namespace WolfoQualityOfLife
 
         internal static void ModSupport()
         {
+            if (!WConfig.NotRequireByAll.Value)
+            {
+                BuffTimers.ModSupport();
+            }
+
             LunarEliteDisplay.AffixLunarItemDisplay();
             if (WConfig.EnableColorChangeModule.Value)
             {
@@ -199,7 +228,6 @@ namespace WolfoQualityOfLife
             {
                 PingIcons.ModSupport();
             }
-            BuffTimers.ModSupport();
 
             if (WConfig.cfgSkinAcridBlight.Value == true)
             {
@@ -256,7 +284,7 @@ namespace WolfoQualityOfLife
             
             if (WConfig.cfgSkinMakeOniBackup.Value == true)
             {
-                GameObject MercBody = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody");
+                GameObject MercBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody");
 
                 BodyIndex MercBodyIndex = MercBody.GetComponent<CharacterBody>().bodyIndex;
                 ModelSkinController modelSkinController = MercBody.transform.GetChild(0).GetChild(0).GetComponent<ModelSkinController>();
@@ -330,18 +358,23 @@ namespace WolfoQualityOfLife
                     }
                     break;
                 case "goolake":
-                    //GameObject DoorIsOpenedEffect = GameObject.Find("/HOLDER: Secret Ring Area Content/Entrance/GLRuinGate/DoorIsOpenedEffect/");
-                    //DoorIsOpenedEffect.AddComponent<GenericObjectiveProvider>().objectiveToken = "Explore the hidden chamber";
-
-                    /*DummyPingableInteraction[] desertplatelist = FindObjectsOfType(typeof(DummyPingableInteraction)) as DummyPingableInteraction[];
-                    for (var i = 0; i < desertplatelist.Length; i++)
+                    GameObject DoorIsOpenedEffect = GameObject.Find("/HOLDER: Secret Ring Area Content/Entrance/GLRuinGate/DoorIsOpenedEffect/");
+                    GameObject RingEventController = GameObject.Find("/HOLDER: Secret Ring Area Content/ApproxCenter/RingEventController/");
+                    GenericObjectiveProvider objective = DoorIsOpenedEffect.AddComponent<GenericObjectiveProvider>();
+                    objective.objectiveToken = "OBJECTIVE_DESERT_ELDERS";
+                    var Event = RingEventController.GetComponent<OnPlayerEnterEvent>();
+                    UnityEngine.Events.PersistentCall newCall = new UnityEngine.Events.PersistentCall
                     {
-                        //Debug.LogWarning(desertplatelist[i]); ////DISABLE THIS
-                        if (desertplatelist[i].name.Contains("GLPressurePlate"))
+                        m_Target = objective,
+                        m_MethodName = "Destroy",
+                        m_Mode = UnityEngine.Events.PersistentListenerMode.Object,
+                        m_Arguments = new UnityEngine.Events.ArgumentCache
                         {
-                            desertplatelist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                            m_ObjectArgument = objective
                         }
-                    }*/
+                    };
+                    Event.action.m_PersistentCalls.AddListener(newCall);
+
                     break;
                 case "foggyswamp":
                     GameObjectUnlockableFilter[] dummylist = FindObjectsOfType(typeof(RoR2.GameObjectUnlockableFilter)) as RoR2.GameObjectUnlockableFilter[];
@@ -623,13 +656,15 @@ namespace WolfoQualityOfLife
                 case "mysteryspace":
                     GameObject MSObelisk = GameObject.Find("/MS_Obelisk");
                     MSObelisk.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.QuestionMarkIcon;
-                    MSObelisk.AddComponent<GenericObjectiveProvider>().objectiveToken = "Obliterate yourself from existence";
+                    MSObelisk.AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_GLASS_YOURSELF";
                     break;
                 case "artifactworld":
+                case "artifactworld01":
+                case "artifactworld02":
+                case "artifactworld03":
                     GenericPickupController[] pickuplist = FindObjectsOfType(typeof(GenericPickupController)) as GenericPickupController[];
                     for (var i = 0; i < pickuplist.Length; i++)
                     {
-                        //Debug.LogWarning(purchaserlist[i]); ////DISABLE THIS
                         if (pickuplist[i].name.StartsWith("SetpiecePickup"))
                         {
                             //pickuplist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
@@ -637,9 +672,16 @@ namespace WolfoQualityOfLife
                             if (tempartifactdef)
                             {
                                 string artifactname = Language.GetString(tempartifactdef.nameToken);
-                                artifactname = artifactname.Replace("Artifact of ", "");
-                                artifactname = artifactname.Replace("the ", "");
-                                pickuplist[i].gameObject.AddComponent<RoR2.GenericObjectiveProvider>().objectiveToken = "Complete the \n<style=cArtifact>Trial of " + artifactname + "</style>";
+                                //artifactname = artifactname.Replace("Artifact of ", "");
+                                //artifactname = artifactname.Replace("the ", "");
+                                String[] spltis = artifactname.Split(" ");
+                                if (spltis.Length > 0)
+                                {
+                                    artifactname = spltis[spltis.Length - 1];
+                                    Debug.Log(artifactname);
+
+                                    pickuplist[i].gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = string.Format(Language.GetString("OBJECTIVE_ARTIFACT_TRIAL"),artifactname);
+                                }
                             }
                             if (WConfig.ArtifactOutline.Value == true)
                             {
@@ -672,7 +714,6 @@ namespace WolfoQualityOfLife
             {
                 if (SceneInfo.instance.countsAsStage)
                 {
-
                     Reminders.TreasureReminder.SetupReminders();
                 }
             }

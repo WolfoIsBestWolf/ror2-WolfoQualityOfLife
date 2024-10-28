@@ -1,6 +1,9 @@
 using BepInEx;
 using BepInEx.Configuration;
-
+using RiskOfOptions;
+using RiskOfOptions.Options;
+using RiskOfOptions.OptionConfigs;
+using UnityEngine;
 
 namespace WolfoQualityOfLife
 {
@@ -11,6 +14,10 @@ namespace WolfoQualityOfLife
         //public static ConfigFile ConfigFileUI = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL-UI.cfg", true);
         //public static ConfigFile ConfigFileMisc = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL-Misc.cfg", true);
         public static ConfigFile ConfigFileUNSORTED = new ConfigFile(Paths.ConfigPath + "\\Wolfo.Wolfo_QualityOfLife.cfg", true);
+
+
+        public static ConfigEntry<bool> NotRequireByAll;
+
 
         //MoreMessages
         public static ConfigEntry<bool> cfgMessageDeath;
@@ -31,7 +38,7 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgTextItems;
         public static ConfigEntry<bool> cfgTextCharacters;
 
-        public static ConfigEntry<string> LunarChimeraNameChange;
+        public static ConfigEntry<bool> LunarChimeraNameChange;
         public static ConfigEntry<bool> cfgTextEndings;
         public static ConfigEntry<bool> cfgBlueTextPrimordial;
 
@@ -104,16 +111,25 @@ namespace WolfoQualityOfLife
 
         public static ConfigEntry<bool> cfgRiskyStuff;
 
+        public static ConfigEntry<bool> cfgLunarSeerName;
 
         public static void Start()
         {
             InitConfig();
             BuffConfig();
+            RiskConfig();
         }
 
 
         public static void InitConfig()
         {
+            NotRequireByAll = ConfigFileUNSORTED.Bind(
+               "!Main",
+               "Allow Host/Client only",
+               false,
+               "This mod is intended to be used by everyone in a group. But this config can make this mod functional with people who do not have it.\nTo do this, all content that is indexed or ID'ed by the game such as Items, Buffs, Projectiles and Effects aren't added.\n\nThis will disable features related to Consumed Items, Buffs, Red Oni Merc, Blight Acrid."
+            );
+
             cfgRiskyStuff = ConfigFileUNSORTED.Bind(
                "Oddities",
                "Disable buff sorter",
@@ -128,13 +144,13 @@ namespace WolfoQualityOfLife
             );
 
             cfgMainMenuRandomizer = ConfigFileUNSORTED.Bind(
-               "Other",
+               "UI",
                "Main Menu Colors",
                true,
                "Should the Main Menu change between themes. If Starstorm is enabled stormtheme will also random be disabled"
             );
             cfgMainMenuRandomizerSelector = ConfigFileUNSORTED.Bind(
-               "Other",
+               "UI",
                "Main Menu Selector",
                0,
                "Specifically select a main menu color :\n0 : Default or Random depending on other config \n1 : Acres update\n2 : Sirens update\n3 : Void Fields update\n4 : Artifact update\n11, 12, 13, 14 : Same but force off SS2 Storm"
@@ -173,13 +189,13 @@ namespace WolfoQualityOfLife
                 "More Messages",
                 "Messages for Benthic Bloom and Egocentrism",
                 true,
-                "You get a message for what Void upgrade and Egocentrism transformations"
+                "Chat message when Egocentrism, Benthic Bloom or VanillaVoids Enhancement Vials upgrades a item."
             );
             cfgMessageElixir = ConfigFileUNSORTED.Bind(
                 "More Messages",
                 "Messages when a Elixir gets used",
                 true,
-                "You get a message for when you use a Elixir"
+                "Chat message for when you use Elixir, lose Watches, lose random item with VanillaVoids Clockwork Mechanism"
             );
             cfgMessagesColoredItemPings = ConfigFileUNSORTED.Bind(
                 "More Messages",
@@ -204,7 +220,7 @@ namespace WolfoQualityOfLife
             );
             cfgChargeHalcyShrine = ConfigFileUNSORTED.Bind(
                 "Reminders",
-                "Objective for charging any activated Halcyon Shrines",
+                "Objective : Charging Halcyon Shrines",
                 true,
                 "To match other waiting sections in the game."
             );
@@ -246,8 +262,8 @@ namespace WolfoQualityOfLife
             LunarChimeraNameChange = ConfigFileUNSORTED.Bind(
                 "Text Changes",
                 "Lunar Chimera name changes",
-                "Long",
-                "Change the name of the 3 Lunar Chimera\nPossible Options\nShort :       Lunar Wisp, Lunar Golem, Lunar Exploder\nLong :       Lunar Chimera (Wisp), Lunar Chimera (Golem), Lunar Chimera (Exploder)\nVanilla :   Lunar Chimera, Lunar Chimera, Lunar Chimera"
+                true,
+                "Change the name of the 3 Lunar Chimera to include their type."
             );
             cfgTextEndings = ConfigFileUNSORTED.Bind(
                 "Text Changes",
@@ -260,6 +276,12 @@ namespace WolfoQualityOfLife
                 "Blue Text Primordial TP objective",
                 false,
                 "Make the objective have blue text when it is a primordial teleporter."
+            );
+            cfgLunarSeerName = ConfigFileUNSORTED.Bind(
+                "Text Changes",
+                "Lunar Seer include Stage Name",
+                true,
+                "Include Stage Name in Ping and Interact info."
             );
             //
             //Extra Icons
@@ -285,8 +307,8 @@ namespace WolfoQualityOfLife
             );
             cfgSkinBellBalls = ConfigFileUNSORTED.Bind(
                 "Visuals",
-                "Elite Brass Contraption colored Balls. (Auto Disabled)",
-                false,
+                "Elite Brass Contraption colored Balls.",
+                true,
                 "Their balls use the elite aspects texture. (This is currently broken, the effect system was reworked and this doesn't work properly with it anymore because the new version is lacking.)"
             );
             cfgSkinMisc = ConfigFileUNSORTED.Bind(
@@ -429,7 +451,60 @@ namespace WolfoQualityOfLife
         }
 
 
+        public static void RiskConfig()
+        {
+            Texture2D TexChestCasinoIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/icon.png");
+            Sprite ChestCasinoIcon = Sprite.Create(TexChestCasinoIcon, new Rect(0, 0, 256, 256), new Vector2(0.5f, 0.5f));
+            ModSettingsManager.SetModIcon(ChestCasinoIcon);
+            ModSettingsManager.SetModDescription("Random assortment of Quality of Life.");
 
+            ModSettingsManager.AddOption(new CheckBoxOption(NotRequireByAll, true));
+
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMainMenuRandomizer));
+            ModSettingsManager.AddOption(new IntFieldOption(cfgMainMenuRandomizerSelector));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgUISimuBorder));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgUIEclipseBorder));
+
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMessageDeath, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMessagePrint, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMessageScrap, true));
+            CheckBoxConfig overwriteName = new CheckBoxConfig
+            {
+                name = "Messages for Benthic+Egocentrism",
+                restartRequired = true,
+            };
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMessageVoidTransform, overwriteName));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMessageElixir, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMessagesColoredItemPings, true));
+
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersPortal, true));
+
+            overwriteName = new CheckBoxConfig
+            {
+                name = "Reminders for Lockboxes/Delivery",
+                restartRequired = true,
+            };
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersTreasure, overwriteName));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgChargeHalcyShrine, true));
+
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgTextMain, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgTextItems, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgTextCharacters, true));
+            //ModSettingsManager.AddOption(new CheckBoxOption(cfgBlueTextPrimordial, true));
+
+
+            
+
+             
+            //ModSettingsManager.AddOption(new FloatFieldOption(cfgPingDurationMultiplier));
+
+
+
+           
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgSkinBellBalls, true));
+            //ModSettingsManager.AddOption(new CheckBoxOption(cfgBlueTextPrimordial, true));
+
+        }
 
 
 

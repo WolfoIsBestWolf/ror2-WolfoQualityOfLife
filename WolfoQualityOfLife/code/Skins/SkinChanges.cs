@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using RoR2.Skills;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -11,7 +12,7 @@ namespace WolfoQualityOfLife
     {
         public static Material MatOniSword;
         public static Material MatHANDToolbot;
-        public static Material MatGreenFlowerRex;
+        //public static Material MatGreenFlowerRex;
         public static Material MatTreebot_VineSots;
 
         public static Material MatEngiTurretGreen;
@@ -30,28 +31,41 @@ namespace WolfoQualityOfLife
         //public static uint REXSkinFlowerR = 255;
         public static Material REXFlowerTempMat = null;
 
-        public static GameObject BellBallElite = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/BellBall"), "BellBallElite", true);
-        public static GameObject BellBallGhostElite = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/BellBallGhost"), "BellBallGhostElite", false);
-        //Bell Balls Prep
+        public static GameObject BellBallElite;
+        public static GameObject BellBallGhostElite; //Bell Balls Prep
 
         public static void Start()
         {
-            RedMercSkin.Start();
-            AcridBlight.Start();
             if (WConfig.cfgSkinMisc.Value == true)
             {
                 SkinTouchups();
                 //REXSkinnedAttacks();
             }
 
-            BellBallElite.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = BellBallGhostElite;
-            R2API.ContentAddition.AddProjectile(BellBallElite);
-
-            if (WConfig.cfgSkinBellBalls.Value == true)
+            if (!WConfig.NotRequireByAll.Value)
             {
-                IL.EntityStates.Bell.BellWeapon.ChargeTrioBomb.FixedUpdate += BellBalls_ChargeTrioBomb_FixedUpdate;
+                RedMercSkin.Start();
+                AcridBlight.Start();
+
+                BellBallElite = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/BellBall"), "BellBallElite", true);
+                BellBallGhostElite = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/BellBallGhost"), "BellBallGhostElite", false);
+
+
+                BellBallElite.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = BellBallGhostElite;
+                R2API.ContentAddition.AddProjectile(BellBallElite);
+                if (WConfig.cfgSkinBellBalls.Value == true)
+                {
+                    IL.EntityStates.Bell.BellWeapon.ChargeTrioBomb.FixedUpdate += BellBalls_ChargeTrioBomb_FixedUpdate;
+                    On.RoR2.EffectManager.OnSceneUnloaded += EffectManager_OnSceneUnloaded;
+                }
+               
             }
-            //
+        }
+
+        private static void EffectManager_OnSceneUnloaded(On.RoR2.EffectManager.orig_OnSceneUnloaded orig, UnityEngine.SceneManagement.Scene scene)
+        {
+            orig(scene);
+            EffectManager._ShouldUsePooledEffectMap.Add(BellBallGhostElite, false);
         }
 
         private static void BellBalls_ChargeTrioBomb_FixedUpdate(ILContext il)
@@ -104,25 +118,15 @@ namespace WolfoQualityOfLife
 
         public static void SkinTouchups()
         {
-            MatHANDToolbot = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ToolbotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
-            MatGreenFlowerRex = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TreebotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
+            MatHANDToolbot = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ToolbotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
+            Material MatGreenFlowerRex = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TreebotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
             MatTreebot_VineSots = GameObject.Instantiate(MatGreenFlowerRex);
-            MatEngiTurretGreen = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
-            MatEngiTurret_Sots = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
-            MatEngiAltTrail = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponents<SprintEffectController>()[1].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material);
-            /*
-            Material MatCrocoAlt = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody").transform.GetChild(0).GetChild(2).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[0].defaultMaterial;
+            MatEngiTurretGreen = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
+            MatEngiTurret_Sots = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
+            MatEngiAltTrail = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponents<SprintEffectController>()[1].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material);
+ 
 
-
-            Texture2D texCrocoEmissionAlt = new Texture2D(2048, 2048, TextureFormat.DXT1, false);
-            texCrocoEmissionAlt.LoadImage(Properties.Resources.texCrocoEmissionAlt, true);
-            texCrocoEmissionAlt.filterMode = FilterMode.Bilinear;
-            texCrocoEmissionAlt.wrapMode = TextureWrapMode.Clamp;
-
-            MatCrocoAlt.SetTexture("_Emtex", texCrocoEmissionAlt);*/
-
-
-            //SkinDef SkinDefEngiAlt = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1];
+            //SkinDef SkinDefEngiAlt = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1];
 
             //SkinDefEngiAlt.projectileGhostReplacements[1].projectileGhostReplacementPrefab.GetComponentInChildren<Light>().color = new Color(0.251f, 0.7373f, 0.6451f, 1);
             //SkinDefEngiAlt.projectileGhostReplacements[2].projectileGhostReplacementPrefab.GetComponentInChildren<Light>().color = new Color(0.251f, 0.7373f, 0.6451f, 1);
@@ -130,40 +134,51 @@ namespace WolfoQualityOfLife
             //Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Treebot/matTreebotColossus.mat").WaitForCompletion();
 
 
-            
 
-            Texture2D texTreebotVineForColossus = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texTreebotVineForColossus.png");
+            Texture2D texTreebotVineForColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texTreebotVineForColossus.png");
             texTreebotVineForColossus.wrapMode = TextureWrapMode.Clamp;
             MatTreebot_VineSots.mainTexture = texTreebotVineForColossus;
 
-            Texture2D texRampEngiAlt = new Texture2D(256, 16, TextureFormat.DXT5, false);
-            texRampEngiAlt.LoadImage(Properties.Resources.texRampEngiAlt, true);
-            texRampEngiAlt.filterMode = FilterMode.Bilinear;
+
+            SkinDef skinTreebotAltColossus = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Treebot/skinTreebotAltColossus.asset").WaitForCompletion();
+            var NewRender = new CharacterModel.RendererInfo
+            {
+                defaultMaterial = MatTreebot_VineSots,
+                defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                renderer = skinTreebotAltColossus.rootObject.transform.GetChild(5).GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>()
+            };
+
+            skinTreebotAltColossus.rendererInfos = skinTreebotAltColossus.rendererInfos.Add(NewRender);
+            skinTreebotAltColossus.runtimeSkin = null;
+
+
+
+            Texture2D texRampEngiAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampEngiAlt.png");
             texRampEngiAlt.wrapMode = TextureWrapMode.Clamp;
             MatEngiAltTrail.SetTexture("_RemapTex", texRampEngiAlt);
 
-            Texture2D TexEngiTurretAlt = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texEngiTurretDiffuseAlt.png");
-            Texture2D texEngiTurretAltColossusDiffuse = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texEngiTurretAltColossusDiffuse.png");
+            Texture2D TexEngiTurretAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png");
+            Texture2D texEngiTurretAltColossusDiffuse = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texEngiTurretAltColossusDiffuse.png");
  
 
-            MatEngiTurretGreen = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
+            MatEngiTurretGreen = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
             MatEngiTurretGreen.mainTexture = TexEngiTurretAlt;
             MatEngiTurretGreen.SetColor("_EmColor", new Color32(28, 194, 182, 255));
 
-            MatEngiTurret_Sots = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
+            MatEngiTurret_Sots = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
             MatEngiTurret_Sots.mainTexture = texEngiTurretAltColossusDiffuse;
             MatEngiTurret_Sots.SetColor("_EmColor", new Color(1, 0.5f, 0.1f, 1f));
 
 
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiGrenadeGhostSkin2").GetComponentInChildren<MeshRenderer>().material = MatEngiTurretGreen;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiGrenadeGhostSkin2").GetComponentInChildren<MeshRenderer>().material = MatEngiTurretGreen;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
 
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiGrenadeGhostSkin3.prefab").WaitForCompletion().GetComponentInChildren<MeshRenderer>().material = MatEngiTurret_Sots;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiMineGhost3.prefab").WaitForCompletion().GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurret_Sots;
 
-            //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/SpiderMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
+            //LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/SpiderMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
 
-            var EngiDisplayMines = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/characterdisplays/EngiDisplay").transform.GetChild(1).GetChild(0).gameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+            var EngiDisplayMines = LegacyResourcesAPI.Load<GameObject>("Prefabs/characterdisplays/EngiDisplay").transform.GetChild(1).GetChild(0).gameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             //Debug.LogWarning(EngiDisplayMines.Length);
             for (int i = 0; i < EngiDisplayMines.Length; i++)
             {
@@ -177,194 +192,234 @@ namespace WolfoQualityOfLife
                 };
             };
 
-            Texture2D TexRedSwordDiffuse = Assets.MainBundle.LoadAsset<Texture2D>("Assets/WQoL/texOniMercSwordDiffuse.png");
+            Texture2D TexRedSwordDiffuse = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texOniMercSwordDiffuse.png");
 
 
-            Texture2D texRampFallbootsRed = new Texture2D(16, 256, TextureFormat.DXT1, false);
-            texRampFallbootsRed.LoadImage(Properties.Resources.texRampFallbootsRed, true);
-            texRampFallbootsRed.filterMode = FilterMode.Bilinear;
+            Texture2D texRampFallbootsRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampFallbootsRed.png");
             texRampFallbootsRed.wrapMode = TextureWrapMode.Clamp;
 
-            Texture2D texRampHuntressRed = new Texture2D(16, 256, TextureFormat.DXT1, false);
-            texRampHuntressRed.LoadImage(Properties.Resources.texRampHuntressRed, true);
+            Texture2D texRampHuntressRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressRed.png");
             texRampHuntressRed.filterMode = FilterMode.Point;
             texRampHuntressRed.wrapMode = TextureWrapMode.Clamp;
 
-            MatOniSword = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody").transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<SkinnedMeshRenderer>().material);
+            MatOniSword = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody").transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponent<SkinnedMeshRenderer>().material);
             MatOniSword.name = "matOniMercSword";
             MatOniSword.mainTexture = TexRedSwordDiffuse;
             MatOniSword.SetColor("_EmColor", new Color32(125, 64, 64, 255));
             MatOniSword.SetTexture("_FlowHeightRamp", texRampFallbootsRed);
             MatOniSword.SetTexture("_FresnelRamp", texRampHuntressRed);
 
-            On.RoR2.SkinDef.Apply += (orig, self, modelObject) =>
+            On.RoR2.SkinDef.Apply += SkinDef_Apply;
+
+
+            GameObject ToolbotDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Toolbot/ToolbotDisplay.prefab").WaitForCompletion();
+            ToolbotDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
+
+ 
+            On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
+
+            On.EntityStates.Toolbot.ToolbotDualWield.OnEnter += (orig, self) =>
             {
-                orig(self, modelObject);
-                //Debug.LogWarning(self + " SkinDef Apply " + modelObject);
+                EntityStates.Toolbot.ToolbotDualWield.coverPrefab.GetComponentInChildren<SkinnedMeshRenderer>().material = self.outer.commonComponents.modelLocator.modelTransform.GetChild(1).GetComponent<UnityEngine.SkinnedMeshRenderer>().material;
+                orig(self);
+            };
 
-                if (!modelObject)
-                {
-                    return;
-                }
+            //Has like 6 different renderers for some reason
+            On.EntityStates.Toolbot.ToolbotDualWield.OnExit += (orig, self) =>
+            {
+                //Material material = self.outer.commonComponents.modelLocator.modelTransform.GetChild(1).GetComponent<UnityEngine.SkinnedMeshRenderer>().material;
+                EntityStates.Toolbot.ToolbotDualWield.coverEjectEffect.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>().material = self.outer.commonComponents.modelLocator.modelTransform.GetChild(1).GetComponent<UnityEngine.SkinnedMeshRenderer>().material;
+                orig(self);
+            };
 
-                if (modelObject.name.StartsWith("mdlMerc"))
+            //Loader correct Hand/Pylon color, seems whatever at this point
+            On.EntityStates.Loader.FireHook.SetHookReference += (orig, self, hook) =>
+             {
+                 if (self.characterBody.skinIndex != 0)
+                 {
+                     hook.transform.GetChild(0).GetComponent<MeshRenderer>().material = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial;
+                 }
+                 orig(self, hook);
+             };
+
+            On.EntityStates.Loader.ThrowPylon.OnEnter += (orig, self) =>
+            {
+                //orig(self);
+                SkinnedMeshRenderer temprender = EntityStates.Loader.ThrowPylon.projectilePrefab.transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
+                temprender.materials[1].mainTexture = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial.mainTexture;
+                //Debug.LogWarning("CHANGE LOADER PYLON");
+                orig(self);
+            };
+
+        }
+
+        private static void SkinDef_Apply(On.RoR2.SkinDef.orig_Apply orig, SkinDef self, GameObject modelObject)
+        {
+            orig(self, modelObject);
+            //Debug.LogWarning(self + " SkinDef Apply " + modelObject);
+
+            if (!modelObject)
+            {
+                return;
+            }
+
+            if (modelObject.name.StartsWith("mdlMerc"))
+            {
+                if (WConfig.cfgSkinMercRed.Value == true)
                 {
-                    if (WConfig.cfgSkinMercRed.Value == true)
+                    bool alt = self.name.EndsWith("Alt");
+                    bool Colossus = self.name.EndsWith("Colossus");
+
+
+                    if (alt || self.name.EndsWith("Red"))
                     {
-                        bool alt = self.name.EndsWith("Alt");
-                        bool Colossus = self.name.EndsWith("Colossus");
-
-
-                        if (alt || self.name.EndsWith("Red"))
+                        if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
                         {
-                            if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
-                            {
-                                modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercRed>();
-                            }
-                            if (alt)
-                            {
-                                CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
-                                tempmodel.baseLightInfos[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);
-                                tempmodel.baseLightInfos[1].defaultColor = new Color(1, 0.15f, 0.15f, 1);
-                                tempmodel.baseRendererInfos[1].defaultMaterial = MatOniSword;
-                            }
+                            modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercRed>();
+                        }
+                        if (alt)
+                        {
+                            CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
+                            tempmodel.baseLightInfos[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);
+                            tempmodel.baseLightInfos[1].defaultColor = new Color(1, 0.15f, 0.15f, 1);
+                            tempmodel.baseRendererInfos[1].defaultMaterial = MatOniSword;
+                        }
 
-                            ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
-                            if (childLocator)
+                        ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+                        if (childLocator)
+                        {
+                            Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
+                            PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
+                            PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
+                            PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
+                            PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
+                            if (!WConfig.NotRequireByAll.Value)
                             {
-                                Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                                PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
-                                PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
-                                PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
                                 PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnitionRed; //matMercIgnition (Instance)
-                                PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
                                 PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnitionRed; //matMercIgnition (Instance)
                             }
                         }
-                        else if (Colossus || self.name.EndsWith("Green"))
+                    }
+                    else if (Colossus || self.name.EndsWith("Green"))
+                    {
+                        if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
                         {
-                            if (modelObject.GetComponent<RoR2.CharacterModel>() && modelObject.GetComponent<RoR2.CharacterModel>().body)
-                            {
-                                modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercGreen>();
-                            }
-                            if (Colossus)
-                            {
-                                CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
-                                tempmodel.baseLightInfos[0].defaultColor = new Color(0.2f, 1f, 0.1f, 1);
-                                tempmodel.baseLightInfos[1].defaultColor = new Color(0.15f, 1f, 0.15f, 1);
-                            }
+                            modelObject.GetComponent<RoR2.CharacterModel>().body.gameObject.AddComponent<MakeThisMercGreen>();
+                        }
+                        if (Colossus)
+                        {
+                            CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
+                            tempmodel.baseLightInfos[0].defaultColor = new Color(0.2f, 1f, 0.1f, 1);
+                            tempmodel.baseLightInfos[1].defaultColor = new Color(0.15f, 0.6f, 0.15f, 1);
+                        }
 
-                            ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
-                            if (childLocator)
+                        ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+                        if (childLocator)
+                        {
+                            Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
+                            PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
+                            PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
+                            PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
+                            PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
+
+                            if (!WConfig.NotRequireByAll.Value)
                             {
-                                Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                                PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
-                                PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
-                                PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
                                 PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnition_Green; //matMercIgnition (Instance)
-                                PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
                                 PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = RedMercSkin.matMercIgnition_Green; //matMercIgnition (Instance)
                             }
                         }
-                        else
-                        {
-                            CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
-                            tempmodel.baseLightInfos[0].defaultColor = new Color(0, 0.609f, 1, 1);
-                            tempmodel.baseLightInfos[1].defaultColor = new Color(0, 0.609f, 1, 1);
-                        }
                     }
-                }
-                else if (modelObject.name.StartsWith("mdlTreebot"))
-                {
-                    if (self.name.EndsWith("Colossus"))
-                    {
-                        if (modelObject.transform.childCount > 5)
-                        {
-                            modelObject.transform.GetChild(5).GetChild(0).GetChild(2).gameObject.GetComponent<ParticleSystemRenderer>().material = MatTreebot_VineSots;
-                        }      
-                    }
-                    else if (!self.name.EndsWith("Default"))
-                    {
-                        if (modelObject.transform.childCount > 5)
-                        {
-                            modelObject.transform.GetChild(5).GetChild(0).GetChild(2).gameObject.GetComponent<ParticleSystemRenderer>().material = modelObject.GetComponent<CharacterModel>().baseRendererInfos[1].defaultMaterial;
-                        }
-                    }
-
-                }
-                else if (modelObject.name.StartsWith("mdlEngiTurret"))
-                {
-                    if (self.name.Equals("skinEngiTurretAlt"))
-                    {
-                        modelObject.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial = MatEngiTurretGreen;
-                    }
-                    else if (self.name.EndsWith("Colossus"))
-                    {
-                        modelObject.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial = MatEngiTurret_Sots;
-                    }
-                }
-                else if (modelObject.name.StartsWith("mdlEngi"))
-                {
-                    if (self.name.StartsWith("skinEngiAlt"))
+                    else
                     {
                         CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
+                        tempmodel.baseLightInfos[0].defaultColor = new Color(0, 0.609f, 1, 1);
+                        tempmodel.baseLightInfos[1].defaultColor = new Color(0, 0.609f, 1, 1);
+                    }
+                }
+            }
+            else if (modelObject.name.StartsWith("mdlTreebot"))
+            {
+                if (modelObject.transform.childCount > 5)
+                {
+                    ParticleSystemRenderer vine = modelObject.transform.GetChild(5).GetChild(0).GetChild(2).gameObject.GetComponent<ParticleSystemRenderer>();
+                    bool doAuto = vine.material.Equals("matTreebotTreeFlower");
+                    if (!self.name.Contains("Colossus") && !self.name.EndsWith("Default"))
+                    {
+                        vine.material = modelObject.GetComponent<CharacterModel>().baseRendererInfos[1].defaultMaterial;
+                    }
+                }
+            }
+            else if (modelObject.name.StartsWith("mdlEngiTurret"))
+            {
+                if (self.name.Equals("skinEngiTurretAlt"))
+                {
+                    modelObject.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial = MatEngiTurretGreen;
+                }
+                else if (self.name.EndsWith("Colossus"))
+                {
+                    modelObject.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial = MatEngiTurret_Sots;
+                }
+            }
+            else if (modelObject.name.StartsWith("mdlEngi"))
+            {
+                if (self.name.Equals("skinEngiAlt"))
+                {
+                    CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
 
-                        if (tempmodel.baseRendererInfos.Length > 1)
-                        {
-                            tempmodel.baseRendererInfos[0].defaultMaterial = MatEngiAltTrail;
-                            tempmodel.baseRendererInfos[1].defaultMaterial = MatEngiAltTrail;
-                        }
+                    if (tempmodel.baseRendererInfos.Length > 1)
+                    {
+                        tempmodel.baseRendererInfos[0].defaultMaterial = MatEngiAltTrail;
+                        tempmodel.baseRendererInfos[1].defaultMaterial = MatEngiAltTrail;
+                    }
 
-                        RoR2.SprintEffectController[] component = modelObject.GetComponents<SprintEffectController>();
-                        if (component.Length != 0)
+                    RoR2.SprintEffectController[] component = modelObject.GetComponents<SprintEffectController>();
+                    if (component.Length != 0)
+                    {
+                        for (int i = 0; i < component.Length; i++)
                         {
-                            for (int i = 0; i < component.Length; i++)
+                            if (component[i].loopRootObject.name.StartsWith("EngiJet"))
                             {
-                                if (component[i].loopRootObject.name.StartsWith("EngiJet"))
-                                {
-                                    component[i].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = MatEngiAltTrail;
-                                    component[i].loopRootObject.transform.GetChild(2).GetComponent<Light>().color = new Color(0, 0.77f, 0.77f, 1f); // 0 1 0.5508 1
-                                }
+                                component[i].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = MatEngiAltTrail;
+                                component[i].loopRootObject.transform.GetChild(2).GetComponent<Light>().color = new Color(0, 0.77f, 0.77f, 1f); // 0 1 0.5508 1
                             }
                         }
                     }
                 }
+            }
 
-            };
+        }
 
-
-
-
-
-            On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
-            /*
-            On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += (orig, self, networkUser) =>
+        private static void SkinTouchUpsLobby(On.RoR2.CharacterSelectSurvivorPreviewDisplayController.orig_OnLoadoutChangedGlobal orig, CharacterSelectSurvivorPreviewDisplayController self, NetworkUser changedNetworkUser)
+        {
+            orig(self, changedNetworkUser);
+            //This works on all Models at once, when any user changes stuff, how do we filter Models
+            //Well it should work maybe it's the Multiplayer test mods issue
+            if (changedNetworkUser != self.networkUser)
             {
-                orig(self, networkUser);
-                //This works on all Models at once, when any user changes stuff, how do we filter Models
-                //Well it should work maybe it's the Multiplayer test mods issue
-                if (networkUser != self.networkUser)
+                return;
+            }
+            Debug.Log(self + " User: " + changedNetworkUser.id.value);
+
+            if (self.name.StartsWith("EngiDisplay"))
+            {
+                Loadout temploadout = self.networkUser.networkLoadout.loadout;
+                BodyIndex Engi = BodyCatalog.FindBodyIndex("EngiBody");
+                if (temploadout != null && self.networkUser.bodyIndexPreference == Engi)
                 {
-                    return;
-                }
-
-                Debug.Log(self + " User: " + networkUser.id.value);
-
-
-                if (self.name.StartsWith("EngiDisplay"))
-                {
-                    Loadout temploadout = self.networkUser.networkLoadout.loadout;
-                    BodyIndex Engi = BodyCatalog.FindBodyIndex("EngiBody");
-                    if (temploadout != null && self.networkUser.bodyIndexPreference == Engi)
+                    uint skin = temploadout.bodyLoadoutManager.GetSkinIndex(Engi);
+                    if (skin == 1)
                     {
-                        uint skin = temploadout.bodyLoadoutManager.GetSkinIndex(Engi);
-                        if (skin == 1)
-                        {
-                            self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
-                        }
+                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
+                    }
+                    else if (skin == 2)
+                    {
+                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurret_Sots;
                     }
                 }
-                else if (self.name.StartsWith("CrocoDisplay"))
+            }
+            else if (self.name.StartsWith("CrocoDisplay"))
+            {
+                if (!WConfig.NotRequireByAll.Value)
                 {
                     if (WConfig.cfgSkinAcridBlight.Value == true)
                     {
@@ -399,115 +454,72 @@ namespace WolfoQualityOfLife
                             }
                         }
                     }
-
                 }
-            };*/
-
-
-            On.EntityStates.Toolbot.ToolbotDualWield.OnEnter += (orig, self) =>
-            {
-                EntityStates.Toolbot.ToolbotDualWield.coverPrefab.GetComponentInChildren<UnityEngine.SkinnedMeshRenderer>().material = self.outer.commonComponents.modelLocator.modelTransform.GetChild(1).GetComponent<UnityEngine.SkinnedMeshRenderer>().material;
-                orig(self);
-            };
-
-            //Has like 6 different renderers for some reason
-            On.EntityStates.Toolbot.ToolbotDualWield.OnExit += (orig, self) =>
-            {
-                //Material material = self.outer.commonComponents.modelLocator.modelTransform.GetChild(1).GetComponent<UnityEngine.SkinnedMeshRenderer>().material;
-                EntityStates.Toolbot.ToolbotDualWield.coverEjectEffect.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.ParticleSystemRenderer>().material = self.outer.commonComponents.modelLocator.modelTransform.GetChild(1).GetComponent<UnityEngine.SkinnedMeshRenderer>().material;
-                orig(self);
-            };
-
-            //Loader correct Hand/Pylon color, seems whatever at this point
-            On.EntityStates.Loader.FireHook.SetHookReference += (orig, self, hook) =>
-             {
-                 if (self.characterBody.skinIndex != 0)
-                 {
-                     hook.transform.GetChild(0).GetComponent<MeshRenderer>().material = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial;
-                 }
-                 orig(self, hook);
-             };
-
-            On.EntityStates.Loader.ThrowPylon.OnEnter += (orig, self) =>
-            {
-                //orig(self);
-                SkinnedMeshRenderer temprender = EntityStates.Loader.ThrowPylon.projectilePrefab.transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
-                temprender.materials[1].mainTexture = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial.mainTexture;
-                //Debug.LogWarning("CHANGE LOADER PYLON");
-                orig(self);
-            };
-
-        }
-
-        private static void SkinTouchUpsLobby(On.RoR2.CharacterSelectSurvivorPreviewDisplayController.orig_OnLoadoutChangedGlobal orig, CharacterSelectSurvivorPreviewDisplayController self, NetworkUser changedNetworkUser)
-        {
-            orig(self, changedNetworkUser);
-            //This works on all Models at once, when any user changes stuff, how do we filter Models
-            //Well it should work maybe it's the Multiplayer test mods issue
-            if (changedNetworkUser != self.networkUser)
-            {
-                return;
             }
-
-            Debug.Log(self + " User: " + changedNetworkUser.id.value);
-
-
-            if (self.name.StartsWith("EngiDisplay"))
+            else if (self.name.StartsWith("ToolbotDisplay"))
             {
+                /*
                 Loadout temploadout = self.networkUser.networkLoadout.loadout;
-                BodyIndex Engi = BodyCatalog.FindBodyIndex("EngiBody");
-                if (temploadout != null && self.networkUser.bodyIndexPreference == Engi)
+                BodyIndex Toolbot = BodyCatalog.FindBodyIndexCaseInsensitive("ToolbotBody");
+                //Debug.LogWarning(Croco);
+                if (temploadout != null && self.networkUser.bodyIndexPreference == Toolbot)
                 {
-                    uint skin = temploadout.bodyLoadoutManager.GetSkinIndex(Engi);
-                    if (skin == 1)
+                    int skill = (int)temploadout.bodyLoadoutManager.GetSkillVariant(Toolbot, 0);
+
+                    //var BodyLoadout = temploadout.bodyLoadoutManager.GetReadOnlyBodyLoadout(Toolbot);
+                    //SkillFamily family = BodyLoadout.GetSkillFamily(0);
+                    //ToolbotWeaponSkillDef toolBotSkill = (ToolbotWeaponSkillDef)family.variants[skill].skillDef;
+
+                    Transform mdlToolbot = self.transform.GetChild(0).transform.GetChild(0);
+                    Transform toolbase = mdlToolbot.Find("ToolbotArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/toolbase");
+                    
+                    //mdlToolbot.gameObject.AddComponent<DelayedAnimatorMULT>().toolbase = toolbase;
+                    //mdlToolbot.gameObject.GetComponent<DelayedAnimatorMULT>().skill = skill;
+                    
+                    Vector3 small = new Vector3(0.001f, 0.001f, 0.001f);
+
+                    if (!toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>())
                     {
-                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
+                        toolbase.GetChild(0).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
+                        toolbase.GetChild(1).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
+                        toolbase.GetChild(2).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
+                        toolbase.GetChild(3).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
                     }
-                    else if (skin == 2)
+                    switch (skill)
                     {
-                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = MatEngiTurret_Sots;
+                        case 0:
+                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(1, 1, 1);  
+                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            break;
+                        case 1:
+                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f); ;
+                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            break;
+                        case 2:
+                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(1, 1, 1); ;
+                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            break;
+                        case 3:
+                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f); ;
+                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
+                            break;
                     }
+                    
                 }
+                */
             }
-            else if (self.name.StartsWith("CrocoDisplay"))
-            {
-                if (WConfig.cfgSkinAcridBlight.Value == true)
-                {
-                    Loadout temploadout = self.networkUser.networkLoadout.loadout;
-                    BodyIndex Croco = BodyCatalog.FindBodyIndexCaseInsensitive("CrocoBody");
-                    //Debug.LogWarning(Croco);
-                    if (temploadout != null && self.networkUser.bodyIndexPreference == Croco)
-                    {
-                        uint skill = temploadout.bodyLoadoutManager.GetSkillVariant(Croco, 0);
 
-                        if (!self.transform.GetChild(0).GetChild(4).name.StartsWith("SpawnActive"))
-                        {
-                            self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
-                            self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            self.transform.GetChild(0).GetChild(4).name = "SpawnInactive";
-                        }
-
-                        if (skill == 0)
-                        {
-                            self.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
-                            //self.transform.GetChild(0).GetChild(4).GetChild(1).gameObject.SetActive(false);
-                            self.transform.GetChild(0).GetChild(3).gameObject.SetActive(true);
-                        }
-                        else if (skill == 1)
-                        {
-                            self.transform.GetChild(0).GetChild(3).gameObject.SetActive(false);
-                            //self.transform.GetChild(0).GetChild(3).GetChild(1).gameObject.SetActive(false);
-                            self.transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
-                        }
-                    }
-                }
-
-
-            }
         }
+
+
 
         public static void REXSkinnedAttacks()
         {
@@ -645,8 +657,6 @@ namespace WolfoQualityOfLife
 
 
         }
-
-
     }
 
     public class MakeThisMercRed : MonoBehaviour

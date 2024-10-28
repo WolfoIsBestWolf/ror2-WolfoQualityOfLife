@@ -12,22 +12,22 @@ namespace WolfoQualityOfLife
     public class ItemColorModule
     {
         //Adding missing Highlights
-        public static readonly GameObject HighlightYellowItem = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightBossItem", false);
-        public static readonly GameObject HighlightPinkT1Item = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier1Item"), "HighlightVoidT1Item", false);
-        public static readonly GameObject HighlightPinkT2Item = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightVoidT2Item", false);
-        public static readonly GameObject HighlightPinkT3Item = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightVoidT3Item", false);
-        public static readonly GameObject HighlightOrangeItem = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipment", false);
-        public static readonly GameObject HighlightOrangeBossItem = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentBoss", false);
-        public static readonly GameObject HighlightOrangeLunarItem = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentLunar", false);
+        public static readonly GameObject HighlightYellowItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightBossItem", false);
+        public static readonly GameObject HighlightPinkT1Item = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier1Item"), "HighlightVoidT1Item", false);
+        public static readonly GameObject HighlightPinkT2Item = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightVoidT2Item", false);
+        public static readonly GameObject HighlightPinkT3Item = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightVoidT3Item", false);
+        public static readonly GameObject HighlightOrangeItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipment", false);
+        public static readonly GameObject HighlightOrangeBossItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentBoss", false);
+        public static readonly GameObject HighlightOrangeLunarItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentLunar", false);
         //public static int HighlighterIntChoice = 0;
         public static bool HighlightEquipment = false;
 
         //public static bool ChangedColors = false;
 
-        public static readonly GameObject EquipmentBossOrb = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/BossOrb"), "EquipmentBossOrb", false);
-        public static readonly GameObject EquipmentLunarOrb = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/LunarOrb"), "EquipmentLunarOrb", false);
-        public static readonly GameObject NoTierOrb = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "NoTierOrb", false);
-        public static readonly GameObject CoinOrb = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "CoinOrb", false);
+        public static readonly GameObject EquipmentBossOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/BossOrb"), "EquipmentBossOrb", false);
+        public static readonly GameObject EquipmentLunarOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/LunarOrb"), "EquipmentLunarOrb", false);
+        public static readonly GameObject NoTierOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "NoTierOrb", false);
+        public static readonly GameObject CoinOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "CoinOrb", false);
 
         public static Color NewSurvivorLogbookNameColor = new Color32(80, 130, 173, 255);
 
@@ -69,10 +69,9 @@ namespace WolfoQualityOfLife
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += ItemColorModule.ChangeEquipmentBGLogbook;
             On.RoR2.UI.LogBook.LogBookController.BuildSurvivorEntries += ItemColorModule.ChangeSurvivorLogbookEntry;
 
-            texEquipmentBossBG.LoadImage(Properties.Resources.texEquipmentBossBG, true);
-            texEquipmentBossBG.filterMode = FilterMode.Bilinear;
-            texEquipmentLunarBG.LoadImage(Properties.Resources.texEquipmentLunarBG, true);
-            texEquipmentLunarBG.filterMode = FilterMode.Bilinear;
+            texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texEquipmentBossBG.png");
+            texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texEquipmentLunarBG.png");
+
 
 
             On.RoR2.UI.GenericNotification.SetItem += PickupNotifColorOverrideItems; ; //Notification Title
@@ -104,72 +103,54 @@ namespace WolfoQualityOfLife
         public static void EquipmentColorIconChanger()
         {
 
-            Texture2D OutlineChangedtexAffixBlueIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexAffixBlueIcon.LoadImage(Properties.Resources.OutlineChangedtexAffixBlueIcon, true);
-            OutlineChangedtexAffixBlueIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexAffixBlueIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixBlueIcon.png");
             OutlineChangedtexAffixBlueIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixBlueIconS = Sprite.Create(OutlineChangedtexAffixBlueIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixBlue").pickupIconSprite = OutlineChangedtexAffixBlueIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixBlue").pickupIconSprite = OutlineChangedtexAffixBlueIconS;
 
-            Texture2D OutlineChangedtexAffixHauntedIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexAffixHauntedIcon.LoadImage(Properties.Resources.OutlineChangedtexAffixHauntedIcon, true);
-            OutlineChangedtexAffixHauntedIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexAffixHauntedIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixHauntedIcon.png");
             OutlineChangedtexAffixHauntedIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixHauntedIconS = Sprite.Create(OutlineChangedtexAffixHauntedIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixHaunted").pickupIconSprite = OutlineChangedtexAffixHauntedIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixHaunted").pickupIconSprite = OutlineChangedtexAffixHauntedIconS;
 
 
 
 
 
-            Texture2D OutlineChangedtexAffixLunarIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexAffixLunarIcon.LoadImage(Properties.Resources.OutlineChangedtexAffixLunarIcon, true);
-            OutlineChangedtexAffixLunarIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexAffixLunarIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixLunarIcon.png");
             OutlineChangedtexAffixLunarIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixLunarIconS = Sprite.Create(OutlineChangedtexAffixLunarIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").pickupIconSprite = OutlineChangedtexAffixLunarIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").pickupIconSprite = OutlineChangedtexAffixLunarIconS;
 
 
-            Texture2D OutlineChangedtexAffixPoisonIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexAffixPoisonIcon.LoadImage(Properties.Resources.OutlineChangedtexAffixPoisonIcon, true);
-            OutlineChangedtexAffixPoisonIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexAffixPoisonIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixPoisonIcon.png");
             OutlineChangedtexAffixPoisonIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixPoisonIconS = Sprite.Create(OutlineChangedtexAffixPoisonIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixPoison").pickupIconSprite = OutlineChangedtexAffixPoisonIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixPoison").pickupIconSprite = OutlineChangedtexAffixPoisonIconS;
 
-            Texture2D OutlineChangedtexAffixRedIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexAffixRedIcon.LoadImage(Properties.Resources.OutlineChangedtexAffixRedIcon, true);
-            OutlineChangedtexAffixRedIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexAffixRedIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixRedIcon.png");
             OutlineChangedtexAffixRedIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixRedIconS = Sprite.Create(OutlineChangedtexAffixRedIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixRed").pickupIconSprite = OutlineChangedtexAffixRedIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixRed").pickupIconSprite = OutlineChangedtexAffixRedIconS;
 
-            Texture2D OutlineChangedtexAffixGreenIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexAffixGreenIcon.LoadImage(Properties.Resources.OutlineChangedtexAffixGreenIcon, true);
-            OutlineChangedtexAffixGreenIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexAffixGreenIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixGreenIcon.png");
             OutlineChangedtexAffixGreenIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixGreenIconS = Sprite.Create(OutlineChangedtexAffixGreenIcon, v.rec128, v.half);
             Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteEarth/EliteEarthEquipment.asset").WaitForCompletion().pickupIconSprite = OutlineChangedtexAffixGreenIconS;
 
-            Texture2D OutlineChangedtexAffixWhiteIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexAffixWhiteIcon.LoadImage(Properties.Resources.OutlineChangedtexAffixWhiteIcon, true);
-            OutlineChangedtexAffixWhiteIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexAffixWhiteIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixWhiteIcon.png");
             OutlineChangedtexAffixWhiteIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixWhiteIconS = Sprite.Create(OutlineChangedtexAffixWhiteIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixWhite").pickupIconSprite = OutlineChangedtexAffixWhiteIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixWhite").pickupIconSprite = OutlineChangedtexAffixWhiteIconS;
 
 
 
-            Texture2D texAffixBeadIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            texAffixBeadIcon.LoadImage(Properties.Resources.texAffixBeadIcon, true);
-            texAffixBeadIcon.filterMode = FilterMode.Bilinear;
+            Texture2D texAffixBeadIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texAffixBeadIcon.png");
             texAffixBeadIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite texAffixBeadIconS = Sprite.Create(texAffixBeadIcon, v.rec128, v.half);
             Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/Elites/EliteBead/EliteBeadEquipment.asset").WaitForCompletion().pickupIconSprite = texAffixBeadIconS;
 
-            Texture2D texAffixAurelioniteIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            texAffixAurelioniteIcon.LoadImage(Properties.Resources.texAffixAurelioniteIcon, true);
-            texAffixAurelioniteIcon.filterMode = FilterMode.Bilinear;
+            Texture2D texAffixAurelioniteIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texAffixAurelioniteIcon.png");
             texAffixAurelioniteIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite texAffixAurelioniteIconS = Sprite.Create(texAffixAurelioniteIcon, v.rec128, v.half);
             Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/Elites/EliteAurelionite/EliteAurelioniteEquipment.asset").WaitForCompletion().pickupIconSprite = texAffixAurelioniteIconS;
@@ -177,91 +158,62 @@ namespace WolfoQualityOfLife
 
 
             //Lunar Equipment
-            Texture2D OutlineChangedtexEffigyIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexEffigyIcon.LoadImage(Properties.Resources.OutlineChangedtexEffigyIcon, true);
-            OutlineChangedtexEffigyIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexEffigyIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexEffigyIcon.png");
             OutlineChangedtexEffigyIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexEffigyIconS = Sprite.Create(OutlineChangedtexEffigyIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/CrippleWard").pickupIconSprite = OutlineChangedtexEffigyIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/CrippleWard").pickupIconSprite = OutlineChangedtexEffigyIconS;
 
-            Texture2D OutlineChangedtexPotionIconChanged = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexPotionIconChanged.LoadImage(Properties.Resources.OutlineChangedtexPotionIconChanged, true);
-            OutlineChangedtexPotionIconChanged.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexPotionIconChanged = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexPotionIconChanged.png");
             OutlineChangedtexPotionIconChanged.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexPotionIconChangedS = Sprite.Create(OutlineChangedtexPotionIconChanged, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BurnNearby").pickupIconSprite = OutlineChangedtexPotionIconChangedS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BurnNearby").pickupIconSprite = OutlineChangedtexPotionIconChangedS;
 
-            Texture2D OutlineChangedtexMeteorIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexMeteorIcon.LoadImage(Properties.Resources.OutlineChangedtexMeteorIcon, true);
-            OutlineChangedtexMeteorIcon.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexMeteorIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexMeteorIcon.png");
             OutlineChangedtexMeteorIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexMeteorIconS = Sprite.Create(OutlineChangedtexMeteorIcon, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/Meteor").pickupIconSprite = OutlineChangedtexMeteorIconS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/Meteor").pickupIconSprite = OutlineChangedtexMeteorIconS;
 
-            Texture2D OutlineChangedtexTonicIcontonic = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            OutlineChangedtexTonicIcontonic.LoadImage(Properties.Resources.OutlineChangedtexTonicIcontonic, true);
-            OutlineChangedtexTonicIcontonic.filterMode = FilterMode.Bilinear;
+            Texture2D OutlineChangedtexTonicIcontonic = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexTonicIcontonic.png");
             OutlineChangedtexTonicIcontonic.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexTonicIcontonicS = Sprite.Create(OutlineChangedtexTonicIcontonic, v.rec128, v.half);
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/Tonic").pickupIconSprite = OutlineChangedtexTonicIcontonicS;
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/Tonic").pickupIconSprite = OutlineChangedtexTonicIcontonicS;
 
 
-            Texture2D texLunarPortalOnUseIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            texLunarPortalOnUseIcon.LoadImage(Properties.Resources.texAffixAurelioniteIcon, true);
-            texLunarPortalOnUseIcon.filterMode = FilterMode.Bilinear;
+            Texture2D texLunarPortalOnUseIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texLunarPortalOnUseIcon.png");
             texLunarPortalOnUseIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite texLunarPortalOnUseIconS = Sprite.Create(texLunarPortalOnUseIcon, v.rec128, v.half);
             Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/LunarPortalOnUse/LunarPortalOnUse.asset").WaitForCompletion().pickupIconSprite = texLunarPortalOnUseIconS;
-
-            
-
-
-
-
-
 
         }
 
         public static void ItemIcons()
         {
-            Texture2D WickedRingTex = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            WickedRingTex.LoadImage(Properties.Resources.betaWicked, true);
-            WickedRingTex.filterMode = FilterMode.Bilinear;
+            Texture2D WickedRingTex = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaWicked.png");
             WickedRingTex.wrapMode = TextureWrapMode.Clamp;
             Sprite WickedRing = Sprite.Create(WickedRingTex, v.rec128, v.half);
             JunkContent.Items.CooldownOnCrit.pickupIconSprite = WickedRing;
 
-            Texture2D betaCorpse = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            betaCorpse.LoadImage(Properties.Resources.betaCorpse, true);
-            betaCorpse.filterMode = FilterMode.Bilinear;
+            Texture2D betaCorpse = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaCorpse.png");
             betaCorpse.wrapMode = TextureWrapMode.Clamp;
             Sprite betaCorpseS = Sprite.Create(betaCorpse, v.rec128, v.half);
             JunkContent.Items.CritHeal.pickupIconSprite = betaCorpseS;
 
-            Texture2D betaEffigy = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            betaEffigy.LoadImage(Properties.Resources.betaEffigy, true);
-            betaEffigy.filterMode = FilterMode.Bilinear;
+            Texture2D betaEffigy = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaEffigy.png");
             betaEffigy.wrapMode = TextureWrapMode.Clamp;
             Sprite betaEffigyS = Sprite.Create(betaEffigy, v.rec128, v.half);
             RoR2Content.Items.CrippleWardOnLevel.pickupIconSprite = betaEffigyS;
 
-            Texture2D betaHelfire = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            betaHelfire.LoadImage(Properties.Resources.betaHelfire, true);
-            betaHelfire.filterMode = FilterMode.Bilinear;
+            Texture2D betaHelfire = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaHelfire.png");
             betaHelfire.wrapMode = TextureWrapMode.Clamp;
             Sprite betaHelfireS = Sprite.Create(betaHelfire, v.rec128, v.half);
             JunkContent.Items.BurnNearby.pickupIconSprite = betaHelfireS;
 
-            Texture2D betaPauldron = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            betaPauldron.LoadImage(Properties.Resources.betaPauldron, true);
-            betaPauldron.filterMode = FilterMode.Bilinear;
+            Texture2D betaPauldron = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaPauldron.png");
             betaPauldron.wrapMode = TextureWrapMode.Clamp;
             Sprite betaPauldronS = Sprite.Create(betaPauldron, v.rec128, v.half);
             JunkContent.Items.WarCryOnCombat.pickupIconSprite = betaPauldronS;
 
-            Texture2D betaTempest = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            betaTempest.LoadImage(Properties.Resources.betaTempest, true);
-            betaTempest.filterMode = FilterMode.Bilinear;
+            Texture2D betaTempest = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaTempest.png");
             betaTempest.wrapMode = TextureWrapMode.Clamp;
             Sprite betaTempestS = Sprite.Create(betaTempest, v.rec128, v.half);
             JunkContent.Items.TempestOnKill.pickupIconSprite = betaTempestS;
@@ -320,7 +272,7 @@ namespace WolfoQualityOfLife
             EquipmentLunarOrb.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystem>().colorOverLifetime.color.gradient.colorKeys[0].color = new Color32(43, 110, 225, 255); //PulseGlow
             EquipmentLunarOrb.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystem>().colorOverLifetime.color.gradient.colorKeys[1].color = new Color32(43, 110, 225, 255); //PulseGlow
 
-            GameObject VEquipmentOrb = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/EquipmentOrb");
+            GameObject VEquipmentOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/EquipmentOrb");
             Object.Instantiate(VEquipmentOrb.transform.GetChild(0).GetChild(2).gameObject, EquipmentBossOrb.transform.GetChild(0));
             Object.Instantiate(VEquipmentOrb.transform.GetChild(0).GetChild(2).gameObject, EquipmentLunarOrb.transform.GetChild(0));
 
@@ -553,7 +505,7 @@ namespace WolfoQualityOfLife
 
         public static void AddMissingItemHighlights()
         {
-            GameObject HighlightBlueItem = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightLunarItem");
+            GameObject HighlightBlueItem = LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightLunarItem");
             HighlightBlueItem.GetComponent<RoR2.UI.HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
 
             HighlightYellowItem.GetComponent<RoR2.UI.HighlightRect>().highlightColor = new Color(1f, 0.9373f, 0.2667f, 1);
@@ -702,9 +654,7 @@ namespace WolfoQualityOfLife
             tempModDef = EquipmentCatalog.GetEquipmentDef(EquipmentCatalog.FindEquipmentIndex("EQUIPMENT_AFFIXARAGONITE"));
             if (tempModDef != null)
             {
-                Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT5, false);
-                texture.LoadImage(Properties.Resources.texAffixRaging, true);
-                texture.filterMode = FilterMode.Bilinear;
+                Texture2D texture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/Modded/texAffixRaging.png");
                 texture.wrapMode = TextureWrapMode.Clamp;
                 Sprite textureS = Sprite.Create(texture, v.rec128, v.half);
                 tempModDef.pickupIconSprite = textureS;
@@ -713,9 +663,7 @@ namespace WolfoQualityOfLife
             tempModDef = EquipmentCatalog.GetEquipmentDef(EquipmentCatalog.FindEquipmentIndex("EQUIPMENT_AFFIXVEILED"));
             if (tempModDef != null)
             {
-                Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT5, false);
-                texture.LoadImage(Properties.Resources.texAffixCloakIcon, true);
-                texture.filterMode = FilterMode.Bilinear;
+                Texture2D texture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/Modded/texAffixCloakIcon.png");
                 texture.wrapMode = TextureWrapMode.Clamp;
                 Sprite textureS = Sprite.Create(texture, v.rec128, v.half);
                 tempModDef.pickupIconSprite = textureS;
@@ -724,9 +672,7 @@ namespace WolfoQualityOfLife
             tempModDef = EquipmentCatalog.GetEquipmentDef(EquipmentCatalog.FindEquipmentIndex("EQUIPMENT_AFFIXWARPED"));
             if (tempModDef != null)
             {
-                Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT5, false);
-                texture.LoadImage(Properties.Resources.texAffixGravityIcon, true);
-                texture.filterMode = FilterMode.Bilinear;
+                Texture2D texture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/Modded/texAffixGravityIcon.png");
                 texture.wrapMode = TextureWrapMode.Clamp;
                 Sprite textureS = Sprite.Create(texture, v.rec128, v.half);
                 tempModDef.pickupIconSprite = textureS;
@@ -735,9 +681,7 @@ namespace WolfoQualityOfLife
             tempModDef = EquipmentCatalog.GetEquipmentDef(EquipmentCatalog.FindEquipmentIndex("EQUIPMENT_AFFIXPLATED"));
             if (tempModDef != null)
             {
-                Texture2D texture = new Texture2D(128, 128, TextureFormat.DXT5, false);
-                texture.LoadImage(Properties.Resources.texAffixPlatedIcon, true);
-                texture.filterMode = FilterMode.Bilinear;
+                Texture2D texture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/Modded/texAffixPlatedIcon.png");
                 texture.wrapMode = TextureWrapMode.Clamp;
                 Sprite textureS = Sprite.Create(texture, v.rec128, v.half);
                 tempModDef.pickupIconSprite = textureS;

@@ -27,6 +27,21 @@ namespace WolfoQualityOfLife
 
         public static void BuffColorChanger()
         {
+            LegacyResourcesAPI.Load<BuffDef>("buffdefs/AffixHauntedRecipient").buffColor = new Color32(148, 215, 214, 255); //94D7D6 Celestine Elite
+            LegacyResourcesAPI.Load<BuffDef>("buffdefs/SmallArmorBoost").buffColor = LegacyResourcesAPI.Load<BuffDef>("buffdefs/Slow60").buffColor;
+            LegacyResourcesAPI.Load<BuffDef>("buffdefs/WhipBoost").buffColor = new Color32(245, 158, 73, 255); //E8813D
+
+            Texture2D texBuffRaincoat = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffRaincoat.png");
+            Sprite texBuffRaincoatS = Sprite.Create(texBuffRaincoat, new Rect(0, 0, 128, 128), v.half);
+            BuffDef RainCoat = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC1/ImmuneToDebuff/bdImmuneToDebuffReady.asset").WaitForCompletion();
+            if (RainCoat.iconSprite.name.StartsWith("texBuffImmune"))
+            {
+                RainCoat.iconSprite = texBuffRaincoatS;
+            }
+        }
+
+        public static void Buffs_NewBuffs()
+        {
             bool riskyModEnabled = false;
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.RiskyLives.RiskyMod"))
             {
@@ -34,26 +49,7 @@ namespace WolfoQualityOfLife
             }
 
 
-            if (WConfig.cfgBuff_RepeatColors.Value == true)
-            {
-                RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/AffixHauntedRecipient").buffColor = new Color32(148, 215, 214, 255); //94D7D6 Celestine Elite
-                RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/SmallArmorBoost").buffColor = RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/Slow60").buffColor;
-                RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/WhipBoost").buffColor = new Color32(245, 158, 73, 255); //E8813D
-
-                Texture2D texBuffRaincoat = new Texture2D(128, 128, TextureFormat.DXT5, false);
-                texBuffRaincoat.LoadImage(Properties.Resources.texBuffRaincoat, true);
-                texBuffRaincoat.filterMode = FilterMode.Bilinear;
-                Sprite texBuffRaincoatS = Sprite.Create(texBuffRaincoat, new Rect(0, 0, 128, 128), v.half);
-                BuffDef RainCoat = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC1/ImmuneToDebuff/bdImmuneToDebuffReady.asset").WaitForCompletion();
-
-                if (RainCoat.iconSprite.name.StartsWith("texBuffImmune"))
-                {
-                    RainCoat.iconSprite = texBuffRaincoatS;
-                }
-
-            }
-
-            BuffDef NormalBurn = RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/OnFire");
+            BuffDef NormalBurn = LegacyResourcesAPI.Load<BuffDef>("buffdefs/OnFire");
             FakeHellFire = ScriptableObject.CreateInstance<BuffDef>();
             FakeHellFire.iconSprite = NormalBurn.iconSprite;
             FakeHellFire.buffColor = new Color32(50, 188, 255, 255);
@@ -77,9 +73,7 @@ namespace WolfoQualityOfLife
 
 
 
-            Texture2D BugUp = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            BugUp.LoadImage(Properties.Resources.texBuffBeetleUp, true);
-            BugUp.filterMode = FilterMode.Bilinear;
+            Texture2D BugUp = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBeetleUp.png");
             Sprite BugUpS = Sprite.Create(BugUp, v.rec128, v.half);
 
             FakeBugWings = ScriptableObject.CreateInstance<BuffDef>();
@@ -115,9 +109,7 @@ namespace WolfoQualityOfLife
             }
 
 
-            Texture2D BWLunarShell = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            BWLunarShell.LoadImage(Properties.Resources.texBuffLunarShellIcon, true);
-            BWLunarShell.filterMode = FilterMode.Bilinear;
+            Texture2D BWLunarShell = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffLunarShellIcon.png");
             Sprite BWLunarShellS = Sprite.Create(BWLunarShell, v.rec128, v.half);
 
             FakeStrides = ScriptableObject.CreateInstance<BuffDef>();
@@ -154,15 +146,8 @@ namespace WolfoQualityOfLife
 
 
 
-            Texture2D RoundShieldTex = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            RoundShieldTex.LoadImage(Properties.Resources.texBuffBodyArmor, true);
-            RoundShieldTex.filterMode = FilterMode.Bilinear;
+            Texture2D RoundShieldTex = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBodyArmor.png");
             Sprite RoundShieldS = Sprite.Create(RoundShieldTex, v.rec128, v.half);
-            /*Texture2D RoundShieldTex2 = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            RoundShieldTex2.LoadImage(Properties.Resources.texBuffRoundShieldBuff, true);
-            RoundShieldTex2.filterMode = FilterMode.Bilinear;
-            Sprite RoundShieldS2 = Sprite.Create(RoundShieldTex2, v.rec128, v.half);*/
-
 
             FakeRoseBuckle = ScriptableObject.CreateInstance<BuffDef>();
             FakeRoseBuckle.iconSprite = RoundShieldS;
@@ -201,10 +186,7 @@ namespace WolfoQualityOfLife
                 };
             }
 
-
-            Texture2D CubeBroke = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            CubeBroke.LoadImage(Properties.Resources.texBuffBrokenCube, true);
-            CubeBroke.filterMode = FilterMode.Bilinear;
+            Texture2D CubeBroke = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBrokenCube.png");
             Sprite CubeBrokeS = Sprite.Create(CubeBroke, v.rec128, v.half);
 
             FakeFrozen = ScriptableObject.CreateInstance<BuffDef>();
@@ -242,13 +224,10 @@ namespace WolfoQualityOfLife
             }
 
 
-            Texture2D HeadStompOn = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            HeadStompOn.LoadImage(Properties.Resources.texBuffHeadStompOn, true);
-            HeadStompOn.filterMode = FilterMode.Bilinear;
+            Texture2D HeadStompOn = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffHeadStompOn.png");
             Sprite HeadStompOnS = Sprite.Create(HeadStompOn, v.rec128, v.half);
-            Texture2D HeadStompOff = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            HeadStompOff.LoadImage(Properties.Resources.texBuffHeadStompOff, true);
-            HeadStompOff.filterMode = FilterMode.Bilinear;
+
+            Texture2D HeadStompOff = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffHeadStompOff.png");
             Sprite HeadStompOffS = Sprite.Create(HeadStompOff, v.rec128, v.half);
 
             FakeHeadstompOn = ScriptableObject.CreateInstance<BuffDef>();
@@ -315,7 +294,7 @@ namespace WolfoQualityOfLife
             }
             //
             //
-            BuffDef MedkitDelay = RoR2.LegacyResourcesAPI.Load<BuffDef>("buffdefs/MedkitHeal");
+            BuffDef MedkitDelay = LegacyResourcesAPI.Load<BuffDef>("buffdefs/MedkitHeal");
 
             FakeShieldDelay = ScriptableObject.CreateInstance<BuffDef>();
             FakeShieldDelay.iconSprite = MedkitDelay.iconSprite;
@@ -480,9 +459,7 @@ namespace WolfoQualityOfLife
             }
             */
 
-            Texture2D FrostRelicIcon = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            FrostRelicIcon.LoadImage(Properties.Resources.texBuffFrostRelic, true);
-            FrostRelicIcon.filterMode = FilterMode.Bilinear;
+            Texture2D FrostRelicIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffFrostRelic.png");
             Sprite FrostRelicIconS = Sprite.Create(FrostRelicIcon, v.rec128, v.half);
 
             FakeFrostRelic = ScriptableObject.CreateInstance<BuffDef>();
@@ -513,9 +490,7 @@ namespace WolfoQualityOfLife
             }
 
             //0.4706 0.1686 0.7765 1
-            Texture2D FeatherBuff = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            FeatherBuff.LoadImage(Properties.Resources.texBuffFeather, true);
-            FeatherBuff.filterMode = FilterMode.Bilinear;
+            Texture2D FeatherBuff = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffFeather.png");
             Sprite FeatherBuffS = Sprite.Create(FeatherBuff, v.rec128, v.half);
 
             FakeFeather = ScriptableObject.CreateInstance<BuffDef>();

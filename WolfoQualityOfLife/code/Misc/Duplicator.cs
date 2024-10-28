@@ -10,16 +10,16 @@ namespace WolfoQualityOfLife
 
  
 
-        public static UnityEngine.GameObject FBXDuplicatorOld = Assets.DuplicatorOldModelBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorOld/mdlDuplicatorOld.fbx");
-        public static UnityEngine.GameObject FBXDuplicatorOld2 = Assets.DuplicatorOldModelBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorOld2/mdlDuplicatorOld2.fbx");
-        public static UnityEngine.GameObject FBXDuplicatorOldMili = Assets.DuplicatorOldModelBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorMiliOld/mdlDuplicatorMiliOld.fbx");
-        public static UnityEngine.GameObject FBXDuplicatorOldWild = Assets.DuplicatorOldModelBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorWildOld/mdlDuplicatorWildOld.fbx");
-        public static UnityEngine.RuntimeAnimatorController OldAnimControll = Assets.DuplicatorOldModelBundle.LoadAsset<RuntimeAnimatorController>("Assets/animationcontroller/animDuplicator.controller");
+        public static UnityEngine.GameObject FBXDuplicatorOld = Assets.OldDuplicatorBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorOld/mdlDuplicatorOld.fbx");
+        public static UnityEngine.GameObject FBXDuplicatorOld2 = Assets.OldDuplicatorBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorOld2/mdlDuplicatorOld2.fbx");
+        public static UnityEngine.GameObject FBXDuplicatorOldMili = Assets.OldDuplicatorBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorMiliOld/mdlDuplicatorMiliOld.fbx");
+        public static UnityEngine.GameObject FBXDuplicatorOldWild = Assets.OldDuplicatorBundle.LoadAsset<GameObject>("Assets/mdlDuplicatorWildOld/mdlDuplicatorWildOld.fbx");
+        public static UnityEngine.RuntimeAnimatorController OldAnimControll = Assets.OldDuplicatorBundle.LoadAsset<RuntimeAnimatorController>("Assets/animationcontroller/animDuplicator.controller");
 
-        public static GameObject Duplicator = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator");
-        public static GameObject DuplicatorLarge = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge");
-        public static GameObject DuplicatorMili = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary");
-        public static GameObject DuplicatorWild = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorWild");
+        public static GameObject Duplicator = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator");
+        public static GameObject DuplicatorLarge = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge");
+        public static GameObject DuplicatorMili = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary");
+        public static GameObject DuplicatorWild = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorWild");
 
         [Obsolete]
         public static void DuplicatorModelChanger()

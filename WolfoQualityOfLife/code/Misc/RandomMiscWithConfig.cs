@@ -13,7 +13,6 @@ namespace WolfoQualityOfLife
         public static GameObject SprintingCrosshair = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/SprintingCrosshair.prefab").WaitForCompletion();
         public static GameObject LoaderCrosshair = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Loader/LoaderCrosshair.prefab").WaitForCompletion();
 
-        public static UnlockableDef RobVag;
 
         public static void Start()
         {
@@ -27,9 +26,6 @@ namespace WolfoQualityOfLife
                 IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
             }
 
-            RobVag = Object.Instantiate(Addressables.LoadAssetAsync<UnlockableDef>(key: "RoR2/Base/Jellyfish/Logs.JellyfishBody.0.asset").WaitForCompletion());
-            RobVag.cachedName = "Logs.RobYoungVagrant.1";
-            R2API.ContentAddition.AddUnlockableDef(RobVag);
 
             if (WConfig.cfgVoidAllyCyanEyes.Value)
             {
@@ -48,7 +44,8 @@ namespace WolfoQualityOfLife
                 On.RoR2.TeleporterInteraction.AddShrineStack += (orig, self) =>
                 {
                     orig(self);
-                    //This is Host to Client, Client to Host is entirely different beast
+                    //This is Host to Client, Client to Host
+                    Debug.Log("On.RoR2.TeleporterInteraction.AddShrineStack");
                     RoR2.Chat.SendBroadcastChat(new SendExtraMountainIcon
                     {
                         teleporterObject = self.gameObject,
@@ -125,7 +122,8 @@ namespace WolfoQualityOfLife
                     if (ClassicStageInfo.instance && !string.IsNullOrEmpty(target))
                     {
                         //Debug.Log(target);
-                        ClassicStageInfo.instance.StartCoroutine("BroadcastFamilySelection", target);
+                        //ClassicStageInfo.instance.StartCoroutine("BroadcastFamilySelection", target);
+                        ClassicStageInfo.instance.StartCoroutine(DelayedBroadCast(target));
                         return null;
                     }
                     else
@@ -141,7 +139,15 @@ namespace WolfoQualityOfLife
                 Debug.LogWarning("IL Failed: Delay Thunder Message");
             }
         }
-
+        public static System.Collections.IEnumerator DelayedBroadCast(string familySelectionChatString)
+        {
+            yield return new WaitForSeconds(1f);
+            Chat.SendBroadcastChat(new Chat.SimpleChatMessage
+            {
+                baseToken = familySelectionChatString
+            });
+            yield break;
+        }
 
         private static void Enigma_EquipmentDroneName(On.RoR2.Artifacts.EnigmaArtifactManager.orig_OnServerEquipmentActivated orig, EquipmentSlot equipmentSlot, EquipmentIndex equipmentIndex)
         {
@@ -354,21 +360,21 @@ namespace WolfoQualityOfLife
         {
             if (WConfig.MoreLogEntries.Value == true)
             {
-                //UnlockableDef dummyunlock = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponent<DeathRewards>().logUnlockableDef;
+                //UnlockableDef dummyunlock = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponent<DeathRewards>().logUnlockableDef;
 
-                UnlockableDef gupunlock = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GupBody").GetComponent<DeathRewards>().logUnlockableDef;
-                UnlockableDef loopunlock = RoR2.LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Items.BounceNearby");
-                UnlockableDef bazaar = RoR2.LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.bazaar");
-                UnlockableDef limbo = RoR2.LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.limbo");
+                UnlockableDef gupunlock = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GupBody").GetComponent<DeathRewards>().logUnlockableDef;
+                UnlockableDef loopunlock = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Items.BounceNearby");
+                UnlockableDef bazaar = LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.bazaar");
+                UnlockableDef limbo = LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.limbo");
 
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR_BODY_SUBTITLE";
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR_BODY_SUBTITLE";
 
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<DeathRewards>().logUnlockableDef = limbo;
-                //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = bazaar;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/UrchinTurretBody").AddComponent<DeathRewards>().logUnlockableDef = loopunlock;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<DeathRewards>().logUnlockableDef = limbo;
+                //LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = bazaar;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/UrchinTurretBody").AddComponent<DeathRewards>().logUnlockableDef = loopunlock;
 
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GeepBody").GetComponent<DeathRewards>().logUnlockableDef = gupunlock;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GipBody").GetComponent<DeathRewards>().logUnlockableDef = gupunlock;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GeepBody").GetComponent<DeathRewards>().logUnlockableDef = gupunlock;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GipBody").GetComponent<DeathRewards>().logUnlockableDef = gupunlock;
 
             }
 
@@ -387,9 +393,9 @@ namespace WolfoQualityOfLife
 
             if (WConfig.MoreLogEntries.Value == true)
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR1_BODY_NAME";
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("limbo");
-                //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("bazaar");
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR1_BODY_NAME";
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("limbo");
+                //LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = SceneCatalog.GetUnlockableLogFromBaseSceneName("bazaar");
             }
             Debug.Log("WolfoQoL: LogbookChanger");
 
@@ -433,16 +439,16 @@ namespace WolfoQualityOfLife
                         }
                         //Debug.LogWarning(tempequipdef.GetPropertyValue<Texture>("bgIconTexture"));
                     }
-                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isBoss = true;
-                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isLunar = true;
-                    RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").colorIndex = ColorCatalog.ColorIndex.LunarItem;
+                    LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isBoss = true;
+                    LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").isLunar = true;
+                    LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixLunar").colorIndex = ColorCatalog.ColorIndex.LunarItem;
                 }
             }
 
             if (WConfig.MoreLogEntries.Value == true)
             {
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/QuestVolatileBattery").canDrop = true;
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = true;
+                LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/QuestVolatileBattery").canDrop = true;
+                LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = true;
                 EquipmentDef HealAndReviveConsumed = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/HealAndRevive/HealAndReviveConsumed.asset").WaitForCompletion();
                 HealAndReviveConsumed.canDrop = true;
                 ModelPanelParameters camera = HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
@@ -454,8 +460,8 @@ namespace WolfoQualityOfLife
             var VALUES = orig(expansionAvailability);
             if (WConfig.MoreLogEntries.Value == true)
             {
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/QuestVolatileBattery").canDrop = false;
-                RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = false;
+                LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/QuestVolatileBattery").canDrop = false;
+                LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/BossHunterConsumed").canDrop = false;
                 Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC2/HealAndRevive/HealAndReviveConsumed.asset").WaitForCompletion().canDrop = false;
             }
 

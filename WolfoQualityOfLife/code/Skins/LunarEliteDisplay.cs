@@ -14,9 +14,9 @@ namespace WolfoQualityOfLife
         public static void AffixLunarItemDisplay()
         {
 
-            DisplayRuleGroup originallunargolemrule = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet.keyAssetRuleGroups[0].displayRuleGroup;
+            DisplayRuleGroup originallunargolemrule = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet.keyAssetRuleGroups[0].displayRuleGroup;
 
-            GameObject MithrixCrystalRed = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet.keyAssetRuleGroups[0].displayRuleGroup.rules[0].followerPrefab;
+            GameObject MithrixCrystalRed = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet.keyAssetRuleGroups[0].displayRuleGroup.rules[0].followerPrefab;
 
 
             EquipmentDef EliteSecretSpeedEquipment = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteSecretSpeedEquipment.asset").WaitForCompletion();
@@ -54,7 +54,7 @@ namespace WolfoQualityOfLife
 
             //newLunarDisplay.displayRuleGroup.rules[0].childName = tempItemDisplayRules.GetEquipmentDisplayRuleGroup(RoR2Content.Equipment.AffixWhite.equipmentIndex).rules[0].childName;
 
-            var tempMandoRule = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            var tempMandoRule = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
 
             var DisplayAffixBluePrefab = tempMandoRule.GetEquipmentDisplayRuleGroup(RoR2Content.Equipment.AffixBlue.equipmentIndex).rules[0].followerPrefab;
             var DisplayAffixHaubtedPrefab = tempMandoRule.GetEquipmentDisplayRuleGroup(RoR2Content.Equipment.AffixHaunted.equipmentIndex).rules[0].followerPrefab;
@@ -104,7 +104,7 @@ namespace WolfoQualityOfLife
         }
                 }
             };
-            var tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            var tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixCommandoDisplay, SecretSpeedAffixCommandoDisplay);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -130,7 +130,7 @@ namespace WolfoQualityOfLife
                 }
             };
 
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/HuntressBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/HuntressBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixCommandoDisplay, SecretSpeedAffixHuntressDisplay);
             tempItemDisplayRules.GenerateRuntimeValues();
             ItemDisplayRuleSet.KeyAssetRuleGroup LunarAffixBandit = new ItemDisplayRuleSet.KeyAssetRuleGroup
@@ -153,7 +153,7 @@ namespace WolfoQualityOfLife
         }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/Bandit2Body").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/Bandit2Body").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixBandit);
             tempItemDisplayRules.GenerateRuntimeValues();
             ItemDisplayRuleSet.KeyAssetRuleGroup LunarAffixToolBot = new ItemDisplayRuleSet.KeyAssetRuleGroup
@@ -176,7 +176,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ToolbotBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ToolbotBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixToolBot);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -203,11 +203,11 @@ namespace WolfoQualityOfLife
         }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixMercDisplay);
             tempItemDisplayRules.GenerateRuntimeValues();
 
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MageBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MageBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixBandit);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -232,10 +232,10 @@ namespace WolfoQualityOfLife
         }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TreebotBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TreebotBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixREXDisplay);
             tempItemDisplayRules.GenerateRuntimeValues();
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LoaderBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LoaderBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixMercDisplay);
             tempItemDisplayRules.GenerateRuntimeValues();
             ItemDisplayRuleSet.KeyAssetRuleGroup LunarAffixCrocoDisplay = new ItemDisplayRuleSet.KeyAssetRuleGroup
@@ -278,7 +278,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixCrocoDisplay, SecretSpeedAffixCrocoDisplay);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -302,7 +302,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixEngi);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -327,7 +327,7 @@ namespace WolfoQualityOfLife
                 }
             };
 
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CaptainBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CaptainBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixMercDisplay, SecretSpeedAffixCaptainDisplay);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -352,7 +352,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayBeetle);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -376,7 +376,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleGuardBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleGuardBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayBeetleGuard);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -402,7 +402,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleQueen2Body").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleQueen2Body").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayBeetleQueen);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -426,7 +426,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BellBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BellBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayBell);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -450,7 +450,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BisonBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BisonBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayBison);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -475,7 +475,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ClayBossBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ClayBossBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayClayBoss);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -510,7 +510,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ClayBruiserBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ClayBruiserBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayClayTemplar);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -555,7 +555,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ElectricWormBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ElectricWormBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayWorms, HauntedAffixDisplayWorms);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -580,7 +580,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GolemBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GolemBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayGolem);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -604,7 +604,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GrandParentBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GrandParentBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayGrandparent);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -628,7 +628,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GravekeeperBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GravekeeperBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayGravekeeper);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -652,7 +652,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GreaterWispBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayGreaterWisp);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -676,7 +676,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/HermitCrabBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/HermitCrabBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayCrab);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -700,7 +700,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ImpBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ImpBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayImp);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -724,7 +724,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ImpBossBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ImpBossBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayImpBoss);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -748,7 +748,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/JellyfishBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/JellyfishBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayJellyfish);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -772,7 +772,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LemurianBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayLemurian);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -796,10 +796,10 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LemurianBruiserBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LemurianBruiserBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayElderLemurian);
             tempItemDisplayRules.GenerateRuntimeValues();
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MagmaWormBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MagmaWormBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayWorms, HauntedAffixDisplayWorms);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -824,7 +824,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MiniMushroomBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MiniMushroomBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayMushroom);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -849,7 +849,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/NullifierBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/NullifierBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayVoidReaver);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -873,7 +873,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ParentBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ParentBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayParent);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -897,7 +897,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/RoboBallBossBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayRoboBallBoss);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -921,7 +921,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/RoboBallMiniBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/RoboBallMiniBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayRoboBallMini);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -965,7 +965,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayScav, SecretSpeedAffixDisplayScav);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -990,7 +990,7 @@ namespace WolfoQualityOfLife
                 }
             };
 
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TitanBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TitanBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayTitan);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -1014,10 +1014,10 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/VagrantBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/VagrantBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayVagrant);
             tempItemDisplayRules.GenerateRuntimeValues();
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/VultureBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/VultureBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayElderLemurian);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -1041,7 +1041,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/WispBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/WispBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayWisp);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -1395,13 +1395,13 @@ namespace WolfoQualityOfLife
                 texBodyClayMan.LoadImage(Properties.Resources.texBodyClayMan, false);
                 texBodyClayMan.filterMode = FilterMode.Bilinear;
                 texBodyClayMan.wrapMode = TextureWrapMode.Clamp;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ClayBody").GetComponent<CharacterBody>().portraitIcon = texBodyClayMan;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ClayBody").GetComponent<CharacterBody>().portraitIcon = texBodyClayMan;
                 MoffeinClayMan.GetComponent<RoR2.CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().portraitIcon = texBodyClayMan;
 
-                MoffeinClayMan.GetComponent<RoR2.CharacterMaster>().bodyPrefab.GetComponent<DeathRewards>().logUnlockableDef = RoR2.LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Logs.ClayBody.0");
+                MoffeinClayMan.GetComponent<RoR2.CharacterMaster>().bodyPrefab.GetComponent<DeathRewards>().logUnlockableDef = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Logs.ClayBody.0");
 
 
-                //UnlockableDef dummyunlock = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponent<DeathRewards>().logUnlockableDef;
+                //UnlockableDef dummyunlock = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponent<DeathRewards>().logUnlockableDef;
 
                 // MoffeinClayMan.GetComponent<RoR2.CharacterMaster>().bodyPrefab.GetComponent<DeathRewards>().logUnlockableDef = dummyunlock;
             }*/
@@ -1552,10 +1552,10 @@ namespace WolfoQualityOfLife
                     }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixBrotherDisplay, RedAffixDisplayBrother, BlueAffixDisplayBrother, PoisonAffixDisplayBrother, HauntedAffixDisplayBrother, WhiteAffixDisplayBrother);
             tempItemDisplayRules.GenerateRuntimeValues();
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherGlassBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherGlassBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixBrotherDisplay, RedAffixDisplayBrother, BlueAffixDisplayBrother, PoisonAffixDisplayBrother, HauntedAffixDisplayBrother, WhiteAffixDisplayBrother);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -1609,7 +1609,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherHurtBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherHurtBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             //tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixBrotherHurtDisplay, RedAffixDisplayBrotherHurt, BlueAffixDisplayBrother, PoisonAffixDisplayBrother, HauntedAffixDisplayBrother, WhiteAffixDisplayBrother);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -1917,11 +1917,11 @@ namespace WolfoQualityOfLife
                 }
             };
 
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(RedAffixDisplayEngiTurret, BlueAffixDisplayEngiTurretWalker, PoisonAffixDisplayEngiTurret, HauntedAffixDisplayEngiTurret, WhiteAffixDisplayEngiTurret, LunarAffixDisplayEngiTurret, BatteryDisplayEngiTurret);
             tempItemDisplayRules.GenerateRuntimeValues();
 
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiWalkerTurretBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiWalkerTurretBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(RedAffixDisplayEngiTurretWalker, BlueAffixDisplayEngiTurretWalker, PoisonAffixDisplayEngiTurretWalker, HauntedAffixDisplayEngiTurretWalker, WhiteAffixDisplayEngiTurretWalker, LunarAffixDisplayEngiTurretWalker, BatteryDisplayEngiTurretWalker);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -2050,7 +2050,7 @@ namespace WolfoQualityOfLife
                     }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(RedAffixDisplayLunarExploder, BlueAffixDisplayLunarExploder, PoisonAffixDisplayLunarExploder, HauntedAffixDisplayLunarExploder, WhiteAffixDisplayLunarExploder);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -2180,7 +2180,7 @@ namespace WolfoQualityOfLife
                     }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarGolemBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(RedAffixDisplayLunarGolem, BlueAffixDisplayLunarGolem, PoisonAffixDisplayLunarGolem, HauntedAffixDisplayLunarGolem, WhiteAffixDisplayLunarGolem);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -2307,7 +2307,7 @@ namespace WolfoQualityOfLife
                     }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarWispBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarWispBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(RedAffixDisplayLunarWisp, BlueAffixDisplayLunarWisp, PoisonAffixDisplayLunarWisp, HauntedAffixDisplayLunarWisp, WhiteAffixDisplayLunarWisp);
             tempItemDisplayRules.GenerateRuntimeValues();
 
@@ -2352,7 +2352,7 @@ namespace WolfoQualityOfLife
 }
                 }
             };
-            tempItemDisplayRules = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            tempItemDisplayRules = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
             tempItemDisplayRules.keyAssetRuleGroups = tempItemDisplayRules.keyAssetRuleGroups.Add(LunarAffixDisplayNewt);
             tempItemDisplayRules.GenerateRuntimeValues();
             */
@@ -2363,7 +2363,7 @@ namespace WolfoQualityOfLife
         public static void VoidDisplaysMithrix()
         {
             //Mithrix Void Stuff
-            ItemDisplayRuleSet tempIDRS = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
+            ItemDisplayRuleSet tempIDRS = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BrotherBody").GetComponentInChildren<RoR2.CharacterModel>().itemDisplayRuleSet;
 
             foreach (RoR2.Items.ContagiousItemManager.TransformationInfo transformationInfo in RoR2.Items.ContagiousItemManager.transformationInfos)
             {

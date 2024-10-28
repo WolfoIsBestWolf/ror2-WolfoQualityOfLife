@@ -1,0 +1,135 @@
+{
+	"strings":
+	{
+		        "REMINDER_PORTAL_LUNAR": "Proceed through the <style=cIsLunar>Blue Portal</style>",    
+				"REMINDER_PORTAL_GOLD": "Proceed through the <color=#FFE880>Gold Portal</color>",
+                "REMINDER_PORTAL_MS": "Proceed through the <color=#7CFEF3>Celestial Portal</color>",
+				"REMINDER_PORTAL_ARTIFACT": "Proceed through the <style=cDeath>Artifact Portal</style>",
+                
+				"REMINDER_PORTAL_NULL": "Proceed through the <style=cIsVoid>Null Portal</style>",
+                "REMINDER_PORTAL_VOID": "Proceed through the <style=cIsVoid>Void Portal</style>",
+                "REMINDER_PORTAL_GREEN": "Proceed through the <color=#7CFE7C>Green Portal</color>",
+		
+		
+			"GAME_RESULT_LIMBOWIN": "At Peace..",
+			"GAME_RESULT_VOIDWIN": "Deeper, yet Deeper..",
+			"GAME_RESULT_ESCAPEFAILED": "Failed Escape..",
+		
+			"REBIRTH_ENDING_CHAT": "You will be born anew.",
+		
+		
+		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <color=#FFE880>Halcyon Shrine</color> ({0}%)",
+            "OBJECTIVE_KILL_HALCSHRINE": "Defeat the <color=#FFE880>Guardian</color>",
+			
+			"OBJECTIVE_ARTIFACT_TRIAL": "Complete the \n<style=cArtifact>Trial of {0}</style>",
+			"OBJECTIVE_GLASS_YOURSELF": "<color=#7CFEF3>Obliterate</color> yourself from existence",
+			"OBJECTIVE_DESERT_ELDERS": "Explore the hidden chamber",
+		
+		
+		
+			"SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE_2P": "<style=cShrine>You offer to the shrine and are rewarded (Lucky)!</color>")",
+            "SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE": "<style=cShrine>{0} offered to the shrine and was rewarded (Lucky)!</color>")",
+
+            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL_2P": "<style=cShrine>Your chance doll felt lucky!</color>")",
+            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL": "<style=cShrine>{0}'s chance doll felt lucky!</color>")",
+
+            
+			"REMINDER_COUNT": " ({0}/{1})",
+            "REMINDER_KEY": "Unlock the <style=cisDamage>Rusty Lockbox</style>",
+            "REMINDER_KEY_MANY": "Unlock the <style=cisDamage>Rusty Lockbox</style> ({0}/{1})",
+
+            "REMINDER_KEYVOID": "Unlock the <color=#FF9EEC>Encrusted Lockbox</color>",
+            "REMINDER_KEYVOID_MANY": "Unlock the <color=#FF9EEC>Encrusted Lockbox</color> ({0}/{1})",
+
+            "REMINDER_FREECHEST": "Collect free <style=cIsHealing>delivery</style>",
+            "REMINDER_FREECHEST_MANY": "Collect free <style=cIsHealing>delivery</style> ({0}/{1})",
+
+            "REMINDER_SALESTAR": "Make use of <style=cIsUtility>Sale Star</style>",
+			
+            "REMINDER_FREECHESTVOID": "Find and activate the <style=cIsVoid>Lost Battery</style>",
+			"REMINDER_NEWT": "Find and activate the <style=cIsLunar>Newt Shrine</style)",  
+			"REMINDER_SECRET_GEODE": "Crack the <color=#FFE880>Aurelionite Geodes</color> ({0}/{1})",
+           
+		
+		
+		
+			"ITEM_TREASURECACHECONSUMED_NAME": "Rusted Key (Consumed)",
+			"ITEM_TREASURECACHECONSUMED_DESC": "A spent key to remember an item well earned.",
+			
+			"ITEM_TREASURECACHEVOIDCONSUMED_NAME": "Encrusted Key (Consumed)",
+			"ITEM_TREASURECACHEVOIDCONSUMED_DESC": "A spent key? To remember an item well earned.",
+			
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME": "Prayer Beads Blessing.",
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Your prayer beads have blessed your stats. (Missing Overlay)",
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Your prayer beads have blessed your stats. (Missing Overlay)",
+			
+			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Your prayer beads have blessed you with +{0} levels",
+			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Your prayer beads have blessed you with +{0} levels, increasing <style=cIsHealing>max health</style> by <style=cIsHealing>+{1}</style>, <style=cIsHealing>health regeneration</style> by <style=cIsHealing>+{2} hp/s</style>, and <style=cIsDamage>damage</style> by <style=cIsDamage>+{3}</style>.",
+			
+
+			"INVENTORY_KILLER": "Killers Items",
+			"INVENTORY_MONSTER": "Monsters Items",
+			
+			 "ITEM_LOSS_GENERIC_2P": "<style=cEvent>You got rid of {1}</style>",
+				"ITEM_LOSS_GENERIC": "<style=cEvent>{0} got rid of {1}</style>",
+		
+			 "ITEM_LOSS_CAULDRON_2P": "<style=cEvent>You reforged {1}</style>",
+				"ITEM_LOSS_CAULDRON": "<style=cEvent>{0} reforged {1}</style>",
+		
+			  "ITEM_LOSS_CLEANSING_2P": "<style=cShrine>You have cleansed yourself of {1}</style>",
+				 "ITEM_LOSS_CLEANSING": "<style=cShrine>{0} has cleansed themselves of {1}</style>",
+		
+		
+			 "ITEM_LOSS_SCRAP_2P": "<style=cEvent>You scrapped {1}</style>",
+				"ITEM_LOSS_SCRAP": "<style=cEvent>{0} scrapped {1}</style>",
+			
+			"ITEM_USE_ELIXIR": "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>",
+			"ITEM_USE_WATCH": "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>",
+			"ITEM_USE_VV_VOIDWATCH": "<style=cEvent>{0} ran out of time...</style>",
+
+			"ITEM_TRANSFORM_EGO": "<style=cEvent><color=#458CFF>{0}</color> assimilated <color=#{1}>{2}</color></style>",
+			"ITEM_TRANSFORM_VOID": "<style=cEvent><style=cIsVoid>The Void</style> upgraded <color=#{0}>{1} into <color=#{2}>{3}</style>",
+ 
+		
+		
+			"DEATH_DOT_FRACTURE_2P": "You were collapsed by {1}.",
+            "DEATH_DOT_FRACTURE": "{0} was collapsed by {1}.",
+
+            "DEATH_DOT_GENERIC_2P": "You slowly died to {1}.",
+            "DEATH_DOT_GENERIC": "{0} slowly died to {1}.",
+
+            "DEATH_VOID_FOG_2P": "You drowned in the void.",
+            "DEATH_VOID_FOG": "{0} drowned in the void.",
+
+            "DEATH_VOID_EXPLODE_2P": "You were detained by {1}.",
+            "DEATH_VOID_EXPLODE": "{0} was detained by {1}.",
+
+            "DEATH_TWISTED_2P": "You got twisted by {1}.",
+            "DEATH_TWISTED": "{0} got twisted by {1}.",
+
+            "DEATH_FALL_DAMAGE_2P": "You succumbed to gravity.",
+            "DEATH_FALL_DAMAGE": "{0} succumbed to gravity.",
+
+            "DEATH_FRIENDLY_SUICIDE_2P": "You were killed by yourself.",
+            "DEATH_FRIENDLY_SUICIDE": "{0} was killed by themselves.",
+
+            "DEATH_FRIENDLY_2P": "You were betrayed by {1}.",
+            "DEATH_FRIENDLY": "{0} was betrayed by {1}.",
+
+			"DEATH_LAVA_2P": "You were melted.",
+            "DEATH_LAVA": "{0} was melted.",
+
+            "DEATH_ECHO_2P": "Echoes of {1} killed you.",
+            "DEATH_ECHO": "Echoes of {1} killed {0}.",
+			
+            "DEATH_GLASS_2P": "You were shattered by {1}.",
+            "DEATH_GLASS": "{0} was shattered by {1}.",
+
+            "DEATH_GENERIC_2P": "You were killed by {1}.",
+            "DEATH_GENERIC": "{0} was killed by {1}.",
+
+            "DEATH_DAMAGE": " ({0} damage taken)</style>",
+		
+
+	}
+}

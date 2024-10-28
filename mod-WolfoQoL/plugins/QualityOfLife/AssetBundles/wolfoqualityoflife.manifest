@@ -1,0 +1,283 @@
+ManifestFileVersion: 0
+CRC: 1427142042
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 95f1f4a099a3694233c9c521effab650
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e7a8211d1220a65f149cab164f436878
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/WQoL/SkinStuff/texRampFallbootsGreen.png
+- Assets/WQoL/Icons/autogen_texBodyOldBanditIcon.png
+- Assets/WQoL/BackupOld/texBuffFeather - Copy.png
+- Assets/WQoL/BackupOld/texRampCrocoDiseaseDarkLessDark.png
+- Assets/WQoL/ColorChanger/Modded/AffixLostTransitVolatile.png
+- Assets/WQoL/ColorChanger/Modded/texAffixPlatedIcon.png
+- Assets/WQoL/ColorChanger/Modded/AffixVarietyBanner.png
+- Assets/WQoL/BackupOld/oldBG/a96f0a01-bc07-46b2-bf61-e062b6ff6fca.png
+- Assets/WQoL/BackupOld/texItemUsedKeyVoid - Copy.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texInfiniteTowerSafeWardIcon.png"
+- Assets/WQoL/PingIcons/ChestIcon_1.png
+- Assets/WQoL/BackupOld/texEngiWalkerTurret.png
+- Assets/WQoL/BackupOld/texRoboBallBuddyRed.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texBarrelIcon.png"
+- Assets/WQoL/PingIcons/ChestLargeHealIcon.png
+- Assets/WQoL/BackupOld/BackupOld/ChestDamageIcon.png
+- Assets/WQoL/PingIcons/pingGoldGeode.png
+- Assets/WQoL/SkinStuff/texRampMercDustGreen.png
+- Assets/WQoL/Buffs/texBuffRoundShieldBuff.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texMysteryIcon.png"
+- Assets/WQoL/ColorChanger/OutlineChangedtexEffigyIcon.png
+- Assets/WQoL/PingIcons/ScavBagIcon.png
+- Assets/WQoL/BackupOld/BackupOld/PrinterLargeIcon.png
+- Assets/WQoL/PingIcons/DroneHealIcon.png
+- Assets/WQoL/Icons/texItemUsedKey.png
+- Assets/WQoL/Icons/betaWicked.png
+- Assets/WQoL/ColorChanger/Modded/AffixLostTranistBlighted.png
+- Assets/WQoL/ColorChanger/Modded/AffixRoR2Echo.png
+- Assets/WQoL/SkinStuff/texRampFallbootsRed.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/texNullifierDiffuse2 - Copy.png
+- Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkDarkAlt.png
+- Assets/WQoL/PingIcons/PortalIcon.png
+- Assets/WQoL/PingIcons/VoidIcon_2.png
+- Assets/WQoL/BackupOld/texRampCrocoDiseaseDarkDarkReverse.png
+- Assets/WQoL/PingIcons/ChestVoidPotential.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixGreenIcon.png
+- Assets/WQoL/SkinStuff/texRampCrocoDiseaseBlight.png
+- Assets/WQoL/PingIcons/PrinterMiliIcon.png
+- Assets/WQoL/BackupOld/BackupOld/ChestLargeDamageIcon.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texLunarPillarIcon.png"
+- Assets/WQoL/BackupOld/oldBG/lunarold1/OutlineChangedtexEffigyIcon.png
+- Assets/WQoL/ColorChanger/Modded/AffixLostTransitFrenzied.png
+- Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkLessDarkOLD.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexPotionIconChanged.png
+- Assets/WQoL/BackupOld/texMissileDrone.png
+- Assets/WQoL/PingIcons/ChestLargeDamageIcon.png
+- Assets/WQoL/Buffs/texBuffTincture.png
+- Assets/WQoL/ColorChanger/Modded/AffixLostTransitLeech.png
+- Assets/WQoL/BackupOld/oldBG/lunarold1/OutlineChangedtexPotionIconChanged.png
+- Assets/WQoL/SkinStuff/texRampCrocoDiseaseBlightAlt.png
+- Assets/WQoL/BackupOld/BackupOld/oldShrineGoldIcon.png
+- Assets/WQoL/ColorChanger/Modded/AffixAetheriumSanguine.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixPoisonIcon.png
+- Assets/WQoL/PingIcons/ShrineBloodIcon.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texLootIconOutlined.png"
+- Assets/WQoL/PingIcons/DroneFlameIcon.png
+- Assets/WQoL/Buffs/texBuffFeather.png
+- Assets/WQoL/BackupOld/texBuffHeadStompOff.png
+- Assets/WQoL/Icons/texItemUsedPrayer.png
+- Assets/WQoL/BackupOld/BackupOld/ShrineGoldIcon.png
+- Assets/WQoL/PingIcons/ChestEquipIcon.png
+- Assets/WQoL/BackupOld/texTrimSheetVeryRed.png
+- Assets/WQoL/Buffs/texBuffHeadStompOff.png
+- Assets/WQoL/PingIcons/SpStShrineCloaked .png
+- Assets/WQoL/SkinScalable/texCrocoEmissionAlt.png
+- Assets/WQoL/ColorChanger/Modded/texAffixCloakIcon.png
+- Assets/WQoL/BackupOld/stuff/outlineminimal.png
+- Assets/WQoL/PingIcons/SpStShrineAegis.png
+- Assets/WQoL/Icons/betaPauldron.png
+- Assets/WQoL/ColorChanger/UniqueAffixVoid.png
+- Assets/WQoL/icon.png
+- Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkDark.png
+- Assets/WQoL/Icons/texBodyRoboBallBuddyRed.png
+- Assets/WQoL/BackupOld/BackupOld/CellIcon.png
+- Assets/WQoL/ColorChanger/texAffixAurelioniteIcon.png
+- Assets/WQoL/SkinStuff/texRampHuntressSoftRed.png
+- Assets/WQoL/PingIcons/PrinterLargeIcon.png
+- Assets/WQoL/PingIcons/ChestLunarIcon.png
+- Assets/WQoL/Icons/texBodyClayMan.png
+- Assets/WQoL/SkinScalable/texCrocoDiffuseBlight.png
+- Assets/WQoL/BackupOld/texRampCrocoDiseaseBlightPurple.png
+- Assets/WQoL/ColorChanger/Modded/texAffixGravityIcon.png
+- Assets/WQoL/PingIcons/PingLemurianEgg.png
+- Assets/WQoL/BackupOld/BackupOld/ChestCasinoIcon.png
+- Assets/WQoL/PingIcons/ShrineMountainIcon.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/texVoidJailerDiffuse.png
+- Assets/WQoL/BackupOld/oldBG/texEquipmentLunarBG - Copy (2).png
+- Assets/WQoL/ColorChanger/texLunarPortalOnUseIcon.png
+- Assets/WQoL/Icons/texBodyBrother.png
+- Assets/WQoL/BackupOld/oldBG/lunarold1/OutlineChangedtexMeteorIcon.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexMeteorIcon.png
+- Assets/WQoL/BackupOld/BackupOld/ChestLargeIcon.png
+- Assets/WQoL/Icons/texItemUsedKeyVoid.png
+- Assets/WQoL/ColorChanger/Modded/AffixVarietyTinker.png
+- Assets/WQoL/BackupOld/texBodySquidTurret.png
+- Assets/WQoL/SkinScalable/texEngiTurretAltColossusDiffuse.png
+- Assets/WQoL/Icons/texBodyRoboBallBuddyGreen.png
+- Assets/WQoL/ColorChanger/texEquipmentLunarBG.png
+- Assets/WQoL/PingIcons/ChestLegendaryIcon.png
+- Assets/WQoL/BackupOld/BackupOld/PrinterIcon.png
+- Assets/WQoL/BackupOld/BackupOld/PrinterWildIcon.png
+- Assets/WQoL/BackupOld/BackupOld/CellIcon - Copy.png
+- Assets/WQoL/ColorChanger/Modded/texAffixRaging.png
+- Assets/WQoL/PingIcons/PingIconVoidEradicator.png
+- Assets/WQoL/Buffs/texBuffFrostRelic.png
+- Assets/WQoL/SkinStuff/texRampHuntressGreen.png
+- Assets/WQoL/Icons/betaCorpse.png
+- Assets/WQoL/BackupOld/texRampCrocoDiseaseDarkBlight.png
+- Assets/WQoL/Icons/betaHelfire.png
+- Assets/WQoL/ColorChanger/Modded/AffixVarietyArmor.png
+- Assets/WQoL/Icons/texBodyBrotherHurt.png
+- Assets/WQoL/PingIcons/ShrineChanceIcon.png
+- Assets/WQoL/Buffs/texBuffBeetleUp.png
+- Assets/WQoL/ColorChanger/Modded/AffixRoR2Lunar.png
+- Assets/WQoL/ColorChanger/texEquipmentBossBG.png
+- Assets/WQoL/PingIcons/DroneMegaIcon.png
+- Assets/WQoL/SkinStuff/texCrocoBlightSkin.png
+- Assets/WQoL/Buffs/texBuffAffixEcho.png
+- Assets/WQoL/Icons/texGameResultRebirth.png
+- Assets/WQoL/PingIcons/ChestUtilIcon.png
+- Assets/WQoL/BackupOld/oldBG/lunarold1/OutlineChangedtexAffixLunarIcon.png
+- Assets/WQoL/PingIcons/pingShrineRebirth.png
+- Assets/WQoL/Buffs/texBuffaffixhaunterrecipietmini.png
+- Assets/WQoL/PingIcons/PrinterSuperLarge.png
+- Assets/WQoL/SkinStuff/texRampHuntressSoftGreen.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texInventoryIconOutlined.png"
+- Assets/WQoL/BackupOld/oldBG/b2f86b5e-7b56-4086-9e7a-380b296a4389.png
+- Assets/WQoL/SkinStuff/texRampMercDustRed.png
+- Assets/WQoL/BackupOld/texRampCrocoDiseaseDarkLong.png
+- Assets/WQoL/BackupOld/texOniMercSwordDiffuse.png
+- Assets/WQoL/SkinScalable/texCrocoPoisonMaskBlight.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texUnlockIcon.png"
+- Assets/WQoL/PingIcons/ChestLargeIcon.png
+- Assets/WQoL/SkinStuff/texMercOniBlues.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texShrineIconOutlined.png"
+- Assets/WQoL/SkinStuff/texRampHuntressSoft.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixBlueIcon.png
+- Assets/WQoL/PingIcons/PingIconShippingDrone.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/BodyIconDevastatorBody.png
+- Assets/WQoL/ColorChanger/Modded/AffixVarietySandstorm.png
+- Assets/WQoL/PingIcons/ScrapperIcon.png
+- Assets/WQoL/PingIcons/SS2_DroneShock.png
+- Assets/WQoL/Icons/texItemNullEquip.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texTeleporterIconOutlined.png"
+- Assets/WQoL/Icons/texBodyDevotedElder.png
+- Assets/WQoL/Buffs/texBuffHeadStompOn.png
+- Assets/WQoL/PingIcons/DroneEmergencyIcon.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texDroneIconOutlined.png"
+- Assets/WQoL/PingIcons/SS2_DroneDuplicate.png
+- Assets/WQoL/PingIcons/pingShrineShaping.png
+- Assets/WQoL/BackupOld/texBuffFeather - Copy (2).png
+- Assets/WQoL/ColorChanger/Modded/AffixVarietyGold.png
+- Assets/WQoL/Buffs/texBuffaffixhaunterrecipiet.png
+- Assets/WQoL/Buffs/texBuffEgg.png
+- Assets/WQoL/BackupOld/BackupOld/ScavBagIcon.png
+- Assets/WQoL/Icons/betaEffigy.png
+- Assets/WQoL/Icons/texBodySquidTurret.png
+- Assets/WQoL/PingIcons/ScrapperIcon 1.png
+- Assets/WQoL/BackupOld/oldBG/texEquipmentLunarBG - Copy (3).png
+- Assets/WQoL/BackupOld/texBuffAffixEcho - Copy.png
+- Assets/WQoL/BackupOld/BackupOld/ChestLargeHealIcon.png
+- Assets/WQoL/PingIcons/RadioScannerIcon_2.png
+- Assets/WQoL/Icons/texBodyDevotedLemurian.png
+- Assets/WQoL/SkinScalable/texCrocoPoisonMask - Copy.png
+- Assets/WQoL/ColorChanger/texAffixBeadIcon.png
+- Assets/WQoL/PingIcons/PrinterWildIcon.png
+- Assets/WQoL/Icons/texBodyWispSoul.png
+- Assets/WQoL/PingIcons/SeerIcon.png
+- Assets/WQoL/BackupOld/texRampCrocoDiseaseBlightAltB.png
+- Assets/WQoL/PingIcons/LunarIcon_1.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixWhiteIcon.png
+- Assets/WQoL/BackupOld/oldBG/lunarold1/OutlineChangedtexTonicIcontonic.png
+- Assets/WQoL/PingIcons/DroneEquipmentIcon.png
+- Assets/WQoL/PingIcons/PrinterIcon.png
+- Assets/WQoL/BackupOld/oldBG/texEquipmentLunarBG - Copy.png
+- Assets/WQoL/SkinStuff/texCrocoSkinFlow.png
+- Assets/WQoL/PingIcons/PrimordialTeleporterIcon.png
+- Assets/WQoL/BackupOld/texBodyWispSoul.png
+- Assets/WQoL/BackupOld/oldBG/atexEquipmentLunarBG - Copy.png
+- Assets/WQoL/BackupOld/oldBG/atexEquipmentBossBG - Copy.png
+- Assets/WQoL/BackupOld/texBodyBrotherHurt - Copy.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/texVoidMegaCrabDiffuse.png
+- Assets/WQoL/BackupOld/texItemUntieredCaptain.png
+- Assets/WQoL/BackupOld/BackupOld/ChestHealIcon.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixLunarIcon.png
+- Assets/WQoL/PingIcons/ChestHealIcon.png
+- Assets/WQoL/Icons/autogen_AncientWispBody.png
+- Assets/WQoL/ColorChanger/Modded/AffixVarietyImp.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/texTrimsheetJailerDiffuse.png
+- Assets/WQoL/BackupOld/stuff/outlinetight.png
+- Assets/WQoL/BackupOld/BackupOld/PortalIcon.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixRedIcon.png
+- Assets/WQoL/SkinStuff/texRampHuntressRed.png
+- Assets/WQoL/BackupOld/texItemUsedKey.png
+- Assets/WQoL/PingIcons/ChestLargeUtilIcon.png
+- Assets/WQoL/PingIcons/CleanseIcon.png
+- Assets/WQoL/PingIcons/ShrineHealIcon.png
+- Assets/WQoL/BackupOld/stuff/lunartolunarequipconversionb.txt
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixLunarIcon - Copy.png
+- Assets/WQoL/BackupOld/BackupOld/old2.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/BodyIconNullifierBody.png
+- Assets/WQoL/Buffs/texBuffBrokenCube.png
+- Assets/WQoL/SkinStuff/texRampEngiAlt.png
+- Assets/WQoL/BackupOld/oldBG/texEquipmentBossBG - Copy.png
+- Assets/WQoL/PingIcons/ChestVoid.png
+- Assets/WQoL/PingIcons/DroneMissileIcon.png
+- Assets/WQoL/PingIcons/ChestTimedIcon.png
+- Assets/WQoL/BackupOld/texBuffFeather.png
+- Assets/WQoL/Icons/texBodyEngiWalkerTurret.png
+- Assets/WQoL/PingIcons/ShrineOrderIcon.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/BodyIconVoidJailer.png
+- Assets/WQoL/PingIcons/ExclamationIcon.png
+- Assets/WQoL/PingIcons/LockedIcon.png
+- Assets/WQoL/SkinStuff/texRampBeetleBreathBlight.png
+- Assets/WQoL/PingIcons/PingLemurianEgg - Copy (2).png
+- Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkLessDark.png
+- Assets/WQoL/BackupOld/texBuffHeadStompOn.png
+- Assets/WQoL/SkinStuff/texRampHuntress.png
+- Assets/WQoL/Buffs/texBuffMercExposeIcon.png
+- Assets/WQoL/PingIcons/SS2_DroneScrapper.png
+- Assets/WQoL/Buffs/texBuffLunarShellIcon.png
+- Assets/WQoL/Buffs/texBuffBodyArmor.png
+- Assets/WQoL/BackupOld/texBuffBrokenCube.png
+- Assets/WQoL/Icons/autogen_HANDBody.png
+- Assets/WQoL/BackupOld/BackupOld/PrinterMiliIcon.png
+- Assets/WQoL/BackupOld/BackupOld/SS2_DroneShock - Copy.png
+- Assets/WQoL/PingIcons/DroneTurretIcon.png
+- Assets/WQoL/BackupOld/stuff/outline.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixHauntedIcon.png
+- Assets/WQoL/BackupOld/BackupOld/ChestVoidPotential.png
+- Assets/WQoL/PingIcons/texLunarPillarIcon.png
+- Assets/WQoL/BackupOld/texItemUsedArtifactKey.png
+- Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texRescueshipIcon.png"
+- Assets/WQoL/PingIcons/ShrineGoldIcon.png
+- Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png
+- Assets/WQoL/BackupOld/texTrimSheetVeryRed - Copy.png
+- Assets/WQoL/PingIcons/ChestDamageIcon.png
+- Assets/WQoL/BackupOld/BackupOld/ChestCasinoIcon - Copy.png
+- Assets/WQoL/Icons/autogen_ArchWispBody.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexAffixLunarIcon - Copy (2).png
+- Assets/WQoL/PingIcons/CellIcon.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texTeleporterIcon.png"
+- Assets/WQoL/Icons/betaTempest.png
+- Assets/WQoL/BackupOld/BackupOld/ChestUtilIcon.png
+- Assets/WQoL/BackupOld/VoidAllyStuff/texNullifierDiffuse2.png
+- Assets/WQoL/SkinScalable/texTreebotVineForColossus.png
+- Assets/WQoL/ColorChanger/OutlineChangedtexTonicIcontonic.png
+- Assets/WQoL/PingIcons/ChestInvisibleIcon.png
+- Assets/WQoL/PingIcons/CauldronIcon.png
+- Assets/WQoL/Buffs/texBuffRaincoat.png
+- Assets/WQoL/BackupOld/texRoboBallBuddyGreen.png
+- Assets/WQoL/PingIcons/LockedIconAlt.png
+- Assets/WQoL/PingIcons/PrimordialTeleporterChargedIcon.png
+- Assets/WQoL/Buffs/texBuffShuriken.png
+- Assets/WQoL/Icons/texBodyTitanGoldAlly.png
+- Assets/WQoL/PingIcons/ChestCasinoIcon.png
+- Assets/WQoL/BackupOld/texBuffSleep.png
+- Assets/WQoL/BackupOld/texBuffAffixEcho.png
+- Assets/WQoL/PingIcons/PrinterIcon_1.png
+- Assets/WQoL/BackupOld/BackupOld/ChestLargeUtilIcon.png
+- Assets/WQoL/SkinScalable/texOniMercSwordDiffuse.png
+- Assets/WQoL/BackupOld/texBuffTincture.png
+- Assets/WQoL/BackupOld/texBodyBrotherHurt.png
+- "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texAttackIcon.png"
+Dependencies: []

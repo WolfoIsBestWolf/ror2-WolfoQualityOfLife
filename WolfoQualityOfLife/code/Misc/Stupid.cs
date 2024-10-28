@@ -37,7 +37,7 @@ namespace WolfoQualityOfLife
 
         public static void ModelViewer()
         {
-            Texture2D texArchWisp = new Texture2D(256, 256, TextureFormat.DXT5, false);
+            /*Texture2D texArchWisp = new Texture2D(256, 256, TextureFormat.DXT5, false);
             texArchWisp.LoadImage(Properties.Resources.autogen_ArchWispBody, true);
             texArchWisp.filterMode = FilterMode.Bilinear;
             texArchWisp.wrapMode = TextureWrapMode.Clamp;
@@ -54,12 +54,12 @@ namespace WolfoQualityOfLife
             texOldBandit.filterMode = FilterMode.Bilinear;
             texOldBandit.wrapMode = TextureWrapMode.Clamp;
 
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArchWispBody").GetComponent<CharacterBody>().portraitIcon = texArchWisp; //
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/AncientWispBody").GetComponent<CharacterBody>().portraitIcon = texAncientWisp; //
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/HANDBody").GetComponent<CharacterBody>().portraitIcon = texHAND; //
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BanditBody").GetComponent<CharacterBody>().portraitIcon = texOldBandit; //
-
-            UnlockableDef dummyunlock = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleBody").GetComponent<DeathRewards>().logUnlockableDef;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArchWispBody").GetComponent<CharacterBody>().portraitIcon = texArchWisp; //
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/AncientWispBody").GetComponent<CharacterBody>().portraitIcon = texAncientWisp; //
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/HANDBody").GetComponent<CharacterBody>().portraitIcon = texHAND; //
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BanditBody").GetComponent<CharacterBody>().portraitIcon = texOldBandit; //
+            */
+            UnlockableDef dummyunlock = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/BeetleBody").GetComponent<DeathRewards>().logUnlockableDef;
 
             for (int i = 0; i < BodyCatalog.bodyCount; i++)
             {

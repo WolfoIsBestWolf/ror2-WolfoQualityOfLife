@@ -27,14 +27,14 @@ namespace WolfoQualityOfLife
         public static Material matOmniHitspark4MercRed = null;
 
 
-        public static Material matMercEnergizedRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
-        public static Material matMercEvisTargetRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
-        public static Material matMercHologramRed = RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercHologram");
+        public static Material matMercEnergizedRed = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
+        public static Material matMercEvisTargetRed = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
+        public static Material matMercHologramRed = LegacyResourcesAPI.Load<Material>("materials/matMercHologram");
 
-        public static Material matHuntressFlashBrightRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
-        public static Material matHuntressFlashExpandedRed = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
+        public static Material matHuntressFlashBrightRed = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
+        public static Material matHuntressFlashExpandedRed = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
 
-        public static GameObject MercFocusedAssaultOrbEffectRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffectRed", false);
+        public static GameObject MercFocusedAssaultOrbEffectRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffectRed", false);
 
         public static GameObject OmniImpactVFXSlashMercRed = null; //Primary, Secondary1, Secondary2
         public static GameObject MercSwordSlashRed = null; //Primary
@@ -43,9 +43,9 @@ namespace WolfoQualityOfLife
         public static GameObject MercSwordSlashWhirlwindRed = null;  //Secondary1
         public static GameObject MercDashHitOverlayRed = null; //Utility1, Utility2
 
-        public static GameObject HuntressBlinkEffectRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffectRed", false); //Special1 (Enter)
-        public static GameObject HuntressFireArrowRainRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRainRed", false); //Special1 (Attack)
-        public static GameObject OmniImpactVFXSlashMercEvisRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvisRed", false); //Special1 (Attack)
+        public static GameObject HuntressBlinkEffectRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffectRed", false); //Special1 (Enter)
+        public static GameObject HuntressFireArrowRainRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRainRed", false); //Special1 (Attack)
+        public static GameObject OmniImpactVFXSlashMercEvisRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvisRed", false); //Special1 (Attack)
 
         public static Material matHuntressSwipeRed;
         public static Material matHuntressChargedRed;
@@ -57,20 +57,20 @@ namespace WolfoQualityOfLife
         public static GameObject ImpactMercAssaulterRed = null;  //Utility2
         public static GameObject MercAssaulterEffectRed = null;  //Utility2
 
-        public static GameObject EvisProjectileRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectileRed", true);  //Special2
-        public static GameObject EvisProjectileGhostRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhostRed", false);
-        public static GameObject EvisOverlapProjectileRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectileRed", true);
-        public static GameObject EvisOverlapProjectileGhostRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhostRed", false);
+        public static GameObject EvisProjectileRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectileRed", true);  //Special2
+        public static GameObject EvisProjectileGhostRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhostRed", false);
+        public static GameObject EvisOverlapProjectileRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectileRed", true);
+        public static GameObject EvisOverlapProjectileGhostRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhostRed", false);
 
-        public static GameObject ImpactMercEvisRed = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvisRed", false);
+        public static GameObject ImpactMercEvisRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvisRed", false);
 
         //public static Material matMercExposed;
         public static Material matMercExposedRed;
         //public static Material matMercExposedBackdrop;
 
         //Needs to be static
-        public static GameObject MercExposeEffect = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/temporaryvisualeffects/MercExposeEffect");
-        public static GameObject MercExposeConsumeEffect = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/MercExposeConsumeEffect");
+        public static GameObject MercExposeEffect = LegacyResourcesAPI.Load<GameObject>("Prefabs/temporaryvisualeffects/MercExposeEffect");
+        public static GameObject MercExposeConsumeEffect = LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/MercExposeConsumeEffect");
         public static GameObject MercExposeEffectRed = R2API.PrefabAPI.InstantiateClone(MercExposeEffect, "MercExposeEffectRed", false);
         public static GameObject MercExposeConsumeEffectRed = R2API.PrefabAPI.InstantiateClone(MercExposeConsumeEffect, "MercExposeConsumeEffectRed", false);
 
@@ -92,16 +92,16 @@ namespace WolfoQualityOfLife
         public static Material matOmniHitspark4Merc_Green = null;
 
 
-        public static Material matMercEnergized_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
-        public static Material matMercEvisTarget_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
-        public static Material matMercHologram_Green = RoR2.LegacyResourcesAPI.Load<Material>("materials/matMercHologram");
+        public static Material matMercEnergized_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
+        public static Material matMercEvisTarget_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
+        public static Material matMercHologram_Green = LegacyResourcesAPI.Load<Material>("materials/matMercHologram");
 
 
-        //public static Material matHuntressFlashBright = RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright");
-        public static Material matHuntressFlashBright_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
-        public static Material matHuntressFlashExpanded_Green = UnityEngine.Object.Instantiate(RoR2.LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
+        //public static Material matHuntressFlashBright = LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright");
+        public static Material matHuntressFlashBright_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
+        public static Material matHuntressFlashExpanded_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
 
-        public static GameObject MercFocusedAssaultOrbEffect_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffect_Green", false);
+        public static GameObject MercFocusedAssaultOrbEffect_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffect_Green", false);
 
         public static GameObject OmniImpactVFXSlashMerc_Green = null; //Primary, Secondary1, Secondary2
         public static GameObject MercSwordSlash_Green = null; //Primary
@@ -110,11 +110,11 @@ namespace WolfoQualityOfLife
         public static GameObject MercSwordSlashWhirlwind_Green = null;  //Secondary1
         public static GameObject MercDashHitOverlay_Green = null; //Utility1, Utility2
 
-        public static GameObject HuntressBlinkEffect_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffect_Green", false); //Special1 (Enter)
+        public static GameObject HuntressBlinkEffect_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffect_Green", false); //Special1 (Enter)
 
-        public static GameObject HuntressFireArrowRain_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRain_Green", false); //Special1 (Attack)
+        public static GameObject HuntressFireArrowRain_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRain_Green", false); //Special1 (Attack)
 
-        public static GameObject OmniImpactVFXSlashMercEvis_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvis_Green", false); //Special1 (Attack)
+        public static GameObject OmniImpactVFXSlashMercEvis_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvis_Green", false); //Special1 (Attack)
 
         public static Material matHuntressSwipe_Green;
         public static Material matHuntressCharged_Green;
@@ -126,12 +126,12 @@ namespace WolfoQualityOfLife
         public static GameObject ImpactMercAssaulter_Green = null;  //Utility2
         public static GameObject MercAssaulterEffect_Green = null;  //Utility2
 
-        public static GameObject EvisProjectile_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectile_Green", true);  //Special2
-        public static GameObject EvisProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhost_Green", false);
-        public static GameObject EvisOverlapProjectile_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectile_Green", true);
-        public static GameObject EvisOverlapProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhost_Green", false);
+        public static GameObject EvisProjectile_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectile_Green", true);  //Special2
+        public static GameObject EvisProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhost_Green", false);
+        public static GameObject EvisOverlapProjectile_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectile_Green", true);
+        public static GameObject EvisOverlapProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhost_Green", false);
 
-        public static GameObject ImpactMercEvis_Green = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvis_Green", false);
+        public static GameObject ImpactMercEvis_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvis_Green", false);
 
         public static Material matMercExposed_Green;
 
@@ -221,9 +221,7 @@ namespace WolfoQualityOfLife
             
             if (WConfig.cfgSkinMercRed.Value == true && WConfig.cfgSkinMakeOniBackup.Value == true)
             {
-                Texture2D texMercOniBlues = new Texture2D(128, 128, TextureFormat.DXT5, false);
-                texMercOniBlues.LoadImage(Properties.Resources.texMercOniBlues, true);
-                texMercOniBlues.filterMode = FilterMode.Bilinear;
+                Texture2D texMercOniBlues = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texMercOniBlues.png");
                 Sprite texMercOniBluesS = Sprite.Create(texMercOniBlues, v.rec128, v.half);
 
                 LoadoutAPI.SkinDefInfo SkinDefMercOniOriginalSkinInfo = new LoadoutAPI.SkinDefInfo
@@ -240,7 +238,7 @@ namespace WolfoQualityOfLife
                     MinionSkinReplacements = SkinDefMercOni.minionSkinReplacements,
                     Name = "skinMercAltNoEdit",
                 };
-                LoadoutAPI.AddSkinToCharacter(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), SkinDefMercOniOriginalSkinInfo);
+                LoadoutAPI.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), SkinDefMercOniOriginalSkinInfo);
 
             }
             
@@ -716,29 +714,17 @@ namespace WolfoQualityOfLife
             matHuntressFlashBrightRed.SetColor("_TintColor", new Color(1.3f, 0.6f, 0.6f, 1f));//0.0191 1.1386 1.2973 1 
             matHuntressFlashExpandedRed.SetColor("_TintColor", new Color(0.58f, 0.2f, 0.2f, 1f));//0 0.4367 0.5809 1
 
-            Texture2D texRampFallbootsRed = new Texture2D(256, 16, TextureFormat.DXT1, false);
-            texRampFallbootsRed.LoadImage(Properties.Resources.texRampFallbootsRed, true);
-            texRampFallbootsRed.filterMode = FilterMode.Bilinear;
+            Texture2D texRampFallbootsRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampFallbootsRed.png");
             texRampFallbootsRed.wrapMode = TextureWrapMode.Clamp;
 
-            Texture2D texRampMercDustRed = new Texture2D(128, 4, TextureFormat.DXT5, false);
-            texRampMercDustRed.LoadImage(Properties.Resources.texRampMercDustRed, true);
-            texRampMercDustRed.filterMode = FilterMode.Bilinear;
+            Texture2D texRampMercDustRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampMercDustRed.png");
             texRampMercDustRed.wrapMode = TextureWrapMode.Clamp;
 
-            /*texRampHuntressSoft = new Texture2D(256, 16, TextureFormat.DXT5, false);
-            texRampHuntressSoft.LoadImage(Properties.Resources.texRampHuntressSoft, true);
-            texRampHuntressSoft.wrapMode = TextureWrapMode.Clamp;
-            texRampHuntressSoft.filterMode = FilterMode.Point;*/
-
-            Texture2D texRampHuntressSoftRed = null;
-            texRampHuntressSoftRed = new Texture2D(256, 16, TextureFormat.DXT5, false);
-            texRampHuntressSoftRed.LoadImage(Properties.Resources.texRampHuntressSoftRed, true);
+            Texture2D texRampHuntressSoftRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressSoftRed.png");
             texRampHuntressSoftRed.wrapMode = TextureWrapMode.Clamp;
             texRampHuntressSoftRed.filterMode = FilterMode.Point;
 
-            Texture2D texRampHuntressRed = new Texture2D(256, 16, TextureFormat.DXT1, false);
-            texRampHuntressRed.LoadImage(Properties.Resources.texRampHuntressRed, true);
+            Texture2D texRampHuntressRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressRed.png");
             texRampHuntressRed.wrapMode = TextureWrapMode.Clamp;
             texRampHuntressRed.filterMode = FilterMode.Point;
 
@@ -1006,29 +992,17 @@ namespace WolfoQualityOfLife
             matHuntressFlashBright_Green.SetColor("_TintColor", new Color(0.6f, 1.3f, 0.6f, 1f));//0.0191 1.1386 1.2973 1 
             matHuntressFlashExpanded_Green.SetColor("_TintColor", new Color(0.2f, 0.58f, 0.2f, 1f));//0 0.4367 0.5809 1
 
-            Texture2D texRampFallboots_Green = new Texture2D(256, 16, TextureFormat.DXT1, false);
-            texRampFallboots_Green.LoadImage(Properties.Resources.texRampFallbootsGreen, true);
-            texRampFallboots_Green.filterMode = FilterMode.Bilinear;
+            Texture2D texRampFallboots_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampFallbootsGreen.png");
             texRampFallboots_Green.wrapMode = TextureWrapMode.Clamp;
 
-            Texture2D texRampMercDust_Green = new Texture2D(128, 4, TextureFormat.DXT5, false);
-            texRampMercDust_Green.LoadImage(Properties.Resources.texRampMercDustGreen, true);
-            texRampMercDust_Green.filterMode = FilterMode.Bilinear;
+            Texture2D texRampMercDust_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampMercDustGreen.png");
             texRampMercDust_Green.wrapMode = TextureWrapMode.Clamp;
 
-            /*texRampHuntressSoft = new Texture2D(256, 16, TextureFormat.DXT5, false);
-            texRampHuntressSoft.LoadImage(Properties.Resources.texRampHuntressSoft, true);
-            texRampHuntressSoft.wrapMode = TextureWrapMode.Clamp;
-            texRampHuntressSoft.filterMode = FilterMode.Point;*/
-
-            Texture2D texRampHuntressSoft_Green = null;
-            texRampHuntressSoft_Green = new Texture2D(256, 16, TextureFormat.DXT5, false);
-            texRampHuntressSoft_Green.LoadImage(Properties.Resources.texRampHuntressSoftGreen, true);
+            Texture2D texRampHuntressSoft_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressSoftGreen.png");
             texRampHuntressSoft_Green.wrapMode = TextureWrapMode.Clamp;
             texRampHuntressSoft_Green.filterMode = FilterMode.Point;
 
-            Texture2D texRampHuntress_Green = new Texture2D(256, 16, TextureFormat.DXT1, false);
-            texRampHuntress_Green.LoadImage(Properties.Resources.texRampHuntressGreen, true);
+            Texture2D texRampHuntress_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressGreen.png");
             texRampHuntress_Green.wrapMode = TextureWrapMode.Clamp;
             texRampHuntress_Green.filterMode = FilterMode.Point;
 

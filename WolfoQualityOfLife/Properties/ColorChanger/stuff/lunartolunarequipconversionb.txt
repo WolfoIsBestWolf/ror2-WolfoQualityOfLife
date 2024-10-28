@@ -1,9 +1,0 @@
-+25 hue
--10 Saturation
-+15 brightness
-
-
-v2
-+20 hue
-+0 saturation
-+10 brightness

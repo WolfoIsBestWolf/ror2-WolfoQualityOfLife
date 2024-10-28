@@ -33,11 +33,6 @@ namespace WolfoQualityOfLife
                 OtherText();
             }
 
-            //IL.RoR2.UI.ObjectivePanelController.GetObjectiveSources += BlueTextTeleporter;
-
-
-
-
 
             if (WConfig.cfgBlueTextPrimordial.Value)
             {
@@ -73,114 +68,53 @@ namespace WolfoQualityOfLife
             }
 
 
-            LanguageAPI.Add("CHEST2_NAME", "Groﬂe Kiste", "de");
-            LanguageAPI.Add("VOIDCOINBARREL_NAME", "Stengel", "de");
-
-            LanguageAPI.Add("STATNAME_TOTALLUNARPURCHASES", "Lunar Purchases", "en");
-            LanguageAPI.Add("STATNAME_HIGHESTLUNARPURCHASES", "Most Lunar Purchases", "en");
-            LanguageAPI.Add("STATNAME_HIGHESTBLOODPURCHASES", "Most Blood Purchases", "en");
-
-            /*LanguageAPI.Add("LUNARWISP_BODY_NAME_LONG", "Lunar Chimera Wisp", "en");
-            LanguageAPI.Add("LUNARGOLEM_BODY_NAME_LONG", "Lunar Chimera Golem", "en");
-            LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_LONG", "Lunar Chimera Exploder", "en");
-            LanguageAPI.Add("LUNARWISP_BODY_NAME_LONG", "Mondchim‰re Wisch", "de");
-            LanguageAPI.Add("LUNARGOLEM_BODY_NAME_LONG", "Mondchim‰re Golem", "de");
-            LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_LONG", "Mondchim‰re Sprengkapsel", "de");
-
-            LanguageAPI.Add("LUNARWISP_BODY_NAME_SHORT", "Lunar Wisp", "en");
-            LanguageAPI.Add("LUNARGOLEM_BODY_NAME_SHORT", "Lunar Golem", "en");
-            LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_SHORT", "Lunar Exploder", "en");
-            LanguageAPI.Add("LUNARWISP_BODY_NAME_SHORT", "Mond Wisch", "de");
-            LanguageAPI.Add("LUNARGOLEM_BODY_NAME_SHORT", "Mond Golem", "de");
-            LanguageAPI.Add("LUNAREXPLODER_BODY_NAME_SHORT", "Mond Sprengkapsel", "de");*/
-            LanguageAPI.Add("LUNAR_CHIMERA", "Lunar Chimera", "en");
-
-            if (WConfig.LunarChimeraNameChange.Value == "Long")
+            if (WConfig.LunarChimeraNameChange.Value == false)
             {
-                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Lunar Chimera Wisp", "en");
-                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Lunar Chimera Golem", "en");
-                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Lunar Chimera Exploder", "en");
-                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Mondchim‰re Wisch", "de");
-                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Mondchim‰re Golem", "de");
-                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Mondchim‰re Sprengkapsel", "de");
+                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Lunar Chimera", "en");
+                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Lunar Chimera", "en");
+                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Lunar Chimera", "en");
+
+                LanguageAPI.Add("ACIDLARVA_BODY_NAME", "Larva", "en");
             }
-            else if (WConfig.LunarChimeraNameChange.Value == "Short")
-            {
-                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Lunar Wisp", "en");
-                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Lunar Golem", "en");
-                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Lunar Exploder", "en");
-                LanguageAPI.Add("LUNARWISP_BODY_NAME", "Mond Wisch", "de");
-                LanguageAPI.Add("LUNARGOLEM_BODY_NAME", "Mond Golem", "de");
-                LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", "Mond Sprengkapsel", "de");
-            }
+         
 
 
             if (WConfig.cfgTextEndings.Value == true)
             {
-                //RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/EscapeSequenceFailed").icon = RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/MainEnding").icon;
+                GameEndingDef ObliterationEnding = LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/ObliterationEnding");
+                ObliterationEnding.foregroundColor = ObliterationEnding.backgroundColor * 1.1f;
+                ObliterationEnding.backgroundColor = ObliterationEnding.backgroundColor.AlphaMultiplied(0.75f);
 
-                GameEndingDef ObliterationEnding = RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/ObliterationEnding");
-                ObliterationEnding.foregroundColor = ObliterationEnding.backgroundColor;
-
-                GameEndingDef LimboEnding = RoR2.LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/LimboEnding");
-                LanguageAPI.Add("GAME_RESULT_LIMBOWIN", "At Peace..", "en");
-                LanguageAPI.Add("GAME_RESULT_LIMBOWIN", "In Frieden..", "de");
+                GameEndingDef LimboEnding = LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/LimboEnding");
                 LimboEnding.endingTextToken = "GAME_RESULT_LIMBOWIN";
 
-                LimboEnding.backgroundColor = new Color32(227, 236, 252, 215);
-                LimboEnding.foregroundColor = new Color32(232, 239, 255, 190);
+                Color colorMult = new Color(0.9f, 0.9f, 1f, 1f);
+                LimboEnding.backgroundColor = new Color32(227, 236, 252, 215)* colorMult;
+                LimboEnding.foregroundColor = new Color32(232, 239, 255, 190)* colorMult;
 
 
 
                 GameEndingDef VoidEnding = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/DLC1/GameModes/VoidEnding.asset").WaitForCompletion();
-                LanguageAPI.Add("GAME_RESULT_VOIDWIN", "Deeper, yet Deeper..", "en");
                 VoidEnding.endingTextToken = "GAME_RESULT_VOIDWIN";
-                VoidEnding.showCredits = true;
+                //VoidEnding.showCredits = true;
 
                 GameEndingDef MainEnding = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/MainEnding.asset").WaitForCompletion();
                 GameEndingDef EscapeSequenceFailed = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/EscapeSequenceFailed.asset").WaitForCompletion();
-                LanguageAPI.Add("GAME_RESULT_ESCAPEFAILED", "Failed Escape..", "en");
                 EscapeSequenceFailed.endingTextToken = "GAME_RESULT_ESCAPEFAILED";
                 EscapeSequenceFailed.icon = MainEnding.icon;
+
+                GameEndingDef RebirthEndingDef = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/DLC2/ClassicRun/Endings/RebirthEndingDef.asset").WaitForCompletion();
+
+                Texture2D texGameResultRebirth = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texGameResultRebirth.png");
+                texGameResultRebirth.wrapMode = TextureWrapMode.Clamp;
+                Sprite texGameResultRebirthS = Sprite.Create(texGameResultRebirth, v.rec128, v.half);
+                RebirthEndingDef.icon = texGameResultRebirthS;
             }
 
 
 
         }
-
-        private static void BlueTextTeleporter(MonoMod.Cil.ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.TryGotoNext(MoveType.Before,
-            x => x.MatchCallOrCallvirt("RoR2.TeleporterInteraction", "get_isIdle"));
-
-            if (c.TryGotoNext(MoveType.Before,
-            x => x.MatchStfld("RoR2.UI.ObjectivePanelController/ObjectiveSourceDescriptor", "objectiveType")))
-            {
-                c.EmitDelegate<System.Func<System.Type, System.Type>>((value) =>
-                {
-                    if (value != null)
-                    {
-                        if (TeleporterInteraction.instance.name.StartsWith("L"))
-                        {
-                            if (TeleporterInteraction.instance.isCharged && !TeleporterInteraction.instance.isInFinalSequence)
-                            {
-                                value = typeof(FinishTeleporterObjectiveTracker_LUNAR);
-                            }
-                            else if (TeleporterInteraction.instance.isIdle)
-                            {
-                                value = typeof(FindTeleporterObjectiveTracker_LUNAR);
-                            }
-                        }
-                    }
-                    return value;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: TP DISCOVER CHANGE");
-            }
-        }
+         
 
         internal static void OtherText()
         {
@@ -208,33 +142,18 @@ namespace WolfoQualityOfLife
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/shipgraveyard/VultureEggBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "VULTUREEGG_BODY_NAME";
 
 
-            //LanguageAPI.Add("ACIDLARVA_BODY_NAME", "Acid Larva", "en");
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().subtitleNameToken = "LUNAREXPLODER_BODY_SUBTITLE";
 
-
-
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().subtitleNameToken = "LUNAREXPLODER_BODY_SUBTITLE";
-            //LanguageAPI.Add("IMP_TINY_BODY_NAME", "Tiny Imp", "en");
-            //LanguageAPI.Add("SNIPER_BODY_NAME", "Sniper", "en");
-            //LanguageAPI.Add("MAJORCONSTRUCT_BODY_NAME", "Sigma Construct", "en");
-            //LanguageAPI.Add("ARCHWISP_BODY_NAME", "Archaic Wisp", "en");
-            //LanguageAPI.Add("ANCIENTWISP_BODY_NAME", "Ancient Wisp", "en");
 
             //LanguageAPI.Add("MONSTER_PICKUP", "<style=cWorldEvent>{0} scavenged for {1}{2}</color>", "en");
             LanguageAPI.Add("MONSTER_PICKUP_2P", "<style=cWorldEvent>You scavenged for {1}{2}</color>", "en");
 
-            LanguageAPI.Add("DIFFICULTY_EASY_DESCRIPTION", "Reduces difficulty for players new to the game. Weeping and gnashing is replaced by laughter and tickles.<style=cStack>\n\n>Player Health Regeneration: <style=cIsHealing>+50%</style> \n>Player Damage Reduction: <style=cIsHealing>+40%</style> \n>Difficulty Scaling: <style=cIsHealing>-50%</style></style>", "en");
-
-
-
-            //LanguageAPI.Add("PLAYER_DEATH_QUOTE_0_2P", "You are dead. Not big surprise.", "en");
-            //LanguageAPI.Add("PLAYER_DEATH_QUOTE_0", "{0} is dead. Not big surprise.", "en");
 
             LanguageAPI.Add("PLAYER_DEATH_QUOTE_33_2P", "You are not OK from this encounter.", "en");
             LanguageAPI.Add("PLAYER_DEATH_QUOTE_33", "{0} is not OK from this encounter.", "en");
 
 
-
-            //LanguageAPI.Add("MAP_ARENA_TITLE", "Void Fields", "en");
+            LanguageAPI.Add("MAP_ARENA_TITLE", "Void Fields", "en");
             LanguageAPI.Add("MAP_VOIDSTAGE_TITLE", "Void Locus", "en");
             LanguageAPI.Add("MAP_VOIDRAID_TITLE", "The Planetarium", "en");
 
@@ -246,45 +165,25 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("MAP_ARTIFACTWORLD_SUBTITLE", "Sacred Treasures", "en");
 
             //Objectives
-            LanguageAPI.Add("OBJECTIVE_GOLDSHORES_ACTIVATE_BEACONS", "Rebuild the <color=#FFE880>Halcyon Beacons</color> ({0}/{1})", "en");
-            LanguageAPI.Add("OBJECTIVE_CLEAR_ARENA", "Activate all <style=cIsVoid>Cell Vents</style> ({0}/{1})", "en");
-            LanguageAPI.Add("OBJECTIVE_ARENA_CHARGE_CELL", "Breach the <style=cIsVoid>Cell</style> ({0}%)", "en");
-
-
-            R2API.LanguageAPI.Add("OBJECTIVE_REBIRTH_OUTRO_SHRINE_1", "Approach the <color=#7CFE7C>Shrine</color>", "en");
-            R2API.LanguageAPI.Add("OBJECTIVE_REBIRTH_OUTRO_SHRINE_2", "Be <color=#7CFE7C>Reborn</color> or Linger", "en");
+  
 
             //Updated Interactable Names
             LanguageAPI.Add("DRONE_MEGA_CONTEXT", "Repair TC-280", "en");
             LanguageAPI.Add("LOCKEDTREEBOT_CONTEXT", "Repair the survivor", "en");
             LanguageAPI.Add("LOCKEDMAGE_NAME", "Frozen Survivor", "en");
 
-            //Context is completely fucking random whether it captializes all words or none.
-            //LanguageAPI.Add("CHEST2_CONTEXT", "Open Large Chest", "en");
-
-            LanguageAPI.Add("MULTISHOP_LARGE_TERMINAL_NAME", "Large Multishop Terminal", "en");
-            //LanguageAPI.Add("MULTISHOP_LARGE_TERMINAL_CONTEXT", "Open terminal", "en");
-            LanguageAPI.Add("MULTISHOP_EQUIPMENT_TERMINAL_NAME", "Equipment Shop Terminal", "en");
-            //LanguageAPI.Add("MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT", "Open terminal", "en");
-            LanguageAPI.Add("DUPLICATOR_LARGE_NAME", "Large 3D Printer", "en"); //Large or Uncommon idk
-            LanguageAPI.Add("DUPLICATOR_LARGE_CONTEXT", "Use Large 3D Printer", "en"); //Like we make em Large
-
-
-            LanguageAPI.Add("FREECHEST_TERMINAL_NAME", "Shipping Terminal", "en");
-            LanguageAPI.Add("FREECHEST_TERMINAL_CONTEXT", "Accept delivery.", "en");
 
 
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestTerminalShippingDrone/FreeChestTerminalShippingDrone.prefab").WaitForCompletion().GetComponent<RoR2.PurchaseInteraction>().displayNameToken = "FREECHEST_TERMINAL_NAME";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestTerminalShippingDrone/FreeChestTerminalShippingDrone.prefab").WaitForCompletion().GetComponent<RoR2.PurchaseInteraction>().contextToken = "FREECHEST_TERMINAL_CONTEXT";
 
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").GetComponent<RoR2.PurchaseInteraction>().displayNameToken = "MULTISHOP_LARGE_TERMINAL_NAME";
+            //LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").GetComponent<RoR2.PurchaseInteraction>().contextToken = "MULTISHOP_LARGE_TERMINAL_CONTEXT";
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").GetComponent<RoR2.PurchaseInteraction>().displayNameToken = "MULTISHOP_EQUIPMENT_TERMINAL_NAME";
+            //LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").GetComponent<RoR2.PurchaseInteraction>().contextToken = "MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT";
 
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").GetComponent<RoR2.PurchaseInteraction>().displayNameToken = "MULTISHOP_LARGE_TERMINAL_NAME";
-            //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").GetComponent<RoR2.PurchaseInteraction>().contextToken = "MULTISHOP_LARGE_TERMINAL_CONTEXT";
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").GetComponent<RoR2.PurchaseInteraction>().displayNameToken = "MULTISHOP_EQUIPMENT_TERMINAL_NAME";
-            //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").GetComponent<RoR2.PurchaseInteraction>().contextToken = "MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT";
-
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.PurchaseInteraction>().displayNameToken = "DUPLICATOR_LARGE_NAME";
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.PurchaseInteraction>().contextToken = "DUPLICATOR_LARGE_CONTEXT";
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.PurchaseInteraction>().displayNameToken = "DUPLICATOR_LARGE_NAME";
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.PurchaseInteraction>().contextToken = "DUPLICATOR_LARGE_CONTEXT";
             //
         }
 
@@ -296,17 +195,6 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("ITEM_SHINYPEARL_DESC", "Increases <style=cIsDamage>damage</style>, <style=cIsDamage>attack speed</style>, <style=cIsDamage>critical strike chance</style>, <style=cIsHealing>maximum health</style>, <style=cIsHealing>base health regeneration</style>, <style=cIsHealing>base armor</style>, <style=cIsUtility>movement speed</style> by <style=cIsDamage>1<style=cIsHealing>0<style=cIsUtility>%<style=cStack> (+10% per stack)</style></style></style></style>", "en");
 
             LanguageAPI.Add("ITEM_HEALWHILESAFE_DESC", "Increases <style=cIsHealing>base health regeneration</style> by <style=cIsHealing>+3 hp/s</style> <style=cStack>(+3 hp/s per stack)</style> while outside of danger.", "en");
-
-
-            LanguageAPI.Add("ITEM_SCRAPWHITE_PICKUP", "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color>.", "en");
-            LanguageAPI.Add("ITEM_SCRAPGREEN_PICKUP", "Does nothing. Prioritized when used with <style=cIsHealing>Large 3D Printers</style>.", "en");
-            LanguageAPI.Add("ITEM_SCRAPRED_PICKUP", "Does nothing. Prioritized when used with <style=cIsHealth>Mili-Tech 3D Printers</style>.", "en");
-            LanguageAPI.Add("ITEM_SCRAPYELLOW_PICKUP", "Does nothing. Prioritized when used with <style=cIsTierBoss>Overgrown 3D Printers.</style>.</style>", "en");
-
-            LanguageAPI.Add("ITEM_SCRAPWHITE_DESC", "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color> and Cauldrons.", "en");
-            LanguageAPI.Add("ITEM_SCRAPGREEN_DESC", "Does nothing. Prioritized when used with <style=cIsHealing>Large 3D Printers</style> and Cauldrons.", "en");
-            LanguageAPI.Add("ITEM_SCRAPRED_DESC", "Does nothing. Prioritized when used with <style=cIsHealth>Mili-Tech 3D Printers</style> and Cauldrons.", "en");
-            LanguageAPI.Add("ITEM_SCRAPYELLOW_DESC", "Does nothing. Prioritized when used with <style=cIsTierBoss>Overgrown 3D Printers</style>.", "en");
 
 
 
@@ -360,25 +248,6 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("EQUIPMENT_DEATHPROJECTILE_DESC", "Throw a cursed doll out that <style=cIsDamage>triggers</style> any <style=cIsDamage>On-Kill</style> effects you have every <style=cIsUtility>1</style> second for <style=cIsUtility>8</style> seconds. Cannot throw out more than <style=cIsUtility>3</style> dolls at a time.", "en");
 
 
-            //New Descriptions
-            LanguageAPI.Add("ITEM_TONICAFFLICTION_DESC", "<color=#FF7F7F>Reduce ALL stats by -5% </color><style=cStack>(-5% per stack)</style><color=#FF7F7F> when not under the effects of Spinel Tonic</color>", "en");
-            LanguageAPI.Add("EQUIPMENT_QUESTVOLATILEBATTERY_DESC", "Falling below <style=cIsHealth>50% health</style> causes this to explode in a large radius dealing <style=cIsDamage>300% the carriers maximum health as damage</style>. Consumed on usage.", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXRED_DESC", "Attacks <style=cIsDamage>ignite</style> enemies dealing <style=cIsDamage>50%</style> TOTAL damage over time. Leave behind a <style=cIsDamage>fire trail</style> dealing damage on contact.", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXBLUE_DESC", "All attacks leave a <style=cIsDamage>lightning orb</style> which explodes after <style=cIsUtility>1.5s</style> dealing <style=cIsDamage>50%</style> TOTAL damage. Convert <style=cIsHealing>50%</style> of your <style=cIsHealing>health</style> into <style=cIsHealing>shields</style>.", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXWHITE_DESC", "<style=cIsUtility>Slow</style> enemies on hit for <style=cIsUtility>-80% movement speed</style> for <style=cIsUtility>1.5s</style>. <style=cDeath>On death</style> leave an <style=cIsDamage>ice explosion</style> <style=cIsUtility>freezing</style> enemies for <style=cIsUtility>1.5s</style>.", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXPOISON_DESC", "Enemies hit will have their <style=cIsHealing>healing disabled</style> for <style=cIsUtility>8s</style>. Periodically shoot out 3 <style=cIsDamage>spike clusters</style> dealing <style=cIsDamage>100%</style> base damage. <style=cDeath>On death</style> leave a <style=cIsDamage>Malachite Urchin</style> lasting <style=cIsUtility>20s</style>.", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXHAUNTED_DESC", "<style=cIsUtility>Slow</style> enemies on hit for <style=cIsUtility>-80% movement speed</style> for <style=cIsUtility>3s</style>. <style=cIsUtility>Cloak</style> all allies in a large radius.", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXLUNAR_DESC", "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>25%</style> and <style=cIsUtility>movement speed</style> by <style=cIsUtility>30%</style>. \nConvert all <style=cIsHealing>health</style> into <style=cIsHealing>regenerating shields</style>. \n<style=cIsDamage>Cripple</style> enemies on hit for <style=cIsUtility>4s</style> reducing <style=cIsUtility>movement speed</style> by <style=cIsUtility>100%</style> and <style=cIsDamage>armor</style> by <style=cIsDamage>20</style>. \nPeriodically shoot out 4 orbs dealing <style=cIsDamage>30%</style> base damage when attacking. ", "en");
-
-            LanguageAPI.Add("EQUIPMENT_AFFIXEARTH_DESC", "<style=cIsHealing>Heal</style> a nearby hurt ally for <style=cIsHealing>120%</style> of your <style=cIsDamage>base damage</style> per second. <style=cDeath>On death</style> leave a <style=cIsHealing>Healing Core</style> which will <style=cIsHealing>heal</style> all creatures for <style=cIsHealing>80</style> health.", "en");
-
-            LanguageAPI.Add("EQUIPMENT_AFFIXAURELIONITE_DESC", "Every <style=cIsHealing>20</style> seconds gain a shield that grants <style=cIsHealing>60</style> <style=cStack>(+0.1 per gold)</style> armor for <style=cIsHealing>5</style> seconds", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXBEAD_DESC", "Nearby allies reflect damage, dealing <style=cIsDamage>2.5% of the victims maximum health</style> as damage.", "en");
-
-
-            //LanguageAPI.Add("ITEM_DRONEWEAPONS_DESC", "Gain <style=cIsDamage>Col. Droneman</style>. \nDrones gain <style=cIsDamage>+50%</style> <style=cStack>(+50% per stack)</style> attack speed and cooldown reduction. \nDrones gain <style=cIsDamage>10%</style> chance to fire a <style=cIsDamage>missile</style> on hit, dealing <style=cIsDamage>300%</style> base damage. \nDrones gain an <style=cIsDamage>automatic chain gun</style> that deals <style=cIsDamage>6x100%</style>damage, bouncing to <style=cIsDamage>2</style> enemies.", "en");
-
-            //CostTypeCatalog.
 
             //Untiered Item Descriptions
             //
@@ -419,7 +288,7 @@ namespace WolfoQualityOfLife
 
             LanguageAPI.Add("ITEM_CRITHEAL_NAME", "Crit Healing", "en");
             LanguageAPI.Add("ITEM_CRITHEAL_PICKUP", "(Old Corpsebloom) Chance to double healing", "en");
-            LanguageAPI.Add("ITEM_CRITHEAL_DESC", "When <style=cIsHealing>healing</style>, have a chance equivelent to your <style=cIsDamage>critical rate</style> to <style=cIsHealing>double the amount</style>. \nGain <style=cIsDamage>5% critical chance</style> and then <style=cIsDamage>halve</style><style=cStack> (-33% per stack)</style> your <style=cIsDamage>critical chance</style>", "en");
+            LanguageAPI.Add("ITEM_CRITHEAL_DESC", "When <style=cIsHealing>healing</style>, have a chance equivelent to your <style=cIsDamage>critical rate</style> to <style=cIsHealing>double the amount</style>. \nGain <style=cIsDamage>10% critical chance</style> and then <style=cIsDamage>halve</style><style=cStack> (-33% per stack)</style> your <style=cIsDamage>critical chance</style>", "en");
 
             LanguageAPI.Add("ITEM_WARCRYONCOMBAT_NAME", "Warcry on Combat", "en");
             LanguageAPI.Add("ITEM_WARCRYONCOMBAT_PICKUP", "(Old Berzerker's Pauldron) Enter a frenzy at the beginning of combat.", "en");
@@ -521,17 +390,17 @@ namespace WolfoQualityOfLife
 
 
 
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/TeamSizeDamageBonus").nameToken = "ITEM_TEAMSIZEDAMAGEBONUS_NAME";
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/TeamSizeDamageBonus").pickupToken = "ITEM_TEAMSIZEDAMAGEBONUS_PICKUP";
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/TeamSizeDamageBonus").descriptionToken = "ITEM_TEAMSIZEDAMAGEBONUS_DESC";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/TeamSizeDamageBonus").nameToken = "ITEM_TEAMSIZEDAMAGEBONUS_NAME";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/TeamSizeDamageBonus").pickupToken = "ITEM_TEAMSIZEDAMAGEBONUS_PICKUP";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/TeamSizeDamageBonus").descriptionToken = "ITEM_TEAMSIZEDAMAGEBONUS_DESC";
 
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/UseAmbientLevel").nameToken = "ITEM_USEAMBIENTLEVEL_NAME";
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/UseAmbientLevel").pickupToken = "ITEM_USEAMBIENTLEVEL_PICKUP";
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/UseAmbientLevel").descriptionToken = "ITEM_USEAMBIENTLEVEL_DESC";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/UseAmbientLevel").nameToken = "ITEM_USEAMBIENTLEVEL_NAME";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/UseAmbientLevel").pickupToken = "ITEM_USEAMBIENTLEVEL_PICKUP";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/UseAmbientLevel").descriptionToken = "ITEM_USEAMBIENTLEVEL_DESC";
 
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/SummonedEcho").nameToken = "ITEM_SUMMONEDECHO_NAME";
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/SummonedEcho").pickupToken = "ITEM_SUMMONEDECHO_PICKUP";
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/SummonedEcho").descriptionToken = "ITEM_SUMMONEDECHO_DESC";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/SummonedEcho").nameToken = "ITEM_SUMMONEDECHO_NAME";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/SummonedEcho").pickupToken = "ITEM_SUMMONEDECHO_PICKUP";
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/SummonedEcho").descriptionToken = "ITEM_SUMMONEDECHO_DESC";
 
 
 
@@ -596,13 +465,13 @@ namespace WolfoQualityOfLife
 
 
 
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").nameToken = "EQUIPMENT_AFFIXYELLOW_NAME";
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").pickupToken = "EQUIPMENT_AFFIXUNFINISHED_PICKUP";
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").descriptionToken = "EQUIPMENT_AFFIXYELLOW_DESC";
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").nameToken = "EQUIPMENT_AFFIXYELLOW_NAME";
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").pickupToken = "EQUIPMENT_AFFIXUNFINISHED_PICKUP";
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixYellow").descriptionToken = "EQUIPMENT_AFFIXYELLOW_DESC";
 
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixEcho").nameToken = "EQUIPMENT_AFFIXECHO_NAME";
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixEcho").pickupToken = "EQUIPMENT_AFFIXUNFINISHED_PICKUP";
-            RoR2.LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixEcho").descriptionToken = "EQUIPMENT_AFFIXECHO_DESC";
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixEcho").nameToken = "EQUIPMENT_AFFIXECHO_NAME";
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixEcho").pickupToken = "EQUIPMENT_AFFIXUNFINISHED_PICKUP";
+            LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixEcho").descriptionToken = "EQUIPMENT_AFFIXECHO_DESC";
 
 
             LanguageAPI.Add("EQUIPMENT_SOULJAR_DESC", "Cannot be used. <style=cIsUtility>Duplicate</style> every enemy as a <style=cIsUtility>ghost</style> to fight on your side for <style=cIsUtility>15 seconds</style>.", "en");
@@ -611,11 +480,11 @@ namespace WolfoQualityOfLife
 
             LanguageAPI.Add("EQUIPMENT_AFFIXGOLD_DESC", "Does nothing due to missing elite implementation.", "en");
 
-            GameObject tempghostgun = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/GhostGun");
+            GameObject tempghostgun = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/GhostGun");
             tempghostgun.transform.GetChild(0).localScale = new Vector3(1, 1, 1);
 
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/DrizzlePlayerHelper").pickupIconSprite = RoR2.LegacyResourcesAPI.Load<Sprite>("textures/difficultyicons/texDifficultyEasyIconDisabled"); ;
-            RoR2.LegacyResourcesAPI.Load<ItemDef>("itemdefs/MonsoonPlayerHelper").pickupIconSprite = RoR2.LegacyResourcesAPI.Load<Sprite>("textures/difficultyicons/texDifficultyHardIconDisabled"); ;
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/DrizzlePlayerHelper").pickupIconSprite = LegacyResourcesAPI.Load<Sprite>("textures/difficultyicons/texDifficultyEasyIconDisabled"); ;
+            LegacyResourcesAPI.Load<ItemDef>("itemdefs/MonsoonPlayerHelper").pickupIconSprite = LegacyResourcesAPI.Load<Sprite>("textures/difficultyicons/texDifficultyHardIconDisabled"); ;
 
         }
 
@@ -652,24 +521,7 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("ITEM_LUNARUTILITYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Utility Skill</style> with <style=cIsUtility>Shadowfade</style>. \n\nFade away, becoming <style=cIsUtility>intangible</style> and gaining <style=cIsUtility>+30% movement speed</style>. <style=cIsHealing>Heal</style> for <style=cIsHealing>18% <style=cStack>(+18% per stack)</style> of your maximum health</style>. Lasts 3 <style=cStack>(+3 per stack)</style> seconds.");
 
         }
-
-        private class FindTeleporterObjectiveTracker_LUNAR : ObjectivePanelController.ObjectiveTracker
-        {
-            // Token: 0x06006498 RID: 25752 RVA: 0x001A0703 File Offset: 0x0019E903
-            public FindTeleporterObjectiveTracker_LUNAR()
-            {
-                this.baseToken = "OBJECTIVE_FIND_TELEPORTER_LUNAR";
-                this.isPrimary = true;
-            }
-        }
-        private class FinishTeleporterObjectiveTracker_LUNAR : ObjectivePanelController.ObjectiveTracker
-        {
-            // Token: 0x060064A4 RID: 25764 RVA: 0x001A0886 File Offset: 0x0019EA86
-            public FinishTeleporterObjectiveTracker_LUNAR()
-            {
-                this.baseToken = "OBJECTIVE_FINISH_TELEPORTER_LUNAR";
-            }
-        }
+ 
 
     }
 

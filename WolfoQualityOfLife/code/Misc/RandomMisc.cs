@@ -25,7 +25,11 @@ namespace WolfoQualityOfLife
             RandomMiscWithConfig.Start();
 
             FlowersForOtherHoldoutZones();
-            LunarSeerStuff();
+            if (WConfig.cfgLunarSeerName.Value)
+            {
+                LunarSeerStuff();
+            }
+           
             PriceTransformStuff();
             Unused();
             VoidAffix();
@@ -49,31 +53,17 @@ namespace WolfoQualityOfLife
 
 
             Color SuperGreen = new Color(0.3f, 1f, 0.1f, 1f);
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/shrines/ShrineChance").GetComponent<ShrineChanceBehavior>().colorShrineRewardJackpot = SuperGreen;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/shrines/ShrineChance").GetComponent<ShrineChanceBehavior>().colorShrineRewardJackpot = SuperGreen;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineChance/ShrineChanceSandy Variant.prefab").WaitForCompletion().GetComponent<ShrineChanceBehavior>().colorShrineRewardJackpot = SuperGreen;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineChance/ShrineChanceSnowy Variant.prefab").WaitForCompletion().GetComponent<ShrineChanceBehavior>().colorShrineRewardJackpot = SuperGreen;
 
+            //Make goolake ancient loft more obvious
+            Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/bazaar/matBazaarSeerGolemplains.mat").WaitForCompletion().SetFloat("_Boost", 1.5f);
+            Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/bazaar/matBazaarSeerGoolake.mat").WaitForCompletion().SetFloat("_Boost", 1.5f);
+            Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/ancientloft/matBazaarSeerAncientloft.mat").WaitForCompletion().SetFloat("_Boost", 2f);
+            Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/lemuriantemple/matBazaarSeerLemurianTemple.mat").WaitForCompletion().SetFloat("_Boost", 2.5f);
+            Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/habitat/matBazaarSeerHabitat.mat").WaitForCompletion().SetFloat("_Boost", 2.5f);
 
-
-            //Mod shouldn't be used with HistoryFix
-            /*On.RoR2.MorgueManager.EnforceHistoryLimit += (orig) =>
-            {
-                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("local.fix.history"))
-                {
-                    orig();
-                    return;
-                }
-                List<MorgueManager.HistoryFileInfo> list = HG.CollectionPool<MorgueManager.HistoryFileInfo, List<MorgueManager.HistoryFileInfo>>.RentCollection();
-                MorgueManager.GetHistoryFiles(list);
-                int i = list.Count - 1;
-                int num = System.Math.Max(MorgueManager.morgueHistoryLimit.value, 0);
-                while (i >= num)
-                {
-                    i--;
-                    MorgueManager.RemoveOldestHistoryFile();
-                }
-                HG.CollectionPool<MorgueManager.HistoryFileInfo, List<MorgueManager.HistoryFileInfo>>.ReturnCollection(list);
-            };*/
 
 
             //Fix error spam on Captain Spawn
@@ -89,25 +79,25 @@ namespace WolfoQualityOfLife
             };
 
             //Sorting the hidden stages in the menu, kinda dubmb but whatevs
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").shouldIncludeInLogbook = true;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").shouldIncludeInLogbook = true;
 
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/voidstage").stageOrder = 102;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/voidstage").stageOrder = 102;
             Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().stageOrder = 103;
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/arena").stageOrder = 104;
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 105;
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 106;
-            RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").stageOrder = 107;
-            //RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").stageOrder = 108;
-            //RoR2.LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 108;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/arena").stageOrder = 104;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 105;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 106;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").stageOrder = 107;
+            //LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").stageOrder = 108;
+            //LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 108;
 
             //Bead Giver
             GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
             GivePickupsOnStart.ItemDefInfo[] ScavLunarBeadsGiver = new GivePickupsOnStart.ItemDefInfo[] { Beads };
 
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
             //
 
             //Captain Shock Beacon Radius
@@ -170,7 +160,7 @@ namespace WolfoQualityOfLife
             VoidStageDiorama.minDistance = 240;
 
             //Rachis Radius is slightly wrong, noticible on high stacks 
-            GameObject RachisObject = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/DamageZoneWard");
+            GameObject RachisObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/DamageZoneWard");
             RachisObject.transform.GetChild(1).GetChild(2).GetChild(1).localScale = new Vector3(2f, 2f, 2f);
 
             //Too small plant normally
@@ -397,13 +387,7 @@ namespace WolfoQualityOfLife
             ItemDisplay display = VoidAffixDisplay.GetComponent<ItemDisplay>();
             display.rendererInfos = display.rendererInfos.Remove(display.rendererInfos[4]);
 
-            LanguageAPI.Add("EQUIPMENT_AFFIXVOID_NAME", "Voidborne Curiosity", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXVOID_PICKUP", "Lose your aspect of self.", "en");
-            LanguageAPI.Add("EQUIPMENT_AFFIXVOID_DESC", "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>50%</style> and decrease <style=cIsDamage>base damage</style> by <style=cIsDamage>30%</style>. <style=cIsDamage>Collapse</style> enemies on hit and <style=cIsHealing>block</style> incoming damage once every <style=cIsUtility>15 seconds</style>. ", "en");
-
-            Texture2D UniqueAffixVoid = new Texture2D(128, 128, TextureFormat.DXT5, false);
-            UniqueAffixVoid.LoadImage(Properties.Resources.UniqueAffixVoid, true);
-            UniqueAffixVoid.filterMode = FilterMode.Bilinear;
+            Texture2D UniqueAffixVoid = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/UniqueAffixVoid.png");
             UniqueAffixVoid.wrapMode = TextureWrapMode.Clamp;
             Sprite UniqueAffixVoidS = Sprite.Create(UniqueAffixVoid, v.rec128, v.half);
 
@@ -554,6 +538,9 @@ namespace WolfoQualityOfLife
                                 tempportal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalMS/PortalMS.prefab").WaitForCompletion();
                                 break;
                             case "artifactworld":
+                            case "artifactworld01":
+                            case "artifactworld02":
+                            case "artifactworld03":
                                 ShopPortal.transform.localPosition = new Vector3(12.88f, 0f, -7.34f);
                                 tempportal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab").WaitForCompletion();
                                 break;
@@ -611,7 +598,7 @@ namespace WolfoQualityOfLife
         public static void FlowersForOtherHoldoutZones()
         {
 
-            RoR2.HoldoutZoneController TempLeptonDasiy1 = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/Teleporter1").GetComponent<RoR2.HoldoutZoneController>();
+            RoR2.HoldoutZoneController TempLeptonDasiy1 = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/Teleporter1").GetComponent<RoR2.HoldoutZoneController>();
             LeptonDaisyTeleporterDecoration = TempLeptonDasiy1.healingNovaItemEffect;
 
             GlowFlowerForPillar = R2API.PrefabAPI.InstantiateClone(LeptonDaisyTeleporterDecoration, "GlowFlowerForPillar", false); //Special1 (Enter)
@@ -748,15 +735,7 @@ namespace WolfoQualityOfLife
         }
 
 
-        public static System.Collections.IEnumerator DelayedBroadCast(string familySelectionChatString)
-        {
-            yield return new WaitForSeconds(1f);
-            Chat.SendBroadcastChat(new Chat.SimpleChatMessage
-            {
-                baseToken = familySelectionChatString
-            });
-            yield break;
-        }
+
         public class InstantiateGameObjectAtLocation : MonoBehaviour
         {
             public GameObject objectToInstantiate;
