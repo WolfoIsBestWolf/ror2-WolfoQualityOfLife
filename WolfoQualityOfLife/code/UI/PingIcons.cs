@@ -486,6 +486,11 @@ namespace WolfoQualityOfLife
                         Sprite PingIconVoidEradicatorS = Sprite.Create(PingIconVoidEradicator, v.rec128, v.half);
                         ISCList[i].prefab.GetComponent<PingInfoProvider>().pingIconOverride = PingIconVoidEradicatorS;
                         break;
+                    case "iscWhorlCellInteractable":
+                        Sprite VoidDeepSymbol = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBatteryPositionIndicator.prefab").WaitForCompletion().GetComponent<RoR2.UI.ChargeIndicatorController>().iconSprites[0].sprite;
+                        ISCList[i].prefab.GetComponent<PingInfoProvider>().pingIconOverride = VoidDeepSymbol;
+                        break;
+                        
                 }
             }
 

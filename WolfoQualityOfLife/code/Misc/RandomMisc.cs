@@ -15,7 +15,7 @@ namespace WolfoQualityOfLife
         //public static GameObject CaptainHackingBeaconIndicator = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject;
         //public static Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainHackingBeaconIndicator.transform.GetChild(0).GetComponent<MeshRenderer>().material);
 
-        //public static GameObject CaptainShockBeaconRadius = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
+        //public static GameObject CaptainShockBeaconRadius = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
 
         public static GameObject LeptonDaisyTeleporterDecoration = null;
         public static GameObject GlowFlowerForPillar = null;
@@ -101,7 +101,7 @@ namespace WolfoQualityOfLife
             //
 
             //Captain Shock Beacon Radius
-            GameObject CaptainShockBeaconRadius = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
+            GameObject CaptainShockBeaconRadius = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
             Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainShockBeaconRadius.transform.GetChild(0).GetComponent<MeshRenderer>().material);
             CaptainHackingBeaconIndicatorMaterial.SetColor("_TintColor", new Color(0, 0.4f, 0.8f, 1f));
             CaptainShockBeaconRadius.transform.GetChild(0).GetComponent<MeshRenderer>().material = CaptainHackingBeaconIndicatorMaterial;
@@ -374,7 +374,7 @@ namespace WolfoQualityOfLife
         public static void VoidAffix()
         {
             EquipmentDef VoidAffix = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteVoid/EliteVoidEquipment.asset").WaitForCompletion();
-            GameObject VoidAffixDisplay = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteVoid/DisplayAffixVoid.prefab").WaitForCompletion(), "PickupAffixVoidW", false);
+            GameObject VoidAffixDisplay = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteVoid/DisplayAffixVoid.prefab").WaitForCompletion(), "PickupAffixVoidW", false);
             VoidAffixDisplay.transform.GetChild(0).GetChild(1).SetAsFirstSibling();
             VoidAffixDisplay.transform.GetChild(1).localPosition = new Vector3(0f, 0.7f, 0f);
             VoidAffixDisplay.transform.GetChild(1).GetChild(0).localPosition = new Vector3(0, -0.5f, -0.6f);
@@ -601,7 +601,7 @@ namespace WolfoQualityOfLife
             RoR2.HoldoutZoneController TempLeptonDasiy1 = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/Teleporter1").GetComponent<RoR2.HoldoutZoneController>();
             LeptonDaisyTeleporterDecoration = TempLeptonDasiy1.healingNovaItemEffect;
 
-            GlowFlowerForPillar = R2API.PrefabAPI.InstantiateClone(LeptonDaisyTeleporterDecoration, "GlowFlowerForPillar", false); //Special1 (Enter)
+            GlowFlowerForPillar = PrefabAPI.InstantiateClone(LeptonDaisyTeleporterDecoration, "GlowFlowerForPillar", false); //Special1 (Enter)
 
 
             GlowFlowerForPillar.transform.localScale = new Vector3(0.6f, 0.6f, 0.55f);

@@ -28,21 +28,21 @@ namespace WolfoQualityOfLife
         public static GameObject CrocoSlashBlight = null; //CrocoSlash //Primary
         public static GameObject CrocoComboFinisherSlashBlight = null; //CrocoSlashFinisher //Primary
 
-        public static GameObject CrocoDiseaseProjectileBlight = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoDiseaseProjectile"), "CrocoDiseaseProjectileBlight", true); //CrocoDiseaseProjectile //Spit + Disease
-        public static GameObject CrocoSpitBlight = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoSpit"), "CrocoSpitBlight", true); //CrocoSpit //Spit + Disease
+        public static GameObject CrocoDiseaseProjectileBlight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoDiseaseProjectile"), "CrocoDiseaseProjectileBlight", true); //CrocoDiseaseProjectile //Spit + Disease
+        public static GameObject CrocoSpitBlight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoSpit"), "CrocoSpitBlight", true); //CrocoSpit //Spit + Disease
 
-        public static GameObject CrocoDiseaseOrbEffectBlight = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/CrocoDiseaseOrbEffect"), "CrocoDiseaseOrbEffectBlight", false); //CrocoDiseaseOrbEffect 
-        public static GameObject CrocoDiseaseGhostBlight = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/CrocoDiseaseGhost"), "CrocoDiseaseProjectileGhostBlight", false); //CrocoDiseaseProjectile //Spit + Disease
-        public static GameObject CrocoSpitGhostBlight = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/CrocoSpitGhost"), "CrocoSpitGhostBlight", false); //CrocoSpit //Spit + Disease
+        public static GameObject CrocoDiseaseOrbEffectBlight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/CrocoDiseaseOrbEffect"), "CrocoDiseaseOrbEffectBlight", false); //CrocoDiseaseOrbEffect 
+        public static GameObject CrocoDiseaseGhostBlight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/CrocoDiseaseGhost"), "CrocoDiseaseProjectileGhostBlight", false); //CrocoDiseaseProjectile //Spit + Disease
+        public static GameObject CrocoSpitGhostBlight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/CrocoSpitGhost"), "CrocoSpitGhostBlight", false); //CrocoSpit //Spit + Disease
 
         public static GameObject CrocoDiseaseImpactEffectBlight = null;
         public static GameObject MuzzleflashCrocoBlight = null;
 
-        public static GameObject CrocoLeapExplosionBlight = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/CrocoLeapExplosion"), "CrocoLeapExplosionBlight", false); //CrocoLeapExplosion //Leap
+        public static GameObject CrocoLeapExplosionBlight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/CrocoLeapExplosion"), "CrocoLeapExplosionBlight", false); //CrocoLeapExplosion //Leap
         public static GameObject CrocoFistEffectBlight = null; //CrocoFistEffect //Leap
         //public static GameObject CrocoChainableFistEffect = null; //CrocoFistEffect //Leap
         public static GameObject CrocoLeapAcid_Ghost = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoLeapAcidGhost.prefab").WaitForCompletion(); //CrocoLeapAcid //Leap
-        public static GameObject CrocoLeapAcid_GhostBlight = R2API.PrefabAPI.InstantiateClone(CrocoLeapAcid_Ghost, "CrocoLeapAcidBlight", true); //CrocoLeapAcid //Leap
+        public static GameObject CrocoLeapAcid_GhostBlight = PrefabAPI.InstantiateClone(CrocoLeapAcid_Ghost, "CrocoLeapAcidBlight", true); //CrocoLeapAcid //Leap
         //public static GameObject CrocoLeapAcidPoison = LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoLeapAcid"); //CrocoLeapAcid //Leap
 
         public static bool BlightedOrb = false;
@@ -51,13 +51,13 @@ namespace WolfoQualityOfLife
         public static void Start()
         {
             //General VFX List for stuff
-            CrocoFistEffectBlight = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoFistEffect.prefab").WaitForCompletion(), "CrocoFistEffectBlight", false);
-            CrocoBiteEffectBlight = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoBiteEffect.prefab").WaitForCompletion(), "CrocoBiteEffectBlight", false);
-            CrocoSlashBlight = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoSlash.prefab").WaitForCompletion(), "CrocoSlashBlight", false);
-            CrocoComboFinisherSlashBlight = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoComboFinisherSlash.prefab").WaitForCompletion(), "CrocoComboFinisherSlashBlight", false);
-            CrocoDiseaseImpactEffectBlight = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDiseaseImpactEffect.prefab").WaitForCompletion(), "CrocoDiseaseImpactEffectBlight", false);
+            CrocoFistEffectBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoFistEffect.prefab").WaitForCompletion(), "CrocoFistEffectBlight", false);
+            CrocoBiteEffectBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoBiteEffect.prefab").WaitForCompletion(), "CrocoBiteEffectBlight", false);
+            CrocoSlashBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoSlash.prefab").WaitForCompletion(), "CrocoSlashBlight", false);
+            CrocoComboFinisherSlashBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoComboFinisherSlash.prefab").WaitForCompletion(), "CrocoComboFinisherSlashBlight", false);
+            CrocoDiseaseImpactEffectBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDiseaseImpactEffect.prefab").WaitForCompletion(), "CrocoDiseaseImpactEffectBlight", false);
             //R2API.ContentAddition.AddEffect(CrocoDiseaseImpactEffectBlight);
-            MuzzleflashCrocoBlight = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/MuzzleflashCroco.prefab").WaitForCompletion(), "MuzzleflashCrocoBlight", false);
+            MuzzleflashCrocoBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/MuzzleflashCroco.prefab").WaitForCompletion(), "MuzzleflashCrocoBlight", false);
             R2API.ContentAddition.AddEffect(MuzzleflashCrocoBlight);
 
             CrocoBlightChanger();

@@ -34,7 +34,7 @@ namespace WolfoQualityOfLife
         public static Material matHuntressFlashBrightRed = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
         public static Material matHuntressFlashExpandedRed = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
 
-        public static GameObject MercFocusedAssaultOrbEffectRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffectRed", false);
+        public static GameObject MercFocusedAssaultOrbEffectRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffectRed", false);
 
         public static GameObject OmniImpactVFXSlashMercRed = null; //Primary, Secondary1, Secondary2
         public static GameObject MercSwordSlashRed = null; //Primary
@@ -43,9 +43,9 @@ namespace WolfoQualityOfLife
         public static GameObject MercSwordSlashWhirlwindRed = null;  //Secondary1
         public static GameObject MercDashHitOverlayRed = null; //Utility1, Utility2
 
-        public static GameObject HuntressBlinkEffectRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffectRed", false); //Special1 (Enter)
-        public static GameObject HuntressFireArrowRainRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRainRed", false); //Special1 (Attack)
-        public static GameObject OmniImpactVFXSlashMercEvisRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvisRed", false); //Special1 (Attack)
+        public static GameObject HuntressBlinkEffectRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffectRed", false); //Special1 (Enter)
+        public static GameObject HuntressFireArrowRainRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRainRed", false); //Special1 (Attack)
+        public static GameObject OmniImpactVFXSlashMercEvisRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvisRed", false); //Special1 (Attack)
 
         public static Material matHuntressSwipeRed;
         public static Material matHuntressChargedRed;
@@ -57,12 +57,12 @@ namespace WolfoQualityOfLife
         public static GameObject ImpactMercAssaulterRed = null;  //Utility2
         public static GameObject MercAssaulterEffectRed = null;  //Utility2
 
-        public static GameObject EvisProjectileRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectileRed", true);  //Special2
-        public static GameObject EvisProjectileGhostRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhostRed", false);
-        public static GameObject EvisOverlapProjectileRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectileRed", true);
-        public static GameObject EvisOverlapProjectileGhostRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhostRed", false);
+        public static GameObject EvisProjectileRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectileRed", true);  //Special2
+        public static GameObject EvisProjectileGhostRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhostRed", false);
+        public static GameObject EvisOverlapProjectileRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectileRed", true);
+        public static GameObject EvisOverlapProjectileGhostRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhostRed", false);
 
-        public static GameObject ImpactMercEvisRed = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvisRed", false);
+        public static GameObject ImpactMercEvisRed = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvisRed", false);
 
         //public static Material matMercExposed;
         public static Material matMercExposedRed;
@@ -71,8 +71,8 @@ namespace WolfoQualityOfLife
         //Needs to be static
         public static GameObject MercExposeEffect = LegacyResourcesAPI.Load<GameObject>("Prefabs/temporaryvisualeffects/MercExposeEffect");
         public static GameObject MercExposeConsumeEffect = LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/MercExposeConsumeEffect");
-        public static GameObject MercExposeEffectRed = R2API.PrefabAPI.InstantiateClone(MercExposeEffect, "MercExposeEffectRed", false);
-        public static GameObject MercExposeConsumeEffectRed = R2API.PrefabAPI.InstantiateClone(MercExposeConsumeEffect, "MercExposeConsumeEffectRed", false);
+        public static GameObject MercExposeEffectRed = PrefabAPI.InstantiateClone(MercExposeEffect, "MercExposeEffectRed", false);
+        public static GameObject MercExposeConsumeEffectRed = PrefabAPI.InstantiateClone(MercExposeConsumeEffect, "MercExposeConsumeEffectRed", false);
 
 
         //GREEN AHHH
@@ -101,7 +101,7 @@ namespace WolfoQualityOfLife
         public static Material matHuntressFlashBright_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
         public static Material matHuntressFlashExpanded_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
 
-        public static GameObject MercFocusedAssaultOrbEffect_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffect_Green", false);
+        public static GameObject MercFocusedAssaultOrbEffect_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/MercFocusedAssaultOrbEffect"), "MercFocusedAssaultOrbEffect_Green", false);
 
         public static GameObject OmniImpactVFXSlashMerc_Green = null; //Primary, Secondary1, Secondary2
         public static GameObject MercSwordSlash_Green = null; //Primary
@@ -110,11 +110,11 @@ namespace WolfoQualityOfLife
         public static GameObject MercSwordSlashWhirlwind_Green = null;  //Secondary1
         public static GameObject MercDashHitOverlay_Green = null; //Utility1, Utility2
 
-        public static GameObject HuntressBlinkEffect_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffect_Green", false); //Special1 (Enter)
+        public static GameObject HuntressBlinkEffect_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/HuntressBlinkEffect"), "HuntressBlinkEffect_Green", false); //Special1 (Enter)
 
-        public static GameObject HuntressFireArrowRain_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRain_Green", false); //Special1 (Attack)
+        public static GameObject HuntressFireArrowRain_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/muzzleflashes/HuntressFireArrowRain"), "HuntressFireArrowRain_Green", false); //Special1 (Attack)
 
-        public static GameObject OmniImpactVFXSlashMercEvis_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvis_Green", false); //Special1 (Attack)
+        public static GameObject OmniImpactVFXSlashMercEvis_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/omnieffect/OmniImpactVFXSlashMercEvis"), "OmniImpactVFXSlashMercEvis_Green", false); //Special1 (Attack)
 
         public static Material matHuntressSwipe_Green;
         public static Material matHuntressCharged_Green;
@@ -126,82 +126,82 @@ namespace WolfoQualityOfLife
         public static GameObject ImpactMercAssaulter_Green = null;  //Utility2
         public static GameObject MercAssaulterEffect_Green = null;  //Utility2
 
-        public static GameObject EvisProjectile_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectile_Green", true);  //Special2
-        public static GameObject EvisProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhost_Green", false);
-        public static GameObject EvisOverlapProjectile_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectile_Green", true);
-        public static GameObject EvisOverlapProjectileGhost_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhost_Green", false);
+        public static GameObject EvisProjectile_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisProjectile"), "EvisProjectile_Green", true);  //Special2
+        public static GameObject EvisProjectileGhost_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisProjectileGhost"), "EvisProjectileGhost_Green", false);
+        public static GameObject EvisOverlapProjectile_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/EvisOverlapProjectile"), "EvisOverlapProjectile_Green", true);
+        public static GameObject EvisOverlapProjectileGhost_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EvisOverlapProjectileGhost"), "EvisOverlapProjectileGhost_Green", false);
 
-        public static GameObject ImpactMercEvis_Green = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvis_Green", false);
+        public static GameObject ImpactMercEvis_Green = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/ImpactMercEvis"), "ImpactMercEvis_Green", false);
 
         public static Material matMercExposed_Green;
 
 
-        public static GameObject MercExposeEffect_Green = R2API.PrefabAPI.InstantiateClone(MercExposeEffect, "MercExposeEffect_Green", false);
-        public static GameObject MercExposeConsumeEffect_Green = R2API.PrefabAPI.InstantiateClone(MercExposeConsumeEffect, "MercExposeConsumeEffect_Green", false);
+        public static GameObject MercExposeEffect_Green = PrefabAPI.InstantiateClone(MercExposeEffect, "MercExposeEffect_Green", false);
+        public static GameObject MercExposeConsumeEffect_Green = PrefabAPI.InstantiateClone(MercExposeConsumeEffect, "MercExposeConsumeEffect_Green", false);
 
 
 
         public static void Start()
         {
-            MercSwordSlashRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlash.prefab").WaitForCompletion(), "MercSwordSlashRed", false);
+            MercSwordSlashRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlash.prefab").WaitForCompletion(), "MercSwordSlashRed", false);
 
             //MercSwordFinisherSlash = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion();
-            MercSwordFinisherSlashRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion(), "MercSwordFinisherSlashRed", false);
+            MercSwordFinisherSlashRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion(), "MercSwordFinisherSlashRed", false);
 
             //MercSwordSlashWhirlwind = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion();
-            MercSwordSlashWhirlwindRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion(), "MercSwordSlashWhirlwindRed", false);
+            MercSwordSlashWhirlwindRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion(), "MercSwordSlashWhirlwindRed", false);
             R2API.ContentAddition.AddEffect(MercSwordSlashWhirlwindRed);
 
             //MercSwordUppercutSlash = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion();
-            MercSwordUppercutSlashRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion(), "MercSwordUppercutSlashRed", false);
+            MercSwordUppercutSlashRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion(), "MercSwordUppercutSlashRed", false);
             R2API.ContentAddition.AddEffect(MercSwordUppercutSlashRed);
 
             //OmniImpactVFXSlashMerc = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion();
-            OmniImpactVFXSlashMercRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion(), "OmniImpactVFXSlashMercRed", false);
+            OmniImpactVFXSlashMercRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion(), "OmniImpactVFXSlashMercRed", false);
             R2API.ContentAddition.AddEffect(OmniImpactVFXSlashMercRed);
 
             //OmniImpactVFXSlashMerc = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion();
-            MercAssaulterEffectRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion(), "MercAssaulterEffectRed", false);
+            MercAssaulterEffectRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion(), "MercAssaulterEffectRed", false);
             //R2API.ContentAddition.AddEffect(MercAssaulterEffectRed);
 
-            MercDashHitOverlayRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercDashHitOverlay.prefab").WaitForCompletion(), "MercDashHitOverlayRed", false);
+            MercDashHitOverlayRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercDashHitOverlay.prefab").WaitForCompletion(), "MercDashHitOverlayRed", false);
             //R2API.ContentAddition.AddEffect(MercDashHitOverlayRed);
 
-            ImpactMercAssaulterRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercAssaulter.prefab").WaitForCompletion(), "ImpactMercAssaulterRed", false);
+            ImpactMercAssaulterRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercAssaulter.prefab").WaitForCompletion(), "ImpactMercAssaulterRed", false);
             R2API.ContentAddition.AddEffect(ImpactMercAssaulterRed);
 
-            ImpactMercFocusedAssaultRed = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercFocusedAssault.prefab").WaitForCompletion(), "ImpactMercFocusedAssaultRed", false);
+            ImpactMercFocusedAssaultRed = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercFocusedAssault.prefab").WaitForCompletion(), "ImpactMercFocusedAssaultRed", false);
             R2API.ContentAddition.AddEffect(ImpactMercFocusedAssaultRed);
 
             #region GREEN 
-            MercSwordSlash_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlash.prefab").WaitForCompletion(), "MercSwordSlash_Green", false);
+            MercSwordSlash_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlash.prefab").WaitForCompletion(), "MercSwordSlash_Green", false);
 
             //MercSwordFinisherSlash = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion();
-            MercSwordFinisherSlash_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion(), "MercSwordFinisherSlash_Green", false);
+            MercSwordFinisherSlash_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordFinisherSlash.prefab").WaitForCompletion(), "MercSwordFinisherSlash_Green", false);
 
             //MercSwordSlashWhirlwind = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion();
-            MercSwordSlashWhirlwind_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion(), "MercSwordSlashWhirlwind_Green", false);
+            MercSwordSlashWhirlwind_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion(), "MercSwordSlashWhirlwind_Green", false);
             R2API.ContentAddition.AddEffect(MercSwordSlashWhirlwind_Green);
 
             //MercSwordUppercutSlash = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion();
-            MercSwordUppercutSlash_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion(), "MercSwordUppercutSlash_Green", false);
+            MercSwordUppercutSlash_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion(), "MercSwordUppercutSlash_Green", false);
             R2API.ContentAddition.AddEffect(MercSwordUppercutSlash_Green);
 
             //OmniImpactVFXSlashMerc = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion();
-            OmniImpactVFXSlashMerc_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion(), "OmniImpactVFXSlashMerc_Green", false);
+            OmniImpactVFXSlashMerc_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion(), "OmniImpactVFXSlashMerc_Green", false);
             R2API.ContentAddition.AddEffect(OmniImpactVFXSlashMerc_Green);
 
             //OmniImpactVFXSlashMerc = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion();
-            MercAssaulterEffect_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion(), "MercAssaulterEffect_Green", false);
+            MercAssaulterEffect_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercAssaulterEffect.prefab").WaitForCompletion(), "MercAssaulterEffect_Green", false);
             //R2API.ContentAddition.AddEffect(MercAssaulterEffect_Green);
 
-            MercDashHitOverlay_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercDashHitOverlay.prefab").WaitForCompletion(), "MercDashHitOverlay_Green", false);
+            MercDashHitOverlay_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercDashHitOverlay.prefab").WaitForCompletion(), "MercDashHitOverlay_Green", false);
             //R2API.ContentAddition.AddEffect(MercDashHitOverlay_Green);
 
-            ImpactMercAssaulter_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercAssaulter.prefab").WaitForCompletion(), "ImpactMercAssaulter_Green", false);
+            ImpactMercAssaulter_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercAssaulter.prefab").WaitForCompletion(), "ImpactMercAssaulter_Green", false);
             R2API.ContentAddition.AddEffect(ImpactMercAssaulter_Green);
 
-            ImpactMercFocusedAssault_Green = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercFocusedAssault.prefab").WaitForCompletion(), "ImpactMercFocusedAssault_Green", false);
+            ImpactMercFocusedAssault_Green = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercFocusedAssault.prefab").WaitForCompletion(), "ImpactMercFocusedAssault_Green", false);
             R2API.ContentAddition.AddEffect(ImpactMercFocusedAssault_Green);
             #endregion
 

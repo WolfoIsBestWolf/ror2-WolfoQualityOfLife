@@ -25,10 +25,10 @@ namespace WolfoQualityOfLife
 
 
 
-            MithrixCrystalOrange = R2API.PrefabAPI.InstantiateClone(MithrixCrystalRed, "ItemInfection, Orange", false);
-            MithrixCrystalYellow = R2API.PrefabAPI.InstantiateClone(MithrixCrystalRed, "ItemInfection, Yellow", false);
-            MithrixCrystalPink = R2API.PrefabAPI.InstantiateClone(MithrixCrystalRed, "ItemInfection, Pink", false);
-            MithrixCrystalPinkSmall = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/ItemInfection, White.prefab").WaitForCompletion(), "ItemInfection, PinkSingle", false);
+            MithrixCrystalOrange = PrefabAPI.InstantiateClone(MithrixCrystalRed, "ItemInfection, Orange", false);
+            MithrixCrystalYellow = PrefabAPI.InstantiateClone(MithrixCrystalRed, "ItemInfection, Yellow", false);
+            MithrixCrystalPink = PrefabAPI.InstantiateClone(MithrixCrystalRed, "ItemInfection, Pink", false);
+            MithrixCrystalPinkSmall = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/ItemInfection, White.prefab").WaitForCompletion(), "ItemInfection, PinkSingle", false);
 
             MithrixCrystalOrange.GetComponent<MeshRenderer>().material = Object.Instantiate<Material>(MithrixCrystalOrange.GetComponent<MeshRenderer>().material);
             MithrixCrystalOrange.GetComponent<MeshRenderer>().material.SetColor("_EmColor", new Color(1.4f, 0.7f, 0f, 1f));

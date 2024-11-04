@@ -188,7 +188,7 @@ namespace WolfoQualityOfLife
             if (!self.available && self.name.StartsWith("FreeChestMultiShop"))
             {
                 TreasureReminder reminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
-                if (reminder && reminder.lockboxVoidInfo)
+                if (reminder && reminder.freeChestInfo)
                 {
                     if (WConfig.NotRequireByAll.Value)
                     {

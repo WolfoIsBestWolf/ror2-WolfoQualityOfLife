@@ -47,8 +47,8 @@ namespace WolfoQualityOfLife
                 RedMercSkin.Start();
                 AcridBlight.Start();
 
-                BellBallElite = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/BellBall"), "BellBallElite", true);
-                BellBallGhostElite = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/BellBallGhost"), "BellBallGhostElite", false);
+                BellBallElite = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/BellBall"), "BellBallElite", true);
+                BellBallGhostElite = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/BellBallGhost"), "BellBallGhostElite", false);
 
 
                 BellBallElite.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab = BellBallGhostElite;

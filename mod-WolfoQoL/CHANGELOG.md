@@ -1,5 +1,9 @@
 ## Changelog:
 ```
+v3.2.1
+Fixed Shipping reminder not being cleared.
+Fixed part of the expanded death screen not being disabled with the config.
+
 v3.2.0
 Added Config to try and make mod able to be used with Clients/Hosts that do not have a mod
 -(This of course means the mod is no longer tagged as "RequiredByAll")

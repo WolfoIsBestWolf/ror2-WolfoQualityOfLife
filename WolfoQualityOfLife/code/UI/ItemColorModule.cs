@@ -12,22 +12,22 @@ namespace WolfoQualityOfLife
     public class ItemColorModule
     {
         //Adding missing Highlights
-        public static readonly GameObject HighlightYellowItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightBossItem", false);
-        public static readonly GameObject HighlightPinkT1Item = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier1Item"), "HighlightVoidT1Item", false);
-        public static readonly GameObject HighlightPinkT2Item = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightVoidT2Item", false);
-        public static readonly GameObject HighlightPinkT3Item = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightVoidT3Item", false);
-        public static readonly GameObject HighlightOrangeItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipment", false);
-        public static readonly GameObject HighlightOrangeBossItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentBoss", false);
-        public static readonly GameObject HighlightOrangeLunarItem = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentLunar", false);
+        public static readonly GameObject HighlightYellowItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightBossItem", false);
+        public static readonly GameObject HighlightPinkT1Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier1Item"), "HighlightVoidT1Item", false);
+        public static readonly GameObject HighlightPinkT2Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightVoidT2Item", false);
+        public static readonly GameObject HighlightPinkT3Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightVoidT3Item", false);
+        public static readonly GameObject HighlightOrangeItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipment", false);
+        public static readonly GameObject HighlightOrangeBossItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentBoss", false);
+        public static readonly GameObject HighlightOrangeLunarItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentLunar", false);
         //public static int HighlighterIntChoice = 0;
         public static bool HighlightEquipment = false;
 
         //public static bool ChangedColors = false;
 
-        public static readonly GameObject EquipmentBossOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/BossOrb"), "EquipmentBossOrb", false);
-        public static readonly GameObject EquipmentLunarOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/LunarOrb"), "EquipmentLunarOrb", false);
-        public static readonly GameObject NoTierOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "NoTierOrb", false);
-        public static readonly GameObject CoinOrb = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "CoinOrb", false);
+        public static readonly GameObject EquipmentBossOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/BossOrb"), "EquipmentBossOrb", false);
+        public static readonly GameObject EquipmentLunarOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/LunarOrb"), "EquipmentLunarOrb", false);
+        public static readonly GameObject NoTierOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "NoTierOrb", false);
+        public static readonly GameObject CoinOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "CoinOrb", false);
 
         public static Color NewSurvivorLogbookNameColor = new Color32(80, 130, 173, 255);
 
