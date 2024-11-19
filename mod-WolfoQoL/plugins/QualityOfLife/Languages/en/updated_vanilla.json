@@ -47,7 +47,7 @@
 			"ITEM_SCRAPWHITE_PICKUP": "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color>.",
             "ITEM_SCRAPGREEN_PICKUP": "Does nothing. Prioritized when used with <style=cIsHealing>Large 3D Printers</style>.",
             "ITEM_SCRAPRED_PICKUP": "Does nothing. Prioritized when used with <style=cIsHealth>Mili-Tech 3D Printers</style>.",
-            "ITEM_SCRAPYELLOW_PICKUP": "Does nothing. Prioritized when used with <style=cIsTierBoss>Overgrown 3D Printers.</style>.</style>",
+            "ITEM_SCRAPYELLOW_PICKUP": "Does nothing. Prioritized when used with <style=cIsTierBoss>Overgrown 3D Printers.</style>.",
 
             "ITEM_SCRAPWHITE_DESC": "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color> and Cauldrons.",
             "ITEM_SCRAPGREEN_DESC": "Does nothing. Prioritized when used with <style=cIsHealing>Large 3D Printers</style> and Cauldrons.",
@@ -55,7 +55,7 @@
             "ITEM_SCRAPYELLOW_DESC": "Does nothing. Prioritized when used with <style=cIsTierBoss>Overgrown 3D Printers</style>.",
 
 
-            "ITEM_TONICAFFLICTION_DESC": "<color=#FF7F7F>Reduce ALL stats by -5% </color><style=cStack>(-5% per stack)</style><color=#FF7F7F> when not under the effects of Spinel Tonic</color>",
+            "ITEM_TONICAFFLICTION_DESC": "<color=#FF7F7F>Reduce ALL stats by -5% </color><style=cStack>(-5% per stack)</style><color=#FF7F7F> when not under the effects of Spinel Tonic</color>.",
             "EQUIPMENT_QUESTVOLATILEBATTERY_DESC": "Falling below <style=cIsHealth>50% health</style> causes this to explode in a large radius dealing <style=cIsDamage>300% the carriers maximum health as damage</style>. Consumed on usage.",
 			
             "EQUIPMENT_AFFIXRED_DESC": "Attacks <style=cIsDamage>ignite</style> enemies dealing <style=cIsDamage>50%</style> TOTAL damage over time. Leave behind a <style=cIsDamage>fire trail</style> dealing damage on contact.",
@@ -68,13 +68,13 @@
 			
             "EQUIPMENT_AFFIXHAUNTED_DESC": "<style=cIsUtility>Slow</style> enemies on hit for <style=cIsUtility>-80% movement speed</style> for <style=cIsUtility>3s</style>. <style=cIsUtility>Cloak</style> all allies in a large radius.",
 			
-            "EQUIPMENT_AFFIXLUNAR_DESC": "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>25%</style> and <style=cIsUtility>movement speed</style> by <style=cIsUtility>30%</style>. \nConvert all <style=cIsHealing>health</style> into <style=cIsHealing>regenerating shields</style>. \n<style=cIsDamage>Cripple</style> enemies on hit for <style=cIsUtility>4s</style> reducing <style=cIsUtility>movement speed</style> by <style=cIsUtility>100%</style> and <style=cIsDamage>armor</style> by <style=cIsDamage>20</style>. \nPeriodically shoot out 4 orbs dealing <style=cIsDamage>30%</style> base damage when attacking. ",
+            "EQUIPMENT_AFFIXLUNAR_DESC": "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>25%</style> and <style=cIsUtility>movement speed</style> by <style=cIsUtility>30%</style>. \nConvert all <style=cIsHealing>health</style> into <style=cIsHealing>regenerating shields</style>. \n<style=cIsDamage>Cripple</style> enemies on hit for <style=cIsUtility>4s</style> reducing <style=cIsUtility>movement speed</style> by <style=cIsUtility>100%</style> and <style=cIsDamage>armor</style> by <style=cIsDamage>20</style>. \nPeriodically shoot out 4 orbs dealing <style=cIsDamage>30%</style> base damage when attacking.",
 
             "EQUIPMENT_AFFIXEARTH_DESC": "<style=cIsHealing>Heal</style> a nearby hurt ally for <style=cIsHealing>120%</style> of your <style=cIsDamage>base damage</style> per second. <style=cDeath>On death</style> leave a <style=cIsHealing>Healing Core</style> which will <style=cIsHealing>heal</style> all creatures for <style=cIsHealing>80</style> health.",
 
-            "EQUIPMENT_AFFIXAURELIONITE_DESC": "Every <style=cIsHealing>20</style> seconds gain a shield that grants <style=cIsHealing>60</style> <style=cStack>(+0.1 per gold)</style> armor for <style=cIsHealing>5</style> seconds",
+            "EQUIPMENT_AFFIXAURELIONITE_DESC": "Every <style=cIsHealing>20</style> seconds gain a shield that grants <style=cIsHealing>60</style> <style=cStack>(+0.1 per gold)</style> armor for <style=cIsHealing>5</style> seconds.",
 			
-            "EQUIPMENT_AFFIXBEAD_DESC": "Nearby allies reflect damage, dealing <style=cIsDamage>2.5% of the victims maximum health</style> as damage.",
+            "EQUIPMENT_AFFIXBEAD_DESC": "Nearby allies reflect damage, dealing <style=cIsDamage>2.5% of the victims maximum health</style> as damage."
 
 	}
 }
