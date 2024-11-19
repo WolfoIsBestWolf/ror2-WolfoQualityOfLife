@@ -27,11 +27,11 @@
 		
 		
 		
-			"SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE_2P": "<style=cShrine>You offer to the shrine and are rewarded (Lucky)!</color>")",
-            "SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE": "<style=cShrine>{0} offered to the shrine and was rewarded (Lucky)!</color>")",
+			"SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE_2P": "<style=cShrine>You offer to the shrine and are rewarded (Lucky)!</color>",
+            "SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE": "<style=cShrine>{0} offered to the shrine and was rewarded (Lucky)!</color>",
 
-            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL_2P": "<style=cShrine>Your chance doll felt lucky!</color>")",
-            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL": "<style=cShrine>{0}'s chance doll felt lucky!</color>")",
+            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL_2P": "<style=cShrine>Your chance doll felt lucky!</color>",
+            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL": "<style=cShrine>{0}'s chance doll felt lucky!</color>",
 
             
 			"REMINDER_COUNT": " ({0}/{1})",
@@ -128,7 +128,7 @@
             "DEATH_GENERIC_2P": "You were killed by {1}.",
             "DEATH_GENERIC": "{0} was killed by {1}.",
 
-            "DEATH_DAMAGE": " ({0} damage taken)</style>",
+            "DEATH_DAMAGE": " ({0} damage taken)</style>"
 		
 
 	}
