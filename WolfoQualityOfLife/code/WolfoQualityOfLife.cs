@@ -15,8 +15,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQualityOfLife
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.2.0")]
-    //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LoadoutAPI), nameof(PrefabAPI), nameof(LanguageAPI), nameof(ItemAPI))]
+    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.2.4")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
 
@@ -31,7 +30,30 @@ namespace WolfoQualityOfLife
         {
             Assets.Init(Info);
             WConfig.Start();
-            
+
+            //This is such a dogshit way to circumvent learning proper Networking but it's all the same I imagine
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(MoreMessages.ItemMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(MoreMessages.ItemMessage));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DeathMessage.DeathSubjectMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(DeathMessage.DeathSubjectMessage));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ExpandedDeathScreen.SendGameEndInvHelper), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(ExpandedDeathScreen.SendGameEndInvHelper));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(RandomMiscWithConfig.SendExtraMountainIcon), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(RandomMiscWithConfig.SendExtraMountainIcon));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(Reminders.UpdateTreasureReminderCounts), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(Reminders.UpdateTreasureReminderCounts));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(Reminders.DestroyPortalReminderClients), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(Reminders.DestroyPortalReminderClients));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(HalcyoniteObjective.UpdateHalcyoniteObjective), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(HalcyoniteObjective.UpdateHalcyoniteObjective));
+
+
             SkinChanges.Start();
 
             //Misc
@@ -72,32 +94,9 @@ namespace WolfoQualityOfLife
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += RandomMiscWithConfig.LogbookEliteAspectAdder;
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
 
-            //
-            //
-
-            //
-            //This is such a dogshit way to circumvent learning proper Networking but it's all the same I imagine
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(MoreMessages.ItemMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(MoreMessages.ItemMessage));
-
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DeathMessage.DeathSubjectMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(DeathMessage.DeathSubjectMessage));
-
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ExpandedDeathScreen.SendGameEndInvHelper), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(ExpandedDeathScreen.SendGameEndInvHelper));
-
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(RandomMiscWithConfig.SendExtraMountainIcon), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(RandomMiscWithConfig.SendExtraMountainIcon));
-
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(Reminders.UpdateTreasureReminderCounts), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(Reminders.UpdateTreasureReminderCounts));
-
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(Reminders.DestroyPortalReminderClients), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(Reminders.DestroyPortalReminderClients));
 
             //Main Menu Stuff
             On.RoR2.UI.MainMenu.MainMenuController.Start += MainMenuExtras;
-
 
             Stupid.Start();
             if (WConfig.DummyModelViewer.Value == true)

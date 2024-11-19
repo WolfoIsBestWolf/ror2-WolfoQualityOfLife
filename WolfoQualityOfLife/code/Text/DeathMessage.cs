@@ -133,7 +133,7 @@ namespace WolfoQualityOfLife
                 }
 
                 string result = "<style=cDeath>";
-                if (!base.IsSecondPerson())
+                if (base.IsSecondPerson())
                 {
                     baseToken += "_2P";
                 }

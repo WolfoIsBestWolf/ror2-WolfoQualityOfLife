@@ -33,8 +33,6 @@ namespace WolfoQualityOfLife
             orig(self);
             if (WConfig.cfgUIEclipseBorder.Value)
             {
-
-            
             bool isEclipse = false;
             //if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.StartsWith("infinitet"))
 
@@ -43,7 +41,7 @@ namespace WolfoQualityOfLife
                 //PreLobby
                 isEclipse = true;
             }
-            else if (PreGameController.instance)
+            else if (PreGameController.instance && PreGameController.instance.gameModeIndex != (GameModeIndex)255)
             {
                 //Lobby
                 if (GameModeCatalog.GetGameModeName((PreGameController.instance.gameModeIndex)).StartsWith("Eclipse"))
@@ -231,7 +229,7 @@ namespace WolfoQualityOfLife
                 //PreLobby
                 isSimu = true;
             }
-            else if (PreGameController.instance)
+            else if (PreGameController.instance && PreGameController.instance.gameModeIndex != (GameModeIndex)255)
             {
                 //Lobby
                 if (GameModeCatalog.GetGameModeName((PreGameController.instance.gameModeIndex)).StartsWith("InfiniteT"))

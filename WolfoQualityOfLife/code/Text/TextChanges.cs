@@ -1,11 +1,10 @@
+using MonoMod.Cil;
 using R2API;
 using RoR2;
-using RoR2.UI;
+using RoR2.Items;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 
 namespace WolfoQualityOfLife
 {
@@ -32,7 +31,6 @@ namespace WolfoQualityOfLife
             {
                 OtherText();
             }
-
 
             if (WConfig.cfgBlueTextPrimordial.Value)
             {
@@ -67,7 +65,6 @@ namespace WolfoQualityOfLife
 
             }
 
-
             if (WConfig.LunarChimeraNameChange.Value == false)
             {
                 LanguageAPI.Add("LUNARWISP_BODY_NAME", "Lunar Chimera", "en");
@@ -77,8 +74,6 @@ namespace WolfoQualityOfLife
                 LanguageAPI.Add("ACIDLARVA_BODY_NAME", "Larva", "en");
             }
          
-
-
             if (WConfig.cfgTextEndings.Value == true)
             {
                 GameEndingDef ObliterationEnding = LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/ObliterationEnding");
@@ -111,10 +106,104 @@ namespace WolfoQualityOfLife
                 RebirthEndingDef.icon = texGameResultRebirthS;
             }
 
+            
+            On.RoR2.GenericPickupController.HandlePickupMessage += GenericPickupController_HandlePickupMessage;
+            IL.RoR2.GenericPickupController.HandlePickupMessage += IL_PICKUP;
 
-
+ 
+            //If Void then add pickup quantity of the original in Void
+            //If white then add pickup quantity of the Void.
         }
-         
+
+      
+
+        private static void IL_PICKUP(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchCallOrCallvirt("RoR2.GenericPickupController/PickupMessage", "Reset")))
+            {
+                c.Index--;
+                c.RemoveRange(2);
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: SIL_PICKUP");
+            }
+        }
+
+        private static void GenericPickupController_HandlePickupMessage(On.RoR2.GenericPickupController.orig_HandlePickupMessage orig, UnityEngine.Networking.NetworkMessage netMsg)
+        {
+            orig(netMsg);
+            if (WConfig.cfgMessagesVoidQuantity.Value)
+            {
+                GenericPickupController.PickupMessage pickupMessage = GenericPickupController.pickupMessageInstance;
+                GameObject masterGameObject = pickupMessage.masterGameObject;
+                PickupDef pickupDef = PickupCatalog.GetPickupDef(pickupMessage.pickupIndex);
+                //pickupMessage.Reset();
+                if (!masterGameObject)
+                {
+                    return;
+                }
+                Inventory inventory = masterGameObject.GetComponent<Inventory>();
+                if (!inventory)
+                {
+                    return;
+                }
+                ItemDef itemDef = ItemCatalog.GetItemDef((pickupDef != null) ? pickupDef.itemIndex : ItemIndex.None);
+                if (itemDef && itemDef.hidden == false)
+                {
+                    int newPickupCount = (int)pickupMessage.pickupQuantity;
+                    int VoidQuantity = newPickupCount;
+
+                    
+                    ItemIndex voidIndex = ContagiousItemManager.GetTransformedItemIndex(itemDef.itemIndex);
+                    //If Is Void, 
+                    if (itemDef.tier == ItemTier.VoidTier1 || itemDef.tier == ItemTier.VoidTier2 || itemDef.tier == ItemTier.VoidTier3 || itemDef.tier == ItemTier.VoidBoss)
+                    {
+                        //If is Void, shouldn't we only bother checking the first time?
+                        int voidCount = inventory.GetItemCount(itemDef);
+                        if (voidCount < 2)
+                        {
+                            foreach (ContagiousItemManager.TransformationInfo transformationInfo in ContagiousItemManager._transformationInfos)
+                            {
+                                if (itemDef.itemIndex == transformationInfo.transformedItem)
+                                {
+                                    int original = inventory.GetItemCount(transformationInfo.originalItem);
+                                    if (original > 0)
+                                    {
+                                        VoidQuantity += original;
+                                    }
+                                }
+                            }
+                        }              
+                    }
+                    else if (voidIndex != ItemIndex.None)
+                    {
+                        //If Is Normal but you got Void
+                        //If items are picked up too fast it doesn't count properly for items Voids that eat multiple
+                        int voidCount = inventory.GetItemCount(voidIndex);
+                        if (voidCount > 0)
+                        {
+                            VoidQuantity += voidCount;
+                        }
+                    }
+                    if (VoidQuantity > newPickupCount)
+                    {
+                        string voidQuant = "<style=cIsVoid>(" + VoidQuantity + ")</style>";
+
+                        string lastMessage = Chat.log[Chat.log.Count - 1] + voidQuant;
+                        Chat.log.RemoveAt(Chat.log.Count - 1);
+                        Chat.AddMessage(lastMessage);
+                    }
+
+                }
+                Debug.Log(Chat.log[Chat.log.Count - 1]);
+            }
+        }
+
+ 
 
         internal static void OtherText()
         {
@@ -207,12 +296,12 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("ITEM_EQUIPMENTMAGAZINEVOID_PICKUP", "Add an extra charge of your Special skill. Reduce Special skill cooldown. <style=cIsVoid>Corrupts all Fuel Cells</style>.", "en");
             LanguageAPI.Add("ITEM_EQUIPMENTMAGAZINEVOID_DESC", "Add <style=cIsUtility>+1</style> <style=cStack>(+1 per stack)</style> charge of your <style=cIsUtility>Special skill</style>. <style=cIsUtility>Reduces Special skill cooldown</style> by <style=cIsUtility>33%</style>. <style=cIsVoid>Corrupts all Fuel Cells</style>.", "en");
             //LanguageAPI.Add("ITEM_ELEMENTALRINGVOID_DESC", "Hits that deal <style=cIsDamage>more than 400% damage</style> also fire a black hole that <style=cIsUtility>draws enemies within 15m into its center</style>. Lasts <style=cIsUtility>5</style> seconds before collapsing, dealing <style=cIsDamage>100%</style> <style=cStack>(+100% per stack)</style> TOTAL damage. Recharges every <style=cIsUtility>20</style> seconds. <style=cIsVoid>Corrupts all Runald's and Kjaro's Bands.</style>.", "en");
-            //LanguageAPI.Add("ITEM_VOIDMEGACRABITEM_DESC", "Every <style=cIsUtility>60</style><style=cStack>(-50% per stack)</style> seconds, gain a random <style=cIsVoid>Void</style> ally. Can have up to <style=cIsUtility>1</style><style=cStack>(+1 per stack)</style> allies at a time. <style=cIsVoid>Corrupts all </style><style=cIsTierBoss>yellow items</style><style=cIsVoid>.</style>", "en");
-            //LanguageAPI.Add("EQUIPMENT_GUMMYCLONE_DESC", "Spawn a gummy clone that has <style=cIsDamage>170% damage</style> and <style=cIsHealing>170% health</style>. Expires in <style=cIsUtility>30</style> seconds.", "en");
+            LanguageAPI.Add("ITEM_VOIDMEGACRABITEM_DESC", "Every <style=cIsUtility>60</style><style=cStack>(-50% per stack)</style> seconds, gain a random <style=cIsVoid>Void</style> ally. Can have up to <style=cIsUtility>1</style><style=cStack>(+1 per stack)</style> allies at a time. <style=cIsVoid>Corrupts all </style><style=cIsTierBoss>yellow items</style><style=cIsVoid>.</style>", "en");
+           
+            
             LanguageAPI.Add("EQUIPMENT_BOSSHUNTERCONSUMED_DESC", "Exclaim an Ahoy! Looks kinda cool, but that's about it.", "en");
             LanguageAPI.Add("ITEM_TREASURECACHEVOID_DESC", "A <style=cIsUtility>hidden cache</style> containing an item (42%/<style=cIsHealing>42%</style>/<style=cIsHealth>16%</style>) will appear in a random location <style=cIsUtility>on each stage</style>. Opening the cache <style=cIsUtility>consumes</style> this item. <style=cIsVoid>Corrupts all Rusted Keys</style>.", "en");
-            //LanguageAPI.Add("text", "text", "en");
-
+           
 
             //LanguageAPI.Add("ITEM_WARCRYONMULTIKILL_PICKUP", "Enter a frenzy after killing 4 enemies in quick succession.", "en");
             //LanguageAPI.Add("ITEM_WARCRYONMULTIKILL_DESC", "<style=cIsDamage>Killing 4 enemies</style> within <style=cIsDamage>1</style> second sends you into a <style=cIsDamage>frenzy</style> for <style=cIsDamage>6s</style> <style=cStack>(+4s per stack)</style>. Increases <style=cIsUtility>movement speed</style> by <style=cIsUtility>50%</style> and <style=cIsDamage>attack speed</style> by <style=cIsDamage>100%</style>.", "en");

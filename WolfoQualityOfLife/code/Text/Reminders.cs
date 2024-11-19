@@ -1,11 +1,14 @@
 ﻿using RoR2;
-//using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using static WolfoQualityOfLife.MoreMessages;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+
 
 namespace WolfoQualityOfLife
 {
@@ -15,7 +18,16 @@ namespace WolfoQualityOfLife
         {
             On.RoR2.PurchaseInteraction.OnInteractionBegin += KeyReminderUpdater;
             On.RoR2.MultiShopController.OnPurchase += FreeChestReminderUpdater;
-            IL.RoR2.PurchaseInteraction.OnInteractionBegin += SaleStarReminderRemover;
+            //IL.RoR2.PurchaseInteraction.OnInteractionBegin += SaleStarReminderRemover;
+
+            //If you scrap it the reminder should vanish
+            //But what if you see the reminder and get another key to unlock the box?
+
+            //If you void it it's just gone so that's fine
+            //How would I check this in multiplayer I guess?
+
+            On.RoR2.ScrapperController.BeginScrapping += RemoveReminders_Scrapper;
+            On.RoR2.CharacterMasterNotificationQueue.SendTransformNotification_CharacterMaster_ItemIndex_ItemIndex_TransformationType += RemoveReminders_ItemTransform;
 
             if (WConfig.cfgRemindersTreasure.Value)
             {
@@ -39,9 +51,9 @@ namespace WolfoQualityOfLife
 
                 On.EntityStates.Missions.BrotherEncounter.PreEncounter.OnEnter += ClearTreasure_OnBrother;
                 On.EntityStates.VoidRaidCrab.EscapeDeath.OnExit += ClearTreasure_OnVoidlingDeath;
-                MeridianEventTriggerInteraction.MeridianEventStart.OnMeridianEventStart += ClearReminders_OnFalseSon;
+                EntityStates.MeridianEvent.MeridianEventStart.OnMeridianEventStart += ClearReminders_OnFalseSon;
             }
-
+            
             if (WConfig.cfgRemindersPortal.Value == true)
             {
                 LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_ARTIFACT";
@@ -67,18 +79,55 @@ namespace WolfoQualityOfLife
 
             }
 
-            bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
-            if (!otherMod && WConfig.cfgChargeHalcyShrine.Value)
-            {
-                On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.OnEnter += AddObjective_ShrineHalcyoniteActivatedState_OnEnter;
-                On.RoR2.HalcyoniteShrineInteractable.StoreDrainValue += TrackObjective_HalcyoniteShrineInteractable_StoreDrainValue;
-                On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteMaxQuality.OnEnter += ShrineHalcyoniteMaxQuality_OnEnter;
-                On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished.OnEnter += RemoveAll_ShrineHalcyoniteFinished_OnEnter;
-            }
-
+            HalcyoniteObjective.Start();
         }
 
+        private static void RemoveReminders_ItemTransform(On.RoR2.CharacterMasterNotificationQueue.orig_SendTransformNotification_CharacterMaster_ItemIndex_ItemIndex_TransformationType orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
+        {
+            orig(characterMaster, oldIndex, newIndex, transformationType);
 
+
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.ContagiousVoid && oldIndex == RoR2Content.Items.TreasureCache.itemIndex)
+            {
+                TreasureReminder.CheckKeysVoided();               
+            }
+            else if (oldIndex == DLC2Content.Items.LowerPricedChests.itemIndex)
+            {
+                Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                {
+                    baseToken = "UPDATE_SALESTAR",
+                    subjectAsCharacterBody = characterMaster.GetBody(),
+                });
+            }
+        }
+ 
+
+        private static void RemoveReminders_Scrapper(On.RoR2.ScrapperController.orig_BeginScrapping orig, ScrapperController self, int intPickupIndex)
+        {
+            orig(self, intPickupIndex);
+
+            PickupDef pickupDef = PickupCatalog.GetPickupDef(new PickupIndex(intPickupIndex));
+            if (pickupDef != null)
+            {
+                if (pickupDef.itemIndex != ItemIndex.None)
+                {
+                    if (pickupDef.itemIndex == RoR2Content.Items.TreasureCache.itemIndex)
+                    {
+                        TreasureReminder.CheckKeysVoided();
+                    }
+                    else if (pickupDef.itemIndex == DLC2Content.Items.LowerPricedChests.itemIndex)
+                    {
+                        CharacterBody component = self.interactor.GetComponent<CharacterBody>();
+                        Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                        {
+                            baseToken = "UPDATE_SALESTAR",
+                            subjectAsCharacterBody = component,
+                        });
+                        //TreasureReminder.ReCheckForReminders();
+                    }
+                }
+            }
+        }
 
         private static void CheckForFreeChestVoidAcitvate(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
         {
@@ -291,43 +340,6 @@ namespace WolfoQualityOfLife
             }
         }
 
-
-        private static void RemoveAll_ShrineHalcyoniteFinished_OnEnter(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished self)
-        {
-            orig(self);
-
-            Object.Destroy(self.gameObject.GetComponent<GenericObjectiveProvider>());
-        }
-
-        private static void ShrineHalcyoniteMaxQuality_OnEnter(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteMaxQuality.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteMaxQuality self)
-        {
-            orig(self);
-
-            Object.Destroy(self.gameObject.GetComponent<GenericObjectiveProvider>());
-            string text = Language.GetString("OBJECTIVE_KILL_HALCSHRINE");
-            self.gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = text;
-        }
-
-        private static void AddObjective_ShrineHalcyoniteActivatedState_OnEnter(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState self)
-        {
-            orig(self);
-            
-            if (!self.gameObject.GetComponent<GenericObjectiveProvider>())
-            {
-                string text = string.Format(Language.GetString("OBJECTIVE_CHARGE_HALCSHRINE"), 0);
-                self.gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = text;
-            }
-        }
-
-        private static void TrackObjective_HalcyoniteShrineInteractable_StoreDrainValue(On.RoR2.HalcyoniteShrineInteractable.orig_StoreDrainValue orig, HalcyoniteShrineInteractable self, int value)
-        {
-            orig(self, value);
-
-            int chargeFrac = self.goldDrained*100 / self.maxGoldCost;
-            string text = string.Format(Language.GetString("OBJECTIVE_CHARGE_HALCSHRINE"), chargeFrac);
-            self.gameObject.GetComponent<GenericObjectiveProvider>().objectiveToken = text;
-        }
-
         private static void SaleStarReminderRemover(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -471,6 +483,47 @@ namespace WolfoQualityOfLife
                 }*/
             }
 
+
+            public static void CheckKeysVoided()
+            {
+                int maximumKeys = 0;
+                //int maximumKeysVoid = 0;
+
+                using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        maximumKeys += enumerator.Current.master.inventory.GetItemCount(RoR2Content.Items.TreasureCache);
+                        //maximumKeysVoid += enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid);
+                    }
+                }
+                Debug.Log("Check if voided Lockbox reminder : " + maximumKeys);
+                Chat.SendBroadcastChat(new UpdateTreasureReminderCounts
+                {
+                    baseToken = "CHECK_LOCKBOX_VOIDED",
+                    keysPostVoid = maximumKeys,
+                });
+            }
+
+
+            public void ShouldRemoveKeyObjective(int keys)
+            {
+                if (this.lockboxInfo)
+                {
+                    if (keys == 0)
+                    {
+                        FailGenericObjective(this.lockboxInfo);
+                    }
+                    else if (this.lockboxCount > keys)
+                    {
+                        for (int i = lockboxCount; i > keys; i--)
+                        {
+                            this.DeductLockboxCount();
+                        }
+                    }
+                }
+            }
+
             public void DeductLockboxCount()
             {
                 if (lockboxInfo != null)
@@ -527,11 +580,42 @@ namespace WolfoQualityOfLife
                     }
                 }
             }
-        
-        
+
+            public void RemoveSaleStar(CharacterBody body, CharacterMaster master)
+            {
+                if (saleStarInfo != null)
+                {
+                    PlayerCharacterMasterController player;
+
+                    if (body && body.master)
+                    {
+                        master = body.master;
+                    }
+                    if (!master)
+                    {
+                        Debug.LogWarning("Remove Sale Star Objective No master");
+                    }
+                    if (master && master.TryGetComponent<PlayerCharacterMasterController>(out player))
+                    {
+                        if (player.networkUser.isLocalPlayer)
+                        {
+                            Object.Destroy(this.saleStarInfo);
+                        }
+                    }
+                }
+            }
+
+            public void RemoveFreeChestVoid()
+            {
+                if (freeChestVoidInfo != null)
+                {
+                    Object.Destroy(this.freeChestVoidInfo);
+                }
+            }
+
         }
 
-        public class UpdateTreasureReminderCounts : RoR2.Chat.SimpleChatMessage
+        public class UpdateTreasureReminderCounts : RoR2.SubjectChatMessage
         {
             public override string ConstructChatString()
             {
@@ -549,9 +633,29 @@ namespace WolfoQualityOfLife
                         case "UPDATE_FREECHESTCOUNT":
                             treasureReminder.DeductFreeChestCount();
                             break;
+                        case "UPDATE_SALESTAR":
+                            treasureReminder.RemoveSaleStar(subjectAsCharacterBody, null);
+                            break;
+                        case "CHECK_LOCKBOX_VOIDED":
+                            treasureReminder.ShouldRemoveKeyObjective(keysPostVoid);
+                            break;
                     }
                 }
                 return null;
+            }
+
+            public int keysPostVoid;
+            public override void Serialize(NetworkWriter writer)
+            {
+                base.Serialize(writer);
+                writer.Write(keysPostVoid);
+
+            }
+
+            public override void Deserialize(NetworkReader reader)
+            {
+                base.Deserialize(reader);
+                keysPostVoid = reader.ReadInt32();
             }
         }
 
@@ -572,8 +676,6 @@ namespace WolfoQualityOfLife
             }
 
             public GameObject portalObject;
-
-
             public override void Serialize(NetworkWriter writer)
             {
                 base.Serialize(writer);

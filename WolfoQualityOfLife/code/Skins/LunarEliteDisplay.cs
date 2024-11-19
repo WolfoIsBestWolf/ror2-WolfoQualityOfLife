@@ -1,6 +1,7 @@
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using R2API;
 
 namespace WolfoQualityOfLife
 {

@@ -5,7 +5,7 @@ using RoR2.ExpansionManagement;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-
+using R2API;
 
 namespace WolfoQualityOfLife
 {

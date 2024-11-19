@@ -79,10 +79,10 @@
 			  "ITEM_LOSS_CLEANSING_2P": "<style=cShrine>You have cleansed yourself of {1}</style>",
 				 "ITEM_LOSS_CLEANSING": "<style=cShrine>{0} has cleansed themselves of {1}</style>",
 		
-		
 			 "ITEM_LOSS_SCRAP_2P": "<style=cEvent>You scrapped {1}</style>",
 				"ITEM_LOSS_SCRAP": "<style=cEvent>{0} scrapped {1}</style>",
-			
+	
+	
 			"ITEM_USE_ELIXIR": "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>",
 			"ITEM_USE_WATCH": "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>",
 			"ITEM_USE_VV_VOIDWATCH": "<style=cEvent>{0} ran out of time...</style>",

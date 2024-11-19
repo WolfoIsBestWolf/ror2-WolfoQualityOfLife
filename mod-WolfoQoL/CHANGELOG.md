@@ -1,5 +1,25 @@
 ## Changelog:
 ```
+v3.2.5 : Forgot there were Voids that eat multiple items and left a debug thing on whoops.
+v3.2.4
+If you pickup a void or a normal item if you have the void it'll show the quantity you'll have post corruption. (ie had 3 Bear, Safer Spaces(4) in pink)
+
+If rusted becomes crusted or gets scrapped the reminders recheck how many rusteds are left compared to the reminder.
+If sale star is scrapped reminder fails.
+
+Fixed Sale Star reminder not getting cleared on Client.
+Fixed Hosts Sale Star reminder being cleared by Clients.
+Fixed Halcyon Charge Objective not updating on Client.
+
+
+v3.2.3
+Added colored Engi Harpoons to the alt skins as per request.
+Fixed item loss messages not using correct token for second person.
+Fixed item loss and detailed death messages having First/Second person reversed.
+Fixed item loss messages getting the body name instead of the user name.
+
+
+v3.2.2 - Quick Fix for 1.3.5
 v3.2.1
 Fixed Shipping reminder not being cleared.
 Fixed part of the expanded death screen not being disabled with the config.
@@ -26,7 +46,7 @@ Fixed Sale Star not working on Stage 5s.
 Fixed an issue with Blight Orb trails sometimes disappearing.
 Fixed/Reenabled Elite Brass balls.
 
--Needed to change a fair amount of stuff with assets and strings so some things might be sliglthy differently.
+-Needed to change a fair amount of stuff with assets and strings so some things might be broken.
 
 
 v3.1.9

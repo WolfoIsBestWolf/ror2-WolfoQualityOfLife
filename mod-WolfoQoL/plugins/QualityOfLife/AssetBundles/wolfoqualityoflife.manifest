@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1427142042
+CRC: 3295223351
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 95f1f4a099a3694233c9c521effab650
+    Hash: 9a8e60aa91a510f7485e8dc1ce78f8c0
   TypeTreeHash:
     serializedVersion: 2
     Hash: e7a8211d1220a65f149cab164f436878
@@ -97,6 +97,7 @@ Assets:
 - Assets/WQoL/SkinScalable/texCrocoDiffuseBlight.png
 - Assets/WQoL/BackupOld/texRampCrocoDiseaseBlightPurple.png
 - Assets/WQoL/ColorChanger/Modded/texAffixGravityIcon.png
+- Assets/WQoL/SkinStuff/texRampEngiColossus.png
 - Assets/WQoL/PingIcons/PingLemurianEgg.png
 - Assets/WQoL/BackupOld/BackupOld/ChestCasinoIcon.png
 - Assets/WQoL/PingIcons/ShrineMountainIcon.png

@@ -27,6 +27,7 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgMessageVoidTransform;
         public static ConfigEntry<bool> cfgMessageElixir;
         public static ConfigEntry<bool> cfgMessagesColoredItemPings;
+        public static ConfigEntry<bool> cfgMessagesVoidQuantity;
 
         //Reminders
         public static ConfigEntry<bool> cfgRemindersPortal;
@@ -65,6 +66,7 @@ namespace WolfoQualityOfLife
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
         public static ConfigEntry<bool> cfgSkinMercRed;
+        public static ConfigEntry<bool> cfgSkinEngiHarpoons;
         public static ConfigEntry<bool> cfgSkinMisc;
         public static ConfigEntry<bool> cfgSkinBellBalls;
 
@@ -198,10 +200,16 @@ namespace WolfoQualityOfLife
                 "Chat message for when you use Elixir, lose Watches, lose random item with VanillaVoids Clockwork Mechanism"
             );
             cfgMessagesColoredItemPings = ConfigFileUNSORTED.Bind(
-                "More Messages",
+                "UI",
                 "Colored Item names in Pings",
                 true,
                 "When pinging an item or something containing an item, the items name will use it's color."
+            );
+            cfgMessagesVoidQuantity = ConfigFileUNSORTED.Bind(
+                "UI",
+                "Void Quantity",
+                true,
+                "When picking up a item or void, it will add up the quantities of the normal and void together in the message.\nie if you pickup a Bear with Safer Spaces itll show Tougher Times(2) in a void color"
             );
             //More Messages
             //
@@ -322,6 +330,12 @@ namespace WolfoQualityOfLife
                 "Oni Merc Red Sword and Red Attack Visuals",
                 true,
                 "To fit better with his Red skin. Includes a skin that keeps the blue sword for people who prefer it."
+            );
+            cfgSkinEngiHarpoons = ConfigFileUNSORTED.Bind(
+                 "Visuals",
+                "Skinned Engi Harpoons",
+                true,
+                "His other projectiles are skinned but not harpoons. If the different colored trails bother you ig"
             );
             cfgSkinMakeOniBackup = ConfigFileUNSORTED.Bind(
                  "Visuals",
@@ -476,6 +490,7 @@ namespace WolfoQualityOfLife
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMessageVoidTransform, overwriteName));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMessageElixir, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMessagesColoredItemPings, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgMessagesVoidQuantity, true));
 
             ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersPortal, true));
 
@@ -502,7 +517,7 @@ namespace WolfoQualityOfLife
 
            
             ModSettingsManager.AddOption(new CheckBoxOption(cfgSkinBellBalls, true));
-            //ModSettingsManager.AddOption(new CheckBoxOption(cfgBlueTextPrimordial, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgSkinEngiHarpoons, true));
 
         }
 

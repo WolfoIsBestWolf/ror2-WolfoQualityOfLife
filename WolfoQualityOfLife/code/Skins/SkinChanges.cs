@@ -5,6 +5,7 @@ using RoR2.Skills;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using R2API;
 
 namespace WolfoQualityOfLife
 {
@@ -17,7 +18,7 @@ namespace WolfoQualityOfLife
 
         public static Material MatEngiTurretGreen;
         public static Material MatEngiTurret_Sots;
-        public static Material MatEngiAltTrail;
+        public static Material matEngiTrail_Alt;
 
         //public static uint LoaderPylonSkinIndex = 255;
         //public static uint MULTCoverPrefab = 255;
@@ -123,8 +124,9 @@ namespace WolfoQualityOfLife
             MatTreebot_VineSots = GameObject.Instantiate(MatGreenFlowerRex);
             MatEngiTurretGreen = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
             MatEngiTurret_Sots = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial;
-            MatEngiAltTrail = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponents<SprintEffectController>()[1].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material);
- 
+            matEngiTrail_Alt = GameObject.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Engi/matEngiTrail.mat").WaitForCompletion());
+            Material matEngiTrail_Sots = GameObject.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Engi/matEngiTrail.mat").WaitForCompletion());
+
 
             //SkinDef SkinDefEngiAlt = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1];
 
@@ -134,7 +136,7 @@ namespace WolfoQualityOfLife
             //Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Treebot/matTreebotColossus.mat").WaitForCompletion();
 
 
-
+            #region REX
             Texture2D texTreebotVineForColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texTreebotVineForColossus.png");
             texTreebotVineForColossus.wrapMode = TextureWrapMode.Clamp;
             MatTreebot_VineSots.mainTexture = texTreebotVineForColossus;
@@ -150,17 +152,89 @@ namespace WolfoQualityOfLife
 
             skinTreebotAltColossus.rendererInfos = skinTreebotAltColossus.rendererInfos.Add(NewRender);
             skinTreebotAltColossus.runtimeSkin = null;
+            #endregion
+            #region Engi Stuff
 
-
+            SkinDef skinEngiAlt = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Engi/skinEngiAlt.asset").WaitForCompletion();
+            SkinDef skinEngiAltColossus = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Engi/skinEngiAltColossus.asset").WaitForCompletion();
 
             Texture2D texRampEngiAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampEngiAlt.png");
             texRampEngiAlt.wrapMode = TextureWrapMode.Clamp;
-            MatEngiAltTrail.SetTexture("_RemapTex", texRampEngiAlt);
+            matEngiTrail_Alt.SetTexture("_RemapTex", texRampEngiAlt);
 
+            Texture2D texRampEngiColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampEngiColossus.png");
+            texRampEngiColossus.wrapMode = TextureWrapMode.Clamp;
+            matEngiTrail_Sots.SetTexture("_RemapTex", texRampEngiColossus);
+
+            GameObject EngiHarpoonProjectile = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoon.prefab").WaitForCompletion();
+            GameObject EngiHarpoonGhostSkin_Alt = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Alt", false);
+            GameObject EngiHarpoonGhostSkin_Sots = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Sots", false);
+
+            if (WConfig.cfgSkinEngiHarpoons.Value)
+            {
+                var proj = new SkinDef.ProjectileGhostReplacement
+                {
+                    projectileGhostReplacementPrefab = EngiHarpoonGhostSkin_Alt,
+                    projectilePrefab = EngiHarpoonProjectile
+                };
+                skinEngiAlt.projectileGhostReplacements = skinEngiAlt.projectileGhostReplacements.Add(proj);
+                proj = new SkinDef.ProjectileGhostReplacement
+                {
+                    projectileGhostReplacementPrefab = EngiHarpoonGhostSkin_Sots,
+                    projectilePrefab = EngiHarpoonProjectile
+                };
+                skinEngiAltColossus.projectileGhostReplacements = skinEngiAltColossus.projectileGhostReplacements.Add(proj);
+            }
+    
+
+            //BLUE
+            ParticleSystemRenderer particleSystem = EngiHarpoonGhostSkin_Alt.transform.GetChild(0).GetComponent<ParticleSystemRenderer>(); //matEngiHarpoonRing 
+            Material newRings = GameObject.Instantiate(particleSystem.material);
+            newRings.SetColor("_TintColor", new Color(0.1f,1f,1f,1f)); //0.1533 1 0.0047 1
+            //particleSystem.material = newRings;
+            EngiHarpoonGhostSkin_Alt.transform.GetChild(1).GetComponent<MeshRenderer>().material = skinEngiAlt.rendererInfos[2].defaultMaterial;
+            TrailRenderer trailRender = EngiHarpoonGhostSkin_Alt.transform.GetChild(1).GetChild(0).GetComponent<TrailRenderer>(); //matEngiHarpoonTrail 
+            trailRender.startColor = new Color(0.3f, 0.9f, 0.8f, 0f);
+            trailRender.endColor = new Color(0.3f, 0.9f, 0.8f, 0f);
+            //trailRender.startColor = trailRender.endColor;
+            //trailRender.endColor *= 0.75f;
+            Material newTrail = GameObject.Instantiate(trailRender.material);
+            newTrail.SetTexture("_RemapTex", texRampEngiAlt);
+            trailRender.material = newTrail;
+            //GenericFlash
+            particleSystem = EngiHarpoonGhostSkin_Alt.transform.GetChild(3).GetComponent<ParticleSystemRenderer>(); //matEngiShieldSHards 
+            Material newShards = GameObject.Instantiate(particleSystem.material);
+            //newShards.SetTexture("_RemapTex", texRampEngiAlt);
+            newShards.SetColor("_TintColor", new Color(0.6f, 1f, 0.2f, 1));
+            particleSystem.material = newShards;
+
+
+            //ORANGE
+            particleSystem = EngiHarpoonGhostSkin_Sots.transform.GetChild(0).GetComponent<ParticleSystemRenderer>(); //matEngiHarpoonRing 
+            //newRings = GameObject.Instantiate(particleSystem.material);
+            //newRings.SetColor("_TintColor", new Color(1f, 0.6f, 0.1f, 1f)); //0.1533 1 0.0047 1
+            //particleSystem.material = newRings;
+            EngiHarpoonGhostSkin_Sots.transform.GetChild(1).GetComponent<MeshRenderer>().material = skinEngiAlt.rendererInfos[2].defaultMaterial;
+            trailRender = EngiHarpoonGhostSkin_Sots.transform.GetChild(1).GetChild(0).GetComponent<TrailRenderer>(); //matEngiHarpoonTrail 
+            trailRender.startColor = new Color32(255, 190, 60, 0);
+            trailRender.endColor = new Color32(255, 190, 60, 0);
+            //trailRender.startColor = new Color(1f, 0.75f, 0.25f, 0f);
+            //trailRender.endColor = trailRender.startColor * 0.75f;
+            newTrail = GameObject.Instantiate(trailRender.material);
+            newTrail.SetTexture("_RemapTex", texRampEngiColossus);
+            trailRender.material = newTrail;
+            //GenericFlash
+            particleSystem = EngiHarpoonGhostSkin_Sots.transform.GetChild(3).GetComponent<ParticleSystemRenderer>(); //matEngiShieldSHards 
+            newShards = GameObject.Instantiate(particleSystem.material);
+            //newShards.SetTexture("_RemapTex", texRampEngiColossus);
+            newShards.SetColor("_TintColor", new Color(0.6f, 1f, 0.2f, 1));
+            particleSystem.material = newShards;
+
+
+            //
             Texture2D TexEngiTurretAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png");
             Texture2D texEngiTurretAltColossusDiffuse = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texEngiTurretAltColossusDiffuse.png");
  
-
             MatEngiTurretGreen = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/EngiTurretBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[0].rendererInfos[0].defaultMaterial);
             MatEngiTurretGreen.mainTexture = TexEngiTurretAlt;
             MatEngiTurretGreen.SetColor("_EmColor", new Color32(28, 194, 182, 255));
@@ -191,7 +265,9 @@ namespace WolfoQualityOfLife
                     EngiDisplayMines[i].material = MatEngiTurretGreen;
                 };
             };
+            #endregion
 
+            #region Merc 
             Texture2D TexRedSwordDiffuse = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texOniMercSwordDiffuse.png");
 
 
@@ -208,6 +284,7 @@ namespace WolfoQualityOfLife
             MatOniSword.SetColor("_EmColor", new Color32(125, 64, 64, 255));
             MatOniSword.SetTexture("_FlowHeightRamp", texRampFallbootsRed);
             MatOniSword.SetTexture("_FresnelRamp", texRampHuntressRed);
+            #endregion
 
             On.RoR2.SkinDef.Apply += SkinDef_Apply;
 
@@ -368,8 +445,8 @@ namespace WolfoQualityOfLife
 
                     if (tempmodel.baseRendererInfos.Length > 1)
                     {
-                        tempmodel.baseRendererInfos[0].defaultMaterial = MatEngiAltTrail;
-                        tempmodel.baseRendererInfos[1].defaultMaterial = MatEngiAltTrail;
+                        tempmodel.baseRendererInfos[0].defaultMaterial = matEngiTrail_Alt;
+                        tempmodel.baseRendererInfos[1].defaultMaterial = matEngiTrail_Alt;
                     }
 
                     RoR2.SprintEffectController[] component = modelObject.GetComponents<SprintEffectController>();
@@ -379,7 +456,7 @@ namespace WolfoQualityOfLife
                         {
                             if (component[i].loopRootObject.name.StartsWith("EngiJet"))
                             {
-                                component[i].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = MatEngiAltTrail;
+                                component[i].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = matEngiTrail_Alt;
                                 component[i].loopRootObject.transform.GetChild(2).GetComponent<Light>().color = new Color(0, 0.77f, 0.77f, 1f); // 0 1 0.5508 1
                             }
                         }

@@ -63,6 +63,8 @@ Messages upon losing items to Printing/Cauldron/Cleansing. (Global)\
 Messages for Void Upgrades and Egocentrism. (Private)\
 Message for when Chance Doll activates.\
 Item names will be colored in pings.\
+Picking up a void will show how many it corrupted on pickup.\
+Picking up a normal will show how many of the void you have that it gets absorbed into.\
 Pings last twice as long.
 
 Equipment name will be shown under Equipment Drones name

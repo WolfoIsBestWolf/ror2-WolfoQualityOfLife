@@ -325,11 +325,6 @@ namespace WolfoQualityOfLife
 
                         string user = interactor.GetComponent<CharacterBody>().GetUserName();
 
-
-
-
-
-
                         if (purchase.gameObject.name.StartsWith("LunarCauldron"))
                         {
                             token = "ITEM_LOSS_CAULDRON";
@@ -476,9 +471,9 @@ namespace WolfoQualityOfLife
         {
             public override string ConstructChatString()
             {
-                if (!base.IsSecondPerson())
+                if (base.IsSecondPerson())
                 {
-                    baseToken += "_P2";
+                    baseToken += "_2P";
                 }
                 string itemsLost = "";
                 string hex = "";
@@ -531,7 +526,7 @@ namespace WolfoQualityOfLife
 
 
 
-                string result = string.Format(Language.GetString(baseToken), this.subjectAsCharacterBody.GetDisplayName(), itemsLost);
+                string result = string.Format(Language.GetString(baseToken), this.GetSubjectName(), itemsLost);
                 return result;
             }
 
