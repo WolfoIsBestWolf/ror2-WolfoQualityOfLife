@@ -1,5 +1,15 @@
 ## Changelog:
 ```
+v3.2.6 
+Added Russian Translation 
+Added Config for objective pannel spacing.
+Added Config for objective pannel font size.
+(Can be changed mid-game via Risk of Options)
+
+Made elite Children more distinguishable
+Fixed Sale Star reminder not showing up in Simu.
+
+
 v3.2.5 : Forgot there were Voids that eat multiple items and left a debug thing on whoops.
 v3.2.4
 If you pickup a void or a normal item if you have the void it'll show the quantity you'll have post corruption. (ie had 3 Bear, Safer Spaces(4) in pink)

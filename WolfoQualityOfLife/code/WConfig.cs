@@ -19,6 +19,11 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> NotRequireByAll;
 
 
+        //OjbectiveStuff
+        public static ConfigEntry<float> cfgObjectiveHeight;
+        public static ConfigEntry<float> cfgObjectiveFontSize;
+
+
         //MoreMessages
         public static ConfigEntry<bool> cfgMessageDeath;
         public static ConfigEntry<bool> cfgMessagePrint;
@@ -117,6 +122,7 @@ namespace WolfoQualityOfLife
 
         public static void Start()
         {
+            Debug.Log("WQoL InitConfig");
             InitConfig();
             BuffConfig();
             RiskConfig();
@@ -131,6 +137,29 @@ namespace WolfoQualityOfLife
                false,
                "This mod is intended to be used by everyone in a group. But this config can make this mod functional with people who do not have it.\nTo do this, all content that is indexed or ID'ed by the game such as Items, Buffs, Projectiles and Effects aren't added.\n\nThis will disable features related to Consumed Items, Buffs, Red Oni Merc, Blight Acrid."
             );
+
+
+
+            cfgObjectiveHeight = ConfigFileUNSORTED.Bind(
+               "UI",
+               "Hud Objective Spacing",
+               30f,
+               "Vanilla is 32. \nHow much space between objectives in the hud. Can look better or worse depending on language."
+            );
+
+            cfgObjectiveFontSize = ConfigFileUNSORTED.Bind(
+               "UI",
+               "Hud Objective Font Size",
+               12f,
+               "Vanilla is 12. \nSize of letters for objectives in the hud. Can look better or worse depending on language."
+            );
+            cfgObjectiveHeight.SettingChanged += UpdateHuds;
+            cfgObjectiveFontSize.SettingChanged += UpdateHuds;
+
+
+
+
+
 
             cfgRiskyStuff = ConfigFileUNSORTED.Bind(
                "Oddities",
@@ -206,7 +235,7 @@ namespace WolfoQualityOfLife
                 "When pinging an item or something containing an item, the items name will use it's color."
             );
             cfgMessagesVoidQuantity = ConfigFileUNSORTED.Bind(
-                "UI",
+                "More Messages",
                 "Void Quantity",
                 true,
                 "When picking up a item or void, it will add up the quantities of the normal and void together in the message.\nie if you pickup a Bear with Safer Spaces itll show Tougher Times(2) in a void color"
@@ -396,7 +425,7 @@ namespace WolfoQualityOfLife
                 "Void Allies from Newly Hatched Zoea will have bright Cyan eyes for easier identification."
             );
             cfgTpIconDiscoveredRed = ConfigFileUNSORTED.Bind(
-                "Extra Icons",
+                "UI",
                 "Teleporter Icon Discovered Color Red",
                 true,
                 "When you have the discover teleporter icon setting on. Makes the icon light red at first and only white when charged."
@@ -464,6 +493,10 @@ namespace WolfoQualityOfLife
 
         }
 
+        private static void UpdateHuds(object sender, System.EventArgs e)
+        {
+            Reminders.UpdateHuds();
+        }
 
         public static void RiskConfig()
         {
@@ -472,12 +505,18 @@ namespace WolfoQualityOfLife
             ModSettingsManager.SetModIcon(ChestCasinoIcon);
             ModSettingsManager.SetModDescription("Random assortment of Quality of Life.");
 
-            ModSettingsManager.AddOption(new CheckBoxOption(NotRequireByAll, true));
+
+            ModSettingsManager.AddOption(new FloatFieldOption(cfgObjectiveHeight, false));
+            ModSettingsManager.AddOption(new FloatFieldOption(cfgObjectiveFontSize, false));
+
 
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMainMenuRandomizer));
             ModSettingsManager.AddOption(new IntFieldOption(cfgMainMenuRandomizerSelector));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgUISimuBorder));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgUIEclipseBorder));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgTpIconDiscoveredRed));
+
+            
 
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMessageDeath, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMessagePrint, true));
@@ -508,14 +547,14 @@ namespace WolfoQualityOfLife
             //ModSettingsManager.AddOption(new CheckBoxOption(cfgBlueTextPrimordial, true));
 
 
-            
 
-             
+
+
             //ModSettingsManager.AddOption(new FloatFieldOption(cfgPingDurationMultiplier));
 
+            ModSettingsManager.AddOption(new CheckBoxOption(NotRequireByAll, true));
 
 
-           
             ModSettingsManager.AddOption(new CheckBoxOption(cfgSkinBellBalls, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgSkinEngiHarpoons, true));
 

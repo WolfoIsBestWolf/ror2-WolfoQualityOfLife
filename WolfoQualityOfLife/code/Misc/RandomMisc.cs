@@ -64,6 +64,9 @@ namespace WolfoQualityOfLife
             Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/lemuriantemple/matBazaarSeerLemurianTemple.mat").WaitForCompletion().SetFloat("_Boost", 2.5f);
             Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/habitat/matBazaarSeerHabitat.mat").WaitForCompletion().SetFloat("_Boost", 2.5f);
 
+            Material matChild = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/Child/matChild.mat").WaitForCompletion();
+            matChild.SetFloat("_EliteBrightnessMax", 1.09f); //2.18
+            matChild.SetFloat("_EliteBrightnessMin", -0.7f); //-1.4
 
 
             //Fix error spam on Captain Spawn

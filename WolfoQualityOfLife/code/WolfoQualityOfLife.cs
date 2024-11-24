@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using R2API.Utils;
+using RiskOfOptions;
 using RoR2;
 using System;
 using System.Security;
@@ -15,16 +16,11 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQualityOfLife
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.2.4")]
+    [BepInPlugin("Wolfo.WolfoQualityOfLife", "WolfoQualityOfLife", "3.2.6")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
-
-
     public class WolfoMain : BaseUnityPlugin
     {
         static readonly System.Random random = new System.Random();
-
-        //public static GameObject RedToWhiteSoup = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant");
-        //Surely you could just activate an already existing soup
 
         public void Awake()
         {

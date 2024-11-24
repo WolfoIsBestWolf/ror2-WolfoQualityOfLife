@@ -48,7 +48,17 @@ Also recolors some buff icons because they looked the same as others yet had dif
 Consumed Keys item like how there's consumed Elixir/Watches.\
 "Consumed" Prayer Beads that tell you how many stats you are getting.
 
-Unique new Icon for Engineer Walker Turrets, Empathy Cores.
+Unique new Icon for Engineer Walker Turrets, Empathy Cores.\
+Updated Icons for Squid Polyp, Devoted Lemurians.
+
+
+## UI
+Objective Hud can have it's font size and spacing customized to fit better for some languages.\
+(Russian recommended 22 Spacing 10 Font size)
+
+Eclipse lobbies will show the Eclipse Level on the character select icon.\
+Simulacrum lobbies will show a Pink Border on the characters you beat Wave 50 on.
+
 
 ## Information
 A updated Death Screen showing what Equipment you used, Elite Prefix of the killer included in their name, the Inventory of the enemy that killed you or the enemy items of the run.
@@ -96,9 +106,6 @@ Lunar Seers include their destination when pinged and in the purchase context.
 Scavenger in the main menu is back.\
 Main Menu theme now changes randomly.
 
-Adds a Eclipse counter to character icons to show what level they have. (in Eclipse lobbies)\
-Adds a Void border around character icons if you beat Wave 50 in Simulacrum. (in Simu lobbies)
-
 More "tp like" structures get flowers if you have Lepton Daisy.\
 Captains Shock Beacon now has a range indicator.\
 Scavengers play a sound when spawning.\
@@ -107,6 +114,10 @@ Void Fiends Mouse2 now has a crosshair response like other charging attacks.\
 Void Allies have cyan eyes for slighty easier identification in the dark.
 
 When winning a chat message will be displayed of the characters win quote.
+
+Some Lunar Seer destinations look less bright.
+
+Elite Children have stronger colors so you can notice them easier.
 
 ##
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
@@ -117,8 +128,9 @@ A lot of things are configurable. If you feel something should be configurable y
 
 
 ### Translations
-Translations are possible as of version 3.2.0. None are included as of now.
+Thank you for anyone who wishes to translate.
 
+Russian by [kreeperHLC](https://github.com/kreeperHLC) on GitHub
 
 # 
 #### Mods to Not use alongside this one

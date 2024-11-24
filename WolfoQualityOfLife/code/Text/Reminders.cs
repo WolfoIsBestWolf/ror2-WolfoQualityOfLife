@@ -3,22 +3,85 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using static WolfoQualityOfLife.MoreMessages;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using RoR2.UI;
+using RoR2.UI.SkinControllers;
+using System.Net.Http.Headers;
 
 
 namespace WolfoQualityOfLife
 {
     public class Reminders
     {
+
+        public static void UpdateHuds()
+        {          
+            float spacing = WConfig.cfgObjectiveHeight.Value; //Default 32
+            float fonzSize = WConfig.cfgObjectiveFontSize.Value; //Default 12
+            Debug.Log("Updating Hud spacing"+WConfig.cfgObjectiveHeight.Value+" / font"+ WConfig.cfgObjectiveFontSize.Value);
+
+            HGTextMeshProUGUI text;
+            Transform ObjectivePannelRoot;
+
+            UISkinData fontTwo = Addressables.LoadAssetAsync<UISkinData>(key: "RoR2/Base/UI/skinObjectivePanel.asset").WaitForCompletion();
+            fontTwo.bodyTextStyle.fontSize = fonzSize;
+
+
+            GameObject Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ClassicRun/ClassicRunInfoHudPanel.prefab").WaitForCompletion();
+            ObjectivePannelRoot = Hud.transform.GetChild(5).GetChild(1);
+            ObjectivePannelRoot.GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
+            ObjectivePannelRoot.GetChild(1).GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
+            text = ObjectivePannelRoot.GetChild(1).GetChild(0).GetChild(0).GetComponent<HGTextMeshProUGUI>();
+            text.fontSizeMin = fonzSize / 2;
+            text.fontSizeMax = fonzSize;
+            text.fontSize = fonzSize;
+
+            Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerAssets/InfiniteTowerUI.prefab").WaitForCompletion();
+            ObjectivePannelRoot = Hud.transform.GetChild(5).GetChild(1);
+            ObjectivePannelRoot.GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
+            ObjectivePannelRoot.GetChild(1).GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
+            text = ObjectivePannelRoot.GetChild(1).GetChild(0).GetChild(0).GetComponent<HGTextMeshProUGUI>();
+            text.fontSizeMin = fonzSize / 2;
+            text.fontSizeMax = fonzSize;
+            text.fontSize = fonzSize;
+
+            if (HUD.instancesList.Count > 0)
+            {
+                Hud = HUD.instancesList[0].gameModeUiInstance;
+
+
+                ObjectivePannelRoot = Hud.transform.GetChild(5).GetChild(1);
+                ObjectivePannelRoot.GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
+
+                ObjectivePannelRoot = ObjectivePannelRoot.GetChild(1);
+                for(int i = 0; i < ObjectivePannelRoot.childCount; i++)
+                {
+                    ObjectivePannelRoot.GetChild(i).GetComponent<LayoutElement>().preferredHeight = spacing;
+                    text = ObjectivePannelRoot.GetChild(i).GetChild(0).GetComponent<HGTextMeshProUGUI>();
+                    text.fontSizeMin = fonzSize / 2;
+                    text.fontSizeMax = fonzSize;
+                    text.fontSize = fonzSize;
+                }
+            }
+
+        }
+
+
+
+
+
+
         public static void Start()
         {
             On.RoR2.PurchaseInteraction.OnInteractionBegin += KeyReminderUpdater;
             On.RoR2.MultiShopController.OnPurchase += FreeChestReminderUpdater;
             //IL.RoR2.PurchaseInteraction.OnInteractionBegin += SaleStarReminderRemover;
+
+            UpdateHuds();
 
             //If you scrap it the reminder should vanish
             //But what if you see the reminder and get another key to unlock the box?
@@ -35,14 +98,7 @@ namespace WolfoQualityOfLife
                 On.RoR2.HoldoutZoneController.OnEnable += CheckForFreeChestVoidAcitvate;
 
 
-                //Objectives spacing
-                GameObject Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ClassicRun/ClassicRunInfoHudPanel.prefab").WaitForCompletion();
-                Hud.transform.GetChild(5).GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.LayoutElement>().preferredHeight = 28; //Objective label
-                Hud.transform.GetChild(5).GetChild(1).GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.LayoutElement>().preferredHeight = 30;
-
-                Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerAssets/InfiniteTowerUI.prefab").WaitForCompletion();
-                Hud.transform.GetChild(5).GetChild(1).GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.LayoutElement>().preferredHeight = 30;
-
+                
 
                 On.EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionEntityStates.OnEnter += GeodeSecretMissionEntityStates_OnEnter;
                 On.RoR2.GeodeSecretMissionController.AdvanceGeodeSecretMission += GeodeSecretMissionController_AdvanceGeodeSecretMission;
@@ -429,10 +485,14 @@ namespace WolfoQualityOfLife
                 {
                     treasureReminder.lockboxVoidCount = maximumKeysVoid;
                 }
-                if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder > 5)
+                if (!Run.instance.GetComponent<InfiniteTowerRun>())
                 {
-                    treasureReminder.saleStarBool = false;
+                    if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder > 5)
+                    {
+                        treasureReminder.saleStarBool = false;
+                    }
                 }
+               
                 //
                 if (treasureReminder.lockboxVoidCount > 0)
                 {

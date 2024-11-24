@@ -24,8 +24,6 @@ namespace WolfoQualityOfLife
                 On.RoR2.UI.SurvivorIconController.Rebuild += Eclipse_Border_SurvivorIcon;
             }
             On.RoR2.UI.SurvivorIconController.Rebuild += Beat_Simulacrum_IconBorder;
-           
-
         }
 
         private static void Eclipse_Border_SurvivorIcon(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
@@ -207,10 +205,6 @@ namespace WolfoQualityOfLife
                         //Not started show nothing
                         Holder.SetActive(false);
                     }
-
-
-
-
                 }
             }
             }
@@ -258,6 +252,8 @@ namespace WolfoQualityOfLife
                     {
                         string bodyName = BodyCatalog.GetBodyName(self.survivorBodyIndex);
 
+                        //Probably actually set waves beaten to 50 in other mods
+                        //bool hasWolfoSkinsAchievement = 
                         ulong statValueULong_Easy = statSheet.GetStatValueULong(PerBodyStatDef.highestInfiniteTowerWaveReachedEasy, bodyName);
                         ulong statValueULong_Normal = statSheet.GetStatValueULong(PerBodyStatDef.highestInfiniteTowerWaveReachedNormal, bodyName);
                         ulong statValueULong_Hard = statSheet.GetStatValueULong(PerBodyStatDef.highestInfiniteTowerWaveReachedHard, bodyName);
