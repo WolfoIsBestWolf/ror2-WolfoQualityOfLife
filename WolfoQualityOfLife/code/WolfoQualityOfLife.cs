@@ -328,11 +328,11 @@ namespace WolfoQualityOfLife
                             //Debug.Log(purchaserlist[i]);
                             if (purchaserlist[i].name.StartsWith("Chest2"))
                             {
-                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+                                purchaserlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
                             }
                             else if (purchaserlist[i].name.StartsWith("Scrapper"))
                             {
-                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ScrapperIcon;
+                                purchaserlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ScrapperIcon;
                             }
                         }
                         //They have 2 fukin same named objects
@@ -347,7 +347,7 @@ namespace WolfoQualityOfLife
                         {
                             if (highlightlist[i].name.StartsWith("Chest2"))
                             {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+                                highlightlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
                             }
                         }
                     }
@@ -388,11 +388,11 @@ namespace WolfoQualityOfLife
                             //Debug.LogWarning(genericlist[i]); ////DISABLE THIS
                             if (genericlist[i].name.StartsWith("FW_HumanFan"))
                             {
-                                genericlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                                genericlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                             }
                             else if (genericlist[i].name.StartsWith("TimedChest"))
                             {
-                                genericlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.TimedChestIcon;
+                                genericlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.TimedChestIcon;
                             }
                         }
                     }
@@ -422,7 +422,7 @@ namespace WolfoQualityOfLife
                             //Debug.LogWarning(purchaserlist[i]); ////DISABLE THIS
                             if (purchaserlistDCS[i].name.StartsWith("TreebotUnlockInteractable"))
                             {
-                                purchaserlistDCS[i].gameObject.GetComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                                purchaserlistDCS[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                                 GameObject BrokenRexHoloPivot = new GameObject("BrokenRexHoloPivot");
                                 BrokenRexHoloPivot.transform.localPosition = new Vector3(0.8f, 4f, -0.2f);
                                 BrokenRexHoloPivot.transform.SetParent(purchaserlistDCS[i].gameObject.transform, false);
@@ -430,7 +430,7 @@ namespace WolfoQualityOfLife
                             }
                             else if (purchaserlistDCS[i].name.StartsWith("GoldChest"))
                             {
-                                purchaserlistDCS[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.LegendaryChestIcon;
+                                purchaserlistDCS[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.LegendaryChestIcon;
                             }
                         }
                     }
@@ -460,7 +460,7 @@ namespace WolfoQualityOfLife
                         {
                             if (purchaserlist[i].name.StartsWith("GoldChest"))
                             {
-                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.LegendaryChestIcon;
+                                purchaserlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.LegendaryChestIcon;
                             }
                         }
                     }
@@ -474,7 +474,7 @@ namespace WolfoQualityOfLife
                             //Debug.LogWarning(purchaserlist[i]); ////DISABLE THIS
                             if (purchaserlist[i].name.StartsWith("GoldChest"))
                             {
-                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.LegendaryChestIcon;
+                                purchaserlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.LegendaryChestIcon;
                             }
                         }
                     }
@@ -490,7 +490,7 @@ namespace WolfoQualityOfLife
                     }
                     break;
                 case "skymeadow":
-                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                     GameObject.Find("/HOLDER: Zones/OOB Zone").GetComponent<MapZone>().zoneType = MapZone.ZoneType.OutOfBounds;
 
                     Material CorrectGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser (2)/mdlGeyser").GetComponent<MeshRenderer>().material;
@@ -499,7 +499,7 @@ namespace WolfoQualityOfLife
                     WrongGeyser.GetChild(1).GetComponent<MeshRenderer>().material = CorrectGeyser;
                     break;
                 case "helminthroost":
-                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                    GameObject.Find("/PortalDialerEvent/Final Zone/ButtonContainer/PortalDialer").AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                     break;
                 case "moon2":
                     if (WConfig.cfgPingIcons.Value)
@@ -519,15 +519,15 @@ namespace WolfoQualityOfLife
                             }
                             else if (highlightlist[i].name.StartsWith("MoonElevator"))
                             {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                                highlightlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                             }
                             else if (highlightlist[i].name.StartsWith("LunarChest"))
                             {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLunarIcon;
+                                highlightlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ChestLunarIcon;
                             }
                             else if (highlightlist[i].name.StartsWith("ShrineRestack"))
                             {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ShrineOrderIcon;
+                                highlightlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ShrineOrderIcon;
                             }
                         }
 
@@ -557,11 +557,11 @@ namespace WolfoQualityOfLife
                             }
                             else if (purchaserlist[i].name.StartsWith("SeerStation"))
                             {
-                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.SeerIcon;
+                                purchaserlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.SeerIcon;
                             }
                             else if (purchaserlist[i].name.StartsWith("LunarShopTerminal"))
                             {
-                                purchaserlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLunarIcon;
+                                purchaserlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ChestLunarIcon;
                             }
                             else if (purchaserlist[i].name.EndsWith("Recycler"))
                             {
@@ -608,13 +608,15 @@ namespace WolfoQualityOfLife
                             }
                             else if (highlightlist[i].name.StartsWith("Chest2"))
                             {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
+                                highlightlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ChestLargeIcon;
                             }
                             else if (highlightlist[i].name.StartsWith("Geode"))
                             {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                                highlightlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                             }
                         }
+                        GameObject ShrineRebirth = GameObject.Find("/HOLDER: Design/FSB/Boss Defeated Objects/Shrine of Rebirth/ShrineRebirth/");
+                        ShrineRebirth.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
                     }
                     break;
                 case "goldshores":
@@ -625,7 +627,7 @@ namespace WolfoQualityOfLife
                         {
                             if (highlightlist[i].name.StartsWith("Chest"))
                             {
-                                highlightlist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.ChestIcon;
+                                highlightlist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ChestIcon;
                             }
                         }
                     }
@@ -634,7 +636,7 @@ namespace WolfoQualityOfLife
                     if (WConfig.cfgPingIcons.Value)
                     {
                         GameObject PortalArena = GameObject.Find("/PortalArena");
-                        PortalArena.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.PortalIcon;
+                        PortalArena.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.PortalIcon;
                         //PortalArena.AddComponent<GenericObjectiveProvider>().objectiveToken = "Exit the <style=cIsVoid>Void Fields</style>";
 
                         PurchaseInteraction[] purchaserlist = FindObjectsOfType(typeof(PurchaseInteraction)) as PurchaseInteraction[];
@@ -643,14 +645,14 @@ namespace WolfoQualityOfLife
                             //Debug.LogWarning(purchaserlist[i]); ////DISABLE THIS
                             if (purchaserlist[i].name.StartsWith("NullSafeZone"))
                             {
-                                purchaserlist[i].gameObject.GetComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.NullVentIcon;
+                                purchaserlist[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.NullVentIcon;
                             }
                         }
                     }
                     break;
                 case "mysteryspace":
                     GameObject MSObelisk = GameObject.Find("/MS_Obelisk");
-                    MSObelisk.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.QuestionMarkIcon;
+                    MSObelisk.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.QuestionMarkIcon;
                     MSObelisk.AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_GLASS_YOURSELF";
                     break;
                 case "artifactworld":
@@ -662,7 +664,7 @@ namespace WolfoQualityOfLife
                     {
                         if (pickuplist[i].name.StartsWith("SetpiecePickup"))
                         {
-                            //pickuplist[i].gameObject.AddComponent<RoR2.PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
+                            //pickuplist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
                             ArtifactDef tempartifactdef = ArtifactCatalog.GetArtifactDef(pickuplist[i].pickupIndex.pickupDef.artifactIndex);
                             if (tempartifactdef)
                             {

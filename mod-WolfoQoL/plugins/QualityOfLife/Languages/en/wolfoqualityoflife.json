@@ -25,15 +25,7 @@
 			"OBJECTIVE_GLASS_YOURSELF": "<color=#7CFEF3>Obliterate</color> yourself from existence",
 			"OBJECTIVE_DESERT_ELDERS": "Explore the hidden chamber",
 		
-		
-		
-			"SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE_2P": "<style=cShrine>You offer to the shrine and are rewarded (Lucky)!</color>",
-            "SHRINE_CHANCE_SUCCESS_MESSAGE_UPGRADE": "<style=cShrine>{0} offered to the shrine and was rewarded (Lucky)!</color>",
-
-            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL_2P": "<style=cShrine>Your chance doll felt lucky!</color>",
-            "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL": "<style=cShrine>{0}'s chance doll felt lucky!</color>",
-
-            
+ 
 			"REMINDER_COUNT": " ({0}/{1})",
             "REMINDER_KEY": "Unlock the <style=cisDamage>Rusty Lockbox</style>",
             "REMINDER_KEY_MANY": "Unlock the <style=cisDamage>Rusty Lockbox</style> ({0}/{1})",
@@ -50,8 +42,7 @@
 			"REMINDER_NEWT": "Find and activate the <style=cIsLunar>Newt Shrine</style)",  
 			"REMINDER_SECRET_GEODE": "Crack the <color=#FFE880>Aurelionite Geodes</color> ({0}/{1})",
            
-		
-		
+
 		
 			"ITEM_TREASURECACHECONSUMED_NAME": "Rusted Key (Consumed)",
 			"ITEM_TREASURECACHECONSUMED_DESC": "A spent key to remember an item well earned.",
@@ -64,7 +55,7 @@
 			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Your prayer beads have blessed your stats. (Missing Overlay)",
 			
 			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Your prayer beads have blessed you with +{0} levels",
-			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Your prayer beads have blessed you with +{0} levels, increasing <style=cIsHealing>max health</style> by <style=cIsHealing>+{1}</style>, <style=cIsHealing>health regeneration</style> by <style=cIsHealing>+{2} hp/s</style>, and <style=cIsDamage>damage</style> by <style=cIsDamage>+{3}</style>.",
+			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Your prayer beads have blessed you with <style=cIsUtility>+{0} levels</style>, increasing <style=cIsHealing>max health</style> by <style=cIsHealing>+{1}</style>, <style=cIsHealing>health regeneration</style> by <style=cIsHealing>+{2} hp/s</style>, and <style=cIsDamage>damage</style> by <style=cIsDamage>+{3}</style>.",
 			
 
 			"INVENTORY_KILLER": "Killers Items",
@@ -103,9 +94,6 @@
 
             "DEATH_VOID_EXPLODE_2P": "You were detained by {1}.",
             "DEATH_VOID_EXPLODE": "{0} was detained by {1}.",
-
-            "DEATH_TWISTED_2P": "You got twisted by {1}.",
-            "DEATH_TWISTED": "{0} got twisted by {1}.",
 
             "DEATH_FALL_DAMAGE_2P": "You succumbed to gravity.",
             "DEATH_FALL_DAMAGE": "{0} succumbed to gravity.",

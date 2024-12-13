@@ -1,5 +1,15 @@
 ## Changelog:
 ```
+v3.2.7 - Patch for 1.3.6
+Consumed Equipment now have a grayer-orange color.
+Made buff for Unstable Transmitter duration visible.
+Removed extra line when proccing Chance Doll. (Official replacement)
+Updated SotS elite aspect descriptions to match their new effects.
+Moved "Burns ending all DoTs" bug fix here.
+Moved "War Bonds untextured handles" bug fix here.
+Added config to allow some buffs to work with nectar. (Disabled by default)
+
+
 v3.2.6 
 Added Russian Translation 
 Added Config for objective pannel spacing.

@@ -17,6 +17,7 @@ namespace WolfoQualityOfLife
 
 
         public static ConfigEntry<bool> NotRequireByAll;
+        public static ConfigEntry<bool> BuffsAffectNectar;
 
 
         //OjbectiveStuff
@@ -137,7 +138,12 @@ namespace WolfoQualityOfLife
                false,
                "This mod is intended to be used by everyone in a group. But this config can make this mod functional with people who do not have it.\nTo do this, all content that is indexed or ID'ed by the game such as Items, Buffs, Projectiles and Effects aren't added.\n\nThis will disable features related to Consumed Items, Buffs, Red Oni Merc, Blight Acrid."
             );
-
+            BuffsAffectNectar = ConfigFileUNSORTED.Bind(
+               "!Main",
+               "Mod Buffs affect Nectar",
+               false,
+               "Should various buffs added by mod, like Rose Buckler, Head Stomper, Frost Relic, count for Growth Nectar."
+            );
 
 
             cfgObjectiveHeight = ConfigFileUNSORTED.Bind(
@@ -547,14 +553,24 @@ namespace WolfoQualityOfLife
             //ModSettingsManager.AddOption(new CheckBoxOption(cfgBlueTextPrimordial, true));
 
 
-
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_ShieldOpalCooldown, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_Headstomper, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_SprintArmor, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_FrostRelic, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_BugFlight, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_Strides, true));     
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_Frozen, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_Feather, true));
+           
+           
 
 
             //ModSettingsManager.AddOption(new FloatFieldOption(cfgPingDurationMultiplier));
 
             ModSettingsManager.AddOption(new CheckBoxOption(NotRequireByAll, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(BuffsAffectNectar, true));
 
-
+            
             ModSettingsManager.AddOption(new CheckBoxOption(cfgSkinBellBalls, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgSkinEngiHarpoons, true));
 

@@ -11,12 +11,7 @@ namespace WolfoQualityOfLife
 {
     public class RandomMisc
     {
-        //public static GameObject CaptainShockBeacon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Shocking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).gameObject;
-        //public static GameObject CaptainHackingBeaconIndicator = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject;
-        //public static Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainHackingBeaconIndicator.transform.GetChild(0).GetComponent<MeshRenderer>().material);
-
-        //public static GameObject CaptainShockBeaconRadius = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
-
+ 
         public static GameObject LeptonDaisyTeleporterDecoration = null;
         public static GameObject GlowFlowerForPillar = null;
 
@@ -40,8 +35,7 @@ namespace WolfoQualityOfLife
                 //This like runs for every character in the game for a very minor benefit idk if that's really worth it.
                 IL.RoR2.InteractionDriver.MyFixedUpdate += BiggerSaleStarRange;
             }
-            On.RoR2.ShrineChanceBehavior.AddShrineStack += ChanceDollUniqueLine;
-
+            
             GameObject LowerPricedChestsGlow = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow");
 
             LowerPricedChestsGlow.transform.GetChild(0).localPosition = new Vector3(0, 0.6f, 0f);
@@ -93,7 +87,7 @@ namespace WolfoQualityOfLife
             //LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").stageOrder = 108;
             //LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 108;
 
-            //Bead Giver
+#region LunarScavLunarBeadBead
             GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
             GivePickupsOnStart.ItemDefInfo[] ScavLunarBeadsGiver = new GivePickupsOnStart.ItemDefInfo[] { Beads };
 
@@ -101,9 +95,9 @@ namespace WolfoQualityOfLife
             LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
-            //
+            #endregion
 
-            //Captain Shock Beacon Radius
+#region Captain Shock Beacon Radius
             GameObject CaptainShockBeaconRadius = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
             Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainShockBeaconRadius.transform.GetChild(0).GetComponent<MeshRenderer>().material);
             CaptainHackingBeaconIndicatorMaterial.SetColor("_TintColor", new Color(0, 0.4f, 0.8f, 1f));
@@ -113,26 +107,8 @@ namespace WolfoQualityOfLife
 
             GameObject shockBeacon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Shocking.prefab").WaitForCompletion();
             shockBeacon.transform.GetChild(2).GetChild(0).gameObject.AddComponent<InstantiateGameObjectAtLocation>().objectToInstantiate = CaptainShockBeaconRadius;
+            #endregion
 
-
-            /* On.EntityStates.Captain.Weapon.CallSupplyDropBase.OnEnter += (orig, self) =>
-             {
-                 Debug.Log(self.supplyDropPrefab);
-                 if (self.supplyDropPrefab.name.StartsWith("CaptainSupplyDrop, Shocking"))
-                 {
-                     self.supplyDropPrefab.GetComponent<ModelLocator>();
-
-
-                     GameObject beacon = Object.Instantiate(CaptainHackingBeaconIndicator);
-                     //Debug.Log(self.supplyDropPrefab.transform.GetChild(2));
-                     //Debug.Log(self.supplyDropPrefab.transform.GetChild(2).GetChild(0));
-                     beacon.transform.localScale = new Vector3(6.67f, 6.67f, 6.67f);
-                     beacon.transform.GetChild(0).GetComponent<MeshRenderer>().material = CaptainHackingBeaconIndicatorMaterial;
-                     beacon.transform.SetParent(self.supplyDropPrefab.transform.GetChild(2).GetChild(0), false);
-                 }
-                 orig(self);
-             };*/
-            //
 
             //UI spreading like how charging works on other characters
             On.EntityStates.VoidSurvivor.Weapon.ReadyMegaBlaster.OnEnter += (orig, self) =>
@@ -172,18 +148,8 @@ namespace WolfoQualityOfLife
             //Unused like blue explosion so he doesn't use magma explosion ig, probably unused for a reason but it looks fine
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion().GetComponent<WormBodyPositions2>().blastAttackEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Junk/ElectricWorm/ElectricWormImpactExplosion.prefab").WaitForCompletion();
 
+
             //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
-            //Add unused cool bubbly noise
-            On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
-            {
-                orig(self);
-                if (self.name.StartsWith("LunarCauldron,") || self.name.StartsWith("ShrineCleanse"))
-                {
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
-                }
-            };
 
             /*On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
             {
@@ -201,6 +167,20 @@ namespace WolfoQualityOfLife
                 }
             }; */
 
+            #region More Sounds
+            //Add unused cool bubbly noise
+            On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
+            {
+                orig(self);
+                if (self.name.StartsWith("LunarCauldron,") || self.name.StartsWith("ShrineCleanse"))
+                {
+                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
+                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
+                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
+                }
+            };
+
+
             On.RoR2.ShopTerminalBehavior.DropPickup += (orig, self) =>
             {
                 orig(self);
@@ -211,13 +191,7 @@ namespace WolfoQualityOfLife
                     RoR2.Util.PlaySound("Play_ui_obj_lunarPool_activate", self.gameObject);
                 };
             };
-            //Other Sounds
-            /*On.EntityStates.UrchinTurret.SpawnState.ctor += (orig, self) =>
-            {
-                orig(self);
-                if (!self.outer.gameObject) { return; }
-                RoR2.Util.PlaySound("Play_elite_antiHeal_urchin_spawn", self.outer.gameObject);
-            };*/
+      
 
             //Unused Scav Spawn Sound
             On.EntityStates.ScavMonster.Sit.OnEnter += (orig, self) =>
@@ -238,9 +212,8 @@ namespace WolfoQualityOfLife
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBoss/RoboBallMiniBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallRedBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallGreenBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
-
-            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Seeker/SeekerBody.prefab").WaitForCompletion().AddComponent<HuntressTracker>();
-
+         
+        
             //Sound is just too quiet
             On.RoR2.CharacterMaster.PlayExtraLifeSFX += (orig, self) =>
             {
@@ -254,7 +227,8 @@ namespace WolfoQualityOfLife
                     Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
                 }
             };
-
+            #endregion
+            //What the fuck is this for
             On.RoR2.ShopTerminalBehavior.UpdatePickupDisplayAndAnimations += (orig, self) =>
             {
                 if (self.pickupIndex == PickupIndex.none && self.GetComponent<PurchaseInteraction>().available)
@@ -266,9 +240,21 @@ namespace WolfoQualityOfLife
                 }
                 orig(self);
             };
+
+            #region Sots Fixes
+            On.RoR2.BurnEffectController.HandleDestroy += BurnEffectController_HandleDestroy;
+
+            GameObject WarBondsObject = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Items/GoldOnStageStart/PickupTreasuryDividends.prefab").WaitForCompletion();
+            Material matGoldOnStageStartMetal = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/Items/GoldOnStageStart/matGoldOnStageStartMetal.mat").WaitForCompletion();
+            WarBondsObject.transform.GetChild(0).GetComponent<MeshRenderer>().materials = new Material[] { matGoldOnStageStartMetal, matGoldOnStageStartMetal };
+
+            #endregion
+        }
+        private static void BurnEffectController_HandleDestroy(On.RoR2.BurnEffectController.orig_HandleDestroy orig, BurnEffectController self)
+        {
+            GameObject.Destroy(self);
         }
 
-       
         private static void BiggerSaleStarRange(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -343,7 +329,7 @@ namespace WolfoQualityOfLife
                 x => x.MatchCall("UnityEngine.Object", "Destroy"));
                 c.TryGotoPrev(MoveType.After,
                 x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"));
-                Debug.Log(c);
+                //Debug.Log(c);
                 c.EmitDelegate<System.Func<GameObject, GameObject>>((target) =>
                 {
                     return null;
@@ -359,18 +345,7 @@ namespace WolfoQualityOfLife
             }
         }
 
-        private static void ChanceDollUniqueLine(On.RoR2.ShrineChanceBehavior.orig_AddShrineStack orig, ShrineChanceBehavior self, Interactor activator)
-        {
-            orig(self,activator);
-            if (self.chanceDollWin)
-            {
-                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
-                {
-                    subjectAsCharacterBody = activator.GetComponent<CharacterBody>(),
-                    baseToken = "SHRINE_CHANCE_SUCCESS_MESSAGE_DOLL"
-                });
-            }
-        }
+      
            
 
    

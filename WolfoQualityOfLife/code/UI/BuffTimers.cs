@@ -48,7 +48,16 @@ namespace WolfoQualityOfLife
                 riskyModEnabled = true;
             }
 
+            #region Unstable Transmitter Duration
+            BuffDef TeleportOnLowHealthActive = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC2/Items/TeleportOnLowHealth/bdTeleportOnLowHealthActive.asset").WaitForCompletion();
+            TeleportOnLowHealthActive.isHidden = false;
+            Debug.Log("AAAAA");
+            Texture2D texBuffTeleportOnLowHealthIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffTeleportOnLowHealthIcon.png");
+            Sprite texBuffTeleportOnLowHealthIconS = Sprite.Create(texBuffTeleportOnLowHealthIcon, v.rec128, v.half);
+            TeleportOnLowHealthActive.iconSprite = texBuffTeleportOnLowHealthIconS;
+            #endregion
 
+            #region Helfire Burn
             BuffDef NormalBurn = LegacyResourcesAPI.Load<BuffDef>("buffdefs/OnFire");
             FakeHellFire = ScriptableObject.CreateInstance<BuffDef>();
             FakeHellFire.iconSprite = NormalBurn.iconSprite;
@@ -58,7 +67,8 @@ namespace WolfoQualityOfLife
             FakeHellFire.canStack = true;
             FakeHellFire.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeHellFire);
-
+            #endregion
+            #region
             //Obsolete
             FakePercentBurn = ScriptableObject.CreateInstance<BuffDef>();
             FakePercentBurn.iconSprite = NormalBurn.iconSprite;
@@ -69,10 +79,10 @@ namespace WolfoQualityOfLife
             FakePercentBurn.canStack = true;
             FakePercentBurn.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakePercentBurn);
-            //
+            #endregion
 
 
-
+            #region Bug Wings Jetpack
             Texture2D BugUp = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBeetleUp.png");
             Sprite BugUpS = Sprite.Create(BugUp, v.rec128, v.half);
 
@@ -82,7 +92,7 @@ namespace WolfoQualityOfLife
             FakeBugWings.name = "visual_BugFlight";
             FakeBugWings.isDebuff = false;
             FakeBugWings.canStack = false;
-            FakeBugWings.ignoreGrowthNectar = true;
+            FakeBugWings.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
             R2API.ContentAddition.AddBuffDef(FakeBugWings);
 
             if (WConfig.cfgBuff_BugFlight.Value == true)
@@ -107,8 +117,8 @@ namespace WolfoQualityOfLife
                     }
                 };
             }
-
-
+            #endregion
+            #region Strides of Heresy
             Texture2D BWLunarShell = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffLunarShellIcon.png");
             Sprite BWLunarShellS = Sprite.Create(BWLunarShell, v.rec128, v.half);
 
@@ -118,7 +128,7 @@ namespace WolfoQualityOfLife
             FakeStrides.name = "visual_ShadowIntangible";
             FakeStrides.isDebuff = false;
             FakeStrides.canStack = false;
-            FakeStrides.ignoreGrowthNectar = true;
+            FakeStrides.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
             R2API.ContentAddition.AddBuffDef(FakeStrides);
 
 
@@ -143,9 +153,8 @@ namespace WolfoQualityOfLife
                     }
                 };
             }
-
-
-
+            #endregion
+            #region Rose Buckler
             Texture2D RoundShieldTex = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBodyArmor.png");
             Sprite RoundShieldS = Sprite.Create(RoundShieldTex, v.rec128, v.half);
 
@@ -155,7 +164,7 @@ namespace WolfoQualityOfLife
             FakeRoseBuckle.name = "visual_SprintArmor";
             FakeRoseBuckle.isDebuff = false;
             FakeRoseBuckle.canStack = false;
-            FakeRoseBuckle.ignoreGrowthNectar = true;
+            FakeRoseBuckle.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
             R2API.ContentAddition.AddBuffDef(FakeRoseBuckle);
 
             if (WConfig.cfgBuff_SprintArmor.Value == true)
@@ -185,7 +194,8 @@ namespace WolfoQualityOfLife
                     }
                 };
             }
-
+            #endregion
+            #region Frozen
             Texture2D CubeBroke = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBrokenCube.png");
             Sprite CubeBrokeS = Sprite.Create(CubeBroke, v.rec128, v.half);
 
@@ -222,8 +232,8 @@ namespace WolfoQualityOfLife
                     }
                 };
             }
-
-
+            #endregion
+            #region HeadStomper
             Texture2D HeadStompOn = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffHeadStompOn.png");
             Sprite HeadStompOnS = Sprite.Create(HeadStompOn, v.rec128, v.half);
 
@@ -236,7 +246,7 @@ namespace WolfoQualityOfLife
             FakeHeadstompOn.name = "visual_HeadstomperReady";
             FakeHeadstompOn.isDebuff = false;
             FakeHeadstompOn.canStack = false;
-            FakeHeadstompOn.ignoreGrowthNectar = true;
+            FakeHeadstompOn.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
             R2API.ContentAddition.AddBuffDef(FakeHeadstompOn);
 
 
@@ -248,7 +258,6 @@ namespace WolfoQualityOfLife
             FakeHeadstompOff.canStack = true;
             FakeHeadstompOff.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeHeadstompOff);
-
 
             if (WConfig.cfgBuff_Headstomper.Value == true && riskyModEnabled == false)
             {
@@ -292,8 +301,8 @@ namespace WolfoQualityOfLife
                     }
                 };
             }
-            //
-            //
+            #endregion
+            #region Shield Delay and Opal Delay
             BuffDef MedkitDelay = LegacyResourcesAPI.Load<BuffDef>("buffdefs/MedkitHeal");
 
             FakeShieldDelay = ScriptableObject.CreateInstance<BuffDef>();
@@ -332,8 +341,6 @@ namespace WolfoQualityOfLife
 
             //If disabled
             //FakeOpalCooldown.isHidden = true;
-
-
             if (WConfig.cfgBuff_ShieldOpalCooldown.Value == true)
             {
                 On.RoR2.CharacterBody.OnTakeDamageServer += (orig, self, damageReport) =>
@@ -378,7 +385,7 @@ namespace WolfoQualityOfLife
                     }
                 };
             }
-
+            #endregion
 
 
 
@@ -458,7 +465,7 @@ namespace WolfoQualityOfLife
 
             }
             */
-
+            #region Frost Relic
             Texture2D FrostRelicIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffFrostRelic.png");
             Sprite FrostRelicIconS = Sprite.Create(FrostRelicIcon, v.rec128, v.half);
 
@@ -468,7 +475,7 @@ namespace WolfoQualityOfLife
             FakeFrostRelic.name = "visual_FrostRelicGrowth";
             FakeFrostRelic.isDebuff = false;
             FakeFrostRelic.canStack = true;
-            FakeFrostRelic.ignoreGrowthNectar = true;
+            FakeFrostRelic.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
             R2API.ContentAddition.AddBuffDef(FakeFrostRelic);
 
             if (WConfig.cfgBuff_FrostRelic.Value == true)
@@ -486,9 +493,9 @@ namespace WolfoQualityOfLife
                         self.cachedOwnerInfo.characterBody.AddTimedBuff(FakeFrostRelic, self.icicleDuration);
                     }
                 };
-
             }
-
+            #endregion
+            #region Feather
             //0.4706 0.1686 0.7765 1
             Texture2D FeatherBuff = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffFeather.png");
             Sprite FeatherBuffS = Sprite.Create(FeatherBuff, v.rec128, v.half);
@@ -511,6 +518,7 @@ namespace WolfoQualityOfLife
             FakeVoidFeather.canStack = true;
             FakeVoidFeather.ignoreGrowthNectar = true;
             R2API.ContentAddition.AddBuffDef(FakeVoidFeather);
+            #endregion
 
             //Bro this is so annoying
             //On.RoR2.BuffCatalog.SetBuffDefs += ReplaceBuffOrderIGuess;

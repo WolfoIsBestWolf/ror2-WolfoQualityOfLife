@@ -42,7 +42,7 @@ A Unique Ping Icon for the vast majority of Interactables.
 Many visual buff icons to convey more information.\
 How many Feather Jumps you have left, Headstomper Cooldown and Freeze duration as the important ones.\
 Best used with mods like LookingGlass.\
-(None of the buffs this mod adds will help Growth Nectar.)\
+(None of the buffs this mod adds will help Growth Nectar)\
 Also recolors some buff icons because they looked the same as others yet had different effects.
 
 Consumed Keys item like how there's consumed Elixir/Watches.\
@@ -118,6 +118,9 @@ When winning a chat message will be displayed of the characters win quote.
 Some Lunar Seer destinations look less bright.
 
 Elite Children have stronger colors so you can notice them easier.
+
+Fixes War Bonds handles being untextured.\
+Fixes DoTs being deleted if Burns or Poisons end.
 
 ##
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\

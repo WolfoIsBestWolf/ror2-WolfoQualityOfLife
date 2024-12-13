@@ -24,6 +24,20 @@ namespace WolfoQualityOfLife
                     }
                     return array;
                 }
+                else if (pickupIndex == PickupCatalog.FindPickupIndex(JunkContent.Equipment.Enigma.equipmentIndex))
+                {
+                    PickupPickerController.Option[] array = new PickupPickerController.Option[EquipmentCatalog.equipmentCount];
+                    for (int i = 0; i < EquipmentCatalog.equipmentCount; i++)
+                    {
+                        //Debug.LogWarning(pickupIndex = PickupCatalog.FindPickupIndex((ItemIndex)i));
+                        array[i] = new PickupPickerController.Option
+                        {
+                            available = true,
+                            pickupIndex = PickupCatalog.FindPickupIndex((EquipmentIndex)i)
+                        };
+                    }
+                    return array;
+                }
                 return orig(pickupIndex);
             };
 

@@ -53,10 +53,10 @@ namespace WolfoQualityOfLife
             {
                 token = "DEATH_VOID_EXPLODE";
             }
-            else if (damageReport.damageInfo.procChainMask.HasProc(ProcType.Thorns))
+            /*else if (damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.LunarRuin))
             {
                 token = "DEATH_TWISTED";
-            }
+            }*/
             else if (damageReport.isFallDamage)
             {
                 token = "DEATH_FALL_DAMAGE";
@@ -74,7 +74,7 @@ namespace WolfoQualityOfLife
             }
             else
             {
-                if (damageReport.damageInfo.delayedDamageSecondHalf)
+                if (damageReport.damageInfo.delayedDamageSecondHalf )
                 {
                     token = "DEATH_ECHO";
                 }

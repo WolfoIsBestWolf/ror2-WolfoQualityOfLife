@@ -11,11 +11,6 @@ namespace WolfoQualityOfLife
 
     public class MoreMessages
     {
-        //public static string DetailedDeathString = "UNASSIGNED";
-        //public static string DetailedDeathString_P2 = "UNASSIGNED_P2";
-        //public static MusicTrackDef CreditsTrack = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/Base/Common/MusicTrackDefs/muSong21.asset").WaitForCompletion();
-        //public static MusicTrackDef CreditsTrackVoid = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muMenuDLC1.asset").WaitForCompletion();
-        //public static GameObject CreditsPanel = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/CreditsPanel.prefab").WaitForCompletion();
         private static GameEndingDef EscapeSequenceFailed = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/EscapeSequenceFailed.asset").WaitForCompletion();
 
         public static void Start()
@@ -425,39 +420,7 @@ namespace WolfoQualityOfLife
             }
         }
 
-        private static void ElixirWatchMessages(On.RoR2.HealthComponent.orig_UpdateLastHitTime orig, HealthComponent self, float damageValue, Vector3 damagePosition, bool damageIsSilent, GameObject attacker)
-        {
-            int watchcount = 0;
-            bool elixirdunk = false;
-            if (damageValue > 0f && self.body && self.body.isPlayerControlled && self.isHealthLow)
-            {
-                watchcount += self.itemCounts.fragileDamageBonus;
-                if (self.itemCounts.healingPotion > 0)
-                {
-                    elixirdunk = true;
-                }
-            }
-            orig(self, damageValue, damagePosition, damageIsSilent, attacker);
-
-            if (elixirdunk)
-            {
-                string token = "<style=cEvent>" + Util.GetBestBodyName(self.body.gameObject) + " drank an <color=#FFFFFF>Elixir</color>";
-                if (watchcount > 0 && self.itemCounts.fragileDamageBonus == 0)
-                {
-                    token += " and broke their <color=#FFFFFF>Delicate Watch";
-                    if (watchcount > 1) { token += "es</color>(" + watchcount + ")"; }
-
-                }
-                token += "</style>";
-                Chat.AddMessage(token);
-            }
-            else if (watchcount > 0 && self.itemCounts.fragileDamageBonus == 0)
-            {
-                string token = "<style=cEvent>" + Util.GetBestBodyName(self.body.gameObject) + " broke their <color=#FFFFFF>Delicate Watch";
-                if (watchcount > 1) { token += "es</color>(" + watchcount + ")" + "</style>"; }
-                Chat.AddMessage(token);
-            }
-        }
+ 
 
         public static System.Collections.IEnumerator DelayedChatMessageNonGlobal(string chatMessage, float Delay)
         {

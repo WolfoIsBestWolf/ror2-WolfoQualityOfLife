@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3295223351
+CRC: 2084626403
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9a8e60aa91a510f7485e8dc1ce78f8c0
+    Hash: 167f6cba770b3b9c7d0ffc0e2c19acf4
   TypeTreeHash:
     serializedVersion: 2
     Hash: e7a8211d1220a65f149cab164f436878
@@ -84,6 +84,7 @@ Assets:
 - Assets/WQoL/BackupOld/stuff/outlineminimal.png
 - Assets/WQoL/PingIcons/SpStShrineAegis.png
 - Assets/WQoL/Icons/betaPauldron.png
+- Assets/WQoL/Buffs/texBuffTeleportOnLowHealthIcon.png
 - Assets/WQoL/ColorChanger/UniqueAffixVoid.png
 - Assets/WQoL/icon.png
 - Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkDark.png
@@ -246,6 +247,7 @@ Assets:
 - Assets/WQoL/BackupOld/stuff/outline.png
 - Assets/WQoL/ColorChanger/OutlineChangedtexAffixHauntedIcon.png
 - Assets/WQoL/BackupOld/BackupOld/ChestVoidPotential.png
+- Assets/WQoL/PingIcons/PingLemurianEgg - Copy.png
 - Assets/WQoL/PingIcons/texLunarPillarIcon.png
 - Assets/WQoL/BackupOld/texItemUsedArtifactKey.png
 - Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png

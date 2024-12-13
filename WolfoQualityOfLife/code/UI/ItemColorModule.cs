@@ -6,16 +6,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using R2API;
+using R2API.ScriptableObjects;
 
 namespace WolfoQualityOfLife
 {
     public class ItemColorModule
     {
         //Adding missing Highlights
-        public static readonly GameObject HighlightYellowItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightBossItem", false);
-        public static readonly GameObject HighlightPinkT1Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier1Item"), "HighlightVoidT1Item", false);
-        public static readonly GameObject HighlightPinkT2Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightVoidT2Item", false);
-        public static readonly GameObject HighlightPinkT3Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightVoidT3Item", false);
         public static readonly GameObject HighlightOrangeItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipment", false);
         public static readonly GameObject HighlightOrangeBossItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentBoss", false);
         public static readonly GameObject HighlightOrangeLunarItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentLunar", false);
@@ -33,6 +30,7 @@ namespace WolfoQualityOfLife
 
         public static Color ColorLunarEquip;
         public static Color ColorBossEquip;
+        public static Color ColorConsumedEquip;
 
         public static Color ColorVoidWhite;
         //public static Color CustomVoidGreen 
@@ -50,10 +48,17 @@ namespace WolfoQualityOfLife
 
         public static void Main()
         {
+
+     
+
+      
+
+
             //Bro ColorAPI don't do shit
             OrbMaker();
             ColorUtility.TryParseHtmlString("#78AFFF", out ColorLunarEquip);
             ColorUtility.TryParseHtmlString("#FFC211", out ColorBossEquip);
+            ColorUtility.TryParseHtmlString("#C47525", out ColorConsumedEquip);
 
             //Void Green stays the default
             ColorUtility.TryParseHtmlString("#FF9EEC", out ColorVoidWhite);
@@ -64,6 +69,13 @@ namespace WolfoQualityOfLife
             ColorUtility.TryParseHtmlString("#B24681", out ColorVoidDarkRed);
             ColorUtility.TryParseHtmlString("#A13470", out ColorVoidDarkYellow);
 
+
+            /*ColorCatalog.ColorIndex index_EquipLunar = ColorsAPI.RegisterColor(ColorLunarEquip);
+            ColorCatalog.ColorIndex index_EquipBoss = ColorsAPI.RegisterColor(ColorBossEquip);
+            ColorCatalog.ColorIndex index_EquipConsumed = ColorsAPI.RegisterColor(ColorConsumedEquip);
+            Debug.Log(index_EquipLunar);
+            Debug.Log(index_EquipBoss);
+            Debug.Log(index_EquipConsumed);*/
 
 
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += ItemColorModule.ChangeEquipmentBGLogbook;
@@ -86,6 +98,9 @@ namespace WolfoQualityOfLife
             GameObject GoldFragmentPotential = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/FragmentPotentialPickup.prefab").WaitForCompletion();
             GoldFragmentPotential.GetComponent<Highlight>().highlightColor = Highlight.HighlightColor.custom;
             GoldFragmentPotential.GetComponent<Highlight>().CustomColor = new Color(0.9f, 0.8f, 0.4f);
+
+            ItemColorModule.EquipmentColorIconChanger();
+            ItemColorModule.ItemIcons();
         }
 
         private static void PickupNotifColorOverrideItems(On.RoR2.UI.GenericNotification.orig_SetItem orig, RoR2.UI.GenericNotification self, ItemDef itemDef)
@@ -112,10 +127,6 @@ namespace WolfoQualityOfLife
             OutlineChangedtexAffixHauntedIcon.wrapMode = TextureWrapMode.Clamp;
             Sprite OutlineChangedtexAffixHauntedIconS = Sprite.Create(OutlineChangedtexAffixHauntedIcon, v.rec128, v.half);
             LegacyResourcesAPI.Load<EquipmentDef>("equipmentdefs/AffixHaunted").pickupIconSprite = OutlineChangedtexAffixHauntedIconS;
-
-
-
-
 
             Texture2D OutlineChangedtexAffixLunarIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/OutlineChangedtexAffixLunarIcon.png");
             OutlineChangedtexAffixLunarIcon.wrapMode = TextureWrapMode.Clamp;
@@ -191,36 +202,34 @@ namespace WolfoQualityOfLife
             Texture2D WickedRingTex = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaWicked.png");
             WickedRingTex.wrapMode = TextureWrapMode.Clamp;
             Sprite WickedRing = Sprite.Create(WickedRingTex, v.rec128, v.half);
-            JunkContent.Items.CooldownOnCrit.pickupIconSprite = WickedRing;
+            Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/Junk/CooldownOnCrit/CooldownOnCrit.asset").WaitForCompletion().pickupIconSprite = WickedRing;
 
             Texture2D betaCorpse = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaCorpse.png");
             betaCorpse.wrapMode = TextureWrapMode.Clamp;
             Sprite betaCorpseS = Sprite.Create(betaCorpse, v.rec128, v.half);
-            JunkContent.Items.CritHeal.pickupIconSprite = betaCorpseS;
+            Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/Junk/CritHeal/CritHeal.asset").WaitForCompletion().pickupIconSprite = betaCorpseS;
 
             Texture2D betaEffigy = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaEffigy.png");
             betaEffigy.wrapMode = TextureWrapMode.Clamp;
             Sprite betaEffigyS = Sprite.Create(betaEffigy, v.rec128, v.half);
-            RoR2Content.Items.CrippleWardOnLevel.pickupIconSprite = betaEffigyS;
+            Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/Base/CrippleWardOnLevel/CrippleWardOnLevel.asset").WaitForCompletion().pickupIconSprite = betaEffigyS;
 
             Texture2D betaHelfire = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaHelfire.png");
             betaHelfire.wrapMode = TextureWrapMode.Clamp;
             Sprite betaHelfireS = Sprite.Create(betaHelfire, v.rec128, v.half);
-            JunkContent.Items.BurnNearby.pickupIconSprite = betaHelfireS;
+            Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/Junk/BurnNearby/BurnNearby.asset").WaitForCompletion().pickupIconSprite = betaHelfireS;
 
             Texture2D betaPauldron = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaPauldron.png");
             betaPauldron.wrapMode = TextureWrapMode.Clamp;
             Sprite betaPauldronS = Sprite.Create(betaPauldron, v.rec128, v.half);
-            JunkContent.Items.WarCryOnCombat.pickupIconSprite = betaPauldronS;
+            Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/Junk/WarCryOnCombat/WarCryOnCombat.asset").WaitForCompletion().pickupIconSprite = betaPauldronS;
 
             Texture2D betaTempest = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/betaTempest.png");
             betaTempest.wrapMode = TextureWrapMode.Clamp;
             Sprite betaTempestS = Sprite.Create(betaTempest, v.rec128, v.half);
-            JunkContent.Items.TempestOnKill.pickupIconSprite = betaTempestS;
+            Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/Junk/TempestOnKill/TempestOnKill.asset").WaitForCompletion().pickupIconSprite = betaTempestS;
+            
 
-            RoR2Content.Items.AdaptiveArmor.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
-            RoR2Content.Items.BoostEquipmentRecharge.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
-            JunkContent.Equipment.Enigma.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
 
 
         }
@@ -458,6 +467,7 @@ namespace WolfoQualityOfLife
                     tempPickupDef.darkColor = ColorVoidDarkYellow;
                 }
             }
+ 
 
             for (int i = 0; i < TotalEquipmentCount; i++)
             {
@@ -495,7 +505,12 @@ namespace WolfoQualityOfLife
                     tempPickupDef.darkColor = ItemColorModule.ColorBossEquip;
                     tempPickupDef.dropletDisplayPrefab = ItemColorModule.EquipmentBossOrb;
                 }
-
+                else if (tempequipdef.isConsumed == true)
+                {
+                    tempequipdef.colorIndex = ColorCatalog.ColorIndex.WIP;
+                    tempPickupDef.baseColor = ItemColorModule.ColorConsumedEquip;
+                    tempPickupDef.darkColor = ItemColorModule.ColorConsumedEquip;
+                }
 
 
             }
@@ -507,6 +522,11 @@ namespace WolfoQualityOfLife
         {
             GameObject HighlightBlueItem = LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightLunarItem");
             HighlightBlueItem.GetComponent<RoR2.UI.HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
+
+            GameObject HighlightYellowItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightBossItem", false);
+            GameObject HighlightPinkT1Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier1Item"), "HighlightVoidT1Item", false);
+            GameObject HighlightPinkT2Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightVoidT2Item", false);
+            GameObject HighlightPinkT3Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightVoidT3Item", false);
 
             HighlightYellowItem.GetComponent<RoR2.UI.HighlightRect>().highlightColor = new Color(1f, 0.9373f, 0.2667f, 1);
             HighlightPinkT1Item.GetComponent<RoR2.UI.HighlightRect>().highlightColor = new Color(1f, 0.498f, 0.9059f, 1);
@@ -647,8 +667,12 @@ namespace WolfoQualityOfLife
         public static void ModSupport()
         {
             //Late Running Method
-            ItemColorModule.EquipmentColorIconChanger();
-            ItemColorModule.ItemIcons();
+
+
+
+            RoR2Content.Items.AdaptiveArmor.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
+            RoR2Content.Items.BoostEquipmentRecharge.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
+            JunkContent.Equipment.Enigma.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
 
             EquipmentDef tempModDef;
             tempModDef = EquipmentCatalog.GetEquipmentDef(EquipmentCatalog.FindEquipmentIndex("EQUIPMENT_AFFIXARAGONITE"));
