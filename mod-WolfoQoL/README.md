@@ -1,15 +1,11 @@
 ## Info
+This mod aims to be highly configureable. You can use Risk of Options to do that ingame.
+
 Every play needs this mod by default.
 
 If you wish to use this mod with players who do Not have the mod, you can enable compatibility for that in the config.\
-Many features will need to be disabled for this to work however.
+This will disable multiple features, not really any way around it.
 
-The config will disable anything related to adding stuff that is indexed/Id driven by the game.\
-(Items, Buffs, Projectiles and Effects).\
-This means changes related to those, such as Red Oni Merc and Blight Acrid, will be disabled.
-
-If you are a Client when the Host doesn't have the mod additional features likely also do not work.\
-Such as Mountain Symbol Stacking, Treasure Reminders, Loss Messages.
 
 ## Visuals
 Mercenaries Oni Skin now uses a red sword and red particle effects for his attacks.\
@@ -134,6 +130,17 @@ A lot of things are configurable. If you feel something should be configurable y
 Thank you for anyone who wishes to translate.
 
 Russian by [kreeperHLC](https://github.com/kreeperHLC) on GitHub
+
+
+## Content Disable Config
+
+
+The config will disable anything related to adding stuff that is indexed/Id driven by the game.\
+(Items, Buffs, Projectiles and Effects).\
+This means changes related to those, such as Red Oni Merc and Blight Acrid, will be disabled.
+
+If you are a Client when the Host doesn't have the mod additional features likely also do not work.\
+Such as Mountain Symbol Stacking, Treasure Reminders, Loss Messages.
 
 # 
 #### Mods to Not use alongside this one

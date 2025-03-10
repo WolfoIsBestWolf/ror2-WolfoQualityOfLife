@@ -2,6 +2,7 @@ using RoR2;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static WolfoQualityOfLife.Reminders;
 
 
 namespace WolfoQualityOfLife
@@ -276,6 +277,7 @@ namespace WolfoQualityOfLife
             //
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator").AddComponent<PingInfoProvider>().pingIconOverride = PrinterIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<PingInfoProvider>().pingIconOverride = DuplicatorMili;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<GreenPrinterReminder>();
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary").AddComponent<PingInfoProvider>().pingIconOverride = DuplicatorMili2;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorWild").AddComponent<PingInfoProvider>().pingIconOverride = DuplicatorWild;
 

@@ -1,5 +1,13 @@
 ## Changelog:
 ```
+v3.2.8 - 
+Fix for 1.3.7 and other stuff I was working on before.
+Added config for individual Reminders. (Key, Shipping, Sale, Geode)
+Added config for Regen Scrap reminder. (Off default)
+Made "Chat always on death screen" it's own config.
+Fixed issue where ArtifactWorld wouldn't spawn interactables if travelled to with commands.
+
+
 v3.2.7 - Patch for 1.3.6
 Consumed Equipment now have a grayer-orange color.
 Made buff for Unstable Transmitter duration visible.

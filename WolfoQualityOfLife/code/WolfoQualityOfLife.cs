@@ -659,33 +659,38 @@ namespace WolfoQualityOfLife
                 case "artifactworld01":
                 case "artifactworld02":
                 case "artifactworld03":
+                    //GameObject ArtifactDisplay = GameObject.Find("/ArtifactDisplay/SetpiecePickup");
                     GenericPickupController[] pickuplist = FindObjectsOfType(typeof(GenericPickupController)) as GenericPickupController[];
                     for (var i = 0; i < pickuplist.Length; i++)
                     {
                         if (pickuplist[i].name.StartsWith("SetpiecePickup"))
                         {
-                            //pickuplist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
-                            ArtifactDef tempartifactdef = ArtifactCatalog.GetArtifactDef(pickuplist[i].pickupIndex.pickupDef.artifactIndex);
-                            if (tempartifactdef)
+                            PickupDef pickupDef = pickuplist[i].pickupIndex.pickupDef;
+                            if (pickupDef != null)
                             {
-                                string artifactname = Language.GetString(tempartifactdef.nameToken);
-                                //artifactname = artifactname.Replace("Artifact of ", "");
-                                //artifactname = artifactname.Replace("the ", "");
-                                String[] spltis = artifactname.Split(" ");
-                                if (spltis.Length > 0)
+                                //pickuplist[i].gameObject.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.CubeIcon;
+                                ArtifactDef tempartifactdef = ArtifactCatalog.GetArtifactDef(pickuplist[i].pickupIndex.pickupDef.artifactIndex);
+                                if (tempartifactdef)
                                 {
-                                    artifactname = spltis[spltis.Length - 1];
-                                    Debug.Log(artifactname);
+                                    string artifactname = Language.GetString(tempartifactdef.nameToken);
+                                    //artifactname = artifactname.Replace("Artifact of ", "");
+                                    //artifactname = artifactname.Replace("the ", "");
+                                    String[] spltis = artifactname.Split(" ");
+                                    if (spltis.Length > 0)
+                                    {
+                                        artifactname = spltis[spltis.Length - 1];
+                                        Debug.Log(artifactname);
 
-                                    pickuplist[i].gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = string.Format(Language.GetString("OBJECTIVE_ARTIFACT_TRIAL"),artifactname);
+                                        pickuplist[i].gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = string.Format(Language.GetString("OBJECTIVE_ARTIFACT_TRIAL"), artifactname);
+                                    }
                                 }
-                            }
-                            if (WConfig.ArtifactOutline.Value == true)
-                            {
-                                RoR2.Highlight tempartifact = pickuplist[i].gameObject.GetComponent<Highlight>();
-                                tempartifact.pickupIndex = pickuplist[i].pickupIndex;
-                                tempartifact.highlightColor = Highlight.HighlightColor.pickup;
-                                tempartifact.isOn = true;
+                                if (WConfig.ArtifactOutline.Value == true)
+                                {
+                                    RoR2.Highlight tempartifact = pickuplist[i].gameObject.GetComponent<Highlight>();
+                                    tempartifact.pickupIndex = pickuplist[i].pickupIndex;
+                                    tempartifact.highlightColor = Highlight.HighlightColor.pickup;
+                                    tempartifact.isOn = true;
+                                }
                             }
                         }
                     }
@@ -696,6 +701,8 @@ namespace WolfoQualityOfLife
                     MissionController.GetComponent<VoidStageMissionController>().deepVoidPortalObjectiveProvider = null;
                     break;
             };
+           
+            orig(self);
             if (Run.instance)
             {
                 Reminders.TreasureReminder treasureReminder = Run.instance.gameObject.GetComponent<Reminders.TreasureReminder>();
@@ -704,10 +711,8 @@ namespace WolfoQualityOfLife
                     treasureReminder.freeChestVoidBool = false;
                 }
             }
-            orig(self);
-
             GC.Collect();
-            if (WConfig.cfgRemindersTreasure.Value == true)
+            if (WConfig.cfgRemindersGeneral.Value == true)
             {
                 if (SceneInfo.instance.countsAsStage)
                 {

@@ -11,77 +11,18 @@ using System.Runtime.InteropServices;
 using RoR2.UI;
 using RoR2.UI.SkinControllers;
 using System.Net.Http.Headers;
-
-
+ 
 namespace WolfoQualityOfLife
 {
     public class Reminders
     {
-
-        public static void UpdateHuds()
-        {          
-            float spacing = WConfig.cfgObjectiveHeight.Value; //Default 32
-            float fonzSize = WConfig.cfgObjectiveFontSize.Value; //Default 12
-            Debug.Log("Updating Hud spacing"+WConfig.cfgObjectiveHeight.Value+" / font"+ WConfig.cfgObjectiveFontSize.Value);
-
-            HGTextMeshProUGUI text;
-            Transform ObjectivePannelRoot;
-
-            UISkinData fontTwo = Addressables.LoadAssetAsync<UISkinData>(key: "RoR2/Base/UI/skinObjectivePanel.asset").WaitForCompletion();
-            fontTwo.bodyTextStyle.fontSize = fonzSize;
-
-
-            GameObject Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ClassicRun/ClassicRunInfoHudPanel.prefab").WaitForCompletion();
-            ObjectivePannelRoot = Hud.transform.GetChild(5).GetChild(1);
-            ObjectivePannelRoot.GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
-            ObjectivePannelRoot.GetChild(1).GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
-            text = ObjectivePannelRoot.GetChild(1).GetChild(0).GetChild(0).GetComponent<HGTextMeshProUGUI>();
-            text.fontSizeMin = fonzSize / 2;
-            text.fontSizeMax = fonzSize;
-            text.fontSize = fonzSize;
-
-            Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerAssets/InfiniteTowerUI.prefab").WaitForCompletion();
-            ObjectivePannelRoot = Hud.transform.GetChild(5).GetChild(1);
-            ObjectivePannelRoot.GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
-            ObjectivePannelRoot.GetChild(1).GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
-            text = ObjectivePannelRoot.GetChild(1).GetChild(0).GetChild(0).GetComponent<HGTextMeshProUGUI>();
-            text.fontSizeMin = fonzSize / 2;
-            text.fontSizeMax = fonzSize;
-            text.fontSize = fonzSize;
-
-            if (HUD.instancesList.Count > 0)
-            {
-                Hud = HUD.instancesList[0].gameModeUiInstance;
-
-
-                ObjectivePannelRoot = Hud.transform.GetChild(5).GetChild(1);
-                ObjectivePannelRoot.GetChild(0).GetComponent<LayoutElement>().preferredHeight = spacing;
-
-                ObjectivePannelRoot = ObjectivePannelRoot.GetChild(1);
-                for(int i = 0; i < ObjectivePannelRoot.childCount; i++)
-                {
-                    ObjectivePannelRoot.GetChild(i).GetComponent<LayoutElement>().preferredHeight = spacing;
-                    text = ObjectivePannelRoot.GetChild(i).GetChild(0).GetComponent<HGTextMeshProUGUI>();
-                    text.fontSizeMin = fonzSize / 2;
-                    text.fontSizeMax = fonzSize;
-                    text.fontSize = fonzSize;
-                }
-            }
-
-        }
-
-
-
-
-
-
         public static void Start()
         {
             On.RoR2.PurchaseInteraction.OnInteractionBegin += KeyReminderUpdater;
             On.RoR2.MultiShopController.OnPurchase += FreeChestReminderUpdater;
             //IL.RoR2.PurchaseInteraction.OnInteractionBegin += SaleStarReminderRemover;
 
-            UpdateHuds();
+            UIBorders.UpdateHuds();
 
             //If you scrap it the reminder should vanish
             //But what if you see the reminder and get another key to unlock the box?
@@ -92,50 +33,97 @@ namespace WolfoQualityOfLife
             On.RoR2.ScrapperController.BeginScrapping += RemoveReminders_Scrapper;
             On.RoR2.CharacterMasterNotificationQueue.SendTransformNotification_CharacterMaster_ItemIndex_ItemIndex_TransformationType += RemoveReminders_ItemTransform;
 
-            if (WConfig.cfgRemindersTreasure.Value)
+            if (WConfig.cfgRemindersGeneral.Value)
             {
                 On.RoR2.HoldoutZoneController.PreStartClient += CheckForFreeChestVoid;
-                On.RoR2.HoldoutZoneController.OnEnable += CheckForFreeChestVoidAcitvate;
+                On.RoR2.HoldoutZoneController.OnEnable += CheckFor_NewtAndFreeChestVoidAcitvate;
 
+                On.RoR2.TeleporterInteraction.Start += Clear_Newt_SpawnedWithBlue;
+                On.RoR2.PortalStatueBehavior.GrantPortalEntry += Newt_ReminderClear;
 
-                
+                On.RoR2.CharacterMasterNotificationQueue.PushItemTransformNotification += Clear_RegenScrap;
 
                 On.EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionEntityStates.OnEnter += GeodeSecretMissionEntityStates_OnEnter;
                 On.RoR2.GeodeSecretMissionController.AdvanceGeodeSecretMission += GeodeSecretMissionController_AdvanceGeodeSecretMission;
                 On.EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionRewardState.OnEnter += GeodeSecretMissionRewardState_OnEnter;
 
-
                 On.EntityStates.Missions.BrotherEncounter.PreEncounter.OnEnter += ClearTreasure_OnBrother;
                 On.EntityStates.VoidRaidCrab.EscapeDeath.OnExit += ClearTreasure_OnVoidlingDeath;
                 EntityStates.MeridianEvent.MeridianEventStart.OnMeridianEventStart += ClearReminders_OnFalseSon;
+
+               
+
+                if (WConfig.cfgRemindersPortal.Value == true)
+                {
+                    LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_ARTIFACT";
+                    LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalGoldshores").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_GOLD";
+                    LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalShop").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_LUNAR";
+                    LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalMS").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_MS";
+                    Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_VOID";
+                    Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortal/DeepVoidPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_VOID_DEEP_PORTAL";
+
+                    Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_GREEN";
+
+                    //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Green Portal</style>";
+                    //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Destination Portal</style>";
+
+                    On.RoR2.SceneExitController.Begin += (orig, self) =>
+                    {
+                        orig(self);
+                        RoR2.Chat.SendBroadcastChat(new DestroyPortalReminderClients
+                        {
+                            portalObject = self.gameObject
+                        });
+                    };
+
+                }
             }
             
-            if (WConfig.cfgRemindersPortal.Value == true)
-            {
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_ARTIFACT";
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalGoldshores").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_GOLD";
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalShop").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_LUNAR";
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalMS").AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_MS";
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_VOID";
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortal/DeepVoidPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_VOID_DEEP_PORTAL";
-
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "REMINDER_PORTAL_GREEN";
-               
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Green Portal</style>";
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<GenericObjectiveProvider>().objectiveToken = "Proceed through the <style=cIsHealing>Destination Portal</style>";
-
-                On.RoR2.SceneExitController.Begin += (orig, self) =>
-                {
-                    orig(self);
-                    RoR2.Chat.SendBroadcastChat(new DestroyPortalReminderClients
-                    {
-                        portalObject = self.gameObject
-                    });
-                };
-
-            }
+            
 
             HalcyoniteObjective.Start();
+        }
+
+        private static void Clear_RegenScrap(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
+        {
+            orig(characterMaster, oldIndex, newIndex, transformationType);
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
+            {
+                if (newIndex == DLC1Content.Items.RegeneratingScrapConsumed.itemIndex)
+                {
+                    TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
+                    if (treasure)
+                    {
+                        Object.Destroy(treasure.Objective_RegenScrap);
+                    }
+                }
+            }
+        }
+
+        private static void Clear_Newt_SpawnedWithBlue(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
+        {
+            orig(self);
+            if (self.shouldAttemptToSpawnShopPortal)
+            {
+                TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
+                if (treasure)
+                {
+                    Object.Destroy(treasure.Objective_NewtShrine);
+                }
+            }
+        }
+
+        private static void Newt_ReminderClear(On.RoR2.PortalStatueBehavior.orig_GrantPortalEntry orig, PortalStatueBehavior self)
+        {
+            orig(self);
+            if (self.portalType == PortalStatueBehavior.PortalType.Shop)
+            {
+                TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
+                if (treasure)
+                {
+                    Object.Destroy(treasure.Objective_NewtShrine);
+                }
+            }
         }
 
         private static void RemoveReminders_ItemTransform(On.RoR2.CharacterMasterNotificationQueue.orig_SendTransformNotification_CharacterMaster_ItemIndex_ItemIndex_TransformationType orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
@@ -185,17 +173,25 @@ namespace WolfoQualityOfLife
             }
         }
 
-        private static void CheckForFreeChestVoidAcitvate(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
+        private static void CheckFor_NewtAndFreeChestVoidAcitvate(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
         {
             orig(self);
-            if (self.name.StartsWith("VoidShellBattery"))
+            TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
+            if (treasure)
             {
-                TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
-                if (treasure.freeChestVoidInfo)
+                if (self.name.StartsWith("VoidShellBattery"))
                 {
-                    Object.Destroy(treasure.freeChestVoidInfo);
+                    if (treasure.Objective_FreeChestVVVoid)
+                    {
+                        Object.Destroy(treasure.Objective_FreeChestVVVoid);
+                    }
+                }
+                if (self.GetComponent<TeleporterInteraction>())
+                {
+                    FailGenericObjective(treasure.Objective_NewtShrine);
                 }
             }
+            
         }
 
         private static void CheckForFreeChestVoid(On.RoR2.HoldoutZoneController.orig_PreStartClient orig, HoldoutZoneController self)
@@ -208,8 +204,8 @@ namespace WolfoQualityOfLife
                 {
                     Debug.Log("FreeChestVoid " + treasureReminder.freeChestVoidBool);
                     string token = Language.GetString("REMINDER_FREECHESTVOID");
-                    treasureReminder.freeChestVoidInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    treasureReminder.freeChestVoidInfo.objectiveToken = token;
+                    treasureReminder.Objective_FreeChestVVVoid = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
+                    treasureReminder.Objective_FreeChestVVVoid.objectiveToken = token;
                 }
             }
         }
@@ -235,25 +231,25 @@ namespace WolfoQualityOfLife
             {
                 return;
             }
-            if (reminder.lockboxInfo)
+            if (reminder.Objective_Lockbox)
             {
-                FailGenericObjective(reminder.lockboxInfo);
+                FailGenericObjective(reminder.Objective_Lockbox);
             }
-            if (reminder.lockboxVoidInfo)
+            if (reminder.Objective_LockboxVoid)
             {
-                FailGenericObjective(reminder.lockboxVoidInfo);
+                FailGenericObjective(reminder.Objective_LockboxVoid);
             }
-            if (reminder.freeChestInfo)
+            if (reminder.Objective_FreeChest)
             {
-                FailGenericObjective(reminder.freeChestInfo);
+                FailGenericObjective(reminder.Objective_FreeChest);
             }
-            if (reminder.freeChestVoidInfo)
+            if (reminder.Objective_FreeChestVVVoid)
             {
-                FailGenericObjective(reminder.freeChestVoidInfo);
+                FailGenericObjective(reminder.Objective_FreeChestVVVoid);
             }
-            if (reminder.saleStarInfo)
+            if (reminder.Objective_SaleStar)
             {
-                FailGenericObjective(reminder.saleStarInfo);
+                FailGenericObjective(reminder.Objective_SaleStar);
             }
         }
 
@@ -293,7 +289,7 @@ namespace WolfoQualityOfLife
             if (!self.available && self.name.StartsWith("FreeChestMultiShop"))
             {
                 TreasureReminder reminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
-                if (reminder && reminder.freeChestInfo)
+                if (reminder && reminder.Objective_FreeChest)
                 {
                     if (WConfig.NotRequireByAll.Value)
                     {
@@ -319,7 +315,7 @@ namespace WolfoQualityOfLife
                 if (self.costType == CostTypeIndex.TreasureCacheItem)
                 {
                     TreasureReminder reminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
-                    if (reminder && reminder.lockboxInfo)
+                    if (reminder && reminder.Objective_Lockbox)
                     {
                         if (WConfig.NotRequireByAll.Value)
                         {
@@ -338,7 +334,7 @@ namespace WolfoQualityOfLife
                 else if (self.costType == CostTypeIndex.TreasureCacheVoidItem)
                 {
                     TreasureReminder reminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
-                    if (reminder && reminder.lockboxVoidInfo)
+                    if (reminder && reminder.Objective_LockboxVoid)
                     {
                         if (WConfig.NotRequireByAll.Value)
                         {
@@ -367,22 +363,27 @@ namespace WolfoQualityOfLife
         private static void GeodeSecretMissionEntityStates_OnEnter(On.EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionEntityStates.orig_OnEnter orig, EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionEntityStates self)
         {
             orig(self);
-            Debug.LogWarning("Secret Geode Start");
-            if (self.geodeSecretMissionController.geodeInteractionsTracker == 0)
+            if (WConfig.cfgRemindersSecretGeode.Value)
             {
-                string text = string.Format(Language.GetString("REMINDER_SECRET_GEODE"), 0, self.geodeSecretMissionController.numberOfGeodesNecessary);
-                self.gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = text;
+                Debug.LogWarning("Secret Geode Start");
+                if (self.geodeSecretMissionController.geodeInteractionsTracker == 0)
+                {
+                    string text = string.Format(Language.GetString("REMINDER_SECRET_GEODE"), 0, self.geodeSecretMissionController.numberOfGeodesNecessary);
+                    self.gameObject.AddComponent<GenericObjectiveProvider>().objectiveToken = text;
+                }
             }
+            
         }
 
         private static void GeodeSecretMissionController_AdvanceGeodeSecretMission(On.RoR2.GeodeSecretMissionController.orig_AdvanceGeodeSecretMission orig, GeodeSecretMissionController self)
         {
             orig(self);
             Debug.LogWarning("Secret Geode Advance");
-            if (self.gameObject.GetComponent<GenericObjectiveProvider>())
+            GenericObjectiveProvider Objective = self.gameObject.GetComponent<GenericObjectiveProvider>();
+            if (Objective)
             {
                 string text = string.Format(Language.GetString("REMINDER_SECRET_GEODE"), self.geodeInteractionsTracker, self.numberOfGeodesNecessary);
-                self.gameObject.GetComponent<GenericObjectiveProvider>().objectiveToken = text;
+                Objective.objectiveToken = text;
             }
         }
         
@@ -406,9 +407,9 @@ namespace WolfoQualityOfLife
                 c.EmitDelegate<System.Func<ItemDef, ItemDef>>((itemDef) =>
                 {
                     TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
-                    if (treasure && treasure.saleStarInfo)
+                    if (treasure && treasure.Objective_SaleStar)
                     {
-                        Object.Destroy(treasure.saleStarInfo);
+                        Object.Destroy(treasure.Objective_SaleStar);
                     }
                     return itemDef;
                 });
@@ -425,18 +426,21 @@ namespace WolfoQualityOfLife
             public int lockboxVoidCount = 0;
             public int freeChestCount = 0;
             public bool freeChestVoidBool = false;
-            public bool saleStarBool = false;
+            public bool localHasSaleStar = false;
+            public bool localHasRegenScrap = false;
 
-            public RoR2.GenericObjectiveProvider newtAltarInfo;
+            public GenericObjectiveProvider Objective_Lockbox;
+            public GenericObjectiveProvider Objective_LockboxVoid;
+            public GenericObjectiveProvider Objective_FreeChest;
+            public GenericObjectiveProvider Objective_FreeChestVVVoid;
+            public GenericObjectiveProvider Objective_SaleStar;
+            public GenericObjectiveProvider Objective_RegenScrap;
+            public GenericObjectiveProvider Objective_NewtShrine;
 
-            public RoR2.GenericObjectiveProvider lockboxInfo;
-            public RoR2.GenericObjectiveProvider lockboxVoidInfo;
-            public RoR2.GenericObjectiveProvider freeChestInfo;
-            public RoR2.GenericObjectiveProvider freeChestVoidInfo;
-            public RoR2.GenericObjectiveProvider saleStarInfo;
 
             public static void SetupReminders()
             {
+               
                 TreasureReminder treasureReminder = Run.instance.gameObject.GetComponent<TreasureReminder>();
                 if (treasureReminder == null)
                 {
@@ -446,21 +450,21 @@ namespace WolfoQualityOfLife
                 treasureReminder.lockboxVoidCount = 0;
                 treasureReminder.freeChestCount = 0;
                 //treasureReminder.freeChestVoidBool = false;
-                treasureReminder.saleStarBool = false;
+                treasureReminder.localHasSaleStar = false;
+               
+
 
                 int maximumKeys = 0;
                 int maximumKeysVoid = 0;
-
-
 
                 using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
                 {
                     while (enumerator.MoveNext())
                     {                
                         if (enumerator.Current.networkUser.isLocalPlayer)
-                        {                  
-                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0) { treasureReminder.saleStarBool = true; }
-                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { treasureReminder.saleStarBool = true; }
+                        {
+                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0) { treasureReminder.localHasSaleStar = true; }
+                            if (enumerator.Current.master.inventory.GetItemCount(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { treasureReminder.localHasSaleStar = true; }
                         }
                         maximumKeys += enumerator.Current.master.inventory.GetItemCount(RoR2Content.Items.TreasureCache);
                         maximumKeysVoid += enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid);
@@ -489,58 +493,97 @@ namespace WolfoQualityOfLife
                 {
                     if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder > 5)
                     {
-                        treasureReminder.saleStarBool = false;
+                        treasureReminder.localHasSaleStar = false;
                     }
                 }
-               
-                //
-                if (treasureReminder.lockboxVoidCount > 0)
+
+                if (WConfig.cfgRemindersKeys.Value)
                 {
-                    Debug.Log("TreasureCacheVoidCount " + treasureReminder.lockboxVoidCount);
-                    string token = Language.GetString("REMINDER_KEYVOID");
-                    if (treasureReminder.lockboxVoidCount > 1)
+                    if (treasureReminder.lockboxVoidCount > 0)
                     {
-                        token += " (" + treasureReminder.lockboxVoidCount + "/" + treasureReminder.lockboxVoidCount + ")";
+                        Debug.Log("TreasureCacheVoidCount " + treasureReminder.lockboxVoidCount);
+                        string token = Language.GetString("REMINDER_KEYVOID");
+                        if (treasureReminder.lockboxVoidCount > 1)
+                        {
+                            token += " (" + treasureReminder.lockboxVoidCount + "/" + treasureReminder.lockboxVoidCount + ")";
+                        }
+                        treasureReminder.Objective_LockboxVoid = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
+                        treasureReminder.Objective_LockboxVoid.objectiveToken = token;
                     }
-                    treasureReminder.lockboxVoidInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    treasureReminder.lockboxVoidInfo.objectiveToken = token;
-                }
-                if (treasureReminder.lockboxCount > 0)
-                {
-                    Debug.Log("TreasureCacheCount " + treasureReminder.lockboxCount);
-                    string token = Language.GetString("REMINDER_KEY");
-                    if (treasureReminder.lockboxCount > 1)
+                    if (treasureReminder.lockboxCount > 0)
                     {
-                        token += " (" + treasureReminder.lockboxCount + "/" + treasureReminder.lockboxCount + ")";
+                        Debug.Log("TreasureCacheCount " + treasureReminder.lockboxCount);
+                        string token = Language.GetString("REMINDER_KEY");
+                        if (treasureReminder.lockboxCount > 1)
+                        {
+                            token += " (" + treasureReminder.lockboxCount + "/" + treasureReminder.lockboxCount + ")";
+                        }
+                        treasureReminder.Objective_Lockbox = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
+                        treasureReminder.Objective_Lockbox.objectiveToken = token;
                     }
-                    treasureReminder.lockboxInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    treasureReminder.lockboxInfo.objectiveToken = token;
                 }
-                if (treasureReminder.freeChestCount > 0)
+                if (WConfig.cfgRemindersFreechest.Value)
                 {
-                    Debug.Log("FreeChestCount " + treasureReminder.freeChestCount);
-                    string token = Language.GetString("REMINDER_FREECHEST");
-                    if (treasureReminder.freeChestCount > 1)
+                    if (treasureReminder.freeChestCount > 0)
                     {
-                        token += " (" + treasureReminder.freeChestCount + "/" + treasureReminder.freeChestCount + ")";
+                        Debug.Log("FreeChestCount " + treasureReminder.freeChestCount);
+                        string token = Language.GetString("REMINDER_FREECHEST");
+                        if (treasureReminder.freeChestCount > 1)
+                        {
+                            token += " (" + treasureReminder.freeChestCount + "/" + treasureReminder.freeChestCount + ")";
+                        }
+                        treasureReminder.Objective_FreeChest = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
+                        treasureReminder.Objective_FreeChest.objectiveToken = token;
                     }
-                    treasureReminder.freeChestInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    treasureReminder.freeChestInfo.objectiveToken = token;
                 }
-                if (treasureReminder.saleStarBool)
+                if (WConfig.cfgRemindersSaleStar.Value)
                 {
-                    Debug.Log("SaleStar " + treasureReminder.saleStarBool);
-                    string token = Language.GetString("REMINDER_SALESTAR");
-                    treasureReminder.saleStarInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    treasureReminder.saleStarInfo.objectiveToken = token;
+                    if (treasureReminder.localHasSaleStar)
+                    {
+                        Debug.Log("SaleStar " + treasureReminder.localHasSaleStar);
+                        string token = Language.GetString("REMINDER_SALESTAR");
+                        treasureReminder.Objective_SaleStar = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
+                        treasureReminder.Objective_SaleStar.objectiveToken = token;
+                    }
                 }
-                /*if (treasureReminder.freeChestVoidBool)
+                if (WConfig.cfgRemindersRegenScrap.Value == WConfig.ReminderChoice.Always)
                 {
-                    Debug.Log("FreeChestVoid " + treasureReminder.freeChestVoidBool);
-                    string token = Language.GetString("REMINDER_FREECHESTVOID");
-                    treasureReminder.freeChestVoidInfo = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    treasureReminder.freeChestVoidInfo.objectiveToken = token;
-                }*/
+                    treasureReminder.SetupRegenScrap(); 
+                }
+                
+ 
+            }
+
+
+            public void SetupRegenScrap()
+            {
+                localHasRegenScrap = false;
+                if (WConfig.cfgRemindersRegenScrap.Value == WConfig.ReminderChoice.Off)
+                {
+                    return;
+                }
+                if (Objective_RegenScrap == null)
+                {
+                    using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
+                    {
+                        while (enumerator.MoveNext())
+                        {
+                            if (enumerator.Current.networkUser.isLocalPlayer)
+                            {
+                                if (enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.RegeneratingScrap) > 0) { localHasRegenScrap = true; }
+                                if (enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.RegeneratingScrapConsumed) > 0) { localHasRegenScrap = true; }
+                            }
+                        }
+                    }
+                    if (localHasRegenScrap)
+                    {
+                        Debug.Log("RegenScrap Reminder");
+                        string token = Language.GetString("REMINDER_REGENSCRAP");
+                        Objective_RegenScrap = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
+                        Objective_RegenScrap.objectiveToken = token;
+                    }
+                }
+                
             }
 
 
@@ -568,11 +611,11 @@ namespace WolfoQualityOfLife
 
             public void ShouldRemoveKeyObjective(int keys)
             {
-                if (this.lockboxInfo)
+                if (this.Objective_Lockbox)
                 {
                     if (keys == 0)
                     {
-                        FailGenericObjective(this.lockboxInfo);
+                        FailGenericObjective(this.Objective_Lockbox);
                     }
                     else if (this.lockboxCount > keys)
                     {
@@ -586,7 +629,7 @@ namespace WolfoQualityOfLife
 
             public void DeductLockboxCount()
             {
-                if (lockboxInfo != null)
+                if (Objective_Lockbox != null)
                 {
                     Debug.Log("TreasureCacheCount " + lockboxCount);
                     if (lockboxCount > 0)
@@ -594,18 +637,18 @@ namespace WolfoQualityOfLife
                         string old = "(" + lockboxCount + "/";
                         lockboxCount--;
                         string newstring = "(" + lockboxCount + "/";
-                        lockboxInfo.objectiveToken = lockboxInfo.objectiveToken.Replace(old, newstring);
+                        Objective_Lockbox.objectiveToken = Objective_Lockbox.objectiveToken.Replace(old, newstring);
                     }
                     if (lockboxCount == 0)
                     {
-                        Destroy(lockboxInfo);
+                        Destroy(Objective_Lockbox);
                     }
                 }
             }
 
             public void DeductLockboxVoidCount()
             {
-                if (lockboxVoidInfo != null)
+                if (Objective_LockboxVoid != null)
                 {
                     Debug.Log("TreasureCacheVoidCount " + lockboxVoidCount);
                     if (lockboxVoidCount > 0)
@@ -613,18 +656,18 @@ namespace WolfoQualityOfLife
                         string old = "(" + lockboxVoidCount + "/";
                         lockboxVoidCount--;
                         string newstring = "(" + lockboxVoidCount + "/";
-                        lockboxVoidInfo.objectiveToken = lockboxVoidInfo.objectiveToken.Replace(old, newstring);
+                        Objective_LockboxVoid.objectiveToken = Objective_LockboxVoid.objectiveToken.Replace(old, newstring);
                     }
                     if (lockboxVoidCount == 0)
                     {
-                        Destroy(lockboxVoidInfo);
+                        Destroy(Objective_LockboxVoid);
                     }
                 }
             }
 
             public void DeductFreeChestCount()
             {
-                if (freeChestInfo != null)
+                if (Objective_FreeChest != null)
                 {
                     Debug.Log("FreeChestCount " + freeChestCount);
                     if (freeChestCount > 0)
@@ -632,21 +675,20 @@ namespace WolfoQualityOfLife
                         string old = "(" + freeChestCount + "/";
                         freeChestCount--;
                         string newstring = "(" + freeChestCount + "/";
-                        freeChestInfo.objectiveToken = freeChestInfo.objectiveToken.Replace(old, newstring);
+                        Objective_FreeChest.objectiveToken = Objective_FreeChest.objectiveToken.Replace(old, newstring);
                     }
                     if (freeChestCount == 0)
                     {
-                        Destroy(freeChestInfo);
+                        Destroy(Objective_FreeChest);
                     }
                 }
             }
 
             public void RemoveSaleStar(CharacterBody body, CharacterMaster master)
             {
-                if (saleStarInfo != null)
+                if (Objective_SaleStar != null)
                 {
                     PlayerCharacterMasterController player;
-
                     if (body && body.master)
                     {
                         master = body.master;
@@ -659,7 +701,7 @@ namespace WolfoQualityOfLife
                     {
                         if (player.networkUser.isLocalPlayer)
                         {
-                            Object.Destroy(this.saleStarInfo);
+                            Object.Destroy(this.Objective_SaleStar);
                         }
                     }
                 }
@@ -667,13 +709,27 @@ namespace WolfoQualityOfLife
 
             public void RemoveFreeChestVoid()
             {
-                if (freeChestVoidInfo != null)
+                if (Objective_FreeChestVVVoid != null)
                 {
-                    Object.Destroy(this.freeChestVoidInfo);
+                    Object.Destroy(this.Objective_FreeChestVVVoid);
                 }
             }
 
         }
+
+
+        public class GreenPrinterReminder : MonoBehaviour
+        {
+            public void OnEnable()
+            {
+                TreasureReminder treasure = Run.instance.gameObject.GetComponent<TreasureReminder>();
+                if (treasure)
+                {
+                    treasure.SetupRegenScrap();
+                }
+            }
+        }
+
 
         public class UpdateTreasureReminderCounts : RoR2.SubjectChatMessage
         {
@@ -694,6 +750,12 @@ namespace WolfoQualityOfLife
                             treasureReminder.DeductFreeChestCount();
                             break;
                         case "UPDATE_SALESTAR":
+                            treasureReminder.RemoveSaleStar(subjectAsCharacterBody, null);
+                            break;
+                        case "UPDATE_REGENSCRAP":
+                            treasureReminder.RemoveSaleStar(subjectAsCharacterBody, null);
+                            break;
+                        case "UPDATE_NEWT":
                             treasureReminder.RemoveSaleStar(subjectAsCharacterBody, null);
                             break;
                         case "CHECK_LOCKBOX_VOIDED":

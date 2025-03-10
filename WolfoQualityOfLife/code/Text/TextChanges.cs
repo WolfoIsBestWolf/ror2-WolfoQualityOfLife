@@ -321,7 +321,7 @@ namespace WolfoQualityOfLife
             LanguageAPI.Add("ITEM_HEALINGPOTIONCONSUMED_DESC", "An empty container for an Elixir. Does nothing.", "en");
 
 
-            LanguageAPI.Add("ITEM_INTERSTELLARDESKPLANT_DESC", "On kill, plant a <style=cIsHealing>healing</style> fruit seed that grows into a plant after <style=cIsUtility>5</style> seconds. \n\nThe plant <style=cIsHealing>heals</style> for <style=cIsHealing>10%</style> of <style=cIsHealing>maximum health</style> every second to all allies within <style=cIsHealing>10m</style> <style=cStack>(+5.0m per stack)</style>. Lasts <style=cIsUtility>10</style> seconds.", "en");
+            LanguageAPI.Add("ITEM_INTERSTELLARDESKPLANT_DESC", "On kill, plant a <style=cIsHealing>healing</style> fruit seed that grows into a plant after <style=cIsUtility>5</style> seconds. \n\nThe plant <style=cIsHealing>heals</style> for <style=cIsHealing>10%</style> of <style=cIsHealing>maximum health</style> every second to all allies within <style=cIsHealing>10m</style> <style=cStack>(+5m per stack)</style>. Lasts <style=cIsUtility>10</style> seconds.", "en");
             LanguageAPI.Add("ITEM_MUSHROOM_DESC", "After standing still for <style=cIsHealing>1</style> second, create a zone that <style=cIsHealing>heals</style> for <style=cIsHealing>4.5%</style> <style=cStack>(+2.25% per stack)</style> of your <style=cIsHealing>health</style> every second to all allies within <style=cIsHealing>3.5m</style> <style=cStack>(+1.5m per stack)</style>.", "en");
             LanguageAPI.Add("ITEM_BEHEMOTH_DESC", "All your <style=cIsDamage>attacks explode</style> in a <style=cIsDamage>4m </style><style=cStack>(+2.5m per stack)</style> radius for a bonus <style=cIsDamage>60%</style> TOTAL damage to nearby enemies.", "en");
 

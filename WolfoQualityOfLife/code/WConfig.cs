@@ -36,9 +36,31 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgMessagesVoidQuantity;
 
         //Reminders
+        public static ConfigEntry<bool> cfgRemindersGeneral;
+      
+       
+        public static ConfigEntry<bool> cfgRemindersKeys;
+        public static ConfigEntry<bool> cfgRemindersFreechest;
+        public static ConfigEntry<bool> cfgRemindersSaleStar;
+        public static ConfigEntry<ReminderChoice> cfgRemindersRegenScrap;
+        //public static ConfigEntry<ReminderChoice> cfgRemindersNewt;
         public static ConfigEntry<bool> cfgRemindersPortal;
-        public static ConfigEntry<bool> cfgRemindersTreasure;
+        public static ConfigEntry<bool> cfgRemindersSecretGeode;
         public static ConfigEntry<bool> cfgChargeHalcyShrine;
+
+        public enum ReminderChoice
+        {
+            Off,
+            OnlyWhenInteractableAvailable,
+            Always
+        }
+
+        //DeathScreen
+        public static ConfigEntry<bool> cfgExpandedDeathScreen;
+        public static ConfigEntry<bool> cfgDeathScreenStats;
+        public static ConfigEntry<bool> cfgDeathScreenAlwaysChatBox;
+
+
 
         //Text Changes
         public static ConfigEntry<bool> cfgTextMain;
@@ -105,8 +127,7 @@ namespace WolfoQualityOfLife
         public static ConfigEntry<bool> cfgTpIconDiscoveredRed;
         public static ConfigEntry<bool> cfgVoidAllyCyanEyes;
         public static ConfigEntry<bool> cfgNewGeysers;
-        public static ConfigEntry<bool> cfgExpandedDeathScreen;
-        public static ConfigEntry<bool> cfgDeathScreenStats;
+
 
         public static ConfigEntry<bool> cfgPingIcons;
     
@@ -220,7 +241,7 @@ namespace WolfoQualityOfLife
                 "More Messages",
                 "Enable Victory Messages",
                 true,
-                "Victory quote will be put into chat"
+                "Victory and Vanish quote will be put into chat."
             );
             cfgMessageVoidTransform = ConfigFileUNSORTED.Bind(
                 "More Messages",
@@ -249,17 +270,55 @@ namespace WolfoQualityOfLife
             //More Messages
             //
             //Reminder
-            cfgRemindersPortal = ConfigFileUNSORTED.Bind(
-                "Reminders",
-                "Reminders for Portals",
-                true,
-                "Just looks nice but can be disabled if you think it's cluttery."
+            cfgRemindersGeneral = ConfigFileUNSORTED.Bind(
+               "Reminders",
+               "Objective Reminders : General",
+               true,
+               "Turn off all extra objective reminders by the mod. Use individual config if you only want to turn off one part."
             );
-            cfgRemindersTreasure = ConfigFileUNSORTED.Bind(
+            cfgRemindersKeys = ConfigFileUNSORTED.Bind(
                 "Reminders",
-                "Objective Reminders for Lockboxes and Delivery",
+                "Reminders for Keys",
                 true,
-                "Friendly reminder to open your Lockboxes and get your free items from Shipping Form."
+                "Reminder to open your Rusted & Encrusted Key lockboxes on stages where they spawn."
+            );
+            cfgRemindersFreechest = ConfigFileUNSORTED.Bind(
+                "Reminders",
+                "Reminders for Shipping",
+                true,
+                "Reminder to get your free item from Shipping Request Form."
+            );
+            cfgRemindersSaleStar = ConfigFileUNSORTED.Bind(
+                "Reminders",
+                "Reminders for Sale Star",
+                true,
+                "Reminder, that you have Sale Star, so you hopefully do not waste it."
+            );
+            cfgRemindersPortal = ConfigFileUNSORTED.Bind(
+               "Reminders",
+               "Reminders for Portals",
+               true,
+               "Reminder for open portals in case you forget and to match the leave through teleporter message. Like Blue/Gold/Green."
+           );
+            cfgRemindersRegenScrap = ConfigFileUNSORTED.Bind(
+                "Reminders",
+                "Reminders for Regen Scrap",
+                ReminderChoice.Off,
+                "Reminder to use your Regenerating Scrap if you have one. Can choose to only appear if a Green Printer has spawned."
+            );
+            /*cfgRemindersNewt = ConfigFileUNSORTED.Bind(
+                "Reminders",
+                "Reminders for Newt Shrine",
+                ReminderChoice.Off,
+                "Reminder to activate a Newt Shrine. Will be cleared if the TP spawns with a Blue Orb. Will fail automatically if no 'Normally Acessible' Newt Shrine spawned. I'm not sure why this was requested. I guess if you want to make sure to use 5 Regen Scrap each stage in the Bazaar or other such reasons."
+            );*/
+
+
+            cfgRemindersSecretGeode = ConfigFileUNSORTED.Bind(
+                "Reminders",
+                "Reminder to Crack Geodes",
+                true,
+                "Cracking the 6 Aurelionite Geodes while climbing Prime Meridian gives an extra reward. This is to remind you to do that."
             );
             cfgChargeHalcyShrine = ConfigFileUNSORTED.Bind(
                 "Reminders",
@@ -469,7 +528,19 @@ namespace WolfoQualityOfLife
                 "Main",
                 "Expand the Death Screen to show more information",
                 true,
-                "Equipment will be shown, the Killers inventory will be shown, death stats will be expanded, chat box will always be there."
+                "Equipment will be shown, the Killers inventory will be shown."
+            );
+            cfgDeathScreenAlwaysChatBox = ConfigFileUNSORTED.Bind(
+                "Main",
+                "Death Screen : Always show Chat",
+                true,
+                "Useful for showing recent activity. Intended to primarily alongside Death/Win messages so you can see them on the game over screen."
+             );
+            cfgDeathScreenStats = ConfigFileUNSORTED.Bind(
+                "Main",
+                "Death Screen : More Stats",
+                true,
+                "Show more stats and reorder them on the death screen, like Healing recieved."
             );
 
             ///////////////////////////////
@@ -501,7 +572,7 @@ namespace WolfoQualityOfLife
 
         private static void UpdateHuds(object sender, System.EventArgs e)
         {
-            Reminders.UpdateHuds();
+            UIBorders.UpdateHuds();
         }
 
         public static void RiskConfig()
@@ -537,14 +608,14 @@ namespace WolfoQualityOfLife
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMessagesColoredItemPings, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMessagesVoidQuantity, true));
 
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersGeneral, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersKeys, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersFreechest, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersSaleStar, false));
+            ModSettingsManager.AddOption(new ChoiceOption(cfgRemindersRegenScrap, false));
+            //ModSettingsManager.AddOption(new ChoiceOption(cfgRemindersNewt, false));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersPortal, true));
-
-            overwriteName = new CheckBoxConfig
-            {
-                name = "Reminders for Lockboxes/Delivery",
-                restartRequired = true,
-            };
-            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersTreasure, overwriteName));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRemindersSecretGeode, false));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgChargeHalcyShrine, true));
 
             ModSettingsManager.AddOption(new CheckBoxOption(cfgTextMain, true));
@@ -561,8 +632,13 @@ namespace WolfoQualityOfLife
             ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_Strides, true));     
             ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_Frozen, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgBuff_Feather, true));
-           
-           
+
+
+
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgDeathScreenAlwaysChatBox, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgDeathScreenStats, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgNewSprintCrosshair, true));
+
 
 
             //ModSettingsManager.AddOption(new FloatFieldOption(cfgPingDurationMultiplier));

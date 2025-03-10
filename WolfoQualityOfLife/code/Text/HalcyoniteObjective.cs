@@ -5,7 +5,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using static WolfoQualityOfLife.MoreMessages;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 

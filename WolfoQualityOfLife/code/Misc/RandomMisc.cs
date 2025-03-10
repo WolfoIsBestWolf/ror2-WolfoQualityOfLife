@@ -244,8 +244,8 @@ namespace WolfoQualityOfLife
             #region Sots Fixes
             On.RoR2.BurnEffectController.HandleDestroy += BurnEffectController_HandleDestroy;
 
-            GameObject WarBondsObject = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Items/GoldOnStageStart/PickupTreasuryDividends.prefab").WaitForCompletion();
-            Material matGoldOnStageStartMetal = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/Items/GoldOnStageStart/matGoldOnStageStartMetal.mat").WaitForCompletion();
+            GameObject WarBondsObject = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Items/BarrageOnBoss/PickupTreasuryDividends.prefab").WaitForCompletion();
+            Material matGoldOnStageStartMetal = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/Items/BarrageOnBoss/matBarrageOnBossMetal.mat").WaitForCompletion();
             WarBondsObject.transform.GetChild(0).GetComponent<MeshRenderer>().materials = new Material[] { matGoldOnStageStartMetal, matGoldOnStageStartMetal };
 
             #endregion

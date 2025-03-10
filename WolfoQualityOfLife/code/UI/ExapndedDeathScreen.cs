@@ -22,10 +22,8 @@ namespace WolfoQualityOfLife
                 On.RoR2.UI.GameEndReportPanelController.SetPlayerInfo += GameEndMakeKillerInventory;
                 On.RoR2.UI.ItemInventoryDisplay.AllocateIcons += GameEndEquipInv;
                 On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += GameEndInventoryHelp;
-                On.RoR2.UI.GameEndReportPanelController.SetDisplayData += GameEndMoreStatsShown;
-
-
             };
+            On.RoR2.UI.GameEndReportPanelController.SetDisplayData += GameEndMoreStatsShown;
 
             GameObject hud = LegacyResourcesAPI.Load<GameObject>("Prefabs/HUDSimple");
             hud.GetComponent<RoR2.UI.HUD>().lunarCoinContainer.transform.GetChild(0).GetComponent<UnityEngine.UI.RawImage>().color = new Color(0.5199f, 0.5837f, 0.66f, 0.1333f);//0.6288 0.4514 0.6509 0.1333
@@ -34,24 +32,32 @@ namespace WolfoQualityOfLife
         private static void GameEndMoreStatsShown(On.RoR2.UI.GameEndReportPanelController.orig_SetDisplayData orig, GameEndReportPanelController self, GameEndReportPanelController.DisplayData newDisplayData)
         {
             //Debug.LogWarning(self.statsToDisplay.Length);
-            if (Run.instance)
+            if (WConfig.cfgDeathScreenStats.Value)
             {
-                if (Run.instance.GetComponent<InfiniteTowerRun>())
+                if (Run.instance)
                 {
-                    string[] newstats = new string[] { "totalTimeAlive", "highestInfiniteTowerWaveReached", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalGoldCollected" };
-                    self.statsToDisplay = newstats;
+                    if (Run.instance.GetComponent<InfiniteTowerRun>())
+                    {
+                        string[] newstats = new string[] { "totalTimeAlive", "highestInfiniteTowerWaveReached", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalGoldCollected" };
+                        self.statsToDisplay = newstats;
+                    }
+                    else
+                    {
+                        string[] newstats = new string[] { "totalTimeAlive", "totalStagesCompleted", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalDronesPurchased", "totalGoldCollected" };
+                        self.statsToDisplay = newstats;
+                    };
                 }
-                else
-                {
-                    string[] newstats = new string[] { "totalTimeAlive", "totalStagesCompleted", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalDronesPurchased", "totalGoldCollected" };
-                    self.statsToDisplay = newstats;
-                };
             }
+            
             orig(self, newDisplayData);
-            if (self.chatboxTransform)
+            if (WConfig.cfgDeathScreenAlwaysChatBox.Value)
             {
-                self.chatboxTransform.gameObject.SetActive(true);
+                if (self.chatboxTransform)
+                {
+                    self.chatboxTransform.gameObject.SetActive(true);
+                }
             }
+           
         }
 
         private static void GameEndInventoryHelp(On.RoR2.GlobalEventManager.orig_OnPlayerCharacterDeath orig, GlobalEventManager self, DamageReport damageReport, NetworkUser victimNetworkUser)
