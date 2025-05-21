@@ -1,0 +1,435 @@
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using R2API;
+using RoR2;
+using RoR2.Items;
+//using System;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+
+namespace WolfoQoL_Client
+{
+    public class PurchaseTokenOverwrite : MonoBehaviour
+    {
+        //For some ungodly reason
+        //These tokens are networked
+        //So we can't really set them for Clients who don't have it
+        public string displayNameToken;
+        public string contextToken;
+    }
+
+
+    public class TextChanges
+    {
+        public static R2API.LanguageAPI.LanguageOverlay TPLunar1;
+        public static R2API.LanguageAPI.LanguageOverlay TPLunar2;
+        public static R2API.LanguageAPI.LanguageOverlay TPLunar3;
+        public static R2API.LanguageAPI.LanguageOverlay TPLunar4;
+        public static bool LunaredAllOverIt = false;
+        //public static R2API.LanguageAPI.LanguageOverlay TPLunar3;
+        //public static R2API.LanguageAPI.LanguageOverlay TPLunar4;
+
+        public static void Main()
+        {
+            if (WConfig.cfgTextItems.Value)
+            {
+                ItemText();
+            }
+            if (WConfig.cfgTextCharacters.Value)
+            {
+                CharacterText();
+            }
+            if (WConfig.cfgTextOther.Value)
+            {
+                EndingText();
+                OtherText();
+            }
+            PrayerBeads.Start();
+
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().subtitleNameToken = "LUNAREXPLODER_BODY_SUBTITLE";
+
+
+            On.RoR2.TeleporterInteraction.Start += BlueTeleporterObjective;
+
+            On.RoR2.GenericPickupController.HandlePickupMessage += GenericPickupController_HandlePickupMessage;
+            IL.RoR2.GenericPickupController.HandlePickupMessage += IL_PICKUP;
+
+            OptionPickupStuff.Start();
+
+            On.RoR2.PurchaseInteraction.GetDisplayName += PurchaseInteraction_GetDisplayName;
+            IL.RoR2.PurchaseInteraction.GetContextString += PurchaseInteraction_GetContextString;
+        }
+
+        private static void PurchaseInteraction_GetContextString(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchLdfld("RoR2.PurchaseInteraction", "contextToken")))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<System.Func<string, PurchaseInteraction, string>>((ret, obj) =>
+                {
+                    PurchaseTokenOverwrite overwrite = obj.GetComponent<PurchaseTokenOverwrite>();
+                    if (overwrite)
+                    {
+                        return overwrite.contextToken;
+                    }
+                    return ret;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: PurchaseInteraction_GetContextString");
+            }
+        }
+
+        private static string PurchaseInteraction_GetDisplayName(On.RoR2.PurchaseInteraction.orig_GetDisplayName orig, PurchaseInteraction self)
+        {
+            //Smthsmth risk of options dumb shit language thing??
+            if (self.isActiveAndEnabled)
+            {
+                PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();
+                if (overwrite)
+                {
+                    return Language.GetString(overwrite.displayNameToken);
+                }
+            }
+            return orig(self);
+        }
+
+        public static void EndingText()
+        {
+
+            GameEndingDef Ending = LegacyResourcesAPI.Load<GameEndingDef>("GameEndingDefs/PrismaticTrialEnding");
+            Ending.backgroundColor = new Color(0.7f, 0.3f, 0.7f, 0.615f);
+            Ending.foregroundColor = new Color(0.9f, 0.6f, 0.9f, 0.833f);
+            Ending.endingTextToken = "ACHIEVEMENT_COMPLETEPRISMATICTRIAL_NAME";
+
+            GameEndingDef MainEnding = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/MainEnding.asset").WaitForCompletion();
+            GameEndingDef EscapeSequenceFailed = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/EscapeSequenceFailed.asset").WaitForCompletion();
+
+            GameEndingDef LimboEnding = LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/LimboEnding");
+            GameEndingDef VoidEnding = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/DLC1/GameModes/VoidEnding.asset").WaitForCompletion();
+
+            GameEndingDef ObliterationEnding = LegacyResourcesAPI.Load<GameEndingDef>("gameendingdefs/ObliterationEnding");
+            GameEndingDef RebirthEndingDef = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/DLC2/ClassicRun/Endings/RebirthEndingDef.asset").WaitForCompletion();
+
+
+            EscapeSequenceFailed.icon = MainEnding.icon;
+
+            Color colorMult = new Color(0.9f, 0.9f, 1f, 1f);
+            LimboEnding.backgroundColor = new Color32(227, 236, 252, 215) * colorMult;
+            LimboEnding.foregroundColor = new Color32(232, 239, 255, 190) * colorMult;
+
+            ObliterationEnding.foregroundColor = ObliterationEnding.backgroundColor * 1.1f;
+            ObliterationEnding.backgroundColor = ObliterationEnding.backgroundColor.AlphaMultiplied(0.75f);
+
+            Texture2D texGameResultRebirth = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texGameResultRebirth.png");
+            texGameResultRebirth.wrapMode = TextureWrapMode.Clamp;
+            Sprite texGameResultRebirthS = Sprite.Create(texGameResultRebirth, v.rec128, v.half);
+            RebirthEndingDef.icon = texGameResultRebirthS;
+
+            if (WConfig.cfgTextOther.Value == true)
+            {
+                LimboEnding.endingTextToken = "GAME_RESULT_LIMBOWIN";
+                VoidEnding.endingTextToken = "GAME_RESULT_VOIDWIN";
+                EscapeSequenceFailed.endingTextToken = "GAME_RESULT_ESCAPEFAILED";
+            }
+
+        }
+
+        private static void BlueTeleporterObjective(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
+        {
+            orig(self);
+            if (WConfig.cfgPrimordialBlueText.Value == false)
+            {
+                return;
+            }
+            if (self.name.StartsWith("Lunar"))
+            {
+                if (TPLunar1 == null)
+                {
+                    LunaredAllOverIt = true;
+                    TPLunar1 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", Language.GetString("OBJECTIVE_FIND_TELEPORTER").Replace("cDeath", "cLunarObjective"));
+                    TPLunar2 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER", Language.GetString("OBJECTIVE_CHARGE_TELEPORTER").Replace("cDeath", "cLunarObjective"));
+                    TPLunar3 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER_OOB", Language.GetString("OBJECTIVE_CHARGE_TELEPORTER_OOB").Replace("cDeath", "cLunarObjective"));
+                    TPLunar4 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", Language.GetString("OBJECTIVE_FINISH_TELEPORTER").Replace("cDeath", "cLunarObjective"));
+
+                }
+            }
+            else if (TPLunar1 != null)
+            {
+                TPLunar1.Remove();
+                TPLunar2.Remove();
+                TPLunar3.Remove();
+                TPLunar4.Remove();
+
+            }
+
+        }
+
+
+        //What is this??
+        private static void IL_PICKUP(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchCallOrCallvirt("RoR2.GenericPickupController/PickupMessage", "Reset")))
+            {
+                c.Index--;
+                c.RemoveRange(2);
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: SIL_PICKUP");
+            }
+        }
+
+        private static void GenericPickupController_HandlePickupMessage(On.RoR2.GenericPickupController.orig_HandlePickupMessage orig, UnityEngine.Networking.NetworkMessage netMsg)
+        {
+            orig(netMsg);
+            if (WConfig.cfgMessagesVoidQuantity.Value)
+            {
+                GenericPickupController.PickupMessage pickupMessage = GenericPickupController.pickupMessageInstance;
+                GameObject masterGameObject = pickupMessage.masterGameObject;
+                PickupDef pickupDef = PickupCatalog.GetPickupDef(pickupMessage.pickupIndex);
+                //pickupMessage.Reset();
+                if (!masterGameObject)
+                {
+                    return;
+                }
+                Inventory inventory = masterGameObject.GetComponent<Inventory>();
+                if (!inventory)
+                {
+                    return;
+                }
+                ItemDef itemDef = ItemCatalog.GetItemDef((pickupDef != null) ? pickupDef.itemIndex : ItemIndex.None);
+                if (itemDef && itemDef.hidden == false)
+                {
+                    int newPickupCount = (int)pickupMessage.pickupQuantity;
+                    int VoidQuantity = newPickupCount;
+
+
+                    ItemIndex voidIndex = ContagiousItemManager.GetTransformedItemIndex(itemDef.itemIndex);
+                    //If Is Void, 
+                    if (itemDef.tier == ItemTier.VoidTier1 || itemDef.tier == ItemTier.VoidTier2 || itemDef.tier == ItemTier.VoidTier3 || itemDef.tier == ItemTier.VoidBoss)
+                    {
+                        //If is Void, shouldn't we only bother checking the first time?
+                        int voidCount = inventory.GetItemCount(itemDef);
+                        if (voidCount < 2)
+                        {
+                            foreach (ContagiousItemManager.TransformationInfo transformationInfo in ContagiousItemManager._transformationInfos)
+                            {
+                                if (itemDef.itemIndex == transformationInfo.transformedItem)
+                                {
+                                    int original = inventory.GetItemCount(transformationInfo.originalItem);
+                                    if (original > 0)
+                                    {
+                                        VoidQuantity += original;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (voidIndex != ItemIndex.None)
+                    {
+                        //If Is Normal but you got Void
+                        //If items are picked up too fast it doesn't count properly for items Voids that eat multiple
+                        int voidCount = inventory.GetItemCount(voidIndex);
+                        if (voidCount > 0)
+                        {
+                            VoidQuantity += voidCount;
+                        }
+                    }
+                    if (VoidQuantity > newPickupCount)
+                    {
+                        string voidQuant = "<style=cIsVoid>(" + VoidQuantity + ")</style>";
+
+                        string lastMessage = Chat.log[Chat.log.Count - 1] + voidQuant;
+                        Chat.log.RemoveAt(Chat.log.Count - 1);
+                        Chat.AddMessage(lastMessage);
+                    }
+
+                }
+                Debug.Log(Chat.log[Chat.log.Count - 1]);
+            }
+        }
+
+
+
+        internal static void OtherText()
+        {
+            //Additional Key Words
+            LanguageAPI.Add("KEYWORD_SLOWING", "<style=cKeywordName>Slowing</style><style=cSub>Apply a slowing debuff reducing enemy <style=cIsUtility>movement speed</style> by <style=cIsUtility>50%</style>.</style>", "en");
+
+            //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Huntress/HuntressBodyBlink.asset").WaitForCompletion().keywordTokens = new string[] { "KEYWORD_AGILE" };
+            //Arrow Rain Slows
+
+            //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Merc/MercBodyFocusedAssault.asset").WaitForCompletion().keywordTokens = new string[] { "KEYWORD_STUNNING", "KEYWORD_EXPOSE" };
+
+            LanguageAPI.Add("BAZAAR_SEER_SNOWYFOREST", "<style=cWorldEvent>You dream of campfires and ice.</style>", "en");
+            LanguageAPI.Add("BAZAAR_SEER_SHIPGRAVEYARD", "<style=cWorldEvent>You dream of windy cliffs.</style>", "en");
+            LanguageAPI.Add("BAZAAR_SEER_DAMPCAVESIMPLE", "<style=cWorldEvent>You dream of fiery caverns.</style>", "en");
+
+
+            LanguageAPI.Add("MONSTER_PICKUP_2P", "<style=cWorldEvent>You scavenged for {1}{2}</color>", "en");
+            LanguageAPI.Add("PLAYER_DEATH_QUOTE_33_2P", "You are not OK from this encounter.", "en");
+            LanguageAPI.Add("PLAYER_DEATH_QUOTE_33", "{0} is not OK from this encounter.", "en");
+
+
+            LanguageAPI.Add("MAP_ARENA_TITLE", "Void Fields", "en");
+            LanguageAPI.Add("MAP_VOIDSTAGE_TITLE", "Void Locus", "en");
+            LanguageAPI.Add("MAP_VOIDRAID_TITLE", "The Planetarium", "en");
+
+            //Updated Interactable Names
+            LanguageAPI.Add("LOCKEDTREEBOT_CONTEXT", "Repair the survivor", "en");
+            LanguageAPI.Add("LOCKEDMAGE_NAME", "Frozen Survivor", "en");
+
+
+            PurchaseTokenOverwrite changeTokenOnStart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestTerminalShippingDrone/FreeChestTerminalShippingDrone.prefab").WaitForCompletion().AddComponent<PurchaseTokenOverwrite>();
+            changeTokenOnStart.displayNameToken = "FREECHEST_TERMINAL_NAME";
+            changeTokenOnStart.contextToken = "FREECHEST_TERMINAL_CONTEXT";
+
+            changeTokenOnStart = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").AddComponent<PurchaseTokenOverwrite>();
+            changeTokenOnStart.displayNameToken = "MULTISHOP_LARGE_TERMINAL_NAME";
+            changeTokenOnStart.contextToken = "MULTISHOP_TERMINAL_CONTEXT";
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").AddComponent<PurchaseTokenOverwrite>();
+            changeTokenOnStart.displayNameToken = "MULTISHOP_EQUIPMENT_TERMINAL_NAME";
+            changeTokenOnStart.contextToken = "MULTISHOP_TERMINAL_CONTEXT";
+
+            changeTokenOnStart = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<PurchaseTokenOverwrite>();
+            changeTokenOnStart.displayNameToken = "DUPLICATOR_LARGE_NAME";
+            changeTokenOnStart.contextToken = "DUPLICATOR_LARGE_CONTEXT";
+
+        }
+
+        internal static void ItemText()
+        {
+            #region Items
+            //Funny All Stats
+            LanguageAPI.Add("ITEM_SHINYPEARL_DESC", "Increases <style=cIsDamage>damage</style>, <style=cIsDamage>attack speed</style>, <style=cIsDamage>critical strike chance</style>, <style=cIsHealing>maximum health</style>, <style=cIsHealing>base health regeneration</style>, <style=cIsHealing>base armor</style>, <style=cIsUtility>movement speed</style> by <style=cIsDamage>1<style=cIsHealing>0<style=cIsUtility>%<style=cStack> (+10% per stack)</style></style></style></style>", "en");
+
+            //Danger not Combat
+            LanguageAPI.Add("ITEM_HEALWHILESAFE_DESC", "Increases <style=cIsHealing>base health regeneration</style> by <style=cIsHealing>+3 hp/s</style> <style=cStack>(+3 hp/s per stack)</style> while outside of danger.", "en");
+
+            //Wrong damage per stack
+            LanguageAPI.Add("ITEM_MISSILEVOID_DESC", "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>10%</style> of your maximum health. While you have a <style=cIsHealing>shield</style>, hitting an enemy fires a missile that deals <style=cIsDamage>40%</style> <style=cStack>(+40% per stack)</style> TOTAL damage. <style=cIsVoid>Corrupts all AtG Missile Mk. 1s</style>.", "en");
+
+            //Doesn't mention Special Cooldown Reduction
+            LanguageAPI.Add("ITEM_EQUIPMENTMAGAZINEVOID_PICKUP", "Add an extra charge of your Special skill. Reduce Special skill cooldown. <style=cIsVoid>Corrupts all Fuel Cells</style>.", "en");
+            LanguageAPI.Add("ITEM_EQUIPMENTMAGAZINEVOID_DESC", "Add <style=cIsUtility>+1</style> <style=cStack>(+1 per stack)</style> charge of your <style=cIsUtility>Special skill</style>. <style=cIsUtility>Reduces Special skill cooldown</style> by <style=cIsUtility>33%</style>. <style=cIsVoid>Corrupts all Fuel Cells</style>.", "en");
+
+            //Straight up just doesn't say it corrupts any items like cmon.
+            LanguageAPI.Add("ITEM_VOIDMEGACRABITEM_DESC", "Every <style=cIsUtility>60</style><style=cStack>(-50% per stack)</style> seconds, gain a random <style=cIsVoid>Void</style> ally. Can have up to <style=cIsUtility>1</style><style=cStack>(+1 per stack)</style> allies at a time. <style=cIsVoid>Corrupts all </style><style=cIsTierBoss>yellow items</style><style=cIsVoid>.</style>", "en");
+            //Wrong rarities
+            LanguageAPI.Add("ITEM_TREASURECACHEVOID_DESC", "A <style=cIsUtility>hidden cache</style> containing an item (42%/<style=cIsHealing>42%</style>/<style=cIsHealth>16%</style>) will appear in a random location <style=cIsUtility>on each stage</style>. Opening the cache <style=cIsUtility>consumes</style> this item. <style=cIsVoid>Corrupts all Rusted Keys</style>.", "en");
+
+            //Starts at 1 stack so 15s on start
+            LanguageAPI.Add("ITEM_NOVAONLOWHEALTH_DESC", "Falling below <style=cIsHealth>25% health</style> causes you to explode, dealing <style=cIsDamage>6000% base damage</style>. Recharges every <style=cIsUtility>15 seconds</style> <style=cStack>(-33% per stack)</style>.");
+            //Is TOTAL Damage
+            LanguageAPI.Add("ITEM_LIGHTNINGSTRIKEONHIT_DESC", "<style=cIsDamage>10%</style> chance on hit to down a lightning strike, dealing <style=cIsDamage>500%</style> <style=cStack>(+500% per stack)</style> TOTAL damage.");
+            //Is TOTAL Damage
+            LanguageAPI.Add("ITEM_FIREBALLSONHIT_DESC", "<style=cIsDamage>10%</style> chance on hit to call forth <style=cIsDamage>3 magma balls</style> from an enemy, dealing <style=cIsDamage>300%</style> <style=cStack>(+300% per stack)</style> TOTAL damage and <style=cIsDamage>igniting</style> all enemies for an additional <style=cIsDamage>50%</style> TOTAL damage over time.");
+            //Removed unused cooldown
+            LanguageAPI.Add("ITEM_BEETLEGLAND_DESC", "<style=cIsUtility>Summon a Beetle Guard</style> with bonus <style=cIsDamage>300%</style> damage and <style=cIsHealing>100% health</style>. Can have up to <style=cIsUtility>1</style> <style=cStack>(+1 per stack)</style> Guards at a time.");
+
+            //Added Radius
+            LanguageAPI.Add("ITEM_BOUNCENEARBY_DESC", "<style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> chance on hit to <style=cIsDamage>fire homing hooks</style> at up to <style=cIsDamage>10</style> <style=cStack>(+5 per stack)</style> enemies within <style=cIsDamage>30m</style> for <style=cIsDamage>100%</style> TOTAL damage.");
+
+            //Wrong radius start
+            LanguageAPI.Add("ITEM_INTERSTELLARDESKPLANT_DESC", "On kill, plant a <style=cIsHealing>healing</style> fruit seed that grows into a plant after <style=cIsUtility>5</style> seconds. \n\nThe plant <style=cIsHealing>heals</style> for <style=cIsHealing>10%</style> of <style=cIsHealing>maximum health</style> every second to all allies within <style=cIsHealing>10m</style> <style=cStack>(+5m per stack)</style>. Lasts <style=cIsUtility>10</style> seconds.", "en");
+            //Wrong radius
+            LanguageAPI.Add("ITEM_MUSHROOM_DESC", "After standing still for <style=cIsHealing>1</style> second, create a zone that <style=cIsHealing>heals</style> for <style=cIsHealing>4.5%</style> <style=cStack>(+2.25% per stack)</style> of your <style=cIsHealing>health</style> every second to all allies within <style=cIsHealing>3.5m</style> <style=cStack>(+1.5m per stack)</style>.", "en");
+            //Wrong radius Stack
+            LanguageAPI.Add("ITEM_BEHEMOTH_DESC", "All your <style=cIsDamage>attacks explode</style> in a <style=cIsDamage>4m </style><style=cStack>(+2.5m per stack)</style> radius for a bonus <style=cIsDamage>60%</style> TOTAL damage to nearby enemies.", "en");
+
+            //Missing 5% Crit
+            LanguageAPI.Add("ITEM_ATTACKSPEEDONCRIT_DESC", "Gain <style=cIsDamage>5% critical chance</style>. <style=cIsDamage>Critical strikes</style> increase <style=cIsDamage>attack speed</style> by <style=cIsDamage>12%</style>. Maximum cap of <style=cIsDamage>36% <style=cStack>(+24% per stack)</style> attack speed</style>.", "en");
+            //Missing 5% Crit
+            LanguageAPI.Add("ITEM_BLEEDONHITANDEXPLODE_DESC", "Gain <style=cIsDamage>5% critical chance</style>. <style=cIsDamage>Critical Strikes bleed</style> enemies for <style=cIsDamage>240%</style> base damage. <style=cIsDamage>Bleeding</style> enemies <style=cIsDamage>explode</style> on death for <style=cIsDamage>400%</style> <style=cStack>(+400% per stack)</style> damage, plus an additional <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> of their maximum health.", "en");
+
+            #endregion
+            #region Equipment
+            //Remove, removed Movement Speed Buff
+            LanguageAPI.Add("EQUIPMENT_JETPACK_DESC", "Sprout wings and <style=cIsUtility>fly for 15 seconds</style>.", "en");
+            //Higher damage than stated
+            LanguageAPI.Add("EQUIPMENT_BFG_DESC", "Fires preon tendrils, zapping enemies within 35m for up to <style=cIsDamage>1200% damage/second</style>. On contact, detonate in an enormous 20m explosion for <style=cIsDamage>8000% damage</style>.");
+            //Red downside text
+            LanguageAPI.Add("EQUIPMENT_CRIPPLEWARD_DESC", "<color=#FF7F7F>ALL characters</color> within have their <style=cIsUtility>movement speed slowed by 100%</style> and have their <style=cIsDamage>armor reduced by 20</style>. Can place up to <style=cIsUtility>5</style>.", "en");
+            //Limit of 3
+            LanguageAPI.Add("EQUIPMENT_DEATHPROJECTILE_DESC", "Throw a cursed doll out that <style=cIsDamage>triggers</style> any <style=cIsDamage>On-Kill</style> effects you have every <style=cIsUtility>1</style> second for <style=cIsUtility>8</style> seconds. Cannot throw out more than <style=cIsUtility>3</style> dolls at a time.", "en");
+            //Yellow Item text
+            LanguageAPI.Add("EQUIPMENT_BOSSHUNTER_DESC", "<style=cIsDamage>Execute</style> any enemy capable of spawning a <style=cIsTierBoss>unique reward</style>, and it will drop that <style=cIsDamage>item</style>. Equipment is <style=cIsUtility>consumed</style> on use.", "en");
+            #endregion
+        }
+
+        public static void UntieredItemTokens()
+        {
+
+            RoR2Content.Items.TeamSizeDamageBonus.nameToken = "ITEM_TEAMSIZEDAMAGEBONUS_NAME";
+            RoR2Content.Items.TeamSizeDamageBonus.pickupToken = "ITEM_TEAMSIZEDAMAGEBONUS_PICKUP";
+            RoR2Content.Items.TeamSizeDamageBonus.descriptionToken = "ITEM_TEAMSIZEDAMAGEBONUS_DESC";
+
+            RoR2Content.Items.UseAmbientLevel.nameToken = "ITEM_USEAMBIENTLEVEL_NAME";
+            RoR2Content.Items.UseAmbientLevel.pickupToken = "ITEM_USEAMBIENTLEVEL_PICKUP";
+            RoR2Content.Items.UseAmbientLevel.descriptionToken = "ITEM_USEAMBIENTLEVEL_DESC";
+
+            RoR2Content.Items.MinHealthPercentage.nameToken = "ITEM_MINHEALTHPERCENTAGE_NAME";
+            RoR2Content.Items.MinHealthPercentage.pickupToken = "ITEM_MINHEALTHPERCENTAGE_PICKUP";
+            RoR2Content.Items.MinHealthPercentage.descriptionToken = "ITEM_MINHEALTHPERCENTAGE_DESC";
+
+            DLC1Content.Items.VoidmanPassiveItem.nameToken = "ITEM_VOIDMANPASSIVEITEM_NAME";
+            DLC1Content.Items.VoidmanPassiveItem.pickupToken = "ITEM_VOIDMANPASSIVEITEM_PICKUP";
+            DLC1Content.Items.VoidmanPassiveItem.descriptionToken = "ITEM_VOIDMANPASSIVEITEM_DESC";
+
+            RoR2Content.Items.TeleportWhenOob.nameToken = "ITEM_TELEPORTWHENOOB_NAME";
+            RoR2Content.Items.TeleportWhenOob.pickupToken = "ITEM_TELEPORTWHENOOB_PICKUP";
+            RoR2Content.Items.TeleportWhenOob.descriptionToken = "ITEM_TELEPORTWHENOOB_DESC";
+
+
+            JunkContent.Equipment.EliteYellowEquipment.nameToken = "EQUIPMENT_AFFIXYELLOW_NAME";
+            JunkContent.Equipment.EliteYellowEquipment.pickupToken = "EQUIPMENT_AFFIXUNFINISHED_PICKUP";
+            JunkContent.Equipment.EliteYellowEquipment.descriptionToken = "EQUIPMENT_AFFIXYELLOW_DESC";
+
+        }
+
+
+        internal static void CharacterText()
+        {
+
+            //Skills
+            //LanguageAPI.Add("RAILGUNNER_SNIPE_CRYO_DESCRIPTION", "<style=cIsUtility>Freezing</style>.  Launch a super-cooled projectile for <style=cIsDamage>2000% damage</style>.");
+
+            //LanguageAPI.Add("HUNTRESS_UTILITY_DESCRIPTION", "<style=cIsUtility>Agile</style>. <style=cIsUtility>Disappear</style> and <style=cIsUtility>teleport</style> forward.");
+            LanguageAPI.Add("HUNTRESS_SPECIAL_DESCRIPTION", "<style=cIsUtility>Teleport</style> into the sky. Target an area to rain arrows, <style=cIsUtility>slowing</style> all enemies and dealing <style=cIsDamage>330% damage per second</style>.");
+            LanguageAPI.Add("BANDIT2_SPECIAL_ALT_DESCRIPTION", "<style=cIsDamage>Slayer</style>. Fire a revolver shot for <style=cIsDamage>600% damage</style>. Kills grant <style=cIsDamage>stacking tokens</style> for a flat <style=cIsDamage>60%</style> more damage on Desperado.");
+
+            LanguageAPI.Add("ENGI_SPECIAL_DESCRIPTION", "Place a turret that <style=cIsUtility>inherits all your items.</style> Fires a cannon for <style=cIsDamage>210% damage per second</style>. Can place up to 2.");
+
+            LanguageAPI.Add("TOOLBOT_SPECIAL_ALT_DESCRIPTION", "Enter a heavy stance, equipping both your <style=cIsDamage>primary attacks</style> at once. Gain <style=cIsUtility>100 armor</style>, but lose <style=cIsHealth>-50% movement speed</style>.");
+
+            LanguageAPI.Add("TREEBOT_SECONDARY_DESCRIPTION", "<style=cIsHealth>13% HP</style>. Launch a mortar into the sky for <style=cIsDamage>450% damage</style>.");
+            LanguageAPI.Add("TREEBOT_UTILITY_ALT1_DESCRIPTION", "<style=cIsHealth>17% HP</style>. Fire a <style=cIsUtility>Sonic Boom</style> that <style=cIsDamage>damages</style> enemies for <style=cIsDamage>550% damage</style>. <style=cIsHealing>Heals for every target hit</style>.");
+
+            //LanguageAPI.Add("MAGE_SPECIAL_FIRE_DESCRIPTION", "Burn all enemies in front of you for <style=cIsDamage>2000% damage</style>.");
+
+            LanguageAPI.Add("LOADER_UTILITY_ALT1_DESCRIPTION", "<style=cIsUtility>Heavy</style>. Charge up a <style=cIsUtility>single-target</style> punch for <style=cIsDamage>2100% damage</style> that <style=cIsDamage>shocks</style> enemies in a cone for <style=cIsDamage>900% damage</style>.");
+
+
+            //LanguageAPI.Add("CAPTAIN_UTILITY_ALT1_DESCRIPTION", "<style=cIsDamage>Stunning</style>. Request a <style=cIsDamage>kinetic strike</style> from the <style=cIsDamage>UES Safe Travels</style>. After <style=cIsUtility>20 seconds</style>, it deals <style=cIsDamage>40,000% damage</style> to enemies and <style=cIsDamage>20,000% damage</style> to ALL ALLIES..");
+
+            LanguageAPI.Add("KEYWORD_WEAK", "<style=cKeywordName>Weaken</style><style=cSub>Reduce movement speed and damage by <style=cIsDamage>40%</style>. Reduce armor by <style=cIsDamage>30</style>.</style>");
+
+            LanguageAPI.Add("SKILL_LUNAR_UTILITY_REPLACEMENT_DESCRIPTION", "Fade away, becoming <style=cIsUtility>intangible</style> and <style=cIsUtility>gaining movement speed</style>. <style=cIsHealing>Heal</style> for <style=cIsHealing>18% of your maximum health</style>.");
+
+            LanguageAPI.Add("ITEM_LUNARSECONDARYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Secondary Skill </style> with <style=cIsUtility>Slicing Maelstrom</style>.  \n\nCharge up a projectile that deals <style=cIsDamage>875% damage per second</style> to nearby enemies, exploding after <style=cIsUtility>3</style> seconds to deal <style=cIsDamage>700% damage</style> and <style=cIsDamage>root</style> enemies for <style=cIsUtility>3</style> <style=cStack>(+3 per stack)</style> seconds. Recharges after 5 <style=cStack>(+5 per stack)</style> seconds.");
+            LanguageAPI.Add("ITEM_LUNARUTILITYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Utility Skill</style> with <style=cIsUtility>Shadowfade</style>. \n\nFade away, becoming <style=cIsUtility>intangible</style> and gaining <style=cIsUtility>+30% movement speed</style>. <style=cIsHealing>Heal</style> for <style=cIsHealing>18% <style=cStack>(+18% per stack)</style> of your maximum health</style>. Lasts 3 <style=cStack>(+3 per stack)</style> seconds.");
+
+        }
+
+
+    }
+
+}
