@@ -1,6 +1,6 @@
 This mod and all it's features should work regardless if anyone else has it installed.
 
-Some features were cut when I made this mod ClientSide, [See here.](https://thunderstore.io/package/Wolfo/WolfoQualityOfLife/)
+Some features were cut when I made this mod ClientSide, [See here.](https://thunderstore.io/package/Wolfo/WolfoQoL_OptionalExtras/)
 
 ## Visuals
 Oni Mercenary will have a red sword.\
@@ -25,7 +25,7 @@ Geysers in Sulfur Pools and Abyssal Depths have different fluid color to match t
 Readds the old chunky printer Model for Uncommon and Mili Tech Printers.
 
 Lunar/Elite Equipment, Void White/Red/Boss, Lunar Coins now use their own color.\
-Adds colored highlights for Tiers that were using the default one and Equipment.
+Adds colored highlights for Tiers that were lacking one and for Equipment.
 
 
 ![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
@@ -56,11 +56,14 @@ Picking up a void will show how many it corrupted on pickup.\
 Picking up a normal will show how many of the void you have that it gets absorbed into.
 
 Item names will be colored in pings.\
+Pinging a Ally will be blue with a friendly message.\
 Pings last twice as long.
 
-Equipment Drones, equipment, will be shown under their name
+Equipment Drones equipment will be shown under their name
 
 Lunar Seers destination Stages will shown when pinged and in the pre-purchase line.
+
+Uncommon 3D Printers & Multi Shops will be referred to as Large instead of reusing the same name.
 
 Each Mountain Shrine adds a mountain symbol.
  
@@ -100,13 +103,13 @@ Elite Aspects, Geep, Gip, Twisted Scav and Malachite Urchin show up in the Logbo
 
 ![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)
 ## Gameplay fixes
-#### (Server-Side)
+<b>(Server-Side)</b>
 Primordial Teleporter destination can be shifted after the TP boss.\
 Acrid is invulnerable during his spawn animation.\
 Mercenary is briefly immune to fall damage during his M2 to avoid leg breakage.\
 Fixes XI Construct laser. 
 
-Prsimatic Trials are available without leaderboard and with random seed.
+Prsimatic Trials are available without leaderboard and with random seed.\
 Other gameplay fixes as dependencies from other people. 
 
 ## Miscellaneous

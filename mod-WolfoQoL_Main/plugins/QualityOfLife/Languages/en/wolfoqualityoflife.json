@@ -1,6 +1,10 @@
 {
 	"strings":
 	{
+		"cStyleGold" :"",
+		"cStyleSots" :"",
+		
+		
 		        "REMINDER_PORTAL_LUNAR": "Proceed through the <style=cIsLunar>Blue Portal</style>",    
 				"REMINDER_PORTAL_GOLD": "Proceed through the <color=#FFE880>Gold Portal</color>",
                 "REMINDER_PORTAL_MS": "Proceed through the <color=#7CFEF3>Celestial Portal</color>",
@@ -9,16 +13,34 @@
 				"REMINDER_PORTAL_NULL": "Proceed through the <style=cIsVoid>Null Portal</style>",
                 "REMINDER_PORTAL_VOID": "Proceed through the <style=cIsVoid>Void Portal</style>",
                 "REMINDER_PORTAL_GREEN": "Proceed through the <color=#7CFE7C>Green Portal</color>",
+				 
+			"PORTAL_DESTINATION_CONTEXT": "Reject being Reborn",
+			"PLAYER_PING_PLAYER": "<style=cIsUtility>{0} says hello to: {1}.</style>",
+ 
 		
+			"SHRINE_REVIVE_USE_MESSAGE": "<style=cShrine>Lost life will be reshapen.</color>",
+			
+			"SHRINE_REVIVE_MESSAGE_DEAD_YOUAND": "<style<style=cIsLunar>You{0} had your bodies reshapen.</color>",
+			"SHRINE_REVIVE_MESSAGE_DEAD_YOU": "<style=cIsLunar>Your body was reshapen.</color>",
+			"SHRINE_REVIVE_MESSAGE_DEAD": "<style=cIsLunar>{0} had their body reshapen.</color>",
+ 
+			"ITEM_REVIVE_MESSAGE": "<style=cIsLunar>{0} revived using their {1}</color>",
+			"ITEM_REVIVE_MESSAGE_TEAM": "<style=cIsLunar>{0} revived fallen team members, using {1}</color>",
+			"ITEM_REVIVE_MESSAGE_ALL": "NOTIN<style=cIsLunar>{0} revived themselves and fallen team members, using {1}</color>",
+
+ 
+ 
+			"REBIRTH_ENDING_CHAT_ITEM_2P": "You will be born anew with {0}.",
+		 
+				
 		
 			"GAME_RESULT_LIMBOWIN": "At Peace..",
 			"GAME_RESULT_VOIDWIN": "Deeper, yet Deeper..",
 			"GAME_RESULT_ESCAPEFAILED": "Failed Escape..",
 		
-			"REBIRTH_ENDING_CHAT": "You will be born anew.",
-		
-		
+				
 		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <color=#FFE880>Halcyon Shrine</color> ({0}%)",
+            "OBJECTIVE_CHARGE_HALCSHRINE_NOPERCENT": "Charge the <color=#FFE880>Halcyon Shrine</color>",
             "OBJECTIVE_KILL_HALCSHRINE": "Defeat the <color=#FFE880>Guardian</color>",
 			
 			"OBJECTIVE_ARTIFACT_TRIAL": "Complete the \n<style=cArtifact>Trial of {0}</style>",
@@ -42,7 +64,7 @@
 			
             "REMINDER_FREECHESTVOID": "Find and activate the <style=cIsVoid>Lost Battery</style>",
 			
-			"REMINDER_NEWT": "Find and activate a <style=cIsLunar>Newt Shrine</style)",  
+			"REMINDER_NEWT": "Find and activate a\n<style=cIsLunar>Newt Altar</style>",  
 		 
 			"REMINDER_SECRET_GEODE": "Crack the <color=#FFE880>Aurelionite Geodes</color> ({0}/{1})",
            
@@ -68,6 +90,9 @@
 			 "ITEM_LOSS_GENERIC_2P": "<style=cEvent>You got rid of {1}</style>",
 				"ITEM_LOSS_GENERIC": "<style=cEvent>{0} got rid of {1}</style>",
 		
+			 "ITEM_LOSS_USED_2P": "<style=cEvent>You used {1}</style>",
+				"ITEM_LOSS_USED": "<style=cEvent>{0} used {1}</style>",
+	
 			 "ITEM_LOSS_CAULDRON_2P": "<style=cEvent>You reforged {1}</style>",
 				"ITEM_LOSS_CAULDRON": "<style=cEvent>{0} reforged {1}</style>",
 		
@@ -77,6 +102,9 @@
 			 "ITEM_LOSS_SCRAP_2P": "<style=cEvent>You scrapped {1}</style>",
 				"ITEM_LOSS_SCRAP": "<style=cEvent>{0} scrapped {1}</style>",
 	
+			"ITEM_LOSS_LOST_2P": "<style=cEvent>You lost {1}</style>",
+				"ITEM_LOSS_LOST": "<style=cEvent>{0} lost {1}</style>",
+		
 	
 			"ITEM_USE_ELIXIR": "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>",
 			"ITEM_USE_WATCH": "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>",
@@ -85,6 +113,16 @@
 			"ITEM_TRANSFORM_EGO": "<style=cEvent><color=#458CFF>{0}</color> assimilated <color=#{1}>{2}</color></style>",
 			"ITEM_TRANSFORM_VOID": "<style=cEvent><style=cIsVoid>The Void</style> upgraded <color=#{0}>{1} into <color=#{2}>{3}</style>",
  
+ 
+ 
+ 
+			"WIN_FORMAT_WIN":"<style=cIsHealing><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+			"WIN_FORMAT_FAIL":"<style=cDeath><sprite name=\"Skull\" tint=1> {0} <sprite name=\"Skull\" tint=1></style>",
+			"WIN_FORMAT_MS":"<style=cLunar><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+			"WIN_FORMAT_VOID":"<style=cIsVoid><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+			"WIN_FORMAT_REBIRTH":"<color=#7CFE7C><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+		
+			
 		
 		
 			"DEATH_DOT_FRACTURE_2P": "You were collapsed by {1}.",
@@ -120,8 +158,19 @@
             "DEATH_GENERIC_2P": "You were killed by {1}.",
             "DEATH_GENERIC": "{0} was killed by {1}.",
 
-            "DEATH_DAMAGE": " ({0} damage taken)</style>"
+            "DEATH_DAMAGE": " ({0} damage taken)</style>",
+		
+			"MULTISHOP_LARGE_TERMINAL_NAME": "Large Multishop Terminal",
+            "MULTISHOP_LARGE_TERMINAL_CONTEXT": "Open terminal",
+            "MULTISHOP_EQUIPMENT_TERMINAL_NAME": "Equipment Shop Terminal",
+            "MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT": "Open terminal",
+            "DUPLICATOR_LARGE_NAME": "Large 3D Printer",
+            "DUPLICATOR_LARGE_CONTEXT": "Use Large 3D Printer",
+			"ARTIFACT_COMMAND_CUBE_PINK_NAME": "Pink Command Essence",
 		
 
+            "FREECHEST_TERMINAL_NAME": "Shipping Terminal",
+            "FREECHEST_TERMINAL_CONTEXT": "Accept delivery.",
+		
 	}
 }

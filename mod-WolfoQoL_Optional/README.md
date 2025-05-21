@@ -1,6 +1,6 @@
-This mod can not be used with people who don't also have it installed.
+This mod can NOT be used with people who don't have it installed.
 
-For the main part of the mod, where most of the changes are, [go here.](https://thunderstore.io/package/Wolfo/WolfoQoL_Client/)
+For the main part of the mod, where most of the changes are, [go here.](https://thunderstore.io/package/Wolfo/WolfoQualityOfLife/)
 
 ## Indicator Buffs & Items
 
@@ -23,7 +23,7 @@ Consumed Rusted Keys item like how there's consumed Elixir/Watches.\
 Consumed Prayer Beads that tell you how many stats you are getting.
 
 
-![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqol_server.png)
+![Image of prayer](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/wqol_extras.png?raw=true)
 
 
 ##

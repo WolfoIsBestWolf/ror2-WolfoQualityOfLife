@@ -1,9 +1,26 @@
 {
 	"strings":
 	{
+			"INFINITETOWER_SUDDEN_DEATH": "<style=cWorldEvent>[WARNING] The Focus begins to falter..</style>",
+            "INFINITETOWER_OBJECTIVE_AWAITINGACTIVATION": "Activate the <style=cIsVoid>Focus</style>",
+            "INFINITETOWER_OBJECTIVE_TRAVEL": "Follow the <style=cIsVoid>Focus</style>",
+            "INFINITETOWER_OBJECTIVE_PORTAL": "Advance through the <style=cIsVoid>Infinite Portal</style>",
+ 
+			"ARTIFACT_COMMAND_CUBE_INTERACTION_PROMPT": "Choose",
+			
+			"FROG_NAME": "Glass Frog",
+			"FROG_CONTEXT": "Pet the glass frog",
+			"PET_FROG": "<style=cIsLunar>{0} pet the glass frog.</style>", 
+			"PET_FROG_2P": "<style=cIsLunar>You pet the glass frog.</style>", 
+		
+			"DRONE_MEGA_CONTEXT": "Repair TC-280", 
+		
 			"EQUIPMENT_AFFIXVOID_NAME": "Voidborne Curiosity",
             "EQUIPMENT_AFFIXVOID_PICKUP": "Lose your aspect of self.",
             "EQUIPMENT_AFFIXVOID_DESC": "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>50%</style> and decrease <style=cIsDamage>base damage</style> by <style=cIsDamage>30%</style>. <style=cIsDamage>Collapse</style> enemies on hit and <style=cIsHealing>block</style> incoming damage once every <style=cIsUtility>15 seconds</style>. ",
+		
+			"MAP_GOLDSHORES_SUBTITLE": "Soulful Cage",
+			"MAP_ARTIFACTWORLD_SUBTITLE": "Elements of Creation",
 		
 		
 			"LUNAR_CHIMERA": "Lunar Chimera",
@@ -30,17 +47,7 @@
 			"OBJECTIVE_MERIDIAN_REACH_ARENA": "Ascend to the <color=#7CFE7C>Prime Meridian</color>",
 		
 		
-			"MULTISHOP_LARGE_TERMINAL_NAME": "Large Multishop Terminal",
-            "MULTISHOP_LARGE_TERMINAL_CONTEXT": "Open terminal",
-            "MULTISHOP_EQUIPMENT_TERMINAL_NAME": "Equipment Shop Terminal",
-            "MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT": "Open terminal",
-            "DUPLICATOR_LARGE_NAME": "Large 3D Printer",
-            "DUPLICATOR_LARGE_CONTEXT": "Use Large 3D Printer",
-			
 
-            "FREECHEST_TERMINAL_NAME": "Shipping Terminal",
-            "FREECHEST_TERMINAL_CONTEXT": "Accept delivery.",
-		
 		
 			"ITEM_SCRAPWHITE_PICKUP": "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color>.",
             "ITEM_SCRAPGREEN_PICKUP": "Does nothing. Prioritized when used with <style=cIsHealing>Large 3D Printers</style>.",
@@ -74,7 +81,7 @@
 			"EQUIPMENT_AFFIXAURELIONITE_DESC": "On hit, enemies will drop <style=cIsUtility>nuggets</style> worth <style=cIsUtility>$8</style>. <style=cIsUtility>Scales over time.</style> Upon activation or every <style=cIsDamage>12s</style>, launch a <style=cIsDamage>eruption</style> dealing <style=cIsDamage>15% damage</style> then <style=cIsDamage>150% damage.</style>",
 				
           
-			"EQUIPMENT_AFFIXBEAD_DESC": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>10</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and inflicting <style=cIsDamage>Lunar Ruin</style>. Recharges both effects after <style=cIsDamage>10s</style>. All <style=cIsDamage>Lunar Ruin</style> is applied twice.", 
+			"EQUIPMENT_AFFIXBEAD_DESC": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>10</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and inflicting <style=cIsDamage>Lunar Ruin</style>.", 
 
 	}
 }

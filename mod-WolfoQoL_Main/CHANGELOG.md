@@ -80,7 +80,7 @@ If ServerMod not installed:
 
 Moved Sulfur Beetle Skin ReImplementation here (ClientSide now)(from LittleGameplayTweaks)
 
-Sale Star now shrinks instead of vanishing upon buying.
+Sale Star effect now shrinks instead of vanishing upon buying.
 
 Fixed Newt Altars being purchase able after Teleporter, or when Teleporter starts with Blue Orb.
 Fixed Secret Geode Reminder not working on clients?
@@ -91,7 +91,7 @@ Fixed War Bonds playing sound even if you have 0 Missiles.
 Fixed vanilla issue where clients often had their Prayer stats desynced.
 Fixed Engi Spider Mines being loud as fuck and constantly beeping on clients
 
-
+Switched to using R2API_Colors instead of own implementation
 EffectCatalog trickery to make added effects work without being seperate indexes.
 ProjectileGhost replacing instead of replacing entire Projectiles. (Always shoulda done this tbh)
 

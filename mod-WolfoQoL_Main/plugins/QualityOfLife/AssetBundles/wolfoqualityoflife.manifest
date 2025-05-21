@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2084626403
+CRC: 3285283038
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 167f6cba770b3b9c7d0ffc0e2c19acf4
+    Hash: c0c074a78b60d43508e2899e1e81068d
   TypeTreeHash:
     serializedVersion: 2
     Hash: e7a8211d1220a65f149cab164f436878
@@ -31,11 +31,13 @@ Assets:
 - "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texBarrelIcon.png"
 - Assets/WQoL/PingIcons/ChestLargeHealIcon.png
 - Assets/WQoL/BackupOld/BackupOld/ChestDamageIcon.png
+- Assets/WQoL/Icons/handMadeOld/texBodySquidTurret.png
 - Assets/WQoL/PingIcons/pingGoldGeode.png
 - Assets/WQoL/SkinStuff/texRampMercDustGreen.png
 - Assets/WQoL/Buffs/texBuffRoundShieldBuff.png
 - "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texMysteryIcon.png"
 - Assets/WQoL/ColorChanger/OutlineChangedtexEffigyIcon.png
+- Assets/WQoL/PingIcons/SotsIcon3.png
 - Assets/WQoL/PingIcons/ScavBagIcon.png
 - Assets/WQoL/BackupOld/BackupOld/PrinterLargeIcon.png
 - Assets/WQoL/PingIcons/DroneHealIcon.png
@@ -52,9 +54,11 @@ Assets:
 - Assets/WQoL/PingIcons/ChestVoidPotential.png
 - Assets/WQoL/ColorChanger/OutlineChangedtexAffixGreenIcon.png
 - Assets/WQoL/SkinStuff/texRampCrocoDiseaseBlight.png
+- Assets/WQoL/Icons/handMadeOld/texBodyTitanGoldAlly.png
 - Assets/WQoL/PingIcons/PrinterMiliIcon.png
 - Assets/WQoL/BackupOld/BackupOld/ChestLargeDamageIcon.png
 - "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texLunarPillarIcon.png"
+- Assets/WQoL/Icons/handMadeOld/texBodyBrotherHurt.png
 - Assets/WQoL/BackupOld/oldBG/lunarold1/OutlineChangedtexEffigyIcon.png
 - Assets/WQoL/ColorChanger/Modded/AffixLostTransitFrenzied.png
 - Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkLessDarkOLD.png
@@ -77,10 +81,12 @@ Assets:
 - Assets/WQoL/BackupOld/BackupOld/ShrineGoldIcon.png
 - Assets/WQoL/PingIcons/ChestEquipIcon.png
 - Assets/WQoL/BackupOld/texTrimSheetVeryRed.png
+- Assets/WQoL/PingIcons/SotsIcon2.png
 - Assets/WQoL/Buffs/texBuffHeadStompOff.png
 - Assets/WQoL/PingIcons/SpStShrineCloaked .png
 - Assets/WQoL/SkinScalable/texCrocoEmissionAlt.png
 - Assets/WQoL/ColorChanger/Modded/texAffixCloakIcon.png
+- Assets/WQoL/Buffs/texBuffTeleportOnLowHealthCooldown.png
 - Assets/WQoL/BackupOld/stuff/outlineminimal.png
 - Assets/WQoL/PingIcons/SpStShrineAegis.png
 - Assets/WQoL/Icons/betaPauldron.png
@@ -120,8 +126,9 @@ Assets:
 - Assets/WQoL/BackupOld/BackupOld/PrinterWildIcon.png
 - Assets/WQoL/BackupOld/BackupOld/CellIcon - Copy.png
 - Assets/WQoL/ColorChanger/Modded/texAffixRaging.png
+- Assets/WQoL/PingIcons/SotsIcon3_Shrunk.png
 - Assets/WQoL/PingIcons/PingIconVoidEradicator.png
-- Assets/WQoL/Buffs/texBuffFrostRelic.png
+- Assets/WQoL/Icons/handMadeOld/texBodyEngiWalkerTurret.png
 - Assets/WQoL/SkinStuff/texRampHuntressGreen.png
 - Assets/WQoL/Icons/betaCorpse.png
 - Assets/WQoL/BackupOld/texRampCrocoDiseaseDarkBlight.png
@@ -130,6 +137,7 @@ Assets:
 - Assets/WQoL/Icons/texBodyBrotherHurt.png
 - Assets/WQoL/PingIcons/ShrineChanceIcon.png
 - Assets/WQoL/Buffs/texBuffBeetleUp.png
+- Assets/WQoL/Buffs/texBuffFrostRelic.png
 - Assets/WQoL/ColorChanger/Modded/AffixRoR2Lunar.png
 - Assets/WQoL/ColorChanger/texEquipmentBossBG.png
 - Assets/WQoL/PingIcons/DroneMegaIcon.png
@@ -143,6 +151,7 @@ Assets:
 - Assets/WQoL/PingIcons/PrinterSuperLarge.png
 - Assets/WQoL/SkinStuff/texRampHuntressSoftGreen.png
 - "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texInventoryIconOutlined.png"
+- Assets/WQoL/PingIcons/SotsIcon.png
 - Assets/WQoL/BackupOld/oldBG/b2f86b5e-7b56-4086-9e7a-380b296a4389.png
 - Assets/WQoL/SkinStuff/texRampMercDustRed.png
 - Assets/WQoL/BackupOld/texRampCrocoDiseaseDarkLong.png
@@ -163,6 +172,7 @@ Assets:
 - "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texTeleporterIconOutlined.png"
 - Assets/WQoL/Icons/texBodyDevotedElder.png
 - Assets/WQoL/Buffs/texBuffHeadStompOn.png
+- Assets/WQoL/Icons/handMadeOld/texBodyRoboBallBuddyGreen.png
 - Assets/WQoL/PingIcons/DroneEmergencyIcon.png
 - "Assets/WQoL/BackupOld/Vanilla\xE4-PingIcons/texDroneIconOutlined.png"
 - Assets/WQoL/PingIcons/SS2_DroneDuplicate.png
@@ -246,6 +256,7 @@ Assets:
 - Assets/WQoL/PingIcons/DroneTurretIcon.png
 - Assets/WQoL/BackupOld/stuff/outline.png
 - Assets/WQoL/ColorChanger/OutlineChangedtexAffixHauntedIcon.png
+- Assets/WQoL/Icons/handMadeOld/texBodyRoboBallBuddyRed.png
 - Assets/WQoL/BackupOld/BackupOld/ChestVoidPotential.png
 - Assets/WQoL/PingIcons/PingLemurianEgg - Copy.png
 - Assets/WQoL/PingIcons/texLunarPillarIcon.png
