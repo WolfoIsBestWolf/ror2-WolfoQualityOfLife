@@ -42,7 +42,7 @@ namespace WolfoQoL_Client
                 if (model && model.body)
                 {
                     Object.Destroy(model.body.gameObject.GetComponent<MakeThisMercRed>());
-                    Object.Destroy(model.body.gameObject.GetComponent<MakeThisMercRed>());
+                    Object.Destroy(model.body.gameObject.GetComponent<MakeThisMercGreen>());
 
                     if (self.name.EndsWith("Alt") && WConfig.cfgSkinMercRed.Value || self.name.EndsWith("Red"))
                     {

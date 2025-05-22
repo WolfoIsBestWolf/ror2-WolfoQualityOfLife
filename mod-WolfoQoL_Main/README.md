@@ -2,6 +2,8 @@ This mod and all it's features should work regardless if anyone else has it inst
 
 Some features were cut when I made this mod ClientSide, [See here.](https://thunderstore.io/package/Wolfo/WolfoQoL_OptionalExtras/)
 
+Everything configurable ingame via RiskOfOptions.
+
 ## Visuals
 Oni Mercenary will have a red sword.\
 Oni & Frail Mercenary will glow their respective color instead of blue.\
@@ -39,15 +41,17 @@ Objectives for the following:
 - Getting the extra Halcyonite Fragment on Prime Meridian
 
 Updated Death Screen including.
-- Equipment you had on death,
+- Equipment you had on death.
 - Elite prefix of killer.
 - What items the killer had. (if any)
 
 Many more messages so you have another chance to see what happened, or to see what someone else is doing.
 - On death, a detailed death message is sent, so you know what you died to.
-- Messages for items lost to Printing/Cauldron/Cleansing.
+- Message for items lost to printing/cauldron/cleansing.
 - Message for items scrapped.
-- Messsages for Benthic or Egocentrism changing items.
+- Message for Benthic or Egocentrism changing your items.
+- Message for breaking your Elixir or Watches.
+- Message reviving using an item.
 - Message when Shrine of Shaping activates.
 - Victory quotes displayed in chat.
  
@@ -125,6 +129,8 @@ Elite Children have stronger colors so you can notice them easier.\
 Some Lunar Seer destinations look less bright.
 
 Makes the "Unstable Transmitter Active" buff visible & gives it a Icon.
+
+Lunar Seers replace the Blue Portal with a Green/Gold/Void when going to those places.
 
 Sale Star effect does a little effect instead of vanishing.\
 False Sons Aurelionite Fragment now has Green or Red tiered visuals.

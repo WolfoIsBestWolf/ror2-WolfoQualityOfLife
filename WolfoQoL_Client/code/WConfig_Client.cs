@@ -12,6 +12,7 @@ namespace WolfoQoL_Client
 
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Client.cfg", true);
 
+        public static ConfigEntry<bool> cfgSkipItemDisplays;
 
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
@@ -39,6 +40,8 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMessagesVoidQuantity;
         public static ConfigEntry<bool> cfgMessagesShrineRevive;
         public static ConfigEntry<bool> cfgMessagesRevive;
+        public static ConfigEntry<bool> cfgMessagesSaleStar;
+        public static ConfigEntry<bool> cfgMessagesRecycler;
 
         //Reminders
         public static ConfigEntry<bool> cfgRemindersGeneral;
@@ -151,6 +154,14 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgGameplay;
         public static ConfigEntry<bool> SulfurPoolsSkin;
 
+        public enum Player
+        {
+            Off,
+            Multiplayer,
+            Always,
+        }
+
+
         public static void Start()
         {
             Debug.Log("WQoL InitConfig");
@@ -160,7 +171,6 @@ namespace WolfoQoL_Client
 
             cfgObjectiveHeight.SettingChanged += UpdateHuds;
             cfgObjectiveFontSize.SettingChanged += UpdateHuds;
-
         }
 
 
@@ -261,12 +271,24 @@ namespace WolfoQoL_Client
                  true,
                  "Message for when someone dies and revives using an item.\n\nWith more ways to revive, might be good to know when it's because of an item."
               );
+            cfgMessagesSaleStar = ConfigFile_Client.Bind(
+                 "Chat Messages",
+                 "Sale Star Message",
+                 true,
+                 "Message to show when and on what someone used their Sale Stars on."
+              );
             cfgMessageElixir = ConfigFile_Client.Bind(
                 "Chat Messages",
                 "Elixir & Watch lost",
                 true,
                 "Chat message for when you use Elixir, lose Watches, lose random item with VanillaVoids Clockwork Mechanism"
             );
+            cfgMessagesRecycler = ConfigFile_Client.Bind(
+                 "Chat Messages",
+                 "Recycler Message",
+                 true,
+                 "When an item is Recycled by anyone, a message will be displayed saying what turned into what."
+              );
 
             cfgMessagesVoidQuantity = ConfigFile_Client.Bind(
                 "Chat Messages",

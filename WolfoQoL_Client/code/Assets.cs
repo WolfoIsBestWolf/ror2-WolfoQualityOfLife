@@ -25,6 +25,12 @@ namespace WolfoQoL_Client
         internal static void Init(PluginInfo info)
         {
             PluginInfo = info;
+
+            //Check if manual install
+            if (!Directory.Exists(GetPathToFile(Folder)))
+            {
+                Folder = "plugins\\" + Folder;
+            }
             if (Directory.Exists(GetPathToFile(Folder + "AssetBundles")))
             {
                 Bundle = AssetBundle.LoadFromFile(GetPathToFile(Folder + "AssetBundles", "wolfoqualityoflife"));
@@ -32,15 +38,12 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("COULD NOT FIND ASSETBUNDLES FOLDER");
+                Debug.LogError("COULD NOT FIND ASSETBUNDLES FOLDER");
             }
+
             if (WConfig.cfgTestDisableMod.Value)
             {
                 return;
-            }
-            if (!Directory.Exists(GetPathToFile("QualityOfLife")))
-            {
-                Folder = "";
             }
             if (Directory.Exists(GetPathToFile(Folder + "Languages")))
             {
@@ -48,10 +51,8 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("COULD NOT FIND LANGUAGES FOLDER");
+                Debug.LogError("COULD NOT FIND LANGUAGES FOLDER");
             }
-
-
         }
 
         private static void SetFolders(On.RoR2.Language.orig_SetFolders orig, RoR2.Language self, System.Collections.Generic.IEnumerable<string> newFolders)

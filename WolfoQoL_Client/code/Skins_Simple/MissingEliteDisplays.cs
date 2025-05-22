@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
 {
-    public class LunarEliteDisplay
+    public class MissingEliteDisplays
     {
         public static GameObject MithrixCrystalYellow = null;
         public static GameObject MithrixCrystalOrange = null;
@@ -200,14 +200,13 @@ namespace WolfoQoL_Client
         public static void Start()
         {
             LunarEliteDisplays();
-            MissingEliteDisplays();
-            MithrixItemDisplay();
+            MissingElites();
             OtherItemDisplays();
             StupidRabbitEars();
-
+            MithrixItemDisplay();
         }
 
-        public static void MissingEliteDisplays()
+        public static void MissingElites()
         {
             EquipmentDef EliteEarthEquipment = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteEarth/EliteEarthEquipment.asset").WaitForCompletion();
             EquipmentDef EliteSecretSpeedEquipment = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteSecretSpeedEquipment.asset").WaitForCompletion();
@@ -1111,12 +1110,12 @@ namespace WolfoQoL_Client
         {
 
             GameObject ItemInfectionRed = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/ItemInfection, Red.prefab").WaitForCompletion();
-
+            Debug.Log(ItemInfectionRed);
             MithrixCrystalOrange = PrefabAPI.InstantiateClone(ItemInfectionRed, "ItemInfection, Orange", false);
             MithrixCrystalYellow = PrefabAPI.InstantiateClone(ItemInfectionRed, "ItemInfection, Yellow", false);
             MithrixCrystalPink = PrefabAPI.InstantiateClone(ItemInfectionRed, "ItemInfection, Pink", false);
             MithrixCrystalPinkSmall = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/ItemInfection, White.prefab").WaitForCompletion(), "ItemInfection, PinkSingle", false);
-
+            Debug.Log(MithrixCrystalPink);
             MithrixCrystalOrange.GetComponent<MeshRenderer>().material = Object.Instantiate<Material>(MithrixCrystalOrange.GetComponent<MeshRenderer>().material);
             MithrixCrystalOrange.GetComponent<MeshRenderer>().material.SetColor("_EmColor", new Color(1.4f, 0.7f, 0f, 1f));
             MithrixCrystalYellow.GetComponent<MeshRenderer>().material = Object.Instantiate<Material>(MithrixCrystalYellow.GetComponent<MeshRenderer>().material);
@@ -1134,7 +1133,7 @@ namespace WolfoQoL_Client
             MithrixCrystalPink.GetComponent<MeshRenderer>().material = PinkCrystal;
             MithrixCrystalPinkSmall.GetComponent<MeshRenderer>().material = PinkCrystal;
 
-
+            VoidDisplaysMithrix();
         }
 
         public static void LunarEliteDisplays()
@@ -1964,10 +1963,10 @@ namespace WolfoQoL_Client
                 {
                     ItemDef transformedItem = ItemCatalog.GetItemDef(transformationInfo.transformedItem);
 
-                    GameObject FollowerPrefab = LunarEliteDisplay.MithrixCrystalPink;
+                    GameObject FollowerPrefab = MithrixCrystalPink;
                     if (transformedItem.tier == ItemTier.VoidTier1)
                     {
-                        FollowerPrefab = LunarEliteDisplay.MithrixCrystalPinkSmall;
+                        FollowerPrefab = MithrixCrystalPinkSmall;
                     }
                     ItemDisplayRule[] newDisplayRules = new ItemDisplayRule[originalDisplayRule.rules.Length];
                     originalDisplayRule.rules.CopyTo(newDisplayRules, 0);

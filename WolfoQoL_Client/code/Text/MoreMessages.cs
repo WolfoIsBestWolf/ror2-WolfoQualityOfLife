@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using RiskOfOptions.Lib;
 using RoR2;
 using System;
 using UnityEngine;
@@ -9,6 +10,11 @@ using static RoR2.CharacterMasterNotificationQueue;
 
 namespace WolfoQoL_Client
 {
+
+    public class StoreLatestPickupindex : MonoBehaviour
+    {
+        public PickupIndex previousIndex;
+    }
 
     public class MoreMessages
     {
@@ -35,11 +41,77 @@ namespace WolfoQoL_Client
             On.RoR2.CharacterMasterNotificationQueue.PushEquipmentTransformNotification += TransformEquipment_Messages;
             IL.RoR2.CharacterMasterNotificationQueue.HandleTransformNotification += SendAllTransformsLol;
 
+            On.RoR2.EquipmentSlot.FireRecycle += RecylerMessage_Host;
+            On.RoR2.GenericPickupController.OnDeserialize += RecylerMessage_Client;
+        }
 
+        private static void RecylerMessage_Client(On.RoR2.GenericPickupController.orig_OnDeserialize orig, GenericPickupController self, NetworkReader reader, bool initialState)
+        {
+            //Sometimes the new Index and Recycle bool come together
+            //Sometimes, they do not?
+            bool preRecycle = self.Recycled;
+            PickupIndex pre = self.NetworkpickupIndex;
+            orig(self, reader, initialState);
+            //Debug.Log(pre + " | "+self.NetworkpickupIndex + " | "+self.Recycled);
+
+            bool newPickup = pre != PickupIndex.none && pre != self.NetworkpickupIndex;
+            bool justRecyled = preRecycle == false && self.Recycled == true;
+            if (justRecyled && newPickup)
+            {
+                Chat.AddMessage(new RecycleMessage
+                {
+                    oldPickup = pre,
+                    newPickup = self.NetworkpickupIndex
+                });
+            }
+            else if (newPickup)
+            {
+                var has = self.gameObject.GetComponent<StoreLatestPickupindex>();
+                if (!has)
+                {
+                    self.gameObject.AddComponent<StoreLatestPickupindex>();
+                }
+                has.previousIndex = pre;
+            }
+            else if (justRecyled)
+            {
+                Chat.AddMessage(new RecycleMessage
+                {
+                    oldPickup = self.gameObject.GetComponent<StoreLatestPickupindex>().previousIndex,
+                    newPickup = self.NetworkpickupIndex
+                });
+            }
 
         }
 
+        private static bool RecylerMessage_Host(On.RoR2.EquipmentSlot.orig_FireRecycle orig, EquipmentSlot self)
+        {
+            GenericPickupController pickupController = self.currentTarget.pickupController;
+            if (!pickupController || pickupController.Recycled)
+            {
+                return false;
+            }
+            PickupIndex pre = pickupController.pickupIndex;
+            bool temp = orig(self);
 
+            Chat.AddMessage(new RecycleMessage
+            {
+                //subjectAsCharacterBody = self.characterBody,
+                oldPickup = pre,
+                newPickup = pickupController.NetworkpickupIndex
+            });
+
+            return temp;
+        }
+
+        private static void Interactor_RpcInteractionResult(On.RoR2.Interactor.orig_RpcInteractionResult orig, Interactor self, bool anyInteractionSucceeded)
+        {
+            orig(self, anyInteractionSucceeded);
+            if (anyInteractionSucceeded)
+            {
+                InteractionDriver driver = self.GetComponent<InteractionDriver>();
+            }
+        }
 
         private static void SendAllTransformsLol(ILContext il)
         {
@@ -325,8 +397,70 @@ namespace WolfoQoL_Client
 
 
     }
+    public class SaleStarMessage : SubjectChatMessage
+    {
+        public string interactableToken;
+        public override string ConstructChatString()
+        {
+            if (!WConfig.cfgMessagesSaleStar.Value)
+            {
+                return null;
+            }
+            baseToken = "ITEM_USED_STAR";
+            return string.Format(Language.GetString(this.GetResolvedToken()), this.GetSubjectName(), Language.GetString(interactableToken));
+        }
+        public override void Serialize(NetworkWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(interactableToken);
+        }
+        public override void Deserialize(NetworkReader reader)
+        {
+            if (WolfoMain.NoHostInfo == true)
+            {
+                return;
+            }
+            base.Deserialize(reader);
+            interactableToken = reader.ReadString();
+        }
 
 
+    }
+
+    public class RecycleMessage : ChatMessageBase
+    {
+        public PickupIndex oldPickup;
+        public PickupIndex newPickup;
+        public override string ConstructChatString()
+        {
+            if (!WConfig.cfgMessagesRecycler.Value)
+            {
+                return null;
+            }
+            string token1 = "";
+            string token2 = "";
+            string hex = "";
+ 
+            PickupDef pickup1 = PickupCatalog.GetPickupDef(oldPickup);
+            PickupDef pickup2 = PickupCatalog.GetPickupDef(newPickup);
+            hex = ColorUtility.ToHtmlStringRGB(pickup1.baseColor);
+            if (pickup1.itemIndex != ItemIndex.None)
+            {
+                token1 = ItemCatalog.GetItemDef(pickup1.itemIndex).nameToken;
+                token2 = ItemCatalog.GetItemDef(pickup2.itemIndex).nameToken;
+            }
+            else if (pickup1.equipmentIndex != EquipmentIndex.None)
+            {
+                token1 = EquipmentCatalog.GetEquipmentDef(pickup1.equipmentIndex).nameToken;
+                token2 = EquipmentCatalog.GetEquipmentDef(pickup2.equipmentIndex).nameToken;
+            }
+            token1 = Language.GetString(token1);
+            token2 = Language.GetString(token2);
+
+            return string.Format(Language.GetString("ITEM_RECYCLED_GLOBAL"), token1, token2, hex);
+        }
+ 
+    }
 
 
 

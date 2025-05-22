@@ -43,27 +43,20 @@ namespace WolfoQoL_Client
         private static void ScrappingMessage(On.RoR2.ScrapperController.orig_BeginScrapping orig, ScrapperController self, int intPickupIndex)
         {
             orig(self, intPickupIndex);
-            if (WConfig.cfgMessageScrap.Value == false)
-            {
-                return;
-            }
             if (self.interactor)
             {
                 CharacterBody component = self.interactor.GetComponent<CharacterBody>();
                 PickupDef pickupDef = PickupCatalog.GetPickupDef(new PickupIndex(intPickupIndex));
                 if (component && component.inventory && pickupDef != null)
                 {
-                    if (WolfoMain.ShouldHostGiveInfo)
+                    Chat.SendBroadcastChat(new ItemLossMessage
                     {
-                        Chat.SendBroadcastChat(new ItemLossMessage
-                        {
-                            baseToken = "ITEM_LOSS_SCRAP",
-                            itemCount = self.itemsEaten,
-                            pickupIndexOnlyOneItem = new PickupIndex(intPickupIndex),
-                            subjectAsCharacterBody = component,
-                            //subjectAsNetworkUser = component.master.playerCharacterMasterController.networkUser,
-                        });
-                    }
+                        baseToken = "ITEM_LOSS_SCRAP",
+                        itemCount = self.itemsEaten,
+                        pickupIndexOnlyOneItem = new PickupIndex(intPickupIndex),
+                        subjectAsCharacterBody = component,
+                        //subjectAsNetworkUser = component.master.playerCharacterMasterController.networkUser,
+                    });
 
                 }
             }
@@ -83,10 +76,6 @@ namespace WolfoQoL_Client
                 c.Emit(OpCodes.Ldarg_1);
                 c.EmitDelegate<Func<RoR2.CostTypeDef.PayCostResults, PurchaseInteraction, RoR2.Interactor, RoR2.CostTypeDef.PayCostResults>>((payResults, purchase, interactor) =>
                 {
-                    if (WConfig.cfgMessagePrint.Value == false)
-                    {
-                        return payResults;
-                    }
                     if (payResults.itemsTaken.Count > 0 || payResults.equipmentTaken.Count > 0)
                     {
                         string token = "";
@@ -137,13 +126,7 @@ namespace WolfoQoL_Client
                             token = "ITEM_LOSS_GENERIC";
                         }
                         LossMessage.baseToken = token;
-
-                        if (WolfoMain.ShouldHostGiveInfo)
-                        {
-                            Chat.SendBroadcastChat(LossMessage);
-                        }
-
-
+                        Chat.SendBroadcastChat(LossMessage);
                     }
                     return payResults;
                 });
@@ -161,6 +144,14 @@ namespace WolfoQoL_Client
         {
             public override string ConstructChatString()
             {
+                if (WConfig.cfgMessageScrap.Value == false && baseToken == "ITEM_LOSS_SCRAP")
+                {
+                    return null;
+                }
+                else if (WConfig.cfgMessagePrint.Value == false) 
+                {
+                    return null;
+                }
 
                 if (base.IsSecondPerson())
                 {
@@ -239,6 +230,10 @@ namespace WolfoQoL_Client
 
             public override void Deserialize(NetworkReader reader)
             {
+                if (WolfoMain.NoHostInfo == true)
+                {
+                    return;
+                }
                 base.Deserialize(reader);
                 itemCount = reader.ReadInt32();
                 pickupIndexOnlyOneItem = reader.ReadPickupIndex();

@@ -4,18 +4,18 @@ For the main part of the mod, where most of the changes are, [go here.](https://
 
 ## Indicator Buffs & Items
 
-<b>Buffs for :</b>\
--Hopoo Feather : How many extra jumps left\
---Also works for VanillaVoids Quill\
--Freezing : 1 Stack per 0.5s of Frozen, helps visualize for characters that freeze.\
--Head Stompers : Active/Cooldown like Bands\
--Frost Relic : How many kill-stacks are active.\
--Rose Buckler : Matches Wungus\
--Shield Recharging : Like Medkit\
--Opal Cooldown\
--Milky Chrisalis Active\
--Strides of Heresy Active\
--Helfire : Blue Fire Icon instead of no Icon
+<b>Buffs for :</b>
+- Hopoo Feather : How many extra jumps left\
+- VanillaVoids Quasi Quill : How many air-dashes\
+- Freezing : 1 Stack per 0.5s of Frozen, helps visualize for characters that freeze.\
+- Head Stompers : Active/Cooldown like Bands\
+- Frost Relic : How many kill-stacks are active.\
+- Rose Buckler : Matches Wungus\
+- Shield Recharging : Like Medkit\
+- Opal Cooldown\
+- Milky Chrisalis Active\
+- Strides of Heresy Active\
+- Helfire : Blue Fire Icon instead of no Icon
 
 Some of these are useful if you have a mod that displays how long Timed Buffs have left.
  

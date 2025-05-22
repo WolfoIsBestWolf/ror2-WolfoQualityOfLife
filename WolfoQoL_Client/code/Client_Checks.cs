@@ -1,3 +1,5 @@
+using EntityStates.AffixVoid;
+using HG;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
@@ -153,10 +155,6 @@ namespace WolfoQoL_Client
 
         public static void CheckInteractable_ClientOnly(PurchaseInteraction purchase, bool isMulti)
         {
-            if (WolfoMain.ShouldHostGiveInfo)
-            {
-                return;
-            }
             if (isMulti)
             {
                 if (TreasureReminder.instance.Objective_FreeChest)
@@ -166,6 +164,10 @@ namespace WolfoQoL_Client
             }
             else
             {
+                if (purchase.saleStarCompatible)
+                {
+                    ItemLoss_ClientListener.TrySaleStar(purchase);
+                }
                 switch (purchase.costType)
                 {
                     case CostTypeIndex.WhiteItem:
@@ -347,6 +349,7 @@ namespace WolfoQoL_Client
         public static bool isScrapper = false;
         public static bool forceEquip = false;
         public static bool checkEquip = false;
+        public static bool checkSaleStar = false;
         public static string token = "ITEM_LOSS_GENERIC";
 
         public PlayerCharacterMasterController playerMaster;
@@ -391,6 +394,33 @@ namespace WolfoQoL_Client
             if (latest != null)
             {
                 latest.TryMessageInstance();
+            }
+        }
+
+        public static void TrySaleStar(PurchaseInteraction purchase)
+        {
+            if (!WConfig.cfgMessagesSaleStar.Value)
+            {
+                return;
+            }
+            if (latest != null)
+            {
+                int index = (int)DLC2Content.Items.LowerPricedChests.itemIndex;
+                int salePre = latest.prevItems[index];
+                int salePost = latest.inventory.itemStacks[index];
+                Debug.Log("SaleStar " + salePre + " " + salePost);
+
+                if (salePre > 0 && salePost == 0)
+                {
+                    latest.prevItems[index] = 0;
+                    Chat.AddMessage(new SaleStarMessage
+                    {
+                        interactableToken = purchase.displayNameToken,
+                        subjectNetworkUserObject = latest.playerMaster.networkUserObject,
+                    });
+                }
+
+               
             }
         }
 

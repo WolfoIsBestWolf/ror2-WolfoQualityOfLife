@@ -18,7 +18,8 @@ namespace WolfoQoL_Client
         public static void Start()
         {
             Testing.Start();
-       
+            DifficultyColors();
+
             RandomMiscWithConfig.Start();
 
             HoldoutZoneFlowers.FlowersForOtherHoldoutZones();
@@ -247,11 +248,17 @@ namespace WolfoQoL_Client
             geode.range = 25;
             geode.intensity = 8;
 
-            On.RoR2.PortalStatueBehavior.OnSerialize += PortalStatueBehavior_OnSerialize;
-            On.RoR2.TeleporterInteraction.OnSyncShouldAttemptToSpawnShopPortal += TeleporterInteraction_OnSyncShouldAttemptToSpawnShopPortal;
+            On.RoR2.PortalStatueBehavior.OnSerialize += NewtAvailableFix1;
+            On.RoR2.TeleporterInteraction.OnSyncShouldAttemptToSpawnShopPortal += NewtAvailableFix2;
+
+            //1 0.7877 0.8294 1
+            //1 0.5613 0.6487 1
+
+            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Railgunner/RailgunnerOverchargeUIReady.prefab").WaitForCompletion();
+            //crosshairOverridePrefab
         }
 
-        private static void TeleporterInteraction_OnSyncShouldAttemptToSpawnShopPortal(On.RoR2.TeleporterInteraction.orig_OnSyncShouldAttemptToSpawnShopPortal orig, TeleporterInteraction self, bool newValue)
+        private static void NewtAvailableFix2(On.RoR2.TeleporterInteraction.orig_OnSyncShouldAttemptToSpawnShopPortal orig, TeleporterInteraction self, bool newValue)
         {
             orig(self, newValue);
             if (newValue == true)
@@ -272,7 +279,7 @@ namespace WolfoQoL_Client
            
         }
 
-        private static bool PortalStatueBehavior_OnSerialize(On.RoR2.PortalStatueBehavior.orig_OnSerialize orig, PortalStatueBehavior self, NetworkWriter writer, bool forceAll)
+        private static bool NewtAvailableFix1(On.RoR2.PortalStatueBehavior.orig_OnSerialize orig, PortalStatueBehavior self, NetworkWriter writer, bool forceAll)
         {
             self.GetComponent<PurchaseInteraction>().setUnavailableOnTeleporterActivated = true;
             return orig(self, writer, forceAll);
@@ -286,6 +293,30 @@ namespace WolfoQoL_Client
             }
             return orig(self);
         }
+
+        private static void DifficultyColors()
+        {
+            Color eclipseColor = new Color(0.2f, 0.22f, 0.4f, 1);
+
+            DifficultyCatalog.difficultyDefs[3].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[4].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[5].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[6].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[7].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[8].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[9].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[10].color = eclipseColor;
+
+            DifficultyCatalog.difficultyDefs[3].serverTag = "e1";
+            DifficultyCatalog.difficultyDefs[4].serverTag = "e2";
+            DifficultyCatalog.difficultyDefs[5].serverTag = "e3";
+            DifficultyCatalog.difficultyDefs[6].serverTag = "e4";
+            DifficultyCatalog.difficultyDefs[7].serverTag = "e5";
+            DifficultyCatalog.difficultyDefs[8].serverTag = "e6";
+            DifficultyCatalog.difficultyDefs[9].serverTag = "e7";
+            DifficultyCatalog.difficultyDefs[10].serverTag = "e8";
+        }
+
 
         private static void ScoreboardForDeadPeopleToo(ILContext il)
         {

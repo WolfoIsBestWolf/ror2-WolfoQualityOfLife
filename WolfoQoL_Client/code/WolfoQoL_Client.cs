@@ -26,16 +26,15 @@ namespace WolfoQoL_Client
 
         public static bool ServerModInstalled = false;
 
-        public static bool ShouldHostGiveInfo
+        public static bool NoHostInfo
         {
             get
             {
-                if (NetworkServer.active)
+                if (!NetworkServer.active)
                 {
-                    return WConfig.cfgTestDisableHostInfo.Value == false;
+                    return WConfig.cfgTestDisableHostInfo.Value;
                 }
                 return false;
-
             }
         }
 
@@ -72,14 +71,15 @@ namespace WolfoQoL_Client
             }
 
             GameplayQualityOfLife.Start();
-
-         
+        
             //Generally Host send -> Host recieve always works fine for these messages
             //Just obviously a lot of this expects Host given info and will not work on Clients alone
             //So work arounds can be added
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ItemLoss_Host.ItemLossMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ItemLoss_Host.ItemLossMessage));
-
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(SaleStarMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(SaleStarMessage));
+ 
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DeathMessage.DetailedDeathMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(DeathMessage.DetailedDeathMessage));
 
@@ -88,7 +88,6 @@ namespace WolfoQoL_Client
 
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(HostPingAllClients), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(HostPingAllClients));
-
 
 
             SkinChanges.Start();
@@ -120,27 +119,17 @@ namespace WolfoQoL_Client
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
 
-
-
             On.RoR2.UI.LogBook.LogBookController.BuildMonsterEntries += RandomMiscWithConfig.LogbookEntryAdderMonsters;
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += RandomMiscWithConfig.LogbookEliteAspectAdder;
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
 
-
             //Main Menu Stuff
             On.RoR2.UI.MainMenu.MainMenuController.Start += MainMenuExtras;
 
-
             MissionPointers.Start();
 
-
-            //Debug.Log(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/HippoRezEffect"));
-            //Debug.Log(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/fxHealAndReviveGold"));
-            Debug.Log(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGold.prefab").WaitForCompletion());
-            Debug.Log(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGreen.prefab").WaitForCompletion());
-
-
-            Run.onRunStartGlobal += Run_onRunStartGlobal;
+            //Debug.Log(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGold.prefab").WaitForCompletion());
+            //Debug.Log(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGreen.prefab").WaitForCompletion());
 
             ClientChecks.Start();
 
@@ -148,32 +137,13 @@ namespace WolfoQoL_Client
 
             On.RoR2.Stage.PreStartClient += PingVisualStageChanges;
 
-            DifficultyColors();
+            Run.onRunStartGlobal += Run_onRunStartGlobal;
+            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
         }
 
-        private void DifficultyColors()
-        {
-            Color eclipseColor = new Color(0.2f, 0.22f, 0.4f, 1);
+        
 
-            DifficultyCatalog.difficultyDefs[3].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[4].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[5].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[6].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[7].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[8].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[9].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[10].color = eclipseColor;
-
-            DifficultyCatalog.difficultyDefs[3].serverTag = "e1";
-            DifficultyCatalog.difficultyDefs[4].serverTag = "e2";
-            DifficultyCatalog.difficultyDefs[5].serverTag = "e3";
-            DifficultyCatalog.difficultyDefs[6].serverTag = "e4";
-            DifficultyCatalog.difficultyDefs[7].serverTag = "e5";
-            DifficultyCatalog.difficultyDefs[8].serverTag = "e6";
-            DifficultyCatalog.difficultyDefs[9].serverTag = "e7";
-            DifficultyCatalog.difficultyDefs[10].serverTag = "e8";
-        }
-
+      
         private void PingVisualStageChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
         {
             orig(self);
@@ -578,8 +548,8 @@ namespace WolfoQoL_Client
 
         public void Start()
         {
-            ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Client");
-            Debug.Log("WolfoQualityOfLife : WolfoQoL_Client installed? : " + ServerModInstalled);
+            ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Extras");
+            Debug.Log("WolfoQoL_Extras installed? : " + ServerModInstalled);
 
             if (WConfig.cfgTestDisableMod.Value)
             {
@@ -588,19 +558,6 @@ namespace WolfoQoL_Client
             }
             TextChanges.Main();
         }
-
-        private void Run_onRunStartGlobal(Run obj)
-        {
-            HostHasMod = false;
-            if (NetworkServer.active)
-            {
-                Chat.SendBroadcastChat(new HostPingAllClients());
-            }
-        }
-
-
-
-
 
 
         private void MainMenuExtras(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
@@ -737,10 +694,9 @@ namespace WolfoQoL_Client
                 Debug.Log(a);
             }
 
-            LunarEliteDisplay.Start();
+            MissingEliteDisplays.Start();
             TextChanges.UntieredItemTokens();
-
-            LunarEliteDisplay.VoidDisplaysMithrix();
+        
 
             if (WConfig.cfgColorMain.Value == true)
             {
@@ -753,6 +709,9 @@ namespace WolfoQoL_Client
             {
                 OptionPickupStuff.orange = orang.tier;
             }
+
+             
+            TextChanges.AutoGeneratedText();
         }
 
 
@@ -783,30 +742,39 @@ namespace WolfoQoL_Client
 
         }
 
-
+        private void Run_onRunStartGlobal(Run obj)
+        {
+            if (NetworkServer.active)
+            {
+                Chat.SendBroadcastChat(new HostPingAllClients());
+            }
+        }
+        private void Run_onRunDestroyGlobal(Run obj)
+        {
+            HostHasMod = false;
+        }
         public class HostPingAllClients : ChatMessageBase
         {
             public override string ConstructChatString()
             {
                 HostHasMod = true;
                 Debug.Log("Host has WolfoQoL_Client: " + HostHasMod_);
+                //Hard to account for, when does PlayerMaster get made
+                //When does this get sent, when does this arrive
+                //Does just doing it here instead.
+                if (WConfig.cfgTestClient.Value == true)
+                {
+                    return null;
+                }
+                foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
+                {
+                    Destroy(player.GetComponent<KillerInfo_ClientListener>());
+                    Destroy(player.GetComponent<ItemLoss_ClientListener>());
+                }
                 return null;
             }
         }
-
-
-        /*public static string GetGameObjectPath(GameObject obj)
-        {
-            string path = "/" + obj.name;
-            while (obj.transform.parent != null)
-            {
-                obj = obj.transform.parent.gameObject;
-                path = "/" + obj.name + path;
-            }
-            return path;
-        }*/
-
-
+ 
 
     }
     public class MakeThisMercRed : MonoBehaviour

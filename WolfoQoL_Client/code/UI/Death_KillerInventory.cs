@@ -233,6 +233,10 @@ namespace WolfoQoL_Client
 
             public override void Deserialize(NetworkReader reader)
             {
+                if (WolfoMain.NoHostInfo == true)
+                {
+                    return;
+                }
                 base.Deserialize(reader);
                 killerName = reader.ReadString();
                 killerObject = reader.ReadGameObject();

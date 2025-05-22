@@ -336,7 +336,7 @@ namespace WolfoQoL_Client
             //matMercExposed = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
             matMercExposed_Green = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
             matMercExposed_Green.SetTexture("_RemapTex", texRampHuntress_Green);
-            matMercExposed_Green.SetColor("_TintColor", new Color(-0.1f, 1f, -0.1f, 1f));//r: 0, g: 0.1362783, b: 0.8867924, a: 1
+            matMercExposed_Green.SetColor("_TintColor", new Color(-1f, 0.25f, -1f, 1f));//r: 0, g: 0.1362783, b: 0.8867924, a: 1
             particleSystemRenderer.material = matMercExposed_Green;
             particleSystemRenderer = MercExposeEffect_Green.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>();
             particleSystemRenderer.material = matMercExposedBackdrop_Green;

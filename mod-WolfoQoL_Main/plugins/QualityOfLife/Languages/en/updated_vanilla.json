@@ -23,6 +23,9 @@
 			"MAP_ARTIFACTWORLD_SUBTITLE": "Elements of Creation",
 		
 		
+			"FAMILY_PARENT": "<style=cWorldEvent>[WARNING] A familial bond is being interrupted..</style>",
+		
+		
 			"LUNAR_CHIMERA": "Lunar Chimera",
 			"LUNARGOLEM_BODY_NAME": "Lunar Chimera Golem",
 			"LUNARWISP_BODY_NAME": "Lunar Chimera Wisp",
@@ -47,7 +50,6 @@
 			"OBJECTIVE_MERIDIAN_REACH_ARENA": "Ascend to the <color=#7CFE7C>Prime Meridian</color>",
 		
 		
-
 		
 			"ITEM_SCRAPWHITE_PICKUP": "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color>.",
             "ITEM_SCRAPGREEN_PICKUP": "Does nothing. Prioritized when used with <style=cIsHealing>Large 3D Printers</style>.",

@@ -1,18 +1,29 @@
 {
 	"strings":
 	{
-		"cStyleGold" :"",
-		"cStyleSots" :"",
+	
+		
+			"cStyleGold": "",
+			"cStyleSots": "",
+			"cStyleMS":"#7CFEF3",
+	 
+			"SKILL_VOIDFIEND_CORRUPT_M1":"Fire a short-range beam for <style=cisDamage>2000% damage per second.</style>",
+			"SKILL_VOIDFIEND_CORRUPT_M2":"Fire a an arcing plasma bomb for <style=cisDamage>1100% damage.</style>",
+			"SKILL_VOIDFIEND_CORRUPT_M3":"<style=cIsUtility>Disappear</style> into the Void, <style=cIsUtility>cleansing all debuffs</style> while moving at a <style=cIsUtility>fast forward angle.</style>",
+			"SKILL_VOIDFIEND_CORRUPT_M4":"Crush <style=cIsHealth>25% maximum health</style> to gain <style=cIsVoid>25% Corruption.</style>",
+
+			"CHEF_BOOSTED_FORMAT": "Boosted {0}",
+			"VOIDFIEND_BOOSTED_FORMAT": "『Co??rupted】{0}",
 		
 		
-		        "REMINDER_PORTAL_LUNAR": "Proceed through the <style=cIsLunar>Blue Portal</style>",    
-				"REMINDER_PORTAL_GOLD": "Proceed through the <color=#FFE880>Gold Portal</color>",
-                "REMINDER_PORTAL_MS": "Proceed through the <color=#7CFEF3>Celestial Portal</color>",
-				"REMINDER_PORTAL_ARTIFACT": "Proceed through the <style=cDeath>Artifact Portal</style>",
+		    "REMINDER_PORTAL_LUNAR": "Proceed through the <style=cIsLunar>Blue Portal</style>",    
+			"REMINDER_PORTAL_GOLD": "Proceed through the <color=#FFE880>Gold Portal</color>",
+            "REMINDER_PORTAL_MS": "Proceed through the <color=#7CFEF3>Celestial Portal</color>",
+			"REMINDER_PORTAL_ARTIFACT": "Proceed through the <style=cDeath>Artifact Portal</style>",
                 
-				"REMINDER_PORTAL_NULL": "Proceed through the <style=cIsVoid>Null Portal</style>",
-                "REMINDER_PORTAL_VOID": "Proceed through the <style=cIsVoid>Void Portal</style>",
-                "REMINDER_PORTAL_GREEN": "Proceed through the <color=#7CFE7C>Green Portal</color>",
+			"REMINDER_PORTAL_NULL": "Proceed through the <style=cIsVoid>Null Portal</style>",
+            "REMINDER_PORTAL_VOID": "Proceed through the <style=cIsVoid>Void Portal</style>",
+            "REMINDER_PORTAL_GREEN": "Proceed through the <color=#7CFE7C>Green Portal</color>",
 				 
 			"PORTAL_DESTINATION_CONTEXT": "Reject being Reborn",
 			"PLAYER_PING_PLAYER": "<style=cIsUtility>{0} says hello to: {1}.</style>",
@@ -20,19 +31,16 @@
 		
 			"SHRINE_REVIVE_USE_MESSAGE": "<style=cShrine>Lost life will be reshapen.</color>",
 			
-			"SHRINE_REVIVE_MESSAGE_DEAD_YOUAND": "<style<style=cIsLunar>You{0} had your bodies reshapen.</color>",
-			"SHRINE_REVIVE_MESSAGE_DEAD_YOU": "<style=cIsLunar>Your body was reshapen.</color>",
-			"SHRINE_REVIVE_MESSAGE_DEAD": "<style=cIsLunar>{0} had their body reshapen.</color>",
+			"SHRINE_REVIVE_MESSAGE_DEAD_YOUAND": "<style<style=cShrine>You{0} had your bodies reshapen.</color>",
+			"SHRINE_REVIVE_MESSAGE_DEAD_YOU": "<style=cShrine>Your body was reshapen.</color>",
+			"SHRINE_REVIVE_MESSAGE_DEAD": "<style=cShrine>{0} had their body reshapen.</color>",
  
 			"ITEM_REVIVE_MESSAGE": "<style=cIsLunar>{0} revived using their {1}</color>",
 			"ITEM_REVIVE_MESSAGE_TEAM": "<style=cIsLunar>{0} revived fallen team members, using {1}</color>",
 			"ITEM_REVIVE_MESSAGE_ALL": "NOTIN<style=cIsLunar>{0} revived themselves and fallen team members, using {1}</color>",
 
  
- 
-			"REBIRTH_ENDING_CHAT_ITEM_2P": "You will be born anew with {0}.",
-		 
-				
+			"REBIRTH_ENDING_CHAT_ITEM_2P": "You will be born anew with {0}.",	
 		
 			"GAME_RESULT_LIMBOWIN": "At Peace..",
 			"GAME_RESULT_VOIDWIN": "Deeper, yet Deeper..",
@@ -49,7 +57,7 @@
 		
  
 			"REMINDER_COUNT": " ({0}/{1})",
-            "REMINDER_KEY": "Unlock the <style=cisDamage>Rusty Lockbox</style>",
+            "REMINDER_KEY": "Unlock the <style=cIsDamage>Rusty Lockbox</style>",
             "REMINDER_KEY_MANY": "Unlock the <style=cisDamage>Rusty Lockbox</style> ({0}/{1})",
 
             "REMINDER_KEYVOID": "Unlock the <color=#FF9EEC>Encrusted Lockbox</color>",
@@ -92,7 +100,7 @@
 		
 			 "ITEM_LOSS_USED_2P": "<style=cEvent>You used {1}</style>",
 				"ITEM_LOSS_USED": "<style=cEvent>{0} used {1}</style>",
-	
+
 			 "ITEM_LOSS_CAULDRON_2P": "<style=cEvent>You reforged {1}</style>",
 				"ITEM_LOSS_CAULDRON": "<style=cEvent>{0} reforged {1}</style>",
 		
@@ -104,7 +112,13 @@
 	
 			"ITEM_LOSS_LOST_2P": "<style=cEvent>You lost {1}</style>",
 				"ITEM_LOSS_LOST": "<style=cEvent>{0} lost {1}</style>",
+		 
+			"ITEM_USED_STAR": "<style=cEvent>{0} used <color=#77FF16>Sale Star</color> while opening: <style=cIsDamage>{1}</style>",
+		 "ITEM_USED_STAR_2P": "<style=cEvent>You used <color=#77FF16>Sale Star</color> while opening: <style=cIsDamage>{1}</style>",
+	
+			"ITEM_RECYCLED_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> was recycled into <color=#{2}>{1}</color></style>",
 		
+
 	
 			"ITEM_USE_ELIXIR": "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>",
 			"ITEM_USE_WATCH": "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>",
@@ -115,7 +129,6 @@
  
  
  
- 
 			"WIN_FORMAT_WIN":"<style=cIsHealing><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			"WIN_FORMAT_FAIL":"<style=cDeath><sprite name=\"Skull\" tint=1> {0} <sprite name=\"Skull\" tint=1></style>",
 			"WIN_FORMAT_MS":"<style=cLunar><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
@@ -123,8 +136,7 @@
 			"WIN_FORMAT_REBIRTH":"<color=#7CFE7C><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 		
 			
-		
-		
+				
 			"DEATH_DOT_FRACTURE_2P": "You were collapsed by {1}.",
             "DEATH_DOT_FRACTURE": "{0} was collapsed by {1}.",
 
@@ -160,14 +172,16 @@
 
             "DEATH_DAMAGE": " ({0} damage taken)</style>",
 		
-			"MULTISHOP_LARGE_TERMINAL_NAME": "Large Multishop Terminal",
-            "MULTISHOP_LARGE_TERMINAL_CONTEXT": "Open terminal",
-            "MULTISHOP_EQUIPMENT_TERMINAL_NAME": "Equipment Shop Terminal",
-            "MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT": "Open terminal",
-            "DUPLICATOR_LARGE_NAME": "Large 3D Printer",
-            "DUPLICATOR_LARGE_CONTEXT": "Use Large 3D Printer",
+		
 			"ARTIFACT_COMMAND_CUBE_PINK_NAME": "Pink Command Essence",
 		
+			"MULTISHOP_LARGE_TERMINAL_NAME": "Large Multishop Terminal",
+            "MULTISHOP_LARGE_TERMINAL_CONTEXT": "NOTINOpen terminal",
+            "MULTISHOP_EQUIPMENT_TERMINAL_NAME": "Equipment Shop Terminal",
+            "MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT": "NOTINOpen terminal",
+            "DUPLICATOR_LARGE_NAME": "Large 3D Printer",
+            "DUPLICATOR_LARGE_CONTEXT": "Use Large 3D Printer",
+
 
             "FREECHEST_TERMINAL_NAME": "Shipping Terminal",
             "FREECHEST_TERMINAL_CONTEXT": "Accept delivery.",

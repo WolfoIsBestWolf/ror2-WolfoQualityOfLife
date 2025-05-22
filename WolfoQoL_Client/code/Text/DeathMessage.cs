@@ -12,10 +12,7 @@ namespace WolfoQoL_Client
         {
             try
             {
-                if (WolfoMain.ShouldHostGiveInfo)
-                {
-                    DetailedDeathMessages(damageReport);
-                }
+               DetailedDeathMessages(damageReport);
             }
             catch (Exception e)
             {
@@ -28,15 +25,11 @@ namespace WolfoQoL_Client
 
         public static void DetailedDeathMessages(DamageReport damageReport)
         {
-            DetailedDeathMessages(damageReport.damageDealt, damageReport.victimBody, damageReport.attackerBody, damageReport.damageInfo.damageType, damageReport.damageInfo.damageColorIndex, damageReport.damageInfo.delayedDamageSecondHalf, WolfoMain.ShouldHostGiveInfo);
+            DetailedDeathMessages(damageReport.damageDealt, damageReport.victimBody, damageReport.attackerBody, damageReport.damageInfo.damageType, damageReport.damageInfo.damageColorIndex, damageReport.damageInfo.delayedDamageSecondHalf, true);
         }
 
         public static void DetailedDeathMessages(float damage, CharacterBody victimBody, CharacterBody attackerBody, DamageTypeCombo damageType, DamageColorIndex dmgColor, bool echo, bool sendOverNetwork)
         {
-            if (WConfig.cfgMessageDeath.Value == false)
-            {
-                return;
-            }
             string VictimName = Util.GetBestBodyName(victimBody.gameObject);
             string KillerName = "UNIDENTIFIED_KILLER_NAME";
             if (attackerBody != null)
@@ -146,6 +139,10 @@ namespace WolfoQoL_Client
         {
             public override string ConstructChatString()
             {
+                if (WConfig.cfgMessageDeath.Value == false)
+                {
+                    return null;
+                }
                 string KillerName = "";
                 if (attackerObject != null)
                 {
@@ -186,6 +183,10 @@ namespace WolfoQoL_Client
 
             public override void Deserialize(NetworkReader reader)
             {
+                if (WolfoMain.NoHostInfo == true)
+                {
+                    return;
+                }
                 base.Deserialize(reader);
                 victimName = reader.ReadString();
                 killerBackupName = reader.ReadString();

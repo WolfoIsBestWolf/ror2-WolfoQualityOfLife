@@ -1,4 +1,5 @@
 using RoR2;
+using System.ComponentModel;
 using UnityEngine;
 
 
@@ -77,26 +78,31 @@ namespace WolfoQoL_Client
 
         public static void KeyReminderUpdater_Host(On.RoR2.PurchaseInteraction.orig_OnInteractionBegin orig, PurchaseInteraction self, Interactor activator)
         {
+            CharacterBody body = activator.GetComponent<CharacterBody>();
+            int hadSale = body.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests);
             orig(self, activator);
-            if (!self.available)
+            if (hadSale > 0 && self.saleStarCompatible)
             {
-                if (self.costType == CostTypeIndex.TreasureCacheItem)
+                Chat.SendBroadcastChat(new SaleStarMessage
                 {
-                    if (TreasureReminder.instance)
-                    {
-                        TreasureReminder.instance.DeductLockboxCount();
-                    }
-                }
-                else if (self.costType == CostTypeIndex.TreasureCacheVoidItem)
+                    interactableToken = self.displayNameToken,
+                    subjectAsCharacterBody = body,
+                });
+            }
+            if (self.costType == CostTypeIndex.TreasureCacheItem)
+            {
+                if (TreasureReminder.instance)
                 {
-                    if (TreasureReminder.instance)
-                    {
-                        TreasureReminder.instance.DeductLockboxVoidCount();
-                    }
+                    TreasureReminder.instance.DeductLockboxCount();
                 }
             }
-            return;
-
+            else if (self.costType == CostTypeIndex.TreasureCacheVoidItem)
+            {
+                if (TreasureReminder.instance)
+                {
+                    TreasureReminder.instance.DeductLockboxVoidCount();
+                }
+            }
         }
 
 

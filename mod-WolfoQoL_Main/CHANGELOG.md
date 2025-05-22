@@ -1,5 +1,19 @@
 ## Changelog:
 ```
+-v4.0.1 - 
+Message for Sale Star, including Interactable it was used on.
+Message for Recycling. (requested)
+Void Fiend & Chef Boosted skills will be referred to as such.
+Void Fiend Corrupted skills now have actual descriptions.
+
+Green Merc Expose less bright
+Fixed HostHasMod detection leading to Clients sometimes having duplicate mod messages.
+Fixed wrong name being used to detect ExtrasMod
+Fixed wrong link in ReadMe
+Fixed accidental removal Russian and German
+Fixed assets not loading if downloaded manually
+
+
 -v4.0.0 - Split
 Made entire mod Client Side, allowing use with people who do not share it.
 Everything that couldn't be made Client Side will be in an Extras mod.
@@ -82,13 +96,15 @@ Moved Sulfur Beetle Skin ReImplementation here (ClientSide now)(from LittleGamep
 
 Sale Star effect now shrinks instead of vanishing upon buying.
 
+
+Hopefully made ping icons for interactables part of stages more reliant for clients
+Fixed Secret Geode Reminder not working on clients
+
 Fixed Newt Altars being purchase able after Teleporter, or when Teleporter starts with Blue Orb.
-Fixed Secret Geode Reminder not working on clients?
-Fixed new tokens for interactables sometimes being an issue for clients.
+Fixed new tokens for interactables being an issue if not everyone had the mod.
 Fixed Titan pinging the particles instead of the body.
 Fixed War Bonds playing sound even if you have 0 Missiles.
-
-Fixed vanilla issue where clients often had their Prayer stats desynced.
+Fixed Prayer Beads stats often desyncing on clients.
 Fixed Engi Spider Mines being loud as fuck and constantly beeping on clients
 
 Switched to using R2API_Colors instead of own implementation
