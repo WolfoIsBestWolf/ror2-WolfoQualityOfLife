@@ -60,15 +60,18 @@ namespace WolfoQoL_Client
 
             //Sorting the hidden stages in the menu, kinda dubmb but whatevs
 
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/voidstage").stageOrder = 102;
-            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().stageOrder = 103;
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/arena").stageOrder = 104;
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 105;
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 106;
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").stageOrder = 107;
-            //LegacyResourcesAPI.Load<SceneDef>("SceneDefs/artifactworld").stageOrder = 108;
-            //LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 108;
+            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/meridian/meridian.asset").WaitForCompletion().stageOrder = 80;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 81; //Next to Meridian
 
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").stageOrder = 90; //Bazaar -> Void -> Void -> Void
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/arena").stageOrder = 91;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/voidstage").stageOrder = 92;
+            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().stageOrder = 93;
+     
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 110;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 111;
+
+             
             #region LunarScavLunarBeadBead
             GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
             GivePickupsOnStart.ItemDefInfo[] ScavLunarBeadsGiver = new GivePickupsOnStart.ItemDefInfo[] { Beads };
@@ -116,9 +119,12 @@ namespace WolfoQoL_Client
             SPRingAltered.SetTexture("_SnowTex", Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/DLC1/sulfurpools/texSPGroundDIFVein.tga").WaitForCompletion());
             SPDiaramaRenderer.material = SPRingAltered;
 
-            RoR2.ModelPanelParameters VoidStageDiorama = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/voidstage/VoidStageDiorama.prefab").WaitForCompletion().GetComponent<ModelPanelParameters>();
-            VoidStageDiorama.minDistance = 20;
-            VoidStageDiorama.minDistance = 240;
+            ModelPanelParameters BazaarDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/Bazaar_NewtStatue.prefab").WaitForCompletion().AddComponent<ModelPanelParameters>();
+            BazaarDisplay.modelRotation = new Quaternion(0, 0.9763f, 0, -0.2164f);
+
+            ModelPanelParameters VoidStageDiorama = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/voidstage/VoidStageDiorama.prefab").WaitForCompletion().GetComponent<ModelPanelParameters>();
+            VoidStageDiorama.minDistance = 60;
+            VoidStageDiorama.maxDistance = 320;
 
             //Rachis Radius is slightly wrong, noticible on high stacks 
             GameObject RachisObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/DamageZoneWard");

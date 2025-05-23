@@ -1,6 +1,9 @@
-## Changelog:
 ```
--v4.0.1 - 
+-4.0.2-
+Sorted Bosses to end of Monster Logbook
+Fixed wrong name being used to detect ExtrasMod, leading to wrong prayer beads getting the stat overlay
+
+-4.0.1- 
 Message for Sale Star, including Interactable it was used on.
 Message for Recycling. (requested)
 Void Fiend & Chef Boosted skills will be referred to as such.
@@ -8,13 +11,12 @@ Void Fiend Corrupted skills now have actual descriptions.
 
 Green Merc Expose less bright
 Fixed HostHasMod detection leading to Clients sometimes having duplicate mod messages.
-Fixed wrong name being used to detect ExtrasMod
 Fixed wrong link in ReadMe
 Fixed accidental removal Russian and German
 Fixed assets not loading if downloaded manually
 
 
--v4.0.0 - Split
+-4.0.0-: Split
 Made entire mod Client Side, allowing use with people who do not share it.
 Everything that couldn't be made Client Side will be in an Extras mod.
 The other mod will NOT be downloaded automatically.

@@ -11,6 +11,14 @@
 			"LUNARWISP_BODY_NAME": "Лунный сгусток-химера",
 			"LUNAREXPLODER_BODY_NAME": "Лунный подрывник-химера",
 		
+		"GOLEM_SUFFIX": "{0} Golem",
+			"WISP_SUFFIX": "{0} Wisp",
+			"EXPLODER_SUFFIX": "{0} Exploder",
+			"ACID_PREFIX": "Acid {0}",
+		
+	
+		
+		
 			"ACIDLARVA_BODY_NAME": "Кислотная личинка",
 		
 		

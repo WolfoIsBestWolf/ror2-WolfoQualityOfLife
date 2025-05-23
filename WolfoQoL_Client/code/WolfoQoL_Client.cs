@@ -119,8 +119,8 @@ namespace WolfoQoL_Client
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
 
-            On.RoR2.UI.LogBook.LogBookController.BuildMonsterEntries += RandomMiscWithConfig.LogbookEntryAdderMonsters;
-            On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += RandomMiscWithConfig.LogbookEliteAspectAdder;
+            LogbookStuff.NormalLogbook();
+ 
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
 
             //Main Menu Stuff
@@ -548,7 +548,7 @@ namespace WolfoQoL_Client
 
         public void Start()
         {
-            ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Extras");
+            ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
             Debug.Log("WolfoQoL_Extras installed? : " + ServerModInstalled);
 
             if (WConfig.cfgTestDisableMod.Value)
@@ -660,6 +660,12 @@ namespace WolfoQoL_Client
 
         internal static void ModSupport_CallLate()
         {
+            ModelPanelParameters camera = DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
+            camera.cameraPositionTransform = camera.transform;
+            camera.focusPointTransform = camera.transform;
+            camera.maxDistance = 3;
+            camera.modelRotation = new Quaternion(0, 0.7071f, 0f, -0.7071f);
+
 
             RoR2Content.Items.AdaptiveArmor.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
             RoR2Content.Items.BoostEquipmentRecharge.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;

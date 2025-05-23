@@ -1,11 +1,19 @@
 {
 	"strings":
 	{
-			"INFINITETOWER_SUDDEN_DEATH": "<style=cWorldEvent>[WARNING] The Focus begins to falter..</style>",
-            "INFINITETOWER_OBJECTIVE_AWAITINGACTIVATION": "Activate the <style=cIsVoid>Focus</style>",
-            "INFINITETOWER_OBJECTIVE_TRAVEL": "Follow the <style=cIsVoid>Focus</style>",
-            "INFINITETOWER_OBJECTIVE_PORTAL": "Advance through the <style=cIsVoid>Infinite Portal</style>",
- 
+			"LUNARGOLEM_BODY_NAME": "Lunar Chimera Golem",
+			"LUNARWISP_BODY_NAME": "Lunar Chimera Wisp",
+			"LUNAREXPLODER_BODY_NAME": "Lunar Chimera Exploder",
+			"ACIDLARVA_BODY_NAME": "Acid Larva",
+			"UNLOCKABLE_LOG_LUNARWISP": "Monster Log: Lunar Chimera Golem",
+			"UNLOCKABLE_LOG_LUNARGOLEM": "Monster Log: Lunar Chimera Wisp",
+			"UNLOCKABLE_LOG_LUNAREXPLODER": "Monster Log: Lunar Chimera Exploder",
+			"UNLOCKABLE_LOG_ACIDLARVA": "Monster Log: Acid Larva",
+			"UNLOCKABLE_LOG_GUP": "Monster Log: Gup, Geep, Gip",
+	
+
+ 		    "FAMILY_PARENT": "<style=cWorldEvent>[WARNING] A familial bond is being interrupted..</style>",			
+			
 			"ARTIFACT_COMMAND_CUBE_INTERACTION_PROMPT": "Choose",
 			
 			"FROG_NAME": "Glass Frog",
@@ -13,34 +21,28 @@
 			"PET_FROG": "<style=cIsLunar>{0} pet the glass frog.</style>", 
 			"PET_FROG_2P": "<style=cIsLunar>You pet the glass frog.</style>", 
 		
-			"DRONE_MEGA_CONTEXT": "Repair TC-280", 
+			"DRONE_MEGA_CONTEXT": "Repair TC-280", 		
+			
+			"MAP_GOLDSHORES_SUBTITLE": "Soulful Cage",
+			"MAP_ARTIFACTWORLD_SUBTITLE": "Elements of Creation",
 		
+			"INFINITETOWER_SUDDEN_DEATH": "<style=cWorldEvent>[WARNING] The Focus begins to falter..</style>",
+            "INFINITETOWER_OBJECTIVE_AWAITINGACTIVATION": "Activate the <style=cIsVoid>Focus</style>",
+            "INFINITETOWER_OBJECTIVE_TRAVEL": "Follow the <style=cIsVoid>Focus</style>",
+            "INFINITETOWER_OBJECTIVE_PORTAL": "Advance through the <style=cIsVoid>Infinite Portal</style>",
+ 
+ 
+			
 			"EQUIPMENT_AFFIXVOID_NAME": "Voidborne Curiosity",
             "EQUIPMENT_AFFIXVOID_PICKUP": "Lose your aspect of self.",
             "EQUIPMENT_AFFIXVOID_DESC": "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>50%</style> and decrease <style=cIsDamage>base damage</style> by <style=cIsDamage>30%</style>. <style=cIsDamage>Collapse</style> enemies on hit and <style=cIsHealing>block</style> incoming damage once every <style=cIsUtility>15 seconds</style>. ",
 		
-			"MAP_GOLDSHORES_SUBTITLE": "Soulful Cage",
-			"MAP_ARTIFACTWORLD_SUBTITLE": "Elements of Creation",
-		
-		
-			"FAMILY_PARENT": "<style=cWorldEvent>[WARNING] A familial bond is being interrupted..</style>",
-		
-		
-			"LUNAR_CHIMERA": "Lunar Chimera",
-			"LUNARGOLEM_BODY_NAME": "Lunar Chimera Golem",
-			"LUNARWISP_BODY_NAME": "Lunar Chimera Wisp",
-			"LUNAREXPLODER_BODY_NAME": "Lunar Chimera Exploder",
-		
-			"ACIDLARVA_BODY_NAME": "Acid Larva",
-		
-		
+
 			"STATNAME_TOTALLUNARPURCHASES": "Lunar Purchases",
 			"STATNAME_HIGHESTLUNARPURCHASES": "Most Lunar Purchases",
 			"STATNAME_HIGHESTBLOODPURCHASES": "Most Blood Purchases",
 		
 			"OBJECTIVE_GOLDSHORES_ACTIVATE_BEACONS": "Rebuild the <color=#FFE880>Halcyon Beacons</color> ({0}/{1})",
-
-
 
             "OBJECTIVE_CLEAR_ARENA": "Activate all <style=cIsVoid>Cell Vents</style> ({0}/{1})",
             "OBJECTIVE_ARENA_CHARGE_CELL": "Breach the <style=cIsVoid>Cell</style> ({0}%)",
@@ -49,8 +51,7 @@
             "OBJECTIVE_REBIRTH_OUTRO_SHRINE_2": "Be <color=#7CFE7C>Reborn</color> or Linger",
 			"OBJECTIVE_MERIDIAN_REACH_ARENA": "Ascend to the <color=#7CFE7C>Prime Meridian</color>",
 		
-		
-		
+	
 			"ITEM_SCRAPWHITE_PICKUP": "Does nothing. Prioritized when used with <color=#FAFAFA>3D Printers</color>.",
             "ITEM_SCRAPGREEN_PICKUP": "Does nothing. Prioritized when used with <style=cIsHealing>Large 3D Printers</style>.",
             "ITEM_SCRAPRED_PICKUP": "Does nothing. Prioritized when used with <style=cIsHealth>Mili-Tech 3D Printers</style>.",

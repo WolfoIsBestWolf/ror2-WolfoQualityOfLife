@@ -20,7 +20,7 @@ namespace WolfoQoL_Client
             }
             if (WConfig.cfgTestLogbook.Value)
             {
-                Testing_Logbook.Start();
+                LogbookStuff.CheatLogbook();
             }
             On.RoR2.CombatDirector.SpendAllCreditsOnMapSpawns += CombatDirector_SpendAllCreditsOnMapSpawns;
             On.RoR2.CombatDirector.HalcyoniteShrineActivation += CombatDirector_HalcyoniteShrineActivation;

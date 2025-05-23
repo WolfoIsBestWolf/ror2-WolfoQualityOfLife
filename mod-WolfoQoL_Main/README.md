@@ -35,7 +35,7 @@ Adds colored highlights for Tiers that were lacking one and for Equipment.
 
 ## Messages & Info
 Objectives for the following:
-- Reminders to make full use of your items. (Rusted Keys, Sale Star, Regen Scrap, Shipping Form)\
+- Reminders to make full use of your items. (Rusted Keys, Sale Star, Regen Scrap, Shipping Form)
 - Portals
 - Halcyonite Shrine Charing & Killing the guy
 - Getting the extra Halcyonite Fragment on Prime Meridian

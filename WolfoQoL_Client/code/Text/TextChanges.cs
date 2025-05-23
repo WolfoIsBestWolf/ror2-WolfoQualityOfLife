@@ -72,6 +72,7 @@ namespace WolfoQoL_Client
             {
                 return;
             }
+            #region Boosted Skill Titles
             SkillDef skill = null;
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC1/VoidSurvivor/FireCorruptBeam.asset").WaitForCompletion();
             BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT");
@@ -97,7 +98,14 @@ namespace WolfoQoL_Client
             BoostedNameToken(skill, "CHEF_BOOSTED_FORMAT");
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC2/Chef/ChefOilSpillBoosted.asset").WaitForCompletion();
             BoostedNameToken(skill, "CHEF_BOOSTED_FORMAT");
+            #endregion
+            #region Enemy Names
 
+            
+            LanguageAPI.Add("LUNAR_CHIMERA", Language.GetString("LUNARGOLEM_BODY_NAME"));
+
+ 
+            #endregion
         }
 
         public static void BoostedNameToken(SkillDef skill, string format)

@@ -23,6 +23,7 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> cfgSkinMakeOniBackup;
         public static ConfigEntry<bool> cfgSkinMakeBlightedAcrid;
+        public static ConfigEntry<bool> cfgLogbook_SortBosses;
 
 
         //OjbectiveStuff
@@ -501,6 +502,12 @@ namespace WolfoQoL_Client
                 "Elite Aspect log entries",
                 true,
                 "Add Elite Aspect Equipment to the logbook."
+            );
+            cfgLogbook_SortBosses = ConfigFile_Client.Bind(
+                "Menu",
+                "Sort Bosses",
+                true,
+                "Sort Bosses to the end of the Monster category"
             );
 
             cfgExpandedDeathScreen = ConfigFile_Client.Bind(

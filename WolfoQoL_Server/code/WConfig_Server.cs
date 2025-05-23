@@ -100,14 +100,6 @@ namespace WolfoQoL_Server
                     ModSettingsManager.AddOption(new CheckBoxOption(temp, true));
                     //ModSettingsManager.AddOption(new CheckBoxOption(temp, !noResetB.Contains(temp)));
                 }
-                /*else if (entry.SettingType == typeof(int))
-                {
-                    ModSettingsManager.AddOption(new IntFieldOption((ConfigEntry<int>)entry, false));
-                }
-                else if (entry.SettingType == typeof(float))
-                {
-                    ModSettingsManager.AddOption(new FloatFieldOption((ConfigEntry<float>)entry, false));
-                }*/
                 else
                 {
                     Debug.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);

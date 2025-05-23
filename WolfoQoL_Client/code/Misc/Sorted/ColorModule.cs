@@ -82,9 +82,7 @@ namespace WolfoQoL_Client
             texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texEquipmentBossBG.png");
             texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texEquipmentLunarBG.png");
 
-            On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += MoveAndChangeBG_Equipment;
-            On.RoR2.UI.LogBook.LogBookController.BuildSurvivorEntries += ChangeSurvivorLogbookEntry;
-
+          
             //On.RoR2.UI.GenericNotification.SetItem += PickupNotifColorOverrideItems; //Notification Title
             //On.RoR2.UI.GenericNotification.SetEquipment += PickupNotifColorOverrideEquip; //
 
@@ -175,71 +173,7 @@ namespace WolfoQoL_Client
 
         }
 
-        public static Entry[] MoveAndChangeBG_Equipment(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
-        {
-            Entry[] array = orig(expansionAvailability);
-
-            //Sort at End
-            int num = -1;
-            List<RoR2.UI.LogBook.Entry> list = new List<RoR2.UI.LogBook.Entry>();
-            for (int j = 0; j < array.Length; j++)
-            {
-                if (!list.Contains(array[j]))
-                {
-                    PickupDef pickupDef2 = ((PickupIndex)array[j].extraData).pickupDef;
-                    EquipmentIndex equipmentIndex = pickupDef2.equipmentIndex;
-                    if (equipmentIndex != EquipmentIndex.None)
-                    {
-                        EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
-                        //Debug.Log("Found Equipment : " + equipmentDef.name);
-                        if (equipmentDef && equipmentDef.isBoss)
-                        {
-                            //Debug.LogWarning("Found Boss Equipment : " + equipmentDef.name);
-                            RoR2.UI.LogBook.Entry entry = array[j];
-                            list.Add(array[j]);
-
-                            HG.ArrayUtils.ArrayRemoveAtAndResize<RoR2.UI.LogBook.Entry>(ref array, j, 1);
-                            num = array.Length;
-                            j--;
-                            HG.ArrayUtils.ArrayInsert<RoR2.UI.LogBook.Entry>(ref array, num, entry);
-                            num++;
-                        }
-                    }
-                }
-            }
-
-            //Custom BG
-            for (int i = 0; i < array.Length; i++)
-            {
-                PickupIndex tempind = PickupCatalog.FindPickupIndex(array[i].extraData.ToString());
-                PickupDef temppickdef = PickupCatalog.GetPickupDef(tempind);
-                if (temppickdef.equipmentIndex != EquipmentIndex.None)
-                {
-                    EquipmentDef tempeqdef = EquipmentCatalog.GetEquipmentDef(temppickdef.equipmentIndex);
-                    if (tempeqdef.isBoss == true)
-                    {
-                        array[i].bgTexture = texEquipmentBossBG;
-                    }
-                    else if (tempeqdef.isLunar == true)
-                    {
-                        array[i].bgTexture = texEquipmentLunarBG;
-                    }
-
-                }
-            }
-            return array;
-        }
-
-        public static Entry[] ChangeSurvivorLogbookEntry(On.RoR2.UI.LogBook.LogBookController.orig_BuildSurvivorEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
-        {
-            Entry[] array = orig(expansionAvailability);
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i].color = NewSurvivorLogbookNameColor;
-            }
-            return array;
-        }
-
+ 
         public static void ChangeColorsViaIndex()
         {
             ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1).colorIndex = index_Void1;
@@ -333,7 +267,6 @@ namespace WolfoQoL_Client
                 else if (EquipmentCatalog.GetEquipmentDef(newEquipmentIndex).isBoss == true)
                 {
                     Highlight = HighlightOrangeBossItem;
-
                 }
                 List<GameObject> tempList = self.GetEquipmentDisplayObjects(newEquipmentIndex);
                 for (int i = 0; i < tempList.Count; i++)
