@@ -101,10 +101,17 @@ namespace WolfoQoL_Client
             #endregion
             #region Enemy Names
 
-            
-            LanguageAPI.Add("LUNAR_CHIMERA", Language.GetString("LUNARGOLEM_BODY_NAME"));
 
- 
+            //LanguageAPI.Add("URCHINTURRET_BODY_LORE", Language.GetString("ASSASSIN2_BODY_LORE"));
+            //LanguageAPI.Add("GEEP_BODY_LORE", Language.GetString("GUP_BODY_LORE"));
+            //LanguageAPI.Add("GIP_BODY_LORE", Language.GetString("GUP_BODY_LORE"));
+
+            DLC1Content.Items.FragileDamageBonusConsumed.descriptionToken = DLC1Content.Items.FragileDamageBonusConsumed.pickupToken;
+            DLC1Content.Items.HealingPotionConsumed.descriptionToken = DLC1Content.Items.HealingPotionConsumed.pickupToken;
+
+            //DLC1Content.Equipment.BossHunterConsumed.loreToken = DLC1Content.Equipment.BossHunter.loreToken;
+            //DLC2Content.Equipment.HealAndReviveConsumed.loreToken = DLC2Content.Equipment.HealAndRevive.loreToken;
+
             #endregion
         }
 

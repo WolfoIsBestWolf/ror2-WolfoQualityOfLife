@@ -118,10 +118,7 @@ namespace WolfoQoL_Client
             Material SPRingAltered = Object.Instantiate(SPDiaramaRenderer.material);
             SPRingAltered.SetTexture("_SnowTex", Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/DLC1/sulfurpools/texSPGroundDIFVein.tga").WaitForCompletion());
             SPDiaramaRenderer.material = SPRingAltered;
-
-            ModelPanelParameters BazaarDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/Bazaar_NewtStatue.prefab").WaitForCompletion().AddComponent<ModelPanelParameters>();
-            BazaarDisplay.modelRotation = new Quaternion(0, 0.9763f, 0, -0.2164f);
-
+ 
             ModelPanelParameters VoidStageDiorama = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/voidstage/VoidStageDiorama.prefab").WaitForCompletion().GetComponent<ModelPanelParameters>();
             VoidStageDiorama.minDistance = 60;
             VoidStageDiorama.maxDistance = 320;
@@ -287,8 +284,13 @@ namespace WolfoQoL_Client
 
         private static bool NewtAvailableFix1(On.RoR2.PortalStatueBehavior.orig_OnSerialize orig, PortalStatueBehavior self, NetworkWriter writer, bool forceAll)
         {
-            self.GetComponent<PurchaseInteraction>().setUnavailableOnTeleporterActivated = true;
-            return orig(self, writer, forceAll);
+            //Somehow fucking Dies if not saftey checked
+            var temp = orig(self, writer, forceAll);
+            if (self && self.GetComponent<PurchaseInteraction>())
+            {
+                self.GetComponent<PurchaseInteraction>().setUnavailableOnTeleporterActivated = true;
+            } 
+            return temp;
         }
 
         private static string SubjectChatMessage_GetSubjectName(On.RoR2.SubjectChatMessage.orig_GetSubjectName orig, SubjectChatMessage self)

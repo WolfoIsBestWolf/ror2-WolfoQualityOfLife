@@ -102,8 +102,12 @@ Sprinting UI is slightly different to support charge attacks.
 
 Objective Hud can have it's font size and spacing customized to fit better for some languages.\
 
-
-Elite Aspects, Geep, Gip, Twisted Scav and Malachite Urchin show up in the Logbook.\
+Logbook additions:
+- Elite Aspects
+- Fuel Array, Consumed Equipment
+- Geep, Gip, Malachite Urchin, Twisted Scavengers
+- Bosses sorted after enemies
+- Newt in Bazaar Log and some small fixes.
 
 ![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)
 ## Gameplay fixes

@@ -108,12 +108,13 @@
 			"ITEM_TREASURECACHEVOIDCONSUMED_NAME": "Encrusted Key (Consumed)",
 			"ITEM_TREASURECACHEVOIDCONSUMED_DESC": "A spent key? To remember an item well earned.",
 			
-			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME": "Prayer Beads Blessing.",
-			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Your prayer beads have blessed your stats. (Missing Overlay)",
-			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Your prayer beads have blessed your stats. (Missing Overlay)",
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME": "Prayer Beads Blessing",
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Your Prayer Beads have blessed your stats. (Missing Overlay)",
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Prayer Beads have blessed this body. (Missing Overlay)",
 			
-			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Your prayer beads have blessed you with +{0} levels",
-			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Your prayer beads have blessed you with <style=cIsUtility>+{0} levels</style>, increasing <style=cIsHealing>max health</style> by <style=cIsHealing>+{1}</style>, <style=cIsHealing>health regeneration</style> by <style=cIsHealing>+{2} hp/s</style>, and <style=cIsDamage>damage</style> by <style=cIsDamage>+{3}</style>.",
+			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Your Prayer Beads have blessed you with +{0} levels",
+			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Prayer Beads have blessed this body with <style=cIsUtility>+{0} levels</style>, increasing <style=cIsHealing>max health</style> by <style=cIsHealing>{1}</style>, <style=cIsHealing>regeneration</style> by <style=cIsHealing>{2} hp/s</style> and <style=cIsDamage>damage</style> by <style=cIsDamage>{3}</style>.",
+			"OVERLAY_EXTRASTATSONLEVELUP_DESC": "Your Prayer Beads have blessed you with <style=cIsUtility>+{0} levels</style>, increasing <style=cIsHealing>max health</style> by <style=cIsHealing>{1}</style>, <style=cIsHealing>regeneration</style> by <style=cIsHealing>{2} hp/s</style> and <style=cIsDamage>damage</style> by <style=cIsDamage>{3}</style>.",
 			
 
 			"INVENTORY_KILLER": "Killers Items",

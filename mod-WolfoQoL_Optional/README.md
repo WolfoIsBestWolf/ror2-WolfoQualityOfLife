@@ -19,8 +19,8 @@ For the main part of the mod, where most of the changes are, [go here.](https://
 
 Some of these are useful if you have a mod that displays how long Timed Buffs have left.
  
-Consumed Rusted Keys item like how there's consumed Elixir/Watches.\
-Consumed Prayer Beads that tell you how many stats you are getting.
+Consumed Rusted Keys like how there's consumed Elixir/Watches.\
+Prayer Beads Blessing that tell you how many stats a person has gotten from Prayer Beads.
 
 
 ![Image of prayer](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/wqol_extras.png?raw=true)

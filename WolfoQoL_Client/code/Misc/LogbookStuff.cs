@@ -80,9 +80,12 @@ namespace WolfoQoL_Client
 
             UnlockableDef Unlock_Loop = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Items.Clover");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/UrchinTurretBody").AddComponent<DeathRewards>().logUnlockableDef = Unlock_Loop;
-            
-            //UnlockableDef Log_Bazaar = LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.bazaar");
-            //LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody").GetComponent<DeathRewards>().logUnlockableDef = bazaar;
+ 
+            GameObject NewtBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody");
+            ModelPanelParameters Newt = NewtBody.transform.GetChild(0).GetChild(0).gameObject.AddComponent<ModelPanelParameters>();
+            Newt.modelRotation = new Quaternion(0, 0.9763f, 0, -0.2164f);
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").dioramaPrefab = Newt.gameObject;
+
             Entry[] entries_TEMP = orig(expansionAvailability);
             ScavLunar1.GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR1_BODY_NAME";
             return entries_TEMP;

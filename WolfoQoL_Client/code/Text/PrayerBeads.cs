@@ -4,7 +4,9 @@ using R2API;
 using RoR2;
 using System;
 using UnityEngine;
- 
+using RoR2.UI;
+using UnityEngine.Events;
+
 namespace WolfoQoL_Client
 {
     public class PrayerBeadsStorage : MonoBehaviour
@@ -15,37 +17,154 @@ namespace WolfoQoL_Client
     {
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Pickup;
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Desc;
-        public static ItemIndex moffeine = ItemIndex.None; //None2 
+        public static ItemIndex moffeine = ItemIndex.None; 
+        public static ItemIndex usedBeads = (ItemIndex)(-2);
+        public static int updateBead = 2;
 
+        private static void Consumed_OverrideTooltip(On.RoR2.UI.ItemIcon.orig_SetItemIndex orig, RoR2.UI.ItemIcon self, ItemIndex newItemIndex, int newItemCount)
+        {
+            orig(self, newItemIndex, newItemCount);
+            if (newItemIndex == usedBeads && updateBead != 0)
+            {
+                Debug.Log("Consumed_OverrideTooltip");
+                updateBead--;
+                if (self.tooltipProvider)
+                {
+                    ItemInventoryDisplay display = self.GetComponentInParent<ItemInventoryDisplay>();
+                    if (display && display.inventory)
+                    {
+                        self.tooltipProvider.bodyToken = GetPrayerBeadsToken(display.inventory, display.inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>(), "OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC");
+                    }
+                }
+            }
+        }
+        private static void Consumed_OverrideInspect(On.RoR2.UI.ItemIcon.orig_ItemClicked orig, ItemIcon self)
+        {
+            orig(self);
+            if (self.itemIndex == usedBeads)
+            {
+                if (self.userProfile.useInspectFeature)
+                {
+                    ItemInventoryDisplay display = self.GetComponentInParent<ItemInventoryDisplay>();
+                    if (display && display.inventory)
+                    {
+                        self.inspectPanel.InspectDescription.token = GetPrayerBeadsToken(display.inventory, display.inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>(), "OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC");
+                    }
+                }
+            }
+                
+        }
 
         public static void Start()
         {
-            IL.RoR2.CharacterBody.RecalculateStats += AttemptToFixClients;
-
-            On.RoR2.CharacterMaster.OnBeadReset += AddOverlay;
-            On.RoR2.Run.OnDisable += RemoveOverlay;
-
             //OldBeadsLevel is serveronly?
-            On.RoR2.CharacterBody.Awake += CharacterBody_Awake;
+            On.RoR2.CharacterBody.Awake += BuffTracker_ClientFix;
+            IL.RoR2.CharacterBody.RecalculateStats += BuffTracker_SetBuffCount_FixAmount;
+ 
+            if (WolfoMain.ServerModInstalled)
+            {
+                On.RoR2.UI.ItemIcon.SetItemIndex += Consumed_OverrideTooltip;
+                On.RoR2.UI.ItemIcon.ItemClicked += Consumed_OverrideInspect;
+            }
+            On.RoR2.CharacterMaster.OnBeadReset += OverlayForTransformationMessage;
         }
 
-        private static void CharacterBody_Awake(On.RoR2.CharacterBody.orig_Awake orig, CharacterBody self)
+       
+
+        private static void BuffTracker_ClientFix(On.RoR2.CharacterBody.orig_Awake orig, CharacterBody self)
         {
             orig(self);
             self.gameObject.AddComponent<PrayerBeadsStorage>();
         }
 
 
-        private static void RemoveOverlay(On.RoR2.Run.orig_OnDisable orig, Run self)
+ 
+        
+        private static void OverlayForTransformationMessage(On.RoR2.CharacterMaster.orig_OnBeadReset orig, CharacterMaster self, bool gainedStats)
         {
-            orig(self);
+            CharacterBody body = self.GetBody();
+            if (body && gainedStats)
+            {       
+                //Higher number better, just make sure it doesn't run literally every single time
+                updateBead = PlayerCharacterMasterController.instances.Count*2; //Yeah? I gues?
+                PrayerBeads_Ovelay(self.inventory, self, body);
+            }
+            //Done before, so we can make sure the overlay is made
+            orig(self, gainedStats);
+
+            if (body != null)
+            {
+                body.GetComponent<PrayerBeadsStorage>().lastSeenBeadAmount = 0;
+            }
             if (BeadsOverlay_Pickup != null)
             {
                 BeadsOverlay_Pickup.Remove();
                 BeadsOverlay_Desc.Remove();
             }
+
+
         }
-        private static void AttemptToFixClients(ILContext il)
+
+        public static string GetPrayerBeadsToken(Inventory inventory, CharacterBody body, string tokenIn)
+        {
+            //Debug.Log("PrayerBeads_Ovelay");
+            float beadDamage = inventory.beadAppliedDamage;
+            float beadHealth = inventory.beadAppliedHealth;
+            float beadRegen = inventory.beadAppliedRegen;
+            float bonusLevels = beadDamage / body.levelDamage;
+            if (moffeine != ItemIndex.None)
+            {
+                float itemCount = (float)inventory.GetItemCount(moffeine);
+                bonusLevels = itemCount / 5f;
+                itemCount = itemCount * 0.05f;
+                beadDamage = body.levelDamage * itemCount;
+                beadHealth = body.levelMaxHealth * itemCount;
+                beadRegen = body.levelRegen * itemCount;
+            }
+            string bonusStat0 = bonusLevels.ToString("0.##");
+            string bonusStat1 = beadHealth.ToString("0.##");
+            string bonusStat2 = beadRegen.ToString("0.##");
+            string bonusStat3 = beadDamage.ToString("0.##");
+            //Debug.Log("Bead Levels " + bonusLevels);
+            return string.Format(Language.GetString(tokenIn), bonusStat0, bonusStat1, bonusStat2, bonusStat3);
+        }
+
+        public static void PrayerBeads_Ovelay(Inventory inventory, CharacterMaster master, CharacterBody body)
+        {
+            if (body == null)
+            {
+                Debug.Log("PrayerBeads_Ovelay NullBody");
+                return;
+            }
+            if (BeadsOverlay_Pickup != null)
+            {
+                BeadsOverlay_Pickup.Remove();
+                BeadsOverlay_Desc.Remove();
+            }
+            if (!master.hasAuthority)
+            {
+                return;
+            }
+            if (WolfoMain.ServerModInstalled == true)
+            {
+                string tokenFull = GetPrayerBeadsToken(inventory, body, "OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP");
+                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP", tokenFull);
+                BeadsOverlay_Desc = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC", tokenFull);
+                CharacterMasterNotificationQueue.PushItemTransformNotification(master, DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex, usedBeads, CharacterMasterNotificationQueue.TransformationType.Default);
+            }
+            else if (WolfoMain.ServerModInstalled == false)
+            {
+                string tokenFull = GetPrayerBeadsToken(inventory, body, "OVERLAY_EXTRASTATSONLEVELUP_DESC");
+                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_PICKUP", tokenFull);
+                BeadsOverlay_Desc = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_DESC", tokenFull);
+                CharacterMasterNotificationQueue notificationQueueForMaster = CharacterMasterNotificationQueue.GetNotificationQueueForMaster(master);
+                CharacterMasterNotificationQueue.TransformationInfo transformation = new CharacterMasterNotificationQueue.TransformationInfo(CharacterMasterNotificationQueue.TransformationType.Default, DLC2Content.Items.ExtraStatsOnLevelUp);
+                CharacterMasterNotificationQueue.NotificationInfo info = new CharacterMasterNotificationQueue.NotificationInfo(ItemCatalog.GetItemDef(DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex), transformation);
+                notificationQueueForMaster.PushNotification(info, 12f);
+            }
+        }
+ 
+        private static void BuffTracker_SetBuffCount_FixAmount(ILContext il)
         {
             ILCursor c = new ILCursor(il);
 
@@ -91,88 +210,6 @@ namespace WolfoQoL_Client
             {
                 Debug.LogWarning("IL Failed : PrayerAttemptToFixClients2");
             }
-        }
-
-        private static void AddOverlay(On.RoR2.CharacterMaster.orig_OnBeadReset orig, CharacterMaster self, bool gainedStats)
-        {
-            CharacterBody body = self.GetBody();
-            if (body && self.hasAuthority && gainedStats)
-            {
-                PrayerBeads_Ovelay(self.inventory, self, body);
-            }
-            //Done before, so we can make sure the overlay is made
-            orig(self, gainedStats);
-            if (body != null)
-            {
-                body.GetComponent<PrayerBeadsStorage>().lastSeenBeadAmount = 0;
-            }
-
-            if (WolfoMain.ServerModInstalled == false)
-            {
-                if (BeadsOverlay_Pickup != null)
-                {
-                    BeadsOverlay_Pickup.Remove();
-                    BeadsOverlay_Desc.Remove();
-                }
-            }
-
-        }
-
-        public static void PrayerBeads_Ovelay(Inventory inventory, CharacterMaster characterMaster, CharacterBody body)
-        {
-            Debug.Log("PrayerBeads_Ovelay");
-            if (body == null)
-            {
-                Debug.LogWarning("No Body Prayer");
-                return;
-            }
-            float beadDamage = inventory.beadAppliedDamage;
-            float beadHealth = inventory.beadAppliedHealth;
-            float beadRegen = inventory.beadAppliedRegen;
-            float bonusLevels = beadDamage / body.levelDamage;
-
-            if (moffeine != ItemIndex.None)
-            {
-                float itemCount = (float)inventory.GetItemCount(moffeine);
-                bonusLevels = itemCount / 5f;
-                itemCount = itemCount * 0.05f;
-                beadDamage = body.levelDamage * itemCount;
-                beadHealth = body.levelMaxHealth * itemCount;
-                beadRegen = body.levelRegen * itemCount;
-            }
-
-
-            string bonusStat0 = bonusLevels.ToString("0.##");
-            string bonusStat1 = beadHealth.ToString("0.##");
-            string bonusStat2 = beadRegen.ToString("0.##");
-            string bonusStat3 = beadDamage.ToString("0.##");
-            Debug.Log("Bead Levels " + bonusLevels);
-            if (BeadsOverlay_Pickup != null)
-            {
-                BeadsOverlay_Pickup.Remove();
-                BeadsOverlay_Desc.Remove();
-            }
-            if (WolfoMain.ServerModInstalled == true)
-            {
-                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP", string.Format(Language.GetString("OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP"), bonusStat0));
-                BeadsOverlay_Desc = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC", string.Format(Language.GetString("OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC"), bonusStat0, bonusStat1, bonusStat2, bonusStat3));
-            }
-            else if (WolfoMain.ServerModInstalled == false)
-            {
-                string tokenFull = string.Format(Language.GetString("OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC"), bonusStat0, bonusStat1, bonusStat2, bonusStat3);
-                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_PICKUP", tokenFull);
-                BeadsOverlay_Desc = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_DESC", tokenFull);
-                //CharacterMasterNotificationQueue.PushItemTransformNotification(body.master, DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex, DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex, CharacterMasterNotificationQueue.TransformationType.Default);
-
-                CharacterMasterNotificationQueue notificationQueueForMaster = CharacterMasterNotificationQueue.GetNotificationQueueForMaster(characterMaster);
-                CharacterMasterNotificationQueue.TransformationInfo transformation = new CharacterMasterNotificationQueue.TransformationInfo(CharacterMasterNotificationQueue.TransformationType.Default, DLC2Content.Items.ExtraStatsOnLevelUp);
-                CharacterMasterNotificationQueue.NotificationInfo info = new CharacterMasterNotificationQueue.NotificationInfo(ItemCatalog.GetItemDef(DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex), transformation);
-                notificationQueueForMaster.PushNotification(info, 11f);
-            }
-
-
-
-
         }
 
     }

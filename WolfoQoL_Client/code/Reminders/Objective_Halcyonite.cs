@@ -8,8 +8,7 @@ namespace WolfoQoL_Client
 {
     public class Objective_Halcyonite
     {
-
-
+ 
         public static void Start()
         {
             bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
@@ -28,16 +27,19 @@ namespace WolfoQoL_Client
 
         private static void MoreValuesClient2(On.RoR2.HalcyoniteShrineInteractable.orig_Start orig, HalcyoniteShrineInteractable self)
         {
-            orig(self);
-            if (self.purchaseInteraction.Networkcost > 0)
+            orig(self); 
+            if (!NetworkServer.active)
             {
-                //Base value set in LTG. Ig hope no one else modifies it
-                //Or that Gbx listens and makes it networked
-                self.goldDrainValue = self.purchaseInteraction.Networkcost;
+                if (self.purchaseInteraction.Networkcost > 0)
+                {
+                    //Base value set in LTG. Ig hope no one else modifies it
+                    //Or that Gbx listens and makes it networked
+                    self.goldDrainValue = self.purchaseInteraction.Networkcost;
+                }
+                self.goldDrainValue = Run.instance.GetDifficultyScaledCost(self.goldDrainValue);
+                GoldSiphonNearbyBodyController controller = self.transform.GetChild(1).GetComponent<GoldSiphonNearbyBodyController>();
+                controller.goldDrainValue = self.goldDrainValue;
             }
-            self.goldDrainValue = Run.instance.GetDifficultyScaledCost(self.goldDrainValue);
-            GoldSiphonNearbyBodyController controller = self.transform.GetChild(1).GetComponent<GoldSiphonNearbyBodyController>();
-            controller.goldDrainValue = self.goldDrainValue;
         }
 
         private static void AddObjective(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState self)

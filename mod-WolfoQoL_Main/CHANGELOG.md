@@ -1,4 +1,11 @@
+#Changelog
 ```
+v4.0.3
+Prayer Beads stuff
+Put Newt instead of NewtAltar in the Bazaar Log so you can stare at him.
+Fixed Halcyonite Shrines draining gold^2 faster than intended due to a Client fix running on Host.
+Fixed? issue with mods that delete Newt Altars.
+
 -4.0.2-
 Sorted Bosses to end of Monster Logbook
 Fixed wrong name being used to detect ExtrasMod, leading to wrong prayer beads getting the stat overlay

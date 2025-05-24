@@ -1,5 +1,6 @@
 ﻿using R2API;
 using RoR2;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -7,12 +8,13 @@ using UnityEngine.Networking;
 
 namespace WolfoQoL_Server
 {
+
     public class ConsumedItems
     {
         public static ItemDef UsedRustedKey;
         public static ItemDef UsedEncrustedKey;
         public static ItemDef UsedPrayerBeads;
-
+ 
         public static void Start()
         {
             CreateItems();
@@ -23,40 +25,29 @@ namespace WolfoQoL_Server
             if (WConfig.cfgIconsUsedPrayer.Value)
             {
                 On.RoR2.CharacterMaster.OnBeadReset += CharacterMaster_OnBeadReset;
+ 
             }
         }
-
-
-
+ 
 
         private static void CharacterMaster_OnBeadReset(On.RoR2.CharacterMaster.orig_OnBeadReset orig, CharacterMaster self, bool gainedStats)
         {
             orig(self, gainedStats);
             if (gainedStats && NetworkServer.active)
             {
-                //Overlay handled in client mod;
                 self.inventory.GiveItem(UsedPrayerBeads, 1);
-                CharacterMasterNotificationQueue.SendTransformNotification(self, DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex, UsedPrayerBeads.itemIndex, CharacterMasterNotificationQueue.TransformationType.Default);
+                //Text handled on Client Mod
             }
         }
 
         public static void CreateItems()
         {
-            //ItemDef ExtraLifeConsumed = LegacyResourcesAPI.Load<ItemDef>("itemdefs/ExtraLifeConsumed");
-            //ItemDef TreasureCacheVoid = LegacyResourcesAPI.Load<ItemDef>("itemdefs/TreasureCacheVoid");
-
+            #region Key Consumed
             Texture2D TexUsedRustedKey = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texItemUsedKey.png");
             TexUsedRustedKey.wrapMode = TextureWrapMode.Clamp;
             Sprite TexUsedRustedKeyS = Sprite.Create(TexUsedRustedKey, v.rec128, v.half);
 
-            UsedRustedKey = ScriptableObject.CreateInstance<ItemDef>();
-
-            /*LanguageAPI.Add("ITEM_TREASURECACHECONSUMED_NAME", "Rusted Key (Consumed)", "en");
-            LanguageAPI.Add("ITEM_TREASURECACHECONSUMED_NAME", "Verrosteter Schlüssel (Verbraucht)", "de");
-            LanguageAPI.Add("ITEM_TREASURECACHECONSUMED_NAME", "Clé rouillée (utilisé)", "FR");
-            LanguageAPI.Add("ITEM_TREASURECACHECONSUMED_NAME", "Chiave arrugginita (Consumato)", "IT");
-            LanguageAPI.Add("ITEM_TREASURECACHECONSUMED_NAME", "Llave oxidada (consumido)", "es-419");*/
-
+            UsedRustedKey = ScriptableObject.CreateInstance<ItemDef>(); 
             UsedRustedKey.name = "TreasureCacheConsumed";
             UsedRustedKey.deprecatedTier = ItemTier.NoTier;
             UsedRustedKey.pickupModelPrefab = LegacyResourcesAPI.Load<ItemDef>("itemdefs/TreasureCache").pickupModelPrefab;
@@ -75,17 +66,13 @@ namespace WolfoQoL_Server
             CustomItem customItem = new CustomItem(UsedRustedKey, new ItemDisplayRule[0]);
             ItemAPI.Add(customItem);
 
-
-
+#endregion
+            #region Void Key
             Texture2D texItemUsedKeyVoid = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texItemUsedKeyVoid.png");
             texItemUsedKeyVoid.wrapMode = TextureWrapMode.Clamp;
             Sprite texItemUsedKeyVoidS = Sprite.Create(texItemUsedKeyVoid, v.rec128, v.half);
 
             UsedEncrustedKey = ScriptableObject.CreateInstance<ItemDef>();
-
-            //LanguageAPI.Add("ITEM_TREASURECACHEVOIDCONSUMED_NAME", "Encrusted Key (Consumed)", "en");
-            //LanguageAPI.Add("ITEM_TREASURECACHEVOIDCONSUMED_DESC", "A spent key to remember an item well earned.", "en");
-
             UsedEncrustedKey.name = "TreasureCacheVoidConsumed";
             UsedEncrustedKey.deprecatedTier = ItemTier.NoTier;
             UsedEncrustedKey.pickupModelPrefab = LegacyResourcesAPI.Load<ItemDef>("itemdefs/TreasureCacheVoid").pickupModelPrefab;
@@ -103,23 +90,18 @@ namespace WolfoQoL_Server
             };
             CustomItem customItem2 = new CustomItem(UsedEncrustedKey, new ItemDisplayRule[0]);
             ItemAPI.Add(customItem2);
-            //
-            //
-            ItemDef PrayerBeads = Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/DLC2/Items/ExtraStatsOnLevelUp/ExtraStatsOnLevelUp.asset").WaitForCompletion();
-            UsedPrayerBeads = ScriptableObject.CreateInstance<ItemDef>();
+#endregion   
 
+            ItemDef PrayerBeads = Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/DLC2/Items/ExtraStatsOnLevelUp/ExtraStatsOnLevelUp.asset").WaitForCompletion();
+          
             Texture2D texItemUsedPrayer = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texItemUsedPrayer.png");
             texItemUsedPrayer.wrapMode = TextureWrapMode.Clamp;
-            Sprite texItemUsedPrayerS = Sprite.Create(texItemUsedPrayer, v.rec256, v.half);
-
-            /*LanguageAPI.Add("ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME", "Prayer Beads Blessing", "en");
-            LanguageAPI.Add("ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP", "Your prayer beads have blessed your stats.", "en");
-            LanguageAPI.Add("ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC", "Your prayer beads have blessed your stats. (Missing Description)", "en");*/
-
+ 
+            UsedPrayerBeads = ScriptableObject.CreateInstance<ItemDef>();
             UsedPrayerBeads.name = "ExtraStatsOnLevelUpConsumed";
             UsedPrayerBeads.deprecatedTier = ItemTier.NoTier;
             UsedPrayerBeads.pickupModelPrefab = PrayerBeads.pickupModelPrefab;
-            UsedPrayerBeads.pickupIconSprite = texItemUsedPrayerS;
+            UsedPrayerBeads.pickupIconSprite =  Sprite.Create(texItemUsedPrayer, v.rec256, v.half);
             UsedPrayerBeads.nameToken = "ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME";
             UsedPrayerBeads.pickupToken = "ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP";
             UsedPrayerBeads.descriptionToken = "ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC";
