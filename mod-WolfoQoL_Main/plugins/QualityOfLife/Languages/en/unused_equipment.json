@@ -19,7 +19,7 @@
 
             "EQUIPMENT_SOULCORRUPTOR_NAME": "Soul Corrupter",
             "EQUIPMENT_SOULCORRUPTOR_PICKUP": "Turn targeted low health monsters into a friendly ghost.",
-            "EQUIPMENT_SOULCORRUPTOR_DESC": "<style=cIsDamage>Instantly kill</style> the targeted monster if its below <style=cIsHealing>25% health</style> and turn it into a <style=cIsUtility>ghost</style>",
+            "EQUIPMENT_SOULCORRUPTOR_DESC": "<style=cIsDamage>Instantly kill</style> the targeted monster if its below <style=cIsHealing>25% health</style> and spawn a <style=cIsDamage>ghost</style> with <style=cIsDamage>1600%</style>  damage in it's place. Lasts <style=cIsDamage>30s</style>",
 
             "EQUIPMENT_ENIGMA_NAME": "Enigma",
             "EQUIPMENT_ENIGMA_PICKUP": "Cannot activate this.",

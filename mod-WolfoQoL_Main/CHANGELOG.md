@@ -1,9 +1,11 @@
 #Changelog
 ```
+v4.0.6
+Replaced some ??? with actual names.
+
 v4.0.5
 Fixed Prayer Bead Blessing saying BEADS_TEMP_
 Blessing text not gets set every time to avoid any issues. (Losing items would often reset the text)
-Replaced some ??? with actual names.
 
 v4.0.4
 Made run and lobby chat scrollable.
