@@ -5,9 +5,28 @@ using UnityEngine;
 
 //using System;
 using UnityEngine.Networking;
+using System.ComponentModel;
 
 namespace WolfoQoL_Client
 {
+
+    public class MithrixPhase4Fix : MonoBehaviour
+    {
+        //If he revives hitboxes aren't turned on again so we have to do it
+        public void Start()
+        {
+            HurtBoxGroup component = this.GetComponent<HurtBoxGroup>();
+            if (component)
+            {
+                //Debug.Log(component.hurtBoxesDeactivatorCounter);
+                if (component.hurtBoxesDeactivatorCounter == 0)
+                {
+                    component.SetHurtboxesActive(true);
+                }
+            }
+        }
+    }
+
     public class GameplayQualityOfLife
     {
         public static void Start()
@@ -43,11 +62,14 @@ namespace WolfoQoL_Client
 
             GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
             HurtBoxGroup component = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
+            component.gameObject.AddComponent<MithrixPhase4Fix>();
             if (component)
             {
                 component.hurtBoxesDeactivatorCounter = 1;
             }
         }
+
+     
 
         private static void XI_LaserFix(On.EntityStates.MajorConstruct.Weapon.FireLaser.orig_OnExit orig, EntityStates.MajorConstruct.Weapon.FireLaser self)
         {

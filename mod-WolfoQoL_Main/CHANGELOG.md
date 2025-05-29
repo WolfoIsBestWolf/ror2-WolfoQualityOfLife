@@ -2,6 +2,7 @@
 ```
 v4.0.6
 Replaced some ??? with actual names.
+Fixed a mod issue where Phase 4 Mithrix would be immortal if revived by Dios.
 
 v4.0.5
 Fixed Prayer Bead Blessing saying BEADS_TEMP_

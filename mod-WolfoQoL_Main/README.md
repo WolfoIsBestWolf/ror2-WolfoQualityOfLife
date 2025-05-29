@@ -157,6 +157,7 @@ Fixed Titan pinging the particles instead of the body.\
 War Bonds no longer plays the Horn if 0 Missiles would be fired.\
 Thunder rumbling now plays after players spawns in so it shows up in chat.
 
+Fixes Mithrix Phase 4 sometimes being skipped.\
 Fixes bug where Aurelionite Fragments & Potentials dont spin for clients.\
 Fixes bug where Prayer Beads often would desync for clients.\
 Fixes Spider-Mines being constantly beeping on clients
