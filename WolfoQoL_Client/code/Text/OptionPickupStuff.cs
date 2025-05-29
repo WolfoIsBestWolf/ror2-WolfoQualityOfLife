@@ -32,8 +32,7 @@ namespace WolfoQoL_Client
 
 
             GameObject GoldFragmentPotential = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/FragmentPotentialPickup.prefab").WaitForCompletion();
-
-
+          
             Transform fragment = GoldFragmentPotential.transform.GetChild(0);
             //fragment.GetChild(1).GetChild(0).GetChild(0).gameObject.SetActive(false);
             fragment.GetChild(1).GetChild(0).GetChild(3).gameObject.SetActive(false);
@@ -178,17 +177,29 @@ namespace WolfoQoL_Client
                 bool isFragment = self.name.StartsWith("Fragment");
                 if (isFragment)
                 {
+                    Highlight original = self.GetComponent<Highlight>();
                     if (MeridianEventTriggerInteraction.instance)
                     {
-                        index.NetworkpickupIndex = PickupCatalog.itemTierToPickupIndex[MeridianFragmentRedOrGreenOrWhite(false)];
-                    }
+                        ItemTier tier = MeridianFragmentRedOrGreenOrWhite(false);
+                        if (tier == ItemTier.Tier3)
+                        {
+                            /*GameObject AurelioniteHeart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/AurelioniteHeart.prefab").WaitForCompletion();
+                            SkinnedMeshRenderer Heart = AurelioniteHeart.GetComponentInChildren<SkinnedMeshRenderer>();
+                            MeshRenderer FragmentMat = (original.targetRenderer as MeshRenderer);
+                            MeshFilter FragmentMesh = original.targetRenderer.GetComponent<MeshFilter>();
+
+                            FragmentMesh.sharedMesh = Heart.sharedMesh;
+                            FragmentMat.sharedMaterials = Heart.sharedMaterials;*/
+                        }
+                        index.NetworkpickupIndex = PickupCatalog.itemTierToPickupIndex[tier];
+                    }                   
                     if (WConfig.cfgAurFragment_ItemsInPing.Value)
                     {
                         OptionsInPing(self, "AURELIONITE_FRAGMENT_PICKUP_NAME");
                     }
                     if (WConfig.cfgFragmentColor.Value)
                     {
-                        Highlight original = self.GetComponent<Highlight>();
+                        
                         GameObject newMesh = GameObject.Instantiate(original.targetRenderer.gameObject, original.targetRenderer.transform);
                         newMesh.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
                         newMesh.transform.GetChild(0).gameObject.SetActive(false);

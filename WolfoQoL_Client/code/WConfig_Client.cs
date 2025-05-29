@@ -13,6 +13,8 @@ namespace WolfoQoL_Client
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Client.cfg", true);
 
         public static ConfigEntry<bool> cfgSkipItemDisplays;
+        public static ConfigEntry<bool> cfgOldSotsEliteIcons;
+        public static ConfigEntry<bool> cfgDarkTwisted;
 
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
@@ -36,7 +38,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMessageScrap;
         public static ConfigEntry<bool> cfgMessageVictory;
         public static ConfigEntry<bool> cfgMessageVoidTransform;
-        public static ConfigEntry<bool> cfgMessageElixir;
+        public static ConfigEntry<MessageWho> cfgMessageElixir;
         public static ConfigEntry<bool> cfgMessagesColoredItemPings;
         public static ConfigEntry<bool> cfgMessagesVoidQuantity;
         public static ConfigEntry<bool> cfgMessagesShrineRevive;
@@ -64,7 +66,12 @@ namespace WolfoQoL_Client
             IfSpawned,
             Always
         }
-
+        public enum MessageWho
+        {
+            Off,
+            You,
+            Anybody
+        }
         //DeathScreen
         public static ConfigEntry<bool> cfgExpandedDeathScreen;
         public static ConfigEntry<bool> cfgDeathScreenStats;
@@ -281,7 +288,7 @@ namespace WolfoQoL_Client
             cfgMessageElixir = ConfigFile_Client.Bind(
                 "Chat Messages",
                 "Elixir & Watch lost",
-                true,
+                MessageWho.Anybody,
                 "Chat message for when you use Elixir, lose Watches, lose random item with VanillaVoids Clockwork Mechanism"
             );
             cfgMessagesRecycler = ConfigFile_Client.Bind(
@@ -613,6 +620,19 @@ namespace WolfoQoL_Client
                 true,
                 "Gameplay bug fixes and minor quality of life."
             );
+            cfgDarkTwisted = ConfigFile_Client.Bind(
+                "Visuals",
+                "Dark Twisted Elites",
+                true,
+                "Gives Twisted Elites a dark blue coloration instead of reusing Overloading."
+            );
+            cfgOldSotsEliteIcons = ConfigFile_Client.Bind(
+                "Hud",
+                "SotS Elite Icon change",
+                false,
+                "Change the Elite Icons of SotS elites to be more in line with the other elites.  These sprites are in the files. it is unknown why they were replaced."
+            );
+            cfgOldSotsEliteIcons.SettingChanged += OtherEnemies.UpdateSotsEliteIcon;
             cfgPrimordialBlueText = ConfigFile_Client.Bind(
                 "Other",
                 "Primordial | Blue objective",
@@ -701,9 +721,7 @@ namespace WolfoQoL_Client
 
         public static void RiskConfig()
         {
-            Texture2D TexChestCasinoIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/icon.png");
-            Sprite ChestCasinoIcon = Sprite.Create(TexChestCasinoIcon, new Rect(0, 0, 256, 256), new Vector2(0.5f, 0.5f));
-            ModSettingsManager.SetModIcon(ChestCasinoIcon);
+            ModSettingsManager.SetModIcon(Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/icon.png"));
             ModSettingsManager.SetModDescription("Random assortment of Quality of Life.");
 
             List<ConfigEntry<bool>> resetB = new List<ConfigEntry<bool>>()
@@ -746,6 +764,10 @@ namespace WolfoQoL_Client
                 else if (entry.SettingType == typeof(float))
                 {
                     ModSettingsManager.AddOption(new FloatFieldOption((ConfigEntry<float>)entry, false));
+                }
+                else if (entry.SettingType == typeof(MessageWho))
+                {
+                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<MessageWho>)entry, false));
                 }
                 else if (entry.SettingType == typeof(ReminderChoice))
                 {

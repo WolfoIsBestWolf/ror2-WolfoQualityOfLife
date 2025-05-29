@@ -1,5 +1,30 @@
 #Changelog
 ```
+v4.0.5
+Fixed Prayer Bead Blessing saying BEADS_TEMP_
+Blessing text not gets set every time to avoid any issues. (Losing items would often reset the text)
+Replaced some ??? with actual names.
+
+v4.0.4
+Made run and lobby chat scrollable.
+Asset Bundle optimizations
+Pot & Fusion Cell kill icon (very important)
+Newt Altar ping icon now Lunar Coin icon.
+Added config for Old Sots Elite icons that match the other elite icons.
+Added Elite Ramp for Twisted Elites. (Vanilla uses Overloading)
+Gilded Elites no longer lose their colors on death. (Vanilla shows as Blazing)
+Fixed Scoreboard showing disconnected people
+Fixed harmless? error for clients when changing equipment
+Fixed LUNAR_CHIMERA english being gone.
+Fixed Large MultiShop being called Equipment Multi shop, and that not having a name.
+Halcyonite Shrine ping hitbox smaller after completion.
+Gave PRIMEMERIDIANHEAD_BODY_NAME a name. (I don't think this could ever show up in vanilla)
+Fixed Prayer/Blessing not displaying altered text if it wasnt first in the notifcations.
+Added proper Plural to global reminder objectives.
+Potion/Watch message now global by default.
+Moved Kjaro/Runald being named here. (from LGT)
+
+ 
 v4.0.3
 Prayer Beads stuff
 Put Newt instead of NewtAltar in the Bazaar Log so you can stare at him.

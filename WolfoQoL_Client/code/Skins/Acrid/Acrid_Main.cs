@@ -109,22 +109,6 @@ namespace WolfoQoL_Client
 
         public static void CrocoBlightSkin()
         {
-
-            //Textures
-            Texture2D texCrocoDiffuseBlight = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoDiffuseBlight.png");
-            Texture2D texCrocoEmissionBlight = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png");
-            Texture2D texCrocoPoisonMaskBlight = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoPoisonMaskBlight.png");
-
-            Texture2D texCrocoBlightSkin = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texCrocoBlightSkin.png");
-            Sprite texCrocoBlightSkinS = Sprite.Create(texCrocoBlightSkin, v.rec128, v.half);
-
-            Texture2D texCrocoSkinFlow = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texCrocoSkinFlow.png");
-            texCrocoSkinFlow.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampCrocoDiseaseDarkLessDark = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkLessDark.png");
-            texRampCrocoDiseaseDarkLessDark.wrapMode = TextureWrapMode.Clamp;
-
-
             SkinDef SkinDefAcridDefault = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody").transform.GetChild(0).GetChild(2).gameObject.GetComponent<ModelSkinController>().skins[0];
 
             CharacterModel.RendererInfo[] AcridBlightedRenderInfos = new CharacterModel.RendererInfo[4];
@@ -132,11 +116,10 @@ namespace WolfoQoL_Client
 
             Material matCrocoBlight = UnityEngine.Object.Instantiate(SkinDefAcridDefault.rendererInfos[0].defaultMaterial);
 
-
-            matCrocoBlight.mainTexture = texCrocoDiffuseBlight;
-            matCrocoBlight.SetTexture("_EmTex", texCrocoEmissionBlight);
-            matCrocoBlight.SetTexture("_FlowHeightmap", texCrocoPoisonMaskBlight);
-            matCrocoBlight.SetTexture("_FlowHeightRamp", texRampCrocoDiseaseDarkLessDark);//texRampCrocoDiseaseBlight
+            matCrocoBlight.mainTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoDiffuseBlight.png");
+            matCrocoBlight.SetTexture("_EmTex", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png"));
+            matCrocoBlight.SetTexture("_FlowHeightmap", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoPoisonMaskBlight.png"));
+            matCrocoBlight.SetTexture("_FlowHeightRamp", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkLessDark.png"));//texRampCrocoDiseaseBlight
             matCrocoBlight.SetColor("_EmColor", new Color(1.2f, 1.2f, 0.75f, 1));
 
             AcridBlightedRenderInfos[0].defaultMaterial = matCrocoBlight;  //matCroco
@@ -154,7 +137,7 @@ namespace WolfoQoL_Client
                 MeshReplacements = SkinDefAcridDefault.meshReplacements,
                 GameObjectActivations = SkinDefAcridDefault.gameObjectActivations,
                 Name = "skinCrocoDefaultBlighted",
-                Icon = texCrocoBlightSkinS,
+                Icon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/General/texCrocoBlightSkin.png"),
             };
             R2API.Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody"), AcridBlightSkinInfo);
 

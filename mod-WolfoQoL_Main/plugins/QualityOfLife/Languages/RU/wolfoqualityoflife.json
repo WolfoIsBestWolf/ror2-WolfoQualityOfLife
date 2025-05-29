@@ -36,13 +36,13 @@
             
 			"REMINDER_COUNT": " ({0}/{1})",
             "REMINDER_KEY": "Откройте <style=cisDamage>заржавевший сейф</style>",
-            "REMINDER_KEY_MANY": "Откройте <style=cisDamage>заржавевший сейф</style> ({0}/{1})",
+            "REMINDER_KEY_MANY": "Откройте <style=cisDamage>заржавевший сейф</style> ({0}/{0})",
 
             "REMINDER_KEYVOID": "Откройте <color=#FF9EEC>покрытый коркой сейф</color>",
-            "REMINDER_KEYVOID_MANY": "Откройте <color=#FF9EEC>покрытый коркой сейф</color> ({0}/{1})",
+            "REMINDER_KEYVOID_MANY": "Откройте <color=#FF9EEC>покрытый коркой сейф</color> ({0}/{0})",
 
             "REMINDER_FREECHEST": "Найдите терминал с <style=cIsHealing>доставкой</style>",
-            "REMINDER_FREECHEST_MANY": "Найдите терминал с <style=cIsHealing>доставкой</style> ({0}/{1})",
+            "REMINDER_FREECHEST_MANY": "Найдите терминал с <style=cIsHealing>доставкой</style> ({0}/{0})",
 
             "REMINDER_SALESTAR": "Воспользуйтесь <style=cIsUtility>Выгодной звездой</style>",
 			

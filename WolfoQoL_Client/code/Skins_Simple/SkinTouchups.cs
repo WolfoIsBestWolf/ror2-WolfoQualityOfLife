@@ -267,19 +267,19 @@ namespace WolfoQoL_Client
                             toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
                             break;
                         case 1:
-                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f); ;
+                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f);
                             toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
                             toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
                             toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
                             break;
                         case 2:
-                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(1, 1, 1); ;
+                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(1, 1, 1);
                             toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
                             toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
                             toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
                             break;
                         case 3:
-                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f); ;
+                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f);
                             toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
                             toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
                             toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;

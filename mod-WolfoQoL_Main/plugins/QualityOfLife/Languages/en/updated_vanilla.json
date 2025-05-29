@@ -1,6 +1,24 @@
 {
 	"strings":
 	{
+			"YOU": "You",
+			"HIDDEN_REALM_PREFIX": "Hidden Realm: ",
+		
+		
+            "BAZAAR_SEER_SNOWYFOREST": "<style=cWorldEvent>You dream of campfires and ice.</style>",
+            "BAZAAR_SEER_SHIPGRAVEYARD": "<style=cWorldEvent>You dream of misled signals.</style>",
+            "BAZAAR_SEER_DAMPCAVESIMPLE": "<style=cWorldEvent>You dream of tectonic fire.</style>",
+
+            "MONSTER_PICKUP_2P": "<style=cWorldEvent>You scavenged for {1}{2}</color>",
+            "PLAYER_DEATH_QUOTE_33_2P": "You are not OK from this encounter.",
+            "PLAYER_DEATH_QUOTE_33": "{0} is not OK from this encounter.",
+  
+            "LOCKEDTREEBOT_CONTEXT", "Repair the survivor",
+            "LOCKEDMAGE_NAME", "Frozen Survivor",
+		
+		
+			"PRIMEMERIDIANHEAD_BODY_NAME": "Head of the Colossus",
+			"LUNAR_CHIMERA": "Lunar Chimera",
 			"LUNARGOLEM_BODY_NAME": "Lunar Chimera Golem",
 			"LUNARWISP_BODY_NAME": "Lunar Chimera Wisp",
 			"LUNAREXPLODER_BODY_NAME": "Lunar Chimera Exploder",

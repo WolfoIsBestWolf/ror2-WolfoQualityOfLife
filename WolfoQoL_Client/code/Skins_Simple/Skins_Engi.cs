@@ -23,12 +23,10 @@ namespace WolfoQoL_Client
             SkinDef skinEngiAlt = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Engi/skinEngiAlt.asset").WaitForCompletion();
             SkinDef skinEngiAltColossus = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Engi/skinEngiAltColossus.asset").WaitForCompletion();
 
-            Texture2D texRampEngiAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampEngiAlt.png");
-            texRampEngiAlt.wrapMode = TextureWrapMode.Clamp;
+            Texture2D texRampEngiAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampEngiAlt.png");
             matEngiTrail_Alt.SetTexture("_RemapTex", texRampEngiAlt);
 
-            Texture2D texRampEngiColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampEngiColossus.png");
-            texRampEngiColossus.wrapMode = TextureWrapMode.Clamp;
+            Texture2D texRampEngiColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampEngiColossus.png");
             matEngiTrail_Sots.SetTexture("_RemapTex", texRampEngiColossus);
 
             GameObject EngiHarpoonProjectile = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoon.prefab").WaitForCompletion();

@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using static WolfoQoL_Client.KillerInventory;
 
 namespace WolfoQoL_Client
 {
@@ -25,10 +26,10 @@ namespace WolfoQoL_Client
 
         public static void DetailedDeathMessages(DamageReport damageReport)
         {
-            DetailedDeathMessages(damageReport.damageDealt, damageReport.victimBody, damageReport.attackerBody, damageReport.damageInfo.damageType, damageReport.damageInfo.damageColorIndex, damageReport.damageInfo.delayedDamageSecondHalf, true);
+            DeathAndKillerInventoryMessage(damageReport.damageDealt, damageReport.victimBody, damageReport.attackerBody, damageReport.attackerMaster, damageReport.damageInfo.damageType, damageReport.damageInfo.damageColorIndex, damageReport.damageInfo.delayedDamageSecondHalf, true);
         }
 
-        public static void DetailedDeathMessages(float damage, CharacterBody victimBody, CharacterBody attackerBody, DamageTypeCombo damageType, DamageColorIndex dmgColor, bool echo, bool sendOverNetwork)
+        public static void DeathAndKillerInventoryMessage(float damage, CharacterBody victimBody, CharacterBody attackerBody, CharacterMaster attackerMaster, DamageTypeCombo damageType, DamageColorIndex dmgColor, bool echo, bool sendOverNetwork)
         {
             string VictimName = Util.GetBestBodyName(victimBody.gameObject);
             string KillerName = "UNIDENTIFIED_KILLER_NAME";
@@ -66,10 +67,6 @@ namespace WolfoQoL_Client
             {
                 token = "DEATH_VOID_EXPLODE";
             }
-            /*else if (damageReport.damageInfo.damageType.damageType.HasFlag(DamageType.LunarRuin))
-            {
-                token = "DEATH_TWISTED";
-            }*/
             else if (isFallDamage)
             {
                 token = "DEATH_FALL_DAMAGE";
@@ -108,7 +105,7 @@ namespace WolfoQoL_Client
             string damageVal = $"{damage:F2}";
 
 
-            var temp = new DetailedDeathMessage
+            DetailedDeathMessage deathMessage = new DetailedDeathMessage
             {
                 subjectAsCharacterBody = victimBody,
                 baseToken = token,
@@ -117,21 +114,33 @@ namespace WolfoQoL_Client
                 damageDone = damageVal,
                 attackerObject = attackerBody ? attackerBody.gameObject : null,
             };
-            //Chat.AddMessage(temp.ConstructChatString());
+            KillerInventoryMessage killerInventoryMessage = new KillerInventoryMessage
+            {
+                killerBackupName = KillerName,
+                attackerObject = attackerBody ? attackerBody.gameObject : null,
+                victimMaster = victimBody ? victimBody.master.gameObject : null, 
+            };
+            if (attackerMaster)
+            {
+                killerInventoryMessage.itemStacks = attackerMaster.inventory.itemStacks;
+                killerInventoryMessage.primaryEquipment = attackerMaster.inventory.currentEquipmentIndex;
+            }
 
             //In actual round this should only run for the Host, or for clients if the Host doesn't have it
+            Debug.Log(VictimName + " killed by " + KillerName + " | Networked? " + sendOverNetwork);
             if (sendOverNetwork)
             {
-                Chat.SendBroadcastChat(temp);
+                Chat.SendBroadcastChat(deathMessage);
+                if (victimBody.master.IsDeadAndOutOfLivesServer())
+                { 
+                    Chat.SendBroadcastChat(killerInventoryMessage);
+                }
             }
             else
             {
-                Chat.AddMessage(temp);
+                Chat.AddMessage(deathMessage);
+                Chat.AddMessage(killerInventoryMessage);
             }
-            Debug.Log(VictimName + " killed by " + KillerName + " | Networked? " + sendOverNetwork);
-
-
-
         }
 
 

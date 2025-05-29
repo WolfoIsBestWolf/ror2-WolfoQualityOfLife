@@ -79,16 +79,11 @@ namespace WolfoQoL_Client
             index_Void3 = ColorsAPI.RegisterColor(ColorVoid3);
             index_Void4 = ColorsAPI.RegisterColor(ColorVoid4);
 
-            texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texEquipmentBossBG.png");
-            texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/texEquipmentLunarBG.png");
+            texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentBossBG.png");
+            texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentLunarBG.png");
 
-          
-            //On.RoR2.UI.GenericNotification.SetItem += PickupNotifColorOverrideItems; //Notification Title
-            //On.RoR2.UI.GenericNotification.SetEquipment += PickupNotifColorOverrideEquip; //
-
-            ColorModule_Sprites.EquipmentColorIconChanger();
-            ColorModule_Sprites.ItemIcons();
-
+     
+            EquipmentCatalog.availability.CallWhenAvailable(ColorModule_Sprites.NewColorOutlineIcons);
             On.RoR2.PickupCatalog.Init += PickupCatalog_Init;
         }
 

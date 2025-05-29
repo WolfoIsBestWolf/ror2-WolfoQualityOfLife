@@ -32,7 +32,7 @@ namespace WolfoQoL_Client
             {
                 if (self.purchaseInteraction.Networkcost > 0)
                 {
-                    //Base value set in LTG. Ig hope no one else modifies it
+                    //Base value set in LGT. Ig hope no one else modifies it
                     //Or that Gbx listens and makes it networked
                     self.goldDrainValue = self.purchaseInteraction.Networkcost;
                 }
@@ -73,9 +73,8 @@ namespace WolfoQoL_Client
                 obj.enabled = false;
                 obj.AddKill();
             }
-            //HAS TO BEFORE
-            //Client Nres and rest doesn't get called
-            //Nres if we do before too because parentshrine null
+
+            self.outer.transform.GetChild(0).GetChild(0).GetComponent<BoxCollider>().enabled = false;
         }
         private static void Clear_KillObjective(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteFinished self)
         {

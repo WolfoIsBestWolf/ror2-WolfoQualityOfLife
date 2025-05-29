@@ -29,6 +29,8 @@ Readds the old chunky printer Model for Uncommon and Mili Tech Printers.
 Lunar/Elite Equipment, Void White/Red/Boss, Lunar Coins now use their own color.\
 Adds colored highlights for Tiers that were lacking one and for Equipment.
 
+Twisted Elites are now Dark Blue instead of reusing Overloading colors.\
+Gilded Elite corpses no longer look like blazing elite corpses.
 
 ![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
 
@@ -88,7 +90,7 @@ Void Potentials & Aurelionite Fragments display their items in ping messages\
 ## Menu & Hud
 A Unique Ping Icon for the vast majority of Interactables.
 
-Unique Body Icon for Engineer Walker Turrets, Empathy Cores.\
+Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Pot.\
 Updated Body Icon for Squid Polyp, Devoted Lemurians, Ally Aurelionite.
 
 Tab Scoreboard now shows dead peoples inventory too.  
@@ -98,9 +100,12 @@ Simulacrum lobbies will show a Pink Border on the characters you beat Wave 50 on
 
 Main Menu theme now changes randomly.
 
-Sprinting UI is slightly different to support charge attacks.
+Sprinting Crosshair is different to support charge attacks.
 
-Objective Hud can have it's font size and spacing customized to fit better for some languages.\
+Objective Hud can have it's font size and spacing customized to fit better for some languages.
+
+Lobby and run Chat can be scrolled.\
+Chat box displays more messages and is wider.
 
 Logbook additions:
 - Elite Aspects

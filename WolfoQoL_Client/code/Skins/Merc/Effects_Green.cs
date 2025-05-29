@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
 {
-    public class Merc_Green
+    public static class Merc_Green
     {
 
         public static Material matMercEnergized_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
@@ -111,19 +111,11 @@ namespace WolfoQoL_Client
             matHuntressFlashBright_Green.SetColor("_TintColor", new Color(0.6f, 1.3f, 0.6f, 1f));//0.0191 1.1386 1.2973 1 
             matHuntressFlashExpanded_Green.SetColor("_TintColor", new Color(0.2f, 0.58f, 0.2f, 1f));//0 0.4367 0.5809 1
 
-            Texture2D texRampFallboots_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampFallbootsGreen.png");
-            texRampFallboots_Green.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampMercDust_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampMercDustGreen.png");
-            texRampMercDust_Green.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampHuntressSoft_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressSoftGreen.png");
-            texRampHuntressSoft_Green.wrapMode = TextureWrapMode.Clamp;
-            texRampHuntressSoft_Green.filterMode = FilterMode.Point;
-
-            Texture2D texRampHuntress_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressGreen.png");
-            texRampHuntress_Green.wrapMode = TextureWrapMode.Clamp;
-            texRampHuntress_Green.filterMode = FilterMode.Point;
+            Texture2D texRampFallboots_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampFallbootsGreen.png");
+            Texture2D texRampMercDust_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampMercDustGreen.png");
+            Texture2D texRampHuntressSoft_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressSoftGreen.png");
+            Texture2D texRampHuntress_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressGreen.png");
+ 
 
             ParticleSystemRenderer MercSwordSlash_GreenRenderer0 = MercSwordSlash_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
             matMercSwipe1_Green = UnityEngine.Object.Instantiate(MercSwordSlash_GreenRenderer0.material);

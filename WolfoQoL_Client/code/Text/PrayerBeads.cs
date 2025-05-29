@@ -17,17 +17,16 @@ namespace WolfoQoL_Client
     {
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Pickup;
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Desc;
-        public static ItemIndex moffeine = ItemIndex.None; 
+        public static ItemIndex moffeine = (ItemIndex)(-2); 
         public static ItemIndex usedBeads = (ItemIndex)(-2);
-        public static int updateBead = 2;
+        public static bool justRemovedBeadsLocal = false;
 
         private static void Consumed_OverrideTooltip(On.RoR2.UI.ItemIcon.orig_SetItemIndex orig, RoR2.UI.ItemIcon self, ItemIndex newItemIndex, int newItemCount)
         {
+            //If Mithrix takes co
             orig(self, newItemIndex, newItemCount);
-            if (newItemIndex == usedBeads && updateBead != 0)
-            {
-                Debug.Log("Consumed_OverrideTooltip");
-                updateBead--;
+            if (newItemIndex == usedBeads)
+            {  
                 if (self.tooltipProvider)
                 {
                     ItemInventoryDisplay display = self.GetComponentInParent<ItemInventoryDisplay>();
@@ -66,10 +65,29 @@ namespace WolfoQoL_Client
                 On.RoR2.UI.ItemIcon.SetItemIndex += Consumed_OverrideTooltip;
                 On.RoR2.UI.ItemIcon.ItemClicked += Consumed_OverrideInspect;
             }
+            else
+            {
+                On.RoR2.UI.GenericNotification.SetItem += GenericNotification_SetItem;
+            }
             On.RoR2.CharacterMaster.OnBeadReset += OverlayForTransformationMessage;
         }
 
-       
+        private static void GenericNotification_SetItem(On.RoR2.UI.GenericNotification.orig_SetItem orig, GenericNotification self, ItemDef itemDef)
+        {
+            orig(self, itemDef);
+            if (justRemovedBeadsLocal && itemDef == DLC2Content.Items.ExtraStatsOnLevelUp)
+            {
+                justRemovedBeadsLocal = false;
+                self.titleText.token = itemDef.nameToken;
+                self.descriptionText.token = Language.GetString("BEADS_TEMP_");
+                if (itemDef.pickupIconTexture != null)
+                {
+                    self.iconImage.gameObject.SetActive(false);
+                    //self.iconImage.texture = RoR2Content.Items.ScrapGreen.pickupIconTexture;
+                }
+                self.titleTMP.color = ColorCatalog.GetColor(itemDef.colorIndex);
+            }
+        }
 
         private static void BuffTracker_ClientFix(On.RoR2.CharacterBody.orig_Awake orig, CharacterBody self)
         {
@@ -85,8 +103,6 @@ namespace WolfoQoL_Client
             CharacterBody body = self.GetBody();
             if (body && gainedStats)
             {       
-                //Higher number better, just make sure it doesn't run literally every single time
-                updateBead = PlayerCharacterMasterController.instances.Count*2; //Yeah? I gues?
                 PrayerBeads_Ovelay(self.inventory, self, body);
             }
             //Done before, so we can make sure the overlay is made
@@ -96,11 +112,7 @@ namespace WolfoQoL_Client
             {
                 body.GetComponent<PrayerBeadsStorage>().lastSeenBeadAmount = 0;
             }
-            if (BeadsOverlay_Pickup != null)
-            {
-                BeadsOverlay_Pickup.Remove();
-                BeadsOverlay_Desc.Remove();
-            }
+          
 
 
         }
@@ -108,6 +120,11 @@ namespace WolfoQoL_Client
         public static string GetPrayerBeadsToken(Inventory inventory, CharacterBody body, string tokenIn)
         {
             //Debug.Log("PrayerBeads_Ovelay");
+            if (body == null)
+            {
+                body = inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>();
+            }
+ 
             float beadDamage = inventory.beadAppliedDamage;
             float beadHealth = inventory.beadAppliedHealth;
             float beadRegen = inventory.beadAppliedRegen;
@@ -136,14 +153,17 @@ namespace WolfoQoL_Client
                 Debug.Log("PrayerBeads_Ovelay NullBody");
                 return;
             }
-            if (BeadsOverlay_Pickup != null)
-            {
-                BeadsOverlay_Pickup.Remove();
-                BeadsOverlay_Desc.Remove();
-            }
             if (!master.hasAuthority)
             {
                 return;
+            }
+            if (BeadsOverlay_Pickup != null)
+            {
+                BeadsOverlay_Pickup.Remove();
+            }
+            if (BeadsOverlay_Desc != null)
+            {
+                BeadsOverlay_Desc.Remove();
             }
             if (WolfoMain.ServerModInstalled == true)
             {
@@ -154,9 +174,11 @@ namespace WolfoQoL_Client
             }
             else if (WolfoMain.ServerModInstalled == false)
             {
+                justRemovedBeadsLocal = true;
+                //latestBeader = inventory;
                 string tokenFull = GetPrayerBeadsToken(inventory, body, "OVERLAY_EXTRASTATSONLEVELUP_DESC");
-                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_PICKUP", tokenFull);
-                BeadsOverlay_Desc = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_DESC", tokenFull);
+                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("BEADS_TEMP_", tokenFull);
+                //BeadsOverlay_Desc = LanguageAPI.AddOverlay("BEADS_TEMP_2", tokenFull);
                 CharacterMasterNotificationQueue notificationQueueForMaster = CharacterMasterNotificationQueue.GetNotificationQueueForMaster(master);
                 CharacterMasterNotificationQueue.TransformationInfo transformation = new CharacterMasterNotificationQueue.TransformationInfo(CharacterMasterNotificationQueue.TransformationType.Default, DLC2Content.Items.ExtraStatsOnLevelUp);
                 CharacterMasterNotificationQueue.NotificationInfo info = new CharacterMasterNotificationQueue.NotificationInfo(ItemCatalog.GetItemDef(DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex), transformation);
@@ -216,7 +238,17 @@ namespace WolfoQoL_Client
 
 
 
+    public class TimedNotificationInfo
+    {
+        // Token: 0x04003412 RID: 13330
+        public CharacterMasterNotificationQueue.NotificationInfo notification;
 
+        // Token: 0x04003413 RID: 13331
+        public float startTime;
+
+        // Token: 0x04003414 RID: 13332
+        public float duration;
+    }
 
 }
 

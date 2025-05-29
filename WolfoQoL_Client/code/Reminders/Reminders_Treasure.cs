@@ -106,58 +106,7 @@ namespace WolfoQoL_Client
         }
 
 
-
-        /*public class UpdateTreasureReminderCounts : RoR2.SubjectChatMessage
-        {
-            public override string ConstructChatString()
-            {
-                TreasureReminder treasureReminder = Run.instance.gameObject.;
-                if (treasureReminder != null)
-                {
-                    switch (baseToken)
-                    {
-                        case "UPDATE_LOCKBOXCOUNT":
-                            treasureReminder.DeductLockboxCount();
-                            break;
-                        case "UPDATE_LOCKBOXVOIDCOUNT":
-                            treasureReminder.DeductLockboxVoidCount();
-                            break;
-                        case "UPDATE_FREECHESTCOUNT":
-                            treasureReminder.DeductFreeChestCount();
-                            break;
-                        case "UPDATE_SALESTAR":
-                            treasureReminder.RemoveSaleStar(subjectAsCharacterBody, null);
-                            break;
-                        case "UPDATE_REGENSCRAP":
-                            //treasureReminder.RemoveSaleStar(subjectAsCharacterBody, null);
-                            break;
-                        case "UPDATE_NEWT":
-                            //treasureReminder.RemoveSaleStar(subjectAsCharacterBody, null);
-                            break;
-                        case "CHECK_LOCKBOX_VOIDED":
-                            treasureReminder.ShouldRemoveKeyObjective(keysPostVoid);
-                            break;
-                    }
-                }
-                return null;
-            }
-
-            public int keysPostVoid;
-            public override void Serialize(NetworkWriter writer)
-            {
-                base.Serialize(writer);
-                writer.Write(keysPostVoid);
-
-            }
-
-            public override void Deserialize(NetworkReader reader)
-            {
-                base.Deserialize(reader);
-                keysPostVoid = reader.ReadInt32();
-            }
-        }*/
-
-
+         
 
     }
 

@@ -59,10 +59,7 @@ namespace WolfoQoL_Client
 
             On.RoR2.PurchaseInteraction.GetDisplayName += PurchaseInteraction_GetDisplayName;
             IL.RoR2.PurchaseInteraction.GetContextString += PurchaseInteraction_GetContextString;
-
-
-            
-
+ 
         }
 
 
@@ -100,7 +97,7 @@ namespace WolfoQoL_Client
             BoostedNameToken(skill, "CHEF_BOOSTED_FORMAT");
             #endregion
             #region Enemy Names
-
+            //Can't really do enemy names as hoped because different languages dont use Prefixes the same way
 
             //LanguageAPI.Add("URCHINTURRET_BODY_LORE", Language.GetString("ASSASSIN2_BODY_LORE"));
             //LanguageAPI.Add("GEEP_BODY_LORE", Language.GetString("GUP_BODY_LORE"));
@@ -186,10 +183,8 @@ namespace WolfoQoL_Client
 
             ObliterationEnding.foregroundColor = ObliterationEnding.backgroundColor * 1.1f;
             ObliterationEnding.backgroundColor = ObliterationEnding.backgroundColor.AlphaMultiplied(0.75f);
-
-            Texture2D texGameResultRebirth = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texGameResultRebirth.png");
-            texGameResultRebirth.wrapMode = TextureWrapMode.Clamp;
-            Sprite texGameResultRebirthS = Sprite.Create(texGameResultRebirth, v.rec128, v.half);
+ 
+            Sprite texGameResultRebirthS = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/General/texGameResultRebirth.png");
             RebirthEndingDef.icon = texGameResultRebirthS;
 
             if (WConfig.cfgTextOther.Value == true)
@@ -325,31 +320,7 @@ namespace WolfoQoL_Client
         {
             //Additional Key Words
             LanguageAPI.Add("KEYWORD_SLOWING", "<style=cKeywordName>Slowing</style><style=cSub>Apply a slowing debuff reducing enemy <style=cIsUtility>movement speed</style> by <style=cIsUtility>50%</style>.</style>", "en");
-
-            //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Huntress/HuntressBodyBlink.asset").WaitForCompletion().keywordTokens = new string[] { "KEYWORD_AGILE" };
-            //Arrow Rain Slows
-
-            //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Merc/MercBodyFocusedAssault.asset").WaitForCompletion().keywordTokens = new string[] { "KEYWORD_STUNNING", "KEYWORD_EXPOSE" };
-
-            LanguageAPI.Add("BAZAAR_SEER_SNOWYFOREST", "<style=cWorldEvent>You dream of campfires and ice.</style>", "en");
-            LanguageAPI.Add("BAZAAR_SEER_SHIPGRAVEYARD", "<style=cWorldEvent>You dream of windy cliffs.</style>", "en");
-            LanguageAPI.Add("BAZAAR_SEER_DAMPCAVESIMPLE", "<style=cWorldEvent>You dream of fiery caverns.</style>", "en");
-
-
-            LanguageAPI.Add("MONSTER_PICKUP_2P", "<style=cWorldEvent>You scavenged for {1}{2}</color>", "en");
-            LanguageAPI.Add("PLAYER_DEATH_QUOTE_33_2P", "You are not OK from this encounter.", "en");
-            LanguageAPI.Add("PLAYER_DEATH_QUOTE_33", "{0} is not OK from this encounter.", "en");
-
-
-            LanguageAPI.Add("MAP_ARENA_TITLE", "Void Fields", "en");
-            LanguageAPI.Add("MAP_VOIDSTAGE_TITLE", "Void Locus", "en");
-            LanguageAPI.Add("MAP_VOIDRAID_TITLE", "The Planetarium", "en");
-
-            //Updated Interactable Names
-            LanguageAPI.Add("LOCKEDTREEBOT_CONTEXT", "Repair the survivor", "en");
-            LanguageAPI.Add("LOCKEDMAGE_NAME", "Frozen Survivor", "en");
-
-
+ 
             PurchaseTokenOverwrite changeTokenOnStart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestTerminalShippingDrone/FreeChestTerminalShippingDrone.prefab").WaitForCompletion().AddComponent<PurchaseTokenOverwrite>();
             changeTokenOnStart.displayNameToken = "FREECHEST_TERMINAL_NAME";
             changeTokenOnStart.contextToken = "FREECHEST_TERMINAL_CONTEXT";
@@ -357,13 +328,26 @@ namespace WolfoQoL_Client
             changeTokenOnStart = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").AddComponent<PurchaseTokenOverwrite>();
             changeTokenOnStart.displayNameToken = "MULTISHOP_LARGE_TERMINAL_NAME";
             changeTokenOnStart.contextToken = "MULTISHOP_TERMINAL_CONTEXT";
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").AddComponent<PurchaseTokenOverwrite>();
+            changeTokenOnStart = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").AddComponent<PurchaseTokenOverwrite>();
             changeTokenOnStart.displayNameToken = "MULTISHOP_EQUIPMENT_TERMINAL_NAME";
             changeTokenOnStart.contextToken = "MULTISHOP_TERMINAL_CONTEXT";
 
             changeTokenOnStart = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<PurchaseTokenOverwrite>();
             changeTokenOnStart.displayNameToken = "DUPLICATOR_LARGE_NAME";
             changeTokenOnStart.contextToken = "DUPLICATOR_LARGE_CONTEXT";
+
+
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/shipgraveyard/VultureEggBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "VultureEggBody";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Vagrant/VagrantTrackingBomb.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "VagrantTrackingBomb";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Scav/ScavSackProjectile.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "ScavSackProjectile";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Scorchling/ScorchlingBombProjectile.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "ScorchlingBombProjectile";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "MiniGeodeBody";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/LunarWisp/LunarWispTrackingBomb.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "LunarWispTrackingBomb";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Gravekeeper/GravekeeperTrackingFireball.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "GravekeeperTrackingFireball";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Birdshark/BirdsharkBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "BirdsharkBody";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Elites/EliteBead/BeadProjectileTrackingBomb.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "BeadProjectileTrackingBomb";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleWard.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "BeetleWard";
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/AltarSkeleton/AltarSkeletonBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "AltarSkeletonBody";
 
         }
 
@@ -394,8 +378,8 @@ namespace WolfoQoL_Client
             LanguageAPI.Add("ITEM_LIGHTNINGSTRIKEONHIT_DESC", "<style=cIsDamage>10%</style> chance on hit to down a lightning strike, dealing <style=cIsDamage>500%</style> <style=cStack>(+500% per stack)</style> TOTAL damage.");
             //Is TOTAL Damage
             LanguageAPI.Add("ITEM_FIREBALLSONHIT_DESC", "<style=cIsDamage>10%</style> chance on hit to call forth <style=cIsDamage>3 magma balls</style> from an enemy, dealing <style=cIsDamage>300%</style> <style=cStack>(+300% per stack)</style> TOTAL damage and <style=cIsDamage>igniting</style> all enemies for an additional <style=cIsDamage>50%</style> TOTAL damage over time.");
-            //Removed unused cooldown
-            LanguageAPI.Add("ITEM_BEETLEGLAND_DESC", "<style=cIsUtility>Summon a Beetle Guard</style> with bonus <style=cIsDamage>300%</style> damage and <style=cIsHealing>100% health</style>. Can have up to <style=cIsUtility>1</style> <style=cStack>(+1 per stack)</style> Guards at a time.");
+            //Removed unused cooldown and dont say "bonus"
+            LanguageAPI.Add("ITEM_BEETLEGLAND_DESC", "<style=cIsUtility>Summon a Beetle Guard</style> with <style=cIsDamage>400%</style> damage and <style=cIsHealing>200% health</style>. Can have up to <style=cIsUtility>1</style> <style=cStack>(+1 per stack)</style> Guards at a time.");
 
             //Added Radius
             LanguageAPI.Add("ITEM_BOUNCENEARBY_DESC", "<style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> chance on hit to <style=cIsDamage>fire homing hooks</style> at up to <style=cIsDamage>10</style> <style=cStack>(+5 per stack)</style> enemies within <style=cIsDamage>30m</style> for <style=cIsDamage>100%</style> TOTAL damage.");
@@ -411,6 +395,9 @@ namespace WolfoQoL_Client
             LanguageAPI.Add("ITEM_ATTACKSPEEDONCRIT_DESC", "Gain <style=cIsDamage>5% critical chance</style>. <style=cIsDamage>Critical strikes</style> increase <style=cIsDamage>attack speed</style> by <style=cIsDamage>12%</style>. Maximum cap of <style=cIsDamage>36% <style=cStack>(+24% per stack)</style> attack speed</style>.", "en");
             //Missing 5% Crit
             LanguageAPI.Add("ITEM_BLEEDONHITANDEXPLODE_DESC", "Gain <style=cIsDamage>5% critical chance</style>. <style=cIsDamage>Critical Strikes bleed</style> enemies for <style=cIsDamage>240%</style> base damage. <style=cIsDamage>Bleeding</style> enemies <style=cIsDamage>explode</style> on death for <style=cIsDamage>400%</style> <style=cStack>(+400% per stack)</style> damage, plus an additional <style=cIsDamage>15%</style> <style=cStack>(+15% per stack)</style> of their maximum health.", "en");
+
+            //Missing 16x not 15x // or Bonus +15, either way not mentioned correctly
+            LanguageAPI.Add("ITEM_GHOSTONKILL_DESC", "Killing enemies has a <style=cIsDamage>7%</style> chance to <style=cIsDamage>spawn a ghost</style> of the killed enemy with <style=cIsDamage>1600%</style> damage. Lasts <style=cIsDamage>30s</style> <style=cStack>(+30s per stack)</style>.", "en");
 
             #endregion
             #region Equipment
@@ -486,7 +473,6 @@ namespace WolfoQoL_Client
 
             LanguageAPI.Add("SKILL_LUNAR_UTILITY_REPLACEMENT_DESCRIPTION", "Fade away, becoming <style=cIsUtility>intangible</style> and <style=cIsUtility>gaining movement speed</style>. <style=cIsHealing>Heal</style> for <style=cIsHealing>18% of your maximum health</style>.");
 
-            LanguageAPI.Add("ITEM_LUNARSECONDARYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Secondary Skill </style> with <style=cIsUtility>Slicing Maelstrom</style>.  \n\nCharge up a projectile that deals <style=cIsDamage>875% damage per second</style> to nearby enemies, exploding after <style=cIsUtility>3</style> seconds to deal <style=cIsDamage>700% damage</style> and <style=cIsDamage>root</style> enemies for <style=cIsUtility>3</style> <style=cStack>(+3 per stack)</style> seconds. Recharges after 5 <style=cStack>(+5 per stack)</style> seconds.");
             LanguageAPI.Add("ITEM_LUNARUTILITYREPLACEMENT_DESC", "<style=cIsUtility>Replace your Utility Skill</style> with <style=cIsUtility>Shadowfade</style>. \n\nFade away, becoming <style=cIsUtility>intangible</style> and gaining <style=cIsUtility>+30% movement speed</style>. <style=cIsHealing>Heal</style> for <style=cIsHealing>18% <style=cStack>(+18% per stack)</style> of your maximum health</style>. Lasts 3 <style=cStack>(+3 per stack)</style> seconds.");
 
         }

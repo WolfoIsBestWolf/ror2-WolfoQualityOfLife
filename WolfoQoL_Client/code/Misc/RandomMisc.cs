@@ -1,4 +1,6 @@
 ﻿using EntityStates.Engi.SpiderMine;
+using RoR2.UI;
+
 //using System;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -251,7 +253,7 @@ namespace WolfoQoL_Client
             geode.range = 25;
             geode.intensity = 8;
 
-            On.RoR2.PortalStatueBehavior.OnSerialize += NewtAvailableFix1;
+            On.RoR2.PortalStatueBehavior.PreStartClient += NewtAvailableFix12;
             On.RoR2.TeleporterInteraction.OnSyncShouldAttemptToSpawnShopPortal += NewtAvailableFix2;
 
             //1 0.7877 0.8294 1
@@ -259,6 +261,73 @@ namespace WolfoQoL_Client
 
             //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Railgunner/RailgunnerOverchargeUIReady.prefab").WaitForCompletion();
             //crosshairOverridePrefab
+
+
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
+
+            On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
+
+            //For testing ig but also it spams the console
+            IL.EntityStates.Commando.CommandoWeapon.FirePistol2.FixedUpdate += CommandoReloadStateRemove;
+            //Huntress issue only starts at 780% attack speed who cares really
+        }
+ 
+        public static void CommandoReloadStateRemove(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.After,
+                x => x.MatchCallvirt("RoR2.GenericSkill","get_stock")))
+            {
+                c.EmitDelegate<System.Func<int, int>>((stock) =>
+                {
+                    return 1;
+                });
+            }
+            else
+            {
+               Debug.LogWarning("CommandoReloadStateRemove Failed");
+            }
+        }
+ 
+
+        public static BodyIndex LemurianBruiser = BodyIndex.None;
+        public static string MarriedLemurianNameHook(On.RoR2.Util.orig_GetBestBodyName orig, GameObject bodyObject)
+        {
+            if (bodyObject)
+            {
+                CharacterBody characterBody = bodyObject.GetComponent<CharacterBody>();
+                if (characterBody && characterBody.bodyIndex == LemurianBruiser)
+                {
+                    if (characterBody.inventory.GetItemCount(RoR2Content.Items.Clover) >= 20)
+                    {
+                        if (characterBody.inventory.GetItemCount(RoR2Content.Items.FireRing) > 0)
+                        {
+                            return "Kjaro";
+                        }
+                        else if (characterBody.inventory.GetItemCount(RoR2Content.Items.IceRing) > 0)
+                        {
+                            return "Runald";
+                        }
+                    }
+                }
+            }
+            return orig(bodyObject);
+        }
+
+
+        private static void NewtAvailableFix12(On.RoR2.PortalStatueBehavior.orig_PreStartClient orig, PortalStatueBehavior self)
+        {
+            orig(self);
+            self.GetComponent<PurchaseInteraction>().setUnavailableOnTeleporterActivated = true;
+            if (self.portalType == PortalStatueBehavior.PortalType.Shop)
+            {
+                var ping = self.GetComponent<PingInfoProvider>();
+                if (!ping)
+                {
+                    ping = self.gameObject.AddComponent<PingInfoProvider>();
+                }
+                ping.pingIconOverride = PingIcons.LunarIcon;
+            }
         }
 
         private static void NewtAvailableFix2(On.RoR2.TeleporterInteraction.orig_OnSyncShouldAttemptToSpawnShopPortal orig, TeleporterInteraction self, bool newValue)
@@ -282,17 +351,7 @@ namespace WolfoQoL_Client
            
         }
 
-        private static bool NewtAvailableFix1(On.RoR2.PortalStatueBehavior.orig_OnSerialize orig, PortalStatueBehavior self, NetworkWriter writer, bool forceAll)
-        {
-            //Somehow fucking Dies if not saftey checked
-            var temp = orig(self, writer, forceAll);
-            if (self && self.GetComponent<PurchaseInteraction>())
-            {
-                self.GetComponent<PurchaseInteraction>().setUnavailableOnTeleporterActivated = true;
-            } 
-            return temp;
-        }
-
+     
         private static string SubjectChatMessage_GetSubjectName(On.RoR2.SubjectChatMessage.orig_GetSubjectName orig, SubjectChatMessage self)
         {
             if (self.subjectAsNetworkUser == null && self.subjectAsCharacterBody)
@@ -330,13 +389,12 @@ namespace WolfoQoL_Client
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchStloc(0)
-                ))
+                x => x.MatchStloc(0)))
             {
                 c.EmitDelegate<System.Func<List<PlayerCharacterMasterController>, List<PlayerCharacterMasterController>>>((self) =>
                 {
                     List<PlayerCharacterMasterController> list = (from x in PlayerCharacterMasterController.instances
-                                                                  where x.gameObject.activeInHierarchy
+                                                                  where x.gameObject.activeInHierarchy && x.isConnected
                                                                   select x).ToList<PlayerCharacterMasterController>();
                     return list;
                 });
@@ -533,12 +591,7 @@ namespace WolfoQoL_Client
 
             ItemDisplay display = VoidAffixDisplay.GetComponent<ItemDisplay>();
             display.rendererInfos = display.rendererInfos.Remove(display.rendererInfos[4]);
-
-            Texture2D UniqueAffixVoid = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/ColorChanger/UniqueAffixVoid.png");
-            UniqueAffixVoid.wrapMode = TextureWrapMode.Clamp;
-            Sprite UniqueAffixVoidS = Sprite.Create(UniqueAffixVoid, v.rec128, v.half);
-
-            VoidAffix.pickupIconSprite = UniqueAffixVoidS;
+ 
             VoidAffix.pickupModelPrefab = VoidAffixDisplay;
         }
 

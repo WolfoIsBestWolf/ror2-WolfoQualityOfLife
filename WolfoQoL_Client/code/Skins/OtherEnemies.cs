@@ -32,7 +32,49 @@ namespace WolfoQoL_Client
         }
 
 
+        public static void CallLate()
+        {
+            if (WConfig.cfgDarkTwisted.Value)
+            {
+                //EliteRamp.AddRamp(DLC2Content.Elites.Aurelionite, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteAur.png"));
+                EliteRamp.AddRamp(DLC2Content.Elites.Bead, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteBead.png"));
+            }
+            else
+            {
+                DLC2Content.Elites.Bead.shaderEliteRampIndex = RoR2Content.Elites.Lunar.shaderEliteRampIndex;
+            }
 
+            if (WConfig.cfgOldSotsEliteIcons.Value)
+            {
+                UpdateSotsEliteIcon(null,null);
+            }
+            Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion().shaderEliteRampIndex = 0;
+
+            On.RoR2.CharacterModel.IsAurelioniteAffix += CharacterModel_IsAurelioniteAffix;
+        }
+        public static void UpdateSotsEliteIcon(object sender, System.EventArgs e)
+        {
+            if (WConfig.cfgOldSotsEliteIcons.Value)
+            {
+                DLC2Content.Buffs.EliteAurelionite.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteAurelionite/texBuffAffixAureleonite.png").WaitForCompletion();
+                DLC2Content.Buffs.EliteBead.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteBead/texBuffAffixBead.png").WaitForCompletion();
+            }
+            else
+            {
+                DLC2Content.Buffs.EliteAurelionite.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteAurelionite/texBuffEliteAurelioniteIcon.png").WaitForCompletion();
+                DLC2Content.Buffs.EliteBead.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteBead/texBuffEliteBeadIcon.png").WaitForCompletion();
+            }
+        }
+
+
+        private static bool CharacterModel_IsAurelioniteAffix(On.RoR2.CharacterModel.orig_IsAurelioniteAffix orig, CharacterModel self)
+        {
+            if (self.myEliteIndex == DLC2Content.Elites.Aurelionite.eliteIndex)
+            {
+                return true;
+            }
+            return orig(self);
+        }
     }
     public class ChangeSkinOnStage : MonoBehaviour
     {

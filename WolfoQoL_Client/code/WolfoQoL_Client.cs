@@ -17,7 +17,7 @@ using UnityEngine.Networking;
 namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.0.0")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.0.5")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WolfoMain : BaseUnityPlugin
     {
@@ -155,7 +155,7 @@ namespace WolfoQoL_Client
                         ChestScrapper = GameObject.Find("/HOLDER: Preplaced Interactables/Scrapper/");
                         if (ChestScrapper)
                         {
-                            ChestScrapper.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ScrapperIcon;
+                            ChestScrapper.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ScrapperIcon.png");
                         }
                     }
                     break;
@@ -368,7 +368,7 @@ namespace WolfoQoL_Client
                         //Elevators.GetComponentsInChildren<GenericInteraction>();
 
                         GameObject ShrineOrder = GameObject.Find("/HOLDER: Gameplay Space/HOLDER: STATIC MESH/Quadrant 1: Quarry/Q1_OuterRing/ShrineRestack/");
-                        ShrineOrder.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ShrineOrderIcon;
+                        ShrineOrder.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ShrineOrderIcon.png");
 
                     }
                     //Maybe this o
@@ -423,12 +423,12 @@ namespace WolfoQoL_Client
                     }
                     break;
                 case "meridian":
+                    
                     GameObject PortalDestination = GameObject.Find("/HOLDER: Design/FSB/Boss Defeated Objects/");
                     if (PortalDestination)
                     {
                         PortalDestination = PortalDestination.transform.GetChild(2).gameObject;
                         PortalDestination.GetComponent<GenericInteraction>().contextToken = "PORTAL_DESTINATION_CONTEXT";
-
                     }
                     if (WConfig.cfgPingIcons.Value)
                     {
@@ -454,8 +454,32 @@ namespace WolfoQoL_Client
                             }
                         }
                         GameObject ShrineRebirth = GameObject.Find("/HOLDER: Design/FSB/Boss Defeated Objects/Shrine of Rebirth/ShrineRebirth/");
-                        ShrineRebirth.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.ExclamationIcon;
+                        ShrineRebirth.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/SotsIcon3_Shrunk.png");
+                        GameObject MeridianEventTriggerCore = GameObject.Find("/HOLDER: Design/MeridianEventTriggerCore/");
+                        MeridianEventTriggerCore.GetComponent<NetworkIdentity>().isPingable = false;
+                        //MeridianEventTriggerCore.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/SotsIcon3.png");
                     }
+                    GameObject PMHead = GameObject.Find("/HOLDER: Art/Colossus Statue/PMHead/");
+                    SphereCollider ping = PMHead.AddComponent<SphereCollider>();
+                    ping.isTrigger = true;
+                    ping.radius = 250;
+                    ping.center = new Vector3(0, 100, 0);
+                    ModelLocator modelLocator = PMHead.AddComponent<ModelLocator>();
+                    modelLocator.dontDetatchFromParent = true;
+                    modelLocator.autoUpdateModelTransform = false;
+                    modelLocator._modelTransform = PMHead.transform;
+                    CharacterModel characterModel = PMHead.AddComponent<CharacterModel>();
+                    characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
+                    {
+                        new CharacterModel.RendererInfo
+                        {
+                            renderer = PMHead.transform.GetChild(7).GetComponent<MeshRenderer>(),
+                            defaultMaterial = PMHead.transform.GetChild(7).GetComponent<MeshRenderer>().material,
+                        }
+                    };
+
+
+
                     break;
                 case "goldshores":
                     if (WConfig.cfgPingIcons.Value)
@@ -545,7 +569,7 @@ namespace WolfoQoL_Client
             ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
             Debug.Log("WolfoQoL_Extras installed? : " + ServerModInstalled);
 
-            if (WConfig.cfgTestDisableMod.Value)
+            if (WConfig.cfgTestDisableMod.Value || WConfig.cfgTestDisableMod2.Value)
             {
                 WConfig.cfgTestDisableMod.Value = false;
                 return;
@@ -653,6 +677,8 @@ namespace WolfoQoL_Client
 
         internal static void ModSupport_CallLate()
         {
+            OtherEnemies.CallLate();
+
             ModelPanelParameters camera = DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
             camera.cameraPositionTransform = camera.transform;
             camera.focusPointTransform = camera.transform;
@@ -672,22 +698,18 @@ namespace WolfoQoL_Client
             {
                 PingIcons.ModSupport();
             }
-            MoreMessages.VannilaVoids_WatchBrokeItem = ItemCatalog.FindItemIndex("VV_ITEM_BROKEN_MESS");
+            MoreMessages.VanillaVoids_WatchBrokeItem = ItemCatalog.FindItemIndex("VV_ITEM_BROKEN_MESS");
             PrayerBeads.moffeine = ItemCatalog.FindItemIndex("MoffeinBeadStatItem");
             PrayerBeads.usedBeads = ItemCatalog.FindItemIndex("ExtraStatsOnLevelUpConsumed");
-
-
+            RandomMisc.LemurianBruiser = BodyCatalog.FindBodyIndex("LemurianBruiserBody");
+            RoR2Content.Buffs.HiddenInvincibility.canStack = false;
 
             RoR2.Stats.StatDef.highestLunarPurchases.displayToken = "STATNAME_HIGHESTLUNARPURCHASES";
             RoR2.Stats.StatDef.highestBloodPurchases.displayToken = "STATNAME_HIGHESTBLOODPURCHASES";
-
-            
-            RoR2Content.Buffs.HiddenInvincibility.canStack = false;
-
+ 
             //Prevent scrapping regen scrap.
             HG.ArrayUtils.ArrayAppend(ref DLC1Content.Items.RegeneratingScrap.tags, ItemTag.Scrap);
-
-           
+        
 
             Debug.Log("All RequiredByAllMods :");
             foreach (var a in NetworkModCompatibilityHelper._networkModList)
@@ -720,6 +742,25 @@ namespace WolfoQoL_Client
             orig(self);
             On.RoR2.UI.MainMenu.MainMenuController.Start -= OneTimeOnlyLateRunner;
             GC.Collect();
+
+            if (WConfig.cfgTestMultiplayer.Value)
+            {
+                Debug.LogWarning("Any PingInfoProvider with Null Icon?");
+                PingInfoProvider[] highlightlist = Resources.FindObjectsOfTypeAll(typeof(PingInfoProvider)) as PingInfoProvider[];
+                for (var i = 0; i < highlightlist.Length; i++)
+                {
+                    if (highlightlist[i].pingIconOverride == null)
+                    {
+                        Debug.LogWarning(highlightlist[i] + " PingInfoProvider with Null Icon");
+                    }
+                }
+
+                for (var i = 0; i < BodyCatalog.bodyComponents.Length; i++)
+                {
+                    Debug.Log(BodyCatalog.bodyPrefabBodyComponents[i] + " | " + BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken + " | " + Language.GetString(BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken));
+                }
+            }
+           
         }
 
         //Probably should start searching paths for all of these 

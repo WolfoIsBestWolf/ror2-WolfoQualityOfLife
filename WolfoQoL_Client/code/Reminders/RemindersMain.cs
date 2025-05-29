@@ -177,7 +177,7 @@ namespace WolfoQoL_Client
         {
             FailAllReminders(TreasureReminder.instance);
 
-            Debug.LogWarning("Secret Geode : End Early Boss");
+            //Debug.LogWarning("Secret Geode : End Early Boss");
             GameObject SecretMission = GameObject.Find("/Meridian_Halcyonite_Encounter");
             if (SecretMission)
             {
@@ -187,6 +187,17 @@ namespace WolfoQoL_Client
                     FailObjective(objective);
                 }
             }
+            GameObject Objective_ReachTemple = GameObject.Find("/HOLDER: Design/Objective_ReachTemple");
+            GameObject Objective_ReachArena = GameObject.Find("/HOLDER: Design/Objective_ReachArena");
+            if (Objective_ReachTemple)
+            {
+                Objective_ReachTemple.GetComponent<GenericObjectiveProvider>().enabled = false;
+            }
+            if (Objective_ReachArena)
+            {
+                Objective_ReachArena.GetComponent<GenericObjectiveProvider>().enabled = false;
+            }
+
         }
 
         public class SpawnListener : MonoBehaviour
@@ -327,10 +338,14 @@ namespace WolfoQoL_Client
                 if (lockboxVoidCount > 0)
                 {
                     Debug.Log("TreasureCacheVoidCount " + lockboxVoidCount);
-                    string token = Language.GetString("REMINDER_KEYVOID");
+                    string token = string.Empty;
                     if (lockboxVoidCount > 1)
                     {
-                        token += " (" + lockboxVoidCount + "/" + lockboxVoidCount + ")";
+                        token =string.Format(Language.GetString("REMINDER_KEYVOID_MANY"), lockboxVoidCount);
+                    }
+                    else
+                    {
+                        token = Language.GetString("REMINDER_KEYVOID");
                     }
                     Objective_LockboxVoid = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     Objective_LockboxVoid.objectiveToken = token;
@@ -338,10 +353,14 @@ namespace WolfoQoL_Client
                 if (lockboxCount > 0)
                 {
                     Debug.Log("TreasureCacheCount " + lockboxCount);
-                    string token = Language.GetString("REMINDER_KEY");
+                    string token = string.Empty;
                     if (lockboxCount > 1)
                     {
-                        token += " (" + lockboxCount + "/" + lockboxCount + ")";
+                        token = string.Format(Language.GetString("REMINDER_KEY_MANY"), lockboxCount);
+                    }
+                    else
+                    {
+                        token = Language.GetString("REMINDER_KEY");
                     }
                     Objective_Lockbox = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     Objective_Lockbox.objectiveToken = token;
@@ -352,10 +371,14 @@ namespace WolfoQoL_Client
                 if (freeChestCount > 0)
                 {
                     Debug.Log("FreeChestCount " + freeChestCount);
-                    string token = Language.GetString("REMINDER_FREECHEST");
+                    string token = string.Empty;
                     if (freeChestCount > 1)
                     {
-                        token += " (" + freeChestCount + "/" + freeChestCount + ")";
+                        token = string.Format(Language.GetString("REMINDER_FREECHEST_MANY"), freeChestCount);
+                    }
+                    else
+                    {
+                        token = Language.GetString("REMINDER_FREECHEST");
                     }
                     Objective_FreeChest = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     Objective_FreeChest.objectiveToken = token;

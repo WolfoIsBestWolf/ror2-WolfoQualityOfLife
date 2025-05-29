@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
 {
-    public class Merc_Red
+    public static class Merc_Red
     {
 
         public static Material matMercEnergized_Red = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
@@ -140,19 +140,10 @@ namespace WolfoQoL_Client
             matHuntressFlashBright_Red.SetColor("_TintColor", new Color(1.3f, 0.6f, 0.6f, 1f));//0.0191 1.1386 1.2973 1 
             matHuntressFlashExpanded_Red.SetColor("_TintColor", new Color(0.58f, 0.2f, 0.2f, 1f));//0 0.4367 0.5809 1
 
-            Texture2D texRampFallbootsRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampFallbootsRed.png");
-            texRampFallbootsRed.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampMercDustRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampMercDustRed.png");
-            texRampMercDustRed.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampHuntressSoftRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressSoftRed.png");
-            texRampHuntressSoftRed.wrapMode = TextureWrapMode.Clamp;
-            texRampHuntressSoftRed.filterMode = FilterMode.Point;
-
-            Texture2D texRampHuntressRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampHuntressRed.png");
-            texRampHuntressRed.wrapMode = TextureWrapMode.Clamp;
-            texRampHuntressRed.filterMode = FilterMode.Point;
+            Texture2D texRampFallbootsRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampFallbootsRed.png");
+            Texture2D texRampMercDustRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampMercDustRed.png");
+            Texture2D texRampHuntressSoftRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressSoftRed.png");
+            Texture2D texRampHuntressRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressRed.png");
 
             ParticleSystemRenderer MercSwordSlashRedRenderer0 = MercSwordSlash_Red.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
             matMercSwipe1_Red = UnityEngine.Object.Instantiate(MercSwordSlashRedRenderer0.material);

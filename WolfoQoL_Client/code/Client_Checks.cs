@@ -295,15 +295,8 @@ namespace WolfoQoL_Client
                     attackerMaster = attackerBody.master;
                 }
             }
-            DeathMessage.DetailedDeathMessages(latestDmg.damage, charBody, attackerBody, latestDmg.damageType, latestDmg.damageColorIndex, latestDmg.delayedHit, false);
-            if (attackerMaster)
-            {
-                KillerInventoryInfoStorage.SetupFromData(killerName, latestDmg.attacker, playerMaster.gameObject, attackerMaster.inventory.itemStacks, attackerMaster.inventory.currentEquipmentIndex, attackerMaster.inventory.alternateEquipmentIndex, false);
-                return;
-            }
-            Debug.Log("No attacker Master");
-            KillerInventoryInfoStorage.SetupFromData(killerName, latestDmg.attacker, playerMaster.gameObject, null, EquipmentIndex.None, EquipmentIndex.None, true);
-         
+            DeathMessage.DeathAndKillerInventoryMessage(latestDmg.damage, charBody, attackerBody, attackerMaster, latestDmg.damageType, latestDmg.damageColorIndex, latestDmg.delayedHit, false);
+ 
         }
 
         public System.Collections.IEnumerator Delay_DeathMessage()

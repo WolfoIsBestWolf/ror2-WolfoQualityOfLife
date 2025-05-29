@@ -43,15 +43,11 @@ namespace WolfoQoL_Server
         public static void CreateItems()
         {
             #region Key Consumed
-            Texture2D TexUsedRustedKey = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texItemUsedKey.png");
-            TexUsedRustedKey.wrapMode = TextureWrapMode.Clamp;
-            Sprite TexUsedRustedKeyS = Sprite.Create(TexUsedRustedKey, v.rec128, v.half);
-
             UsedRustedKey = ScriptableObject.CreateInstance<ItemDef>(); 
             UsedRustedKey.name = "TreasureCacheConsumed";
             UsedRustedKey.deprecatedTier = ItemTier.NoTier;
             UsedRustedKey.pickupModelPrefab = LegacyResourcesAPI.Load<ItemDef>("itemdefs/TreasureCache").pickupModelPrefab;
-            UsedRustedKey.pickupIconSprite = TexUsedRustedKeyS;
+            UsedRustedKey.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/UsedKey.png");
             UsedRustedKey.nameToken = "ITEM_TREASURECACHECONSUMED_NAME";
             UsedRustedKey.pickupToken = "ITEM_TREASURECACHECONSUMED_DESC";
             UsedRustedKey.descriptionToken = "ITEM_TREASURECACHECONSUMED_DESC";
@@ -65,18 +61,13 @@ namespace WolfoQoL_Server
             };
             CustomItem customItem = new CustomItem(UsedRustedKey, new ItemDisplayRule[0]);
             ItemAPI.Add(customItem);
-
-#endregion
+            #endregion
             #region Void Key
-            Texture2D texItemUsedKeyVoid = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texItemUsedKeyVoid.png");
-            texItemUsedKeyVoid.wrapMode = TextureWrapMode.Clamp;
-            Sprite texItemUsedKeyVoidS = Sprite.Create(texItemUsedKeyVoid, v.rec128, v.half);
-
             UsedEncrustedKey = ScriptableObject.CreateInstance<ItemDef>();
             UsedEncrustedKey.name = "TreasureCacheVoidConsumed";
             UsedEncrustedKey.deprecatedTier = ItemTier.NoTier;
             UsedEncrustedKey.pickupModelPrefab = LegacyResourcesAPI.Load<ItemDef>("itemdefs/TreasureCacheVoid").pickupModelPrefab;
-            UsedEncrustedKey.pickupIconSprite = texItemUsedKeyVoidS;
+            UsedEncrustedKey.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/UsedKeyVoid.png");
             UsedEncrustedKey.nameToken = "ITEM_TREASURECACHEVOIDCONSUMED_NAME";
             UsedEncrustedKey.pickupToken = "ITEM_TREASURECACHEVOIDCONSUMED_DESC";
             UsedEncrustedKey.descriptionToken = "ITEM_TREASURECACHEVOIDCONSUMED_DESC";
@@ -90,18 +81,15 @@ namespace WolfoQoL_Server
             };
             CustomItem customItem2 = new CustomItem(UsedEncrustedKey, new ItemDisplayRule[0]);
             ItemAPI.Add(customItem2);
-#endregion   
-
+            #endregion
+            #region Prayer Beads 2
             ItemDef PrayerBeads = Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/DLC2/Items/ExtraStatsOnLevelUp/ExtraStatsOnLevelUp.asset").WaitForCompletion();
-          
-            Texture2D texItemUsedPrayer = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Icons/texItemUsedPrayer.png");
-            texItemUsedPrayer.wrapMode = TextureWrapMode.Clamp;
  
             UsedPrayerBeads = ScriptableObject.CreateInstance<ItemDef>();
             UsedPrayerBeads.name = "ExtraStatsOnLevelUpConsumed";
             UsedPrayerBeads.deprecatedTier = ItemTier.NoTier;
             UsedPrayerBeads.pickupModelPrefab = PrayerBeads.pickupModelPrefab;
-            UsedPrayerBeads.pickupIconSprite =  Sprite.Create(texItemUsedPrayer, v.rec256, v.half);
+            UsedPrayerBeads.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/UsedBeads.png");
             UsedPrayerBeads.nameToken = "ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME";
             UsedPrayerBeads.pickupToken = "ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP";
             UsedPrayerBeads.descriptionToken = "ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC";
@@ -115,6 +103,7 @@ namespace WolfoQoL_Server
             };
             customItem2 = new CustomItem(UsedPrayerBeads, new ItemDisplayRule[0]);
             ItemAPI.Add(customItem2);
+            #endregion
         }
 
         public static void UsedKeyGiver(On.RoR2.PurchaseInteraction.orig_OnInteractionBegin orig, PurchaseInteraction self, Interactor activator)

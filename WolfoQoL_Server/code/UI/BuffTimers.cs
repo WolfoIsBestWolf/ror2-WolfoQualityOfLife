@@ -60,11 +60,8 @@ namespace WolfoQoL_Server
 
 
             #region Bug Wings Jetpack
-            Texture2D BugUp = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBeetleUp.png");
-            Sprite BugUpS = Sprite.Create(BugUp, v.rec128, v.half);
-
             FakeBugWings = ScriptableObject.CreateInstance<BuffDef>();
-            FakeBugWings.iconSprite = BugUpS;
+            FakeBugWings.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBeetleUp.png");
             FakeBugWings.buffColor = new Color32(218, 136, 251, 255); //DA88FB Tesla Coil
             FakeBugWings.name = "visual_BugFlight";
             FakeBugWings.isDebuff = false;
@@ -96,11 +93,9 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Strides of Heresy
-            Texture2D BWLunarShell = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffLunarShellIcon.png");
-            Sprite BWLunarShellS = Sprite.Create(BWLunarShell, v.rec128, v.half);
-
+ 
             FakeStrides = ScriptableObject.CreateInstance<BuffDef>();
-            FakeStrides.iconSprite = BWLunarShellS;
+            FakeStrides.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffLunarShellIcon.png");
             FakeStrides.buffColor = new Color32(189, 176, 255, 255); //BDB0FF
             FakeStrides.name = "visual_ShadowIntangible";
             FakeStrides.isDebuff = false;
@@ -132,11 +127,9 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Rose Buckler
-            Texture2D RoundShieldTex = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBodyArmor.png");
-            Sprite RoundShieldS = Sprite.Create(RoundShieldTex, v.rec128, v.half);
-
+ 
             FakeRoseBuckle = ScriptableObject.CreateInstance<BuffDef>();
-            FakeRoseBuckle.iconSprite = RoundShieldS;
+            FakeRoseBuckle.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBodyArmor.png");
             FakeRoseBuckle.buffColor = new Color32(251, 199, 38, 255); //FBC726
             FakeRoseBuckle.name = "visual_SprintArmor";
             FakeRoseBuckle.isDebuff = false;
@@ -173,11 +166,9 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Frozen
-            Texture2D CubeBroke = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffBrokenCube.png");
-            Sprite CubeBrokeS = Sprite.Create(CubeBroke, v.rec128, v.half);
-
+ 
             FakeFrozen = ScriptableObject.CreateInstance<BuffDef>();
-            FakeFrozen.iconSprite = CubeBrokeS;
+            FakeFrozen.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBrokenCube.png");
             FakeFrozen.buffColor = new Color32(184, 216, 239, 255); //CFDBE0 // B8D8EF
             FakeFrozen.name = "visual_Frozen";
             FakeFrozen.isDebuff = false;
@@ -211,14 +202,9 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region HeadStomper
-            Texture2D HeadStompOn = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffHeadStompOn.png");
-            Sprite HeadStompOnS = Sprite.Create(HeadStompOn, v.rec128, v.half);
-
-            Texture2D HeadStompOff = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffHeadStompOff.png");
-            Sprite HeadStompOffS = Sprite.Create(HeadStompOff, v.rec128, v.half);
-
+ 
             FakeHeadstompOn = ScriptableObject.CreateInstance<BuffDef>();
-            FakeHeadstompOn.iconSprite = HeadStompOnS;
+            FakeHeadstompOn.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffHeadStompOn.png");
             FakeHeadstompOn.buffColor = new Color32(255, 250, 250, 255);
             FakeHeadstompOn.name = "visual_HeadstomperReady";
             FakeHeadstompOn.isDebuff = false;
@@ -228,7 +214,7 @@ namespace WolfoQoL_Server
 
 
             FakeHeadstompOff = ScriptableObject.CreateInstance<BuffDef>();
-            FakeHeadstompOff.iconSprite = HeadStompOffS;
+            FakeHeadstompOff.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffHeadStompOff.png");
             FakeHeadstompOff.buffColor = new Color32(250, 250, 255, 255);
             FakeHeadstompOff.name = "visual_HeadstomperCooldown";
             FakeHeadstompOff.isDebuff = false;
@@ -443,11 +429,9 @@ namespace WolfoQoL_Server
             }
             */
             #region Frost Relic
-            Texture2D FrostRelicIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffFrostRelic.png");
-            Sprite FrostRelicIconS = Sprite.Create(FrostRelicIcon, v.rec128, v.half);
-
+ 
             FakeFrostRelic = ScriptableObject.CreateInstance<BuffDef>();
-            FakeFrostRelic.iconSprite = FrostRelicIconS;
+            FakeFrostRelic.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFrostRelic.png");
             FakeFrostRelic.buffColor = new Color32(202, 229, 255, 255); //CAE5FF
             FakeFrostRelic.name = "visual_FrostRelicGrowth";
             FakeFrostRelic.isDebuff = false;
@@ -474,11 +458,9 @@ namespace WolfoQoL_Server
             #endregion
             #region Feather
             //0.4706 0.1686 0.7765 1
-            Texture2D FeatherBuff = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffFeather.png");
-            Sprite FeatherBuffS = Sprite.Create(FeatherBuff, v.rec128, v.half);
-
+ 
             FakeFeather = ScriptableObject.CreateInstance<BuffDef>();
-            FakeFeather.iconSprite = FeatherBuffS;
+            FakeFeather.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFeather.png");
             FakeFeather.buffColor = new Color32(99, 192, 255, 255); //3FC5E3
             FakeFeather.name = "visual_BonusJump";
             FakeFeather.isDebuff = false;

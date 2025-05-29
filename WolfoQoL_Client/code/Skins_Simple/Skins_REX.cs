@@ -7,19 +7,14 @@ namespace WolfoQoL_Client
 {
     public class Skins_REX
     {
-        public static Material MatTreebot_VineSots;
-
+ 
         public static void Start()
         {
             Material MatGreenFlowerRex = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TreebotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
-            MatTreebot_VineSots = GameObject.Instantiate(MatGreenFlowerRex);
+            Material MatTreebot_VineSots = GameObject.Instantiate(MatGreenFlowerRex);
 
-
-            #region REX
             Texture2D texTreebotVineForColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texTreebotVineForColossus.png");
-            texTreebotVineForColossus.wrapMode = TextureWrapMode.Clamp;
             MatTreebot_VineSots.mainTexture = texTreebotVineForColossus;
-
 
             SkinDef skinTreebotAltColossus = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Treebot/skinTreebotAltColossus.asset").WaitForCompletion();
             var NewRender = new CharacterModel.RendererInfo
@@ -31,7 +26,6 @@ namespace WolfoQoL_Client
 
             skinTreebotAltColossus.rendererInfos = skinTreebotAltColossus.rendererInfos.Add(NewRender);
             skinTreebotAltColossus.runtimeSkin = null;
-            #endregion
 
         }
 

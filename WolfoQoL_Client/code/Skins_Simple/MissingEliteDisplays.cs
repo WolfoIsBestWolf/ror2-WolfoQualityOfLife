@@ -1099,7 +1099,7 @@ namespace WolfoQoL_Client
             AddDisplay(XI, EliteEarthEquipment, earth1XI_drg, EliteEarthHorn, false);
             AddDisplay(XI, DLC1Content.Equipment.EliteVoidEquipment, voidXI_drg, EliteVoid, false);
 
-            AddDisplay(XI, DLC2Content.Equipment.EliteAurelioniteEquipment, aur1XI_drg, EliteAurCrown, false); ;
+            AddDisplay(XI, DLC2Content.Equipment.EliteAurelioniteEquipment, aur1XI_drg, EliteAurCrown, false);
             AddDisplay(XI, DLC2Content.Equipment.EliteBeadEquipment, bead4XI_drg, EliteBeadSpike, false);
 
             #endregion

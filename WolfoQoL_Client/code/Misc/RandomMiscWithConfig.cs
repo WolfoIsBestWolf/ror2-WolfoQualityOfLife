@@ -18,22 +18,15 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<BuffDef>("buffdefs/SmallArmorBoost").buffColor = LegacyResourcesAPI.Load<BuffDef>("buffdefs/Slow60").buffColor;
             LegacyResourcesAPI.Load<BuffDef>("buffdefs/WhipBoost").buffColor = new Color32(245, 158, 73, 255); //E8813D
 
-            Texture2D texBuffRaincoat = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffRaincoat.png");
-            Sprite texBuffRaincoatS = Sprite.Create(texBuffRaincoat, new Rect(0, 0, 128, 128), v.half);
             BuffDef RainCoat = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC1/ImmuneToDebuff/bdImmuneToDebuffReady.asset").WaitForCompletion();
             if (RainCoat.iconSprite.name.StartsWith("texBuffImmune"))
             {
-                RainCoat.iconSprite = texBuffRaincoatS;
+                RainCoat.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffRaincoat.png");
             }
-
-
 
             BuffDef TeleportOnLowHealthActive = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC2/Items/TeleportOnLowHealth/bdTeleportOnLowHealthActive.asset").WaitForCompletion();
             TeleportOnLowHealthActive.isHidden = false;
-
-            Texture2D texBuffTeleportOnLowHealthIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Buffs/texBuffTeleportOnLowHealthIcon.png");
-            Sprite texBuffTeleportOnLowHealthIconS = Sprite.Create(texBuffTeleportOnLowHealthIcon, v.rec128, v.half);
-            TeleportOnLowHealthActive.iconSprite = texBuffTeleportOnLowHealthIconS;
+            TeleportOnLowHealthActive.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffTeleportOnLowHealthIcon.png");
 
         }
 
@@ -63,33 +56,75 @@ namespace WolfoQoL_Client
 
 
             On.RoR2.UI.ChatBox.Awake += AllowMoreChatMessages;
-
-
-
-
-
+ 
             On.RoR2.UI.CrosshairManager.OnEnable += CrosshairManager_OnEnable;
-
-
-            //Equipment Drone Equipment Name
-
-
-            /*
-            GameObject mdlGup = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GupBody").transform.GetChild(0).GetChild(0).gameObject;
-            GameObject mdlGeep = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GeepBody").transform.GetChild(0).GetChild(0).gameObject;
-            GameObject mdlGip = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GipBody").transform.GetChild(0).GetChild(0).gameObject;
-
-            mdlGeep.AddComponent<ModelPanelParameters>();
-            mdlGip.AddComponent<ModelPanelParameters>();
-            */
+  
             On.RoR2.UI.PingIndicator.RebuildPing += (orig, self) =>
             {
                 orig(self);
                 self.fixedTimer *= 2;
                 //self.fixedTimer *= WConfig.cfgPingDurationMultiplier.Value;
             };
+
+            GameObject ChatBoxLobby = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/ChatBox.prefab").WaitForCompletion();
+            GameObject ChatBoxRun = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/ChatBox, In Run.prefab").WaitForCompletion();
+            GameObject GameEndReportPanel = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/GameEndReportPanel.prefab").WaitForCompletion();
+            GameObject InfiniteTowerGameEndReportPanel = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerGameEndReportPanel.prefab").WaitForCompletion();
+
+            AllowScrolling(ChatBoxRun);
+            AllowScrolling(ChatBoxLobby);
         }
 
+        public static GameObject fuckyou = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/GameEndReportPanelScrolling.prefab").WaitForCompletion();
+
+        public static void AllowScrolling(GameObject chatBox)
+        {
+            ChatBox chat = chatBox.GetComponent<ChatBox>();
+            chat.scrollRect.vertical = true;
+            chat.scrollRect.scrollSensitivity = 6;
+            //There's just a weirdo second Input Field, that's there but not
+            //And it being pseudo invisible breaks scrolling?
+            Transform MessageArea = chatBox.transform.GetChild(2).GetChild(0).GetChild(3).GetChild(0);
+            TMPro.TMP_InputField input = MessageArea.GetComponent<TMPro.TMP_InputField>();
+            input.image.enabled = true;
+            input.image.color = new Color(0, 0, 0, 0);
+        }
+
+
+        private static void AllowMoreChatMessages(On.RoR2.UI.ChatBox.orig_Awake orig, RoR2.UI.ChatBox self)
+        {
+            orig(self);
+            if (self.name.EndsWith("In Run(Clone)"))
+            {
+                bool HasDPSMeter = self.transform.parent.parent.parent.parent.Find("DPSMeterPanel");
+                self.allowExpandedChatbox = true;
+
+                RectTransform tempRectTransformInput = self.inputField.GetComponent<RectTransform>();
+                tempRectTransformInput.offsetMax = new Vector2(48, 48);
+                tempRectTransformInput.offsetMin = new Vector2(-8, 0);
+
+                RectTransform tempRectTransformExpanded = self.expandedChatboxRect;
+                tempRectTransformExpanded.anchorMax = new Vector2(1, 1);
+                tempRectTransformExpanded.offsetMax = new Vector2(120, 0);
+                tempRectTransformExpanded.offsetMin = new Vector2(-10, 49);
+
+                RectTransform tempRectTransform = self.standardChatboxRect;
+                if (HasDPSMeter)
+                {
+                    tempRectTransform.offsetMax = new Vector2(120, 0);
+                    tempRectTransform.offsetMin = new Vector2(-10, 49);
+                }
+                else
+                {
+                    tempRectTransform.offsetMax = new Vector2(120, -6);
+                    tempRectTransform.offsetMin = new Vector2(-10, 0);
+                }
+            }
+            else if (self.name.EndsWith("ChatBox")) //GameEndPannel
+            {
+                self.expandedChatboxRect.offsetMax = new Vector2(0, 196);
+            }
+        }
 
 
         private static void CrosshairManager_OnEnable(On.RoR2.UI.CrosshairManager.orig_OnEnable orig, RoR2.UI.CrosshairManager self)
@@ -148,6 +183,7 @@ namespace WolfoQoL_Client
 
         }
 
+
         private static void DelayThunderMessage(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -198,42 +234,7 @@ namespace WolfoQoL_Client
 
 
 
-        private static void AllowMoreChatMessages(On.RoR2.UI.ChatBox.orig_Awake orig, RoR2.UI.ChatBox self)
-        {
-            orig(self);
-            //Debug.LogWarning(self);
-            if (self.name.StartsWith("ChatBox, In Run"))
-            {
-                bool HasDPSMeter = self.transform.parent.parent.parent.parent.Find("DPSMeterPanel");
-                RectTransform ChatboxTranform = self.gameObject.GetComponent<RectTransform>();
-                if (ChatboxTranform)
-                {
-                    ChatboxTranform.GetComponent<RoR2.UI.ChatBox>().allowExpandedChatbox = true;
-
-                    RectTransform tempRectTransformInput = ChatboxTranform.GetChild(0).GetChild(0).GetComponent<RectTransform>();
-                    tempRectTransformInput.offsetMax = new Vector2(48, 48);
-                    tempRectTransformInput.offsetMin = new Vector2(-8, 0);
-
-                    RectTransform tempRectTransformExpanded = ChatboxTranform.GetChild(1).GetComponent<RectTransform>();
-                    tempRectTransformExpanded.anchorMax = new Vector2(1, 1);
-                    tempRectTransformExpanded.offsetMax = new Vector2(120, 0);
-                    tempRectTransformExpanded.offsetMin = new Vector2(-10, 49);
-
-                    RectTransform tempRectTransform = ChatboxTranform.GetChild(2).GetComponent<RectTransform>();
-                    if (HasDPSMeter)
-                    {
-                        tempRectTransform.offsetMax = new Vector2(120, 0);
-                        tempRectTransform.offsetMin = new Vector2(-10, 49);
-                    }
-                    else
-                    {
-                        tempRectTransform.offsetMax = new Vector2(120, -6);
-                        tempRectTransform.offsetMin = new Vector2(-10, 0);
-                    }
-                }
-            }
-        }
-
+       
 
         /*public class SendExtraMountainIcon : RoR2.ChatMessageBase
         {

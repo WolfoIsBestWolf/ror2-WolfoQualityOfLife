@@ -22,9 +22,6 @@ namespace WolfoQoL_Client
 
         }
 
-
-
-
         private static Entry[] SortBossMonster(On.RoR2.UI.LogBook.LogBookController.orig_BuildMonsterEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
             if (!WConfig.cfgLogbook_SortBosses.Value)
@@ -206,7 +203,7 @@ namespace WolfoQoL_Client
 
             On.RoR2.UI.LogBook.LogBookController.IsEntryPickupItemWithoutLore += LogBookController_IsEntryPickupItemWithoutLore;
             On.RoR2.UI.LogBook.LogBookController.IsEntryPickupEquipmentWithoutLore += LogBookController_IsEntryPickupEquipmentWithoutLore;
-            On.RoR2.UI.LogBook.LogBookController.IsEntryBodyWithoutLore += LogBookController_IsEntryBodyWithoutLore; ;
+            On.RoR2.UI.LogBook.LogBookController.IsEntryBodyWithoutLore += LogBookController_IsEntryBodyWithoutLore;
 
             On.RoR2.UI.LogBook.LogBookController.GetPickupStatus += LogBookController_GetPickupStatus;
             On.RoR2.UI.LogBook.LogBookController.GetMonsterStatus += LogBookController_GetMonsterStatus;
@@ -237,6 +234,7 @@ namespace WolfoQoL_Client
                              select characterBody).Select(delegate (CharacterBody characterBody)
                              {
                                  Entry entry2 = new Entry();
+                                 //Debug.Log(characterBody);
                                  entry2.nameToken = characterBody.baseNameToken;
                                  entry2.color = ColorCatalog.GetColor(ColorCatalog.ColorIndex.HardDifficulty);
                                  entry2.iconTexture = characterBody.portraitIcon;

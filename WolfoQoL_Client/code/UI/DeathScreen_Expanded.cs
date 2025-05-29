@@ -26,7 +26,7 @@ namespace WolfoQoL_Client
                 On.RoR2.UI.ItemInventoryDisplay.AllocateIcons += AddEquipmentIcons;
 
                 On.RoR2.UI.GameEndReportPanelController.SetPlayerInfo += KillerInventory.AddKillerInventory;
-                On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += KillerInventory.Send_KillerInventory_Host;
+                //On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += KillerInventory.Send_KillerInventory_Host;
             };
             On.RoR2.UI.GameEndReportPanelController.SetDisplayData += GameEndMoreStatsShown;
 

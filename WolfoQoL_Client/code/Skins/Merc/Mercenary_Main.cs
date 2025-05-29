@@ -161,10 +161,7 @@ namespace WolfoQoL_Client
         public static void BackupSkin()
         {
             SkinDef SkinDefMercOni = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Merc/skinMercAlt.asset").WaitForCompletion();
-
-
-            Texture2D texMercOniBlues = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texMercOniBlues.png");
-            Sprite texMercOniBluesS = Sprite.Create(texMercOniBlues, v.rec128, v.half);
+            Sprite texMercOniBluesS = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/SkinRamps/texMercOniBlues.png");
 
             LoadoutAPI.SkinDefInfo SkinDefMercOniOriginalSkinInfo = new LoadoutAPI.SkinDefInfo
             {

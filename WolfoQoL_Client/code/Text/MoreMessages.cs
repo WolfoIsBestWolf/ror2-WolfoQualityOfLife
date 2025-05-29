@@ -69,7 +69,7 @@ namespace WolfoQoL_Client
                 var has = self.gameObject.GetComponent<StoreLatestPickupindex>();
                 if (!has)
                 {
-                    self.gameObject.AddComponent<StoreLatestPickupindex>();
+                    has = self.gameObject.AddComponent<StoreLatestPickupindex>();
                 }
                 has.previousIndex = pre;
             }
@@ -264,7 +264,7 @@ namespace WolfoQoL_Client
 
         }
 
-        public static ItemIndex VannilaVoids_WatchBrokeItem = ItemIndex.None;
+        public static ItemIndex VanillaVoids_WatchBrokeItem = ItemIndex.None;
         private static void TransformItem_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
             /*Debug.Log(characterMaster + " | " +
@@ -277,6 +277,7 @@ namespace WolfoQoL_Client
             {
                 return;
             }
+            string player = Util.GetBestMasterName(characterMaster);
             //Any player message here
             if (transformationType == TransformationType.Default)
             {
@@ -284,12 +285,10 @@ namespace WolfoQoL_Client
                 {
                     if (newIndex == RoR2Content.Items.ExtraLifeConsumed.itemIndex)
                     {
-                        string player = Util.GetBestMasterName(characterMaster);
                         Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString("ITEM_EXTRALIFE_NAME")));
                     }
                     else if (newIndex == DLC1Content.Items.ExtraLifeVoidConsumed.itemIndex)
                     {
-                        string player = Util.GetBestMasterName(characterMaster);
                         Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString("ITEM_EXTRALIFEVOID_NAME")));
                     }
 
@@ -297,11 +296,30 @@ namespace WolfoQoL_Client
             }
             if (!characterMaster.hasAuthority)
             {
+                //Specifically in NO Authority
+                if (WConfig.cfgMessageElixir.Value == WConfig.MessageWho.Anybody)
+                {
+                    if (newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
+                    {
+                        Chat.AddMessage(string.Format(Language.GetString("ITEM_USE_ELIXIR_1P"), player));
+                    }
+                    else if (newIndex == DLC1Content.Items.FragileDamageBonusConsumed.itemIndex)
+                    {
+                        Chat.AddMessage(string.Format(Language.GetString("ITEM_USE_WATCH_1P"), player));
+                    }
+                    else if (newIndex == VanillaVoids_WatchBrokeItem)
+                    {
+                        string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
+                        hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
+                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH_1P"), hex, player);
+                        Chat.AddMessage(result);
+                    }
+                }
                 return;
             }
             if (transformationType == TransformationType.Default)
             {
-                if (WConfig.cfgMessageElixir.Value)
+                if (WConfig.cfgMessageElixir.Value > WConfig.MessageWho.Off)
                 {
                     if (newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
                     {
@@ -311,7 +329,7 @@ namespace WolfoQoL_Client
                     {
                         Chat.AddMessage(Language.GetString("ITEM_USE_WATCH"));
                     }
-                    else if (ItemCatalog.GetItemDef(newIndex).name.EndsWith("BROKEN_MESS"))
+                    else if (newIndex == VanillaVoids_WatchBrokeItem)
                     {
                         string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
                         hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
@@ -377,7 +395,7 @@ namespace WolfoQoL_Client
                     if (newIndex == DLC2Content.Equipment.HealAndReviveConsumed.equipmentIndex)
                     {
                         string player = Util.GetBestMasterName(characterMaster);
-                        if (characterMaster.GetBody() == null)
+                        if (characterMaster.lostBodyToDeath)
                         {
                             Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString("EQUIPMENT_HEALANDREVIVE_NAME")));
                         }

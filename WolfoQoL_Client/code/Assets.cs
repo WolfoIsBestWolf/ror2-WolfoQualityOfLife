@@ -9,7 +9,6 @@ namespace WolfoQoL_Client
     public static class Assets
     {
         public static AssetBundle Bundle;
-        public static AssetBundle OldDuplicatorBundle;
         public static PluginInfo PluginInfo;
         public static string Folder = "QualityOfLife\\";
 
@@ -34,7 +33,6 @@ namespace WolfoQoL_Client
             if (Directory.Exists(GetPathToFile(Folder + "AssetBundles")))
             {
                 Bundle = AssetBundle.LoadFromFile(GetPathToFile(Folder + "AssetBundles", "wolfoqualityoflife"));
-                OldDuplicatorBundle = AssetBundle.LoadFromFile(GetPathToFile(Folder + "AssetBundles", "oldduplicatorbundle"));
             }
             else
             {

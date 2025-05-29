@@ -94,22 +94,10 @@ namespace WolfoQoL_Client
             GameObject CrocoChainableFistEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoChainableFistEffect.prefab").WaitForCompletion();
 
 
-            //Blight Billboard
-        
-
-            Texture2D texRampCrocoDiseaseBlight = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampCrocoDiseaseBlight.png");
-            texRampCrocoDiseaseBlight.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampCrocoDiseaseDarkDark = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampCrocoDiseaseDarkDark.png");
-            texRampCrocoDiseaseDarkDark.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampCrocoDiseaseBlightAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampCrocoDiseaseBlightAlt.png");
-            texRampCrocoDiseaseBlightAlt.wrapMode = TextureWrapMode.Clamp;
-
-            Texture2D texRampBeetleBreathBlight = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinStuff/texRampBeetleBreathBlight.png");
-            texRampBeetleBreathBlight.wrapMode = TextureWrapMode.Clamp;
-
-
+            Texture2D texRampCrocoDiseaseBlight = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampCrocoDiseaseBlight.png");
+            Texture2D texRampCrocoDiseaseDarkDark = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkDark.png");
+            Texture2D texRampCrocoDiseaseBlightAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampCrocoDiseaseBlightAlt.png");
+            Texture2D texRampBeetleBreathBlight = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampBeetleBreathBlight.png");
 
             //Disease orb research???
             //CrocoDiseaseOrbEffect

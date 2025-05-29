@@ -8,43 +8,7 @@ namespace WolfoQoL_Client
 {
     public class KillerInventory
     {
-        public static void Send_KillerInventory_Host(On.RoR2.GlobalEventManager.orig_OnPlayerCharacterDeath orig, GlobalEventManager self, DamageReport damageReport, NetworkUser victimNetworkUser)
-        {
-            orig(self, damageReport, victimNetworkUser);
-
-            if (damageReport.victimMaster.IsDeadAndOutOfLivesServer())
-            {
-                if (damageReport.attackerMaster && damageReport.attackerMaster.inventory)
-                {
-                    string newString = RoR2.Util.GetBestBodyName(damageReport.attacker);
-                    newString = newString.Replace("\n", " ");
-
-                    //This is Host to Client
-                    Debug.Log(newString);
-                    Chat.SendBroadcastChat(new KillerInventoryMessage
-                    {
-                        killerName = newString,
-                        killerObject = damageReport.attacker,
-                        victimMaster = damageReport.victimMaster.gameObject,
-                        itemStacks = damageReport.attackerMaster.inventory.itemStacks,
-                        primaryEquipment = damageReport.attackerMaster.inventory.currentEquipmentIndex,
-                        secondaryEquipment = damageReport.attackerMaster.inventory.alternateEquipmentIndex,
-                    });
-                    //GameEndInventoryHelper.SetupFromData(newString, victimNetworkUser.gameObject, damageReport.attackerMaster.inventory.itemStacks, damageReport.attackerMaster.inventory.currentEquipmentIndex, damageReport.attackerMaster.inventory.alternateEquipmentIndex);
-                }
-                else if (damageReport.attackerBody != null)
-                {
-                    string newString = RoR2.Util.GetBestBodyName(damageReport.attacker);
-                    newString = newString.Replace("\n", " ");
-
-                    Chat.SendBroadcastChat(new KillerInventoryMessage
-                    {
-                        killerName = newString,
-                        victimMaster = damageReport.victimMaster.gameObject,
-                    });
-                }
-            }
-        }
+        
 
         public static void AddKillerInventory(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, global::RoR2.UI.GameEndReportPanelController self, global::RoR2.RunReport.PlayerInfo playerInfo, int playerIndex)
         {
@@ -74,17 +38,17 @@ namespace WolfoQoL_Client
 
 
 
-                string KillerNameBase = "Killed By: <color=#FFFF7F>" + helper.killerName;
+ 
                 bool IsLossToPlanet = false;
                 bool IsWinWithEvo = false;
-                if (helper.killerObject)
+                /*if (helper.killerObject)
                 {
                     helper.killerName = Util.GetBestBodyName(helper.killerObject);
                 }
                 else
                 {
                     helper.killerName = "";
-                }
+                }*/
 
                 //Set detailed name like with Elite prefix
                 if (helper.killerName != "")
@@ -203,17 +167,23 @@ namespace WolfoQoL_Client
         {
             public override string ConstructChatString()
             {
-                if (WConfig.cfgTestClient.Value)
+                if (attackerObject != null)
                 {
-                    return null;
+                    killerBackupName = Util.GetBestBodyName(attackerObject);
+                    killerBackupName = killerBackupName.Replace("\n", " ");
                 }
+                else
+                {
+                    killerBackupName = Language.GetString(killerBackupName);
+                }
+
                 Debug.Log("SendGameEndInvHelper");
-                KillerInventoryInfoStorage.SetupFromData(killerName, killerObject, victimMaster, itemStacks, primaryEquipment, secondaryEquipment, false);
+                KillerInventoryInfoStorage.SetupFromData(killerBackupName, attackerObject, victimMaster, itemStacks, primaryEquipment, secondaryEquipment, false);
                 return null;
             }
 
-            public string killerName;
-            public GameObject killerObject;
+            public string killerBackupName;
+            public GameObject attackerObject;
             public GameObject victimMaster;
             public int[] itemStacks = ItemCatalog.RequestItemStackArray();
             public EquipmentIndex[] equipmentStacks;
@@ -222,9 +192,13 @@ namespace WolfoQoL_Client
 
             public override void Serialize(NetworkWriter writer)
             {
+                if (WConfig.cfgTestClient.Value)
+                {
+                    return;
+                }
                 base.Serialize(writer);
-                writer.Write(killerName);
-                writer.Write(killerObject);
+                writer.Write(killerBackupName);
+                writer.Write(attackerObject);
                 writer.Write(victimMaster);
                 writer.Write(primaryEquipment);
                 writer.Write(secondaryEquipment);
@@ -238,8 +212,8 @@ namespace WolfoQoL_Client
                     return;
                 }
                 base.Deserialize(reader);
-                killerName = reader.ReadString();
-                killerObject = reader.ReadGameObject();
+                killerBackupName = reader.ReadString();
+                attackerObject = reader.ReadGameObject();
                 victimMaster = reader.ReadGameObject();
                 primaryEquipment = reader.ReadEquipmentIndex();
                 secondaryEquipment = reader.ReadEquipmentIndex();
@@ -285,7 +259,7 @@ namespace WolfoQoL_Client
                 }
             }
             KillerInventoryInfoStorage helper = victimMaster.AddComponent<KillerInventoryInfoStorage>();
-
+ 
             helper.victimMaster = victimMaster;
             helper.killerName = killerName;
             helper.killerObject = killerObject;

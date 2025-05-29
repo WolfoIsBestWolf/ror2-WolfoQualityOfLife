@@ -24,7 +24,7 @@
 			"SHRINE_REVIVE_MESSAGE_DEAD": "<style=cShrine>{0} had their body reshapen.</color>",
  
 			"ITEM_REVIVE_MESSAGE": "<style=cIsLunar>{0} revived using their {1}</color>",
-			"ITEM_REVIVE_MESSAGE_TEAM": "<style=cIsLunar>{0} revived fallen team members, using {1}</color>",
+			"ITEM_REVIVE_MESSAGE_TEAM": "<style=cIsLunar>{0} revived fallen team members using {1}</color>",
 			"ITEM_REVIVE_MESSAGE_ALL": "NOTIN <style=cIsLunar>{0} revived themselves and fallen team members, using {1}</color>",
 
  
@@ -33,8 +33,8 @@
 					 "ITEM_LOSS_USED_2P": "<style=cEvent>You used {1}</style>",
 				"ITEM_LOSS_USED": "<style=cEvent>{0} used {1}</style>",
 
-			"ITEM_USED_STAR": "<style=cEvent>{0} used <color=#77FF16>Sale Star</color> while opening: <style=cIsDamage>{1}</style>",
-		 "ITEM_USED_STAR_2P": "<style=cEvent>You used <color=#77FF16>Sale Star</color> while opening: <style=cIsDamage>{1}</style>",
+			"ITEM_USED_STAR": "<style=cEvent>{0} used <color=#77FF16>Sale Star</color> on: <style=cIsDamage>{1}</style>",
+		 "ITEM_USED_STAR_2P": "<style=cEvent>You used <color=#77FF16>Sale Star</color> on: <style=cIsDamage>{1}</style>",
 	
 			"ITEM_RECYCLED_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> was recycled into <color=#{2}>{1}</color></style>",
 		
@@ -85,13 +85,13 @@
  
 			"REMINDER_COUNT": " ({0}/{1})",
             "REMINDER_KEY": "Unlock the <style=cIsDamage>Rusty Lockbox</style>",
-            "REMINDER_KEY_MANY": "Unlock the <style=cisDamage>Rusty Lockbox</style> ({0}/{1})",
+            "REMINDER_KEY_MANY": "Unlock the <style=cisDamage>Rusty Lockboxes</style> ({0}/{0})",
 
             "REMINDER_KEYVOID": "Unlock the <color=#FF9EEC>Encrusted Lockbox</color>",
-            "REMINDER_KEYVOID_MANY": "Unlock the <color=#FF9EEC>Encrusted Lockbox</color> ({0}/{1})",
+            "REMINDER_KEYVOID_MANY": "Unlock the <color=#FF9EEC>Encrusted Lockboxes</color> ({0}/{0})",
 
             "REMINDER_FREECHEST": "Collect free <style=cIsHealing>delivery</style>",
-            "REMINDER_FREECHEST_MANY": "Collect free <style=cIsHealing>delivery</style> ({0}/{1})",
+            "REMINDER_FREECHEST_MANY": "Collect free <style=cIsHealing>deliveries</style> ({0}/{0})",
 
             "REMINDER_SALESTAR": "Make use of <style=cIsUtility>Sale Star</style>",
 			
@@ -138,8 +138,11 @@
 		 
 
 			"ITEM_USE_ELIXIR": "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>",
+			"ITEM_USE_ELIXIR_1P": "<style=cEvent>{0} drank a <color=#FFFFFF>Power Elixir</color></style>",
 			"ITEM_USE_WATCH": "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>",
+			"ITEM_USE_WATCH_1P": "<style=cEvent>{0} broke their <color=#FFFFFF>Delicate Watches</color></style>",
 			"ITEM_USE_VV_VOIDWATCH": "<style=cEvent>{0} ran out of time...</style>",
+			"ITEM_USE_VV_VOIDWATCH_1P": "<style=cEvent>{1}'s {0} ran out of time...</style>",
 
 			"ITEM_TRANSFORM_EGO": "<style=cEvent><color=#458CFF>{0}</color> assimilated <color=#{1}>{2}</color></style>",
 			"ITEM_TRANSFORM_VOID": "<style=cEvent><style=cIsVoid>The Void</style> upgraded <color=#{0}>{1} into <color=#{2}>{3}</style>",

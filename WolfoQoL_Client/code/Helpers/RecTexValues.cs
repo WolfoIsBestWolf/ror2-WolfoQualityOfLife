@@ -6,6 +6,7 @@ namespace WolfoQoL_Client
 
     public class v
     {
+        /*
         public static Rect recnothing = new Rect(0, 0, 0, 0);
         public static Rect recwide = new Rect(0, 0, 384, 256);
         public static Rect rechalftall = new Rect(0, 0, 256, 320);
@@ -26,6 +27,7 @@ namespace WolfoQoL_Client
         public static Texture2D dummytex320 = new Texture2D(320, 320, TextureFormat.DXT5, false);
         public static Texture2D dummytex512 = new Texture2D(512, 512, TextureFormat.DXT5, false);
         public static Texture2D dummytexhalftall = new Texture2D(256, 320, TextureFormat.DXT5, false);
+        */
     }
 
 }
