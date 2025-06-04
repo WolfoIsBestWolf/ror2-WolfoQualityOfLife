@@ -53,7 +53,6 @@ namespace WolfoQoL_Client
 
         public static void Main()
         {
-            //Bro ColorAPI don't do shit
             ColorUtility.TryParseHtmlString("#78AFFF", out ColorEquip_Lunar);
             ColorUtility.TryParseHtmlString("#FFC211", out ColorEquip_Boss);
             ColorUtility.TryParseHtmlString("#C9731D", out ColorEquip_Consumed);
@@ -79,6 +78,8 @@ namespace WolfoQoL_Client
             index_Void3 = ColorsAPI.RegisterColor(ColorVoid3);
             index_Void4 = ColorsAPI.RegisterColor(ColorVoid4);
 
+            Debug.Log(index_EquipBoss);
+
             texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentBossBG.png");
             texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentLunarBG.png");
 
@@ -95,6 +96,8 @@ namespace WolfoQoL_Client
   
         public static void OrbMaker()
         {
+           
+
             GameObject EquipmentOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/EquipmentOrb");
             Color reduction = new Color(0.2f, 0.2f, 0.2f, 0f);
             Color reduction2 = new Color(0.5f, 0.5f, 0.5f, 1f);

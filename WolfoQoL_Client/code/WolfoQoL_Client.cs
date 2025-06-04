@@ -17,7 +17,7 @@ using UnityEngine.Networking;
 namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.0.5")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.1.0")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WolfoMain : BaseUnityPlugin
     {
@@ -113,6 +113,12 @@ namespace WolfoQoL_Client
             {
                 PingIcons.Start();
             }
+            On.RoR2.SceneDirector.Start += AddReminders;
+
+            On.RoR2.Stage.PreStartClient += PingVisualStageChanges;
+
+            Run.onRunStartGlobal += Run_onRunStartGlobal;
+            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
 
@@ -130,12 +136,7 @@ namespace WolfoQoL_Client
 
             ClientChecks.Start();
 
-            On.RoR2.SceneDirector.Start += AddReminders;
-
-            On.RoR2.Stage.PreStartClient += PingVisualStageChanges;
-
-            Run.onRunStartGlobal += Run_onRunStartGlobal;
-            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+   
         }
       
         private void PingVisualStageChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
@@ -333,7 +334,7 @@ namespace WolfoQoL_Client
                     {
                         GameObject lighting = GameObject.Find("/HOLDER: Lighting/Weather, Helminthroost/PP + Amb");
                         var PP = lighting.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessVolume>();
-                        PP.priority++;
+                        PP.priority = 20;
                     }
                     if (WConfig.cfgPingIcons.Value)
                     {
@@ -703,6 +704,7 @@ namespace WolfoQoL_Client
             PrayerBeads.usedBeads = ItemCatalog.FindItemIndex("ExtraStatsOnLevelUpConsumed");
             RandomMisc.LemurianBruiser = BodyCatalog.FindBodyIndex("LemurianBruiserBody");
             RoR2Content.Buffs.HiddenInvincibility.canStack = false;
+            DLC2Content.Buffs.Boosted.canStack = false;
 
             RoR2.Stats.StatDef.highestLunarPurchases.displayToken = "STATNAME_HIGHESTLUNARPURCHASES";
             RoR2.Stats.StatDef.highestBloodPurchases.displayToken = "STATNAME_HIGHESTBLOODPURCHASES";
@@ -794,7 +796,11 @@ namespace WolfoQoL_Client
             public override string ConstructChatString()
             {
                 HostHasMod = true;
-                Debug.Log("Host has WolfoQoL_Client: " + HostHasMod_);
+                if (!NetworkServer.active)
+                {
+                    Debug.Log("Host has WolfoQoL_Client: " + HostHasMod_);
+                }
+               
                 //Hard to account for, when does PlayerMaster get made
                 //When does this get sent, when does this arrive
                 //Does just doing it here instead.

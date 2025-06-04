@@ -1,7 +1,5 @@
 ﻿using EntityStates.Engi.SpiderMine;
 using RoR2.UI;
-
-//using System;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using R2API;
@@ -11,7 +9,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-
+using UnityEngine.Rendering.PostProcessing;
+ 
 namespace WolfoQoL_Client
 {
     public class RandomMisc
@@ -270,8 +269,70 @@ namespace WolfoQoL_Client
             //For testing ig but also it spams the console
             IL.EntityStates.Commando.CommandoWeapon.FirePistol2.FixedUpdate += CommandoReloadStateRemove;
             //Huntress issue only starts at 780% attack speed who cares really
+
+            GameObject NoCooldownEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/KillEliteFrenzy/NoCooldownEffect.prefab").WaitForCompletion();
+            NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().priority = 19;
+
+
+
+
+            //Steal this
+            GameObject VoidOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/VoidOrb");
+            foreach (AkEvent a in VoidOrb.GetComponents<AkEvent>())
+            {
+                GameObject.Destroy(a);
+            }
+            GameObject.Destroy(VoidOrb.GetComponent<AkGameObj>());
+            PlaySoundOnEvent sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
+            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Start;
+            sound.soundEvent = "Play_UI_item_spawn_tier3";
+            sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
+            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Destroy;
+            sound.soundEvent = "Play_nullifier_death_vortex_explode";
+
+            On.RoR2.WwiseUtils.SoundbankLoader.Start += SoundbankLoader_Start;
+
+            //icebox fix
+            Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "6870bda0b12690048a9701539d1e2285").WaitForCompletion().activationState = Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "c97062b172b41af4ebdb42c312ac1989").WaitForCompletion().activationState;
+            On.RoR2.Projectile.CleaverProjectile.ChargeCleaver += CleaverProjectile_ChargeCleaver;
+
+
+            //Scope Alpha fix
+            GameObject RailgunnerScopeHeavyOverlay= Addressables.LoadAssetAsync<GameObject>(key: "db5a0c21c1f689c4292ae5e292fd4f0e").WaitForCompletion();
+            UnityEngine.UI.RawImage scope = RailgunnerScopeHeavyOverlay.transform.GetChild(1).GetComponent<UnityEngine.UI.RawImage>();
+            scope.color = scope.color.AlphaMultiplied(0.6f);
+            GameObject RailgunnerScopeLightOverlay = Addressables.LoadAssetAsync<GameObject>(key: "c305c2dadaa35d840bd91dd48987c55e").WaitForCompletion();
+            scope = RailgunnerScopeHeavyOverlay.transform.GetChild(1).GetComponent<UnityEngine.UI.RawImage>();
+            scope.color = scope.color.AlphaMultiplied(0.6f);
+
+            On.EntityStates.Chef.IceBox.OnEnter += IceBox_OnEnter;
         }
- 
+
+        private static void IceBox_OnEnter(On.EntityStates.Chef.IceBox.orig_OnEnter orig, EntityStates.Chef.IceBox self)
+        {
+            orig(self);
+            if (self.hasBoost)
+            {
+                self.attackSoundString = "Play_Chef_Secondary_IceBox_Boosted_Fire";
+                Util.PlaySound(self.blizzardSFXString, self.gameObject);
+            }
+        }
+
+        private static void CleaverProjectile_ChargeCleaver(On.RoR2.Projectile.CleaverProjectile.orig_ChargeCleaver orig, RoR2.Projectile.CleaverProjectile self)
+        {
+            orig(self);
+            if (self.charged)
+            {
+                self.projectileOverlapAttack.overlapProcCoefficient = 1f;
+            }
+        }
+
+        private static void SoundbankLoader_Start(On.RoR2.WwiseUtils.SoundbankLoader.orig_Start orig, RoR2.WwiseUtils.SoundbankLoader self)
+        {
+            HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "char_Toolbot");
+            orig(self);
+        }
+
         public static void CommandoReloadStateRemove(ILContext il)
         {
             ILCursor c = new ILCursor(il);

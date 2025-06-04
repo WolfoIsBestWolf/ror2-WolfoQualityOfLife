@@ -6,8 +6,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using static RoR2.CharacterMasterNotificationQueue;
-
+ 
 namespace WolfoQoL_Client
 {
 
@@ -279,7 +278,7 @@ namespace WolfoQoL_Client
             }
             string player = Util.GetBestMasterName(characterMaster);
             //Any player message here
-            if (transformationType == TransformationType.Default)
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
                 if (WConfig.cfgMessagesRevive.Value)
                 {
@@ -317,7 +316,7 @@ namespace WolfoQoL_Client
                 }
                 return;
             }
-            if (transformationType == TransformationType.Default)
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
                 if (WConfig.cfgMessageElixir.Value > WConfig.MessageWho.Off)
                 {
@@ -338,7 +337,7 @@ namespace WolfoQoL_Client
                     }
                 }
             }
-            else if (transformationType == TransformationType.LunarSun)
+            else if (transformationType == CharacterMasterNotificationQueue.TransformationType.LunarSun)
             {
                 if (WConfig.cfgMessageVoidTransform.Value)
                 {
@@ -350,7 +349,7 @@ namespace WolfoQoL_Client
                     Chat.AddMessage(result);
                 }
             }
-            else if (transformationType == TransformationType.CloverVoid)
+            else if (transformationType == CharacterMasterNotificationQueue.TransformationType.CloverVoid)
             {
                 if (WConfig.cfgMessageVoidTransform.Value)
                 {
@@ -375,7 +374,7 @@ namespace WolfoQoL_Client
 
         }
 
-        private static void TransformEquipment_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushEquipmentTransformNotification orig, CharacterMaster characterMaster, EquipmentIndex oldIndex, EquipmentIndex newIndex, TransformationType transformationType)
+        private static void TransformEquipment_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushEquipmentTransformNotification orig, CharacterMaster characterMaster, EquipmentIndex oldIndex, EquipmentIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
             /*Debug.Log(characterMaster + " | " +
                   oldIndex + " | " +
@@ -388,7 +387,7 @@ namespace WolfoQoL_Client
                 return;
             }
             //Any player message here
-            if (transformationType == TransformationType.Default)
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
                 if (WConfig.cfgMessagesRevive.Value)
                 {

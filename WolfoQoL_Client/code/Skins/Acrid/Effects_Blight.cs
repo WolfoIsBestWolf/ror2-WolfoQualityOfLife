@@ -74,10 +74,7 @@ namespace WolfoQoL_Client
             MakeEffects();
              
         }
-
-   
-   
-
+ 
         public static void MakeEffects()
         {
             Material matCrocoGooSmallBlightD;
@@ -374,8 +371,8 @@ namespace WolfoQoL_Client
             #region Lobby Pool
             GameObject CrocoDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDisplay.prefab").WaitForCompletion();
             CrocoDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
-            GameObject puddle = CrocoDisplay.transform.GetChild(0).GetChild(3).gameObject;
-
+            GameObject puddle = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDisplaySpawnEffect.prefab").WaitForCompletion();
+             
             lobbyPool = PrefabAPI.InstantiateClone(puddle, "SpawnBlight", false);
             lobbyPool.transform.GetChild(0).GetChild(0).GetComponent<ThreeEyedGames.Decal>().Material = matCrocoGooDecalBlight;
             lobbyPool.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matCrocoDiseaseSporeBlight;

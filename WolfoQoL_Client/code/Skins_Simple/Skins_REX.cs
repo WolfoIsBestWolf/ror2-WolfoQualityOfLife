@@ -10,23 +10,40 @@ namespace WolfoQoL_Client
  
         public static void Start()
         {
-            Material MatGreenFlowerRex = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TreebotBody").transform.GetChild(0).GetChild(0).gameObject.GetComponent<ModelSkinController>().skins[1].rendererInfos[1].defaultMaterial;
-            Material MatTreebot_VineSots = GameObject.Instantiate(MatGreenFlowerRex);
+            Material matTreebotTreeFlower = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Treebot/matTreebotTreeFlower.mat").WaitForCompletion();
+            Material MatTreebot_VineSots = GameObject.Instantiate(matTreebotTreeFlower);
 
             Texture2D texTreebotVineForColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texTreebotVineForColossus.png");
             MatTreebot_VineSots.mainTexture = texTreebotVineForColossus;
 
-            SkinDef skinTreebotAltColossus = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Treebot/skinTreebotAltColossus.asset").WaitForCompletion();
-            var NewRender = new CharacterModel.RendererInfo
+            SkinDefParams skinTreebotAltColossus = Addressables.LoadAssetAsync<SkinDefParams>(key: "RoR2/Base/Treebot/skinTreebotAltColossus_params.asset").WaitForCompletion();
+            SkinDef skins= Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Treebot/skinTreebotAltColossus.asset").WaitForCompletion();
+
+            Renderer vine = skins.rootObject.transform.GetChild(5).GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>();
+
+            HG.ArrayUtils.ArrayAppend(ref skinTreebotAltColossus.rendererInfos, new CharacterModel.RendererInfo
             {
                 defaultMaterial = MatTreebot_VineSots,
                 defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
-                renderer = skinTreebotAltColossus.rootObject.transform.GetChild(5).GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>()
-            };
+                renderer = vine
+            });
 
-            skinTreebotAltColossus.rendererInfos = skinTreebotAltColossus.rendererInfos.Add(NewRender);
-            skinTreebotAltColossus.runtimeSkin = null;
 
+
+            SkinDefParams skinTreebotAlt_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "RoR2/Base/Treebot/skinTreebotAlt_params.asset").WaitForCompletion();
+            HG.ArrayUtils.ArrayAppend(ref skinTreebotAlt_params.rendererInfos, new CharacterModel.RendererInfo
+            {
+                defaultMaterialAddress = skinTreebotAlt_params.rendererInfos[1].defaultMaterialAddress,
+                defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                renderer = vine
+            });
+            SkinDefParams skinTreebotDefault_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "1ce7132e738187a4782795e7ac6a3232").WaitForCompletion();
+            HG.ArrayUtils.ArrayAppend(ref skinTreebotDefault_params.rendererInfos, new CharacterModel.RendererInfo
+            {
+                defaultMaterialAddress = skinTreebotDefault_params.rendererInfos[1].defaultMaterialAddress,
+                defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                renderer = vine
+            });
         }
 
         #region Skinned REX attacks (Old)

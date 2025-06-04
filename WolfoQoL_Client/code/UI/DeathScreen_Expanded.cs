@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace WolfoQoL_Client
 {
@@ -26,8 +27,11 @@ namespace WolfoQoL_Client
                 On.RoR2.UI.ItemInventoryDisplay.AllocateIcons += AddEquipmentIcons;
 
                 On.RoR2.UI.GameEndReportPanelController.SetPlayerInfo += KillerInventory.AddKillerInventory;
-                //On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += KillerInventory.Send_KillerInventory_Host;
+             
             };
+
+            On.RoR2.UI.GameEndReportPanelController.SetPlayerInfo += Death_Loadout.Add_Loadout;
+
             On.RoR2.UI.GameEndReportPanelController.SetDisplayData += GameEndMoreStatsShown;
 
             GameObject hud = LegacyResourcesAPI.Load<GameObject>("Prefabs/HUDSimple");
@@ -37,7 +41,7 @@ namespace WolfoQoL_Client
 
         }
 
-        //This somehow got deleted?
+    
         private static void GameEndMoreStatsShown(On.RoR2.UI.GameEndReportPanelController.orig_SetDisplayData orig, GameEndReportPanelController self, GameEndReportPanelController.DisplayData newDisplayData)
         {
             //Debug.LogWarning(self.statsToDisplay.Length);
@@ -47,13 +51,11 @@ namespace WolfoQoL_Client
                 {
                     if (Run.instance.GetComponent<InfiniteTowerRun>())
                     {
-                        string[] newstats = new string[] { "totalTimeAlive", "highestInfiniteTowerWaveReached", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalGoldCollected" };
-                        self.statsToDisplay = newstats;
+                        self.statsToDisplay = new string[] { "totalTimeAlive", "highestInfiniteTowerWaveReached", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalGoldCollected" };
                     }
                     else
                     {
-                        string[] newstats = new string[] { "totalTimeAlive", "totalStagesCompleted", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalDronesPurchased", "totalGoldCollected" };
-                        self.statsToDisplay = newstats;
+                        self.statsToDisplay = new string[] { "totalTimeAlive", "totalStagesCompleted", "totalItemsCollected", "totalKills", "totalEliteKills", "totalDamageDealt", "highestDamageDealt", "totalMinionKills", "totalMinionDamageDealt", "totalHealthHealed", "totalDamageTaken", "totalDeaths", "totalDistanceTraveled", "highestLevel", "totalPurchases", "totalLunarPurchases", "totalBloodPurchases", "totalDronesPurchased", "totalGoldCollected" };
                     };
                 }
             }
@@ -66,6 +68,11 @@ namespace WolfoQoL_Client
                     self.chatboxTransform.gameObject.SetActive(true);
                 }
             }
+            LayoutElement statInfo = self.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<LayoutElement>();
+            statInfo.preferredHeight = 48;
+            statInfo.SetDirty();
+            self.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(0, -28);
+            self.transform.GetChild(0).GetComponent<RectTransform>().offsetMin = new Vector2(0, -20);
 
         }
 
@@ -74,6 +81,28 @@ namespace WolfoQoL_Client
             orig(self, playerInfo, playerIndex);
             DeathEquips_Player = playerInfo.equipment;
             DeathEquip_Enemy1 = EquipmentIndex.None;
+
+            DifficultyIndex difficultyIndex = DifficultyIndex.Invalid;
+            if (self.displayData.runReport != null)
+            {
+                difficultyIndex = self.displayData.runReport.ruleBook.FindDifficulty();
+            }
+            DifficultyDef difficultyDef = DifficultyCatalog.GetDifficultyDef(difficultyIndex);
+            self.selectedDifficultyImage.raycastTarget = true;//? doesn't work without?
+            TooltipProvider difficulty = self.selectedDifficultyImage.gameObject.AddComponent<TooltipProvider>();
+            difficulty.titleToken = difficultyDef.nameToken;
+            difficulty.bodyToken = difficultyDef.descriptionToken;
+            difficulty.titleColor = difficultyDef.color;
+
+
+            Transform StatNameLabel = self.selectedDifficultyImage.transform.parent.GetChild(0);
+            Transform DifficultyLabel = self.selectedDifficultyImage.transform.parent.GetChild(2);
+            DifficultyLabel.transform.SetSiblingIndex(1);
+            StatNameLabel.GetComponent<LanguageTextMeshController>().token = "RULE_HEADER_DIFFICULTY_WITH_COLON";
+            self.selectedDifficultyLabel = DifficultyLabel.GetComponent<LanguageTextMeshController>();
+            self.selectedDifficultyLabel.token = difficultyDef.nameToken;
+             
+
         }
 
 
@@ -134,18 +163,22 @@ namespace WolfoQoL_Client
                 }
 
                 //Has to be past orig(self)?
-                HGTextMeshProUGUI tempHeader = self.gameObject.transform.parent.parent.parent.GetChild(0).GetChild(0).gameObject.GetComponent<RoR2.UI.HGTextMeshProUGUI>();
-                if (tempHeader)
+                if (Run.instance)
                 {
-                    if (areaName.StartsWith("KillerItemArea"))
+                    HGTextMeshProUGUI tempHeader = self.gameObject.transform.parent.parent.parent.GetChild(0).GetChild(0).gameObject.GetComponent<RoR2.UI.HGTextMeshProUGUI>();
+                    if (tempHeader)
                     {
-                        tempHeader.GetComponent<HGTextMeshProUGUI>().SetText(Language.GetString("INVENTORY_KILLER"));
-                    }
-                    else if (areaName.StartsWith("EvolutionArea"))
-                    {
-                        tempHeader.GetComponent<HGTextMeshProUGUI>().SetText(Language.GetString("INVENTORY_MONSTER"));
+                        if (areaName.StartsWith("KillerItemArea"))
+                        {
+                            tempHeader.GetComponent<HGTextMeshProUGUI>().SetText(Language.GetString("INVENTORY_KILLER"));
+                        }
+                        else if (areaName.StartsWith("EvolutionArea"))
+                        {
+                            tempHeader.GetComponent<HGTextMeshProUGUI>().SetText(Language.GetString("INVENTORY_MONSTER"));
+                        }
                     }
                 }
+                
                 return;
             }
             else

@@ -515,8 +515,7 @@ namespace WolfoQoL_Server
                 orig(newBuffDefs);
                 return;
             }
-            Debug.LogWarning("How did this run");
-            orig(newBuffDefs);
+ 
         }
 
         public static BuffDef FakeVoidFeather;

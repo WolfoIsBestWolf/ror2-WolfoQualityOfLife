@@ -15,6 +15,9 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkipItemDisplays;
         public static ConfigEntry<bool> cfgOldSotsEliteIcons;
         public static ConfigEntry<bool> cfgDarkTwisted;
+        public static ConfigEntry<bool> cfgMithrixPhase4SkipFix;
+        public static ConfigEntry<bool> cfgLoadoutOnDeathScreen;
+        public static ConfigEntry<bool> cfgSmoothCaptain;
 
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
@@ -23,7 +26,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkinMercDisableCompletely;
         public static ConfigEntry<bool> cfgSkinBellBalls;
 
-        public static ConfigEntry<bool> cfgSkinMakeOniBackup;
+        //public static ConfigEntry<bool> cfgSkinMakeOniBackup;
         public static ConfigEntry<bool> cfgSkinMakeBlightedAcrid;
         public static ConfigEntry<bool> cfgLogbook_SortBosses;
 
@@ -72,6 +75,13 @@ namespace WolfoQoL_Client
             You,
             Anybody
         }
+        public enum Position
+        {
+            Off,
+            Top,
+            Bottom
+        }
+
         //DeathScreen
         public static ConfigEntry<bool> cfgExpandedDeathScreen;
         public static ConfigEntry<bool> cfgDeathScreenStats;
@@ -523,6 +533,12 @@ namespace WolfoQoL_Client
                true,
                "What Equipment you had will be shown.\nIf your killer had any items, they will be displayed.\nUseful for things such as Scavengers and Phase 4 Mithrix."
            );
+            cfgLoadoutOnDeathScreen = ConfigFile_Client.Bind(
+               "Menu",
+               "Loadout Death Screen",
+               true,
+               "Players skill loadouts will be shown, for sharing screenshots primarily."
+           );
             cfgDeathScreenAlwaysChatBox = ConfigFile_Client.Bind(
                 "Menu",
                 "Death Screen Always show Chat",
@@ -582,12 +598,12 @@ namespace WolfoQoL_Client
                 true,
                 "Replace blue effects with green effects for Frail Merc / Colossus Skin"
                 );
-            cfgSkinMakeOniBackup = ConfigFile_Client.Bind(
+            /*cfgSkinMakeOniBackup = ConfigFile_Client.Bind(
                "Skins",
                "Oni Blue Sword Backup",
                false,
                "Make a backup of the Oni Skin, with blue sword skin so you can have both a Red and a Blue"
-           );
+           );*/
             cfgSkinAcridBlight = ConfigFile_Client.Bind(
                 "Skins",
                 "Blight Acrid effects",
@@ -620,6 +636,12 @@ namespace WolfoQoL_Client
                 true,
                 "Gameplay bug fixes and minor quality of life."
             );
+            cfgSmoothCaptain = ConfigFile_Client.Bind(
+                "Visuals",
+                "Colossus Captain Smooth",
+                true,
+                "Makes the armor on the skin smooth instead of battered"
+            );  
             cfgDarkTwisted = ConfigFile_Client.Bind(
                 "Visuals",
                 "Dark Twisted Elites",
@@ -744,7 +766,9 @@ namespace WolfoQoL_Client
                 OldModelDuplcators,
 
                 cfgColorMain,
-                cfgTestDisableMod2
+                cfgTestDisableMod2,
+                cfgSmoothCaptain,
+                cfgDarkTwisted,
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();

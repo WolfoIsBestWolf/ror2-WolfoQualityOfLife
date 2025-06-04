@@ -9,12 +9,14 @@ Oni Mercenary will have a red sword.\
 Oni & Frail Mercenary will glow their respective color instead of blue.\
 Oni & Frail Mercenary will have colored attack effects.
 
-Acrids using Blight will have different colored effects.
+Acrids using Blight will have different colored effects.\
+Includes acid pool in lobby.
 
 REX's vines when moving now match his skin.\
 Engineer Skins will have skinned Harpoons.\
 Fixes Engineers Mastery & Colossus Skin Turrets looking worse than intended. (Glows more now)\
-Loaders Alt skin will have matching Hook Hand.
+Loaders Alt skin will have matching Hook Hand.\
+MulT shows off his primary skill in lobby.
 
 Helminth Lighting is now 'fixed'/brighter. [Comparison](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/helminth.png?raw=true)
 
@@ -46,6 +48,7 @@ Updated Death Screen including.
 - Equipment you had on death.
 - Elite prefix of killer.
 - What items the killer had. (if any)
+- Skill Loadout
 
 Many more messages so you have another chance to see what happened, or to see what someone else is doing.
 - On death, a detailed death message is sent, so you know what you died to.
@@ -120,8 +123,7 @@ Logbook additions:
 Primordial Teleporter destination can be shifted after the TP boss.\
 Acrid is invulnerable during his spawn animation.\
 Mercenary is briefly immune to fall damage during his M2 to avoid leg breakage.\
-Fixes XI Construct laser. 
-
+ 
 Prsimatic Trials are available without leaderboard and with random seed.\
 Other gameplay fixes as dependencies from other people. 
 
@@ -150,14 +152,22 @@ Adds Fuel Array Display for Engineer Turrets.
 
 
 ### Bug Fixes
-Fixed Newt Altars being available after Teleporter, or when Teleporter starts with Blue Orb.\
+Fixes Chef Boosted Ice Box not clearing properly.\
+Fixes Chef Cleaver Bonus Proc being 2.25 instead of 1.5.\
+Fixes Mithrix Phase 4 being skipable.\
+
+Fixes Void Items not properly playing sound.\
+Fixes Scrappers not properly playing sound.
+
+Fixed Newt Altars being available after Teleporter\
+Newt altars wont be available if Teleporter starts with Blue Orb.\
 Fixes Void Command Essence not having particles\
 Fixes Deep Void Signals Beam not having rotation.\
 Fixed Titan pinging the particles instead of the body.\
+Fixes Devoted Lemurians being in the log instead of normal.\
 War Bonds no longer plays the Horn if 0 Missiles would be fired.\
 Thunder rumbling now plays after players spawns in so it shows up in chat.
 
-Fixes Mithrix Phase 4 sometimes being skipped.\
 Fixes bug where Aurelionite Fragments & Potentials dont spin for clients.\
 Fixes bug where Prayer Beads often would desync for clients.\
 Fixes Spider-Mines being constantly beeping on clients

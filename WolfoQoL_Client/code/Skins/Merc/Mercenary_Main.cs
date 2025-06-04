@@ -2,7 +2,9 @@
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
- 
+using System.Collections.Generic;
+using RoR2.ContentManagement;
+
 namespace WolfoQoL_Client
 {
     public class Mercenary_Main
@@ -19,11 +21,11 @@ namespace WolfoQoL_Client
             GhostReplacements();
             GameModeCatalog.availability.CallWhenAvailable(EffectReplacements); //After effect catalog
 
-            On.RoR2.SkinDef.Apply += AddMercIdentifier;
-            if (WConfig.cfgSkinMakeOniBackup.Value == true)
+            On.RoR2.SkinDef.ApplyAsync += SkinDef_ApplyAsync;
+            /*if (WConfig.cfgSkinMakeOniBackup.Value == true)
             {
                 BackupSkin();
-            }
+            }/*
 
             //This looks tempting, but can't use it because we relly on Identifiers
             //Probably good for SkinsMod tho
@@ -33,9 +35,10 @@ namespace WolfoQoL_Client
             });*/
         }
 
-        private static void AddMercIdentifier(On.RoR2.SkinDef.orig_Apply orig, SkinDef self, GameObject modelObject)
+        private static System.Collections.IEnumerator SkinDef_ApplyAsync(On.RoR2.SkinDef.orig_ApplyAsync orig, SkinDef self, GameObject modelObject, List<AssetReferenceT<Material>> loadedMaterials,  List<AssetReferenceT<Mesh>> loadedMeshes, AsyncReferenceHandleUnloadType unloadType)
         {
-            orig(self, modelObject);
+             
+            var temp =  orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
             if (modelObject.name.StartsWith("mdlMerc"))
             {
                 var model = modelObject.GetComponent<RoR2.CharacterModel>();
@@ -54,38 +57,9 @@ namespace WolfoQoL_Client
                     }
                 }
             }
-
+            return temp;
         }
-
-
-        public static void MoveBackOniMercSkinLast()
-        {
-            if (WConfig.cfgSkinMakeOniBackup.Value == true)
-            {
-                GameObject MercBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody");
-
-                BodyIndex MercBodyIndex = MercBody.GetComponent<CharacterBody>().bodyIndex;
-                ModelSkinController modelSkinController = MercBody.transform.GetChild(0).GetChild(0).GetComponent<ModelSkinController>();
-
-                SkinDef[] skinsNew = new SkinDef[modelSkinController.skins.Length];
-                skinsNew[skinsNew.Length - 1] = modelSkinController.skins[3];
-
-                //IDK??
-                int j = 0;
-                for (int i = 0; i < modelSkinController.skins.Length; i++)
-                {
-                    if (i == 2)
-                    {
-                        i++;
-                    }
-                    skinsNew[j] = modelSkinController.skins[i];
-                    j++;
-                }
-                modelSkinController.skins = skinsNew;
-                BodyCatalog.skins[(int)MercBodyIndex] = skinsNew;
-            }
-        }
-
+ 
 
         public static void EffectReplacements()
         {
@@ -127,7 +101,7 @@ namespace WolfoQoL_Client
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Huntress/HuntressFireArrowRain.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.HuntressFireArrowRain_Red, Merc_Green.HuntressFireArrowRain_Green, true);
 
-            MoveBackOniMercSkinLast();
+             
         }
 
 
@@ -161,23 +135,11 @@ namespace WolfoQoL_Client
         public static void BackupSkin()
         {
             SkinDef SkinDefMercOni = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Merc/skinMercAlt.asset").WaitForCompletion();
+            SkinDef skinDef = Object.Instantiate(SkinDefMercOni);
             Sprite texMercOniBluesS = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/SkinRamps/texMercOniBlues.png");
+            skinDef.icon = texMercOniBluesS;
 
-            LoadoutAPI.SkinDefInfo SkinDefMercOniOriginalSkinInfo = new LoadoutAPI.SkinDefInfo
-            {
-                BaseSkins = SkinDefMercOni.baseSkins,
-                Icon = texMercOniBluesS,
-                NameToken = "Oni Traditional",
-                //UnlockableDef = SkinDefMercOni.unlockableDef,
-                RootObject = SkinDefMercOni.rootObject,
-                RendererInfos = SkinDefMercOni.rendererInfos,
-                MeshReplacements = SkinDefMercOni.meshReplacements,
-                GameObjectActivations = SkinDefMercOni.gameObjectActivations,
-                ProjectileGhostReplacements = SkinDefMercOni.projectileGhostReplacements,
-                MinionSkinReplacements = SkinDefMercOni.minionSkinReplacements,
-                Name = "skinMercAltNoEdit",
-            };
-            LoadoutAPI.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), SkinDefMercOniOriginalSkinInfo);
+            Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), skinDef);
 
 
         }

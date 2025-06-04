@@ -3,6 +3,7 @@ using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using RoR2.ContentManagement;
 
 namespace WolfoQoL_Client
 {
@@ -54,12 +55,13 @@ namespace WolfoQoL_Client
                     bool firstSelected = justSpawned;
                     justSpawned = false;
 
-                    Transform poison = self.transform.GetChild(0).Find("SpawnPoison");
+                    Transform poison = self.transform.GetChild(0).Find("CrocoDisplaySpawnEffect(Clone)");
                     Transform blight = self.transform.GetChild(0).Find("SpawnBlight");
 
                     poison.gameObject.SetActive(!isBlight);
                     blight.gameObject.SetActive(isBlight);
-
+                    //Play_MULT_m1_sawblade_impact_loop
+                    //Play_MULT_m1_sawblade_impact_loop
                     poison.GetChild(1).gameObject.SetActive(firstSelected);
                     blight.GetChild(1).gameObject.SetActive(firstSelected);
                 }
@@ -73,8 +75,8 @@ namespace WolfoQoL_Client
             if (self.name.StartsWith("CrocoD"))
             {
                 justSpawned = true;
-                GameObject spawnPoison = self.transform.GetChild(0).GetChild(3).gameObject;
-                spawnPoison.name = "SpawnPoison";
+                /*GameObject spawnPoison = self.transform.GetChild(0).GetChild(3).gameObject;
+                spawnPoison.name = "SpawnPoison";*/
                 GameObject blightpuddle = UnityEngine.Object.Instantiate(Effects_Blight.lobbyPool, self.transform.GetChild(0));
                 blightpuddle.name = "SpawnBlight";
             }
@@ -109,12 +111,14 @@ namespace WolfoQoL_Client
 
         public static void CrocoBlightSkin()
         {
-            SkinDef SkinDefAcridDefault = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody").transform.GetChild(0).GetChild(2).gameObject.GetComponent<ModelSkinController>().skins[0];
+            SkinDefParams paramCrocoDefault = Addressables.LoadAssetAsync<SkinDefParams>(key: "e067d66a43eb8e245a1ecc10e24974bc").WaitForCompletion();
+            SkinDef skinCrocoDefault = Addressables.LoadAssetAsync<SkinDef>(key: "186040c993aa5f240809215921b730be").WaitForCompletion();
 
-            CharacterModel.RendererInfo[] AcridBlightedRenderInfos = new CharacterModel.RendererInfo[4];
-            Array.Copy(SkinDefAcridDefault.rendererInfos, AcridBlightedRenderInfos, 4);
-
-            Material matCrocoBlight = UnityEngine.Object.Instantiate(SkinDefAcridDefault.rendererInfos[0].defaultMaterial);
+            int length = paramCrocoDefault.rendererInfos.Length;
+            CharacterModel.RendererInfo[] newRenderInfos = new CharacterModel.RendererInfo[length];
+            Array.Copy(paramCrocoDefault.rendererInfos, newRenderInfos, length);
+ 
+            Material matCrocoBlight =  UnityEngine.Object.Instantiate(AssetAsyncReferenceManager<Material>.LoadAsset(newRenderInfos[0].defaultMaterialAddress).WaitForCompletion());
 
             matCrocoBlight.mainTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoDiffuseBlight.png");
             matCrocoBlight.SetTexture("_EmTex", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png"));
@@ -122,25 +126,23 @@ namespace WolfoQoL_Client
             matCrocoBlight.SetTexture("_FlowHeightRamp", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkLessDark.png"));//texRampCrocoDiseaseBlight
             matCrocoBlight.SetColor("_EmColor", new Color(1.2f, 1.2f, 0.75f, 1));
 
-            AcridBlightedRenderInfos[0].defaultMaterial = matCrocoBlight;  //matCroco
-            AcridBlightedRenderInfos[2].defaultMaterial = Effects_Blight.matCrocoDiseaseDrippingsBlight; //matCrocoDiseaseDrippings
+            newRenderInfos[0].defaultMaterial = matCrocoBlight;  //matCroco
+            newRenderInfos[0].defaultMaterialAddress = null;
+            newRenderInfos[1].defaultMaterial = Effects_Blight.matCrocoDiseaseDrippingsBlight; //matCrocoDiseaseDrippings
+            newRenderInfos[1].defaultMaterialAddress = null; //matCrocoDiseaseDrippings
 
-
-            SkinDefInfo AcridBlightSkinInfo = new SkinDefInfo
-            {
-                BaseSkins = SkinDefAcridDefault.baseSkins,
-
-                NameToken = "Blighted",
-                UnlockableDef = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Skills.Croco.PassivePoisonLethal"),
-                RootObject = SkinDefAcridDefault.rootObject,
-                RendererInfos = AcridBlightedRenderInfos,
-                MeshReplacements = SkinDefAcridDefault.meshReplacements,
-                GameObjectActivations = SkinDefAcridDefault.gameObjectActivations,
-                Name = "skinCrocoDefaultBlighted",
-                Icon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/General/texCrocoBlightSkin.png"),
-            };
-            R2API.Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody"), AcridBlightSkinInfo);
-
+            SkinDef newSkin = ScriptableObject.CreateInstance<SkinDef>();
+  
+            newSkin.name = "skinCrocoDefault_Blight";
+            newSkin.nameToken = "SKIN_CROCO_BLIGHT";
+            newSkin.unlockableDef = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Skills.Croco.PassivePoisonLethal");
+            newSkin.icon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/General/texCrocoBlightSkin.png");
+            newSkin.rendererInfos = newRenderInfos;
+            newSkin.rootObject = skinCrocoDefault.rootObject;
+            newSkin.baseSkins = new SkinDef[] {skinCrocoDefault};
+            
+            Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody"), newSkin);
+           
 
         }
 

@@ -155,7 +155,7 @@ namespace WolfoQoL_Client
         {
             if (!objective)
             {
-                Debug.LogWarning("FailObjective Null Objective");
+                Debug.Log("FailObjective Null Objective");
                 return;
             }
             objective.markCompletedOnRetired = false;
@@ -166,7 +166,7 @@ namespace WolfoQoL_Client
         {
             if (!objective)
             {
-                Debug.LogWarning("CompleteObjective Null Objective");
+                Debug.Log("CompleteObjective Null Objective");
                 return;
             }
             objective.objectiveToken = "<color=#808080><s>" + objective.objectiveToken + "</color></s>";

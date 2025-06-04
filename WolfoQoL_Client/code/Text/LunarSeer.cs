@@ -29,10 +29,8 @@ namespace WolfoQoL_Client
 
         private static void FancyBazaarPortalChange(On.RoR2.SeerStationController.orig_SetRunNextStageToTarget orig, SeerStationController self)
         {
-            bool isbazaar = false;
             if (SceneInfo.instance && SceneInfo.instance.sceneDef.baseSceneName == "bazaar")
             {
-                isbazaar = true;
                 GameObject ShopPortal = GameObject.Find("/PortalShop");
                 SceneDef tempscenedef = SceneCatalog.GetSceneDef((SceneIndex)self.NetworktargetSceneDefIndex);
                 //Debug.LogWarning(tempscenedef);

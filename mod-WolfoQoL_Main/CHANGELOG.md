@@ -1,5 +1,21 @@
 #Changelog
 ```
+v4.1.0 - Updated for Patch 4
+
+MulT now shows his primary skill in the lobby.
+Made Helminth fixed Lighting + Brainstalks not blindingly Red
+Added Loadout to death screen at the bottom of the stats
+Colossus Captain smooth armor.
+Fixed obliteration ending format being wrong.
+VanillaFix: Void items dont play sound when dropping.
+VanillaFix: Scrapper not making sound
+VanillaFix: Chef Boosted Ice Box not being cleared properly.
+VanillaFix: Chef Cleaver Bonus having 2.25 proc instead of 1.5
+VanillaFix: Railgunner overlay being less see through than in the past
+
+Known issue : Acrid skin does not show up in lobby. Probably will be fixed by R2API updates.
+
+
 v4.0.6
 Replaced some ??? with actual names.
 Fixed a mod issue where Phase 4 Mithrix would be immortal if revived by Dios.

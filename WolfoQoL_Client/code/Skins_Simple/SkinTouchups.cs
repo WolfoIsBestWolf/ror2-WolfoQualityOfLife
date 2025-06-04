@@ -1,6 +1,7 @@
 ﻿using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using RoR2.Skills;
 
 namespace WolfoQoL_Client
 {
@@ -10,31 +11,59 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-            On.RoR2.SkinDef.Apply += SkinDef_Apply;
+            On.RoR2.SkinDef.ApplyAsync += SkinDef_ApplyAsync;
             Skins_Merc.Start();
 
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
-            Skins_Engi.Start();
+            Skins_Engi.FixedTurret();
+            Skins_Engi.Harpoons();
             Skins_REX.Start();
+            Skins_Engi.AltTrail();
             Skins_Loader();
             Skins_Toolbot();
+            FixTitan();
 
+            if (WConfig.cfgSmoothCaptain.Value)
+            {
+                Material matCaptainColossusAltArmor = Addressables.LoadAssetAsync<Material>(key: "572c80ba738b3144f9590ef372d0b055").WaitForCompletion();
+                matCaptainColossusAltArmor.SetTexture("_NormalTex", null);
+                matCaptainColossusAltArmor.SetTexture("_GreenChannelNormalTex", null); //texTrimSheetLemurianRuins
 
-            On.RoR2.EffectManager.OnSceneUnloaded += EffectManager_OnSceneUnloaded;
+            }
+
         }
 
-        private static void EffectManager_OnSceneUnloaded(On.RoR2.EffectManager.orig_OnSceneUnloaded orig, UnityEngine.SceneManagement.Scene scene)
+        public static void FixTitan()
         {
-            orig(scene);
-        }
+            SkinDefParams titan0 = Addressables.LoadAssetAsync<SkinDefParams>(key: "8aa47f1e288b32f4abb8e63aea8c2ea0").WaitForCompletion();
+            HG.ArrayUtils.Swap(titan0.rendererInfos, 19, 0);
+            SkinDefParams titanG = Addressables.LoadAssetAsync<SkinDefParams>(key: "ea05e89f54cbdee409061420648b0cd9").WaitForCompletion();
+            HG.ArrayUtils.Swap(titanG.rendererInfos, 19, 0);
+            return;
+            SkinDefParams titan1 = Addressables.LoadAssetAsync<SkinDefParams>(key: "5ef4744f083778346bd813d33dfd7c39").WaitForCompletion();
+            SkinDefParams titan2 = Addressables.LoadAssetAsync<SkinDefParams>(key: "980ab5f724b028847af364dc596630c8").WaitForCompletion();
+            SkinDefParams titan3 = Addressables.LoadAssetAsync<SkinDefParams>(key: "21b8d0bf5fdccb94b9e5694f28491514").WaitForCompletion();
+            SkinDefParams titan4 = Addressables.LoadAssetAsync<SkinDefParams>(key: "0fbedd25dbb06224e8615535dfe8c1d0").WaitForCompletion();
 
+
+            HG.ArrayUtils.Swap(titan1.rendererInfos, 19, 0);
+            HG.ArrayUtils.Swap(titan2.rendererInfos, 19, 0);
+            HG.ArrayUtils.Swap(titan3.rendererInfos, 19, 0);
+            HG.ArrayUtils.Swap(titan4.rendererInfos, 19, 0);
+
+        }
+      
+
+    
+ 
         public static void Skins_Toolbot()
         {
+        
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Toolbot/EjectToolbotDualWieldCover.prefab").WaitForCompletion().GetComponent<VFXAttributes>().DoNotPool = true;
             GameObject ToolbotDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Toolbot/ToolbotDisplay.prefab").WaitForCompletion();
             ToolbotDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
+ 
 
-        
             On.EntityStates.Toolbot.ToolbotDualWield.OnEnter += (orig, self) =>
             {
                 EntityStates.Toolbot.ToolbotDualWield.coverPrefab.GetComponentInChildren<SkinnedMeshRenderer>().material = self.outer.commonComponents.modelLocator.modelTransform.GetChild(1).GetComponent<UnityEngine.SkinnedMeshRenderer>().material;
@@ -75,33 +104,19 @@ namespace WolfoQoL_Client
         }
 
 
-
-        private static void SkinDef_Apply(On.RoR2.SkinDef.orig_Apply orig, SkinDef self, GameObject modelObject)
+        private static System.Collections.IEnumerator SkinDef_ApplyAsync(On.RoR2.SkinDef.orig_ApplyAsync orig, SkinDef self, GameObject modelObject, System.Collections.Generic.List<AssetReferenceT<Material>> loadedMaterials, System.Collections.Generic.List<AssetReferenceT<Mesh>> loadedMeshes, RoR2.ContentManagement.AsyncReferenceHandleUnloadType unloadType)
         {
-            orig(self, modelObject);
-            //Debug.LogWarning(self + " SkinDef Apply " + modelObject);
-
-            if (!modelObject)
-            {
-                return;
-            }
-            CharacterModel characterModel = modelObject.GetComponent<CharacterModel>();
-
-            if (modelObject.name.StartsWith("mdlMerc"))
+            var temp = orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
+            CharacterModel characterModel = modelObject.GetComponent<RoR2.CharacterModel>();
+            if (modelObject.name == "mdlMerc")
             {
                 if (WConfig.cfgSkinMercRedSword.Value == true)
                 {
-                    bool alt = self.name.EndsWith("Alt");
-                    bool Colossus = self.name.EndsWith("Colossus");
-                    if (alt || self.name.EndsWith("Red"))
+                    bool red = self.name.EndsWith("Alt") && WConfig.cfgSkinMercRed.Value || self.name.EndsWith("Red");
+                    bool green = self.name.EndsWith("Colossus") && WConfig.cfgSkinMercGreen.Value || self.name.EndsWith("Green");
+                    ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+                    if (red)
                     {
-                        if (alt)
-                        {
-                            characterModel.baseLightInfos[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);
-                            characterModel.baseLightInfos[1].defaultColor = new Color(1, 0.15f, 0.15f, 1);
-                            characterModel.baseRendererInfos[1].defaultMaterial = Skins_Merc.MatOniSword;
-                        }
-                        ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
                         if (childLocator)
                         {
                             Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
@@ -113,14 +128,8 @@ namespace WolfoQoL_Client
                             PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
                         }
                     }
-                    else if (Colossus || self.name.EndsWith("Green"))
-                    {
-                        if (Colossus)
-                        {
-                            characterModel.baseLightInfos[0].defaultColor = new Color(0.2f, 1f, 0.1f, 1);
-                            characterModel.baseLightInfos[1].defaultColor = new Color(0.15f, 0.6f, 0.15f, 1);
-                        }
-                        ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+                    else if (green)
+                    {   
                         if (childLocator)
                         {
                             Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
@@ -132,73 +141,23 @@ namespace WolfoQoL_Client
                             PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
                         }
                     }
-                    else
+                    if (characterModel.body)
                     {
-                        CharacterModel tempmodel = modelObject.GetComponent<CharacterModel>();
-                        tempmodel.baseLightInfos[0].defaultColor = new Color(0, 0.609f, 1, 1);
-                        tempmodel.baseLightInfos[1].defaultColor = new Color(0, 0.609f, 1, 1);
-                    }
-                }
-            }
-            else if (modelObject.name.StartsWith("mdlTreebot"))
-            {
-                if (WConfig.cfgSkinMisc.Value == true)
-                {
-                    if (modelObject.transform.childCount > 5)
-                    {
-                        ParticleSystemRenderer vine = modelObject.transform.GetChild(5).GetChild(0).GetChild(2).gameObject.GetComponent<ParticleSystemRenderer>();
-                        bool doAuto = vine.material.Equals("matTreebotTreeFlower");
-                        if (!self.name.Contains("Colossus") && !self.name.EndsWith("Default"))
+                        Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercRed>());
+                        Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercGreen>());
+                        if (red)
                         {
-                            vine.material = characterModel.baseRendererInfos[1].defaultMaterial;
+                            characterModel.body.gameObject.AddComponent<MakeThisMercRed>();
+                        }
+                        else if (green)
+                        {
+                            characterModel.body.gameObject.AddComponent<MakeThisMercGreen>();
                         }
                     }
                 }
-            }
-            else if (modelObject.name.StartsWith("mdlEngiTurret"))
-            {
-                if (WConfig.cfgSkinMisc.Value == true)
-                {
-                    if (self.name.Equals("skinEngiTurretAlt"))
-                    {
-                        characterModel.baseRendererInfos[0].defaultMaterial = Skins_Engi.MatEngiTurretGreen;
-                    }
-                    else if (self.name.EndsWith("Colossus"))
-                    {
-                        characterModel.baseRendererInfos[0].defaultMaterial = Skins_Engi.MatEngiTurret_Sots;
-                    }
-                }
-            }
-            else if (modelObject.name.StartsWith("mdlEngi"))
-            {
-                if (WConfig.cfgSkinMisc.Value == true)
-                {
-                    if (self.name.Equals("skinEngiAlt"))
-                    {
-                        if (characterModel.baseRendererInfos.Length > 1)
-                        {
-                            characterModel.baseRendererInfos[0].defaultMaterial = Skins_Engi.matEngiTrail_Alt;
-                            characterModel.baseRendererInfos[1].defaultMaterial = Skins_Engi.matEngiTrail_Alt;
-                        }
-                        SprintEffectController[] component = modelObject.GetComponents<SprintEffectController>();
-                        if (component.Length != 0)
-                        {
-                            for (int i = 0; i < component.Length; i++)
-                            {
-                                if (component[i].loopRootObject.name.StartsWith("EngiJet"))
-                                {
-                                    component[i].loopRootObject.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = Skins_Engi.matEngiTrail_Alt;
-                                    component[i].loopRootObject.transform.GetChild(2).GetComponent<Light>().color = new Color(0, 0.77f, 0.77f, 1f); // 0 1 0.5508 1
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (modelObject.name.StartsWith("mdlTitan"))
-            {
-                HG.ArrayUtils.Swap(characterModel.baseRendererInfos, characterModel.baseRendererInfos.Length - 1, 0);
-            }
+               
+            } 
+            return temp;
         }
 
         private static void SkinTouchUpsLobby(On.RoR2.CharacterSelectSurvivorPreviewDisplayController.orig_OnLoadoutChangedGlobal orig, CharacterSelectSurvivorPreviewDisplayController self, NetworkUser changedNetworkUser)
@@ -221,7 +180,7 @@ namespace WolfoQoL_Client
                     uint skin = temploadout.bodyLoadoutManager.GetSkinIndex(Engi);
                     if (skin == 1)
                     {
-                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.MatEngiTurretGreen;
+                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.matEngiTurretAlt;
                     }
                     else if (skin == 2)
                     {
@@ -231,7 +190,7 @@ namespace WolfoQoL_Client
             }
             else if (self.name.StartsWith("ToolbotDisplay"))
             {
-                /*
+ 
                 Loadout temploadout = self.networkUser.networkLoadout.loadout;
                 BodyIndex Toolbot = BodyCatalog.FindBodyIndexCaseInsensitive("ToolbotBody");
                 //Debug.LogWarning(Croco);
@@ -239,55 +198,26 @@ namespace WolfoQoL_Client
                 {
                     int skill = (int)temploadout.bodyLoadoutManager.GetSkillVariant(Toolbot, 0);
 
-                    //var BodyLoadout = temploadout.bodyLoadoutManager.GetReadOnlyBodyLoadout(Toolbot);
-                    //SkillFamily family = BodyLoadout.GetSkillFamily(0);
-                    //ToolbotWeaponSkillDef toolBotSkill = (ToolbotWeaponSkillDef)family.variants[skill].skillDef;
+                    
+                    var BodyLoadout = temploadout.bodyLoadoutManager.GetReadOnlyBodyLoadout(Toolbot);
+                    SkillFamily family = BodyLoadout.GetSkillFamily(0);
+                    ToolbotWeaponSkillDef toolBotSkill = (ToolbotWeaponSkillDef)family.variants[skill].skillDef;
+                    Debug.Log(toolBotSkill);
 
                     Transform mdlToolbot = self.transform.GetChild(0).transform.GetChild(0);
                     Transform toolbase = mdlToolbot.Find("ToolbotArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/toolbase");
-                    
-                    //mdlToolbot.gameObject.AddComponent<DelayedAnimatorMULT>().toolbase = toolbase;
-                    //mdlToolbot.gameObject.GetComponent<DelayedAnimatorMULT>().skill = skill;
-                    
-                    Vector3 small = new Vector3(0.001f, 0.001f, 0.001f);
+                    MulTLobbySkill mulTLobbySkin = toolbase.gameObject.GetComponent<MulTLobbySkill>();
+                    if (mulTLobbySkin == null)
+                    {
+                        mulTLobbySkin = toolbase.gameObject.AddComponent<MulTLobbySkill>();
 
-                    if (!toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>())
-                    {
-                        toolbase.GetChild(0).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
-                        toolbase.GetChild(1).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
-                        toolbase.GetChild(2).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
-                        toolbase.GetChild(3).gameObject.AddComponent<DelayedAnimatorMULT>().vector = small;
                     }
-                    switch (skill)
-                    {
-                        case 0:
-                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(1, 1, 1);  
-                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            break;
-                        case 1:
-                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f);
-                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            break;
-                        case 2:
-                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(1, 1, 1);
-                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            break;
-                        case 3:
-                            toolbase.GetChild(2).GetComponent<DelayedAnimatorMULT>().vector = new Vector3(0.8f, 0.8f, 0.8f);
-                            toolbase.GetChild(0).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(1).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            toolbase.GetChild(3).GetComponent<DelayedAnimatorMULT>().vector = small;
-                            break;
-                    }
-                    
+                    int[] ints = new int[4];
+                    ints[skill] = 1;
+                    mulTLobbySkin.skill = ints;
+
                 }
-                */
+
             }
 
         }
@@ -296,6 +226,76 @@ namespace WolfoQoL_Client
 
     }
 
+    public class MulTLobbySkill : MonoBehaviour
+    {
+        public int[] skill = new int[4];
+        public float x;
+     
+        public Transform nail_New;
+        public Transform rebar_New;
+        public Transform rocket_New;
+        public Transform saw_New;
 
+        public Transform nailOriginal;
+        public Transform rebarOriginal;
+        public Transform rocketOriginal;
+        public Transform sawOriginal;
+
+        public void OnEnable()
+        {
+            if (rocketOriginal)
+            {
+                return;
+            }
+            rocketOriginal = transform.GetChild(0);
+            nailOriginal = transform.GetChild(1);
+            sawOriginal = transform.GetChild(2);
+            rebarOriginal = transform.GetChild(3);
+
+            GameObject Nail = new GameObject("nail_New");
+            nail_New = Nail.transform;
+            nail_New.SetParent(transform, false);
+            nailOriginal.transform.SetParent(nail_New);
+ 
+            GameObject Rebar = new GameObject("rebar_New");
+            rebar_New = Rebar.transform;
+            rebar_New.transform.SetParent(transform, false);
+            rebarOriginal.transform.SetParent(rebar_New);
+
+            GameObject rocket = new GameObject("rocket_New");
+            rocket_New = rocket.transform;
+            rocket_New.transform.SetParent(transform, false);
+            rocketOriginal.transform.SetParent(rocket_New);
+
+            GameObject saw = new GameObject("saw_New");
+            saw_New = saw.transform;
+            saw_New.transform.SetParent(transform, false);
+            sawOriginal.transform.SetParent(saw_New);
+
+            nail_New.localPosition = nailOriginal.localPosition * -1;
+            rebar_New.localPosition = rebarOriginal.localPosition * -100;
+            rocket_New.localPosition = rocketOriginal.localPosition * -100;
+            saw_New.localPosition = sawOriginal.localPosition * -100;
+
+        }
+
+        public void Update()
+        {
+            if (saw_New)
+            {
+                x = nailOriginal.localScale.x;
+                nail_New.localScale = Vector3.one * x * skill[0];
+                rebar_New.localScale = Vector3.one * x * skill[1] * 100;
+                rocket_New.localScale = Vector3.one * x * skill[2] * 100;
+                saw_New.localScale = Vector3.one * x * skill[3] * 100;
+
+                nail_New.localPosition = nailOriginal.localPosition * -x;
+                rebar_New.localPosition = rebarOriginal.localPosition * -x * 100;
+                rocket_New.localPosition = rocketOriginal.localPosition * -x * 100;
+                saw_New.localPosition = sawOriginal.localPosition * -x * 100;
+            }
+            
+        }
+    }
 
 }

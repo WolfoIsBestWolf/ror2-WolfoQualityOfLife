@@ -115,43 +115,22 @@ namespace WolfoQoL_Client
             PrefabLockboxVoid.AddComponent<RoR2.Hologram.HologramProjector>();
             PrefabVendingMachine.AddComponent<RoR2.Hologram.HologramProjector>();
 
-            On.RoR2.ChestBehavior.Awake += (orig, self) =>
-            {
-                orig(self);
-                //Debug.Log(self.gameObject.name);
-                if (self.gameObject.name.StartsWith("Lockbox"))
-                {
-                    GameObject LockboxHoloPivot = new GameObject("LockboxHoloPivot");
-                    LockboxHoloPivot.transform.SetParent(self.transform, false);
-                    LockboxHoloPivot.transform.localPosition = new Vector3(0.0f, 2f, 0f);
-                    self.GetComponent<RoR2.Hologram.HologramProjector>().hologramPivot = LockboxHoloPivot.transform;
-                }
-            };
-            On.RoR2.OptionChestBehavior.Awake += (orig, self) =>
-            {
-                orig(self);
-                //Debug.Log(self.gameObject.name);
-                if (self.gameObject.name.StartsWith("LockboxVoid"))
-                {
-                    GameObject LockboxHoloVoidPivot = new GameObject("LockboxVoidHoloPivot");
-                    LockboxHoloVoidPivot.transform.SetParent(self.transform, false);
-                    LockboxHoloVoidPivot.transform.localPosition = new Vector3(0.0f, 2f, 0f);
-                    self.GetComponent<RoR2.Hologram.HologramProjector>().hologramPivot = LockboxHoloVoidPivot.transform;
-                }
-            };
-            On.RoR2.VendingMachineBehavior.Awake += (orig, self) =>
-            {
-                orig(self);
-                //Debug.Log(self.gameObject.name);
-                if (self.gameObject.name.StartsWith("VendingMachine"))
-                {
-                    GameObject VendingMachineHoloPivot = new GameObject("VendingMachineHoloPivot");
-                    VendingMachineHoloPivot.transform.SetParent(self.transform, false);
-                    VendingMachineHoloPivot.transform.localPosition = new Vector3(0.0f, 4.3f, 0f);
-                    self.GetComponent<RoR2.Hologram.HologramProjector>().hologramPivot = VendingMachineHoloPivot.transform;
-                }
-            };
+            PrefabLockbox.AddComponent<MakePriceTransform>().holoPos = new Vector3(0f, 1.6f, 0f);
+            PrefabLockboxVoid.AddComponent<MakePriceTransform>().holoPos = new Vector3(0f, 2f, 0f);
+            PrefabVendingMachine.AddComponent<MakePriceTransform>().holoPos = new Vector3(0.0f, 4.5f, 0f);
 
+        }
+
+        public class MakePriceTransform : MonoBehaviour
+        {
+            public Vector3 holoPos;
+            public void Awake()
+            {
+                GameObject LockboxHoloPivot = new GameObject("PriceTransform");
+                LockboxHoloPivot.transform.SetParent(transform, false);
+                LockboxHoloPivot.transform.localPosition = holoPos;
+                GetComponent<RoR2.Hologram.HologramProjector>().hologramPivot = LockboxHoloPivot.transform;
+            }
         }
 
         private static void ShrineRezEffect(ILContext il)

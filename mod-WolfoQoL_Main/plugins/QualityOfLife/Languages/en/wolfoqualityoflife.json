@@ -10,6 +10,7 @@
 
 			"CHEF_BOOSTED_FORMAT": "Boosted {0}",
 			"VOIDFIEND_BOOSTED_FORMAT": "『Co??rupted】{0}",
+			"SKIN_CROCO_BLIGHT": "Blighted",
 		
 		
 
@@ -188,7 +189,7 @@
 			
 			"WIN_FORMAT_WIN":"<style=cIsHealing><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			"WIN_FORMAT_FAIL":"<style=cDeath><sprite name=\"Skull\" tint=1> {0} <sprite name=\"Skull\" tint=1></style>",
-			"WIN_FORMAT_MS":"<style=cLunar><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+			"WIN_FORMAT_MS":"<style=cLunarObjective><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			"WIN_FORMAT_VOID":"<style=cIsVoid><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			"WIN_FORMAT_REBIRTH":"<color=#7CFE7C><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			

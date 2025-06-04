@@ -33,7 +33,7 @@
             "EQUIPMENT_AFFIXECHO_NAME": "EliteEchoEquipment",
             "EQUIPMENT_AFFIXECHO_DESC": "Gain 2 <style=cIsDamage>Echoes</style> that will fight for you.",
 
-
+"EQUIPMENT_IRRADIATINGLASER_DESC" : "Fire a laser that irradiates targets for <style=cIsUtility>8</style> seconds, causing <style=cIsDamage>3x100%</style> damage to nearby enemies every <style=cIsDamage>8</style> seconds.",
 
 
             "EQUIPMENT_SOULJAR_DESC": "Cannot be used. <style=cIsUtility>Duplicate</style> every enemy as a <style=cIsUtility>ghost</style> to fight on your side for <style=cIsUtility>15 seconds</style>.",

@@ -39,7 +39,7 @@ namespace WolfoQoL_Client
 
 
  
-                bool IsLossToPlanet = false;
+                //bool IsLossToPlanet = false;
                 bool IsWinWithEvo = false;
                 /*if (helper.killerObject)
                 {
@@ -58,7 +58,7 @@ namespace WolfoQoL_Client
                 }
                 else
                 {
-                    IsLossToPlanet = true;
+                    //IsLossToPlanet = true;
                 }
                 self.playerBodyLabel.alignment = TMPro.TextAlignmentOptions.Left;
 

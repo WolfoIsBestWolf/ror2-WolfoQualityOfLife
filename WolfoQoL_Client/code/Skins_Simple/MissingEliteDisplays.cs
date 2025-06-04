@@ -1280,7 +1280,7 @@ namespace WolfoQoL_Client
                         },
 }
             };
-            AddLunarDisplay(drg, "RoR2/Base/Beetle/idrsBeetleGuard.asset");
+            AddLunarDisplay(drg, "RoR2/Base/BeetleGuard/idrsBeetleGuard.asset");
 
             drg = new DisplayRuleGroup
             {
@@ -1295,7 +1295,7 @@ namespace WolfoQoL_Client
                         },
 }
             };
-            AddLunarDisplay(drg, "RoR2/Base/Beetle/idrsBeetleQueen.asset");
+            AddLunarDisplay(drg, "RoR2/Base/BeetleQueen/idrsBeetleQueen.asset");
 
             drg = new DisplayRuleGroup
             {

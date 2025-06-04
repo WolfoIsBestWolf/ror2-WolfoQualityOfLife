@@ -17,32 +17,32 @@ namespace WolfoQoL_Client
             if (WConfig.SulfurPoolsSkin.Value)
             {
                 GameObject BeetleBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleBody.prefab").WaitForCompletion();
-                GameObject BeetleGuardBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleGuardBody.prefab").WaitForCompletion();
-                GameObject BeetleQueenBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleQueen2Body.prefab").WaitForCompletion();
+                GameObject BeetleGuardBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/BeetleGuard/BeetleGuardBody.prefab").WaitForCompletion();
+                GameObject BeetleQueenBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/BeetleQueen/BeetleQueen2Body.prefab").WaitForCompletion();
                 SceneDef sulfurpools = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/sulfurpools/sulfurpools.asset").WaitForCompletion();
                 //SceneIndex sulfur = SceneCatalog.FindSceneIndex("sulfurpools");
 
                 BeetleBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
                 BeetleGuardBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
                 BeetleQueenBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
-
+ 
             }
 
 
         }
 
-
+        public static Material matEliteBead;
         public static void CallLate()
         {
             if (WConfig.cfgDarkTwisted.Value)
             {
                 //EliteRamp.AddRamp(DLC2Content.Elites.Aurelionite, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteAur.png"));
+                
+                
                 EliteRamp.AddRamp(DLC2Content.Elites.Bead, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteBead.png"));
+                //IL.RoR2.CharacterModel.UpdateOverlays += CharacterModel_UpdateOverlays;
             }
-            else
-            {
-                DLC2Content.Elites.Bead.shaderEliteRampIndex = RoR2Content.Elites.Lunar.shaderEliteRampIndex;
-            }
+           
 
             if (WConfig.cfgOldSotsEliteIcons.Value)
             {
@@ -52,7 +52,29 @@ namespace WolfoQoL_Client
 
             On.RoR2.CharacterModel.IsAurelioniteAffix += CharacterModel_IsAurelioniteAffix;
         }
-        public static void UpdateSotsEliteIcon(object sender, System.EventArgs e)
+
+        private static void CharacterModel_UpdateOverlays(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.After,
+                x => x.MatchLdsfld("RoR2.DLC2Content/Buffs", "EliteBead"));
+ 
+            if (c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdsfld("RoR2.CharacterModel", "lunarGolemShieldMaterial")))
+            {
+                c.EmitDelegate<System.Func<Material, Material>>((no) =>
+                {
+                    return matEliteBead;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("CharacterModel_UpdateOverlays FAILED");
+            }
+ 
+        }
+
+            public static void UpdateSotsEliteIcon(object sender, System.EventArgs e)
         {
             if (WConfig.cfgOldSotsEliteIcons.Value)
             {

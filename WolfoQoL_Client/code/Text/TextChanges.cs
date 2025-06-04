@@ -346,7 +346,7 @@ namespace WolfoQoL_Client
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Gravekeeper/GravekeeperTrackingFireball.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "GravekeeperTrackingFireball";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Birdshark/BirdsharkBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "BirdsharkBody";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Elites/EliteBead/BeadProjectileTrackingBomb.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "BeadProjectileTrackingBomb";
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleWard.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "BeetleWard";
+            Addressables.LoadAssetAsync<GameObject>(key: "de83659161b919844b1309bc9aaa3c71").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "BeetleWard";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/AltarSkeleton/AltarSkeletonBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "AltarSkeletonBody";
 
         }

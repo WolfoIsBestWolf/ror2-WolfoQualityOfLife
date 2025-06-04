@@ -58,8 +58,7 @@ namespace WolfoQoL_Client
 
             On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.FixedUpdate += LunarTeleporterBaseState_FixedUpdate;
 
-            On.EntityStates.MajorConstruct.Weapon.FireLaser.OnExit += XI_LaserFix;
-
+            
             GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
             HurtBoxGroup component = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
             component.gameObject.AddComponent<MithrixPhase4Fix>();
@@ -68,15 +67,6 @@ namespace WolfoQoL_Client
                 component.hurtBoxesDeactivatorCounter = 1;
             }
         }
-
-     
-
-        private static void XI_LaserFix(On.EntityStates.MajorConstruct.Weapon.FireLaser.orig_OnExit orig, EntityStates.MajorConstruct.Weapon.FireLaser self)
-        {
-            orig(self);
-            self.outer.SetNextState(self.GetNextState());
-        }
-
 
         public static void LunarTeleporterBaseState_FixedUpdate(On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.orig_FixedUpdate orig, EntityStates.LunarTeleporter.LunarTeleporterBaseState self)
         {

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3593883243
+CRC: 1315812201
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f340cf59eed32626e9e2c43eb4cd6c0e
+    Hash: 37b4e351157ea2cbefb50e10f8ba7ec5
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9bbf464575cb1bcdb68fd883cc18858a
@@ -67,6 +67,7 @@ Assets:
 - Assets/WQoL/Buffs/texBuffHeadStompOff.png
 - Assets/WQoL/PingIcons/Modded/SpStShrineCloaked .png
 - Assets/WQoL/SkinScalable/texCrocoEmissionAlt.png
+- Assets/WQoL/PingIcons/PrinterMili_V2.png
 - Assets/WQoL/Items/Modded/texAffixCloakIcon.png
 - Assets/WQoL/Buffs/texBuffTeleportOnLowHealthCooldown.png
 - Assets/WQoL/Buffs/texBuffTeleportOnLowHealthIcon.png
@@ -179,7 +180,6 @@ Assets:
 - Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png
 - Assets/WQoL/PingIcons/CellIcon.png
 - Assets/WQoL/PingIcons/RadarTower.png
-- Assets/WQoL/PingIcons/RadarTowerFake.png
 - Assets/WQoL/Items/EliteEarth.png
 - Assets/WQoL/SkinScalable/texTreebotVineForColossus.png
 - Assets/WQoL/Items/LunarMeteor.png
