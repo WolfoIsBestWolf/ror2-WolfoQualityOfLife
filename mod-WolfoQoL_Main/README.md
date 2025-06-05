@@ -119,13 +119,10 @@ Logbook additions:
 
 ![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)
 ## Gameplay fixes
-<b>(Server-Side)</b>
-Primordial Teleporter destination can be shifted after the TP boss.\
-Acrid is invulnerable during his spawn animation.\
-Mercenary is briefly immune to fall damage during his M2 to avoid leg breakage.\
- 
-Prsimatic Trials are available without leaderboard and with random seed.\
-Other gameplay fixes as dependencies from other people. 
+Primordial Teleporter destination can be shifted after the TP boss. (Host only)
+
+Prsimatic Trials are available without leaderboard and with random seed.
+
 
 ## Miscellaneous
 Pillar and Void holdout zones get flowers if you have Lepton Daisy.\
@@ -151,26 +148,6 @@ Adds Elite Displays for XI Construct, Mithrix.\
 Adds Fuel Array Display for Engineer Turrets.
 
 
-### Bug Fixes
-Fixes Chef Boosted Ice Box not clearing properly.\
-Fixes Chef Cleaver Bonus Proc being 2.25 instead of 1.5.\
-Fixes Mithrix Phase 4 being skipable.\
-
-Fixes Void Items not properly playing sound.\
-Fixes Scrappers not properly playing sound.
-
-Fixed Newt Altars being available after Teleporter\
-Newt altars wont be available if Teleporter starts with Blue Orb.\
-Fixes Void Command Essence not having particles\
-Fixes Deep Void Signals Beam not having rotation.\
-Fixed Titan pinging the particles instead of the body.\
-Fixes Devoted Lemurians being in the log instead of normal.\
-War Bonds no longer plays the Horn if 0 Missiles would be fired.\
-Thunder rumbling now plays after players spawns in so it shows up in chat.
-
-Fixes bug where Aurelionite Fragments & Potentials dont spin for clients.\
-Fixes bug where Prayer Beads often would desync for clients.\
-Fixes Spider-Mines being constantly beeping on clients
 
 ##
 ![Image of Expanded Death Screen](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolDeath.png)

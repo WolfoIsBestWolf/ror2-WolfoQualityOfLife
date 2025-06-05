@@ -17,11 +17,7 @@ namespace WolfoQoL_Client
 
             On.RoR2.ShrineColossusAccessBehavior.RpcUpdateInteractionClients += ShrineShapingExtras_Client;
             On.RoR2.ShrineColossusAccessBehavior.ReviveAlliedPlayers += ShrineShapingExtras_Host;
-
-            IL.RoR2.EquipmentSlot.FireHealAndRevive += ShrineRezEffect;
-            IL.RoR2.CharacterMaster.RespawnExtraLifeHealAndRevive += ShrineRezEffect;
-            IL.RoR2.CharacterMaster.RespawnExtraLifeShrine += ShrineRezEffect;
-
+ 
             PriceTransformStuff();
             //Meditate7thGateVFX
         }
@@ -132,22 +128,7 @@ namespace WolfoQoL_Client
                 GetComponent<RoR2.Hologram.HologramProjector>().hologramPivot = LockboxHoloPivot.transform;
             }
         }
-
-        private static void ShrineRezEffect(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.Before,
-             x => x.MatchLdstr("Prefabs/Effects/fxHealAndReviveGold")
-            ))
-            {
-                c.Next.Operand = "Prefabs/Effects/HippoRezEffect";
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed : bro they forgot to make a rez effect");
-            }
-        }
-
+ 
         private static void CharacterMaster_RespawnExtraLifeShrine(On.RoR2.CharacterMaster.orig_RespawnExtraLifeShrine orig, CharacterMaster self)
         {
             orig(self);

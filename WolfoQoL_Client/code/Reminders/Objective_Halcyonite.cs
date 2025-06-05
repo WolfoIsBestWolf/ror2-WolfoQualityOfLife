@@ -20,28 +20,10 @@ namespace WolfoQoL_Client
 
                 IL.RoR2.GoldSiphonNearbyBodyController.DrainGold += Update_Objective;
             }
-            On.RoR2.HalcyoniteShrineInteractable.Awake += MoreValuesForClients;
-            On.RoR2.HalcyoniteShrineInteractable.Start += MoreValuesClient2;
-
+ 
         }
 
-        private static void MoreValuesClient2(On.RoR2.HalcyoniteShrineInteractable.orig_Start orig, HalcyoniteShrineInteractable self)
-        {
-            orig(self); 
-            if (!NetworkServer.active)
-            {
-                if (self.purchaseInteraction.Networkcost > 0)
-                {
-                    //Base value set in LGT. Ig hope no one else modifies it
-                    //Or that Gbx listens and makes it networked
-                    self.goldDrainValue = self.purchaseInteraction.Networkcost;
-                }
-                self.goldDrainValue = Run.instance.GetDifficultyScaledCost(self.goldDrainValue);
-                GoldSiphonNearbyBodyController controller = self.transform.GetChild(1).GetComponent<GoldSiphonNearbyBodyController>();
-                controller.goldDrainValue = self.goldDrainValue;
-            }
-        }
-
+    
         private static void AddObjective(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState self)
         {
             //Runs on client
@@ -116,19 +98,7 @@ namespace WolfoQoL_Client
 
         }
 
-        private static void MoreValuesForClients(On.RoR2.HalcyoniteShrineInteractable.orig_Awake orig, HalcyoniteShrineInteractable self)
-        {
-            orig(self);
-            if (!NetworkServer.active)
-            {
-
-                self.lowGoldCost = Run.instance.GetDifficultyScaledCost(self.lowGoldCost);
-                self.midGoldCost = Run.instance.GetDifficultyScaledCost(self.midGoldCost);
-                self.maxGoldCost = Run.instance.GetDifficultyScaledCost(self.maxGoldCost);
-
-            }
-        }
-
+     
     }
 
     public class HalcyoniteShrineObjective : GenericObjectiveProvider

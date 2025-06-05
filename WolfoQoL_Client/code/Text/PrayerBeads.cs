@@ -9,10 +9,7 @@ using UnityEngine.Events;
 
 namespace WolfoQoL_Client
 {
-    public class PrayerBeadsStorage : MonoBehaviour
-    {
-        public int lastSeenBeadAmount;
-    }
+ 
     public class PrayerBeads
     {
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Pickup;
@@ -57,9 +54,7 @@ namespace WolfoQoL_Client
         public static void Start()
         {
             //OldBeadsLevel is serveronly?
-            On.RoR2.CharacterBody.Awake += BuffTracker_ClientFix;
-            IL.RoR2.CharacterBody.RecalculateStats += BuffTracker_SetBuffCount_FixAmount;
- 
+  
             if (WolfoMain.ServerModInstalled)
             {
                 On.RoR2.UI.ItemIcon.SetItemIndex += Consumed_OverrideTooltip;
@@ -89,13 +84,7 @@ namespace WolfoQoL_Client
             }
         }
 
-        private static void BuffTracker_ClientFix(On.RoR2.CharacterBody.orig_Awake orig, CharacterBody self)
-        {
-            orig(self);
-            self.gameObject.AddComponent<PrayerBeadsStorage>();
-        }
-
-
+     
  
         
         private static void OverlayForTransformationMessage(On.RoR2.CharacterMaster.orig_OnBeadReset orig, CharacterMaster self, bool gainedStats)
@@ -107,14 +96,7 @@ namespace WolfoQoL_Client
             }
             //Done before, so we can make sure the overlay is made
             orig(self, gainedStats);
-
-            if (body != null)
-            {
-                body.GetComponent<PrayerBeadsStorage>().lastSeenBeadAmount = 0;
-            }
-          
-
-
+ 
         }
 
         public static string GetPrayerBeadsToken(Inventory inventory, CharacterBody body, string tokenIn)
@@ -186,69 +168,8 @@ namespace WolfoQoL_Client
             }
         }
  
-        private static void BuffTracker_SetBuffCount_FixAmount(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-
-            if (c.TryGotoNext(MoveType.Before,
-            x => x.MatchLdfld("RoR2.CharacterBody", "extraStatsOnLevelUpCount_CachedLastApplied")
-            ))
-            {
-                c.EmitDelegate<Func<CharacterBody, CharacterBody>>((body) =>
-                {
-                    int buff = body.GetBuffCount(DLC2Content.Buffs.ExtraStatsOnLevelUpBuff);
-                    if (buff > 0)
-                    {
-                        PrayerBeadsStorage prayerBeadsStorage = body.GetComponent<PrayerBeadsStorage>();
-                        prayerBeadsStorage.lastSeenBeadAmount = buff;
-                    }
-                    //master.oldBeadLevel (ServerOnly)
-                    return body;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed : PrayerAttemptToFixClients");
-            }
-
-            if (c.TryGotoNext(MoveType.After,
-            x => x.MatchLdsfld("RoR2.DLC2Content/Buffs", "ExtraStatsOnLevelUpBuff"),
-            x => x.MatchCall("RoR2.CharacterBody", "GetBuffCount")
-            ))
-            {
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<Func<int, CharacterBody, int>>((buffCount, body) =>
-                {
-                    //master.oldBeadLevel (ServerOnly)
-                    PrayerBeadsStorage prayerBeadsStorage = body.GetComponent<PrayerBeadsStorage>();
-                    if (prayerBeadsStorage.lastSeenBeadAmount > buffCount)
-                    {
-                        return prayerBeadsStorage.lastSeenBeadAmount;
-                    }
-                    return buffCount;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed : PrayerAttemptToFixClients2");
-            }
-        }
-
+     
     }
-
-
-
-    public class TimedNotificationInfo
-    {
-        // Token: 0x04003412 RID: 13330
-        public CharacterMasterNotificationQueue.NotificationInfo notification;
-
-        // Token: 0x04003413 RID: 13331
-        public float startTime;
-
-        // Token: 0x04003414 RID: 13332
-        public float duration;
-    }
-
+ 
 }
 

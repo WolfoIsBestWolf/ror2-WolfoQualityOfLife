@@ -21,46 +21,9 @@ namespace WolfoQoL_Client
             GhostReplacements();
             GameModeCatalog.availability.CallWhenAvailable(EffectReplacements); //After effect catalog
 
-            On.RoR2.SkinDef.ApplyAsync += SkinDef_ApplyAsync;
-            /*if (WConfig.cfgSkinMakeOniBackup.Value == true)
-            {
-                BackupSkin();
-            }/*
-
-            //This looks tempting, but can't use it because we relly on Identifiers
-            //Probably good for SkinsMod tho
-            /*SkinVFX.AddSkinVFX(new SkinVFXInfo
-            {
-
-            });*/
-        }
-
-        private static System.Collections.IEnumerator SkinDef_ApplyAsync(On.RoR2.SkinDef.orig_ApplyAsync orig, SkinDef self, GameObject modelObject, List<AssetReferenceT<Material>> loadedMaterials,  List<AssetReferenceT<Mesh>> loadedMeshes, AsyncReferenceHandleUnloadType unloadType)
-        {
-             
-            var temp =  orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
-            if (modelObject.name.StartsWith("mdlMerc"))
-            {
-                var model = modelObject.GetComponent<RoR2.CharacterModel>();
-                if (model && model.body)
-                {
-                    Object.Destroy(model.body.gameObject.GetComponent<MakeThisMercRed>());
-                    Object.Destroy(model.body.gameObject.GetComponent<MakeThisMercGreen>());
-
-                    if (self.name.EndsWith("Alt") && WConfig.cfgSkinMercRed.Value || self.name.EndsWith("Red"))
-                    {
-                        model.body.gameObject.AddComponent<MakeThisMercRed>();
-                    }
-                    else if (self.name.EndsWith("Colossus") && WConfig.cfgSkinMercGreen.Value || self.name.EndsWith("Green"))
-                    {
-                        model.body.gameObject.AddComponent<MakeThisMercGreen>();
-                    }
-                }
-            }
-            return temp;
+   
         }
  
-
         public static void EffectReplacements()
         {
              

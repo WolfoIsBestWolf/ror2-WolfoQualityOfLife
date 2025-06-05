@@ -91,9 +91,7 @@ namespace WolfoQoL_Client
 
         //Text Changes
         public static ConfigEntry<bool> cfgTextOther;
-        public static ConfigEntry<bool> cfgTextItems;
-        public static ConfigEntry<bool> cfgTextCharacters;
-
+        
 
         public static ConfigEntry<bool> cfgPrimordialBlueText;
         public static ConfigEntry<bool> cfgPrimordialBlueIcon;
@@ -116,8 +114,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgUISimuBorder;
         public static ConfigEntry<bool> cfgUIEclipseBorder;
 
-        public static ConfigEntry<bool> cfgDelayGreenOrb;
-
+     
         //Visuals
  
         public static ConfigEntry<bool> cfgSkinMercRedSword;
@@ -474,18 +471,7 @@ namespace WolfoQoL_Client
               true,
               "When pinging an item or something containing an item, the items name will use it's color."
           );
-            cfgTextItems = ConfigFile_Client.Bind(
-                "Text",
-                "Fixed Item Descriptions",
-                true,
-                "Updated and fixed descriptions for items. Disable if other mods change stats or items."
-            );
-            cfgTextCharacters = ConfigFile_Client.Bind(
-                "Text",
-                "Fixed Survivor Descriptions",
-                true,
-                "Updated and fixed descriptions for character. Disable if other mods change stats or items."
-            );
+ 
             cfgTextOther = ConfigFile_Client.Bind(
                 "Text",
                 "Other Text Changes",
@@ -613,7 +599,7 @@ namespace WolfoQoL_Client
             cfgSkinMakeBlightedAcrid = ConfigFile_Client.Bind(
                 "Skins",
                 "Default Acrid Blight Recolor",
-                false,
+                true,
                 "Simple recolor where instead of green it's more yellow-orange"
             );
             cfgSkinEngiHarpoons = ConfigFile_Client.Bind(
@@ -683,12 +669,7 @@ namespace WolfoQoL_Client
                 false,
                 "Should Artifact Pickups in the Artifact World have a purple (Artifact Color) outline."
             );
-            cfgDelayGreenOrb = ConfigFile_Client.Bind(
-              "Other",
-              "Delayed Green Orb message",
-              true,
-              "Delays Thunder Rumbling Sots message by 1s so it opens the chat box"
-           );
+ 
 
             #endregion
         }
@@ -751,8 +732,6 @@ namespace WolfoQoL_Client
                 SulfurPoolsSkin,
                 cfgRemindersPortal,
                 cfgChargeHalcyShrine,
-                cfgTextItems,
-                cfgTextCharacters,
                 cfgTextOther,
                 cfgBuff_RepeatColors,
                 cfgLogbook_EliteEquip,

@@ -12,7 +12,10 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-   
+            if (!WConfig.cfgSkinMercRedSword.Value)
+            {
+                return;
+            }
             Material MatOniSword = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "fb5eba8da12e09749b69b1a7f24afc00").WaitForCompletion());
             MatOniSword.name = "matOniMercSword";
             MatOniSword.mainTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texOniMercSwordDiffuse.png");

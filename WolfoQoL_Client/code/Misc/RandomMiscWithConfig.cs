@@ -33,11 +33,7 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-            if (WConfig.cfgDelayGreenOrb.Value)
-            {
-                IL.RoR2.PortalSpawner.Start += DelayThunderMessage;
-            }
-
+ 
             if (WConfig.cfgTpIconDiscoveredRed.Value)
             {
                 IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
@@ -182,33 +178,7 @@ namespace WolfoQoL_Client
             };
 
         }
-
-
-        private static void DelayThunderMessage(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-
-            if (c.TryGotoNext(MoveType.After,
-                x => x.MatchLdfld("RoR2.PortalSpawner", "spawnPreviewMessageToken")))
-            {
-                c.EmitDelegate<System.Func<string, string>>((target) =>
-                {
-                    if (ClassicStageInfo.instance && !string.IsNullOrEmpty(target))
-                    {
-                        ClassicStageInfo.instance.StartCoroutine(Courtines.Delayed_ChatBroadcast(target, 0.9f));
-                        return null;
-                    }
-                    return target;
-                });
-                Debug.Log("IL Found: Delay Thunder Message");
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: Delay Thunder Message");
-            }
-        }
-
-
+ 
         private static void TeleporterDiscoveredRed(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);

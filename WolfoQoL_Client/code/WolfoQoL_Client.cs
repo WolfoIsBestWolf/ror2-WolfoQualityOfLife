@@ -703,15 +703,7 @@ namespace WolfoQoL_Client
             PrayerBeads.moffeine = ItemCatalog.FindItemIndex("MoffeinBeadStatItem");
             PrayerBeads.usedBeads = ItemCatalog.FindItemIndex("ExtraStatsOnLevelUpConsumed");
             RandomMisc.LemurianBruiser = BodyCatalog.FindBodyIndex("LemurianBruiserBody");
-            RoR2Content.Buffs.HiddenInvincibility.canStack = false;
-            DLC2Content.Buffs.Boosted.canStack = false;
-
-            RoR2.Stats.StatDef.highestLunarPurchases.displayToken = "STATNAME_HIGHESTLUNARPURCHASES";
-            RoR2.Stats.StatDef.highestBloodPurchases.displayToken = "STATNAME_HIGHESTBLOODPURCHASES";
  
-            //Prevent scrapping regen scrap.
-            HG.ArrayUtils.ArrayAppend(ref DLC1Content.Items.RegeneratingScrap.tags, ItemTag.Scrap);
-        
 
             Debug.Log("All RequiredByAllMods :");
             foreach (var a in NetworkModCompatibilityHelper._networkModList)

@@ -1,5 +1,12 @@
 #Changelog
 ```
+v4.1.1
+Hopefully fixed stage load error.
+-The code with issues was making a skin.
+-Something about, loading an asset in the new way.
+Split bug fixes into own mod.
+
+ 
 v4.1.0 - Updated for Patch 4
 
 MulT now shows his primary skill in the lobby.
@@ -29,6 +36,7 @@ Made run and lobby chat scrollable.
 Asset Bundle optimizations
 Pot & Fusion Cell kill icon (very important)
 Newt Altar ping icon now Lunar Coin icon.
+Added unique Radar Scanner ping icon.
 Added config for Old Sots Elite icons that match the other elite icons.
 Added Elite Ramp for Twisted Elites. (Vanilla uses Overloading)
 Gilded Elites no longer lose their colors on death. (Vanilla shows as Blazing)

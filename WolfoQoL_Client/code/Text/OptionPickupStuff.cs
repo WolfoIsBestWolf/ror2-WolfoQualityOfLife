@@ -32,7 +32,7 @@ namespace WolfoQoL_Client
 
 
             GameObject GoldFragmentPotential = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/FragmentPotentialPickup.prefab").WaitForCompletion();
-          
+
             Transform fragment = GoldFragmentPotential.transform.GetChild(0);
             //fragment.GetChild(1).GetChild(0).GetChild(0).gameObject.SetActive(false);
             fragment.GetChild(1).GetChild(0).GetChild(3).gameObject.SetActive(false);
@@ -150,135 +150,112 @@ namespace WolfoQoL_Client
         private static void OptionPickup_Fixes(On.RoR2.PickupPickerController.orig_SetOptionsInternal orig, PickupPickerController self, PickupPickerController.Option[] newOptions)
         {
             orig(self, newOptions);
-            bool isCommand = self.name.StartsWith("Command");
+
             PickupIndexNetworker index = self.GetComponent<PickupIndexNetworker>();
-            if (isCommand)
+
+            bool isVoid = self.name.StartsWith("Option");
+            bool isFragment = self.name.StartsWith("Fragment");
+            if (isFragment)
             {
-                if (index.pickupDisplay)
+                Highlight original = self.GetComponent<Highlight>();
+                if (MeridianEventTriggerInteraction.instance)
                 {
-                    var pickupDef = index.pickupIndex.pickupDef;
-                    if (pickupDef.itemTier >= ItemTier.VoidTier1 && pickupDef.itemTier <= ItemTier.VoidBoss)
+                    ItemTier tier = MeridianFragmentRedOrGreenOrWhite(false);
+                    if (tier == ItemTier.Tier3)
                     {
-                        self.gameObject.GetComponent<GenericDisplayNameProvider>().displayToken = "ARTIFACT_COMMAND_CUBE_PINK_NAME";
-                        if (!index.pickupDisplay.voidParticleEffect)
-                        {
-                            GameObject newVoidParticle = Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/GenericPickup").GetComponent<GenericPickupController>().pickupDisplay.voidParticleEffect, self.transform.GetChild(0));
-                            newVoidParticle.SetActive(true);
-                            GameObject newOrb = Object.Instantiate(index.pickupDisplay.tier2ParticleEffect.transform.GetChild(2).gameObject, newVoidParticle.transform);
-                            newOrb.GetComponent<ParticleSystem>().startColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.VoidItem);
-                            index.pickupDisplay.voidParticleEffect = newVoidParticle;
-                        }
+                        /*GameObject AurelioniteHeart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/AurelioniteHeart.prefab").WaitForCompletion();
+                        SkinnedMeshRenderer Heart = AurelioniteHeart.GetComponentInChildren<SkinnedMeshRenderer>();
+                        MeshRenderer FragmentMat = (original.targetRenderer as MeshRenderer);
+                        MeshFilter FragmentMesh = original.targetRenderer.GetComponent<MeshFilter>();
+
+                        FragmentMesh.sharedMesh = Heart.sharedMesh;
+                        FragmentMat.sharedMaterials = Heart.sharedMaterials;*/
+                    }
+                    index.NetworkpickupIndex = PickupCatalog.itemTierToPickupIndex[tier];
+                }
+                if (WConfig.cfgAurFragment_ItemsInPing.Value)
+                {
+                    OptionsInPing(self, "AURELIONITE_FRAGMENT_PICKUP_NAME");
+                }
+                if (WConfig.cfgFragmentColor.Value)
+                {
+
+                    GameObject newMesh = GameObject.Instantiate(original.targetRenderer.gameObject, original.targetRenderer.transform);
+                    newMesh.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+                    newMesh.transform.GetChild(0).gameObject.SetActive(false);
+                    newMesh.transform.GetChild(1).gameObject.SetActive(false);
+
+                    Highlight newLine = newMesh.AddComponent<Highlight>();
+                    newLine.highlightColor = Highlight.HighlightColor.custom;
+                    //newLine.CustomColor = new Color(0.9f, 0.8f, 0.4f, 1);
+                    //newLine.CustomColor = new Color(0.918f, 0.761f, 0.564f, 1);
+                    //newLine.CustomColor = new Color(0.933f, 0.741f, 0.545f, 1);
+                    newLine.CustomColor = new Color(0.933f, 0.791f, 0.505f, 1);
+                    //newLine.CustomColor = new Color(1f, 0.766f, 0.5f, 1);
+                    newLine.targetRenderer = original.targetRenderer;
+                    newLine.isOn = true;
+                    original.targetRenderer = newMesh.GetComponent<MeshRenderer>();
+                    original.targetRenderer.enabled = false;
+                    // new Color(0.9f, 0.8f, 0.4f);
+                    //More accurate but worse color ; 0.933 0.741 0.545 1
+                }
+            }
+            if (isVoid || isFragment)
+            {
+
+                PickupDisplay pickupDisplay = self.transform.GetChild(0).GetComponent<PickupDisplay>();
+                pickupDisplay.pickupIndex = index.pickupIndex;
+                pickupDisplay.modelObject = self.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
+                self.GetComponent<Highlight>().pickupIndex = index.pickupIndex;
+                self.GetComponent<Highlight>().isOn = true;
+
+                if (index.pickupIndex != PickupIndex.none)
+                {
+                    switch (index.pickupIndex.pickupDef.itemTier)
+                    {
+                        case ItemTier.Tier1:
+                            pickupDisplay.tier1ParticleEffect.SetActive(true);
+                            break;
+                        case ItemTier.Tier2:
+                            pickupDisplay.tier2ParticleEffect.SetActive(true);
+                            break;
+                        case ItemTier.Tier3:
+                            pickupDisplay.tier3ParticleEffect.SetActive(true);
+                            break;
+                        case ItemTier.Boss:
+                            pickupDisplay.bossParticleEffect.SetActive(true);
+                            break;
+                        case ItemTier.Lunar:
+                            pickupDisplay.lunarParticleEffect.SetActive(true);
+                            break;
+                        case ItemTier.VoidTier1:
+                        case ItemTier.VoidTier2:
+                        case ItemTier.VoidTier3:
+                        case ItemTier.VoidBoss:
+                            if (!pickupDisplay.voidParticleEffect)
+                            {
+                                pickupDisplay.voidParticleEffect = Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/GenericPickup").GetComponent<GenericPickupController>().pickupDisplay.voidParticleEffect, pickupDisplay.transform);
+                            }
+                            pickupDisplay.voidParticleEffect.SetActive(true);
+                            break;
+                    }
+                    if (index.pickupIndex.pickupDef.itemTier == orange)
+                    {
+                        pickupDisplay.equipmentParticleEffect.SetActive(true);
                     }
                 }
             }
-            else
+            if (isVoid && WConfig.cfgVoidPotential_ItemsInPing.Value)
             {
-                bool isVoid = self.name.StartsWith("Option");
-                bool isFragment = self.name.StartsWith("Fragment");
-                if (isFragment)
+                if (WConfig.cfgVoidPotential_ItemsInPing.Value)
                 {
-                    Highlight original = self.GetComponent<Highlight>();
-                    if (MeridianEventTriggerInteraction.instance)
-                    {
-                        ItemTier tier = MeridianFragmentRedOrGreenOrWhite(false);
-                        if (tier == ItemTier.Tier3)
-                        {
-                            /*GameObject AurelioniteHeart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/AurelioniteHeart.prefab").WaitForCompletion();
-                            SkinnedMeshRenderer Heart = AurelioniteHeart.GetComponentInChildren<SkinnedMeshRenderer>();
-                            MeshRenderer FragmentMat = (original.targetRenderer as MeshRenderer);
-                            MeshFilter FragmentMesh = original.targetRenderer.GetComponent<MeshFilter>();
-
-                            FragmentMesh.sharedMesh = Heart.sharedMesh;
-                            FragmentMat.sharedMaterials = Heart.sharedMaterials;*/
-                        }
-                        index.NetworkpickupIndex = PickupCatalog.itemTierToPickupIndex[tier];
-                    }                   
-                    if (WConfig.cfgAurFragment_ItemsInPing.Value)
-                    {
-                        OptionsInPing(self, "AURELIONITE_FRAGMENT_PICKUP_NAME");
-                    }
-                    if (WConfig.cfgFragmentColor.Value)
-                    {
-                        
-                        GameObject newMesh = GameObject.Instantiate(original.targetRenderer.gameObject, original.targetRenderer.transform);
-                        newMesh.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
-                        newMesh.transform.GetChild(0).gameObject.SetActive(false);
-                        newMesh.transform.GetChild(1).gameObject.SetActive(false);
-
-                        Highlight newLine = newMesh.AddComponent<Highlight>();
-                        newLine.highlightColor = Highlight.HighlightColor.custom;
-                        //newLine.CustomColor = new Color(0.9f, 0.8f, 0.4f, 1);
-                        //newLine.CustomColor = new Color(0.918f, 0.761f, 0.564f, 1);
-                        //newLine.CustomColor = new Color(0.933f, 0.741f, 0.545f, 1);
-                        newLine.CustomColor = new Color(0.933f, 0.791f, 0.505f, 1);
-                        //newLine.CustomColor = new Color(1f, 0.766f, 0.5f, 1);
-                        newLine.targetRenderer = original.targetRenderer;
-                        newLine.isOn = true;
-                        original.targetRenderer = newMesh.GetComponent<MeshRenderer>();
-                        original.targetRenderer.enabled = false;
-                        // new Color(0.9f, 0.8f, 0.4f);
-                        //More accurate but worse color ; 0.933 0.741 0.545 1
-                    }
+                    OptionsInPing(self, "OPTION_PICKUP_UNKNOWN_NAME");
                 }
-                if (isVoid || isFragment)
+                else
                 {
-
-                    PickupDisplay pickupDisplay = self.transform.GetChild(0).GetComponent<PickupDisplay>();
-                    pickupDisplay.pickupIndex = index.pickupIndex;
-                    pickupDisplay.modelObject = self.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-                    self.GetComponent<Highlight>().pickupIndex = index.pickupIndex;
-                    self.GetComponent<Highlight>().isOn = true;
-
-                    if (index.pickupIndex != PickupIndex.none)
-                    {
-                        switch (index.pickupIndex.pickupDef.itemTier)
-                        {
-                            case ItemTier.Tier1:
-                                pickupDisplay.tier1ParticleEffect.SetActive(true);
-                                break;
-                            case ItemTier.Tier2:
-                                pickupDisplay.tier2ParticleEffect.SetActive(true);
-                                break;
-                            case ItemTier.Tier3:
-                                pickupDisplay.tier3ParticleEffect.SetActive(true);
-                                break;
-                            case ItemTier.Boss:
-                                pickupDisplay.bossParticleEffect.SetActive(true);
-                                break;
-                            case ItemTier.Lunar:
-                                pickupDisplay.lunarParticleEffect.SetActive(true);
-                                break;
-                            case ItemTier.VoidTier1:
-                            case ItemTier.VoidTier2:
-                            case ItemTier.VoidTier3:
-                            case ItemTier.VoidBoss:
-                                if (!pickupDisplay.voidParticleEffect)
-                                {
-                                    pickupDisplay.voidParticleEffect = Object.Instantiate(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/GenericPickup").GetComponent<GenericPickupController>().pickupDisplay.voidParticleEffect, pickupDisplay.transform);
-                                }
-                                pickupDisplay.voidParticleEffect.SetActive(true);
-                                break;
-                        }
-                        if (index.pickupIndex.pickupDef.itemTier == orange)
-                        {
-                            pickupDisplay.equipmentParticleEffect.SetActive(true);
-                        }
-                    }
+                    self.GetComponent<GenericDisplayNameProvider>().SetDisplayToken("OPTION_PICKUP_UNKNOWN_NAME");
                 }
-                if (isVoid && WConfig.cfgVoidPotential_ItemsInPing.Value)
-                {
-                    if (WConfig.cfgVoidPotential_ItemsInPing.Value)
-                    {
-                        OptionsInPing(self, "OPTION_PICKUP_UNKNOWN_NAME");
-                    }
-                    else
-                    {
-                        self.GetComponent<GenericDisplayNameProvider>().SetDisplayToken("OPTION_PICKUP_UNKNOWN_NAME");
-                    }
-                }
-                
             }
-
 
 
 

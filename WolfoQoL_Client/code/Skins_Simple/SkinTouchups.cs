@@ -21,8 +21,7 @@ namespace WolfoQoL_Client
             Skins_Engi.AltTrail();
             Skins_Loader();
             Skins_Toolbot();
-            FixTitan();
-
+        
             if (WConfig.cfgSmoothCaptain.Value)
             {
                 Material matCaptainColossusAltArmor = Addressables.LoadAssetAsync<Material>(key: "572c80ba738b3144f9590ef372d0b055").WaitForCompletion();
@@ -32,27 +31,7 @@ namespace WolfoQoL_Client
             }
 
         }
-
-        public static void FixTitan()
-        {
-            SkinDefParams titan0 = Addressables.LoadAssetAsync<SkinDefParams>(key: "8aa47f1e288b32f4abb8e63aea8c2ea0").WaitForCompletion();
-            HG.ArrayUtils.Swap(titan0.rendererInfos, 19, 0);
-            SkinDefParams titanG = Addressables.LoadAssetAsync<SkinDefParams>(key: "ea05e89f54cbdee409061420648b0cd9").WaitForCompletion();
-            HG.ArrayUtils.Swap(titanG.rendererInfos, 19, 0);
-            return;
-            SkinDefParams titan1 = Addressables.LoadAssetAsync<SkinDefParams>(key: "5ef4744f083778346bd813d33dfd7c39").WaitForCompletion();
-            SkinDefParams titan2 = Addressables.LoadAssetAsync<SkinDefParams>(key: "980ab5f724b028847af364dc596630c8").WaitForCompletion();
-            SkinDefParams titan3 = Addressables.LoadAssetAsync<SkinDefParams>(key: "21b8d0bf5fdccb94b9e5694f28491514").WaitForCompletion();
-            SkinDefParams titan4 = Addressables.LoadAssetAsync<SkinDefParams>(key: "0fbedd25dbb06224e8615535dfe8c1d0").WaitForCompletion();
-
-
-            HG.ArrayUtils.Swap(titan1.rendererInfos, 19, 0);
-            HG.ArrayUtils.Swap(titan2.rendererInfos, 19, 0);
-            HG.ArrayUtils.Swap(titan3.rendererInfos, 19, 0);
-            HG.ArrayUtils.Swap(titan4.rendererInfos, 19, 0);
-
-        }
-      
+ 
 
     
  
@@ -106,58 +85,58 @@ namespace WolfoQoL_Client
 
         private static System.Collections.IEnumerator SkinDef_ApplyAsync(On.RoR2.SkinDef.orig_ApplyAsync orig, SkinDef self, GameObject modelObject, System.Collections.Generic.List<AssetReferenceT<Material>> loadedMaterials, System.Collections.Generic.List<AssetReferenceT<Mesh>> loadedMeshes, RoR2.ContentManagement.AsyncReferenceHandleUnloadType unloadType)
         {
-            var temp = orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
+            if (modelObject == null)
+            {
+                return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
+            }
             CharacterModel characterModel = modelObject.GetComponent<RoR2.CharacterModel>();
             if (modelObject.name == "mdlMerc")
             {
-                if (WConfig.cfgSkinMercRedSword.Value == true)
+                bool red = self.name.EndsWith("Alt") && WConfig.cfgSkinMercRed.Value || self.name.EndsWith("Red");
+                bool green = self.name.EndsWith("Colossus") && WConfig.cfgSkinMercGreen.Value || self.name.EndsWith("Green");
+                ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+ 
+                if (red)
                 {
-                    bool red = self.name.EndsWith("Alt") && WConfig.cfgSkinMercRed.Value || self.name.EndsWith("Red");
-                    bool green = self.name.EndsWith("Colossus") && WConfig.cfgSkinMercGreen.Value || self.name.EndsWith("Green");
-                    ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
-                    if (red)
+                    if (childLocator)
                     {
-                        if (childLocator)
-                        {
-                            Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                            PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
-                            PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
-                            PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
-                            PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
-                            PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
-                            PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
-                        }
-                    }
-                    else if (green)
-                    {   
-                        if (childLocator)
-                        {
-                            Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                            PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
-                            PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
-                            PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
-                            PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
-                            PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
-                            PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
-                        }
-                    }
-                    if (characterModel.body)
-                    {
-                        Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercRed>());
-                        Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercGreen>());
-                        if (red)
-                        {
-                            characterModel.body.gameObject.AddComponent<MakeThisMercRed>();
-                        }
-                        else if (green)
-                        {
-                            characterModel.body.gameObject.AddComponent<MakeThisMercGreen>();
-                        }
+                        Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
+                        PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
+                        PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
+                        PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
+                        PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
+                        PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
+                        PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
                     }
                 }
-               
-            } 
-            return temp;
+                else if (green)
+                {
+                    if (childLocator)
+                    {
+                        Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
+                        PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
+                        PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
+                        PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
+                        PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
+                        PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
+                        PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
+                    }
+                }
+                if (characterModel.body)
+                {
+                    Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercRed>());
+                    Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercGreen>());
+                    if (red)
+                    {
+                        characterModel.body.gameObject.AddComponent<MakeThisMercRed>();
+                    }
+                    else if (green)
+                    {
+                        characterModel.body.gameObject.AddComponent<MakeThisMercGreen>();
+                    }
+                }
+            }
+            return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
         }
 
         private static void SkinTouchUpsLobby(On.RoR2.CharacterSelectSurvivorPreviewDisplayController.orig_OnLoadoutChangedGlobal orig, CharacterSelectSurvivorPreviewDisplayController self, NetworkUser changedNetworkUser)

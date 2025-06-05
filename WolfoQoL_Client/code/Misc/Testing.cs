@@ -22,10 +22,7 @@ namespace WolfoQoL_Client
             {
                 LogbookStuff.CheatLogbook();
             }
-            On.RoR2.CombatDirector.SpendAllCreditsOnMapSpawns += CombatDirector_SpendAllCreditsOnMapSpawns;
-            On.RoR2.CombatDirector.HalcyoniteShrineActivation += CombatDirector_HalcyoniteShrineActivation;
-            On.RoR2.HalcyoniteShrineInteractable.IsDraining += HalcyoniteShrineInteractable_IsDraining;
-
+            
 
         }
 
@@ -68,37 +65,7 @@ namespace WolfoQoL_Client
                 self.userName = "Wolfo" + WolfoMain.random.Next();
             }
         }
-
-        private static void HalcyoniteShrineInteractable_IsDraining(On.RoR2.HalcyoniteShrineInteractable.orig_IsDraining orig, HalcyoniteShrineInteractable self, bool drainingActive)
-        {
-            if (!NetworkServer.active)
-            {
-                //STFU
-                return;
-            }
-            orig(self, drainingActive);
-        }
-
-        private static void CombatDirector_SpendAllCreditsOnMapSpawns(On.RoR2.CombatDirector.orig_SpendAllCreditsOnMapSpawns orig, CombatDirector self, Transform mapSpawnTarget)
-        {
-            if (!NetworkServer.active)
-            {
-                Debug.LogWarning("CombatDirector_SpendAllCreditsOnMapSpawns | This isn't meant to run on Client, Gearbox Software");
-                return;
-            }
-            orig(self, mapSpawnTarget);
-        }
-
-        private static void CombatDirector_HalcyoniteShrineActivation(On.RoR2.CombatDirector.orig_HalcyoniteShrineActivation orig, CombatDirector self, float monsterCredit, DirectorCard chosenDirectorCard, int difficultyLevel, Transform shrineTransform)
-        {
-            if (!NetworkServer.active)
-            {
-                Debug.LogWarning("CombatDirector_HalcyoniteShrineActivation | This isn't meant to run on Client, Gearbox Software");
-                return;
-            }
-            orig(self, monsterCredit, chosenDirectorCard, difficultyLevel, shrineTransform);
-        }
-
+ 
 
         public static void UnusedStages()
         {

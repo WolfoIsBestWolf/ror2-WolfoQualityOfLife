@@ -46,18 +46,7 @@ namespace WolfoQoL_Client
             LowerPricedChestsGlow.transform.GetChild(3).localPosition = new Vector3(0, 0.7f, 0f);
             LowerPricedChestsGlow.transform.GetChild(3).localScale = new Vector3(1, 1.4f, 1f);
 
-
-            //Fix error spam on Captain Spawn
-            On.RoR2.CaptainDefenseMatrixController.TryGrantItem += (orig, self) =>
-            {
-                orig(self);
-                CaptainSupplyDropController supplyController = self.characterBody.GetComponent<CaptainSupplyDropController>();
-                if (supplyController)
-                {
-                    supplyController.CallCmdSetSkillMask(3);
-                    //Bonus stock from body 1 could work fine
-                }
-            };
+ 
 
             //Sorting the hidden stages in the menu, kinda dubmb but whatevs
 
@@ -109,32 +98,7 @@ namespace WolfoQoL_Client
             };
 
 
-            //Makes it so both slots are shown on start IG, only gets called like once so should be completely fine but hella unnecessary
-            //On.EntityStates.Toolbot.ToolbotStanceA.OnEnter += MULTEquipmentThing;
-
-
-            //Sulfur Pools Diagram is Red instead of Yellow for ???
-            GameObject SulfurpoolsDioramaDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/sulfurpools/SulfurpoolsDioramaDisplay.prefab").WaitForCompletion();
-            MeshRenderer SPDiaramaRenderer = SulfurpoolsDioramaDisplay.transform.GetChild(2).GetComponent<MeshRenderer>();
-            Material SPRingAltered = Object.Instantiate(SPDiaramaRenderer.material);
-            SPRingAltered.SetTexture("_SnowTex", Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/DLC1/sulfurpools/texSPGroundDIFVein.tga").WaitForCompletion());
-            SPDiaramaRenderer.material = SPRingAltered;
- 
-            ModelPanelParameters VoidStageDiorama = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/voidstage/VoidStageDiorama.prefab").WaitForCompletion().GetComponent<ModelPanelParameters>();
-            VoidStageDiorama.minDistance = 60;
-            VoidStageDiorama.maxDistance = 320;
-
-            //Rachis Radius is slightly wrong, noticible on high stacks 
-            GameObject RachisObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/DamageZoneWard");
-            RachisObject.transform.GetChild(1).GetChild(2).GetChild(1).localScale = new Vector3(2f, 2f, 2f);
-
-            //Too small plant normally
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Plant/InterstellarDeskPlant.prefab").WaitForCompletion().transform.GetChild(0).localScale = new Vector3(0.6f, 0.6f, 0.6f);
-
-            //Unused like blue explosion so he doesn't use magma explosion ig, probably unused for a reason but it looks fine
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion().GetComponent<WormBodyPositions2>().blastAttackEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Junk/ElectricWorm/ElectricWormImpactExplosion.prefab").WaitForCompletion();
-
-
+            
             //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
 
             /*On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
@@ -153,93 +117,16 @@ namespace WolfoQoL_Client
                 }
             }; */
 
-            #region More Sounds
-            //Add unused cool bubbly noise
-            On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
-            {
-                orig(self);
-                if (self.name.StartsWith("LunarCauldron,") || self.name.StartsWith("ShrineCleanse"))
-                {
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_idle_loop", self.gameObject);
-                }
-            };
-
-
-            On.RoR2.ShopTerminalBehavior.DropPickup += (orig, self) =>
-            {
-                orig(self);
-                if (self.name.StartsWith("LunarCauldron,") || self.name.StartsWith("ShrineCleanse"))
-                {
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_activate", self.gameObject);
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_activate", self.gameObject);
-                    RoR2.Util.PlaySound("Play_ui_obj_lunarPool_activate", self.gameObject);
-                };
-            };
-
-
-            //Unused Scav Spawn Sound
-            On.EntityStates.ScavMonster.Sit.OnEnter += (orig, self) =>
-            {
-                orig(self);
-                if (!self.outer.gameObject) { return; }
-                Util.PlaySound(EntityStates.ScavMonster.Sit.soundString, self.outer.gameObject);
-            };
-
-            //Pretty sure they added these sounds at some point but keeping it for good measure I guess
-            On.EntityStates.GlobalSkills.LunarDetonator.Detonate.OnEnter += (orig, self) =>
-            {
-                orig(self);
-                RoR2.Util.PlaySound("Play_item_lunar_specialReplace_apply", self.outer.gameObject);
-            };
-
-            //
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBoss/RoboBallMiniBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallRedBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallGreenBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
-
-
-            //Sound is just too quiet
-            On.RoR2.CharacterMaster.PlayExtraLifeSFX += (orig, self) =>
-            {
-                orig(self);
-
-                GameObject bodyInstanceObject = self.GetBodyObject();
-                if (bodyInstanceObject)
-                {
-                    Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
-                    Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
-                    Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
-                }
-            };
-            #endregion
-            //What the fuck is this for
-            /*On.RoR2.ShopTerminalBehavior.UpdatePickupDisplayAndAnimations += (orig, self) =>
-            {
-                if (self.pickupIndex == PickupIndex.none && self.GetComponent<PurchaseInteraction>().available)
-                {
-                    self.hasStarted = false;
-                    orig(self);
-                    self.hasStarted = true;
-                    return;
-                }
-                orig(self);
-            };*/
-
-            On.EntityStates.Engi.SpiderMine.Detonate.OnEnter += FixClientNoiseSpam;
-
+       
+   
             SceneDef rootjungle = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/Base/rootjungle/rootjungle.asset").WaitForCompletion();
             MusicTrackDef MusicSulfurPoolsBoss = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muBossfightDLC1_12.asset").WaitForCompletion();
             rootjungle.bossTrack = MusicSulfurPoolsBoss;
 
-            //Would be nice to sync sound only to spawn if it has missiles
-            IL.RoR2.BarrageOnBossBehaviour.StartMissileCountdown += WarBondsNoise_OnlyIfActuallyMissile;
-
+    
             //On.RoR2.UI.PingIndicator.RebuildPing += PlayerPings;
             IL.RoR2.UI.PingIndicator.RebuildPing += PlayerPing.PlayerPingsIL;
-
-
+ 
           
             IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
 
@@ -251,105 +138,19 @@ namespace WolfoQoL_Client
             Light geode = MiniGeodeBody.transform.GetChild(0).GetChild(2).GetComponent<Light>();
             geode.range = 25;
             geode.intensity = 8;
-
-            On.RoR2.PortalStatueBehavior.PreStartClient += NewtAvailableFix12;
-            On.RoR2.TeleporterInteraction.OnSyncShouldAttemptToSpawnShopPortal += NewtAvailableFix2;
-
-            //1 0.7877 0.8294 1
-            //1 0.5613 0.6487 1
-
-            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Railgunner/RailgunnerOverchargeUIReady.prefab").WaitForCompletion();
-            //crosshairOverridePrefab
-
-
+ 
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
 
             On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
 
-            //For testing ig but also it spams the console
-            IL.EntityStates.Commando.CommandoWeapon.FirePistol2.FixedUpdate += CommandoReloadStateRemove;
-            //Huntress issue only starts at 780% attack speed who cares really
-
+   
             GameObject NoCooldownEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/KillEliteFrenzy/NoCooldownEffect.prefab").WaitForCompletion();
             NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().priority = 19;
 
-
-
-
-            //Steal this
-            GameObject VoidOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/VoidOrb");
-            foreach (AkEvent a in VoidOrb.GetComponents<AkEvent>())
-            {
-                GameObject.Destroy(a);
-            }
-            GameObject.Destroy(VoidOrb.GetComponent<AkGameObj>());
-            PlaySoundOnEvent sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
-            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Start;
-            sound.soundEvent = "Play_UI_item_spawn_tier3";
-            sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
-            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Destroy;
-            sound.soundEvent = "Play_nullifier_death_vortex_explode";
-
-            On.RoR2.WwiseUtils.SoundbankLoader.Start += SoundbankLoader_Start;
-
-            //icebox fix
-            Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "6870bda0b12690048a9701539d1e2285").WaitForCompletion().activationState = Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "c97062b172b41af4ebdb42c312ac1989").WaitForCompletion().activationState;
-            On.RoR2.Projectile.CleaverProjectile.ChargeCleaver += CleaverProjectile_ChargeCleaver;
-
-
-            //Scope Alpha fix
-            GameObject RailgunnerScopeHeavyOverlay= Addressables.LoadAssetAsync<GameObject>(key: "db5a0c21c1f689c4292ae5e292fd4f0e").WaitForCompletion();
-            UnityEngine.UI.RawImage scope = RailgunnerScopeHeavyOverlay.transform.GetChild(1).GetComponent<UnityEngine.UI.RawImage>();
-            scope.color = scope.color.AlphaMultiplied(0.6f);
-            GameObject RailgunnerScopeLightOverlay = Addressables.LoadAssetAsync<GameObject>(key: "c305c2dadaa35d840bd91dd48987c55e").WaitForCompletion();
-            scope = RailgunnerScopeHeavyOverlay.transform.GetChild(1).GetComponent<UnityEngine.UI.RawImage>();
-            scope.color = scope.color.AlphaMultiplied(0.6f);
-
-            On.EntityStates.Chef.IceBox.OnEnter += IceBox_OnEnter;
-        }
-
-        private static void IceBox_OnEnter(On.EntityStates.Chef.IceBox.orig_OnEnter orig, EntityStates.Chef.IceBox self)
-        {
-            orig(self);
-            if (self.hasBoost)
-            {
-                self.attackSoundString = "Play_Chef_Secondary_IceBox_Boosted_Fire";
-                Util.PlaySound(self.blizzardSFXString, self.gameObject);
-            }
-        }
-
-        private static void CleaverProjectile_ChargeCleaver(On.RoR2.Projectile.CleaverProjectile.orig_ChargeCleaver orig, RoR2.Projectile.CleaverProjectile self)
-        {
-            orig(self);
-            if (self.charged)
-            {
-                self.projectileOverlapAttack.overlapProcCoefficient = 1f;
-            }
-        }
-
-        private static void SoundbankLoader_Start(On.RoR2.WwiseUtils.SoundbankLoader.orig_Start orig, RoR2.WwiseUtils.SoundbankLoader self)
-        {
-            HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "char_Toolbot");
-            orig(self);
-        }
-
-        public static void CommandoReloadStateRemove(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.After,
-                x => x.MatchCallvirt("RoR2.GenericSkill","get_stock")))
-            {
-                c.EmitDelegate<System.Func<int, int>>((stock) =>
-                {
-                    return 1;
-                });
-            }
-            else
-            {
-               Debug.LogWarning("CommandoReloadStateRemove Failed");
-            }
-        }
  
+        }
+
+  
 
         public static BodyIndex LemurianBruiser = BodyIndex.None;
         public static string MarriedLemurianNameHook(On.RoR2.Util.orig_GetBestBodyName orig, GameObject bodyObject)
@@ -375,44 +176,7 @@ namespace WolfoQoL_Client
             return orig(bodyObject);
         }
 
-
-        private static void NewtAvailableFix12(On.RoR2.PortalStatueBehavior.orig_PreStartClient orig, PortalStatueBehavior self)
-        {
-            orig(self);
-            self.GetComponent<PurchaseInteraction>().setUnavailableOnTeleporterActivated = true;
-            if (self.portalType == PortalStatueBehavior.PortalType.Shop)
-            {
-                var ping = self.GetComponent<PingInfoProvider>();
-                if (!ping)
-                {
-                    ping = self.gameObject.AddComponent<PingInfoProvider>();
-                }
-                ping.pingIconOverride = PingIcons.LunarIcon;
-            }
-        }
-
-        private static void NewtAvailableFix2(On.RoR2.TeleporterInteraction.orig_OnSyncShouldAttemptToSpawnShopPortal orig, TeleporterInteraction self, bool newValue)
-        {
-            orig(self, newValue);
-            if (newValue == true)
-            {
-                foreach (PortalStatueBehavior portalStatueBehavior in UnityEngine.Object.FindObjectsOfType<PortalStatueBehavior>())
-                {
-                    if (portalStatueBehavior.portalType == PortalStatueBehavior.PortalType.Shop)
-                    {
-                        PurchaseInteraction component = portalStatueBehavior.GetComponent<PurchaseInteraction>();
-                        if (component)
-                        {
-                            component.Networkavailable = false;
-                            portalStatueBehavior.CallRpcSetPingable(portalStatueBehavior.gameObject, false);
-                        }
-                    }
-                }
-            }
-           
-        }
-
-     
+ 
         private static string SubjectChatMessage_GetSubjectName(On.RoR2.SubjectChatMessage.orig_GetSubjectName orig, SubjectChatMessage self)
         {
             if (self.subjectAsNetworkUser == null && self.subjectAsCharacterBody)
@@ -466,57 +230,7 @@ namespace WolfoQoL_Client
             }
 
         }
-
-        private static void WarBondsNoise_OnlyIfActuallyMissile(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.After,
-                x => x.MatchLdsfld("RoR2.BarrageOnBossBehaviour", "missileStartPrefab")))
-            {
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<System.Func<GameObject, BarrageOnBossBehaviour, GameObject>>((effect, self) =>
-                {
-                    if (self.barrageQuantity == 0)
-                    {
-                        return null;
-                    }
-                    return effect;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: WarBondsNoise_OnlyIfActuallyMissile");
-            }
-        }
-
-        private static void BarrageOnBossBehaviour_StartMissileCountdown2(On.RoR2.BarrageOnBossBehaviour.orig_StartMissileCountdown orig, BarrageOnBossBehaviour self, bool skipInitBoss)
-        {
-            if (self.body.GetBuffCount(DLC2Content.Buffs.ExtraBossMissile.buffIndex) == 0)
-            {
-                return;
-            }
-            orig(self, skipInitBoss);
-        }
-
-        private static void FixClientNoiseSpam(On.EntityStates.Engi.SpiderMine.Detonate.orig_OnEnter orig, EntityStates.Engi.SpiderMine.Detonate self)
-        {
-            orig(self);
-            if (!NetworkServer.active)
-            {
-                float duration = 0.25f;
-                self.PlayAnimation("Base", BaseSpiderMineState.IdleToArmedStateHash, BaseSpiderMineState.IdleToArmedParamHash, duration);
-                foreach (string childName in self.childLocatorStringToDisable)
-                {
-                    Transform transform = self.FindModelChild(childName);
-                    if (transform)
-                    {
-                        transform.gameObject.SetActive(false);
-                    }
-                }
-            }
-        }
-
-
+ 
         private static void BiggerSaleStarRange(ILContext il)
         {
             ILCursor c = new ILCursor(il);

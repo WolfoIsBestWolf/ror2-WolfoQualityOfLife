@@ -26,7 +26,7 @@ namespace WolfoQoL_Client
             GameModeCatalog.availability.CallWhenAvailable(EffectReplacements);
 
 
-            if (WConfig.cfgSkinAcridBlight.Value == true)
+            if (WConfig.cfgSkinMakeBlightedAcrid.Value == true)
             {
                 CrocoBlightSkin();
             }
@@ -118,7 +118,10 @@ namespace WolfoQoL_Client
             CharacterModel.RendererInfo[] newRenderInfos = new CharacterModel.RendererInfo[length];
             Array.Copy(paramCrocoDefault.rendererInfos, newRenderInfos, length);
  
-            Material matCrocoBlight =  UnityEngine.Object.Instantiate(AssetAsyncReferenceManager<Material>.LoadAsset(newRenderInfos[0].defaultMaterialAddress).WaitForCompletion());
+            //Breaks reality
+            //Material matCrocoBlight =  UnityEngine.Object.Instantiate(AssetAsyncReferenceManager<Material>.LoadAsset(newRenderInfos[0].defaultMaterialAddress, AsyncReferenceHandleUnloadType.OnSceneUnload).WaitForCompletion());
+            Material matCrocoBlight = UnityEngine.Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "16459c0089d3ebd4198f3d43d5510301").WaitForCompletion());
+
 
             matCrocoBlight.mainTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoDiffuseBlight.png");
             matCrocoBlight.SetTexture("_EmTex", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png"));
