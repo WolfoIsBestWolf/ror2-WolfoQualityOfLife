@@ -29,15 +29,15 @@ namespace WolfoQoL_Client
 
             #region Lights
             GameObject MercBody = Addressables.LoadAssetAsync<GameObject>(key: "c9898f15e54a0194dbd2ab62ad507bd4").WaitForCompletion();
+            GameObject MercDisplay = Addressables.LoadAssetAsync<GameObject>(key: "c9d3d0b5ada36b74e83b3a2709467be2").WaitForCompletion();
             SkinDefParams skinMercDefault_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "47240317eb88bd240a032186e1275fbb").WaitForCompletion();
             SkinDefParams skinMercAltColossus_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "5162e57e36a5758428c406bbe339fe24").WaitForCompletion();
-            
+
             skinMercDefault_params.lightReplacements = MercBody.transform.GetChild(0).GetChild(0).GetComponent<CharacterModel>().baseLightInfos;
 
+            MercDisplay.transform.GetChild(0).GetComponent<CharacterModel>().baseLightInfos[0].light.name = "Point Light";
 
-
-
-            CharacterModel.LightInfo[] red = new CharacterModel.LightInfo[2];
+            CharacterModel.LightInfo[] red = new CharacterModel.LightInfo[3];
             System.Array.Copy(skinMercDefault_params.lightReplacements, red, 2);
             red[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);
             red[1].defaultColor = new Color(1, 0.15f, 0.15f, 1);

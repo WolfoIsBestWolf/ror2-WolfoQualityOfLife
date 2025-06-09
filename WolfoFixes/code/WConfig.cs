@@ -1,9 +1,5 @@
 using BepInEx;
 using BepInEx.Configuration;
-using RiskOfOptions;
-using RiskOfOptions.Options;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace WolfoFixes
 {
@@ -14,18 +10,18 @@ namespace WolfoFixes
 
         public static ConfigEntry<bool> cfgTextItems;
         public static ConfigEntry<bool> cfgTextCharacters;
-         
+
         public static void Start()
         {
- 
+
             InitConfig();
- 
+
         }
 
 
         public static void InitConfig()
         {
- 
+
             cfgTextItems = ConfigFile_Client.Bind(
                 "Text",
                 "Fixed Item Descriptions",
@@ -38,11 +34,11 @@ namespace WolfoFixes
                 true,
                 "Updated and fixed descriptions for character. Disable if other mods change stats or items."
             );
- 
-     
+
+
         }
-         
- 
+
+
 
     }
 

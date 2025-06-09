@@ -148,7 +148,7 @@ namespace WolfoQoL_Client
                 {
                     return null;
                 }
-                else if (WConfig.cfgMessagePrint.Value == false) 
+                else if (WConfig.cfgMessagePrint.Value == false)
                 {
                     return null;
                 }

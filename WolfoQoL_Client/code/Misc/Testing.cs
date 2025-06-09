@@ -12,8 +12,7 @@ namespace WolfoQoL_Client
         public static void Start()
         {
             On.RoR2.PickupPickerController.GetOptionsFromPickupIndex += CommandWithEveryItem;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/AssassinBody").GetComponent<CharacterBody>().baseNameToken = "";
-
+    
             if (WConfig.cfgLogbook_More.Value)
             {
                 //UnusedStages();
@@ -22,7 +21,6 @@ namespace WolfoQoL_Client
             {
                 LogbookStuff.CheatLogbook();
             }
-            
 
         }
 
@@ -65,7 +63,7 @@ namespace WolfoQoL_Client
                 self.userName = "Wolfo" + WolfoMain.random.Next();
             }
         }
- 
+
 
         public static void UnusedStages()
         {

@@ -2,8 +2,6 @@
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using System.Collections.Generic;
-using RoR2.ContentManagement;
 
 namespace WolfoQoL_Client
 {
@@ -21,12 +19,12 @@ namespace WolfoQoL_Client
             GhostReplacements();
             GameModeCatalog.availability.CallWhenAvailable(EffectReplacements); //After effect catalog
 
-   
+
         }
- 
+
         public static void EffectReplacements()
         {
-             
+
             GameObject effect = null;
             //M2
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordSlashWhirlwind.prefab").WaitForCompletion();
@@ -34,15 +32,15 @@ namespace WolfoQoL_Client
             //M2 Alt
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercSwordUppercutSlash.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.MercSwordUppercutSlash_Red, Merc_Green.MercSwordUppercutSlash_Green, false);
-             //M3
+            //M3
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercAssaulter.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.ImpactMercAssaulter_Red, Merc_Green.ImpactMercAssaulter_Green, false);
-             //M3 Alt
+            //M3 Alt
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercFocusedAssault.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.ImpactMercFocusedAssault_Red, Merc_Green.ImpactMercFocusedAssault_Green, false);
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercFocusedAssaultOrbEffect.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.MercFocusedAssaultOrbEffect_Red, Merc_Green.MercFocusedAssaultOrbEffect_Green, false);
-            
+
 
             //M4 ?
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/ImpactMercEvis.prefab").WaitForCompletion();
@@ -54,7 +52,7 @@ namespace WolfoQoL_Client
             //General
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/OmniImpactVFXSlashMerc.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.OmniImpactVFXSlashMerc_Red, Merc_Green.OmniImpactVFXSlashMerc_Green, false);
-            
+
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Merc/MercExposeConsumeEffect.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.MercExposeConsumeEffect_Red, Merc_Green.MercExposeConsumeEffect_Green, false);
 
@@ -64,7 +62,7 @@ namespace WolfoQoL_Client
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Huntress/HuntressFireArrowRain.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Merc_Red.HuntressFireArrowRain_Red, Merc_Green.HuntressFireArrowRain_Green, true);
 
-             
+
         }
 
 

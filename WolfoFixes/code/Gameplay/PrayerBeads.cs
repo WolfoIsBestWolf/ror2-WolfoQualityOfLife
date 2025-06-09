@@ -1,13 +1,10 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using R2API;
 using RoR2;
 using System;
 using UnityEngine;
-using RoR2.UI;
-using UnityEngine.Events;
 
-namespace WolfoQoL_Client
+namespace WolfoFixes
 {
     public class PrayerBeadsStorage : MonoBehaviour
     {
@@ -15,7 +12,7 @@ namespace WolfoQoL_Client
     }
     public class PrayerBeads
     {
-  
+
         public static void Start()
         {
             //OldBeadsLevel is serveronly?
@@ -40,7 +37,7 @@ namespace WolfoQoL_Client
             orig(self);
             self.gameObject.AddComponent<PrayerBeadsStorage>();
         }
- 
+
         private static void BuffTracker_SetBuffCount_FixAmount(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -92,6 +89,6 @@ namespace WolfoQoL_Client
     }
 
 
- 
+
 }
 

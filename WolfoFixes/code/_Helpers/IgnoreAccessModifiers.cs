@@ -10,5 +10,6 @@ using System.Security.Permissions;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+[assembly: HG.Reflection.SearchableAttribute.OptIn]
 #pragma warning restore CS0618 // Type or member is obsolete
 [module: UnverifiableCode]

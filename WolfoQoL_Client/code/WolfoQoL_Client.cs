@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using R2API.Utils;
 using RoR2;
+using RoR2.ContentManagement;
 using System;
 using System.Security;
 using System.Security.Permissions;
@@ -68,7 +69,7 @@ namespace WolfoQoL_Client
             }
 
             GameplayQualityOfLife.Start();
-        
+
             //Generally Host send -> Host recieve always works fine for these messages
             //Just obviously a lot of this expects Host given info and will not work on Clients alone
             //So work arounds can be added
@@ -76,7 +77,7 @@ namespace WolfoQoL_Client
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ItemLoss_Host.ItemLossMessage));
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(SaleStarMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(SaleStarMessage));
- 
+
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DeathMessage.DetailedDeathMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(DeathMessage.DetailedDeathMessage));
 
@@ -123,7 +124,7 @@ namespace WolfoQoL_Client
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
 
             LogbookStuff.NormalLogbook();
- 
+
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
 
             //Main Menu Stuff
@@ -136,9 +137,9 @@ namespace WolfoQoL_Client
 
             ClientChecks.Start();
 
-   
+
         }
-      
+
         private void PingVisualStageChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
         {
             orig(self);
@@ -424,7 +425,7 @@ namespace WolfoQoL_Client
                     }
                     break;
                 case "meridian":
-                    
+
                     GameObject PortalDestination = GameObject.Find("/HOLDER: Design/FSB/Boss Defeated Objects/");
                     if (PortalDestination)
                     {
@@ -591,15 +592,39 @@ namespace WolfoQoL_Client
                 Destroy(ScavHolder.transform.GetChild(0).gameObject);
                 ScavHolder.SetActive(true);
 
-                GameObject mdlGup = Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion().transform.GetChild(0).GetChild(0).gameObject);
+                GameObject gupBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion();
+                GameObject mdlGup = Instantiate(gupBody.transform.GetChild(0).GetChild(0).gameObject);
+
+                ModelSkinController gup = mdlGup.GetComponent<ModelSkinController>();
+                if (!gup.DelayLoadingAnimatorUntilMaterialsHaveCompleted && gup.animator)
+                {
+                    if (gup.avatarRef != null)
+                    {
+                        gup.avatarRef.SetUnloadType(AsyncReferenceHandleUnloadType.OnSceneUnload);
+                    }
+                    if (gup.animatorControllerRef != null)
+                    {
+                        gup.animatorControllerRef.SetUnloadType(AsyncReferenceHandleUnloadType.OnSceneUnload);
+                    }
+                }
+                base.StartCoroutine(gup.ApplySkinAsync(0, AsyncReferenceHandleUnloadType.OnSceneUnload));
                 mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
                 mdlGup.transform.localScale = new Vector3(7, 7, 7);
-                mdlGup.transform.localPosition = new Vector3(55.2201f, -0.9796f, 11.5f);
-                mdlGup.transform.localEulerAngles = new Vector3(5.7003f, 247.4198f, 0);
+                mdlGup.transform.localPosition = new Vector3(55.2f, -1f, 11.5f);
+                mdlGup.transform.localEulerAngles = new Vector3(7f, 262f, 0);
 
-                Transform extragamemodepos = self.extraGameModeMenuScreen.gameObject.transform.parent.GetChild(1);
-                extragamemodepos.localPosition = new Vector3(36.24f, 2.7204f, 3.1807f);
-                extragamemodepos.localEulerAngles = new Vector3(5.2085f, 38.4904f, 0);
+                mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
+                mdlGup.transform.localScale = new Vector3(7, 7, 7);
+                mdlGup.transform.localPosition = new Vector3(52f, -1.2f, 160f);
+                mdlGup.transform.localEulerAngles = new Vector3(7f, 157f, 345f);
+
+                Transform temp = self.extraGameModeMenuScreen.desiredCameraTransform;
+                self.extraGameModeMenuScreen.desiredCameraTransform = self.moreMenuScreen.desiredCameraTransform;
+                self.moreMenuScreen.desiredCameraTransform = temp;
+
+
+                temp.localPosition = new Vector3(36.24f, 2.7204f, 3.1807f);
+                temp.localEulerAngles = new Vector3(5.2085f, 38.4904f, 0);
             }
 
             int selector = WConfig.cfgMainMenuRandomizerSelector.Value;
@@ -680,12 +705,6 @@ namespace WolfoQoL_Client
         {
             OtherEnemies.CallLate();
 
-            ModelPanelParameters camera = DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
-            camera.cameraPositionTransform = camera.transform;
-            camera.focusPointTransform = camera.transform;
-            camera.maxDistance = 3;
-            camera.modelRotation = new Quaternion(0, 0.7071f, 0f, -0.7071f);
-
 
             RoR2Content.Items.AdaptiveArmor.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
             RoR2Content.Items.BoostEquipmentRecharge.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
@@ -703,7 +722,7 @@ namespace WolfoQoL_Client
             PrayerBeads.moffeine = ItemCatalog.FindItemIndex("MoffeinBeadStatItem");
             PrayerBeads.usedBeads = ItemCatalog.FindItemIndex("ExtraStatsOnLevelUpConsumed");
             RandomMisc.LemurianBruiser = BodyCatalog.FindBodyIndex("LemurianBruiserBody");
- 
+
 
             Debug.Log("All RequiredByAllMods :");
             foreach (var a in NetworkModCompatibilityHelper._networkModList)
@@ -711,9 +730,8 @@ namespace WolfoQoL_Client
                 Debug.Log(a);
             }
 
-            MissingEliteDisplays.Start();
             TextChanges.UntieredItemTokens();
-        
+
 
             if (WConfig.cfgColorMain.Value == true)
             {
@@ -727,34 +745,42 @@ namespace WolfoQoL_Client
                 OptionPickupStuff.orange = orang.tier;
             }
 
-             
+            PrayerBeads.Start();
             TextChanges.AutoGeneratedText();
+
+            DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
+            /*ModelPanelParameters camera = DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
+            camera.cameraPositionTransform = camera.transform;
+            camera.focusPointTransform = camera.transform;
+            camera.maxDistance = 3;
+            camera.modelRotation = new Quaternion(0, 0.7071f, 0f, -0.7071f);*/
+
         }
- 
+
         public void OneTimeOnlyLateRunner(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
         {
             orig(self);
             On.RoR2.UI.MainMenu.MainMenuController.Start -= OneTimeOnlyLateRunner;
             GC.Collect();
 
-            if (WConfig.cfgTestMultiplayer.Value)
-            {
-                Debug.LogWarning("Any PingInfoProvider with Null Icon?");
-                PingInfoProvider[] highlightlist = Resources.FindObjectsOfTypeAll(typeof(PingInfoProvider)) as PingInfoProvider[];
-                for (var i = 0; i < highlightlist.Length; i++)
-                {
-                    if (highlightlist[i].pingIconOverride == null)
-                    {
-                        Debug.LogWarning(highlightlist[i] + " PingInfoProvider with Null Icon");
-                    }
-                }
+            /* if (WConfig.cfgTestMultiplayer.Value)
+             {
+                 Debug.LogWarning("Any PingInfoProvider with Null Icon?");
+                 PingInfoProvider[] highlightlist = Resources.FindObjectsOfTypeAll(typeof(PingInfoProvider)) as PingInfoProvider[];
+                 for (var i = 0; i < highlightlist.Length; i++)
+                 {
+                     if (highlightlist[i].pingIconOverride == null)
+                     {
+                         Debug.LogWarning(highlightlist[i] + " PingInfoProvider with Null Icon");
+                     }
+                 }
 
-                for (var i = 0; i < BodyCatalog.bodyComponents.Length; i++)
-                {
-                    Debug.Log(BodyCatalog.bodyPrefabBodyComponents[i] + " | " + BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken + " | " + Language.GetString(BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken));
-                }
-            }
-           
+                 for (var i = 0; i < BodyCatalog.bodyComponents.Length; i++)
+                 {
+                     Debug.Log(BodyCatalog.bodyPrefabBodyComponents[i] + " | " + BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken + " | " + Language.GetString(BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken));
+                 }
+             }*/
+
         }
 
         //Probably should start searching paths for all of these 
@@ -792,7 +818,7 @@ namespace WolfoQoL_Client
                 {
                     Debug.Log("Host has WolfoQoL_Client: " + HostHasMod_);
                 }
-               
+
                 //Hard to account for, when does PlayerMaster get made
                 //When does this get sent, when does this arrive
                 //Does just doing it here instead.
@@ -808,7 +834,7 @@ namespace WolfoQoL_Client
                 return null;
             }
         }
- 
+
 
     }
     public class MakeThisMercRed : MonoBehaviour

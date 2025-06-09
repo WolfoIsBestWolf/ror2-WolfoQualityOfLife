@@ -2,13 +2,12 @@
 using MonoMod.Cil;
 using RoR2;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace WolfoQoL_Client
 {
     public class Objective_Halcyonite
     {
- 
+
         public static void Start()
         {
             bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
@@ -20,10 +19,10 @@ namespace WolfoQoL_Client
 
                 IL.RoR2.GoldSiphonNearbyBodyController.DrainGold += Update_Objective;
             }
- 
+
         }
 
-    
+
         private static void AddObjective(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteActivatedState self)
         {
             //Runs on client
@@ -98,7 +97,7 @@ namespace WolfoQoL_Client
 
         }
 
-     
+
     }
 
     public class HalcyoniteShrineObjective : GenericObjectiveProvider

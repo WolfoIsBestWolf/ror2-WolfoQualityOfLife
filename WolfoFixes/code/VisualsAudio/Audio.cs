@@ -1,11 +1,10 @@
-﻿using RoR2;
+﻿using EntityStates.Engi.SpiderMine;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using RoR2.Skills;
-using MonoMod.Cil;
-using Mono.Cecil.Cil;
 using UnityEngine.Networking;
-using EntityStates.Engi.SpiderMine;
 
 namespace WolfoFixes
 {
@@ -37,7 +36,7 @@ namespace WolfoFixes
             On.EntityStates.Engi.SpiderMine.Detonate.OnEnter += FixClientNoiseSpam;
 
 
-    
+
             //Add unused cool bubbly noise
             On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
             {
@@ -75,7 +74,7 @@ namespace WolfoFixes
                 orig(self);
                 RoR2.Util.PlaySound("Play_item_lunar_specialReplace_apply", self.outer.gameObject);
             };
- 
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBoss/RoboBallMiniBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallRedBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallGreenBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
@@ -93,7 +92,7 @@ namespace WolfoFixes
                     Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
                 }
             };
-     
+
         }
 
 
@@ -150,5 +149,5 @@ namespace WolfoFixes
 
 
     }
- 
+
 }

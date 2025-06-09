@@ -9,7 +9,30 @@ using UnityEngine.Networking;
 
 namespace WolfoQoL_Client
 {
-    public class ShrineStuff
+
+    public class MakePriceTransform : MonoBehaviour
+    {
+        public bool disableRotation;
+        public Vector3 holoPos;
+        public Vector3 holoRot;
+        public void Awake()
+        {
+            GameObject LockboxHoloPivot = new GameObject("PriceTransform");
+            LockboxHoloPivot.transform.SetParent(transform, false);
+            LockboxHoloPivot.transform.localPosition = holoPos;
+            RoR2.Hologram.HologramProjector hologram = GetComponent<RoR2.Hologram.HologramProjector>();
+            if (hologram == null)
+            {
+                hologram = this.gameObject.AddComponent<RoR2.Hologram.HologramProjector>();
+            }
+            hologram.disableHologramRotation = disableRotation;
+            LockboxHoloPivot.transform.localEulerAngles = holoRot;
+            hologram.hologramPivot = LockboxHoloPivot.transform;
+        }
+    }
+
+
+    public class InteractableStuff
     {
         public static void Start()
         {
@@ -17,7 +40,7 @@ namespace WolfoQoL_Client
 
             On.RoR2.ShrineColossusAccessBehavior.RpcUpdateInteractionClients += ShrineShapingExtras_Client;
             On.RoR2.ShrineColossusAccessBehavior.ReviveAlliedPlayers += ShrineShapingExtras_Host;
- 
+
             PriceTransformStuff();
             //Meditate7thGateVFX
         }
@@ -90,6 +113,7 @@ namespace WolfoQoL_Client
             GameObject PrefabShrineCleanse = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCleanse/ShrineCleanse.prefab").WaitForCompletion();
             GameObject PrefabShrineCleanseSand = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCleanse/ShrineCleanseSandy Variant.prefab").WaitForCompletion();
             GameObject PrefabShrineCleanseSnow = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCleanse/ShrineCleanseSnowy Variant.prefab").WaitForCompletion();
+            //GameObject VoidSuppressor = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidSuppressor/VoidSuppressor.prefab").WaitForCompletion();
 
             GameObject PrefabLockbox = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/TreasureCache/Lockbox.prefab").WaitForCompletion();
             GameObject PrefabLockboxVoid = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/TreasureCacheVoid/LockboxVoid.prefab").WaitForCompletion();
@@ -110,25 +134,13 @@ namespace WolfoQoL_Client
             PrefabLockbox.AddComponent<RoR2.Hologram.HologramProjector>();
             PrefabLockboxVoid.AddComponent<RoR2.Hologram.HologramProjector>();
             PrefabVendingMachine.AddComponent<RoR2.Hologram.HologramProjector>();
-
+ 
             PrefabLockbox.AddComponent<MakePriceTransform>().holoPos = new Vector3(0f, 1.6f, 0f);
             PrefabLockboxVoid.AddComponent<MakePriceTransform>().holoPos = new Vector3(0f, 2f, 0f);
             PrefabVendingMachine.AddComponent<MakePriceTransform>().holoPos = new Vector3(0.0f, 4.5f, 0f);
-
+     
         }
 
-        public class MakePriceTransform : MonoBehaviour
-        {
-            public Vector3 holoPos;
-            public void Awake()
-            {
-                GameObject LockboxHoloPivot = new GameObject("PriceTransform");
-                LockboxHoloPivot.transform.SetParent(transform, false);
-                LockboxHoloPivot.transform.localPosition = holoPos;
-                GetComponent<RoR2.Hologram.HologramProjector>().hologramPivot = LockboxHoloPivot.transform;
-            }
-        }
- 
         private static void CharacterMaster_RespawnExtraLifeShrine(On.RoR2.CharacterMaster.orig_RespawnExtraLifeShrine orig, CharacterMaster self)
         {
             orig(self);

@@ -1,19 +1,14 @@
-using R2API;
 using RoR2;
-using RoR2.ExpansionManagement;
 //using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using RoR2.UI;
-using RoR2.UI.LogBook;
 
 namespace WolfoQoL_Client
 {
     public class ColorModule_Sprites
     {
-          
-        
+
+
         public static void NewColorOutlineIcons()
         {
             RoR2Content.Equipment.AffixRed.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteFire.png");

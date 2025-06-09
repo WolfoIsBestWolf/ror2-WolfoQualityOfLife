@@ -1,7 +1,6 @@
 ﻿using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 
 namespace WolfoQoL_Client
@@ -128,7 +127,7 @@ namespace WolfoQoL_Client
                 {
                     if (!useReplacement)
                     {
-                        pjC.GetComponent<ProjectileImpactExplosion>().impactEffect = impactPrefab_1;                   
+                        pjC.GetComponent<ProjectileImpactExplosion>().impactEffect = impactPrefab_1;
                     }
                     return ghostPrefab_1;
                 }
@@ -136,7 +135,7 @@ namespace WolfoQoL_Client
                 {
                     if (i == 2)
                     {
-                        pjC.GetComponent<ProjectileImpactExplosion>().impactEffect = impactPrefab_2; 
+                        pjC.GetComponent<ProjectileImpactExplosion>().impactEffect = impactPrefab_2;
                     }
                     return ghostPrefab_2;
                 }
@@ -175,16 +174,16 @@ namespace WolfoQoL_Client
                     EffectReplacer.ActivateAcrid(Acrid_Hooks.CrocoDiseaseImpactEffect, pjC.owner);
                     EffectReplacer.ActivateAcrid(Acrid_Hooks.CrocoDiseaseOrbEffect, pjC.owner);
                 }
-               
+
             }
         }
 
     }
-    
+
     public class EffectReplacer : MonoBehaviour
     {
         int lastSeenCase = -1;
-         
+
         bool resetOnStart = false;
         public GameObject originalPrefab;
         public GameObject replacementPrefab1;
@@ -216,7 +215,7 @@ namespace WolfoQoL_Client
             if (replacementPrefab2)
             {
                 replacementPrefab2.GetComponent<EffectComponent>().effectIndex = effectIndex;
-           }
+            }
         }
 
         public static void ActivateMerc(GameObject prefab, GameObject owner)
@@ -254,7 +253,7 @@ namespace WolfoQoL_Client
 
         private void SetReplacement(int i)
         {
-             //Debug.Log("ActivateReplacement "+i);
+            //Debug.Log("ActivateReplacement "+i);
             if (i == lastSeenCase)
             {
                 return;
@@ -267,7 +266,7 @@ namespace WolfoQoL_Client
                     return;
                 case 1:
                     effectDef.prefab = replacementPrefab1;
-                    return; 
+                    return;
                 case 2:
                     effectDef.prefab = replacementPrefab2;
                     return;

@@ -123,6 +123,7 @@ Primordial Teleporter destination can be shifted after the TP boss. (Host only)
 
 Prsimatic Trials are available without leaderboard and with random seed.
 
+Items teleport if they fall of the map.
 
 ## Miscellaneous
 Pillar and Void holdout zones get flowers if you have Lepton Daisy.\
@@ -142,11 +143,6 @@ Lunar Seers replace the Blue Portal with a Green/Gold/Void when going to those p
 
 Sale Star effect does a little effect instead of vanishing.\
 False Sons Aurelionite Fragment now has Green or Red tiered visuals.
-
-Adds Perfected Elite Displays for all Monsters.\
-Adds Elite Displays for XI Construct, Mithrix.\
-Adds Fuel Array Display for Engineer Turrets.
-
 
 
 ##

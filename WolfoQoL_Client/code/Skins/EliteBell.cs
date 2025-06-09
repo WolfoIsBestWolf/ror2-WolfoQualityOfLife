@@ -29,7 +29,7 @@ namespace WolfoQoL_Client
 
             BellBallGhostElite.AddComponent<VFXAttributes>().DoNotPool = true;
 
-            
+
             IL.EntityStates.Bell.BellWeapon.ChargeTrioBomb.FixedUpdate += BellBalls_ChargeTrioBomb_FixedUpdate;
         }
 

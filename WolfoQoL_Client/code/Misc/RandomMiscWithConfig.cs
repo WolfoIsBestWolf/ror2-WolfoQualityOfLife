@@ -2,7 +2,6 @@
 using MonoMod.Cil;
 using RoR2;
 using RoR2.UI;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -33,7 +32,7 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
- 
+
             if (WConfig.cfgTpIconDiscoveredRed.Value)
             {
                 IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
@@ -52,9 +51,9 @@ namespace WolfoQoL_Client
 
 
             On.RoR2.UI.ChatBox.Awake += AllowMoreChatMessages;
- 
+
             On.RoR2.UI.CrosshairManager.OnEnable += CrosshairManager_OnEnable;
-  
+
             On.RoR2.UI.PingIndicator.RebuildPing += (orig, self) =>
             {
                 orig(self);
@@ -70,8 +69,6 @@ namespace WolfoQoL_Client
             AllowScrolling(ChatBoxRun);
             AllowScrolling(ChatBoxLobby);
         }
-
-        public static GameObject fuckyou = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/GameEndReportPanelScrolling.prefab").WaitForCompletion();
 
         public static void AllowScrolling(GameObject chatBox)
         {
@@ -178,7 +175,7 @@ namespace WolfoQoL_Client
             };
 
         }
- 
+
         private static void TeleporterDiscoveredRed(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -204,7 +201,7 @@ namespace WolfoQoL_Client
 
 
 
-       
+
 
         /*public class SendExtraMountainIcon : RoR2.ChatMessageBase
         {
@@ -263,7 +260,7 @@ namespace WolfoQoL_Client
 
         }*/
 
-        
+
 
     }
 

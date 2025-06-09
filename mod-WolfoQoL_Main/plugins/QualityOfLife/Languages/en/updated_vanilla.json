@@ -4,18 +4,9 @@
 			"YOU": "You",
 			"HIDDEN_REALM_PREFIX": "Hidden Realm: ",
 		
-			"VultureEggBody":"Vulture Eggs",
-			"VagrantTrackingBomb":"Vagrant Charge",
-			"ScavSackProjectile":"Thqwib",
-			"ScorchlingBombProjectile":"Worm Bomb",
-			"MiniGeodeBody":"False Geode",
-			"LunarWispTrackingBomb":"Tracking Bomb",
-			"GravekeeperTrackingFireball":"Volatile Wispling",
-			"BirdsharkBody":"Bird Shark",
-			"BeetleWard":"Beetle Juicer",
-			"BeadProjectileTrackingBomb":"Twisted Shard",
-			"AltarSkeletonBody":"Follower of N'kuhana",
-
+ 
+			"VOID_SUPPRESSOR_DESCRIPTION": "Eradicate the shown item from existence, preventing it from appearing again for the current run. Existing copies of the item will be scrapped instantly.",
+		
 		
             "BAZAAR_SEER_SNOWYFOREST": "<style=cWorldEvent>You dream of campfires and ice.</style>",
             "BAZAAR_SEER_SHIPGRAVEYARD": "<style=cWorldEvent>You dream of misled signals.</style>",

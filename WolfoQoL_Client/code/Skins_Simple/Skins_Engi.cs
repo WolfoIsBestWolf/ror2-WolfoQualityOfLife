@@ -16,7 +16,7 @@ namespace WolfoQoL_Client
         public static void AltTrail()
         {
             matEngiTrail_Alt = GameObject.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Engi/matEngiTrail.mat").WaitForCompletion());
- 
+
             matEngiTrail_Alt.SetTexture("_RemapTex", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampEngiAlt.png"));
 
             SkinDefParams skinEngiAlt_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "eab24449944ca9141b8da8adf7020611").WaitForCompletion();
@@ -32,7 +32,7 @@ namespace WolfoQoL_Client
                 {
                     light = skinEngiAlt_params.rendererInfos[0].renderer.transform.parent.GetChild(2).GetComponent<Light>(),
                     defaultColor = new Color(0, 0.77f, 0.77f, 1f),
-                }, 
+                },
                 new CharacterModel.LightInfo
                 {
                     light = skinEngiAlt_params.rendererInfos[1].renderer.transform.parent.GetChild(2).GetComponent<Light>(),
@@ -47,13 +47,13 @@ namespace WolfoQoL_Client
             {
                 return;
             }
-              
+
             Material matEngiTrail_Sots = GameObject.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Engi/matEngiTrail.mat").WaitForCompletion());
 
             SkinDefParams skinEngiAlt = Addressables.LoadAssetAsync<SkinDefParams>(key: "RoR2/Base/Engi/skinEngiAlt_params.asset").WaitForCompletion();
             SkinDefParams skinEngiAltColossus = Addressables.LoadAssetAsync<SkinDefParams>(key: "RoR2/Base/Engi/skinEngiAltColossus_params.asset").WaitForCompletion();
 
-            
+
             Texture2D texRampEngiColossus = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampEngiColossus.png");
             matEngiTrail_Sots.SetTexture("_RemapTex", texRampEngiColossus);
 
@@ -61,7 +61,7 @@ namespace WolfoQoL_Client
             GameObject EngiHarpoonGhostSkin_Alt = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Alt", false);
             GameObject EngiHarpoonGhostSkin_Sots = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Sots", false);
 
-            
+
             HG.ArrayUtils.ArrayAppend(ref skinEngiAlt.projectileGhostReplacements, new SkinDefParams.ProjectileGhostReplacement
             {
                 projectileGhostReplacementPrefab = EngiHarpoonGhostSkin_Alt,
@@ -72,7 +72,7 @@ namespace WolfoQoL_Client
                 projectileGhostReplacementPrefab = EngiHarpoonGhostSkin_Sots,
                 projectilePrefab = EngiHarpoonProjectile
             });
-  
+
             #region Blue
             ParticleSystemRenderer particleSystem = EngiHarpoonGhostSkin_Alt.transform.GetChild(0).GetComponent<ParticleSystemRenderer>(); //matEngiHarpoonRing 
             Material newRings = GameObject.Instantiate(particleSystem.material);
@@ -114,7 +114,7 @@ namespace WolfoQoL_Client
             //newShards.SetTexture("_RemapTex", texRampEngiColossus);
             newShards.SetColor("_TintColor", new Color(0.6f, 1f, 0.2f, 1));
             particleSystem.material = newShards;
-#endregion
+            #endregion
         }
         public static void FixedTurret()
         {

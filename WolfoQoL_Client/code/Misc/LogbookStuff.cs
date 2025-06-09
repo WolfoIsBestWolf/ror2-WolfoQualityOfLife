@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client
 {
+
     public class LogbookStuff
     {
 
@@ -20,6 +21,59 @@ namespace WolfoQoL_Client
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += SortBossEquip_AddBG;
             On.RoR2.UI.LogBook.LogBookController.BuildSurvivorEntries += SurvivorEntryColor;
 
+            On.RoR2.UI.LogBook.LogBookController.GetPickupStatus += EliteEquipmentViewable;  
+        }
+
+        private static EntryStatus EliteEquipmentViewable(On.RoR2.UI.LogBook.LogBookController.orig_GetPickupStatus orig, ref Entry entry, UserProfile viewerProfile)
+        {
+            PickupIndex pickupIndex = (PickupIndex)entry.extraData;
+            PickupDef pickupDef = PickupCatalog.GetPickupDef(pickupIndex);
+            EquipmentIndex equipmentIndex = (pickupDef != null) ? pickupDef.equipmentIndex : EquipmentIndex.None;
+            if (equipmentIndex != EquipmentIndex.None)
+            {
+                EquipmentDef def = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
+                if (def.passiveBuffDef && def.passiveBuffDef.isElite)
+                {
+                    if (viewerProfile.HasDiscoveredPickup(pickupIndex))
+                    {
+                        return EntryStatus.Available;
+                    }
+                    bool available = false;
+                    if (def == RoR2Content.Equipment.AffixLunar)
+                    {
+                        available = viewerProfile.HasUnlockable(RoR2Content.Items.LunarBadLuck.unlockableDef);
+                    }
+                    else if (def == DLC1Content.Equipment.EliteVoidEquipment)
+                    {
+                        available = viewerProfile.HasAchievement("Characters.VoidSurvivor");
+                    }
+                    else if (def == DLC2Content.Equipment.EliteAurelioniteEquipment)
+                    {
+                        available = viewerProfile.HasUnlockable(DLC2Content.Equipment.HealAndRevive.unlockableDef);
+                    }
+                    else
+                    {
+                        EliteDef eliteDef = def.passiveBuffDef.eliteDef;
+                        if (eliteDef.devotionLevel == EliteDef.DevotionEvolutionLevel.High)
+                        {
+                            available = viewerProfile.HasUnlockable(RoR2Content.Items.Clover.unlockableDef);
+                        }
+                        else
+                        {
+                            available = viewerProfile.HasUnlockable(RoR2Content.Survivors.Captain.unlockableDef);
+                        }
+                    }
+                    if (available)
+                    {
+                        return EntryStatus.Available;
+                    }
+                    else
+                    {
+                        return EntryStatus.Unencountered;
+                    }
+                }
+            }
+            return orig(ref entry, viewerProfile);
         }
 
         private static Entry[] SortBossMonster(On.RoR2.UI.LogBook.LogBookController.orig_BuildMonsterEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
@@ -59,12 +113,8 @@ namespace WolfoQoL_Client
             GameObject GeepBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GeepBody");
             GameObject GipBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/GipBody");
 
-            ModelPanelParameters Gup = GupBody.transform.GetChild(0).GetChild(0).GetComponent<ModelPanelParameters>();
             ModelPanelParameters Geep = GeepBody.transform.GetChild(0).GetChild(0).gameObject.AddComponent<ModelPanelParameters>();
             ModelPanelParameters Gip = GipBody.transform.GetChild(0).GetChild(0).gameObject.AddComponent<ModelPanelParameters>();
-            Geep.modelRotation = new Quaternion(0, 0.9763f,0, -0.2164f);
-            Gip.modelRotation = new Quaternion(0, 0.9763f, 0, -0.2164f);
-
 
             UnlockableDef Log_Gup = GupBody.GetComponent<DeathRewards>().logUnlockableDef;
             GeepBody.GetComponent<DeathRewards>().logUnlockableDef = Log_Gup;
@@ -77,11 +127,12 @@ namespace WolfoQoL_Client
 
             UnlockableDef Unlock_Loop = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Items.Clover");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/UrchinTurretBody").AddComponent<DeathRewards>().logUnlockableDef = Unlock_Loop;
- 
-            GameObject NewtBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody");
-            ModelPanelParameters Newt = NewtBody.transform.GetChild(0).GetChild(0).gameObject.AddComponent<ModelPanelParameters>();
-            Newt.modelRotation = new Quaternion(0, 0.9763f, 0, -0.2164f);
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").dioramaPrefab = Newt.gameObject;
+
+            GameObject newtBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody");
+            Transform mdlNewt = newtBody.transform.GetChild(0).GetChild(0);
+            ModelPanelParameters Newt = mdlNewt.gameObject.AddComponent<ModelPanelParameters>();
+
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").dioramaPrefab = mdlNewt.gameObject;
 
             Entry[] entries_TEMP = orig(expansionAvailability);
             ScavLunar1.GetComponent<CharacterBody>().baseNameToken = "SCAVLUNAR1_BODY_NAME";
@@ -129,7 +180,7 @@ namespace WolfoQoL_Client
         public static Entry[] SortBossEquip_AddBG(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
             Entry[] array = orig(expansionAvailability);
- 
+
             #region Sort Boss Equipment
             int num = -1;
             List<Entry> list = new List<Entry>();

@@ -3,7 +3,6 @@ using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using RoR2.ContentManagement;
 
 namespace WolfoQoL_Client
 {
@@ -47,7 +46,7 @@ namespace WolfoQoL_Client
             {
                 Loadout temploadout = self.networkUser.networkLoadout.loadout;
                 BodyIndex Croco = BodyCatalog.FindBodyIndexCaseInsensitive("CrocoBody");
-              
+
                 if (temploadout != null && self.networkUser.bodyIndexPreference == Croco)
                 {
                     uint skill = temploadout.bodyLoadoutManager.GetSkillVariant(Croco, 0);
@@ -83,29 +82,29 @@ namespace WolfoQoL_Client
         }
 
 
-       
+
         public static void EffectReplacements()
         {
 
- 
+
             GameObject effect = null;
-           
+
             //M2s
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/MuzzleflashCroco.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Effects_Blight.MuzzleflashCroco_Blight, null, false);
-            
+
             //M2M4
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDiseaseImpactEffect.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Effects_Blight.CrocoDiseaseImpactEffect_Blight, null, false);
-        
+
             //M4 Orb
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDiseaseOrbEffect.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Effects_Blight.CrocoDiseaseOrbEffect_Blight, null, false);
-          
+
             //M3 Default
             effect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoLeapExplosion.prefab").WaitForCompletion();
             EffectReplacer.SetupComponent(effect, Effects_Blight.CrocoLeapExplosion_Blight, null, false);
-            
+
         }
 
 
@@ -117,9 +116,9 @@ namespace WolfoQoL_Client
             int length = paramCrocoDefault.rendererInfos.Length;
             CharacterModel.RendererInfo[] newRenderInfos = new CharacterModel.RendererInfo[length];
             Array.Copy(paramCrocoDefault.rendererInfos, newRenderInfos, length);
- 
+
             //Breaks reality
-            //Material matCrocoBlight =  UnityEngine.Object.Instantiate(AssetAsyncReferenceManager<Material>.LoadAsset(newRenderInfos[0].defaultMaterialAddress, AsyncReferenceHandleUnloadType.OnSceneUnload).WaitForCompletion());
+            // Material matCrocoBlight =  UnityEngine.Object.Instantiate(AssetAsyncReferenceManager<Material>.LoadAsset(newRenderInfos[0].defaultMaterialAddress.AssetGUID).WaitForCompletion());
             Material matCrocoBlight = UnityEngine.Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "16459c0089d3ebd4198f3d43d5510301").WaitForCompletion());
 
 
@@ -135,17 +134,17 @@ namespace WolfoQoL_Client
             newRenderInfos[1].defaultMaterialAddress = null; //matCrocoDiseaseDrippings
 
             SkinDef newSkin = ScriptableObject.CreateInstance<SkinDef>();
-  
+
             newSkin.name = "skinCrocoDefault_Blight";
             newSkin.nameToken = "SKIN_CROCO_BLIGHT";
             newSkin.unlockableDef = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Skills.Croco.PassivePoisonLethal");
             newSkin.icon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/General/texCrocoBlightSkin.png");
             newSkin.rendererInfos = newRenderInfos;
             newSkin.rootObject = skinCrocoDefault.rootObject;
-            newSkin.baseSkins = new SkinDef[] {skinCrocoDefault};
-            
+            newSkin.baseSkins = new SkinDef[] { skinCrocoDefault };
+
             Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody"), newSkin);
-           
+
 
         }
 

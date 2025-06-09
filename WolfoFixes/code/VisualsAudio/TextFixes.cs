@@ -1,19 +1,13 @@
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using R2API;
 using RoR2;
-using RoR2.Items;
-//using System;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using RoR2.Skills;
 
 namespace WolfoFixes
 {
-   
+
     public class TextFixes
     {
-        
+
         public static void Start()
         {
             if (WConfig.cfgTextItems.Value)
@@ -96,7 +90,7 @@ namespace WolfoFixes
             LanguageAPI.Add("EQUIPMENT_BOSSHUNTER_DESC", "<style=cIsDamage>Execute</style> any enemy capable of spawning a <style=cIsTierBoss>unique reward</style>, and it will drop that <style=cIsDamage>item</style>. Equipment is <style=cIsUtility>consumed</style> on use.", "en");
             #endregion
         }
-  
+
         internal static void CharacterText()
         {
 

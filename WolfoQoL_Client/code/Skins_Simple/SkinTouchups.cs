@@ -1,7 +1,7 @@
 ﻿using RoR2;
+using RoR2.Skills;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using RoR2.Skills;
 
 namespace WolfoQoL_Client
 {
@@ -21,7 +21,7 @@ namespace WolfoQoL_Client
             Skins_Engi.AltTrail();
             Skins_Loader();
             Skins_Toolbot();
-        
+
             if (WConfig.cfgSmoothCaptain.Value)
             {
                 Material matCaptainColossusAltArmor = Addressables.LoadAssetAsync<Material>(key: "572c80ba738b3144f9590ef372d0b055").WaitForCompletion();
@@ -31,17 +31,17 @@ namespace WolfoQoL_Client
             }
 
         }
- 
 
-    
- 
+
+
+
         public static void Skins_Toolbot()
         {
-        
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Toolbot/EjectToolbotDualWieldCover.prefab").WaitForCompletion().GetComponent<VFXAttributes>().DoNotPool = true;
             GameObject ToolbotDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Toolbot/ToolbotDisplay.prefab").WaitForCompletion();
             ToolbotDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
- 
+
 
             On.EntityStates.Toolbot.ToolbotDualWield.OnEnter += (orig, self) =>
             {
@@ -94,34 +94,7 @@ namespace WolfoQoL_Client
             {
                 bool red = self.name.EndsWith("Alt") && WConfig.cfgSkinMercRed.Value || self.name.EndsWith("Red");
                 bool green = self.name.EndsWith("Colossus") && WConfig.cfgSkinMercGreen.Value || self.name.EndsWith("Green");
-                ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
- 
-                if (red)
-                {
-                    if (childLocator)
-                    {
-                        Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                        PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
-                        PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
-                        PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
-                        PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
-                        PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
-                        PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
-                    }
-                }
-                else if (green)
-                {
-                    if (childLocator)
-                    {
-                        Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                        PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
-                        PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
-                        PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
-                        PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
-                        PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
-                        PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
-                    }
-                }
+
                 if (characterModel.body)
                 {
                     Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercRed>());
@@ -135,6 +108,39 @@ namespace WolfoQoL_Client
                         characterModel.body.gameObject.AddComponent<MakeThisMercGreen>();
                     }
                 }
+
+                ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
+                if (childLocator == null)
+                {
+                    Debug.LogWarning("mdlMerc without childLocator");
+                    return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
+                }
+                Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
+                if (PreDashEffect == null)
+                {
+                    Debug.Log("mdlMerc without PreDashEffect");
+                    return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
+                }
+
+                if (red)
+                {
+                    PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
+                    PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
+                    PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
+                    PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
+                    PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
+                    PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
+                }
+                else if (green)
+                {
+                    PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
+                    PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
+                    PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
+                    PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
+                    PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
+                    PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
+                }
+
             }
             return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
         }
@@ -169,7 +175,7 @@ namespace WolfoQoL_Client
             }
             else if (self.name.StartsWith("ToolbotDisplay"))
             {
- 
+
                 Loadout temploadout = self.networkUser.networkLoadout.loadout;
                 BodyIndex Toolbot = BodyCatalog.FindBodyIndexCaseInsensitive("ToolbotBody");
                 //Debug.LogWarning(Croco);
@@ -177,7 +183,7 @@ namespace WolfoQoL_Client
                 {
                     int skill = (int)temploadout.bodyLoadoutManager.GetSkillVariant(Toolbot, 0);
 
-                    
+
                     var BodyLoadout = temploadout.bodyLoadoutManager.GetReadOnlyBodyLoadout(Toolbot);
                     SkillFamily family = BodyLoadout.GetSkillFamily(0);
                     ToolbotWeaponSkillDef toolBotSkill = (ToolbotWeaponSkillDef)family.variants[skill].skillDef;
@@ -209,7 +215,7 @@ namespace WolfoQoL_Client
     {
         public int[] skill = new int[4];
         public float x;
-     
+
         public Transform nail_New;
         public Transform rebar_New;
         public Transform rocket_New;
@@ -235,7 +241,7 @@ namespace WolfoQoL_Client
             nail_New = Nail.transform;
             nail_New.SetParent(transform, false);
             nailOriginal.transform.SetParent(nail_New);
- 
+
             GameObject Rebar = new GameObject("rebar_New");
             rebar_New = Rebar.transform;
             rebar_New.transform.SetParent(transform, false);
@@ -273,7 +279,7 @@ namespace WolfoQoL_Client
                 rocket_New.localPosition = rocketOriginal.localPosition * -x * 100;
                 saw_New.localPosition = sawOriginal.localPosition * -x * 100;
             }
-            
+
         }
     }
 

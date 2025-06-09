@@ -16,7 +16,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgOldSotsEliteIcons;
         public static ConfigEntry<bool> cfgDarkTwisted;
         public static ConfigEntry<bool> cfgMithrixPhase4SkipFix;
-        public static ConfigEntry<bool> cfgLoadoutOnDeathScreen;
+        public static ConfigEntry<Position> cfgLoadoutOnDeathScreen;
         public static ConfigEntry<bool> cfgSmoothCaptain;
 
         //Visuals
@@ -51,6 +51,7 @@ namespace WolfoQoL_Client
 
         //Reminders
         public static ConfigEntry<bool> cfgRemindersGeneral;
+        public static ConfigEntry<bool> cfgMessagesGeneral;
 
         public static ConfigEntry<bool> cfgHelminthFix;
 
@@ -91,7 +92,7 @@ namespace WolfoQoL_Client
 
         //Text Changes
         public static ConfigEntry<bool> cfgTextOther;
-        
+
 
         public static ConfigEntry<bool> cfgPrimordialBlueText;
         public static ConfigEntry<bool> cfgPrimordialBlueIcon;
@@ -100,6 +101,7 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> cfgLogbook_More;
         public static ConfigEntry<bool> cfgLogbook_EliteEquip;
+         public static ConfigEntry<bool> cfgLogbook_EliteEquipEarlyViewable;
 
 
         //Misc 
@@ -114,15 +116,15 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgUISimuBorder;
         public static ConfigEntry<bool> cfgUIEclipseBorder;
 
-     
+
         //Visuals
- 
+
         public static ConfigEntry<bool> cfgSkinMercRedSword;
         public static ConfigEntry<bool> cfgSkinMercGreenGlow;
         public static ConfigEntry<bool> cfgSkinEngiHarpoons;
         public static ConfigEntry<bool> cfgSkinMisc;
 
- 
+
 
         public static ConfigEntry<bool> cfgLunarEliteDisplay;
         public static ConfigEntry<bool> OldModelDuplcators;
@@ -317,7 +319,7 @@ namespace WolfoQoL_Client
                 true,
                 "Chat message for when Shrine of Shaping is activated."
             );
-           
+
             #endregion
             #region Hud - MidRun
             //UI -> Hud?
@@ -471,7 +473,7 @@ namespace WolfoQoL_Client
               true,
               "When pinging an item or something containing an item, the items name will use it's color."
           );
- 
+
             cfgTextOther = ConfigFile_Client.Bind(
                 "Text",
                 "Other Text Changes",
@@ -506,6 +508,12 @@ namespace WolfoQoL_Client
                 true,
                 "Add Elite Aspect Equipment to the logbook."
             );
+            cfgLogbook_EliteEquipEarlyViewable = ConfigFile_Client.Bind(
+                "Menu",
+                "Elite Aspect viewable without pickup",
+                true,
+                "Elite Aspects will be viewable without the need to be picked up first. Instead based on progression such as having Beaten the game on Monsoon."
+            );
             cfgLogbook_SortBosses = ConfigFile_Client.Bind(
                 "Menu",
                 "Sort Bosses",
@@ -522,7 +530,7 @@ namespace WolfoQoL_Client
             cfgLoadoutOnDeathScreen = ConfigFile_Client.Bind(
                "Menu",
                "Loadout Death Screen",
-               true,
+               Position.Bottom,
                "Players skill loadouts will be shown, for sharing screenshots primarily."
            );
             cfgDeathScreenAlwaysChatBox = ConfigFile_Client.Bind(
@@ -618,16 +626,16 @@ namespace WolfoQoL_Client
             #region OTHER
             cfgGameplay = ConfigFile_Client.Bind(
                 "Other",
-                "Gameplay fixes",
+                "Gameplay QoL",
                 true,
-                "Gameplay bug fixes and minor quality of life."
+                "Minor quality of life for gameplay. Most will not be in this mod.\n\nEnables Prismatic Trials\nAllows changing Primoridal Teleporter after TP event."
             );
             cfgSmoothCaptain = ConfigFile_Client.Bind(
-                "Visuals",
+                "Skins",
                 "Colossus Captain Smooth",
-                true,
+                false,
                 "Makes the armor on the skin smooth instead of battered"
-            );  
+            );
             cfgDarkTwisted = ConfigFile_Client.Bind(
                 "Visuals",
                 "Dark Twisted Elites",
@@ -659,9 +667,9 @@ namespace WolfoQoL_Client
                 false,
                 "Interactable highlight will be blue instead of red."
             );
-            
 
-     
+
+
 
             ArtifactOutline = ConfigFile_Client.Bind(
                 "Other",
@@ -669,7 +677,7 @@ namespace WolfoQoL_Client
                 false,
                 "Should Artifact Pickups in the Artifact World have a purple (Artifact Color) outline."
             );
- 
+
 
             #endregion
         }
@@ -775,6 +783,10 @@ namespace WolfoQoL_Client
                 else if (entry.SettingType == typeof(ReminderChoice))
                 {
                     ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<ReminderChoice>)entry, false));
+                }
+                else if (entry.SettingType == typeof(Position))
+                {
+                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<Position>)entry, false));
                 }
                 else
                 {

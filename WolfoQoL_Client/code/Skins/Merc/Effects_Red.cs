@@ -80,8 +80,8 @@ namespace WolfoQoL_Client
 
             //AddEffects_ServerSided();
         }
- 
-         public static void AddEffects_ServerSided()
+
+        public static void AddEffects_ServerSided()
         {
             //M2
             ContentAddition.AddEffect(MercSwordSlashWhirlwind_Red);
@@ -113,7 +113,7 @@ namespace WolfoQoL_Client
 
         }
         public static Material matMercIgnition_Red = null;
-     
+
         [Obsolete]
         public static void MakeEffects_Red()
         {
@@ -125,7 +125,7 @@ namespace WolfoQoL_Client
             Material matMercSwipe2_Red = null;
             Material matMercSwipe3_Red = null;
 
-        
+
             Material matMercExposedSlash_Red = null;
             Material matOmniHitspark3Merc_Red = null;
             Material matOmniRadialSlash1Merc_Red = null;

@@ -26,10 +26,10 @@ namespace WolfoQoL_Client
 
         public static GameObject CrocoLeapExplosion_Blight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/CrocoLeapExplosion"), "CrocoLeapExplosion_Blight", false); //CrocoLeapExplosion //Leap
         public static GameObject CrocoFistEffectBlight = null; //CrocoFistEffect //Leap
-        //public static GameObject CrocoChainableFistEffect = null; //CrocoFistEffect //Leap
- 
+                                                               //public static GameObject CrocoChainableFistEffect = null; //CrocoFistEffect //Leap
+
         public static GameObject CrocoLeapAcid_GhostBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoLeapAcidGhost.prefab").WaitForCompletion(), "CrocoLeapAcidGhost_Blight", false); //CrocoLeapAcid //Leap
-   
+
         public static GameObject lobbyPool = null;
 
 
@@ -37,7 +37,7 @@ namespace WolfoQoL_Client
         {
             GameObject CrocoDiseaseProjectile = LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoDiseaseProjectile");
             GameObject CrocoSpit = LegacyResourcesAPI.Load<GameObject>("Prefabs/projectiles/CrocoSpit");
-           
+
             ProjectileGhostReplacer replacerM4 = CrocoDiseaseProjectile.AddComponent<ProjectileGhostReplacer>();
             ProjectileGhostReplacer replacerM2 = CrocoSpit.AddComponent<ProjectileGhostReplacer>();
 
@@ -70,11 +70,11 @@ namespace WolfoQoL_Client
 
             MuzzleflashCroco_Blight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/MuzzleflashCroco.prefab").WaitForCompletion(), "MuzzleflashCroco_Blight", false);
 
-         
+
             MakeEffects();
-             
+
         }
- 
+
         public static void MakeEffects()
         {
             Material matCrocoGooSmallBlightD;
@@ -372,7 +372,7 @@ namespace WolfoQoL_Client
             GameObject CrocoDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDisplay.prefab").WaitForCompletion();
             CrocoDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
             GameObject puddle = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDisplaySpawnEffect.prefab").WaitForCompletion();
-             
+
             lobbyPool = PrefabAPI.InstantiateClone(puddle, "SpawnBlight", false);
             lobbyPool.transform.GetChild(0).GetChild(0).GetComponent<ThreeEyedGames.Decal>().Material = matCrocoGooDecalBlight;
             lobbyPool.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matCrocoDiseaseSporeBlight;

@@ -41,6 +41,21 @@ namespace WolfoQoL_Client
             On.RoR2.TeleporterInteraction.Start += TeleporterInteraction_Start;
 
             On.RoR2.UI.ChargeIndicatorController.Awake += PingIconsShareColor;
+            On.RoR2.PortalStatueBehavior.PreStartClient += NewtPingIcon;
+        }
+
+        private static void NewtPingIcon(On.RoR2.PortalStatueBehavior.orig_PreStartClient orig, PortalStatueBehavior self)
+        {
+            orig(self);
+            if (self.portalType == PortalStatueBehavior.PortalType.Shop)
+            {
+                PingInfoProvider ping = self.GetComponent<PingInfoProvider>();
+                if (!ping)
+                {
+                    ping = self.gameObject.AddComponent<PingInfoProvider>();
+                }
+                ping.pingIconOverride = LunarIcon;
+            }
         }
 
         private static void PingIconsShareColor(On.RoR2.UI.ChargeIndicatorController.orig_Awake orig, RoR2.UI.ChargeIndicatorController self)
@@ -99,18 +114,18 @@ namespace WolfoQoL_Client
         public static void Pings_Chests()
         {
             LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/Chest1").AddComponent<PingInfoProvider>().pingIconOverride = ChestIcon;
- 
+
             ChestLargeIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestLargeIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Chest2").AddComponent<PingInfoProvider>().pingIconOverride = ChestLargeIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").AddComponent<PingInfoProvider>().pingIconOverride = ChestLargeIcon;
- 
+
             LegendaryChestIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestLegendaryIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/GoldChest").AddComponent<PingInfoProvider>().pingIconOverride = LegendaryChestIcon;
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestDamage").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategoryDamage.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestHealing").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategoryHealing.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestUtility").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategoryUtility.png");
- 
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/CategoryChest2/CategoryChest2Damage Variant.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategory2Damage.png");
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/CategoryChest2/CategoryChest2Healing Variant.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategory2Healing.png");
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/CategoryChest2/CategoryChest2Utility Variant.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategory2Utility.png");
@@ -121,37 +136,37 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/EquipmentBarrel").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestEquipIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestEquipIcon.png");
 
- 
+
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CasinoChest").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCasinoIcon.png");
- 
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Chest1StealthedVariant").AddComponent<PingInfoProvider>().pingIconOverride =  Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestInvisibleIcon.png");
- 
+
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Chest1StealthedVariant").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestInvisibleIcon.png");
+
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/VoidChest").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestVoid.png");
- 
+
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/VoidTriple").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestVoidPotential.png");
 
- 
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/TreasureCache/Lockbox.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/LockedIcon.png");
- 
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/TreasureCacheVoid/LockboxVoid.prefab").WaitForCompletion().GetComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/LockedIconAlt.png");
 
- 
+
             Sprite PingIconShippingDroneS = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/PingIconShippingDrone.png");
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestMultiShop/FreeChestMultiShop.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PingIconShippingDroneS;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestTerminalShippingDrone/FreeChestTerminalShippingDrone.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PingIconShippingDroneS;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestTerminal/FreeChestTerminal.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PingIconShippingDroneS;
- 
+
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/ScavBackpack").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ScavBagIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/ScavLunarBackpack").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ScavBagIcon.png");
- 
- 
+
+
             TimedChestIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestTimedIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/TimedChest").AddComponent<PingInfoProvider>().pingIconOverride = TimedChestIcon;
         }
 
         public static void Pings_Shrines()
         {
-            
+
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/shrines/ShrineBoss").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ShrineMountainIcon.png");
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineBoss/ShrineBossSandy Variant.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ShrineMountainIcon.png");
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineBoss/ShrineBossSnowy Variant.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ShrineMountainIcon.png");
@@ -185,7 +200,7 @@ namespace WolfoQoL_Client
 
         public static void Pings_Drones()
         {
- 
+
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/brokendrones/Turret1Broken").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/DroneTurretIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/brokendrones/Drone2Broken").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/DroneHealIcon.png");
@@ -199,7 +214,7 @@ namespace WolfoQoL_Client
 
         public static void Pings_Printer()
         {
- 
+
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/Printer.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/PrinterLarge.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").AddComponent<Reminders.SpawnListener>().greenPrinter = true;
@@ -208,7 +223,7 @@ namespace WolfoQoL_Client
 
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Scrapper").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ScrapperIcon.png");
- 
+
             CauldronIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/CauldronIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, GreenToRed Variant").GetComponent<PingInfoProvider>().pingIconOverride = CauldronIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, WhiteToGreen").GetComponent<PingInfoProvider>().pingIconOverride = CauldronIcon;
@@ -236,14 +251,14 @@ namespace WolfoQoL_Client
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
 
 
-
+            Sprite VoidDeepSymbol = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/DeepVoidPortalBattery/texDeepVoidPortalBatteryIcon.png").WaitForCompletion();
             LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ScrapperIcon.png");
             NullVentIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/CellIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/NullSafeWard").AddComponent<PingInfoProvider>().pingIconOverride = NullVentIcon;
 
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidSuppressor/VoidSuppressor.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/PingIconVoidEradicator.png");
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidSuppressor/VoidSuppressor.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = VoidDeepSymbol;
 
- 
+
             Sprite ShipPodIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texRescueshipIcon");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/QuestVolatileBatteryAttachment").AddComponent<PingInfoProvider>().pingIconOverride = ShipPodIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/QuestVolatileBatteryWorldPickup").AddComponent<PingInfoProvider>().pingIconOverride = ShipPodIcon;
@@ -260,7 +275,7 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporterProngs").AddComponent<PingInfoProvider>().pingIconOverride = PrimordialTeleporterChargedIcon;
 
 
-            Sprite VoidDeepSymbol = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/DeepVoidPortalBattery/texDeepVoidPortalBatteryIcon.png").WaitForCompletion();
+            
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion().GetComponent<PingInfoProvider>().pingIconOverride = VoidDeepSymbol;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidCamp/VoidCamp.prefab").WaitForCompletion().GetComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/VoidIcon.png");
 
@@ -274,7 +289,7 @@ namespace WolfoQoL_Client
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/RadarTower").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/RadarTower.png");
             LunarIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/LunarIcon.png");
- 
+
 
             Sprite VoidCrab = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerAssets/texInfiniteTowerSafeWardIcon.png").WaitForCompletion();
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerAssets/InfiniteTowerSafeWard.prefab").WaitForCompletion().GetComponent<PingInfoProvider>().pingIconOverride = VoidCrab;

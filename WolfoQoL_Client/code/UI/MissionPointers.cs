@@ -179,7 +179,7 @@ namespace WolfoQoL_Client
             public static GameObject GoldShoresPositionIndicator;
             public Version version;
             public float destroyAfter;
- 
+
             public enum Version
             {
                 Gold,

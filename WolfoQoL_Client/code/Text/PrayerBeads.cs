@@ -1,39 +1,37 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using R2API;
+﻿using R2API;
 using RoR2;
-using System;
-using UnityEngine;
 using RoR2.UI;
-using UnityEngine.Events;
+using UnityEngine;
 
 namespace WolfoQoL_Client
 {
- 
+
     public class PrayerBeads
     {
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Pickup;
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Desc;
-        public static ItemIndex moffeine = (ItemIndex)(-2); 
+        public static ItemIndex moffeine = (ItemIndex)(-2);
         public static ItemIndex usedBeads = (ItemIndex)(-2);
         public static bool justRemovedBeadsLocal = false;
 
         private static void Consumed_OverrideTooltip(On.RoR2.UI.ItemIcon.orig_SetItemIndex orig, RoR2.UI.ItemIcon self, ItemIndex newItemIndex, int newItemCount)
         {
-            //If Mithrix takes co
             orig(self, newItemIndex, newItemCount);
             if (newItemIndex == usedBeads)
-            {  
-                if (self.tooltipProvider)
-                {
-                    ItemInventoryDisplay display = self.GetComponentInParent<ItemInventoryDisplay>();
-                    if (display && display.inventory)
-                    {
-                        self.tooltipProvider.bodyToken = GetPrayerBeadsToken(display.inventory, display.inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>(), "OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC");
-                    }
-                }
+            {
+                SetDescription(self);
             }
         }
+
+        internal static void SetDescription(ItemIcon self)
+        {
+            ItemInventoryDisplay display = self.GetComponentInParent<ItemInventoryDisplay>();
+            if (display && display.inventory)
+            {
+                self.tooltipProvider.overrideBodyText = GetPrayerBeadsToken(display.inventory, display.inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>(), "OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC");
+            }
+        }
+
         private static void Consumed_OverrideInspect(On.RoR2.UI.ItemIcon.orig_ItemClicked orig, ItemIcon self)
         {
             orig(self);
@@ -48,13 +46,13 @@ namespace WolfoQoL_Client
                     }
                 }
             }
-                
+
         }
 
         public static void Start()
         {
             //OldBeadsLevel is serveronly?
-  
+
             if (WolfoMain.ServerModInstalled)
             {
                 On.RoR2.UI.ItemIcon.SetItemIndex += Consumed_OverrideTooltip;
@@ -78,35 +76,35 @@ namespace WolfoQoL_Client
                 if (itemDef.pickupIconTexture != null)
                 {
                     self.iconImage.gameObject.SetActive(false);
-                    //self.iconImage.texture = RoR2Content.Items.ScrapGreen.pickupIconTexture;
+
                 }
                 self.titleTMP.color = ColorCatalog.GetColor(itemDef.colorIndex);
             }
         }
 
-     
- 
-        
+
+
+
         private static void OverlayForTransformationMessage(On.RoR2.CharacterMaster.orig_OnBeadReset orig, CharacterMaster self, bool gainedStats)
         {
             CharacterBody body = self.GetBody();
             if (body && gainedStats)
-            {       
+            {
                 PrayerBeads_Ovelay(self.inventory, self, body);
             }
             //Done before, so we can make sure the overlay is made
             orig(self, gainedStats);
- 
+
         }
 
         public static string GetPrayerBeadsToken(Inventory inventory, CharacterBody body, string tokenIn)
         {
-            //Debug.Log("PrayerBeads_Ovelay");
+            Debug.Log("PrayerBeads_Ovelay");
             if (body == null)
             {
                 body = inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>();
             }
- 
+
             float beadDamage = inventory.beadAppliedDamage;
             float beadHealth = inventory.beadAppliedHealth;
             float beadRegen = inventory.beadAppliedRegen;
@@ -160,16 +158,15 @@ namespace WolfoQoL_Client
                 //latestBeader = inventory;
                 string tokenFull = GetPrayerBeadsToken(inventory, body, "OVERLAY_EXTRASTATSONLEVELUP_DESC");
                 BeadsOverlay_Pickup = LanguageAPI.AddOverlay("BEADS_TEMP_", tokenFull);
-                //BeadsOverlay_Desc = LanguageAPI.AddOverlay("BEADS_TEMP_2", tokenFull);
                 CharacterMasterNotificationQueue notificationQueueForMaster = CharacterMasterNotificationQueue.GetNotificationQueueForMaster(master);
                 CharacterMasterNotificationQueue.TransformationInfo transformation = new CharacterMasterNotificationQueue.TransformationInfo(CharacterMasterNotificationQueue.TransformationType.Default, DLC2Content.Items.ExtraStatsOnLevelUp);
                 CharacterMasterNotificationQueue.NotificationInfo info = new CharacterMasterNotificationQueue.NotificationInfo(ItemCatalog.GetItemDef(DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex), transformation);
                 notificationQueueForMaster.PushNotification(info, 12f);
             }
         }
- 
-     
+
+
     }
- 
+
 }
 

@@ -1,9 +1,9 @@
+using EntityStates.Croco;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using System;
 using UnityEngine;
-using EntityStates.Croco;
 using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
@@ -28,10 +28,10 @@ namespace WolfoQoL_Client
                 On.EntityStates.Croco.BaseLeap.OnEnter += AcridBlight_M3_Start;
                 On.EntityStates.Croco.Leap.DoImpactAuthority += AcridBlight_M3_Pool;
 
-               
+
                 //IL.RoR2.Orbs.LightningOrb.Begin += BlightedOrbEffect_HostOnly;
                 //RoR2.Orbs.OrbStorageUtility._orbDictionary.Add("BlightOrb", Effects_Blight.CrocoDiseaseOrbEffect_Blight);
- 
+
                 //Fucking everything Orb related is ServerSided so the latest we can do it is during the attack I guess.
 
             }
@@ -39,7 +39,7 @@ namespace WolfoQoL_Client
 
         }
 
-  
+
         private static void BlightedOrbEffect_HostOnly(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -70,7 +70,7 @@ namespace WolfoQoL_Client
 
 
 
-        private static void AcridBlight_M3_Start(On.EntityStates.Croco.BaseLeap.orig_OnEnter orig,BaseLeap self)
+        private static void AcridBlight_M3_Start(On.EntityStates.Croco.BaseLeap.orig_OnEnter orig, BaseLeap self)
         {
             if (self is Leap)
             {
@@ -82,13 +82,13 @@ namespace WolfoQoL_Client
             orig(self);
         }
 
-        private static void AcridBlight_M3_Pool(On.EntityStates.Croco.Leap.orig_DoImpactAuthority orig,Leap self)
+        private static void AcridBlight_M3_Pool(On.EntityStates.Croco.Leap.orig_DoImpactAuthority orig, Leap self)
         {
             EffectReplacer.ActivateAcrid(self.blastEffectPrefab, self.outer.gameObject);
             orig(self);
         }
 
-        private static void AcridBlight_M2Alt(On.EntityStates.Croco.Bite.orig_BeginMeleeAttackEffect orig,Bite self)
+        private static void AcridBlight_M2Alt(On.EntityStates.Croco.Bite.orig_BeginMeleeAttackEffect orig, Bite self)
         {
             if (self.outer.GetComponent<MakeThisAcridBlight>())
             {
@@ -97,13 +97,13 @@ namespace WolfoQoL_Client
             orig(self);
         }
 
-        private static void AcridBlight_M2_M4(On.EntityStates.Croco.FireSpit.orig_OnEnter orig,FireSpit self)
+        private static void AcridBlight_M2_M4(On.EntityStates.Croco.FireSpit.orig_OnEnter orig, FireSpit self)
         {
             EffectReplacer.ActivateAcrid(self.effectPrefab, self.outer.gameObject);
             orig(self);
         }
 
-        private static void AcridBlight_M1(On.EntityStates.Croco.Slash.orig_BeginMeleeAttackEffect orig,Slash self)
+        private static void AcridBlight_M1(On.EntityStates.Croco.Slash.orig_BeginMeleeAttackEffect orig, Slash self)
         {
             if (self.outer.GetComponent<MakeThisAcridBlight>())
             {

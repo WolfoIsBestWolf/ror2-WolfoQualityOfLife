@@ -5,7 +5,7 @@ using RoR2;
 using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
- 
+
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -38,11 +38,15 @@ namespace WolfoQoL_Server
 
             BuffTimers.Buffs_NewBuffs();
             ConsumedItems.Start();
-      
+
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport);
 
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
+
+
+            //Just in case it breaks but rarely does
+            WConfig.RiskConfig();
         }
 
 
@@ -56,7 +60,7 @@ namespace WolfoQoL_Server
 
 
 
-      
+
 
         public void OneTimeOnlyLateRunner(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
         {

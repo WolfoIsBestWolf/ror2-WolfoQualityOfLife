@@ -1,6 +1,5 @@
 ﻿using R2API;
 using RoR2;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -14,7 +13,7 @@ namespace WolfoQoL_Server
         public static ItemDef UsedRustedKey;
         public static ItemDef UsedEncrustedKey;
         public static ItemDef UsedPrayerBeads;
- 
+
         public static void Start()
         {
             CreateItems();
@@ -25,10 +24,10 @@ namespace WolfoQoL_Server
             if (WConfig.cfgIconsUsedPrayer.Value)
             {
                 On.RoR2.CharacterMaster.OnBeadReset += CharacterMaster_OnBeadReset;
- 
+
             }
         }
- 
+
 
         private static void CharacterMaster_OnBeadReset(On.RoR2.CharacterMaster.orig_OnBeadReset orig, CharacterMaster self, bool gainedStats)
         {
@@ -43,7 +42,7 @@ namespace WolfoQoL_Server
         public static void CreateItems()
         {
             #region Key Consumed
-            UsedRustedKey = ScriptableObject.CreateInstance<ItemDef>(); 
+            UsedRustedKey = ScriptableObject.CreateInstance<ItemDef>();
             UsedRustedKey.name = "TreasureCacheConsumed";
             UsedRustedKey.deprecatedTier = ItemTier.NoTier;
             UsedRustedKey.pickupModelPrefab = LegacyResourcesAPI.Load<ItemDef>("itemdefs/TreasureCache").pickupModelPrefab;
@@ -84,7 +83,7 @@ namespace WolfoQoL_Server
             #endregion
             #region Prayer Beads 2
             ItemDef PrayerBeads = Addressables.LoadAssetAsync<ItemDef>(key: "RoR2/DLC2/Items/ExtraStatsOnLevelUp/ExtraStatsOnLevelUp.asset").WaitForCompletion();
- 
+
             UsedPrayerBeads = ScriptableObject.CreateInstance<ItemDef>();
             UsedPrayerBeads.name = "ExtraStatsOnLevelUpConsumed";
             UsedPrayerBeads.deprecatedTier = ItemTier.NoTier;

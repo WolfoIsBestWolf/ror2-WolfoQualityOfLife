@@ -1,17 +1,14 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
+﻿using MonoMod.Cil;
 using R2API;
 using RoR2;
-using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.ResourceProviders;
 
 namespace WolfoQoL_Client
 {
     public class OtherEnemies
     {
- 
+
         public static void Start()
         {
             if (WConfig.SulfurPoolsSkin.Value)
@@ -25,7 +22,7 @@ namespace WolfoQoL_Client
                 BeetleBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
                 BeetleGuardBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
                 BeetleQueenBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
- 
+
             }
 
 
@@ -37,16 +34,16 @@ namespace WolfoQoL_Client
             if (WConfig.cfgDarkTwisted.Value)
             {
                 //EliteRamp.AddRamp(DLC2Content.Elites.Aurelionite, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteAur.png"));
-                
-                
+
+
                 EliteRamp.AddRamp(DLC2Content.Elites.Bead, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteBead.png"));
                 //IL.RoR2.CharacterModel.UpdateOverlays += CharacterModel_UpdateOverlays;
             }
-           
+
 
             if (WConfig.cfgOldSotsEliteIcons.Value)
             {
-                UpdateSotsEliteIcon(null,null);
+                UpdateSotsEliteIcon(null, null);
             }
             Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion().shaderEliteRampIndex = 0;
 
@@ -58,7 +55,7 @@ namespace WolfoQoL_Client
             ILCursor c = new ILCursor(il);
             c.TryGotoNext(MoveType.After,
                 x => x.MatchLdsfld("RoR2.DLC2Content/Buffs", "EliteBead"));
- 
+
             if (c.TryGotoPrev(MoveType.After,
                 x => x.MatchLdsfld("RoR2.CharacterModel", "lunarGolemShieldMaterial")))
             {
@@ -71,10 +68,10 @@ namespace WolfoQoL_Client
             {
                 Debug.LogWarning("CharacterModel_UpdateOverlays FAILED");
             }
- 
+
         }
 
-            public static void UpdateSotsEliteIcon(object sender, System.EventArgs e)
+        public static void UpdateSotsEliteIcon(object sender, System.EventArgs e)
         {
             if (WConfig.cfgOldSotsEliteIcons.Value)
             {

@@ -39,15 +39,14 @@ namespace WolfoQoL_Server
         //public static ConfigEntry<bool> cfgBuff_Egg;
         //public static ConfigEntry<bool> cfgBuff_HelfireDuration;
         //
- 
+
 
         public static void Start()
         {
             Debug.Log("WQoL InitConfig");
-            BuffConfig(); 
+            BuffConfig();
             InitConfig();
-           
-            RiskConfig();
+
         }
 
 
@@ -59,8 +58,8 @@ namespace WolfoQoL_Server
                 true,
                 "As an emergency in case it breaks I guess."
              );*/
- 
-          
+
+
             cfgIconsUsedKey = ConfigFile_Server.Bind(
                   "Extra Icons",
                   "Consumed Rusted Keys",
@@ -120,7 +119,7 @@ namespace WolfoQoL_Server
                "Buffs",
                "Mod Buffs affect Nectar",
                false,
-               "Should various buffs added by mod, (Rose Buckler, Head Stomper, Frost Relic) count for Growth Nectar."
+               "Should various buffs added by mod count for Growth Nectar.\n\nRose Buckler\nHeadstompers Ready\nFrost Relic\nMilky Chrysalis Flight\nStrides of Heresy"
             );
             cfgBuff_Frozen = ConfigFile_Server.Bind(
                 "Buffs",
@@ -133,7 +132,7 @@ namespace WolfoQoL_Server
                 "Buffs",
                 "Hopoo Feathers",
                 true,
-                "Icon for; Extra jumps granted by Hopoo Feathers, to know how many jumps you have left, useful especially if you have a lot of them.\nAlso works for VanillaVoids : Quill"
+                "Icon for; Extra jumps granted by Hopoo Feathers, to know how many jumps you have left, useful especially if you have a lot of them.\nAlso works for VanillaVoids Quasi Quill"
             );
 
             cfgBuff_ShieldOpalCooldown = ConfigFile_Server.Bind(

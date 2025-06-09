@@ -1,12 +1,11 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using RiskOfOptions.Lib;
 using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
- 
+
 namespace WolfoQoL_Client
 {
 
@@ -263,7 +262,7 @@ namespace WolfoQoL_Client
 
         }
 
-        public static ItemIndex VanillaVoids_WatchBrokeItem = ItemIndex.None;
+        public static ItemIndex VanillaVoids_WatchBrokeItem = (ItemIndex)(-3);
         private static void TransformItem_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
             /*Debug.Log(characterMaster + " | " +
@@ -457,7 +456,7 @@ namespace WolfoQoL_Client
             string token1 = "";
             string token2 = "";
             string hex = "";
- 
+
             PickupDef pickup1 = PickupCatalog.GetPickupDef(oldPickup);
             PickupDef pickup2 = PickupCatalog.GetPickupDef(newPickup);
             hex = ColorUtility.ToHtmlStringRGB(pickup1.baseColor);
@@ -476,7 +475,7 @@ namespace WolfoQoL_Client
 
             return string.Format(Language.GetString("ITEM_RECYCLED_GLOBAL"), token1, token2, hex);
         }
- 
+
     }
 
 

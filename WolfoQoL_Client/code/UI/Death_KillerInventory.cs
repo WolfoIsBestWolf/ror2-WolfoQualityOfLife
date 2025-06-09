@@ -8,7 +8,7 @@ namespace WolfoQoL_Client
 {
     public class KillerInventory
     {
-        
+
 
         public static void AddKillerInventory(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, global::RoR2.UI.GameEndReportPanelController self, global::RoR2.RunReport.PlayerInfo playerInfo, int playerIndex)
         {
@@ -38,7 +38,7 @@ namespace WolfoQoL_Client
 
 
 
- 
+
                 //bool IsLossToPlanet = false;
                 bool IsWinWithEvo = false;
                 /*if (helper.killerObject)
@@ -259,7 +259,7 @@ namespace WolfoQoL_Client
                 }
             }
             KillerInventoryInfoStorage helper = victimMaster.AddComponent<KillerInventoryInfoStorage>();
- 
+
             helper.victimMaster = victimMaster;
             helper.killerName = killerName;
             helper.killerObject = killerObject;

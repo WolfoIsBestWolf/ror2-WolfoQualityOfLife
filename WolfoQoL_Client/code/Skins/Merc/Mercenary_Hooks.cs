@@ -93,7 +93,7 @@ namespace WolfoQoL_Client
                     break;
                 case 2:
                     self.swingEffectPrefab = Merc_Green.MercAssaulterEffect_Green;
-                    self.enterOverlayMaterial = Merc_Green.matMercEnergized_Green;                 
+                    self.enterOverlayMaterial = Merc_Green.matMercEnergized_Green;
                     break;
             }
             SetExposeColor(i);

@@ -3,10 +3,10 @@ using MonoMod.Cil;
 using R2API;
 using RoR2;
 using RoR2.Items;
+using RoR2.Skills;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using RoR2.Skills;
 
 namespace WolfoQoL_Client
 {
@@ -32,13 +32,13 @@ namespace WolfoQoL_Client
 
         public static void Main()
         {
- 
+            EndingText();
             if (WConfig.cfgTextOther.Value)
             {
-                EndingText();
+                
                 OtherText();
             }
-            PrayerBeads.Start();
+
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().subtitleNameToken = "LUNAREXPLODER_BODY_SUBTITLE";
 
@@ -52,7 +52,7 @@ namespace WolfoQoL_Client
 
             On.RoR2.PurchaseInteraction.GetDisplayName += PurchaseInteraction_GetDisplayName;
             IL.RoR2.PurchaseInteraction.GetContextString += PurchaseInteraction_GetContextString;
- 
+
         }
 
 
@@ -66,15 +66,15 @@ namespace WolfoQoL_Client
             SkillDef skill = null;
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC1/VoidSurvivor/FireCorruptBeam.asset").WaitForCompletion();
             BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT");
-            skill.skillDescriptionToken = "SKILL_VOIDFIEND_CORRUPT_M1";           
+            skill.skillDescriptionToken = "SKILL_VOIDFIEND_CORRUPT_M1";
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC1/VoidSurvivor/FireCorruptDisk.asset").WaitForCompletion();
-            BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT"); 
+            BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT");
             skill.skillDescriptionToken = "SKILL_VOIDFIEND_CORRUPT_M2";
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC1/VoidSurvivor/VoidBlinkDown.asset").WaitForCompletion();
-            BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT"); 
+            BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT");
             skill.skillDescriptionToken = "SKILL_VOIDFIEND_CORRUPT_M3";
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC1/VoidSurvivor/CrushHealth.asset").WaitForCompletion();
-            BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT"); 
+            BoostedNameToken(skill, "VOIDFIEND_BOOSTED_FORMAT");
             skill.skillDescriptionToken = "SKILL_VOIDFIEND_CORRUPT_M4";
 
 
@@ -152,12 +152,10 @@ namespace WolfoQoL_Client
 
         public static void EndingText()
         {
-
-            GameEndingDef Ending = LegacyResourcesAPI.Load<GameEndingDef>("GameEndingDefs/PrismaticTrialEnding");
-            Ending.backgroundColor = new Color(0.7f, 0.3f, 0.7f, 0.615f);
-            Ending.foregroundColor = new Color(0.9f, 0.6f, 0.9f, 0.833f);
-            Ending.endingTextToken = "ACHIEVEMENT_COMPLETEPRISMATICTRIAL_NAME";
-
+            GameEndingDef PrismEnding = LegacyResourcesAPI.Load<GameEndingDef>("GameEndingDefs/PrismaticTrialEnding");
+            PrismEnding.backgroundColor = new Color(0.7f, 0.3f, 0.7f, 0.615f);
+            PrismEnding.foregroundColor = new Color(0.9f, 0.6f, 0.9f, 0.833f);
+           
             GameEndingDef MainEnding = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/MainEnding.asset").WaitForCompletion();
             GameEndingDef EscapeSequenceFailed = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/EscapeSequenceFailed.asset").WaitForCompletion();
 
@@ -176,12 +174,14 @@ namespace WolfoQoL_Client
 
             ObliterationEnding.foregroundColor = ObliterationEnding.backgroundColor * 1.1f;
             ObliterationEnding.backgroundColor = ObliterationEnding.backgroundColor.AlphaMultiplied(0.75f);
- 
+
             Sprite texGameResultRebirthS = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/General/texGameResultRebirth.png");
             RebirthEndingDef.icon = texGameResultRebirthS;
 
             if (WConfig.cfgTextOther.Value == true)
             {
+                PrismEnding.endingTextToken = "ACHIEVEMENT_COMPLETEPRISMATICTRIAL_NAME";
+
                 LimboEnding.endingTextToken = "GAME_RESULT_LIMBOWIN";
                 VoidEnding.endingTextToken = "GAME_RESULT_VOIDWIN";
                 EscapeSequenceFailed.endingTextToken = "GAME_RESULT_ESCAPEFAILED";
@@ -313,7 +313,7 @@ namespace WolfoQoL_Client
         {
             //Additional Key Words
             LanguageAPI.Add("KEYWORD_SLOWING", "<style=cKeywordName>Slowing</style><style=cSub>Apply a slowing debuff reducing enemy <style=cIsUtility>movement speed</style> by <style=cIsUtility>50%</style>.</style>", "en");
- 
+
             PurchaseTokenOverwrite changeTokenOnStart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/FreeChestTerminalShippingDrone/FreeChestTerminalShippingDrone.prefab").WaitForCompletion().AddComponent<PurchaseTokenOverwrite>();
             changeTokenOnStart.displayNameToken = "FREECHEST_TERMINAL_NAME";
             changeTokenOnStart.contextToken = "FREECHEST_TERMINAL_CONTEXT";
@@ -343,7 +343,7 @@ namespace WolfoQoL_Client
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/AltarSkeleton/AltarSkeletonBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().baseNameToken = "AltarSkeletonBody";
 
         }
- 
+
         public static void UntieredItemTokens()
         {
 
@@ -374,7 +374,7 @@ namespace WolfoQoL_Client
 
         }
 
- 
+
 
     }
 

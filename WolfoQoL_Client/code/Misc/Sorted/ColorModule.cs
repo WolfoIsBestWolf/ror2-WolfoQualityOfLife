@@ -1,12 +1,9 @@
 using R2API;
 using RoR2;
-using RoR2.ExpansionManagement;
+using RoR2.UI;
 //using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using RoR2.UI;
-using RoR2.UI.LogBook;
 
 namespace WolfoQoL_Client
 {
@@ -18,11 +15,11 @@ namespace WolfoQoL_Client
         public static readonly GameObject HighlightOrangeLunarItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentLunar", false);
         public static bool HighlightEquipment = false;
 
-       
+
         public static readonly GameObject EquipmentBossOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/BossOrb"), "EquipmentBossOrb", false);
         public static readonly GameObject EquipmentLunarOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/LunarOrb"), "EquipmentLunarOrb", false);
         public static readonly GameObject NoTierOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "NoTierOrb", false);
-         
+
         public static Color NewSurvivorLogbookNameColor = new Color32(80, 130, 173, 255);
 
         public static Color ColorEquip_Lunar;
@@ -83,9 +80,39 @@ namespace WolfoQoL_Client
             texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentBossBG.png");
             texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentLunarBG.png");
 
-     
+
             EquipmentCatalog.availability.CallWhenAvailable(ColorModule_Sprites.NewColorOutlineIcons);
             On.RoR2.PickupCatalog.Init += PickupCatalog_Init;
+
+            On.RoR2.ItemDef.CreatePickupDef += ItemDef_CreatePickupDef;
+            On.RoR2.EquipmentDef.CreatePickupDef += EquipmentDef_CreatePickupDef;
+        }
+
+        private static PickupDef ItemDef_CreatePickupDef(On.RoR2.ItemDef.orig_CreatePickupDef orig, ItemDef self)
+        {
+            if (self.tier == ItemTier.NoTier)
+            {
+                PickupDef pickup = orig(self);
+                pickup.dropletDisplayPrefab = NoTierOrb;
+                return pickup;
+            }
+            return orig(self);
+        }
+
+        private static PickupDef EquipmentDef_CreatePickupDef(On.RoR2.EquipmentDef.orig_CreatePickupDef orig, EquipmentDef self)
+        {
+            PickupDef pickup = orig(self);
+            if (self.isBoss)
+            {
+                pickup.dropletDisplayPrefab = EquipmentBossOrb;
+            }
+            else if (self.isLunar)
+            {
+                pickup.dropletDisplayPrefab = EquipmentLunarOrb;
+            }
+
+
+            return pickup;
         }
 
         private static System.Collections.IEnumerator PickupCatalog_Init(On.RoR2.PickupCatalog.orig_Init orig)
@@ -93,20 +120,22 @@ namespace WolfoQoL_Client
             ChangeColorsViaIndex();
             return orig();
         }
-  
+
         public static void OrbMaker()
         {
-           
 
             GameObject EquipmentOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/EquipmentOrb");
             Color reduction = new Color(0.2f, 0.2f, 0.2f, 0f);
             Color reduction2 = new Color(0.5f, 0.5f, 0.5f, 1f);
 
-
-
             #region Equipment + Boss
+
+            PlaySoundOnEvent[] sounds = EquipmentBossOrb.GetComponents<PlaySoundOnEvent>();
+            sounds[0].soundEvent = "Play_item_use_bossHunter";
+            sounds[1].soundEvent = "Play_UI_item_land_tier3";
+
             EquipmentBossOrb.transform.GetChild(0).GetComponent<TrailRenderer>().startColor = ColorEquip_Boss * reduction2;
-            EquipmentBossOrb.transform.GetChild(0).GetComponent<TrailRenderer>().endColor = new Color(1f, 0f, 0f, 0f);
+            EquipmentBossOrb.transform.GetChild(0).GetComponent<TrailRenderer>().endColor = new Color(1, 0f, 0f, 0f);
             EquipmentBossOrb.transform.GetChild(0).GetChild(2).GetComponent<Light>().color = ColorEquip_Boss;
 
             GradientColorKey[] colorKeysB = new GradientColorKey[]
@@ -168,10 +197,13 @@ namespace WolfoQoL_Client
             NoTierOrb.transform.GetChild(0).GetComponent<TrailRenderer>().startColor = new Color(0f, 0f, 0f, 0f);
             NoTierOrb.transform.GetChild(0).GetComponent<TrailRenderer>().endColor = new Color(0.5f, 0.5f, 0.5f, 1);
 
+            sounds = NoTierOrb.GetComponents<PlaySoundOnEvent>();
+            sounds[0].soundEvent = "Play_ui_lunar_coin_drop";
+            sounds[1].soundEvent = "Play_UI_lunarCache_open";
 
         }
 
- 
+
         public static void ChangeColorsViaIndex()
         {
             ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1).colorIndex = index_Void1;
@@ -237,8 +269,8 @@ namespace WolfoQoL_Client
             ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier2).highlightPrefab = HighlightPinkT2Item;
             ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3).highlightPrefab = HighlightPinkT3Item;
             ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss).highlightPrefab = HighlightPinkT3Item;
- 
-        
+
+
             On.RoR2.EquipmentDef.AttemptGrant += EquipmentDef_AttemptGrant;
             On.RoR2.CharacterModel.SetEquipmentDisplay += EquipmentHighlighter;
         }
@@ -249,7 +281,7 @@ namespace WolfoQoL_Client
             if (context.body.hasAuthority)
             {
                 HighlightEquipment = true;
-            }       
+            }
         }
 
         public static void EquipmentHighlighter(On.RoR2.CharacterModel.orig_SetEquipmentDisplay orig, global::RoR2.CharacterModel self, EquipmentIndex newEquipmentIndex)
@@ -289,7 +321,7 @@ namespace WolfoQoL_Client
         }
 
 
-       
+
     }
 
 }

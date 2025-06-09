@@ -1,16 +1,5 @@
-﻿using EntityStates.Engi.SpiderMine;
-using RoR2.UI;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using R2API;
-using RoR2;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using UnityEngine.Rendering.PostProcessing;
- 
+﻿using RoR2;
+
 namespace WolfoFixes
 {
     public class RandomFixes2
@@ -18,7 +7,7 @@ namespace WolfoFixes
 
         public static void Start()
         {
- 
+
             //Fix error spam on Captain Spawn
             On.RoR2.CaptainDefenseMatrixController.TryGrantItem += (orig, self) =>
             {
@@ -32,9 +21,9 @@ namespace WolfoFixes
             };
 
 
-           
- 
- 
+
+
+
             On.RoR2.PortalStatueBehavior.PreStartClient += NewtAvailableFix12;
             On.RoR2.TeleporterInteraction.OnSyncShouldAttemptToSpawnShopPortal += NewtAvailableFix2;
 
@@ -51,10 +40,27 @@ namespace WolfoFixes
                 orig(self);
             };*/
 
-
+            On.RoR2.PurchaseInteraction.ShouldDisplayHologram += PurchaseInteraction_ShouldDisplayHologram;
+            On.RoR2.MultiShopController.ShouldDisplayHologram += MultiShopController_ShouldDisplayHologram; ;
         }
 
+        private static bool MultiShopController_ShouldDisplayHologram(On.RoR2.MultiShopController.orig_ShouldDisplayHologram orig, MultiShopController self, UnityEngine.GameObject viewer)
+        {
+            if (self.costType == CostTypeIndex.None)
+            {
+                return false;
+            }
+            return orig(self, viewer);
+        }
 
+        private static bool PurchaseInteraction_ShouldDisplayHologram(On.RoR2.PurchaseInteraction.orig_ShouldDisplayHologram orig, PurchaseInteraction self, UnityEngine.GameObject viewer)
+        {
+            if (self.costType == CostTypeIndex.None)
+            {
+                return false;
+            }
+            return orig(self,viewer);
+        }
 
         private static void NewtAvailableFix12(On.RoR2.PortalStatueBehavior.orig_PreStartClient orig, PortalStatueBehavior self)
         {
@@ -80,14 +86,14 @@ namespace WolfoFixes
                     }
                 }
             }
-           
+
         }
 
-    
-     
 
-         
-     
+
+
+
+
     }
 
 }

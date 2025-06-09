@@ -115,7 +115,7 @@ namespace WolfoQoL_Client
             Texture2D texRampMercDust_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampMercDustGreen.png");
             Texture2D texRampHuntressSoft_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressSoftGreen.png");
             Texture2D texRampHuntress_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressGreen.png");
- 
+
 
             ParticleSystemRenderer MercSwordSlash_GreenRenderer0 = MercSwordSlash_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
             matMercSwipe1_Green = UnityEngine.Object.Instantiate(MercSwordSlash_GreenRenderer0.material);

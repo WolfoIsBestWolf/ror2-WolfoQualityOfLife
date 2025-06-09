@@ -14,7 +14,7 @@ namespace WolfoQoL_Client
             Reminders_Portal.Start();
             Reminders_SecretGeode.Start();
             Objective_Halcyonite.Start();
-            ShrineStuff.Start();
+            InteractableStuff.Start();
             Reminders_Newt.Start();
 
             //If you scrap it the reminder should vanish
@@ -341,7 +341,7 @@ namespace WolfoQoL_Client
                     string token = string.Empty;
                     if (lockboxVoidCount > 1)
                     {
-                        token =string.Format(Language.GetString("REMINDER_KEYVOID_MANY"), lockboxVoidCount);
+                        token = string.Format(Language.GetString("REMINDER_KEYVOID_MANY"), lockboxVoidCount);
                     }
                     else
                     {

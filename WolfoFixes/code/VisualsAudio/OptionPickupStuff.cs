@@ -10,21 +10,25 @@ namespace WolfoFixes
     {
         public static void Start()
         {
- 
             On.RoR2.PickupPickerController.SetOptionsInternal += OptionPickup_Fixes;
-          
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/OptionPickup/OptionPickerPanel.prefab").WaitForCompletion().GetComponent<RoR2.UI.PickupPickerPanel>().maxColumnCount = 3;
+
         }
-  
+
         private static void OptionPickup_Fixes(On.RoR2.PickupPickerController.orig_SetOptionsInternal orig, PickupPickerController self, PickupPickerController.Option[] newOptions)
         {
             orig(self, newOptions);
+
             PickupIndexNetworker index = self.GetComponent<PickupIndexNetworker>();
-            PickupDisplay pickupDisplay = self.transform.GetChild(0).GetComponent<PickupDisplay>();
-            pickupDisplay.pickupIndex = index.pickupIndex;
-            pickupDisplay.modelObject = self.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-            self.GetComponent<Highlight>().pickupIndex = index.pickupIndex;
-            self.GetComponent<Highlight>().isOn = true;
- 
+            if (index != null)
+            {
+                //Fix spinning on client.
+                PickupDisplay pickupDisplay = self.transform.GetChild(0).GetComponent<PickupDisplay>();
+                pickupDisplay.pickupIndex = index.pickupIndex;
+                pickupDisplay.modelObject = self.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
+                self.GetComponent<Highlight>().pickupIndex = index.pickupIndex;
+                self.GetComponent<Highlight>().isOn = true;
+            }
             if (self.name.StartsWith("Command"))
             {
                 if (index.pickupDisplay)
@@ -47,7 +51,7 @@ namespace WolfoFixes
                     }
                 }
             }
- 
+
         }
 
 

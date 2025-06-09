@@ -3,7 +3,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoFixes
 {
     public class MissingEliteDisplays
     {
@@ -1110,12 +1110,10 @@ namespace WolfoQoL_Client
         {
 
             GameObject ItemInfectionRed = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/ItemInfection, Red.prefab").WaitForCompletion();
-            Debug.Log(ItemInfectionRed);
             MithrixCrystalOrange = PrefabAPI.InstantiateClone(ItemInfectionRed, "ItemInfection, Orange", false);
             MithrixCrystalYellow = PrefabAPI.InstantiateClone(ItemInfectionRed, "ItemInfection, Yellow", false);
             MithrixCrystalPink = PrefabAPI.InstantiateClone(ItemInfectionRed, "ItemInfection, Pink", false);
             MithrixCrystalPinkSmall = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/ItemInfection, White.prefab").WaitForCompletion(), "ItemInfection, PinkSingle", false);
-            Debug.Log(MithrixCrystalPink);
             MithrixCrystalOrange.GetComponent<MeshRenderer>().material = Object.Instantiate<Material>(MithrixCrystalOrange.GetComponent<MeshRenderer>().material);
             MithrixCrystalOrange.GetComponent<MeshRenderer>().material.SetColor("_EmColor", new Color(1.4f, 0.7f, 0f, 1f));
             MithrixCrystalYellow.GetComponent<MeshRenderer>().material = Object.Instantiate<Material>(MithrixCrystalYellow.GetComponent<MeshRenderer>().material);

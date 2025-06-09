@@ -1,6 +1,4 @@
-﻿using EntityStates.Engi.SpiderMine;
-using RoR2.UI;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using R2API;
 using RoR2;
@@ -8,9 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 using UnityEngine.Rendering.PostProcessing;
- 
+
 namespace WolfoQoL_Client
 {
     public class RandomMisc
@@ -46,7 +43,7 @@ namespace WolfoQoL_Client
             LowerPricedChestsGlow.transform.GetChild(3).localPosition = new Vector3(0, 0.7f, 0f);
             LowerPricedChestsGlow.transform.GetChild(3).localScale = new Vector3(1, 1.4f, 1f);
 
- 
+
 
             //Sorting the hidden stages in the menu, kinda dubmb but whatevs
 
@@ -57,11 +54,11 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<SceneDef>("SceneDefs/arena").stageOrder = 91;
             LegacyResourcesAPI.Load<SceneDef>("SceneDefs/voidstage").stageOrder = 92;
             Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().stageOrder = 93;
-     
+
             LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 110;
             LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 111;
 
-             
+
             #region LunarScavLunarBeadBead
             GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
             GivePickupsOnStart.ItemDefInfo[] ScavLunarBeadsGiver = new GivePickupsOnStart.ItemDefInfo[] { Beads };
@@ -98,7 +95,7 @@ namespace WolfoQoL_Client
             };
 
 
-            
+
             //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
 
             /*On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
@@ -117,40 +114,37 @@ namespace WolfoQoL_Client
                 }
             }; */
 
-       
-   
+
+
             SceneDef rootjungle = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/Base/rootjungle/rootjungle.asset").WaitForCompletion();
             MusicTrackDef MusicSulfurPoolsBoss = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muBossfightDLC1_12.asset").WaitForCompletion();
             rootjungle.bossTrack = MusicSulfurPoolsBoss;
 
-    
+
             //On.RoR2.UI.PingIndicator.RebuildPing += PlayerPings;
             IL.RoR2.UI.PingIndicator.RebuildPing += PlayerPing.PlayerPingsIL;
- 
-          
+
+
             IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
 
             On.RoR2.SubjectChatMessage.GetSubjectName += SubjectChatMessage_GetSubjectName;
-      
+
 
             GameObject MiniGeodeBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
             MiniGeodeBody.transform.localScale = Vector3.one * 1.5f;
             Light geode = MiniGeodeBody.transform.GetChild(0).GetChild(2).GetComponent<Light>();
             geode.range = 25;
             geode.intensity = 8;
- 
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
 
             On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
 
-   
+
             GameObject NoCooldownEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/KillEliteFrenzy/NoCooldownEffect.prefab").WaitForCompletion();
             NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().priority = 19;
 
- 
         }
-
-  
 
         public static BodyIndex LemurianBruiser = BodyIndex.None;
         public static string MarriedLemurianNameHook(On.RoR2.Util.orig_GetBestBodyName orig, GameObject bodyObject)
@@ -176,7 +170,7 @@ namespace WolfoQoL_Client
             return orig(bodyObject);
         }
 
- 
+
         private static string SubjectChatMessage_GetSubjectName(On.RoR2.SubjectChatMessage.orig_GetSubjectName orig, SubjectChatMessage self)
         {
             if (self.subjectAsNetworkUser == null && self.subjectAsCharacterBody)
@@ -230,7 +224,7 @@ namespace WolfoQoL_Client
             }
 
         }
- 
+
         private static void BiggerSaleStarRange(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -289,7 +283,7 @@ namespace WolfoQoL_Client
                             }
                         }
                         else if (interactionDriver.saleStarEffect)
-                        {        
+                        {
                             if (!interactionDriver.saleStarEffect.GetComponent<ObjectScaleCurve>())
                             {
                                 AnimationCurve newCurve = new AnimationCurve
@@ -366,7 +360,7 @@ namespace WolfoQoL_Client
 
             ItemDisplay display = VoidAffixDisplay.GetComponent<ItemDisplay>();
             display.rendererInfos = display.rendererInfos.Remove(display.rendererInfos[4]);
- 
+
             VoidAffix.pickupModelPrefab = VoidAffixDisplay;
         }
 

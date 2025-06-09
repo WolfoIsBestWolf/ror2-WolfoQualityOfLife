@@ -11,11 +11,7 @@ namespace WolfoQoL_Client
     public class DeathScreen_Expanded
     {
         public static EquipmentIndex[] DeathEquips_Player = Array.Empty<EquipmentIndex>();
-        //public static EquipmentIndex[] DeathEquips_Killer = Array.Empty<EquipmentIndex>();
-        //public static EquipmentIndex DeathEquip_Player1 = EquipmentIndex.None;
-        //public static EquipmentIndex DeathEquip_Player2 = EquipmentIndex.None;
         public static EquipmentIndex DeathEquip_Enemy1 = EquipmentIndex.None;
-        //public static EquipmentIndex DeathEquip_Enemy2 = EquipmentIndex.None;
         public static bool otherMod = false;
 
         public static void Start()
@@ -27,7 +23,7 @@ namespace WolfoQoL_Client
                 On.RoR2.UI.ItemInventoryDisplay.AllocateIcons += AddEquipmentIcons;
 
                 On.RoR2.UI.GameEndReportPanelController.SetPlayerInfo += KillerInventory.AddKillerInventory;
-             
+
             };
 
             On.RoR2.UI.GameEndReportPanelController.SetPlayerInfo += Death_Loadout.Add_Loadout;
@@ -41,9 +37,11 @@ namespace WolfoQoL_Client
 
         }
 
-    
+
         private static void GameEndMoreStatsShown(On.RoR2.UI.GameEndReportPanelController.orig_SetDisplayData orig, GameEndReportPanelController self, GameEndReportPanelController.DisplayData newDisplayData)
         {
+            bool doneChanges = self.selectedDifficultyImage.gameObject.GetComponent<TooltipProvider>();
+
             //Debug.LogWarning(self.statsToDisplay.Length);
             if (WConfig.cfgDeathScreenStats.Value)
             {
@@ -68,25 +66,25 @@ namespace WolfoQoL_Client
                     self.chatboxTransform.gameObject.SetActive(true);
                 }
             }
+            if (doneChanges)
+            {
+
+                return;
+            }
+
             LayoutElement statInfo = self.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetComponent<LayoutElement>();
             statInfo.preferredHeight = 48;
             statInfo.SetDirty();
             self.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(0, -28);
             self.transform.GetChild(0).GetComponent<RectTransform>().offsetMin = new Vector2(0, -20);
 
-        }
-
-        private static void SetEquipmentInfoTemp(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
-        {
-            orig(self, playerInfo, playerIndex);
-            DeathEquips_Player = playerInfo.equipment;
-            DeathEquip_Enemy1 = EquipmentIndex.None;
-
+            //Difficulty tooltip
             DifficultyIndex difficultyIndex = DifficultyIndex.Invalid;
             if (self.displayData.runReport != null)
             {
                 difficultyIndex = self.displayData.runReport.ruleBook.FindDifficulty();
             }
+
             DifficultyDef difficultyDef = DifficultyCatalog.GetDifficultyDef(difficultyIndex);
             self.selectedDifficultyImage.raycastTarget = true;//? doesn't work without?
             TooltipProvider difficulty = self.selectedDifficultyImage.gameObject.AddComponent<TooltipProvider>();
@@ -95,13 +93,25 @@ namespace WolfoQoL_Client
             difficulty.titleColor = difficultyDef.color;
 
 
-            Transform StatNameLabel = self.selectedDifficultyImage.transform.parent.GetChild(0);
-            Transform DifficultyLabel = self.selectedDifficultyImage.transform.parent.GetChild(2);
+            Transform StatNameLabel = self.selectedDifficultyImage.transform.parent.Find("StatNameLabel");
+            Transform DifficultyLabel = self.selectedDifficultyImage.transform.parent.Find("SelectedDifficultyLabel");
             DifficultyLabel.transform.SetSiblingIndex(1);
             StatNameLabel.GetComponent<LanguageTextMeshController>().token = "RULE_HEADER_DIFFICULTY_WITH_COLON";
             self.selectedDifficultyLabel = DifficultyLabel.GetComponent<LanguageTextMeshController>();
             self.selectedDifficultyLabel.token = difficultyDef.nameToken;
-             
+
+        }
+
+        private static void SetEquipmentInfoTemp(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
+        {
+            orig(self, playerInfo, playerIndex);
+            DeathEquip_Enemy1 = EquipmentIndex.None;
+            if (playerInfo == null)
+            {
+                DeathEquips_Player = Array.Empty<EquipmentIndex>();
+                return;
+            }
+            DeathEquips_Player = playerInfo.equipment;
 
         }
 
@@ -178,7 +188,7 @@ namespace WolfoQoL_Client
                         }
                     }
                 }
-                
+
                 return;
             }
             else
@@ -194,7 +204,7 @@ namespace WolfoQoL_Client
             equipmentIcon.GetComponent<ItemIcon>().SetItemIndex(RoR2Content.Items.BoostAttackSpeed.itemIndex, stack);
 
             EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
-  
+
             equipmentIcon.GetComponent<UnityEngine.UI.RawImage>().texture = equipmentDef.pickupIconTexture;
             TooltipProvider tempTooltip = equipmentIcon.GetComponent<TooltipProvider>();
             equipmentIcon.name = "EquipmentIcon";

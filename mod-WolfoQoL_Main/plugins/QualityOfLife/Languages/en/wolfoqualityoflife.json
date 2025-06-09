@@ -2,6 +2,18 @@
 	"strings":
 	{
 	
+			"VultureEggBody":"Vulture Eggs",
+			"VagrantTrackingBomb":"Vagrant Charge",
+			"ScavSackProjectile":"Thqwib",
+			"ScorchlingBombProjectile":"Worm Bomb",
+			"MiniGeodeBody":"False Geode",
+			"LunarWispTrackingBomb":"Tracking Bomb",
+			"GravekeeperTrackingFireball":"Volatile Wispling",
+			"BirdsharkBody":"Bird Shark",
+			"BeetleWard":"Beetle Juicer",
+			"BeadProjectileTrackingBomb":"Twisted Shard",
+			"AltarSkeletonBody":"Follower of N'kuhana",
+
 			
 			"SKILL_VOIDFIEND_CORRUPT_M1":"Fire a short-range beam for <style=cisDamage>2000% damage per second.</style>",
 			"SKILL_VOIDFIEND_CORRUPT_M2":"Fire a an arcing plasma bomb for <style=cisDamage>1100% damage.</style>",

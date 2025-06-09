@@ -13,7 +13,7 @@ namespace WolfoQoL_Client
         {
             try
             {
-               DetailedDeathMessages(damageReport);
+                DetailedDeathMessages(damageReport);
             }
             catch (Exception e)
             {
@@ -26,7 +26,8 @@ namespace WolfoQoL_Client
 
         public static void DetailedDeathMessages(DamageReport damageReport)
         {
-            DeathAndKillerInventoryMessage(damageReport.damageDealt, damageReport.victimBody, damageReport.attackerBody, damageReport.attackerMaster, damageReport.damageInfo.damageType, damageReport.damageInfo.damageColorIndex, damageReport.damageInfo.delayedDamageSecondHalf, true);
+ 
+            DeathAndKillerInventoryMessage(damageReport.damageInfo.damage, damageReport.victimBody, damageReport.attackerBody, damageReport.attackerMaster, damageReport.damageInfo.damageType, damageReport.damageInfo.damageColorIndex, damageReport.damageInfo.delayedDamageSecondHalf, true);
         }
 
         public static void DeathAndKillerInventoryMessage(float damage, CharacterBody victimBody, CharacterBody attackerBody, CharacterMaster attackerMaster, DamageTypeCombo damageType, DamageColorIndex dmgColor, bool echo, bool sendOverNetwork)
@@ -40,7 +41,7 @@ namespace WolfoQoL_Client
             }
 
 
-            bool isFriendlyFire = attackerBody && attackerBody.teamComponent.teamIndex == victimBody.teamComponent.teamIndex;
+            bool isFriendlyFire = attackerBody && attackerBody.teamComponent && attackerBody.teamComponent.teamIndex == victimBody.teamComponent.teamIndex;
 
             bool isFallDamage = damageType.damageType.HasFlag(DamageType.FallDamage);
 
@@ -118,7 +119,7 @@ namespace WolfoQoL_Client
             {
                 killerBackupName = KillerName,
                 attackerObject = attackerBody ? attackerBody.gameObject : null,
-                victimMaster = victimBody ? victimBody.master.gameObject : null, 
+                victimMaster = victimBody ? victimBody.master.gameObject : null,
             };
             if (attackerMaster)
             {
@@ -132,7 +133,7 @@ namespace WolfoQoL_Client
             {
                 Chat.SendBroadcastChat(deathMessage);
                 if (victimBody.master.IsDeadAndOutOfLivesServer())
-                { 
+                {
                     Chat.SendBroadcastChat(killerInventoryMessage);
                 }
             }

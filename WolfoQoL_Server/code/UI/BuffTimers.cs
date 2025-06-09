@@ -93,7 +93,7 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Strides of Heresy
- 
+
             FakeStrides = ScriptableObject.CreateInstance<BuffDef>();
             FakeStrides.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffLunarShellIcon.png");
             FakeStrides.buffColor = new Color32(189, 176, 255, 255); //BDB0FF
@@ -127,7 +127,7 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Rose Buckler
- 
+
             FakeRoseBuckle = ScriptableObject.CreateInstance<BuffDef>();
             FakeRoseBuckle.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBodyArmor.png");
             FakeRoseBuckle.buffColor = new Color32(251, 199, 38, 255); //FBC726
@@ -166,7 +166,7 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Frozen
- 
+
             FakeFrozen = ScriptableObject.CreateInstance<BuffDef>();
             FakeFrozen.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBrokenCube.png");
             FakeFrozen.buffColor = new Color32(184, 216, 239, 255); //CFDBE0 // B8D8EF
@@ -202,7 +202,7 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region HeadStomper
- 
+
             FakeHeadstompOn = ScriptableObject.CreateInstance<BuffDef>();
             FakeHeadstompOn.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffHeadStompOn.png");
             FakeHeadstompOn.buffColor = new Color32(255, 250, 250, 255);
@@ -429,7 +429,7 @@ namespace WolfoQoL_Server
             }
             */
             #region Frost Relic
- 
+
             FakeFrostRelic = ScriptableObject.CreateInstance<BuffDef>();
             FakeFrostRelic.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFrostRelic.png");
             FakeFrostRelic.buffColor = new Color32(202, 229, 255, 255); //CAE5FF
@@ -458,7 +458,7 @@ namespace WolfoQoL_Server
             #endregion
             #region Feather
             //0.4706 0.1686 0.7765 1
- 
+
             FakeFeather = ScriptableObject.CreateInstance<BuffDef>();
             FakeFeather.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFeather.png");
             FakeFeather.buffColor = new Color32(99, 192, 255, 255); //3FC5E3
@@ -515,7 +515,7 @@ namespace WolfoQoL_Server
                 orig(newBuffDefs);
                 return;
             }
- 
+
         }
 
         public static BuffDef FakeVoidFeather;

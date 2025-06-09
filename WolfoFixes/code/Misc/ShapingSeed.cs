@@ -1,10 +1,8 @@
 using MonoMod.Cil;
 using RoR2;
 using System;
-using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace WolfoFixes
@@ -13,14 +11,14 @@ namespace WolfoFixes
     {
         public static void Start()
         {
- 
+
             IL.RoR2.EquipmentSlot.FireHealAndRevive += ShrineRezEffect; //Use Seed
             IL.RoR2.CharacterMaster.RespawnExtraLifeHealAndRevive += ShrineRezEffect; //Use Seed already dead
             IL.RoR2.CharacterMaster.RespawnExtraLifeShrine += ShrineRezEffect; //Rev from Shrine already dead
 
- 
+
         }
- 
+
         private static void RezEffectOnDead(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -49,7 +47,7 @@ namespace WolfoFixes
                 Debug.LogWarning("IL Failed : bro they forgot to make a rez effect2");
             }
         }
- 
+
         private static void ShrineRezEffect(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -82,9 +80,9 @@ namespace WolfoFixes
 
         }
 
- 
 
-    
+
+
     }
- 
+
 }

@@ -1,5 +1,3 @@
-using EntityStates.AffixVoid;
-using HG;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
@@ -220,7 +218,7 @@ namespace WolfoQoL_Client
         }
 
 
-    
+
     }
     public class KillerInfo_ClientListener : MonoBehaviour
     {
@@ -296,7 +294,7 @@ namespace WolfoQoL_Client
                 }
             }
             DeathMessage.DeathAndKillerInventoryMessage(latestDmg.damage, charBody, attackerBody, attackerMaster, latestDmg.damageType, latestDmg.damageColorIndex, latestDmg.delayedHit, false);
- 
+
         }
 
         public System.Collections.IEnumerator Delay_DeathMessage()
@@ -413,7 +411,7 @@ namespace WolfoQoL_Client
                     });
                 }
 
-               
+
             }
         }
 

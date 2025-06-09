@@ -7,7 +7,7 @@ namespace WolfoQoL_Client
 {
     public class Skins_REX
     {
- 
+
         public static void Start()
         {
             Material matTreebotTreeFlower = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Treebot/matTreebotTreeFlower.mat").WaitForCompletion();
@@ -17,7 +17,7 @@ namespace WolfoQoL_Client
             MatTreebot_VineSots.mainTexture = texTreebotVineForColossus;
 
             SkinDefParams skinTreebotAltColossus = Addressables.LoadAssetAsync<SkinDefParams>(key: "RoR2/Base/Treebot/skinTreebotAltColossus_params.asset").WaitForCompletion();
-            SkinDef skins= Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Treebot/skinTreebotAltColossus.asset").WaitForCompletion();
+            SkinDef skins = Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/Base/Treebot/skinTreebotAltColossus.asset").WaitForCompletion();
 
             Renderer vine = skins.rootObject.transform.GetChild(5).GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>();
 

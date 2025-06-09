@@ -80,7 +80,7 @@ namespace WolfoQoL_Client
         {
             return 1f;
         }
-       
+
         public static IEnumerator Delayed_ChatAddMessage(string chatMessage, float Delay)
         {
             yield return new WaitForSeconds(Delay);

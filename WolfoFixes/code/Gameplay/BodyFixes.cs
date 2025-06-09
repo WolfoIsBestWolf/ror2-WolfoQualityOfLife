@@ -1,12 +1,8 @@
-﻿using RoR2;
-using UnityEngine.AddressableAssets;
-
+﻿using MonoMod.Cil;
+using RoR2;
 using UnityEngine;
-
-//using System;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using System.ComponentModel;
-using MonoMod.Cil;
 
 namespace WolfoFixes
 {
@@ -34,7 +30,7 @@ namespace WolfoFixes
     {
         public static void Start()
         {
-            
+
 
             On.EntityStates.Merc.WhirlwindBase.OnEnter += WhirlwindBase_OnEnter;
 
@@ -56,8 +52,9 @@ namespace WolfoFixes
                 }
             };
 
- 
-            
+
+
+            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags &= ~CharacterBody.BodyFlags.IgnoresRecordDeathEvent;
             GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
             HurtBoxGroup component = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
             component.gameObject.AddComponent<MithrixPhase4Fix>();
@@ -78,12 +75,13 @@ namespace WolfoFixes
             //For testing ig but also it spams the console
             IL.EntityStates.Commando.CommandoWeapon.FirePistol2.FixedUpdate += CommandoReloadStateRemove;
             //Huntress issue only starts at 780% attack speed who cares really
- 
+
             //Boosted Icebox fix
             Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "6870bda0b12690048a9701539d1e2285").WaitForCompletion().activationState = Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "c97062b172b41af4ebdb42c312ac1989").WaitForCompletion().activationState;
             On.EntityStates.Chef.IceBox.OnEnter += IceBox_OnEnter;
 
             On.RoR2.Projectile.CleaverProjectile.ChargeCleaver += CleaverProjectile_ChargeCleaver;
+
 
         }
 
@@ -132,7 +130,7 @@ namespace WolfoFixes
             orig(self);
             if (NetworkServer.active)
             {
-                self.characterBody.AddTimedBuff(JunkContent.Buffs.IgnoreFallDamage, 0.3f, 1);
+                self.characterBody.AddTimedBuff(JunkContent.Buffs.IgnoreFallDamage, self.duration);
             }
         }
     }

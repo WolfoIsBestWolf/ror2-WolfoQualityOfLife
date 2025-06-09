@@ -1,5 +1,21 @@
 #Changelog
 ```
+v4.1.2
+Made Prayer Beads+Consumed work properly with Looking Glass
+Elite Equipment will now be viewable based on other unlock progression.
+- Instead of just relying on the really rare chance to drop one.
+- ie Beat game: Tier 1, Clover unlock Tier 2,
+- They already didnt count towards progression.
+Moved items teleporting if they fall of the map here because it seems fittingly small.
+Removed duplicate elite display addition.
+Fixed custom item orbs being gone.
+Fixed Loadout stat on death screen being broken due to a last minute change.
+Fixed Difficulty stat not working proplery with multiple people
+Fixed MercInLobby sometimes breaking
+Fixed one of the lights not being colored in MercInLobby
+Fixed Detailed Death message using damagePostCalc instead of funny big number before OSP (Host-Only)
+
+
 v4.1.1
 Hopefully fixed stage load error.
 -The code with issues was making a skin.
