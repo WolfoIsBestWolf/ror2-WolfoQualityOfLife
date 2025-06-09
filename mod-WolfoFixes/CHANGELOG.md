@@ -1,5 +1,9 @@
 ## Changelog:
 ```
+v1.1.1
+Fixed latest patch breaking multiplayer with non mod owners due to Suppresed Scrap implementation.
+Moved fixed Diebacks Mushroom fruit not being implemented correctly
+
 v1.1.0
 Fixed Warped Echo negating Eclipse 8 curse entirely.
 Fixed Sawmerang projectiles not inflicting Bleed without the equipment.

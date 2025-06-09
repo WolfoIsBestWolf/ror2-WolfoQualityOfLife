@@ -3,6 +3,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using EntityStates.Fauna;
 
 namespace WolfoFixes
 {
@@ -53,15 +54,18 @@ namespace WolfoFixes
             };
 
 
-
-            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags &= ~CharacterBody.BodyFlags.IgnoresRecordDeathEvent;
-            GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
-            HurtBoxGroup component = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
-            component.gameObject.AddComponent<MithrixPhase4Fix>();
-            if (component)
+            if (WConfig.cfgMithrix4Skip.Value)
             {
-                component.hurtBoxesDeactivatorCounter = 1;
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags &= ~CharacterBody.BodyFlags.IgnoresRecordDeathEvent;
+                GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
+                HurtBoxGroup component = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
+                component.gameObject.AddComponent<MithrixPhase4Fix>();
+                if (component)
+                {
+                    component.hurtBoxesDeactivatorCounter = 1;
+                }
             }
+           
 
             GameObject ChildBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Child/ChildBody.prefab").WaitForCompletion();
             CharacterBody Child = ChildBody.GetComponent<CharacterBody>();
@@ -83,8 +87,32 @@ namespace WolfoFixes
             On.RoR2.Projectile.CleaverProjectile.ChargeCleaver += CleaverProjectile_ChargeCleaver;
 
 
+            //Mushroom tree do not produce fruit or die or whatever 
+            On.EntityStates.Fauna.HabitatFruitDeathState.OnEnter += FixDumbFruit;
+            
+            HabitatFruitDeathState.deathSoundString = "Play_jellyfish_death";
+            HabitatFruitDeathState.healPackMaxVelocity = 60;
+            HabitatFruitDeathState.fractionalHealing = 0.15f;
+            HabitatFruitDeathState.scale = 1;
+ 
         }
-
+        public static GameObject JellyfishDeath;
+        private static void FixDumbFruit(On.EntityStates.Fauna.HabitatFruitDeathState.orig_OnEnter orig, EntityStates.Fauna.HabitatFruitDeathState self)
+        { 
+            Transform Fruit = self.gameObject.transform.GetChild(1).GetChild(3);
+            EffectManager.SimpleImpactEffect(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Jellyfish/JellyfishDeath.prefab").WaitForCompletion(), Fruit.position, Vector3.up, false);
+            if (NetworkServer.active)
+            {
+                
+                GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/HealPack"), Fruit.position, UnityEngine.Random.rotation);
+                gameObject.GetComponent<TeamFilter>().teamIndex = TeamIndex.Player;
+                gameObject.GetComponentInChildren<HealthPickup>().fractionalHealing = HabitatFruitDeathState.fractionalHealing;
+                gameObject.transform.localScale = new Vector3(HabitatFruitDeathState.scale, HabitatFruitDeathState.scale, HabitatFruitDeathState.scale);
+                gameObject.GetComponent<Rigidbody>().AddForce(UnityEngine.Random.insideUnitSphere * HabitatFruitDeathState.healPackMaxVelocity, ForceMode.VelocityChange);
+                NetworkServer.Spawn(gameObject);
+            }
+            orig(self);
+        }
 
 
         private static void IceBox_OnEnter(On.EntityStates.Chef.IceBox.orig_OnEnter orig, EntityStates.Chef.IceBox self)

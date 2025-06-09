@@ -110,6 +110,8 @@ Soup not playing their Soup sound
 ## Misc
 Being able to skip right to Prime Meridian by entering 2 portals at the same time.
 
+Golden Diebacks fruits not dropping healing orbs or playing effects.
+
 Regenerative Scrap being scrapable
 
 Invincibility and Chef Boost showing stacks of the buff.

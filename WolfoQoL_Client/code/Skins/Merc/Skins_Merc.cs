@@ -37,7 +37,7 @@ namespace WolfoQoL_Client
 
             MercDisplay.transform.GetChild(0).GetComponent<CharacterModel>().baseLightInfos[0].light.name = "Point Light";
 
-            CharacterModel.LightInfo[] red = new CharacterModel.LightInfo[3];
+            CharacterModel.LightInfo[] red = new CharacterModel.LightInfo[2];
             System.Array.Copy(skinMercDefault_params.lightReplacements, red, 2);
             red[0].defaultColor = new Color(1, 0.2f, 0.1f, 1);
             red[1].defaultColor = new Color(1, 0.15f, 0.15f, 1);

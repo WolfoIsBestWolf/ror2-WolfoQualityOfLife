@@ -9,8 +9,8 @@ namespace WolfoFixes
     {
         public static void Start()
         {
-            On.RoR2.SceneExitController.OnEnable += SceneExitController_OnEnable;
-            On.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
+            On.RoR2.SceneExitController.OnEnable += PathOfColossusSkipFix;
+            On.RoR2.HealthComponent.TakeDamageProcess += SlayerApplyingToProc;
             IL.RoR2.Artifacts.SwarmsArtifactManager.OnSpawnCardOnSpawnedServerGlobal += VengenceAndEnemyGooboFix;
         }
 
@@ -43,7 +43,7 @@ namespace WolfoFixes
 
 
 
-        public static void HealthComponent_TakeDamageProcess(On.RoR2.HealthComponent.orig_TakeDamageProcess orig, RoR2.HealthComponent self, RoR2.DamageInfo damageInfo)
+        public static void SlayerApplyingToProc(On.RoR2.HealthComponent.orig_TakeDamageProcess orig, RoR2.HealthComponent self, RoR2.DamageInfo damageInfo)
         {
             if ((damageInfo.damageType & DamageType.BonusToLowHealth) > 0UL)
             {
@@ -53,7 +53,7 @@ namespace WolfoFixes
             orig(self, damageInfo);
         }
 
-        private static void SceneExitController_OnEnable(On.RoR2.SceneExitController.orig_OnEnable orig, SceneExitController self)
+        private static void PathOfColossusSkipFix(On.RoR2.SceneExitController.orig_OnEnable orig, SceneExitController self)
         {
             orig(self);
             if (self.isColossusPortal && self.isAlternatePath)

@@ -8,7 +8,7 @@ namespace WolfoFixes
     public class ItemTags
     {
 
-        public static ItemTag evoBlacklist = (ItemTag)94;
+        public static ItemTag evoBlacklistTag = (ItemTag)94;
         public static void Start()
         {
             BasicPickupDropTable dtMonsterTeamTier1Item = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/MonsterTeamGainsItems/dtMonsterTeamTier1Item.asset").WaitForCompletion();
@@ -24,26 +24,52 @@ namespace WolfoFixes
             BasicPickupDropTable dtAISafeTier3Item = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/Common/dtAISafeTier3Item.asset").WaitForCompletion();
 
 
-            ItemTag[] TagsAISafe = { ItemTag.AIBlacklist, ItemTag.SprintRelated, ItemTag.PriorityScrap, ItemTag.InteractableRelated, ItemTag.HoldoutZoneRelated, ItemTag.OnStageBeginEffect };
-            ItemTag[] TagsMonsterTeamGain = { ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.OnKillEffect, ItemTag.EquipmentRelated, ItemTag.SprintRelated, ItemTag.PriorityScrap, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated, ItemTag.Count };
+            ItemTag[] TagsScav = { ItemTag.AIBlacklist, ItemTag.SprintRelated, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated };
+            ItemTag[] TagsMobs = { ItemTag.AIBlacklist, ItemTag.CannotCopy, evoBlacklistTag, ItemTag.OnKillEffect, ItemTag.EquipmentRelated, ItemTag.SprintRelated, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated };
 
-            dtMonsterTeamTier1Item.bannedItemTags = TagsMonsterTeamGain;
-            dtMonsterTeamTier2Item.bannedItemTags = TagsMonsterTeamGain;
-            dtMonsterTeamTier3Item.bannedItemTags = TagsMonsterTeamGain;
+            dtMonsterTeamTier1Item.bannedItemTags = TagsMobs;
+            dtMonsterTeamTier2Item.bannedItemTags = TagsMobs;
+            dtMonsterTeamTier3Item.bannedItemTags = TagsMobs;
 
-            dtArenaMonsterTier1.bannedItemTags = TagsMonsterTeamGain;
-            dtArenaMonsterTier2.bannedItemTags = TagsMonsterTeamGain;
-            dtArenaMonsterTier3.bannedItemTags = TagsMonsterTeamGain;
+            dtArenaMonsterTier1.bannedItemTags = TagsMobs;
+            dtArenaMonsterTier2.bannedItemTags = TagsMobs;
+            dtArenaMonsterTier3.bannedItemTags = TagsMobs;
 
-            dtAISafeTier1Item.bannedItemTags = TagsAISafe;
-            dtAISafeTier2Item.bannedItemTags = TagsAISafe;
-            dtAISafeTier3Item.bannedItemTags = TagsAISafe;
+            dtAISafeTier1Item.bannedItemTags = TagsScav;
+            dtAISafeTier2Item.bannedItemTags = TagsScav;
+            dtAISafeTier3Item.bannedItemTags = TagsScav;
 
 
         }
 
         public static void ItemTagChanges()
         {
+            #region Tag Fixes
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.BonusGoldPackOnKill.tags, ItemTag.AIBlacklist); //Useless
+
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MoveSpeedOnKill.tags, ItemTag.OnKillEffect); //Missed Tag
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MushroomVoid.tags, ItemTag.SprintRelated);
+
+
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.MonstersOnShrineUse.tags, ItemTag.AIBlacklist);
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.GoldOnHit.tags, ItemTag.AIBlacklist);
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.LunarTrinket.tags, ItemTag.AIBlacklist);
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.FocusConvergence.tags, ItemTag.AIBlacklist);
+            ArrayUtils.ArrayAppend(ref DLC2Content.Items.OnLevelUpFreeUnlock.tags, ItemTag.AIBlacklist);
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MushroomVoid.tags, ItemTag.AIBlacklist); //Sprint is blacklisted
+
+
+            RoR2Content.Items.ParentEgg.tags[0] = ItemTag.Healing;
+
+            #endregion
+
+
+
+            if (!WConfig.cfgItemTags.Value)
+            {
+                return;
+            }
+
             #region AI Blacklist
             #region White
 
@@ -51,17 +77,15 @@ namespace WolfoFixes
 
             #endregion
             #region Green
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.BonusGoldPackOnKill.tags, ItemTag.AIBlacklist); //Useless
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.Infusion.tags, ItemTag.AIBlacklist); //Useless
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.PrimarySkillShuriken.tags, evoBlacklist); //Borderline Overpowered
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MoveSpeedOnKill.tags, ItemTag.OnKillEffect); //Missed Tag
-
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.PrimarySkillShuriken.tags, evoBlacklistTag); //Borderline Overpowered
+           
             #endregion
             #region Red
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.NovaOnHeal.tags, ItemTag.AIBlacklist); //Overpowered
 
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.BarrierOnOverHeal.tags, evoBlacklist); //Useless
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MoreMissile.tags, evoBlacklist); //Useless
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.BarrierOnOverHeal.tags, evoBlacklistTag); //Useless
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MoreMissile.tags, evoBlacklistTag); //Useless
 
             #endregion
             #region Boss
@@ -77,21 +101,14 @@ namespace WolfoFixes
 
             #endregion
             #region Lunar
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.MonstersOnShrineUse.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.GoldOnHit.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.LunarTrinket.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.FocusConvergence.tags, ItemTag.AIBlacklist);
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.LunarSun.tags, ItemTag.AIBlacklist);
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.RandomlyLunar.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref DLC2Content.Items.OnLevelUpFreeUnlock.tags, ItemTag.AIBlacklist);
-
+            
             #endregion
             #region Void
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.ElementalRingVoid.tags, ItemTag.AIBlacklist); //Unfun
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.ExplodeOnDeathVoid.tags, ItemTag.AIBlacklist); //Op
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MushroomVoid.tags, ItemTag.SprintRelated);
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MushroomVoid.tags, ItemTag.AIBlacklist); //Sprint is blacklisted
-
+           
             #endregion
             #endregion
 
@@ -126,10 +143,9 @@ namespace WolfoFixes
             DLC1Content.Items.LunarSun.tags[0] = ItemTag.Damage;
             RoR2Content.Items.LunarUtilityReplacement.tags[0] = ItemTag.Healing;
             RoR2Content.Items.ShieldOnly.tags[0] = ItemTag.Healing;
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.HalfSpeedDoubleHealth.tags, ItemTag.Healing);
 
             //Boss
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.HalfSpeedDoubleHealth.tags, ItemTag.Healing);
-            RoR2Content.Items.ParentEgg.tags[0] = ItemTag.Healing;
             ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.Knurl.tags, 0); //Remove Utility
 
             //Void

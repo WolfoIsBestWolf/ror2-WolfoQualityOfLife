@@ -24,6 +24,7 @@ namespace WolfoFixes
           
             BodyFixes.Start();
             Simualcrum.Start();
+           
             Devotion.Start();
             ItemsAndEquipment.Start();
             Glass.Start();
@@ -36,6 +37,8 @@ namespace WolfoFixes
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
             ItemTags.Start();
+
+            VoidSuppressor.Start();
         }
 
 

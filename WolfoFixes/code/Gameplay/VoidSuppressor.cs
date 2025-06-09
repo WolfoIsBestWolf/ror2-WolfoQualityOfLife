@@ -11,32 +11,10 @@ using UnityEngine.AddressableAssets;
 namespace WolfoFixes
 {
 
-    public class Simualcrum
+    public class VoidSuppressor
     {
         public static void Start()
         {
-            IL.RoR2.InfiniteTowerWaveController.FixedUpdate += FixRequestIndicatorsClient;
-            On.EntityStates.InfiniteTowerSafeWard.AwaitingActivation.OnEnter += Waiting_SetRadius;
-            FixVoidSuppresor();
-            On.RoR2.InfiniteTowerRun.OverrideRuleChoices += ForceSotVOn;
-        }
-
-        private static void ForceSotVOn(On.RoR2.InfiniteTowerRun.orig_OverrideRuleChoices orig, InfiniteTowerRun self, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude, ulong runSeed)
-        {
-            orig(self, mustInclude, mustExclude, runSeed);
-            RuleDef ruleDef = RuleCatalog.FindRuleDef("Expansions.DLC1");
-            RuleChoiceDef ruleChoiceDef = (ruleDef != null) ? ruleDef.FindChoice("On") : null;
-            if (ruleChoiceDef != null)
-            {
-                self.ForceChoice(mustInclude, mustExclude, ruleChoiceDef);
-            }
-        }
-
-        public static void FixVoidSuppresor()
-        {
-
-            //Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidSuppressor/iscVoidSuppressor.asset").WaitForCompletion().directorCreditCost = 4;
-            //Since we got Void Soupper in Dissim we gotta fix the vanilla up
             GameObject VoidSuppressor = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidSuppressor/VoidSuppressor.prefab").WaitForCompletion();
 
             /*DitherModel dither = VoidSuppressor.AddComponent<DitherModel>();
@@ -45,14 +23,15 @@ namespace WolfoFixes
             VoidSuppressorBehavior suppressor = VoidSuppressor.GetComponent<VoidSuppressorBehavior>();
             //suppressor.itemRefreshDelay = 0.5f;
             suppressor.useRefreshDelay = 1.05f; //Cannot go above this
-            suppressor.costMultiplierPerPurchase = 1;
-
+ 
             VoidSuppressor.GetComponent<PurchaseInteraction>().isShrine = true;
             VoidSuppressor.GetComponent<VoidSuppressorBehavior>().effectColor.a = 0.85f;
+            //Better item position and effects
             Transform mdlVoidSuppressor = VoidSuppressor.transform.GetChild(0);
             mdlVoidSuppressor.GetChild(7).GetChild(1).GetChild(1).gameObject.SetActive(true);
             mdlVoidSuppressor.GetChild(7).localPosition = new Vector3(0, -0.5f, -0.5f);
             mdlVoidSuppressor.GetChild(7).GetChild(1).GetChild(0).localScale = new Vector3(1.2f, 1.2f, 1.2f);
+            //Fix too close to camera
             Renderer temp = mdlVoidSuppressor.GetChild(5).GetComponent<Renderer>();
             temp.localBounds = new Bounds
             {
@@ -60,17 +39,7 @@ namespace WolfoFixes
             };
 
 
-
-           
-            MiscContent.ScrapWhiteSuppressed.pickupToken = "ITEM_SCRAPWHITE_PICKUP";
-            MiscContent.ScrapGreenSuppressed.pickupToken = "ITEM_SCRAPGREEN_PICKUP";
-            MiscContent.ScrapRedSuppressed.pickupToken = "ITEM_SCRAPRED_PICKUP";
-
-            MiscContent.ScrapWhiteSuppressed.descriptionToken = "ITEM_SCRAPWHITE_DESC";
-            MiscContent.ScrapGreenSuppressed.descriptionToken = "ITEM_SCRAPGREEN_DESC";
-            MiscContent.ScrapRedSuppressed.descriptionToken = "ITEM_SCRAPRED_DESC";
-
-      
+            //Hud being too small for item icons
             GameObject Hud = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HUDSimple.prefab").WaitForCompletion();
             try
             {
@@ -95,17 +64,30 @@ namespace WolfoFixes
             var InspectInfo = VoidSuppressor.AddComponent<GenericInspectInfoProvider>();
             InspectInfo.InspectInfo = inspectDef;
 
-            On.RoR2.VoidSuppressorBehavior.PreStartClient += VoidSuppressorBehavior_PreStartClient;
-            On.RoR2.VoidSuppressorBehavior.RefreshPickupDisplays += VoidSuppressorBehavior_RefreshPickupDisplays;
-            
- 
-            On.RoR2.PickupCatalog.Init += PickupCatalog_Init;
-            On.RoR2.PickupCatalog.SetEntries += PickupCatalog_SetEntries;
-            On.RoR2.GameCompletionStatsHelper.ctor += GameCompletionStatsHelper_ctor;
-            Run.onRunStartGlobal += Run_onRunStartGlobal;
+            On.RoR2.VoidSuppressorBehavior.PreStartClient += AddPriceHologram;
+            On.RoR2.VoidSuppressorBehavior.RefreshPickupDisplays += FixPickupDisplayTooSmallDueToLossyScale;
+
+
+            #region Strange Scrap
+            MiscContent.ScrapWhiteSuppressed.pickupToken = "ITEM_SCRAPWHITE_PICKUP";
+            MiscContent.ScrapGreenSuppressed.pickupToken = "ITEM_SCRAPGREEN_PICKUP";
+            MiscContent.ScrapRedSuppressed.pickupToken = "ITEM_SCRAPRED_PICKUP";
+
+            MiscContent.ScrapWhiteSuppressed.descriptionToken = "ITEM_SCRAPWHITE_DESC";
+            MiscContent.ScrapGreenSuppressed.descriptionToken = "ITEM_SCRAPGREEN_DESC";
+            MiscContent.ScrapRedSuppressed.descriptionToken = "ITEM_SCRAPRED_DESC";
+
+
+            On.RoR2.PickupCatalog.Init += MakeTiered;
+            On.RoR2.PickupCatalog.SetEntries += MakeUntiered;
+            On.RoR2.GameCompletionStatsHelper.ctor += RemoveFromCompletion;
+            Run.onRunStartGlobal += MakeTieredAgain;
+            #endregion
         }
 
-        private static void PickupCatalog_SetEntries(On.RoR2.PickupCatalog.orig_SetEntries orig, PickupDef[] pickupDefs)
+
+
+        private static void MakeUntiered(On.RoR2.PickupCatalog.orig_SetEntries orig, PickupDef[] pickupDefs)
         {
             orig(pickupDefs);
             MiscContent.ScrapWhiteSuppressed.tier = ItemTier.NoTier;
@@ -113,16 +95,16 @@ namespace WolfoFixes
             MiscContent.ScrapRedSuppressed.tier = ItemTier.NoTier;
         }
 
-        private static void Run_onRunStartGlobal(Run obj)
+        private static void MakeTieredAgain(Run obj)
         {
         
             MiscContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
             MiscContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
             MiscContent.ScrapRedSuppressed.tier = ItemTier.Tier3;
-            Run.onRunStartGlobal -= Run_onRunStartGlobal;
+            Run.onRunStartGlobal -= MakeTieredAgain;
         }
 
-        private static System.Collections.IEnumerator PickupCatalog_Init(On.RoR2.PickupCatalog.orig_Init orig)
+        private static System.Collections.IEnumerator MakeTiered(On.RoR2.PickupCatalog.orig_Init orig)
         {
             MiscContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
             MiscContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
@@ -130,7 +112,7 @@ namespace WolfoFixes
             return orig();
         }
 
-        private static void GameCompletionStatsHelper_ctor(On.RoR2.GameCompletionStatsHelper.orig_ctor orig, GameCompletionStatsHelper self)
+        private static void RemoveFromCompletion(On.RoR2.GameCompletionStatsHelper.orig_ctor orig, GameCompletionStatsHelper self)
         {
             orig(self);
             PickupDef pickupDef1 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MiscContent.ScrapWhiteSuppressed.itemIndex));
@@ -143,7 +125,7 @@ namespace WolfoFixes
 
  
 
-        private static void VoidSuppressorBehavior_RefreshPickupDisplays(On.RoR2.VoidSuppressorBehavior.orig_RefreshPickupDisplays orig, VoidSuppressorBehavior self)
+        private static void FixPickupDisplayTooSmallDueToLossyScale(On.RoR2.VoidSuppressorBehavior.orig_RefreshPickupDisplays orig, VoidSuppressorBehavior self)
         { 
             //Cirvumcent PickupDisplay using lossyScale
             //Which permamently makes some displays smaller
@@ -154,7 +136,7 @@ namespace WolfoFixes
             orig(self);
         }
 
-        private static void VoidSuppressorBehavior_PreStartClient(On.RoR2.VoidSuppressorBehavior.orig_PreStartClient orig, VoidSuppressorBehavior self)
+        private static void AddPriceHologram(On.RoR2.VoidSuppressorBehavior.orig_PreStartClient orig, VoidSuppressorBehavior self)
         {
             orig(self);
 
@@ -172,50 +154,7 @@ namespace WolfoFixes
   
         }
  
-
-        public static void Waiting_SetRadius(On.EntityStates.InfiniteTowerSafeWard.AwaitingActivation.orig_OnEnter orig, EntityStates.InfiniteTowerSafeWard.AwaitingActivation self)
-        {
-            orig(self);
-
-            //Client fix??
-            InfiniteTowerRun run = Run.instance.GetComponent<InfiniteTowerRun>();
-            if (!run.safeWardController)
-            {
-                run.safeWardController = self.gameObject.GetComponent<InfiniteTowerSafeWardController>();
-            }
-        }
-
-
-        public static void FixRequestIndicatorsClient(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.TryGotoNext(MoveType.After,
-             x => x.MatchCallvirt("RoR2.CombatSquad", "get_readOnlyMembersList"));
-
-            if (c.TryGotoPrev(MoveType.Before,
-             x => x.MatchLdfld("RoR2.InfiniteTowerWaveController", "combatSquad")
-            ))
-            {
-                c.EmitDelegate<System.Func<InfiniteTowerWaveController, InfiniteTowerWaveController>>((wave) =>
-                {
-                    if (wave.combatSquad.readOnlyMembersList.Count == 0)
-                    {
-                        Debug.Log("Couln't do indicators the normal way");
-                        for (int i = 0; wave.combatSquad.membersList.Count > i; i++)
-                        {
-                            wave.RequestIndicatorForMaster(wave.combatSquad.membersList[i]);
-                        }
-                    }
-                    return wave;
-                });
-                Debug.Log("IL Found : IL.RoR2.InfiniteTowerWaveController.FixedUpdate");
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed : IL.RoR2.InfiniteTowerWaveController.FixedUpdate");
-            }
-        }
-
+ 
     }
 
 
