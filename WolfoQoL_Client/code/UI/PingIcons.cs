@@ -1,11 +1,104 @@
+using JetBrains.Annotations;
 using RoR2;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 
 
 namespace WolfoQoL_Client
 {
+    public class ShowOnScanner : MonoBehaviour
+    {
+        public Sprite pingIconOverride;
+        public bool showScanner = true;
+        public GameObject scannerIconSpot;
+        public MultiShopController multiShopController;
+        public void Start()
+        {
+            multiShopController = GetComponent<MultiShopController>();
+
+
+            NetworkIdentity net = GetComponent<NetworkIdentity>();
+            if (net != null)
+            {
+                net.isPingable = false;
+            }
+
+            scannerIconSpot = new GameObject("scannerIconSpot");
+            scannerIconSpot.transform.SetParent(transform, false);
+            scannerIconSpot.AddComponent<DummyPingableInteraction>();
+            scannerIconSpot.transform.localPosition = new Vector3(0f,1f,0f);
+            scannerIconSpot.AddComponent<PingInfoProvider>().pingIconOverride = pingIconOverride;
+        }
+
+        public bool ShouldShowOnScanner()
+        {
+            if (multiShopController != null)
+            {
+                return multiShopController.Networkavailable;
+            }
+            return showScanner;
+        }
+    }
+
+    /*public class ShowOnScanner : PingInfoProvider, IInteractable
+    {
+        public bool showScanner = true;
+        public MultiShopController multiShopController;
+        public void Start()
+        {
+            multiShopController = GetComponent<MultiShopController>();
+        }
+
+        public string GetContextString([NotNull] Interactor activator)
+        {
+            return null;
+        }
+
+        public Interactability GetInteractability([NotNull] Interactor activator)
+        {
+            return Interactability.Disabled;
+        }
+
+        public void OnInteractionBegin([NotNull] Interactor activator)
+        {
+            return;
+        }
+        public void OnEnable()
+        {
+            InstanceTracker.Add<ShowOnScanner>(this);
+            Debug.Log(InstanceTracker.GetInstancesList<ShowOnScanner>());
+            Debug.Log(InstanceTracker.GetInstancesList<ShowOnScanner>().Count);
+        }
+        public void OnDisable()
+        {
+            InstanceTracker.Remove<ShowOnScanner>(this);
+        }
+        public bool ShouldIgnoreSpherecastForInteractibility([NotNull] Interactor activator)
+        {
+            return false;
+        }
+
+        public bool ShouldProximityHighlight()
+        {
+            return false;
+        }
+
+        public bool ShouldShowOnScanner()
+        {
+            if (multiShopController != null)
+            {
+                return multiShopController.Networkavailable;
+            }
+            return showScanner;
+        }
+    }*/
+    public class BlockScanner : PingInfoProvider
+    {
+         
+    }
+
     public class PingIcons
     {
         public static Sprite LunarIcon;
@@ -114,14 +207,12 @@ namespace WolfoQoL_Client
         public static void Pings_Chests()
         {
             LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/Chest1").AddComponent<PingInfoProvider>().pingIconOverride = ChestIcon;
-
+           
             ChestLargeIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestLargeIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Chest2").AddComponent<PingInfoProvider>().pingIconOverride = ChestLargeIcon;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").AddComponent<PingInfoProvider>().pingIconOverride = ChestLargeIcon;
-
+            
             LegendaryChestIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestLegendaryIcon.png");
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/GoldChest").AddComponent<PingInfoProvider>().pingIconOverride = LegendaryChestIcon;
-
+           
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestDamage").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategoryDamage.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestHealing").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategoryHealing.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CategoryChestUtility").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCategoryUtility.png");
@@ -134,9 +225,7 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/LunarChest").AddComponent<PingInfoProvider>().pingIconOverride = ChestLunarIcon;
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/EquipmentBarrel").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestEquipIcon.png");
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestEquipIcon.png");
-
-
+  
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/CasinoChest").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestCasinoIcon.png");
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Chest1StealthedVariant").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestInvisibleIcon.png");
@@ -162,6 +251,43 @@ namespace WolfoQoL_Client
 
             TimedChestIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestTimedIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/TimedChest").AddComponent<PingInfoProvider>().pingIconOverride = TimedChestIcon;
+
+
+            #region TripleShop
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/TripleShop").AddComponent<ShowOnScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShop1.png");
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/TripleShopLarge").AddComponent<ShowOnScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShop2.png");
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/TripleShopEquipment").AddComponent<ShowOnScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShopE.png");
+
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/MultiShopTerminal").AddComponent<BlockScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShop1_Shrunk.png");
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/MultiShopLargeTerminal").AddComponent<BlockScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShop2_Shrunk.png");
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/MultiShopEquipmentTerminal").AddComponent<BlockScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShopE_Shrunk.png");
+
+            /*LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/MultiShopTerminal").AddComponent<PingInfoProvider>().pingIconOverride = ChestIcon;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopLargeTerminal").AddComponent<PingInfoProvider>().pingIconOverride = ChestLargeIcon;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/MultiShopEquipmentTerminal").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestEquipIcon.png");*/
+
+            On.RoR2.PurchaseInteraction.ShouldShowOnScanner += PurchaseInteraction_ShouldShowOnScanner;
+            On.RoR2.DummyPingableInteraction.ShouldShowOnScanner += DummyPingableInteraction_ShouldShowOnScanner;
+            #endregion
+        }
+
+        private static bool DummyPingableInteraction_ShouldShowOnScanner(On.RoR2.DummyPingableInteraction.orig_ShouldShowOnScanner orig, DummyPingableInteraction self)
+        {
+            ShowOnScanner showOnScanner = self.GetComponent<ShowOnScanner>();
+            if (showOnScanner)
+            {
+                return showOnScanner.ShouldShowOnScanner();
+            }
+            return orig(self);
+        }
+
+        private static bool PurchaseInteraction_ShouldShowOnScanner(On.RoR2.PurchaseInteraction.orig_ShouldShowOnScanner orig, PurchaseInteraction self)
+        {
+            if (self.GetComponent<BlockScanner>() != null)
+            {
+                return false;
+            }
+            return orig(self);
         }
 
         public static void Pings_Shrines()
@@ -355,6 +481,8 @@ namespace WolfoQoL_Client
 
         public static void ModSupport()
         {
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/GoldChest").AddComponent<PingInfoProvider>().pingIconOverride = LegendaryChestIcon;
+
             //Seems to NOT find vanilla spawn cards which is good
             InteractableSpawnCard[] ISCList = Resources.FindObjectsOfTypeAll(typeof(InteractableSpawnCard)) as InteractableSpawnCard[];
             for (var i = 0; i < ISCList.Length; i++)
@@ -371,6 +499,11 @@ namespace WolfoQoL_Client
                     case "iscShockDrone":
                         ISCList[i].prefab.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/SS2/SS2_DroneShock.png");
                         break;
+                    case "iscTripleShopRed":
+                        ISCList[i].prefab.AddComponent<ShowOnScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShop3.png");
+                        ISCList[i].prefab.GetComponent<MultiShopController>().terminalPrefab.AddComponent<BlockScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShop3_Shrunk.png");
+                        break;
+
                     /*case "iscCloakedShrine":
                     case "iscCloakedShrineSnowy":
                     case "iscCloakedShrineSandy":

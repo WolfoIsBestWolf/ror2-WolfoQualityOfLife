@@ -25,7 +25,7 @@ namespace WolfoFixes
 
 
             ItemTag[] TagsScav = { ItemTag.AIBlacklist, ItemTag.SprintRelated, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated };
-            ItemTag[] TagsMobs = { ItemTag.AIBlacklist, ItemTag.CannotCopy, evoBlacklistTag, ItemTag.OnKillEffect, ItemTag.EquipmentRelated, ItemTag.SprintRelated, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated };
+            ItemTag[] TagsMobs = { ItemTag.AIBlacklist, ItemTag.OnKillEffect, ItemTag.CannotCopy, evoBlacklistTag, ItemTag.EquipmentRelated, ItemTag.SprintRelated, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated };
 
             dtMonsterTeamTier1Item.bannedItemTags = TagsMobs;
             dtMonsterTeamTier2Item.bannedItemTags = TagsMobs;
@@ -45,10 +45,14 @@ namespace WolfoFixes
         public static void ItemTagChanges()
         {
             #region Tag Fixes
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.BonusGoldPackOnKill.tags, ItemTag.AIBlacklist); //Useless
+
+            ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.FlatHealth.tags, 1, 1); //Remove OnkillTag
+
+             
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.BonusGoldPackOnKill.tags, ItemTag.AIBlacklist); //Enemies cannot use Gold
 
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.MoveSpeedOnKill.tags, ItemTag.OnKillEffect); //Missed Tag
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MushroomVoid.tags, ItemTag.SprintRelated);
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MushroomVoid.tags, ItemTag.SprintRelated); //Missed Tag
 
 
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.MonstersOnShrineUse.tags, ItemTag.AIBlacklist);
@@ -74,6 +78,7 @@ namespace WolfoFixes
             #region White
 
 
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.FlatHealth.tags, evoBlacklistTag); //Useless
 
             #endregion
             #region Green

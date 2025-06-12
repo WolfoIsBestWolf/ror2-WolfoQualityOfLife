@@ -1,6 +1,7 @@
 using RoR2;
 //using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace WolfoQoL_Client
 {
@@ -9,12 +10,23 @@ namespace WolfoQoL_Client
     {
         public static void Start()
         {
-            GameObject EquipmentDrone = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EquipmentDroneMaster");
-            EquipmentDrone.AddComponent<EquipmentDroneNameComponent>();
-
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EquipmentDroneMaster").AddComponent<EquipmentDroneNameComponent>(); ;
+            On.RoR2.UI.AllyCardController.UpdateInfo += AllyCardController_UpdateInfo;
         }
 
-
+        private static void AllyCardController_UpdateInfo(On.RoR2.UI.AllyCardController.orig_UpdateInfo orig, RoR2.UI.AllyCardController self)
+        {
+            orig(self);
+            if (self.sourceMaster) 
+            {
+                EquipmentDroneNameComponent drone = null;
+                if (self.sourceMaster.TryGetComponent<EquipmentDroneNameComponent>(out drone))
+                {
+                    //self.GetComponent<LayoutElement>().preferredWidth += 12;
+                    self.transform.GetChild(1).GetComponent<VerticalLayoutGroup>().spacing = 0;
+                }
+            }
+        }
     }
     public class EquipmentDroneNameComponent : MonoBehaviour
     {
@@ -23,6 +35,7 @@ namespace WolfoQoL_Client
         public CharacterBody body;
         public Inventory inventory;
         private bool enigma = false;
+        public bool setName = false;
         private EquipmentIndex lastEquipmentIndex = EquipmentIndex.None;
 
         public void OnEnable()
@@ -31,7 +44,7 @@ namespace WolfoQoL_Client
             {
                 enigma = true;
             }
-            if (WConfig.cfgEquipmentDroneName.Value == false)
+            if (WConfig.cfgEquipmentDroneName.Value == WConfig.ColorOrNot.Off)
             {
                 Destroy(this);
                 return;
@@ -49,7 +62,15 @@ namespace WolfoQoL_Client
         }
         public void OnDisable()
         {
-            inventory.onEquipmentChangedClient -= Inventory_onEquipmentChangedClient;
+            if (master)
+            {
+                master.onBodyStart -= Master_onBodyStart;
+            }
+            if (inventory)
+            {
+                inventory.onEquipmentChangedClient -= Inventory_onEquipmentChangedClient;
+            }
+          
         }
         private void Master_onBodyStart(CharacterBody obj)
         {
@@ -78,9 +99,15 @@ namespace WolfoQoL_Client
                 }
                 else
                 {
-                    var equip = EquipmentCatalog.GetEquipmentDef(inventory.currentEquipmentIndex);
-                    body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(equip.nameToken) + ")";
-                    //Debug.Log(body.baseNameToken);
+                    if (WConfig.cfgEquipmentDroneName.Value == WConfig.ColorOrNot.Colored)
+                    {
+                        body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Help.GetColoredName(inventory.currentEquipmentIndex) + ")";
+                    }
+                    else
+                    {
+                        EquipmentDef equip = EquipmentCatalog.GetEquipmentDef(inventory.currentEquipmentIndex);
+                        body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(equip.nameToken) + ")";
+                    }
                 }
             }
         }

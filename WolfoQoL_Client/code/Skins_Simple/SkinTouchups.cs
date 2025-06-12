@@ -29,7 +29,9 @@ namespace WolfoQoL_Client
                 matCaptainColossusAltArmor.SetTexture("_GreenChannelNormalTex", null); //texTrimSheetLemurianRuins
 
             }
-
+            SkinDefParams skinVoidSurvivorDefault_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "105cacfa3b8253c4c8cf34cb95818dff").WaitForCompletion();
+            skinVoidSurvivorDefault_params.rendererInfos[3].defaultMaterialAddress = skinVoidSurvivorDefault_params.rendererInfos[0].defaultMaterialAddress;
+ 
         }
 
 
@@ -169,11 +171,11 @@ namespace WolfoQoL_Client
                     }
                     else if (skin == 2)
                     {
-                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.MatEngiTurret_Sots;
+                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.matEngiTurretColossus;
                     }
                 }
             }
-            else if (self.name.StartsWith("ToolbotDisplay"))
+            if (self.name.StartsWith("ToolbotDisplay"))
             {
 
                 Loadout temploadout = self.networkUser.networkLoadout.loadout;

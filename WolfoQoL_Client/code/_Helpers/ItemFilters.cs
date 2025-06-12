@@ -98,11 +98,7 @@ namespace WolfoQoL_Client
         public static IEnumerator Delayed_RebirthMessage(NetworkUser user, float delay)
         {
             yield return new WaitForSeconds(delay);
-
-
-            string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(user.rebirthItem).pickupDef.baseColor);
-            hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(user.rebirthItem).nameToken) + "</color>";
-            string result = string.Format(Language.GetString("REBIRTH_ENDING_CHAT_ITEM_2P"), hex);
+            string result = string.Format(Language.GetString("REBIRTH_ENDING_CHAT_ITEM_2P"), Help.GetColoredName(user.rebirthItem));
             Chat.AddMessage("   " + string.Format(Language.GetString("WIN_FORMAT_REBIRTH"), result));
             yield break;
         }

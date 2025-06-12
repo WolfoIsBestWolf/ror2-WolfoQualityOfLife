@@ -5,23 +5,29 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using UnityEngine.Rendering.PostProcessing;
 
-namespace WolfoQoL_Client
+namespace WolfoFixes
 {
     public class Testing
     {
         public static void Start()
         {
-            On.RoR2.PickupPickerController.GetOptionsFromPickupIndex += CommandWithEveryItem;
-    
-            if (WConfig.cfgLogbook_More.Value)
+            if (WConfig.cfgTestMultiplayer.Value)
             {
-                //UnusedStages();
+                IL.RoR2.Networking.ServerAuthManager.HandleSetClientAuth += Testing.ServerAuthManager_HandleSetClientAuth;
+                On.RoR2.Run.GetUserMaster += Testing.Run_GetUserMaster;
             }
             if (WConfig.cfgTestLogbook.Value)
             {
-                LogbookStuff.CheatLogbook();
+                Test_Logbook.CheatLogbook();
             }
-
+            if (WConfig.cfgLoadOrder.Value)
+            {
+                TestLoadOrder.Start();
+            }
+            if (!WConfig.cfgDisable.Value)
+            {
+                On.RoR2.PickupPickerController.GetOptionsFromPickupIndex += CommandWithEveryItem;
+            }
         }
 
         public static CharacterMaster Run_GetUserMaster(On.RoR2.Run.orig_GetUserMaster orig, Run self, NetworkUserId networkUserId)
@@ -54,17 +60,7 @@ namespace WolfoQoL_Client
                 Debug.LogWarning("IL Failed: ServerAuthManager_HandleSetClientAuth");
             }
         }
-
-        public static void NetworkUser_Start(On.RoR2.NetworkUser.orig_Start orig, NetworkUser self)
-        {
-            orig(self);
-            if (WConfig.cfgTestMultiplayer.Value)
-            {
-                self.userName = "Wolfo" + WolfoMain.random.Next();
-            }
-        }
-
-
+  
         public static void UnusedStages()
         {
             SceneDef newScenedDef = ScriptableObject.CreateInstance<SceneDef>();

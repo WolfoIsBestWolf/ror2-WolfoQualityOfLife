@@ -41,6 +41,14 @@ namespace WolfoQoL_Client
 
             On.RoR2.EquipmentSlot.FireRecycle += RecylerMessage_Host;
             On.RoR2.GenericPickupController.OnDeserialize += RecylerMessage_Client;
+
+            //On.RoR2.PressurePlateController.SetSwitch += PressurePlateController_SetSwitch;
+        }
+
+        private static void PressurePlateController_SetSwitch(On.RoR2.PressurePlateController.orig_SetSwitch orig, PressurePlateController self, bool switchIsDown)
+        {
+            //Message? idk
+            orig(self, switchIsDown);
         }
 
         private static void RecylerMessage_Client(On.RoR2.GenericPickupController.orig_OnDeserialize orig, GenericPickupController self, NetworkReader reader, bool initialState)
@@ -159,13 +167,10 @@ namespace WolfoQoL_Client
 
         private static string ColoredItem_DisplayName(On.RoR2.GenericPickupController.orig_GetDisplayName orig, GenericPickupController self)
         {
-            string temp = orig(self);
             PickupDef pickupDef = PickupCatalog.GetPickupDef(self.pickupIndex);
             if (pickupDef != null)
             {
-                string hex = ColorUtility.ToHtmlStringRGB(pickupDef.baseColor);
-                temp = "<color=#" + hex + ">" + temp + "</color>";
-                return temp;
+                return Help.GetColoredName(pickupDef);
             }
             return orig(self);
         }
@@ -307,9 +312,7 @@ namespace WolfoQoL_Client
                     }
                     else if (newIndex == VanillaVoids_WatchBrokeItem)
                     {
-                        string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
-                        hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
-                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH_1P"), hex, player);
+                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH_1P"), Help.GetColoredName(oldIndex), player);
                         Chat.AddMessage(result);
                     }
                 }
@@ -329,9 +332,7 @@ namespace WolfoQoL_Client
                     }
                     else if (newIndex == VanillaVoids_WatchBrokeItem)
                     {
-                        string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
-                        hex = "<color=#" + hex + ">" + Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
-                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH"), hex);
+                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH"), Help.GetColoredName(oldIndex));
                         Chat.AddMessage(result);
                     }
                 }

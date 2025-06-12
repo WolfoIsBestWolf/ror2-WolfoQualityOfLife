@@ -1,6 +1,7 @@
 using BepInEx;
 using BepInEx.Configuration;
 using RiskOfOptions;
+using RiskOfOptions.OptionConfigs;
 using RiskOfOptions.Options;
 using System.Collections.Generic;
 using UnityEngine;
@@ -82,7 +83,13 @@ namespace WolfoQoL_Client
             Top,
             Bottom
         }
-
+        public enum ColorOrNot
+        {
+            Off,
+            White,
+            Colored
+        }
+ 
         //DeathScreen
         public static ConfigEntry<bool> cfgExpandedDeathScreen;
         public static ConfigEntry<bool> cfgDeathScreenStats;
@@ -107,7 +114,7 @@ namespace WolfoQoL_Client
         //Misc 
         public static ConfigEntry<float> cfgPingDurationMultiplier;
         public static ConfigEntry<bool> cfgNewSprintCrosshair;
-        public static ConfigEntry<bool> cfgEquipmentDroneName;
+        public static ConfigEntry<ColorOrNot> cfgEquipmentDroneName;
         public static ConfigEntry<bool> cfgMainMenuRandomizer;
         public static ConfigEntry<int> cfgMainMenuRandomizerSelector;
         public static ConfigEntry<bool> cfgMainMenuScav;
@@ -158,10 +165,9 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMissionPointersGold;
 
         //public static ConfigEntry<bool> cfgTestDisable;
-        public static ConfigEntry<bool> cfgTestMultiplayer;
+
         public static ConfigEntry<bool> cfgTestClient;
         public static ConfigEntry<bool> cfgTestDisableHostInfo;
-        public static ConfigEntry<bool> cfgTestLogbook;
         public static ConfigEntry<bool> cfgTestDisableMod;
         public static ConfigEntry<bool> cfgTestDisableMod2;
 
@@ -182,6 +188,7 @@ namespace WolfoQoL_Client
         public static void Start()
         {
             Debug.Log("WQoL InitConfig");
+            
             InitConfig();
             TestConfig();
 
@@ -249,7 +256,7 @@ namespace WolfoQoL_Client
               "Newt Shrine",
               ReminderChoice.Off,
               "If you, really need to got the Bazaar.\nAuto clears if Teleporter spawns with a free blue orb."
-          );
+            );
             #endregion
             #region More Messages -> Specially when we add chat messages
             cfgMessageDeath = ConfigFile_Client.Bind(
@@ -335,7 +342,9 @@ namespace WolfoQoL_Client
               "Sprinting Crosshair Changes",
               true,
               "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
-          );
+            );
+            LookingGlassPresets.Start();
+
             cfgBuff_RepeatColors = ConfigFile_Client.Bind(
                  "Hud",
                  "Buff Recolors",
@@ -446,7 +455,7 @@ namespace WolfoQoL_Client
             cfgEquipmentDroneName = ConfigFile_Client.Bind(
                "Text",
                "Equipment Name Equipment Drone",
-               true,
+               ColorOrNot.White,
                "Show the equipment a Equipment Drone is holding in its name."
             );
             cfgVoidPotential_ItemsInPing = ConfigFile_Client.Bind(
@@ -478,7 +487,7 @@ namespace WolfoQoL_Client
                 "Text",
                 "Other Text Changes",
                 true,
-                "Adds unique name tokens for Large 3D Printers, Large Multi-Shops, Equipment Multi-Shops, Shipping Multi-Shop, some alt ending types."
+                "Adds a different name token for some interactables or endings that reuse them\n\nLarge 3D Printers\nLarge Multishops\nEquipment Multishops\nShipping Request Multishop\nMoment Whole ending\nVoid ending"
             );
 
 
@@ -685,18 +694,7 @@ namespace WolfoQoL_Client
         public static void TestConfig()
         {
             #region Test
-            cfgTestLogbook = ConfigFile_Client.Bind(
-               "Testing",
-               "Everything Logbook",
-               false,
-               "Add all items, equipments and mobs to logbook, including unfished."
-           );
-            cfgTestMultiplayer = ConfigFile_Client.Bind(
-                "Testing",
-                "Multiplayer Test",
-                false,
-                "Allows you to join yourself via connect localhost:7777"
-            );
+
             cfgTestDisableMod2 = ConfigFile_Client.Bind(
                 "Testing",
                 "Disable Mod",
@@ -744,7 +742,6 @@ namespace WolfoQoL_Client
                 cfgBuff_RepeatColors,
                 cfgLogbook_EliteEquip,
                 cfgLogbook_More,
-                cfgTestLogbook,
                 cfgPingIcons,
                 cfgIconsBodyIcons,
                 cfgSkinEngiHarpoons,
@@ -787,12 +784,37 @@ namespace WolfoQoL_Client
                 else if (entry.SettingType == typeof(Position))
                 {
                     ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<Position>)entry, false));
+                }  
+                else if (entry.SettingType == typeof(LookingGlassPresets.Preset))
+                {
+                    ModSettingsManager.AddOption(new ChoiceOption(LookingGlassPresets.cfgLookingGlassPreset, new ChoiceConfig
+                    {
+                        name = "Looking Glass\nPreset",
+                        restartRequired = false,
+                    }));
+                }
+                else if (entry.SettingType == typeof(ColorOrNot))
+                {
+                    if (entry == cfgEquipmentDroneName)
+                    {
+                        ModSettingsManager.AddOption(new ChoiceOption(cfgEquipmentDroneName, new ChoiceConfig
+                        {
+                            name = "Equipment Drone\nEquipment Name",
+                            restartRequired = false,
+                        }));
+                    }
+                    else
+                    {
+                        ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<ColorOrNot>)entry, false));
+                    }
+                   
                 }
                 else
                 {
                     Debug.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
                 }
             }
+
 
         }
 

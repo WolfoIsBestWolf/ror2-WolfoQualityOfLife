@@ -35,7 +35,6 @@ namespace WolfoQoL_Client
             EndingText();
             if (WConfig.cfgTextOther.Value)
             {
-                
                 OtherText();
             }
 
@@ -120,13 +119,16 @@ namespace WolfoQoL_Client
             x => x.MatchLdfld("RoR2.PurchaseInteraction", "contextToken")))
             {
                 c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<System.Func<string, PurchaseInteraction, string>>((ret, obj) =>
+                c.EmitDelegate<System.Func<string, PurchaseInteraction, string>>((ret, self) =>
                 {
-                    PurchaseTokenOverwrite overwrite = obj.GetComponent<PurchaseTokenOverwrite>();
-                    if (overwrite)
+                    if (self.isActiveAndEnabled)
                     {
-                        return overwrite.contextToken;
-                    }
+                        PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();
+                        if (overwrite)
+                        {
+                            return overwrite.contextToken;
+                        }
+                    }                 
                     return ret;
                 });
             }
@@ -138,7 +140,7 @@ namespace WolfoQoL_Client
 
         private static string PurchaseInteraction_GetDisplayName(On.RoR2.PurchaseInteraction.orig_GetDisplayName orig, PurchaseInteraction self)
         {
-            //Smthsmth risk of options dumb shit language thing??
+            //Check for activeandenabled due to DebugToolkit or smth
             if (self.isActiveAndEnabled)
             {
                 PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();

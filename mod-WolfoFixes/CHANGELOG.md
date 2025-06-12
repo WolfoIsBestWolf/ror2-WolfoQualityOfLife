@@ -1,5 +1,12 @@
 ## Changelog:
 ```
+v1.1.2
+Added some config to bugs people are attached to.
+Config will be in game If RiskOfOptions is installed.
+Fixed Alpha Constructs from Defense Nucleus not using their unique skin
+Fixed XI Construct laser not exploding at end as miscFixes removed it.
+
+
 v1.1.1
 Fixed latest patch breaking multiplayer with non mod owners due to Suppresed Scrap implementation.
 Moved fixed Diebacks Mushroom fruit not being implemented correctly

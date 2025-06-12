@@ -26,6 +26,59 @@ namespace WolfoFixes
             args.senderMaster.inventory.GiveItem(RoR2Content.Items.BoostEquipmentRecharge, 100);
         }
 
+        [ConCommand(commandName = "list_mods", flags = ConVarFlags.None, helpText = "Give Radar Scanner and Equipment Cooldown Reduction hidden item")]
+        public static void CCMods(ConCommandArgs args)
+        {
+            string log1 = "";
+            string log2 = "";
+            foreach (var a in BepInEx.Bootstrap.Chainloader.PluginInfos)
+            {
+                log1 += a.ToString() + "\n";
+            }
+            
+            foreach (var a in NetworkModCompatibilityHelper._networkModList)
+            {
+                log2 += a.ToString() + "\n";
+            }
+            Debug.Log("All loaded mods");
+            Debug.Log(log1);
+            Debug.Log("All RequiredByAllTaggedMods");
+            Debug.Log(log2);         
+        }
+
+        [ConCommand(commandName = "list_pickupdef", flags = ConVarFlags.None, helpText = "Give Radar Scanner and Equipment Cooldown Reduction hidden item")]
+        public static void CCList_Pickups(ConCommandArgs args)
+        {
+            string debug = "";
+            for(int i = 0; i < PickupCatalog.entries.Length; i++)
+            {
+                PickupDef def = PickupCatalog.entries[i];
+                debug += string.Format("{0} | <color=#{2}>{1}</color>\n", new object[]
+                 {
+                    def.internalName,
+                    Language.GetString(def.nameToken),
+                    ColorUtility.ToHtmlStringRGB(def.baseColor),
+                 });
+            }
+            Debug.Log(debug);
+        }
+       
+        [ConCommand(commandName = "list_music", flags = ConVarFlags.None, helpText = "Give Radar Scanner and Equipment Cooldown Reduction hidden item")]
+        public static void CCList_Music(ConCommandArgs args)
+        {
+            string debug = "";
+            for(int i = 0; i < MusicTrackCatalog.musicTrackDefs.Length; i++)
+            {
+                MusicTrackDef def = MusicTrackCatalog.musicTrackDefs[i];
+                debug += string.Format("{0} | {1}\n", new object[]
+                 {
+                    def.cachedName,
+                    def.comment,
+                 });
+            }
+            Debug.Log(debug);
+        }
+        
         [ConCommand(commandName = "goto_boss", flags = ConVarFlags.ExecuteOnServer, helpText = "Tp to Teleporter, Mithrix or False son depending on stage.")]
         public static void CC_GotoMithrix(ConCommandArgs args)
         {
@@ -39,6 +92,23 @@ namespace WolfoFixes
             {
                 newPosition = new Vector3(85.2065f, 146.5167f, -70.5265f);
             }
+            else if (Stage.instance.sceneDef.cachedName == "voidraid")
+            {
+                bool crab = false;
+                for (int i = 0; i < CharacterBody.instancesList.Count; i++)
+                {
+                    if (CharacterBody.instancesList[i].name.StartsWith("MiniVoidRaid"))
+                    {
+                        crab = true;
+                        newPosition = CharacterBody.instancesList[i].corePosition;
+                    }
+                }
+                if (!crab)
+                {
+                    newPosition = new Vector3(-105f, 0.2f, 92f);
+                }
+                
+            }
             else if (TeleporterInteraction.instance)
             {
                 newPosition = TeleporterInteraction.instance.transform.position;
@@ -51,7 +121,7 @@ namespace WolfoFixes
             TeleportHelper.TeleportGameObject(senderBody.gameObject, newPosition);
         }
 
-        [ConCommand(commandName = "list_bodyflags", flags = ConVarFlags.None, helpText = "Simple info dump of Simulacrum waves")]
+        [ConCommand(commandName = "list_bodyflags", flags = ConVarFlags.None, helpText = "List all bodies and their body flags")]
         public static void CCList_BodyFlags(ConCommandArgs args)
         {
             foreach (CharacterBody body in BodyCatalog.bodyPrefabBodyComponents)
@@ -64,29 +134,30 @@ namespace WolfoFixes
             };
         }
 
-        [ConCommand(commandName = "list_simulacrum", flags = ConVarFlags.None, helpText = "Simple info dump of Simulacrum waves")]
+        [ConCommand(commandName = "list_simuwaves", flags = ConVarFlags.None, helpText = "Simple info dump of Simulacrum waves")]
         public static void CCList_SimuWaves(ConCommandArgs args)
         {
             List<InfiniteTowerWaveCategory> categories = Resources.FindObjectsOfTypeAll<InfiniteTowerWaveCategory>().ToList();
-
-            InfiniteTowerRun simu = (InfiniteTowerRun)GameModeCatalog.FindGameModePrefabComponent("InfiniteTowerRun");
             foreach (InfiniteTowerWaveCategory category in categories)
             {
-                Debug.Log(category.name);
+                string debug = "_____\n" + category.name+"";
                 for (int i = 0; i < category.wavePrefabs.Length; i++)
                 {
-                    GameObject wave = category.wavePrefabs[i].wavePrefab;
-                    Debug.LogFormat("\n{0}\n{1}\nWeight: {2}", new object[]
+                    Transform wave = category.wavePrefabs[i].wavePrefab.GetComponent<InfiniteTowerWaveController>().overlayEntries[1].prefab.transform.GetChild(0).GetChild(1);
+                    debug += string.Format("\n<color=#{2}>{0}</color>\n<color=#{3}>{1}</color>\nWeight:{4}", new object[]
                     {
-                        Language.GetString(wave.GetComponent<InfiniteTowerWaveController>().overlayEntries[1].prefab.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<RoR2.UI.InfiniteTowerWaveCounter>().token),
-                        Language.GetString(wave.GetComponent<InfiniteTowerWaveController>().overlayEntries[1].prefab.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<RoR2.UI.LanguageTextMeshController>().token),
+                        Language.GetString(wave.GetChild(0).GetComponent<RoR2.UI.InfiniteTowerWaveCounter>().token),
+                        Language.GetString(wave.GetChild(1).GetComponent<RoR2.UI.LanguageTextMeshController>().token),
+                        ColorUtility.ToHtmlStringRGB(wave.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().color),
+                        ColorUtility.ToHtmlStringRGB(wave.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().color),
                         category.wavePrefabs[i].weight,
                     });
                 }
+                Debug.Log(debug);
             }
         }
 
-        [ConCommand(commandName = "simu_softlock", flags = ConVarFlags.SenderMustBeServer, helpText = "Attempts to end current wave")]
+        [ConCommand(commandName = "simu_softlock", flags = ConVarFlags.SenderMustBeServer, helpText = "Attempts to end current wave or otherwise spawn a portal")]
         public static void CCSimuSoftlock(ConCommandArgs args)
         {
 
@@ -158,7 +229,7 @@ namespace WolfoFixes
         }
 
 
-        [ConCommand(commandName = "list_itemTags", flags = ConVarFlags.None, helpText = "Dump of all itemTags")]
+        [ConCommand(commandName = "list_itemTags", flags = ConVarFlags.None, helpText = "List all items and their item tags")]
         public static void CCDumpItemTags(ConCommandArgs args)
         {
             for (int i = 0; i < ItemCatalog.allItemDefs.Length; i++)
@@ -176,7 +247,6 @@ namespace WolfoFixes
         [ConCommand(commandName = "list_dccs", flags = ConVarFlags.None, helpText = "List all dccs, dp, csc, isc. Will take a moment & Restart afterwards. Does not get modded dccs or dp")]
         public static void CCDumpAllDCCS(ConCommandArgs args)
         {
-
             List<DirectorCardCategorySelection> allVanillaDccs = new List<DirectorCardCategorySelection>();
             foreach (var item in Addressables.ResourceLocators)
             {

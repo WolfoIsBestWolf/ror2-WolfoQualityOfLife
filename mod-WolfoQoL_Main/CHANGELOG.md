@@ -1,5 +1,13 @@
 #Changelog
 ```
+v4.1.3
+MultiShop ping icon is now 3 chests stacked to differentiate them.
+Fixed Engi Turret skin fix not working on Walking Turrets
+Fixed Engi colored harpoons being broken.
+Fixed Void Fiends Default neck not using correct material anymore.
+Added Looking Glass presets just cuz I dont like their default settings.
+
+
 v4.1.2
 Made Prayer Beads+Consumed work properly with Looking Glass
 Elite Equipment will now be viewable based on other unlock progression.

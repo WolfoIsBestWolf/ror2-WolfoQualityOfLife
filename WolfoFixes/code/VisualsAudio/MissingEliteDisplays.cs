@@ -2,6 +2,7 @@ using R2API;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static WolfoFixes.MissedContent;
 
 namespace WolfoFixes
 {
@@ -98,7 +99,6 @@ namespace WolfoFixes
         public static void StupidRabbitEars()
         {
             GameObject DisplayEliteRabbitEars = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DisplayEliteRabbitEars.prefab").WaitForCompletion();
-            EquipmentDef EliteSecretSpeedEquipment = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteSecretSpeedEquipment.asset").WaitForCompletion();
             DisplayRuleGroup drg;
 
             drg = new DisplayRuleGroup

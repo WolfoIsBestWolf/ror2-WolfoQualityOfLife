@@ -1,9 +1,12 @@
 ﻿using MonoMod.Cil;
+using Mono.Cecil.Cil;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using EntityStates.Fauna;
+using HarmonyLib;
+using EntityStates.EngiTurret.EngiTurretWeapon;
 
 namespace WolfoFixes
 {
@@ -94,8 +97,40 @@ namespace WolfoFixes
             HabitatFruitDeathState.healPackMaxVelocity = 60;
             HabitatFruitDeathState.fractionalHealing = 0.15f;
             HabitatFruitDeathState.scale = 1;
- 
+
+
+            On.EntityStates.MajorConstruct.Weapon.FireLaser.OnExit += XI_LaserFix;
+
+            //Addressables.LoadAssetAsync<GameObject>(key: "cdbb41712e896454da142ab00d046d9f").WaitForCompletion().GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].requiredSkill = null;
+
         }
+
+        private static void XI_LaserFix(On.EntityStates.MajorConstruct.Weapon.FireLaser.orig_OnExit orig, EntityStates.MajorConstruct.Weapon.FireLaser self)
+        {
+            orig(self);
+            self.outer.SetNextState(self.GetNextState()); 
+        }
+
+
+
+        //Stolen from miscFixes because they decided to remove it
+        //Didnt ask
+        [HarmonyPatch(typeof(FireBeam), nameof(FireBeam.FixedUpdate))]
+        [HarmonyILManipulator]
+        public static void FireBeam_FixedUpdate(ILContext il)
+        {
+            var c = new ILCursor(il);
+            // Using ShouldFireLaser as a landmark juuuust in case there are ever multiple SetNextStateToMain calls
+            if (c.TryGotoNext(x => x.MatchCallOrCallvirt<FireBeam>(nameof(FireBeam.ShouldFireLaser))) &&
+                c.TryGotoNext(x => x.MatchCallOrCallvirt<EntityStateMachine>(nameof(EntityStateMachine.SetNextStateToMain))))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.Emit(OpCodes.Callvirt, AccessTools.Method(typeof(FireBeam), nameof(FireBeam.GetNextState)));
+                c.Next.Operand = AccessTools.Method(typeof(EntityStateMachine), nameof(EntityStateMachine.SetNextState));
+            }
+            else Debug.LogWarning(il);
+        }
+
         public static GameObject JellyfishDeath;
         private static void FixDumbFruit(On.EntityStates.Fauna.HabitatFruitDeathState.orig_OnEnter orig, EntityStates.Fauna.HabitatFruitDeathState self)
         { 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using RoR2;
+using System.Linq;
 
 namespace WolfoQoL_Client
 {

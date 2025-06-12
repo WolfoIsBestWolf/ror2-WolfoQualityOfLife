@@ -2,7 +2,7 @@ Various bug fixes that were previously part of my mods.
 
 Better to keep it bundled in it's own mod
 
-
+Yes you can turn off Mithrix phase 4 Skip with config, and some other stuff.
 
 
 ## Survivor / Monsters
@@ -17,6 +17,7 @@ Child being burnable by The Sun.
 
 Mithrix Phase 4 being skipable.
 
+XI Construct Laser not exploding at the end.
 
 ## Items / Equipment
 
@@ -79,6 +80,8 @@ Deskplant Visual being oddly small.
 
 Railgunners Scope being more opaque than in the past
 
+Defense Nuclease Alpha Constructs no longer being Gold.
+
 Bazaar Diorama being empty.\
 Sulfur Pools Diorama having a Abyssal Depths base.\
 Void Locust Diorama being too zomed in.\
@@ -91,7 +94,7 @@ Stone Titan pinging the particles instead of the body.
 
 Lunar Exploder not having a subtitleToken.
 
-Shrine of Shaping and Seed of Life not using the revive effect.
+Shrine of Shaping and Seed of Life not using the revive effect. (Instead of failing to spawn a unfinished object)
 
 Green Orb message will now pop up as you load into the stage so you can actually see it.
 

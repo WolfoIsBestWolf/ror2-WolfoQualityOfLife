@@ -1,4 +1,5 @@
 ﻿using RoR2;
+using EntityStates;
 
 namespace WolfoFixes
 {
@@ -20,10 +21,6 @@ namespace WolfoFixes
                 }
             };
 
-
-
-
-
             On.RoR2.PortalStatueBehavior.PreStartClient += NewtAvailableFix12;
             On.RoR2.TeleporterInteraction.OnSyncShouldAttemptToSpawnShopPortal += NewtAvailableFix2;
 
@@ -40,11 +37,28 @@ namespace WolfoFixes
                 orig(self);
             };*/
 
-            On.RoR2.PurchaseInteraction.ShouldDisplayHologram += PurchaseInteraction_ShouldDisplayHologram;
-            On.RoR2.MultiShopController.ShouldDisplayHologram += MultiShopController_ShouldDisplayHologram; ;
+            On.RoR2.PurchaseInteraction.ShouldDisplayHologram += DisableEmptyHologram;
+            On.RoR2.MultiShopController.ShouldDisplayHologram += DisableEmptyHologram2;
+
+            On.EntityStates.VagrantNovaItem.ChargeState.OnExit += ChargeState_OnExit;
         }
 
-        private static bool MultiShopController_ShouldDisplayHologram(On.RoR2.MultiShopController.orig_ShouldDisplayHologram orig, MultiShopController self, UnityEngine.GameObject viewer)
+        private static void ChargeState_OnExit(On.EntityStates.VagrantNovaItem.ChargeState.orig_OnExit orig, EntityStates.VagrantNovaItem.ChargeState self)
+        {
+            //Idk does this fix it randomly being around for clientss
+            //Probably has smth to do with lag skipping the OnExit?
+            if (self.chargeVfxInstance != null)
+            {
+                EntityState.Destroy(self.chargeVfxInstance);
+            }
+            if (self.areaIndicatorVfxInstance != null)
+            {
+                EntityState.Destroy(self.areaIndicatorVfxInstance);
+            }
+            orig(self);
+        }
+
+        private static bool DisableEmptyHologram2(On.RoR2.MultiShopController.orig_ShouldDisplayHologram orig, MultiShopController self, UnityEngine.GameObject viewer)
         {
             if (self.costType == CostTypeIndex.None)
             {
@@ -53,7 +67,7 @@ namespace WolfoFixes
             return orig(self, viewer);
         }
 
-        private static bool PurchaseInteraction_ShouldDisplayHologram(On.RoR2.PurchaseInteraction.orig_ShouldDisplayHologram orig, PurchaseInteraction self, UnityEngine.GameObject viewer)
+        private static bool DisableEmptyHologram(On.RoR2.PurchaseInteraction.orig_ShouldDisplayHologram orig, PurchaseInteraction self, UnityEngine.GameObject viewer)
         {
             if (self.costType == CostTypeIndex.None)
             {

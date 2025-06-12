@@ -163,20 +163,10 @@ namespace WolfoQoL_Client
 
                 if (pickupIndexOnlyOneItem != PickupIndex.none)
                 {
-                    hex = ColorUtility.ToHtmlStringRGB(pickupIndexOnlyOneItem.pickupDef.baseColor);
-                    if (pickupIndexOnlyOneItem.pickupDef.equipmentIndex != EquipmentIndex.None)
+                    itemsLost += Help.GetColoredName(pickupIndexOnlyOneItem);
+                    if (this.itemCount > 1)
                     {
-                        nameToken = Language.GetString(EquipmentCatalog.GetEquipmentDef(pickupIndexOnlyOneItem.pickupDef.equipmentIndex).nameToken);
-                        itemsLost = "<color=#" + hex + ">" + nameToken + " </color>";
-                    }
-                    else if (pickupIndexOnlyOneItem.pickupDef.itemIndex != ItemIndex.None)
-                    {
-                        nameToken = Language.GetString(ItemCatalog.GetItemDef(pickupIndexOnlyOneItem.pickupDef.itemIndex).nameToken);
-                        itemsLost = "<color=#" + hex + ">" + nameToken + "</color>";
-                        if (this.itemCount > 1)
-                        {
-                            itemsLost += "(" + this.itemCount + ")";
-                        }
+                        itemsLost += "(" + this.itemCount + ")";
                     }
                 }
                 else
@@ -186,9 +176,7 @@ namespace WolfoQoL_Client
                     {
                         if (itemStacks[i] > 0)
                         {
-                            nameToken = Language.GetString(ItemCatalog.GetItemDef((ItemIndex)i).nameToken);
-                            hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex((ItemIndex)i).pickupDef.baseColor);
-
+                            
                             if (addedItem == true)
                             {
                                 itemsLost += ", ";
@@ -198,12 +186,7 @@ namespace WolfoQoL_Client
                             {
                                 itemsLost += itemStacks[i].ToString() + "x ";
                             }
-                            itemsLost += "<color=#" + hex + ">" + nameToken + "</color>";
-                            /*if (itemStacks[i] > 1)
-                            {
-                                itemsLost += "("+itemStacks[i].ToString() + ") ";
-                            }*/
-
+                            itemsLost += Help.GetColoredName((ItemIndex)i);
                         }
                     }
                 }

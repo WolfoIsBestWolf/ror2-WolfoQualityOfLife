@@ -15,7 +15,8 @@ namespace WolfoFixes
 
         public static void Start()
         {
-            //OldBeadsLevel is serveronly?
+            //OldBeadsLevel is serveronly
+            //So we Have to track it some other way
             On.RoR2.CharacterBody.Awake += BuffTracker_ClientFix;
             IL.RoR2.CharacterBody.RecalculateStats += BuffTracker_SetBuffCount_FixAmount;
 

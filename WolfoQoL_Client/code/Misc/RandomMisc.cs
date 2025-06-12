@@ -15,7 +15,9 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-            Testing.Start();
+           
+
+
             DifficultyColors();
 
             RandomMiscWithConfig.Start();

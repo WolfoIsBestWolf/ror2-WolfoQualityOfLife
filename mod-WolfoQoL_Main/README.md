@@ -12,9 +12,10 @@ Oni & Frail Mercenary will have colored attack effects.
 Acrids using Blight will have different colored effects.\
 Includes acid pool in lobby.
 
-REX's vines when moving now match his skin.\
+
 Engineer Skins will have skinned Harpoons.\
 Fixes Engineers Mastery & Colossus Skin Turrets looking worse than intended. (Glows more now)\
+REX's vines when sprinting now match his skin.\
 Loaders Alt skin will have matching Hook Hand.\
 MulT shows off his primary skill in lobby.
 
@@ -144,6 +145,7 @@ Lunar Seers replace the Blue Portal with a Green/Gold/Void when going to those p
 Sale Star effect does a little effect instead of vanishing.\
 False Sons Aurelionite Fragment now has Green or Red tiered visuals.
 
+Adds some presets for the LookingGlass mod.
 
 ##
 ![Image of Expanded Death Screen](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolDeath.png)

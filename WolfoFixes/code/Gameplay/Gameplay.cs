@@ -10,7 +10,12 @@ namespace WolfoFixes
         public static void Start()
         {
             On.RoR2.SceneExitController.OnEnable += PathOfColossusSkipFix;
-            On.RoR2.HealthComponent.TakeDamageProcess += SlayerApplyingToProc;
+            if (WConfig.cfgSlayerScale.Value)
+            {
+                //Is this even a bug, probably not is it.
+                On.RoR2.HealthComponent.TakeDamageProcess += SlayerApplyingToProc;
+            }
+           
             IL.RoR2.Artifacts.SwarmsArtifactManager.OnSpawnCardOnSpawnedServerGlobal += VengenceAndEnemyGooboFix;
         }
 

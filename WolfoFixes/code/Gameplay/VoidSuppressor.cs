@@ -69,13 +69,13 @@ namespace WolfoFixes
 
 
             #region Strange Scrap
-            MiscContent.ScrapWhiteSuppressed.pickupToken = "ITEM_SCRAPWHITE_PICKUP";
-            MiscContent.ScrapGreenSuppressed.pickupToken = "ITEM_SCRAPGREEN_PICKUP";
-            MiscContent.ScrapRedSuppressed.pickupToken = "ITEM_SCRAPRED_PICKUP";
+            MissedContent.ScrapWhiteSuppressed.pickupToken = "ITEM_SCRAPWHITE_PICKUP";
+            MissedContent.ScrapGreenSuppressed.pickupToken = "ITEM_SCRAPGREEN_PICKUP";
+            MissedContent.ScrapRedSuppressed.pickupToken = "ITEM_SCRAPRED_PICKUP";
 
-            MiscContent.ScrapWhiteSuppressed.descriptionToken = "ITEM_SCRAPWHITE_DESC";
-            MiscContent.ScrapGreenSuppressed.descriptionToken = "ITEM_SCRAPGREEN_DESC";
-            MiscContent.ScrapRedSuppressed.descriptionToken = "ITEM_SCRAPRED_DESC";
+            MissedContent.ScrapWhiteSuppressed.descriptionToken = "ITEM_SCRAPWHITE_DESC";
+            MissedContent.ScrapGreenSuppressed.descriptionToken = "ITEM_SCRAPGREEN_DESC";
+            MissedContent.ScrapRedSuppressed.descriptionToken = "ITEM_SCRAPRED_DESC";
 
 
             On.RoR2.PickupCatalog.Init += MakeTiered;
@@ -90,34 +90,34 @@ namespace WolfoFixes
         private static void MakeUntiered(On.RoR2.PickupCatalog.orig_SetEntries orig, PickupDef[] pickupDefs)
         {
             orig(pickupDefs);
-            MiscContent.ScrapWhiteSuppressed.tier = ItemTier.NoTier;
-            MiscContent.ScrapGreenSuppressed.tier = ItemTier.NoTier;
-            MiscContent.ScrapRedSuppressed.tier = ItemTier.NoTier;
+            MissedContent.ScrapWhiteSuppressed.tier = ItemTier.NoTier;
+            MissedContent.ScrapGreenSuppressed.tier = ItemTier.NoTier;
+            MissedContent.ScrapRedSuppressed.tier = ItemTier.NoTier;
         }
 
         private static void MakeTieredAgain(Run obj)
         {
         
-            MiscContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
-            MiscContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
-            MiscContent.ScrapRedSuppressed.tier = ItemTier.Tier3;
+            MissedContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
+            MissedContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
+            MissedContent.ScrapRedSuppressed.tier = ItemTier.Tier3;
             Run.onRunStartGlobal -= MakeTieredAgain;
         }
 
         private static System.Collections.IEnumerator MakeTiered(On.RoR2.PickupCatalog.orig_Init orig)
         {
-            MiscContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
-            MiscContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
-            MiscContent.ScrapRedSuppressed.tier = ItemTier.Tier3;
+            MissedContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
+            MissedContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
+            MissedContent.ScrapRedSuppressed.tier = ItemTier.Tier3;
             return orig();
         }
 
         private static void RemoveFromCompletion(On.RoR2.GameCompletionStatsHelper.orig_ctor orig, GameCompletionStatsHelper self)
         {
             orig(self);
-            PickupDef pickupDef1 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MiscContent.ScrapWhiteSuppressed.itemIndex));
-            PickupDef pickupDef2 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MiscContent.ScrapGreenSuppressed.itemIndex));
-            PickupDef pickupDef3 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MiscContent.ScrapRedSuppressed.itemIndex));
+            PickupDef pickupDef1 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.ScrapWhiteSuppressed.itemIndex));
+            PickupDef pickupDef2 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.ScrapGreenSuppressed.itemIndex));
+            PickupDef pickupDef3 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.ScrapRedSuppressed.itemIndex));
             self.encounterablePickups.Remove(pickupDef1);
             self.encounterablePickups.Remove(pickupDef2);
             self.encounterablePickups.Remove(pickupDef3);

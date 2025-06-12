@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 702775829
+CRC: 2225395107
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a83be829af3b5c719c2e644769f60c7b
+    Hash: 0af8ffaf7a6941d7b69b9c3d5e000a60
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9bbf464575cb1bcdb68fd883cc18858a
@@ -28,10 +28,10 @@ Assets:
 - Assets/WQoL/Items/Modded/texAffixPlatedIcon.png
 - Assets/WQoL/Items/Modded/AffixVarietyBanner.png
 - Assets/WQoL/General/animDuplicatorOld.controller
-- Assets/WQoL/PingIcons/MultiShop_Equipment.png
 - Assets/WQoL/General/texEquipmentLunarBG.png
 - Assets/WQoL/Items/Beta/betaCorpse.png
 - Assets/WQoL/Items/EliteFire.png
+- Assets/WQoL/PingIcons/MultiShop3_Shrunk.png
 - Assets/WQoL/Items/UsedKeyVoid.png
 - Assets/WQoL/PingIcons/NoIcon.png
 - Assets/WQoL/PingIcons/ChestCategory2Healing.png
@@ -45,6 +45,7 @@ Assets:
 - Assets/WQoL/PingIcons/ScavBagIcon.png
 - Assets/WQoL/General/DuplicatorOldMesh.asset
 - Assets/WQoL/PingIcons/DroneHealIcon.png
+- Assets/WQoL/PingIcons/MultiShop2.png
 - Assets/WQoL/Items/Modded/AffixRoR2Echo.png
 - Assets/WQoL/SkinRamps/texRampFallbootsRed.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkDarkAlt.png
@@ -67,6 +68,7 @@ Assets:
 - Assets/WQoL/PingIcons/DroneFlameIcon.png
 - Assets/WQoL/Buffs/texBuffFeather.png
 - Assets/WQoL/PingIcons/ChestEquipIcon.png
+- Assets/WQoL/PingIcons/MultiShop3.png
 - Assets/WQoL/Buffs/texBuffHeadStompOff.png
 - Assets/WQoL/PingIcons/Modded/SpStShrineCloaked .png
 - Assets/WQoL/SkinScalable/texCrocoEmissionAlt.png
@@ -99,8 +101,8 @@ Assets:
 - Assets/WQoL/Body/texBodyRoboBallBuddyGreen.png
 - Assets/WQoL/PingIcons/ChestLegendaryIcon.png
 - Assets/WQoL/PingIcons/SotsIcon3_Shrunk.png
-- Assets/WQoL/PingIcons/PingIconVoidEradicator.png
 - Assets/WQoL/Items/Modded/texAffixRaging.png
+- Assets/WQoL/PingIcons/PingIconVoidEradicator.png
 - Assets/WQoL/Buffs/texBuffFrostRelic.png
 - Assets/WQoL/SkinRamps/texRampHuntressGreen.png
 - Assets/WQoL/SkinRamps/RampEliteAur.png
@@ -110,7 +112,6 @@ Assets:
 - Assets/WQoL/PingIcons/ShrineChanceIcon.png
 - Assets/WQoL/Body/ClayPot.png
 - Assets/WQoL/PingIcons/PrinterWild.png
-- Assets/WQoL/PingIcons/MultiShop.png
 - Assets/WQoL/Buffs/texBuffBeetleUp.png
 - Assets/WQoL/General/texUICorner4.png
 - Assets/WQoL/Body/BeetleAllyEnemy.png
@@ -136,7 +137,6 @@ Assets:
 - Assets/WQoL/PingIcons/SS2/SS2_DroneScrapper.png
 - Assets/WQoL/General/texUICorner5.png
 - Assets/WQoL/PingIcons/ChestCategory2Utility.png
-- Assets/WQoL/PingIcons/MultiShop_Large.png
 - Assets/WQoL/Items/Modded/AffixVarietyGold.png
 - Assets/WQoL/Buffs/texBuffEgg.png
 - Assets/WQoL/Body/texBodySquidTurret.png
@@ -155,7 +155,9 @@ Assets:
 - Assets/WQoL/PingIcons/PrinterLarge.png
 - Assets/WQoL/Items/Beta/betaPauldron.png
 - Assets/WQoL/PingIcons/Printer.png
+- Assets/WQoL/PingIcons/MultiShopE.png
 - Assets/WQoL/PingIcons/ChestCategoryHealing.png
+- Assets/WQoL/PingIcons/MultiShop1_Shrunk.png
 - Assets/WQoL/Items/Modded/AffixVarietyImp.png
 - Assets/WQoL/Body/SulfurPod.png
 - Assets/WQoL/SkinRamps/texRampHuntressRed.png
@@ -164,6 +166,7 @@ Assets:
 - Assets/WQoL/General/OldDuplicatorIdle.anim
 - Assets/WQoL/Items/EliteAurelionite.png
 - Assets/WQoL/Buffs/texBuffBrokenCube.png
+- Assets/WQoL/PingIcons/MultiShop2_Shrunk.png
 - Assets/WQoL/SkinRamps/texRampEngiAlt.png
 - Assets/WQoL/PingIcons/SS2/SS2_DroneShock.png
 - Assets/WQoL/PingIcons/ChestVoid.png
@@ -174,6 +177,7 @@ Assets:
 - Assets/WQoL/PingIcons/ExclamationIcon.png
 - Assets/WQoL/PingIcons/LockedIcon.png
 - Assets/WQoL/SkinRamps/texRampBeetleBreathBlight.png
+- Assets/WQoL/PingIcons/MultiShopE_Shrunk.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkLessDark.png
 - Assets/WQoL/Items/LunarPotion.png
 - Assets/WQoL/SkinRamps/texRampHuntress.png
@@ -182,6 +186,7 @@ Assets:
 - Assets/WQoL/Buffs/texBuffLunarShellIcon.png
 - Assets/WQoL/Buffs/texBuffBodyArmor.png
 - Assets/WQoL/PingIcons/DroneTurretIcon.png
+- Assets/WQoL/PingIcons/MultiShop1.png
 - Assets/WQoL/PingIcons/ShrineGoldIcon.png
 - Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png
 - Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png
@@ -189,20 +194,19 @@ Assets:
 - Assets/WQoL/PingIcons/RadarTower.png
 - Assets/WQoL/Items/EliteEarth.png
 - Assets/WQoL/SkinScalable/texTreebotVineForColossus.png
-- Assets/WQoL/PingIcons/PrinterMili.png
 - Assets/WQoL/Items/LunarMeteor.png
+- Assets/WQoL/PingIcons/PrinterMili.png
 - Assets/WQoL/PingIcons/ChestCategoryUtility.png
-- Assets/WQoL/PingIcons/MultiShop_Legendary.png
 - Assets/WQoL/PingIcons/CauldronIcon.png
+- Assets/WQoL/Buffs/texBuffRaincoat.png
 - Assets/WQoL/Items/EliteSecret.png
 - Assets/WQoL/Body/texBodyTitanGoldAlly.png
 - Assets/WQoL/PingIcons/LockedIconAlt.png
 - Assets/WQoL/PingIcons/ChestInvisibleIcon.png
 - Assets/WQoL/PingIcons/PrimordialTeleporterChargedIcon.png
 - Assets/WQoL/General/texEquipmentBossBG.png
-- Assets/WQoL/Buffs/texBuffRaincoat.png
-- Assets/WQoL/PingIcons/ChestCasinoIcon.png
 - Assets/WQoL/Buffs/texBuffShuriken.png
+- Assets/WQoL/PingIcons/ChestCasinoIcon.png
 - Assets/WQoL/PingIcons/ChestCategoryDamage.png
 - Assets/WQoL/SkinScalable/texOniMercSwordDiffuse.png
 - Assets/WQoL/Buffs/texBuffDisableAllSkillsIcon.png
