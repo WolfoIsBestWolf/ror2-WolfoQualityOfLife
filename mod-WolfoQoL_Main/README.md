@@ -19,7 +19,9 @@ REX's vines when sprinting now match his skin.\
 Loaders Alt skin will have matching Hook Hand.\
 MulT shows off his primary skill in lobby.
 
-Helminth Lighting is now 'fixed'/brighter. [Comparison](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/helminth.png?raw=true)
+Helminth Hatcheries Lighting is now what was seemingly originally intended. [(Brighter, Warmer)](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/helminth.png?raw=true)\
+Sundered Groves dark parts are less dark.\
+Sundered Groves pink mushs are visible at lower settings.
 
 Elite Brass contraptions will have colored balls.
 
@@ -33,7 +35,7 @@ Lunar/Elite Equipment, Void White/Red/Boss, Lunar Coins now use their own color.
 Adds colored highlights for Tiers that were lacking one and for Equipment.
 
 Twisted Elites are now Dark Blue instead of reusing Overloading colors.\
-Gilded Elite corpses no longer look like blazing elite corpses.
+Twisted Elites have a fire visual effect again.
 
 ![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
 

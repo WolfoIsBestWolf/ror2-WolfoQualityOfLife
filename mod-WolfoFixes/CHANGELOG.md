@@ -1,5 +1,42 @@
 ## Changelog:
 ```
+v1.1.4
+Phase 4 fix is now off by default due to feedback.
+Moved Gilded Corpse blazing fix here
+Devoted Lemurian Log fix actually moved here.
+Fixed Credit Card failing if you buy multi shops too quickly. (Because hopoo gave it a 0.1 cooldown for no reason)
+Fixed Captain Beacons never critting
+Fixed Eclipse not incrementing the Win counter.
+Fixed some equipment displays added by mod not being present with SS2. 
+Fixed Boosted Oil Spill description being gone (for english anyways)
+Fixed Chronic Expansion on corpses constantly nullreffing
+Fixed REX Syringe impact sound being gone. (Unexplainable)
+Fixed some more item descriptions
+Fixed Nkuhanas Opinion being too zoomed out
+Fixed Ice Spear knocking enemies around due to being on wrong Phys Layer.
+Restored Glass Mithrix skin
+
+
+v1.1.3
+Fixed the following no longer slowly appearing in their spawn animation, leading to it looking really ugly in some cases.
+-Child
+-Parent
+-Vagrant
+-Lesser Wisp
+-Greater wisp
+-Lunar Wisp
+-Void Reaver
+-void Devestator
+-Voidling
+-Engineer Turret
+-Engineer Walking Turret
+-XI (technically...)(his body is too broken to use it properly)
+
+Fixed Charged Perferator rolling Crit instead of inheriting.
+
+Added Helminth Tunnel fix as dependency
+Added Gilded Chunk lag fix as dependency
+
 v1.1.2
 Added some config to bugs people are attached to.
 Config will be in game If RiskOfOptions is installed.

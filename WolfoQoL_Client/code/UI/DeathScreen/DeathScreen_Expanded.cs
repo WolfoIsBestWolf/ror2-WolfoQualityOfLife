@@ -8,8 +8,18 @@ using UnityEngine.UI;
 
 namespace WolfoQoL_Client
 {
+    public class DeathScreenWQoL
+    {
+        public GameObject killerInventory;
+        public GameObject stat_loadout;
+        public GameObject stat_latestWave;
+        public GameObject container_accomplishments;
+ 
+    }
+
     public class DeathScreen_Expanded
     {
+
         public static EquipmentIndex[] DeathEquips_Player = Array.Empty<EquipmentIndex>();
         public static EquipmentIndex DeathEquip_Enemy1 = EquipmentIndex.None;
         public static bool otherMod = false;
@@ -31,7 +41,7 @@ namespace WolfoQoL_Client
             On.RoR2.UI.GameEndReportPanelController.SetDisplayData += GameEndMoreStatsShown;
 
             GameObject hud = LegacyResourcesAPI.Load<GameObject>("Prefabs/HUDSimple");
-            hud.GetComponent<RoR2.UI.HUD>().lunarCoinContainer.transform.GetChild(0).GetComponent<UnityEngine.UI.RawImage>().color = new Color(0.5199f, 0.5837f, 0.66f, 0.1333f);//0.6288 0.4514 0.6509 0.1333
+            hud.GetComponent<HUD>().lunarCoinContainer.transform.GetChild(0).GetComponent<UnityEngine.UI.RawImage>().color = new Color(0.5199f, 0.5837f, 0.66f, 0.1333f);//0.6288 0.4514 0.6509 0.1333
 
             otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("local.fix.history");
 

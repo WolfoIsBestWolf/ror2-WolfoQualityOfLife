@@ -6,19 +6,21 @@ using UnityEngine.Networking;
 
 namespace WolfoFixes
 {
-    public class ShrineHalcyon
+    public class ShrineHalcyonFixes
     {
         public static void Start()
         {
+            //Running Host only code on Client
             On.RoR2.CombatDirector.SpendAllCreditsOnMapSpawns += CombatDirector_SpendAllCreditsOnMapSpawns;
             On.RoR2.CombatDirector.HalcyoniteShrineActivation += CombatDirector_HalcyoniteShrineActivation;
             On.RoR2.HalcyoniteShrineInteractable.IsDraining += HalcyoniteShrineInteractable_IsDraining;
 
+            //Clients need these values for Visuals
             On.RoR2.HalcyoniteShrineInteractable.Awake += MoreValuesForClients;
             On.RoR2.HalcyoniteShrineInteractable.Start += MoreValuesClient2;
 
+            //QoL
             IL.RoR2.PortalSpawner.Start += DelayThunderMessage;
-
         }
 
         private static void DelayThunderMessage(ILContext il)
@@ -90,11 +92,9 @@ namespace WolfoFixes
             orig(self);
             if (!NetworkServer.active)
             {
-
                 self.lowGoldCost = Run.instance.GetDifficultyScaledCost(self.lowGoldCost);
                 self.midGoldCost = Run.instance.GetDifficultyScaledCost(self.midGoldCost);
                 self.maxGoldCost = Run.instance.GetDifficultyScaledCost(self.maxGoldCost);
-
             }
         }
         private static void MoreValuesClient2(On.RoR2.HalcyoniteShrineInteractable.orig_Start orig, HalcyoniteShrineInteractable self)

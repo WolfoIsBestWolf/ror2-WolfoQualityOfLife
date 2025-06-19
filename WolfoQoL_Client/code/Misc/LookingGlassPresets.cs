@@ -154,8 +154,8 @@ namespace WolfoQoL_Client
                             case "StatsDisplay update interval":
                                 entry.BoxedValue = 0.3f;
                                 break;
-                            case "Scrap Sorting":
-                                entry.BoxedValue = 2;
+                            case "Sort Scrapper":
+                                entry.BoxedValue = true;
                                 break;
                             case "Tier Sort":
                                 entry.BoxedValue = entry.DefaultValue;
@@ -175,7 +175,6 @@ namespace WolfoQoL_Client
                             case "Hide Count If Zero":
                                 entry.BoxedValue = true;
                                 break;                            
-                           
                             case "Tier Order":
                                 entry.BoxedValue = "Tier1 VoidTier1 Tier2 VoidTier2 Tier3 VoidTier3 Boss VoidBoss Lunar NoTier";
                                 break;
@@ -185,7 +184,6 @@ namespace WolfoQoL_Client
                             case "Item Stats On Ping":
                                 entry.BoxedValue = false;
                                 break;
-
                             case "Permanent Cooldown Indicator For Skills":
                                 entry.BoxedValue = false;
                                 break;

@@ -1,7 +1,7 @@
 using RoR2;
-//using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using WolfoFixes;
 
 namespace WolfoQoL_Client
 {
@@ -18,9 +18,9 @@ namespace WolfoQoL_Client
             RoR2Content.Equipment.AffixHaunted.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteHaunted.png");
             RoR2Content.Equipment.AffixLunar.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteLunar.png");
 
-            Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteEarth/EliteEarthEquipment.asset").WaitForCompletion().pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteEarth.png");
+            MissedContent.Equipment.EliteEarthEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteEarth.png");
             DLC1Content.Equipment.EliteVoidEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteVoid.png");
-            Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteSecretSpeedEquipment.asset").WaitForCompletion().pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteSecret.png");
+            MissedContent.Equipment.EliteSecretSpeedEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteSecret.png");
 
             DLC2Content.Equipment.EliteAurelioniteEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteAurelionite.png");
             DLC2Content.Equipment.EliteBeadEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteBead.png");
@@ -30,7 +30,7 @@ namespace WolfoQoL_Client
             RoR2Content.Equipment.BurnNearby.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarHelfire.png");
             RoR2Content.Equipment.Tonic.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarPotion.png");
 
-            Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/LunarPortalOnUse/LunarPortalOnUse.asset").WaitForCompletion().pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarPortal.png");
+            DLC1Content.Equipment.LunarPortalOnUse.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarPortal.png");
 
             #region Junk
 

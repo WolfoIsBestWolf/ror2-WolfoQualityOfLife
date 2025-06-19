@@ -3,26 +3,27 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using WolfoQoL_Client;
 
 namespace WolfoQoL_Server
 {
     public class BuffTimers
     {
-        public static BuffDef FakeHellFire;
-        public static BuffDef FakePercentBurn;
-        public static BuffDef FakeBugWings;
-        public static BuffDef FakeStrides;
-        public static BuffDef FakeRoseBuckle;
-        public static BuffDef FakeFrozen;
-        public static BuffDef FakeHeadstompOn;
-        public static BuffDef FakeHeadstompOff;
-        public static BuffDef FakeFeather;
-        public static BuffDef FakeShieldDelay;
-        public static BuffDef FakeShieldDelayPink;
-        //public static BuffDef FakeEgg;
-        //public static BuffDef FakeHellFireDuration;
-        public static BuffDef FakeFrostRelic;
-        public static BuffDef FakeOpalCooldown;
+        public static BuffDef bdHellFire;
+        public static BuffDef bdPercentBurn;
+        public static BuffDef bdBugWings;
+        public static BuffDef bdStrides;
+        public static BuffDef bdRoseBuckle;
+ 
+        public static BuffDef bdHeadstompOn;
+        public static BuffDef bdHeadstompOff;
+        public static BuffDef bdFeather;
+        public static BuffDef bdShieldDelay;
+        public static BuffDef bdShieldDelayPink;
+        //public static BuffDef bdEgg;
+        //public static BuffDef bdHellFireDuration;
+        public static BuffDef bdFrostRelic;
+        public static BuffDef bdOpalCooldown;
 
 
         public static void Buffs_NewBuffs()
@@ -36,38 +37,38 @@ namespace WolfoQoL_Server
 
             #region Helfire Burn
             BuffDef NormalBurn = LegacyResourcesAPI.Load<BuffDef>("buffdefs/OnFire");
-            FakeHellFire = ScriptableObject.CreateInstance<BuffDef>();
-            FakeHellFire.iconSprite = NormalBurn.iconSprite;
-            FakeHellFire.buffColor = new Color32(50, 188, 255, 255);
-            FakeHellFire.name = "visual_HelFire";
-            FakeHellFire.isDebuff = false;
-            FakeHellFire.canStack = true;
-            FakeHellFire.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeHellFire);
+            bdHellFire = ScriptableObject.CreateInstance<BuffDef>();
+            bdHellFire.iconSprite = NormalBurn.iconSprite;
+            bdHellFire.buffColor = new Color32(50, 188, 255, 255);
+            bdHellFire.name = "wqol_HelFire";
+            bdHellFire.isDebuff = false;
+            bdHellFire.canStack = true;
+            bdHellFire.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdHellFire);
             #endregion
             #region
             //Obsolete
-            FakePercentBurn = ScriptableObject.CreateInstance<BuffDef>();
-            FakePercentBurn.iconSprite = NormalBurn.iconSprite;
-            //FakePercentBurn.buffColor = new Color32(226, 91, 69, 255); //E25B45 Overheat
-            FakePercentBurn.buffColor = new Color32(203, 53, 38, 255); //CB3526 Blazing Elite
-            FakePercentBurn.name = "visual_EnemyBurn";
-            FakePercentBurn.isDebuff = false;
-            FakePercentBurn.canStack = true;
-            FakePercentBurn.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakePercentBurn);
+            bdPercentBurn = ScriptableObject.CreateInstance<BuffDef>();
+            bdPercentBurn.iconSprite = NormalBurn.iconSprite;
+            //bdPercentBurn.buffColor = new Color32(226, 91, 69, 255); //E25B45 Overheat
+            bdPercentBurn.buffColor = new Color32(203, 53, 38, 255); //CB3526 Blazing Elite
+            bdPercentBurn.name = "wqol_EnemyBurn";
+            bdPercentBurn.isDebuff = false;
+            bdPercentBurn.canStack = true;
+            bdPercentBurn.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdPercentBurn);
             #endregion
 
 
             #region Bug Wings Jetpack
-            FakeBugWings = ScriptableObject.CreateInstance<BuffDef>();
-            FakeBugWings.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBeetleUp.png");
-            FakeBugWings.buffColor = new Color32(218, 136, 251, 255); //DA88FB Tesla Coil
-            FakeBugWings.name = "visual_BugFlight";
-            FakeBugWings.isDebuff = false;
-            FakeBugWings.canStack = false;
-            FakeBugWings.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
-            ContentAddition.AddBuffDef(FakeBugWings);
+            bdBugWings = ScriptableObject.CreateInstance<BuffDef>();
+            bdBugWings.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBeetleUp.png");
+            bdBugWings.buffColor = new Color32(218, 136, 251, 255); //DA88FB Tesla Coil
+            bdBugWings.name = "wqol_BugFlight";
+            bdBugWings.isDebuff = false;
+            bdBugWings.canStack = false;
+            bdBugWings.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
+            ContentAddition.AddBuffDef(bdBugWings);
 
             if (WConfig.cfgBuff_BugFlight.Value == true)
             {
@@ -76,7 +77,7 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        self.targetBody.AddTimedBuff(FakeBugWings, self.duration);
+                        self.targetBody.AddTimedBuff(bdBugWings, self.duration);
                     }
                 };
                 On.RoR2.JetpackController.OnDestroy += (orig, self) =>
@@ -86,7 +87,7 @@ namespace WolfoQoL_Server
                     {
                         if (self.targetBody)
                         {
-                            self.targetBody.ClearTimedBuffs(FakeBugWings);
+                            self.targetBody.ClearTimedBuffs(bdBugWings);
                         }
                     }
                 };
@@ -94,14 +95,14 @@ namespace WolfoQoL_Server
             #endregion
             #region Strides of Heresy
 
-            FakeStrides = ScriptableObject.CreateInstance<BuffDef>();
-            FakeStrides.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffLunarShellIcon.png");
-            FakeStrides.buffColor = new Color32(189, 176, 255, 255); //BDB0FF
-            FakeStrides.name = "visual_ShadowIntangible";
-            FakeStrides.isDebuff = false;
-            FakeStrides.canStack = false;
-            FakeStrides.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
-            ContentAddition.AddBuffDef(FakeStrides);
+            bdStrides = ScriptableObject.CreateInstance<BuffDef>();
+            bdStrides.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffLunarShellIcon.png");
+            bdStrides.buffColor = new Color32(189, 176, 255, 255); //BDB0FF
+            bdStrides.name = "wqol_ShadowIntangible";
+            bdStrides.isDebuff = false;
+            bdStrides.canStack = false;
+            bdStrides.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
+            ContentAddition.AddBuffDef(bdStrides);
 
 
             if (WConfig.cfgBuff_Strides.Value == true)
@@ -112,7 +113,7 @@ namespace WolfoQoL_Server
                     if (NetworkServer.active)
                     {
                         float tempdur = EntityStates.GhostUtilitySkillState.baseDuration * self.outer.GetComponentInParent<CharacterBody>().inventory.GetItemCount(RoR2Content.Items.LunarUtilityReplacement);
-                        self.outer.GetComponentInParent<CharacterBody>().AddTimedBuff(FakeStrides, tempdur);
+                        self.outer.GetComponentInParent<CharacterBody>().AddTimedBuff(bdStrides, tempdur);
                     }
                 };
 
@@ -121,21 +122,21 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        self.outer.GetComponentInParent<CharacterBody>().ClearTimedBuffs(FakeStrides);
+                        self.outer.GetComponentInParent<CharacterBody>().ClearTimedBuffs(bdStrides);
                     }
                 };
             }
             #endregion
             #region Rose Buckler
 
-            FakeRoseBuckle = ScriptableObject.CreateInstance<BuffDef>();
-            FakeRoseBuckle.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBodyArmor.png");
-            FakeRoseBuckle.buffColor = new Color32(251, 199, 38, 255); //FBC726
-            FakeRoseBuckle.name = "visual_SprintArmor";
-            FakeRoseBuckle.isDebuff = false;
-            FakeRoseBuckle.canStack = false;
-            FakeRoseBuckle.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
-            ContentAddition.AddBuffDef(FakeRoseBuckle);
+            bdRoseBuckle = ScriptableObject.CreateInstance<BuffDef>();
+            bdRoseBuckle.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBodyArmor.png");
+            bdRoseBuckle.buffColor = new Color32(251, 199, 38, 255); //FBC726
+            bdRoseBuckle.name = "wqol_SprintArmor";
+            bdRoseBuckle.isDebuff = false;
+            bdRoseBuckle.canStack = false;
+            bdRoseBuckle.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
+            ContentAddition.AddBuffDef(bdRoseBuckle);
 
             if (WConfig.cfgBuff_SprintArmor.Value == true)
             {
@@ -146,7 +147,7 @@ namespace WolfoQoL_Server
                     {
                         if (self.inventory && self.inventory.GetItemCount(RoR2Content.Items.SprintArmor) > 0)
                         {
-                            self.AddBuff(FakeRoseBuckle);
+                            self.AddBuff(bdRoseBuckle);
                         }
                     }
                 };
@@ -158,8 +159,8 @@ namespace WolfoQoL_Server
                     {
                         if (self.inventory && self.inventory.GetItemCount(RoR2Content.Items.SprintArmor) > 0)
                         {
-                            if (!self.HasBuff(FakeRoseBuckle)) { return; }
-                            self.RemoveBuff(FakeRoseBuckle);
+                            if (!self.HasBuff(bdRoseBuckle)) { return; }
+                            self.RemoveBuff(bdRoseBuckle);
                         }
                     }
                 };
@@ -167,14 +168,8 @@ namespace WolfoQoL_Server
             #endregion
             #region Frozen
 
-            FakeFrozen = ScriptableObject.CreateInstance<BuffDef>();
-            FakeFrozen.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBrokenCube.png");
-            FakeFrozen.buffColor = new Color32(184, 216, 239, 255); //CFDBE0 // B8D8EF
-            FakeFrozen.name = "visual_Frozen";
-            FakeFrozen.isDebuff = false;
-            FakeFrozen.canStack = true;
-            FakeFrozen.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeFrozen);
+ 
+            ContentAddition.AddBuffDef(BuffIcons.bdFrozen);
 
             if (WConfig.cfgBuff_Frozen.Value == true && riskyModEnabled == false)
             {
@@ -183,10 +178,10 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        for (float num5 = 0; num5 <= self.freezeDuration; num5 = num5 + 0.5f)
+                        for (float num5 = 0; num5 <= self.freezeDuration; num5 += 0.5f)
                         {
-                            //self.characterBody.AddTimedBuff(FakeFrozen, (float)num5);
-                            self.characterBody.AddTimedBuffAuthority(FakeFrozen.buffIndex, (float)num5);
+                            //self.characterBody.AddTimedBuff(bdFrozen, (float)num5);
+                            self.characterBody.AddTimedBuffAuthority(BuffIcons.bdFrozen.buffIndex, (float)num5);
                         }
                     }
                 };
@@ -196,31 +191,31 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        self.characterBody.ClearTimedBuffs(FakeFrozen);
+                        self.characterBody.ClearTimedBuffs(BuffIcons.bdFrozen);
                     }
                 };
             }
             #endregion
             #region HeadStomper
 
-            FakeHeadstompOn = ScriptableObject.CreateInstance<BuffDef>();
-            FakeHeadstompOn.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffHeadStompOn.png");
-            FakeHeadstompOn.buffColor = new Color32(255, 250, 250, 255);
-            FakeHeadstompOn.name = "visual_HeadstomperReady";
-            FakeHeadstompOn.isDebuff = false;
-            FakeHeadstompOn.canStack = false;
-            FakeHeadstompOn.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
-            ContentAddition.AddBuffDef(FakeHeadstompOn);
+            bdHeadstompOn = ScriptableObject.CreateInstance<BuffDef>();
+            bdHeadstompOn.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffHeadStompOn.png");
+            bdHeadstompOn.buffColor = new Color32(255, 250, 250, 255);
+            bdHeadstompOn.name = "wqol_HeadstomperReady";
+            bdHeadstompOn.isDebuff = false;
+            bdHeadstompOn.canStack = false;
+            bdHeadstompOn.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
+            ContentAddition.AddBuffDef(bdHeadstompOn);
 
 
-            FakeHeadstompOff = ScriptableObject.CreateInstance<BuffDef>();
-            FakeHeadstompOff.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffHeadStompOff.png");
-            FakeHeadstompOff.buffColor = new Color32(250, 250, 255, 255);
-            FakeHeadstompOff.name = "visual_HeadstomperCooldown";
-            FakeHeadstompOff.isDebuff = false;
-            FakeHeadstompOff.canStack = true;
-            FakeHeadstompOff.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeHeadstompOff);
+            bdHeadstompOff = ScriptableObject.CreateInstance<BuffDef>();
+            bdHeadstompOff.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffHeadStompOff.png");
+            bdHeadstompOff.buffColor = new Color32(250, 250, 255, 255);
+            bdHeadstompOff.name = "wqol_HeadstomperCooldown";
+            bdHeadstompOff.isDebuff = false;
+            bdHeadstompOff.canStack = true;
+            bdHeadstompOff.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdHeadstompOff);
 
             if (WConfig.cfgBuff_Headstomper.Value == true && riskyModEnabled == false)
             {
@@ -231,9 +226,9 @@ namespace WolfoQoL_Server
                     {
                         if (self is EntityStates.Headstompers.HeadstompersIdle)
                         {
-                            if (self.body.GetBuffCount(FakeHeadstompOn) == 0)
+                            if (self.body.GetBuffCount(bdHeadstompOn) == 0)
                             {
-                                self.body.AddBuff(FakeHeadstompOn);
+                                self.body.AddBuff(bdHeadstompOn);
                             }
                         }
                     }
@@ -244,10 +239,10 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        self.body.RemoveBuff(FakeHeadstompOn);
+                        self.body.RemoveBuff(bdHeadstompOn);
                         for (float newtimer = self.duration; 0 < newtimer; newtimer--)
                         {
-                            self.body.AddTimedBuff(FakeHeadstompOff, (float)newtimer);
+                            self.body.AddTimedBuff(bdHeadstompOff, (float)newtimer);
                         }
                     }
                 };
@@ -259,7 +254,7 @@ namespace WolfoQoL_Server
                     {
                         if (self.body != null)
                         {
-                            self.body.RemoveBuff(FakeHeadstompOn);
+                            self.body.RemoveBuff(bdHeadstompOn);
                         }
                     }
                 };
@@ -268,42 +263,42 @@ namespace WolfoQoL_Server
             #region Shield Delay and Opal Delay
             BuffDef MedkitDelay = LegacyResourcesAPI.Load<BuffDef>("buffdefs/MedkitHeal");
 
-            FakeShieldDelay = ScriptableObject.CreateInstance<BuffDef>();
-            FakeShieldDelay.iconSprite = MedkitDelay.iconSprite;
-            ///FakeShieldDelay.buffColor = new Color32(66, 100, 220, 255); //4264DC
-            FakeShieldDelay.buffColor = new Color(0.3529f, 0.4863f, 0.9647f, 1f); //
-            FakeShieldDelay.name = "visual_ShieldDelay";
-            FakeShieldDelay.isDebuff = false;
-            FakeShieldDelay.canStack = false;
-            FakeShieldDelay.isCooldown = false;
-            FakeShieldDelay.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeShieldDelay);
+            bdShieldDelay = ScriptableObject.CreateInstance<BuffDef>();
+            bdShieldDelay.iconSprite = MedkitDelay.iconSprite;
+            ///bdShieldDelay.buffColor = new Color32(66, 100, 220, 255); //4264DC
+            bdShieldDelay.buffColor = new Color(0.3529f, 0.4863f, 0.9647f, 1f); //
+            bdShieldDelay.name = "wqol_ShieldDelay";
+            bdShieldDelay.isDebuff = false;
+            bdShieldDelay.canStack = false;
+            bdShieldDelay.isCooldown = false;
+            bdShieldDelay.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdShieldDelay);
 
-            FakeShieldDelayPink = ScriptableObject.CreateInstance<BuffDef>();
-            FakeShieldDelayPink.iconSprite = MedkitDelay.iconSprite;
-            //FakeShieldDelayPink.buffColor = RoR2.UI.HealthBar.voidShieldsColor;
-            FakeShieldDelayPink.buffColor = new Color(1f, 0.2235f, 0.7804f, 1); //
-            FakeShieldDelayPink.name = "visual_ShieldDelayPink";
-            FakeShieldDelayPink.isDebuff = false;
-            FakeShieldDelayPink.canStack = false;
-            FakeShieldDelayPink.isCooldown = false;
-            FakeShieldDelayPink.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeShieldDelayPink);
+            bdShieldDelayPink = ScriptableObject.CreateInstance<BuffDef>();
+            bdShieldDelayPink.iconSprite = MedkitDelay.iconSprite;
+            //bdShieldDelayPink.buffColor = RoR2.UI.HealthBar.voidShieldsColor;
+            bdShieldDelayPink.buffColor = new Color(1f, 0.2235f, 0.7804f, 1); //
+            bdShieldDelayPink.name = "wqol_ShieldDelayPink";
+            bdShieldDelayPink.isDebuff = false;
+            bdShieldDelayPink.canStack = false;
+            bdShieldDelayPink.isCooldown = false;
+            bdShieldDelayPink.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdShieldDelayPink);
 
 
             BuffDef bdOutOfCombatArmorBuff = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC1/OutOfCombatArmor/bdOutOfCombatArmorBuff.asset").WaitForCompletion();
-            FakeOpalCooldown = ScriptableObject.CreateInstance<BuffDef>();
-            FakeOpalCooldown.iconSprite = bdOutOfCombatArmorBuff.iconSprite;
-            FakeOpalCooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1); //4264DC
-            FakeOpalCooldown.name = "visual_OutOfCombatArmorCooldown";
-            FakeOpalCooldown.isDebuff = false;
-            FakeOpalCooldown.canStack = false;
-            FakeOpalCooldown.isCooldown = false;
-            FakeOpalCooldown.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeOpalCooldown);
+            bdOpalCooldown = ScriptableObject.CreateInstance<BuffDef>();
+            bdOpalCooldown.iconSprite = bdOutOfCombatArmorBuff.iconSprite;
+            bdOpalCooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1); //4264DC
+            bdOpalCooldown.name = "wqol_OutOfCombatArmorCooldown";
+            bdOpalCooldown.isDebuff = false;
+            bdOpalCooldown.canStack = false;
+            bdOpalCooldown.isCooldown = false;
+            bdOpalCooldown.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdOpalCooldown);
 
             //If disabled
-            //FakeOpalCooldown.isHidden = true;
+            //bdOpalCooldown.isHidden = true;
             if (WConfig.cfgBuff_ShieldOpalCooldown.Value == true)
             {
                 On.RoR2.CharacterBody.OnTakeDamageServer += (orig, self, damageReport) =>
@@ -318,11 +313,11 @@ namespace WolfoQoL_Server
                                 float duration = 7f - self.outOfDangerStopwatch;
                                 if (self.healthComponent.itemCounts.missileVoid > 0)
                                 {
-                                    self.AddTimedBuff(FakeShieldDelayPink, duration);
+                                    self.AddTimedBuff(bdShieldDelayPink, duration);
                                 }
                                 else
                                 {
-                                    self.AddTimedBuff(FakeShieldDelay, duration);
+                                    self.AddTimedBuff(bdShieldDelay, duration);
                                 }
                             }
                             if (self.inventory)
@@ -330,7 +325,7 @@ namespace WolfoQoL_Server
                                 float duration = 7f - self.outOfDangerStopwatch;
                                 if (self.inventory.GetItemCount(DLC1Content.Items.OutOfCombatArmor) > 0)
                                 {
-                                    self.AddTimedBuff(FakeOpalCooldown, duration);
+                                    self.AddTimedBuff(bdOpalCooldown, duration);
                                 }
                             }
                         }
@@ -341,10 +336,10 @@ namespace WolfoQoL_Server
                 On.RoR2.HealthComponent.ForceShieldRegen += (orig, self) =>
                 {
                     orig(self);
-                    if (self.body && self.body.HasBuff(FakeShieldDelay))
+                    if (self.body && self.body.HasBuff(bdShieldDelay))
                     {
-                        self.body.ClearTimedBuffs(FakeShieldDelay);
-                        self.body.ClearTimedBuffs(FakeShieldDelayPink);
+                        self.body.ClearTimedBuffs(bdShieldDelay);
+                        self.body.ClearTimedBuffs(bdShieldDelayPink);
                     }
                 };
             }
@@ -358,14 +353,14 @@ namespace WolfoQoL_Server
             EggIcon.filterMode = FilterMode.Bilinear;
             Sprite EggIconS = Sprite.Create(EggIcon, v.rec128, v.half);
 
-            FakeEgg = ScriptableObject.CreateInstance<BuffDef>();
-            FakeEgg.iconSprite = EggIconS;
-            //FakeEgg.buffColor = new Color32(255, 157, 174, 255); //FF9DAE
-            FakeEgg.buffColor = new Color32(255, 180, 137, 255); //FFB489
-            FakeEgg.name = "visual_VolcanoEgg";
-            FakeEgg.isDebuff = false;
-            FakeEgg.canStack = false;
-            ContentAddition.AddBuffDef(FakeEgg);
+            bdEgg = ScriptableObject.CreateInstance<BuffDef>();
+            bdEgg.iconSprite = EggIconS;
+            //bdEgg.buffColor = new Color32(255, 157, 174, 255); //FF9DAE
+            bdEgg.buffColor = new Color32(255, 180, 137, 255); //FFB489
+            bdEgg.name = "wqol_VolcanoEgg";
+            bdEgg.isDebuff = false;
+            bdEgg.canStack = false;
+            ContentAddition.AddBuffDef(bdEgg);
 
 
             
@@ -376,7 +371,7 @@ namespace WolfoQoL_Server
                     orig(self, passenger);
                     if (NetworkServer.active)
                     {
-                        passenger.GetComponent<CharacterBody>().AddTimedBuff(FakeEgg, self.duration);
+                        passenger.GetComponent<CharacterBody>().AddTimedBuff(bdEgg, self.duration);
                     }
                 };
                 On.RoR2.FireballVehicle.FixedUpdate += (orig, self) =>
@@ -385,7 +380,7 @@ namespace WolfoQoL_Server
                     {
                         if ((self.overlapFireAge + Time.fixedDeltaTime) > 1f / (self.overlapFireFrequency += Time.fixedDeltaTime))
                         {
-                            self.vehicleSeat.currentPassengerBody.AddTimedBuff(FakeEgg, self.duration - self.age);
+                            self.vehicleSeat.currentPassengerBody.AddTimedBuff(bdEgg, self.duration - self.age);
                         }
                     }
                     orig(self);
@@ -396,7 +391,7 @@ namespace WolfoQoL_Server
                     orig(self, passenger);
                     if (NetworkServer.active)
                     {
-                        passenger.GetComponent<CharacterBody>().ClearTimedBuffs(FakeEgg);
+                        passenger.GetComponent<CharacterBody>().ClearTimedBuffs(bdEgg);
                     }
                 };
             }
@@ -407,13 +402,13 @@ namespace WolfoQoL_Server
             TinctureIcon.filterMode = FilterMode.Bilinear;
             Sprite TinctureIconS = Sprite.Create(TinctureIcon, v.rec128, v.half);
 
-            FakeHellFireDuration = ScriptableObject.CreateInstance<BuffDef>();
-            FakeHellFireDuration.iconSprite = TinctureIconS;
-            FakeHellFireDuration.buffColor = new Color32(115, 182, 165, 255); //
-            FakeHellFireDuration.name = "visual_TinctureIgnition";
-            FakeHellFireDuration.isDebuff = false;
-            FakeHellFireDuration.canStack = false;
-            ContentAddition.AddBuffDef(FakeHellFireDuration);
+            bdHellFireDuration = ScriptableObject.CreateInstance<BuffDef>();
+            bdHellFireDuration.iconSprite = TinctureIconS;
+            bdHellFireDuration.buffColor = new Color32(115, 182, 165, 255); //
+            bdHellFireDuration.name = "wqol_TinctureIgnition";
+            bdHellFireDuration.isDebuff = false;
+            bdHellFireDuration.canStack = false;
+            ContentAddition.AddBuffDef(bdHellFireDuration);
             
             if (WConfig.TinctureVisual.Value == true)
             {
@@ -422,7 +417,7 @@ namespace WolfoQoL_Server
                     orig(self, duration);
                     if (NetworkServer.active)
                     {
-                        self.AddTimedBuff(FakeHellFireDuration, duration);
+                        self.AddTimedBuff(bdHellFireDuration, duration);
                     }
                 };
 
@@ -430,14 +425,14 @@ namespace WolfoQoL_Server
             */
             #region Frost Relic
 
-            FakeFrostRelic = ScriptableObject.CreateInstance<BuffDef>();
-            FakeFrostRelic.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFrostRelic.png");
-            FakeFrostRelic.buffColor = new Color32(202, 229, 255, 255); //CAE5FF
-            FakeFrostRelic.name = "visual_FrostRelicGrowth";
-            FakeFrostRelic.isDebuff = false;
-            FakeFrostRelic.canStack = true;
-            FakeFrostRelic.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
-            ContentAddition.AddBuffDef(FakeFrostRelic);
+            bdFrostRelic = ScriptableObject.CreateInstance<BuffDef>();
+            bdFrostRelic.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFrostRelic.png");
+            bdFrostRelic.buffColor = new Color32(202, 229, 255, 255); //CAE5FF
+            bdFrostRelic.name = "wqol_FrostRelicGrowth";
+            bdFrostRelic.isDebuff = false;
+            bdFrostRelic.canStack = true;
+            bdFrostRelic.ignoreGrowthNectar = !WConfig.BuffsAffectNectar.Value;
+            ContentAddition.AddBuffDef(bdFrostRelic);
 
             if (WConfig.cfgBuff_FrostRelic.Value == true)
             {
@@ -447,11 +442,11 @@ namespace WolfoQoL_Server
 
                     if (NetworkServer.active)
                     {
-                        if (self.cachedOwnerInfo.characterBody.GetBuffCount(FakeFrostRelic) + 1 > self.maxIcicleCount)
+                        if (self.cachedOwnerInfo.characterBody.GetBuffCount(bdFrostRelic) + 1 > self.maxIcicleCount)
                         {
-                            self.cachedOwnerInfo.characterBody.RemoveOldestTimedBuff(FakeFrostRelic);
+                            self.cachedOwnerInfo.characterBody.RemoveOldestTimedBuff(bdFrostRelic);
                         }
-                        self.cachedOwnerInfo.characterBody.AddTimedBuff(FakeFrostRelic, self.icicleDuration);
+                        self.cachedOwnerInfo.characterBody.AddTimedBuff(bdFrostRelic, self.icicleDuration);
                     }
                 };
             }
@@ -459,24 +454,24 @@ namespace WolfoQoL_Server
             #region Feather
             //0.4706 0.1686 0.7765 1
 
-            FakeFeather = ScriptableObject.CreateInstance<BuffDef>();
-            FakeFeather.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFeather.png");
-            FakeFeather.buffColor = new Color32(99, 192, 255, 255); //3FC5E3
-            FakeFeather.name = "visual_BonusJump";
-            FakeFeather.isDebuff = false;
-            FakeFeather.canStack = true;
-            FakeFeather.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeFeather);
+            bdFeather = ScriptableObject.CreateInstance<BuffDef>();
+            bdFeather.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffFeather.png");
+            bdFeather.buffColor = new Color32(99, 192, 255, 255); //3FC5E3
+            bdFeather.name = "wqol_BonusJump";
+            bdFeather.isDebuff = false;
+            bdFeather.canStack = true;
+            bdFeather.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdFeather);
 
-            FakeVoidFeather = ScriptableObject.CreateInstance<BuffDef>();
-            FakeVoidFeather.iconSprite = FakeFeather.iconSprite;
-            //FakeVoidFeather.buffColor = new Color32(120, 43, 198, 255); //3FC5E3
-            FakeVoidFeather.buffColor = new Color(0.7f, 0.45f, 1f, 1f); //3FC5E3
-            FakeVoidFeather.name = "visual_BonusJumpVoid";
-            FakeVoidFeather.isDebuff = false;
-            FakeVoidFeather.canStack = true;
-            FakeVoidFeather.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(FakeVoidFeather);
+            bdVoidFeather = ScriptableObject.CreateInstance<BuffDef>();
+            bdVoidFeather.iconSprite = bdFeather.iconSprite;
+            //bdVoidFeather.buffColor = new Color32(120, 43, 198, 255); //3FC5E3
+            bdVoidFeather.buffColor = new Color(0.7f, 0.45f, 1f, 1f); //3FC5E3
+            bdVoidFeather.name = "wqol_BonusJumpVoid";
+            bdVoidFeather.isDebuff = false;
+            bdVoidFeather.canStack = true;
+            bdVoidFeather.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdVoidFeather);
             #endregion
 
             //Bro this is so annoying
@@ -496,7 +491,7 @@ namespace WolfoQoL_Server
                     {
                         new2Buffs[j] = newBuffDefs[i];
                         j++;
-                        new2Buffs[j] = FakeOpalCooldown;
+                        new2Buffs[j] = bdOpalCooldown;
                     }
                     else
                     {
@@ -518,7 +513,7 @@ namespace WolfoQoL_Server
 
         }
 
-        public static BuffDef FakeVoidFeather;
+        public static BuffDef bdVoidFeather;
         public static ItemIndex VV_VoidFeather = ItemIndex.None;
 
         public static void ModSupport()
@@ -533,17 +528,17 @@ namespace WolfoQoL_Server
             {
                 if (VV_VoidFeather != ItemIndex.None)
                 {
-                    FakeVoidFeather.isHidden = false;
+                    bdVoidFeather.isHidden = false;
                     On.RoR2.CharacterMotor.OnLanded += (orig, self) =>
                     {
                         orig(self);
                         if (self.body && self.body.isPlayerControlled)
                         {
-                            self.body.SetBuffCount(FakeFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
-                            self.body.SetBuffCount(FakeVoidFeather.buffIndex, self.body.inventory.GetItemCount(VV_VoidFeather));
+                            self.body.SetBuffCount(bdFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
+                            self.body.SetBuffCount(bdVoidFeather.buffIndex, self.body.inventory.GetItemCount(VV_VoidFeather));
                             if (!NetworkServer.active)
                             {
-                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(FakeFeather), self.body.GetBuffCount(FakeVoidFeather));
+                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(bdFeather), self.body.GetBuffCount(bdVoidFeather));
                             }
                         }
                     };
@@ -555,10 +550,10 @@ namespace WolfoQoL_Server
                         orig(self);
                         if (self.body && self.body.isPlayerControlled)
                         {
-                            self.body.SetBuffCount(FakeFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
+                            self.body.SetBuffCount(bdFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
                             if (!NetworkServer.active)
                             {
-                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(FakeFeather), self.body.GetBuffCount(FakeVoidFeather));
+                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(bdFeather), self.body.GetBuffCount(bdVoidFeather));
                             }
                         }
                     };
@@ -591,8 +586,8 @@ namespace WolfoQoL_Server
                 FeatherTrackerClients feather = self.GetComponent<FeatherTrackerClients>();
                 if (feather)
                 {
-                    self.SetBuffCount(FakeFeather.buffIndex, feather.amount);
-                    self.SetBuffCount(FakeVoidFeather.buffIndex, feather.amountVoid);
+                    self.SetBuffCount(bdFeather.buffIndex, feather.amount);
+                    self.SetBuffCount(bdVoidFeather.buffIndex, feather.amountVoid);
                 }
             }
         }
@@ -602,11 +597,11 @@ namespace WolfoQoL_Server
             orig(characterMotor, characterBody, horizontalBonus, verticalBonus, vault);
             if (characterBody.isPlayerControlled && characterMotor.jumpCount + 1 > characterBody.baseJumpCount)
             {
-                characterBody.SetBuffCount(FakeFeather.buffIndex, characterBody.GetBuffCount(FakeFeather) - 1);
-                characterBody.SetBuffCount(FakeVoidFeather.buffIndex, characterBody.GetBuffCount(FakeVoidFeather) - 1);
+                characterBody.SetBuffCount(bdFeather.buffIndex, characterBody.GetBuffCount(bdFeather) - 1);
+                characterBody.SetBuffCount(bdVoidFeather.buffIndex, characterBody.GetBuffCount(bdVoidFeather) - 1);
                 if (!NetworkServer.active)
                 {
-                    characterBody.GetComponent<FeatherTrackerClients>().SetVal(characterBody.GetBuffCount(FakeFeather), characterBody.GetBuffCount(FakeVoidFeather));
+                    characterBody.GetComponent<FeatherTrackerClients>().SetVal(characterBody.GetBuffCount(bdFeather), characterBody.GetBuffCount(bdVoidFeather));
                 }
             }
         }
@@ -622,8 +617,8 @@ namespace WolfoQoL_Server
             DotController.GetDotDef(DotController.DotIndex.StrongerBurn).terminalTimedBuff = null;
             DotController.GetDotDef(DotController.DotIndex.StrongerBurn).terminalTimedBuffDuration = 0;
 
-            DotController.GetDotDef(DotController.DotIndex.Helfire).associatedBuff = FakeHellFire;
-            DotController.GetDotDef(DotController.DotIndex.PercentBurn).associatedBuff = FakePercentBurn;
+            DotController.GetDotDef(DotController.DotIndex.Helfire).associatedBuff = bdHellFire;
+            DotController.GetDotDef(DotController.DotIndex.PercentBurn).associatedBuff = bdPercentBurn;
         }
 
 

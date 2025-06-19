@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering.PostProcessing;
+using RoR2.Stats;
 
 namespace WolfoQoL_Client
 {
@@ -15,10 +16,6 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-           
-
-
-            DifficultyColors();
 
             RandomMiscWithConfig.Start();
 
@@ -48,17 +45,6 @@ namespace WolfoQoL_Client
 
 
             //Sorting the hidden stages in the menu, kinda dubmb but whatevs
-
-            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/meridian/meridian.asset").WaitForCompletion().stageOrder = 80;
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 81; //Next to Meridian
-
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").stageOrder = 90; //Bazaar -> Void -> Void -> Void
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/arena").stageOrder = 91;
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/voidstage").stageOrder = 92;
-            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().stageOrder = 93;
-
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 110;
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 111;
 
 
             #region LunarScavLunarBeadBead
@@ -123,14 +109,6 @@ namespace WolfoQoL_Client
             rootjungle.bossTrack = MusicSulfurPoolsBoss;
 
 
-            //On.RoR2.UI.PingIndicator.RebuildPing += PlayerPings;
-            IL.RoR2.UI.PingIndicator.RebuildPing += PlayerPing.PlayerPingsIL;
-
-
-            IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
-
-            On.RoR2.SubjectChatMessage.GetSubjectName += SubjectChatMessage_GetSubjectName;
-
 
             GameObject MiniGeodeBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
             MiniGeodeBody.transform.localScale = Vector3.one * 1.5f;
@@ -146,8 +124,11 @@ namespace WolfoQoL_Client
             GameObject NoCooldownEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/KillEliteFrenzy/NoCooldownEffect.prefab").WaitForCompletion();
             NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().priority = 19;
 
-        }
 
+            PostProcessProfile ppLocalMeteorStorm = Addressables.LoadAssetAsync<PostProcessProfile>(key: "affc373eac3cb4c43b38adc2c7a61451").WaitForCompletion();
+            (ppLocalMeteorStorm.settings[1] as ColorGrading).postExposure.value = 0.2f;
+
+        }
         public static BodyIndex LemurianBruiser = BodyIndex.None;
         public static string MarriedLemurianNameHook(On.RoR2.Util.orig_GetBestBodyName orig, GameObject bodyObject)
         {
@@ -170,61 +151,6 @@ namespace WolfoQoL_Client
                 }
             }
             return orig(bodyObject);
-        }
-
-
-        private static string SubjectChatMessage_GetSubjectName(On.RoR2.SubjectChatMessage.orig_GetSubjectName orig, SubjectChatMessage self)
-        {
-            if (self.subjectAsNetworkUser == null && self.subjectAsCharacterBody)
-            {
-                return RoR2.Util.GetBestBodyName(self.subjectAsCharacterBody.gameObject);
-            }
-            return orig(self);
-        }
-
-        private static void DifficultyColors()
-        {
-            Color eclipseColor = new Color(0.2f, 0.22f, 0.4f, 1);
-
-            DifficultyCatalog.difficultyDefs[3].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[4].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[5].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[6].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[7].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[8].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[9].color = eclipseColor;
-            DifficultyCatalog.difficultyDefs[10].color = eclipseColor;
-
-            DifficultyCatalog.difficultyDefs[3].serverTag = "e1";
-            DifficultyCatalog.difficultyDefs[4].serverTag = "e2";
-            DifficultyCatalog.difficultyDefs[5].serverTag = "e3";
-            DifficultyCatalog.difficultyDefs[6].serverTag = "e4";
-            DifficultyCatalog.difficultyDefs[7].serverTag = "e5";
-            DifficultyCatalog.difficultyDefs[8].serverTag = "e6";
-            DifficultyCatalog.difficultyDefs[9].serverTag = "e7";
-            DifficultyCatalog.difficultyDefs[10].serverTag = "e8";
-        }
-
-
-        private static void ScoreboardForDeadPeopleToo(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchStloc(0)))
-            {
-                c.EmitDelegate<System.Func<List<PlayerCharacterMasterController>, List<PlayerCharacterMasterController>>>((self) =>
-                {
-                    List<PlayerCharacterMasterController> list = (from x in PlayerCharacterMasterController.instances
-                                                                  where x.gameObject.activeInHierarchy && x.isConnected
-                                                                  select x).ToList<PlayerCharacterMasterController>();
-                    return list;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: ScoreboardForDeadPeopleToo");
-            }
-
         }
 
         private static void BiggerSaleStarRange(ILContext il)
@@ -362,6 +288,7 @@ namespace WolfoQoL_Client
 
             ItemDisplay display = VoidAffixDisplay.GetComponent<ItemDisplay>();
             display.rendererInfos = display.rendererInfos.Remove(display.rendererInfos[4]);
+            VoidAffixDisplay.AddComponent<ModelPanelParameters>();
 
             VoidAffix.pickupModelPrefab = VoidAffixDisplay;
         }

@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoFixes
 {
-    public class Devotion
+    public class DevotionFixes
     {
 
         public static void Start()

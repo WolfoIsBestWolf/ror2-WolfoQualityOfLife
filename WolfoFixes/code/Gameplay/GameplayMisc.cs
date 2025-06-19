@@ -5,22 +5,25 @@ using UnityEngine;
 
 namespace WolfoFixes
 {
-    public class Gameplay
+    public class GameplayMisc
     {
         public static void Start()
         {
+            //Set destination beforehand so the process can't be skipped accidentally
             On.RoR2.SceneExitController.OnEnable += PathOfColossusSkipFix;
+            IL.RoR2.Artifacts.SwarmsArtifactManager.OnSpawnCardOnSpawnedServerGlobal += SwarmsVengenceGooboFix;
+
+
             if (WConfig.cfgSlayerScale.Value)
             {
                 //Is this even a bug, probably not is it.
                 On.RoR2.HealthComponent.TakeDamageProcess += SlayerApplyingToProc;
             }
-           
-            IL.RoR2.Artifacts.SwarmsArtifactManager.OnSpawnCardOnSpawnedServerGlobal += VengenceAndEnemyGooboFix;
+
         }
 
 
-        private static void VengenceAndEnemyGooboFix(MonoMod.Cil.ILContext il)
+        private static void SwarmsVengenceGooboFix(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.Before,

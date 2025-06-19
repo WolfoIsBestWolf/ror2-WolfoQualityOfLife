@@ -3,6 +3,7 @@ using R2API;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 
 namespace WolfoQoL_Client
 {
@@ -24,7 +25,18 @@ namespace WolfoQoL_Client
                 BeetleQueenBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
 
             }
-
+            ChangeSkinOnStage GolemBody = Addressables.LoadAssetAsync<GameObject>(key: "f21a0264f74389246acbbc5e281092b1").WaitForCompletion().AddComponent<ChangeSkinOnStage>();
+            GolemBody.sceneDef = Addressables.LoadAssetAsync<SceneDef>(key: "ced489f798226594db0d115af2101a9b").WaitForCompletion();
+        
+            if (WConfig.cfgVoidAllyCyanEyes.Value)
+            {
+                Material voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Nullifier/matNullifierAlly.mat").WaitForCompletion();
+                voidAlly.SetColor("_EmColor", new Color(0, 3, 2.25f, 1)); //1,1,1
+                voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/VoidJailer/matVoidJailerEyesAlly.mat").WaitForCompletion();
+                voidAlly.SetColor("_EmColor", new Color(0f, 1f, 0.75f, 1)); //0.8706 0.4764 1 1
+                voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/VoidMegaCrab/matVoidMegaCrabAlly.mat").WaitForCompletion();
+                voidAlly.SetColor("_EmColor", new Color(0f, 2f, 1f, 1f)); //0.7306 0 0.8208 1
+            }
 
         }
 
@@ -47,7 +59,30 @@ namespace WolfoQoL_Client
             }
             Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion().shaderEliteRampIndex = 0;
 
-            On.RoR2.CharacterModel.IsAurelioniteAffix += CharacterModel_IsAurelioniteAffix;
+            if (WConfig.cfgTwistedFire.Value)
+            {
+                On.RoR2.AffixBeadBehavior.Update += AffixBeadBehavior_Update;
+            }
+          
+        }
+
+        private static void AffixBeadBehavior_Update(On.RoR2.AffixBeadBehavior.orig_Update orig, AffixBeadBehavior self)
+        {
+            if (!NetworkServer.active)
+            {
+                return;
+            }
+            bool flag = self.stack > 0;
+            if (self.beadHolderVFX != flag)
+            {
+                if (flag)
+                {
+                    self.beadHolderVFX = UnityEngine.Object.Instantiate<GameObject>(self.beadHolderVFXReference);
+                    self.beadHolderVFX.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(self.body.gameObject, "Head");
+                    self.beadHolderVFX.transform.localScale *= self.body.modelLocator.modelScaleCompensation;
+                }
+            }
+            orig(self);
         }
 
         private static void CharacterModel_UpdateOverlays(ILContext il)
@@ -86,14 +121,7 @@ namespace WolfoQoL_Client
         }
 
 
-        private static bool CharacterModel_IsAurelioniteAffix(On.RoR2.CharacterModel.orig_IsAurelioniteAffix orig, CharacterModel self)
-        {
-            if (self.myEliteIndex == DLC2Content.Elites.Aurelionite.eliteIndex)
-            {
-                return true;
-            }
-            return orig(self);
-        }
+
     }
     public class ChangeSkinOnStage : MonoBehaviour
     {

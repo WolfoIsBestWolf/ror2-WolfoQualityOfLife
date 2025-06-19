@@ -11,10 +11,12 @@ namespace WolfoFixes
     {
         public static void Start()
         {
+            
             if (WConfig.cfgTestMultiplayer.Value)
             {
                 IL.RoR2.Networking.ServerAuthManager.HandleSetClientAuth += Testing.ServerAuthManager_HandleSetClientAuth;
                 On.RoR2.Run.GetUserMaster += Testing.Run_GetUserMaster;
+                On.RoR2.SteamworksLobbyManager.OnLobbyJoined_bool_string += SteamworksLobbyManager_OnLobbyJoined_bool_string;
             }
             if (WConfig.cfgTestLogbook.Value)
             {
@@ -28,6 +30,16 @@ namespace WolfoFixes
             {
                 On.RoR2.PickupPickerController.GetOptionsFromPickupIndex += CommandWithEveryItem;
             }
+        }
+
+        private static void SteamworksLobbyManager_OnLobbyJoined_bool_string(On.RoR2.SteamworksLobbyManager.orig_OnLobbyJoined_bool_string orig, SteamworksLobbyManager self, bool success, string tokenReasonFailed)
+        {
+            //Random error loop where it'd open 500 server full windows.
+            if (string.IsNullOrEmpty(tokenReasonFailed))
+            {
+                success = true;
+            }
+            orig(self, success, tokenReasonFailed);
         }
 
         public static CharacterMaster Run_GetUserMaster(On.RoR2.Run.orig_GetUserMaster orig, Run self, NetworkUserId networkUserId)

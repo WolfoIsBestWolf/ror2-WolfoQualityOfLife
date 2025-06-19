@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 
 namespace WolfoQoL_Client
@@ -21,7 +22,21 @@ namespace WolfoQoL_Client
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += SortBossEquip_AddBG;
             On.RoR2.UI.LogBook.LogBookController.BuildSurvivorEntries += SurvivorEntryColor;
 
-            On.RoR2.UI.LogBook.LogBookController.GetPickupStatus += EliteEquipmentViewable;  
+            On.RoR2.UI.LogBook.LogBookController.GetPickupStatus += EliteEquipmentViewable;
+
+
+            #region Sort Hidden Realms
+            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/meridian/meridian.asset").WaitForCompletion().stageOrder = 80;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 81; //Next to Meridian
+
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").stageOrder = 90; //Bazaar -> Void -> Void -> Void
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/arena").stageOrder = 91;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/voidstage").stageOrder = 92;
+            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().stageOrder = 93;
+
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/mysteryspace").stageOrder = 110;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/limbo").stageOrder = 111;
+            #endregion
         }
 
         private static EntryStatus EliteEquipmentViewable(On.RoR2.UI.LogBook.LogBookController.orig_GetPickupStatus orig, ref Entry entry, UserProfile viewerProfile)

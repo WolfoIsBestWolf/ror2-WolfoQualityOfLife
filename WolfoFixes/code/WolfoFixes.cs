@@ -4,18 +4,22 @@ using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-
+ 
 namespace WolfoFixes
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Early.Wolfo.WolfFixes", "WolfoBugFixes", "1.1.0")]
+    [BepInPlugin("Early.Wolfo.WolfFixes", "WolfoBugFixes", "1.1.4")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WolfoMain : BaseUnityPlugin
     {
+        public static bool riskyFixes;
         public void Awake()
         {
+   
             WConfig.Start();
         }
+
+
 
         public void Start()
         {
@@ -23,58 +27,68 @@ namespace WolfoFixes
             {
                 TestLoadOrder.Logger = base.Logger;
             }
+            Commands.Start();
             Testing.Start();
-            AchievementManager.availability.CallWhenAvailable(onLoadFinished);
+            RoR2Application.onLoad += addRiskConfigLatest;
+           
+            riskyFixes = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.RiskyFixes");
+            VoidSuppressor.SuppresedScrap();
             if (WConfig.cfgDisable.Value)
             {
-                //So far nothing is needed for Mod Compat even if other mods really want certain features.
                 return;
             }
-            Gameplay.Start();
-            Visuals.Start();
-            Audio.Start();
+            VoidSuppressor.FixInteractable();
+
 
             BodyFixes.Start();
+            DevotionFixes.Start();
+            GameplayMisc.Start();
+            ItemsAndEquipment.Start();
+            ItemTags.Start();
+            PrayerBeads.Start();
             Simualcrum.Start();
 
-            Devotion.Start();
-            ItemsAndEquipment.Start();
-            Glass.Start();
+            Audio.Start();
+            RandomFixes.Start();
+            ShrineShapingFixes.Start();
+            ShrineHalcyonFixes.Start();
+
+            LogFixes.Start();
+ 
+            SkinFixes.Start();
+            Visuals.Start();
 
             OptionPickupStuff.Start();
-            ShrineShaping.Start();
-            ShrineHalcyon.Start();
-            PrayerBeads.Start();
-            RandomFixes2.Start();
-
-            ItemTags.Start();
-
-            VoidSuppressor.Start();
+            SkinFixes.Start();
+            Visuals.Start();
+            EquipmentCatalog.availability.CallWhenAvailable(MissingEliteDisplays.Start);
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
-
-            
         }
 
-        void onLoadFinished()
+        void addRiskConfigLatest()
         {
-            RoR2Application.onLoadFinished = (Action)Delegate.Remove(RoR2Application.onLoadFinished, new Action(onLoadFinished));
+            RoR2Application.onLoad -= addRiskConfigLatest;
             bool riskOfOptions = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rune580.riskofoptions");
             if (riskOfOptions)
             {
                 WConfig.RiskConfig();
             }
+           
         }
 
         internal static void ModSupport_CallLate()
         {
             if (WConfig.cfgDisable.Value)
             {
-                //So far nothing is needed for Mod Compat even if other mods really want certain features.
                 return;
             }
-            TextFixes.Start();
-
+            //The later the better because first come first serve with LanguageAPI
+            //Tho could do it with a language file I guess?
+            TextFixes.CallLate();
+            ItemTags.CallLate();
+            BodyFixes.CallLate();
+ 
             RoR2Content.Buffs.HiddenInvincibility.canStack = false;
             DLC2Content.Buffs.Boosted.canStack = false;
 
@@ -83,21 +97,7 @@ namespace WolfoFixes
 
             //Prevent scrapping regen scrap.
             HG.ArrayUtils.ArrayAppend(ref DLC1Content.Items.RegeneratingScrap.tags, ItemTag.Scrap);
-
-            MissingEliteDisplays.Start();
-            ItemTags.ItemTagChanges();
-
-
-
-            Addressables.LoadAssetAsync<GameObject>(key: "3a44327eee358a74ba0580dbca78897e").WaitForCompletion().AddComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[]
-            {
-                new GivePickupsOnStart.ItemDefInfo
-                {
-                    itemDef = RoR2Content.Items.UseAmbientLevel,
-                    count = 1,
-                }
-            };
-
+ 
         }
 
 

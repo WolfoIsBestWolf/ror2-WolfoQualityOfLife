@@ -12,13 +12,11 @@ namespace WolfoQoL_Client
         public static void Start()
         {
             On.RoR2.SkinDef.ApplyAsync += SkinDef_ApplyAsync;
-            Skins_Merc.Start();
-
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
-            Skins_Engi.FixedTurret();
-            Skins_Engi.Harpoons();
+
+            Skins_Merc.Start();    
+            Skins_Engi.Start();
             Skins_REX.Start();
-            Skins_Engi.AltTrail();
             Skins_Loader();
             Skins_Toolbot();
 
@@ -27,8 +25,9 @@ namespace WolfoQoL_Client
                 Material matCaptainColossusAltArmor = Addressables.LoadAssetAsync<Material>(key: "572c80ba738b3144f9590ef372d0b055").WaitForCompletion();
                 matCaptainColossusAltArmor.SetTexture("_NormalTex", null);
                 matCaptainColossusAltArmor.SetTexture("_GreenChannelNormalTex", null); //texTrimSheetLemurianRuins
-
             }
+
+            //Random mat got switched
             SkinDefParams skinVoidSurvivorDefault_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "105cacfa3b8253c4c8cf34cb95818dff").WaitForCompletion();
             skinVoidSurvivorDefault_params.rendererInfos[3].defaultMaterialAddress = skinVoidSurvivorDefault_params.rendererInfos[0].defaultMaterialAddress;
  
@@ -64,6 +63,7 @@ namespace WolfoQoL_Client
         public static void Skins_Loader()
         {
             //Loader correct Hand/Pylon color, seems whatever at this point
+            //Not compatible with Colossus so whatevs
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Loader/LoaderHookGhost.prefab").WaitForCompletion().AddComponent<VFXAttributes>().DoNotPool = true;
             On.EntityStates.Loader.FireHook.SetHookReference += (orig, self, hook) =>
             {
@@ -160,6 +160,7 @@ namespace WolfoQoL_Client
 
             if (self.name.StartsWith("EngiDisplay"))
             {
+                //I forget why we cant just fix this in object
                 Loadout temploadout = self.networkUser.networkLoadout.loadout;
                 BodyIndex Engi = BodyCatalog.FindBodyIndex("EngiBody");
                 if (temploadout != null && self.networkUser.bodyIndexPreference == Engi)

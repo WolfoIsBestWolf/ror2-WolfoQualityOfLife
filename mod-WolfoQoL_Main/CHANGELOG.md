@@ -1,5 +1,14 @@
 #Changelog
 ```
+v4.1.4
+Made Sundered Grove slightly less dark.
+(TODO)Made Glowing Meteor effect less dark.
+Added Freeze duration buff here but like unregistered.
+Fixed Ally Ping not outlining most turrets.
+Change buff icon of +1 to unused more fitting icon.
+
+
+
 v4.1.3
 MultiShop ping icon is now 3 chests stacked to differentiate them.
 Fixed Engi Turret skin fix not working on Walking Turrets

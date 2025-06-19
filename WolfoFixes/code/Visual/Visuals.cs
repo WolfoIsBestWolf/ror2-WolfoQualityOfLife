@@ -1,19 +1,15 @@
-﻿using RoR2;
+﻿using MonoMod.Cil;
+using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Mono.Cecil.Cil;
 
 namespace WolfoFixes
 {
     public class Visuals
     {
-
-
         public static void Start()
         {
-
-            FixTitanPing();
-            FixMinorConstructOnKillBody();
-
             //Scope Alpha fix
             GameObject RailgunnerScopeHeavyOverlay = Addressables.LoadAssetAsync<GameObject>(key: "db5a0c21c1f689c4292ae5e292fd4f0e").WaitForCompletion();
             UnityEngine.UI.RawImage scope = RailgunnerScopeHeavyOverlay.transform.GetChild(1).GetComponent<UnityEngine.UI.RawImage>();
@@ -21,18 +17,6 @@ namespace WolfoFixes
             GameObject RailgunnerScopeLightOverlay = Addressables.LoadAssetAsync<GameObject>(key: "c305c2dadaa35d840bd91dd48987c55e").WaitForCompletion();
             scope = RailgunnerScopeLightOverlay.transform.GetChild(1).GetComponent<UnityEngine.UI.RawImage>();
             scope.m_Color = scope.color.AlphaMultiplied(0.7f);
-
-            //Sulfur Pools Diagram is Red instead of Yellow for ???
-            GameObject SulfurpoolsDioramaDisplay = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/sulfurpools/SulfurpoolsDioramaDisplay.prefab").WaitForCompletion();
-            MeshRenderer SPDiaramaRenderer = SulfurpoolsDioramaDisplay.transform.GetChild(2).GetComponent<MeshRenderer>();
-            Material SPRingAltered = Object.Instantiate(SPDiaramaRenderer.material);
-            SPRingAltered.SetTexture("_SnowTex", Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/DLC1/sulfurpools/texSPGroundDIFVein.tga").WaitForCompletion());
-            SPDiaramaRenderer.material = SPRingAltered;
-
-            //Too zoomed in
-            ModelPanelParameters VoidStageDiorama = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/voidstage/VoidStageDiorama.prefab").WaitForCompletion().GetComponent<ModelPanelParameters>();
-            VoidStageDiorama.minDistance = 60;
-            VoidStageDiorama.maxDistance = 320;
 
             //Rachis Radius is slightly wrong, noticible on high stacks 
             GameObject RachisObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/DamageZoneWard");
@@ -44,23 +28,54 @@ namespace WolfoFixes
             //Unused like blue explosion so he doesn't use magma explosion ig, probably unused for a reason but it looks fine
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion().GetComponent<WormBodyPositions2>().blastAttackEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Junk/ElectricWorm/ElectricWormImpactExplosion.prefab").WaitForCompletion();
 
-            //NewtShrine missing in Log
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").dioramaPrefab.AddComponent<ModelPanelParameters>().gameObject.AddComponent<ModelPanelParameters>();
-
+         
             //Default fallback
             On.RoR2.UI.ModelPanel.CameraFramingCalculator.GetCharacterThumbnailPosition += AddOrSetDefaultModelPanelParamsIfMissing;
             On.RoR2.ModelPanelParameters.OnDrawGizmos += SetValuesForMissingPanelParams;
 
-            //VoidMegaCrab too zoomed in
-            Addressables.LoadAssetAsync<GameObject>(key: "097b0e271757ce24581d4a8983d2c941").WaitForCompletion().transform.GetChild(0).GetChild(3).GetComponent<ModelPanelParameters>().maxDistance = 40;
+
+            //2D beam fix
+            GameObject DeepVoidPortalBattery = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion();
+            Transform Beam = DeepVoidPortalBattery.transform.GetChild(0).GetChild(2).GetChild(3).GetChild(0);
+            Beam.localScale = new Vector3(1, 3, 1); //LongerBeam
+
+            //2D beam fix
+            ParticleSystem ps = Beam.GetComponent<ParticleSystem>();
+            var psM = ps.main;
+            //psM.startRotationX = 6.66f;
+            psM.startRotationXMultiplier = 6.66f;
+            psM.startRotation3D = true;
+
+            //Glass when isGlass
+            IL.RoR2.CharacterModel.UpdateOverlays += CharacterModel_UpdateOverlayStates;
+            IL.RoR2.CharacterModel.UpdateOverlayStates += CharacterModel_UpdateOverlayStates;
 
         }
 
-
-        public static void FixMinorConstructOnKillBody()
+        private static void CharacterModel_UpdateOverlayStates(ILContext il)
         {
-            Addressables.LoadAssetAsync<GameObject>(key: "bf5b53aa9306bce4b910220a43b30062").WaitForCompletion().transform.GetChild(0).GetChild(0).GetComponent<ModelSkinController>().skins[0] = Addressables.LoadAssetAsync<SkinDef>(key: "114a09a96091efd43896f52f45be4adf").WaitForCompletion();
+            ILCursor c = new ILCursor(il);
+            bool a = c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdsfld("RoR2.RoR2Content/Items", "LunarDagger"));
+            if (a && c.TryGotoNext(MoveType.Before,
+            x => x.MatchBr(out _)))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<System.Func<bool, CharacterModel, bool>>((yes, model) =>
+                {
+                    if (model.body.isGlass)
+                    {
+                        return true;
+                    }
+                    return yes;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: IL.CharacterModel_UpdateOverlays");
+            }
         }
+
 
 
         private static void AddOrSetDefaultModelPanelParamsIfMissing(On.RoR2.UI.ModelPanel.CameraFramingCalculator.orig_GetCharacterThumbnailPosition orig, RoR2.UI.ModelPanel.CameraFramingCalculator self, float fov)
@@ -105,14 +120,7 @@ namespace WolfoFixes
             orig(self);
         }
 
-        public static void FixTitanPing()
-        {
-            SkinDefParams titan0 = Addressables.LoadAssetAsync<SkinDefParams>(key: "8aa47f1e288b32f4abb8e63aea8c2ea0").WaitForCompletion();
-            HG.ArrayUtils.Swap(titan0.rendererInfos, 19, 0);
-            SkinDefParams titanG = Addressables.LoadAssetAsync<SkinDefParams>(key: "ea05e89f54cbdee409061420648b0cd9").WaitForCompletion();
-            HG.ArrayUtils.Swap(titanG.rendererInfos, 19, 0);
-
-        }
+ 
 
 
 

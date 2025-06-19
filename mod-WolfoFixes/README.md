@@ -1,48 +1,62 @@
-Various bug fixes that were previously part of my mods.
-
+Various bug or overseight fixes that I found.
+ 
 Better to keep it bundled in it's own mod
 
-Yes you can turn off Mithrix phase 4 Skip with config, and some other stuff.
+ 
 
+#
+### Fixes the following :
 
 ## Survivor / Monsters
 Chef Boosted Ice Box not clearing properly.\
-Chef Cleaver Bonus Proc being 2.25 instead of 1.5.
+Chef Cleaver Bonus Proc being 2.25 instead of 1.5.\
+If OilSpill is cancelled, brief fall damage immunity is maintained.
 
 Mercenary sometimes breaking his legs with M2.
 
+Artificers Ice Spear throwing enemies around.
+
 Acrid not having spawn invulnerability.
 
-Child being burnable by The Sun.
+Captain Beacons being unable to crit.
 
-Mithrix Phase 4 being skipable.
+Child being burnable by the sun.
+
+(Off by default)\
+Mithrix Phase 4 being skipable because the game thinks he has 0 health.
 
 XI Construct Laser not exploding at the end.
 
 ## Items / Equipment
 
-Some item tags were changed.
-- Hunters Harpoon missing On Kill
-- Infusion & Nkuhanas AIBlacklisted
-
-Fixes some wrong item descriptions.
+Corrects/Fixes some wrong item descriptions.
 
 For Retool, Enigma, Bottled Chaos
-- Sawmerang not bleeding if you don't have the equipment.\
+- Sawmerang not bleeding if you don't have the equipment.
 - Milky Chrysalis flight will always have wings.
 
 Warped Echo not inflicting Eclipse 8 curse.
 
-Back-Up Drones not scaling with ambient level.
+Charged Perferator rolling for crit instead of inheriting like other procs.
+ 
+Back-Up Drones not scaling with ambient level like other drones.
+ 
+Executive Card no longer fails if buying multi shops really quickly.
 
-Twisted Elites not working on some enemies and all players.
+Twisted Elites not being able to give armor to some enemies and all players.
+
+
+Some item tags were changed.
+- Hunters Harpoon missing OnKill.
+- Bison Steak still being OnKill.
+- Planula still being Damage.
+- Infusion & Nkuhanas AIBlacklisted
 
 ## Gameplay Misc
+Being able to skip right to Prime Meridian by entering 2 portals at the same time.
 
 Newt Altars will no longer purchasable after Teleporter.\
 Newt Altars will not be purchasable if Teleporter starts with Blue Orb.
-
-Slayer damage type will increase proc damage as one might expect.
 
 Fixes Vengence + Swarms spawning one of them without any items.
 
@@ -52,19 +66,19 @@ Fixed 10 bugs or errors with Artifact of Devotion leading to :
 - Lemurians gotten from Trials will be able evolve into elites.
 - Lemurian evolution wont fail anymore if 1 or more Lemurians are in a quantum state.
 - Lemurian inventories get properly deleted on all run ends.
-- Devoted Lemurians not being tagged as such.
+- Devoted Lemurians now being tagged as such.
 - - Different spawn sound + Works with Spare Drone Parts. (Yeah that's intended)
 - - They just put it on the normal Lemurians instead of the Devoted ones.
 
-## Client fixes
+## Client specific fixes
 Prevents Halcyon Shrine entityState nullref on Client.\
 Removes the log spam from Halcyon Shrines on Client.
 
 Aurelionite Fragments & Potentials now spin for clients.\
-Prayer Beads no longer desync for clients.\
+Prayer Beads desyncing for clients, leading to various issues..\
 Spider-Mines constantly beeping for clients
 
-Simulacrum teleporting Clients into the void.\
+Simulacrum teleporting Clients into the void instead of the Focus.\
 Simulacrum not pointing out enemies at the end of waves for Clients.
 
 
@@ -74,23 +88,29 @@ Adds various missing item displays :
 - Elite Displays for XI Construct, Mithrix.
 - Fuel Array Display for Engineer Turrets.
  
-Mercurias Rachis visual radius not matching the actual buff radius.
-
-Deskplant Visual being oddly small.
-
-Railgunners Scope being more opaque than in the past
+Fixes some monsters not slowly appearing their spawn animation:
+- Child, Parent
+- Lesser, Greater, Lunar Wisp
+- Void Reaver, Devestator, Voidling
+- Engineer Turret, Walker
+- Vagrant
+- XI has more issues and still looks bugged
 
 Defense Nuclease Alpha Constructs no longer being Gold.
 
-Bazaar Diorama being empty.\
-Sulfur Pools Diorama having a Abyssal Depths base.\
-Void Locust Diorama being too zomed in.\
+Gilded Elite corpses no longer look like blazing elite corpses.
+
+Mercurias Rachis visual radius not matching the actual buff radius.
+
+Deskplant Visual being made too small after being too big.
+
+Railgunners Scope being more opaque than in the past
+
 Void Command Essence not having particles.\
 Deep Void Signals Beam being flat.
 
-Devoted Lemurians being in the log instead of normal.
-
-Stone Titan pinging the particles instead of the body.
+Stone Titan pinging the particles instead of the body.\
+Mithrix Hammer/Nothing pinging instead of the body.
 
 Lunar Exploder not having a subtitleToken.
 
@@ -100,9 +120,20 @@ Green Orb message will now pop up as you load into the stage so you can actually
 
 Artifact of Glass will now make you and minions appear as glass.
 
+Log Fixes : 
+- Eclipse not incrementing Wins
+- Bazaar Diorama being empty
+- Sulfur Pools Diorama having a red base.
+- Void Locust Diorama, Void Devastator being too zoomed in.
+- Nkuhanas Opinion being too zoomed out.
+- Devoted Lemurians being in log instead of wild.
+ 
+
 ## Audio
 Void items spawning in not playing sound.\
-Scrappers not playing sound.
+Scrappers not playing sound.\
+REX m1 not playing impact sound.
+
 
 War Bonds should no longer play the Horn if 0 missiles would be fired.
 
@@ -111,7 +142,10 @@ Scavengers not playing their Spawn Sound
 Soup not playing their Soup sound
 
 ## Misc
-Being able to skip right to Prime Meridian by entering 2 portals at the same time.
+Adds 'simu_softlock' softlock command to forcefully end wave and start next, or otherwise spawns Portal.
+
+
+NullRef from Corpses with Chronic Expansion
 
 Golden Diebacks fruits not dropping healing orbs or playing effects.
 
@@ -122,7 +156,14 @@ Invincibility and Chef Boost showing stacks of the buff.
 Item/Survivor description fixes can be turned off in case you play with rebalance mods.\
 But should work fine even if you don't.
 
-Void Eradicators are slightly less unfinished.
+
+
+
+## For Other Mods
+
+Glass Mithrix is Glass again instead of naked.
+
+Void Eradicators are less unfinished:
 - Enables some particles
 - Adds price transform
 - Item models wont randomly be shrunk down a ton.
@@ -132,11 +173,13 @@ Void Eradicators are slightly less unfinished.
 
 ##
  
-Commands
-- simu_softlock | Forcefully ends wave and starts next, or otherwise spawns Portal.
+Testing Commands
 - scanner | Scanner equip + 100 BoostEquipRecharge
+- godenemy | Sets enemy level absurdly high making them virtually unkillable.
 - goto_boss | Teleports you to Mithrix/FalseSon/Teleporter
-
+- no_interactables | For clean stage screenshots.
+- set_damage | Set damage to desired for clean testing.
+- Various list_ commands
 
 Multiple of my mods have Perfected nonLunar enemies or add Void Suppressors and rely on better AIBlacklist.
 

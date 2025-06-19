@@ -13,7 +13,23 @@ namespace WolfoFixes
 
     public class VoidSuppressor
     {
-        public static void Start()
+        public static void SuppresedScrap()
+        {
+            MissedContent.Items.ScrapWhiteSuppressed.pickupToken = "ITEM_SCRAPWHITE_PICKUP";
+            MissedContent.Items.ScrapGreenSuppressed.pickupToken = "ITEM_SCRAPGREEN_PICKUP";
+            MissedContent.Items.ScrapRedSuppressed.pickupToken = "ITEM_SCRAPRED_PICKUP";
+
+            MissedContent.Items.ScrapWhiteSuppressed.descriptionToken = "ITEM_SCRAPWHITE_DESC";
+            MissedContent.Items.ScrapGreenSuppressed.descriptionToken = "ITEM_SCRAPGREEN_DESC";
+            MissedContent.Items.ScrapRedSuppressed.descriptionToken = "ITEM_SCRAPRED_DESC";
+ 
+            On.RoR2.PickupCatalog.Init += MakeTiered;
+            On.RoR2.PickupCatalog.SetEntries += MakeUntiered;
+            Run.onRunStartGlobal += MakeTieredAgain;
+            On.RoR2.GameCompletionStatsHelper.ctor += RemoveFromCompletion;        
+        }
+
+        public static void FixInteractable()
         {
             GameObject VoidSuppressor = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidSuppressor/VoidSuppressor.prefab").WaitForCompletion();
 
@@ -66,23 +82,7 @@ namespace WolfoFixes
 
             On.RoR2.VoidSuppressorBehavior.PreStartClient += AddPriceHologram;
             On.RoR2.VoidSuppressorBehavior.RefreshPickupDisplays += FixPickupDisplayTooSmallDueToLossyScale;
-
-
-            #region Strange Scrap
-            MissedContent.ScrapWhiteSuppressed.pickupToken = "ITEM_SCRAPWHITE_PICKUP";
-            MissedContent.ScrapGreenSuppressed.pickupToken = "ITEM_SCRAPGREEN_PICKUP";
-            MissedContent.ScrapRedSuppressed.pickupToken = "ITEM_SCRAPRED_PICKUP";
-
-            MissedContent.ScrapWhiteSuppressed.descriptionToken = "ITEM_SCRAPWHITE_DESC";
-            MissedContent.ScrapGreenSuppressed.descriptionToken = "ITEM_SCRAPGREEN_DESC";
-            MissedContent.ScrapRedSuppressed.descriptionToken = "ITEM_SCRAPRED_DESC";
-
-
-            On.RoR2.PickupCatalog.Init += MakeTiered;
-            On.RoR2.PickupCatalog.SetEntries += MakeUntiered;
-            On.RoR2.GameCompletionStatsHelper.ctor += RemoveFromCompletion;
-            Run.onRunStartGlobal += MakeTieredAgain;
-            #endregion
+ 
         }
 
 
@@ -90,34 +90,34 @@ namespace WolfoFixes
         private static void MakeUntiered(On.RoR2.PickupCatalog.orig_SetEntries orig, PickupDef[] pickupDefs)
         {
             orig(pickupDefs);
-            MissedContent.ScrapWhiteSuppressed.tier = ItemTier.NoTier;
-            MissedContent.ScrapGreenSuppressed.tier = ItemTier.NoTier;
-            MissedContent.ScrapRedSuppressed.tier = ItemTier.NoTier;
+            MissedContent.Items.ScrapWhiteSuppressed.tier = ItemTier.NoTier;
+            MissedContent.Items.ScrapGreenSuppressed.tier = ItemTier.NoTier;
+            MissedContent.Items.ScrapRedSuppressed.tier = ItemTier.NoTier;
         }
 
         private static void MakeTieredAgain(Run obj)
         {
         
-            MissedContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
-            MissedContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
-            MissedContent.ScrapRedSuppressed.tier = ItemTier.Tier3;
+            MissedContent.Items.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
+            MissedContent.Items.ScrapGreenSuppressed.tier = ItemTier.Tier2;
+            MissedContent.Items.ScrapRedSuppressed.tier = ItemTier.Tier3;
             Run.onRunStartGlobal -= MakeTieredAgain;
         }
 
         private static System.Collections.IEnumerator MakeTiered(On.RoR2.PickupCatalog.orig_Init orig)
         {
-            MissedContent.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
-            MissedContent.ScrapGreenSuppressed.tier = ItemTier.Tier2;
-            MissedContent.ScrapRedSuppressed.tier = ItemTier.Tier3;
+            MissedContent.Items.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
+            MissedContent.Items.ScrapGreenSuppressed.tier = ItemTier.Tier2;
+            MissedContent.Items.ScrapRedSuppressed.tier = ItemTier.Tier3;
             return orig();
         }
 
         private static void RemoveFromCompletion(On.RoR2.GameCompletionStatsHelper.orig_ctor orig, GameCompletionStatsHelper self)
         {
             orig(self);
-            PickupDef pickupDef1 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.ScrapWhiteSuppressed.itemIndex));
-            PickupDef pickupDef2 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.ScrapGreenSuppressed.itemIndex));
-            PickupDef pickupDef3 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.ScrapRedSuppressed.itemIndex));
+            PickupDef pickupDef1 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.Items.ScrapWhiteSuppressed.itemIndex));
+            PickupDef pickupDef2 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.Items.ScrapGreenSuppressed.itemIndex));
+            PickupDef pickupDef3 = PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(MissedContent.Items.ScrapRedSuppressed.itemIndex));
             self.encounterablePickups.Remove(pickupDef1);
             self.encounterablePickups.Remove(pickupDef2);
             self.encounterablePickups.Remove(pickupDef3);

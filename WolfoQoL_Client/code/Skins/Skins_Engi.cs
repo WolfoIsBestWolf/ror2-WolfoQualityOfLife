@@ -13,6 +13,12 @@ namespace WolfoQoL_Client
         public static Material matEngiTurretColossus;
         public static Material matEngiTrail_Alt;
 
+        public static void Start()
+        {
+            Skins_Engi.FixedTurret();
+            Skins_Engi.Harpoons();
+            Skins_Engi.AltTrail();
+        }
 
         public static void AltTrail()
         {

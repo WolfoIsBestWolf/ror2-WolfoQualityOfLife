@@ -1,25 +1,28 @@
 ﻿using RoR2;
 using EntityStates;
+using UnityEngine;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 
 namespace WolfoFixes
 {
-    public class RandomFixes2
+    public class RandomFixes
     {
 
         public static void Start()
         {
 
             //Fix error spam on Captain Spawn
-            On.RoR2.CaptainDefenseMatrixController.TryGrantItem += (orig, self) =>
+            //Still needed?
+            /*On.RoR2.CaptainDefenseMatrixController.TryGrantItem += (orig, self) =>
             {
                 orig(self);
                 CaptainSupplyDropController supplyController = self.characterBody.GetComponent<CaptainSupplyDropController>();
                 if (supplyController)
                 {
                     supplyController.CallCmdSetSkillMask(3);
-                    //Bonus stock from body 1 could work fine
                 }
-            };
+            };*/
 
             On.RoR2.PortalStatueBehavior.PreStartClient += NewtAvailableFix12;
             On.RoR2.TeleporterInteraction.OnSyncShouldAttemptToSpawnShopPortal += NewtAvailableFix2;
@@ -37,11 +40,40 @@ namespace WolfoFixes
                 orig(self);
             };*/
 
+            //Some interactables have empty holograms
             On.RoR2.PurchaseInteraction.ShouldDisplayHologram += DisableEmptyHologram;
             On.RoR2.MultiShopController.ShouldDisplayHologram += DisableEmptyHologram2;
 
             On.EntityStates.VagrantNovaItem.ChargeState.OnExit += ChargeState_OnExit;
+
+            IL.RoR2.IncreaseDamageOnMultiKillItemDisplayUpdater.SetVisibleHologram += FixChronocDisplayNullRefOnCorpse;
+ 
         }
+
+        private static void FixChronocDisplayNullRefOnCorpse(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchLdfld("RoR2.IncreaseDamageOnMultiKillItemDisplayUpdater", "body")
+            ))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<System.Func<CharacterBody, IncreaseDamageOnMultiKillItemDisplayUpdater, CharacterBody>>((body, self) =>
+                {
+                    if (!body)
+                    {
+                        GameObject.Destroy(self);
+                        return null;
+                    }
+                    return body;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : IncreaseDamageOnMultiKillItemDisplayUpdater");
+            }
+        }
+ 
 
         private static void ChargeState_OnExit(On.EntityStates.VagrantNovaItem.ChargeState.orig_OnExit orig, EntityStates.VagrantNovaItem.ChargeState self)
         {

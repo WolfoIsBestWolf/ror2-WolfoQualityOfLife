@@ -5,10 +5,10 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using WolfoFixes;
 
 namespace WolfoQoL_Client
 {
-
     public class StoreLatestPickupindex : MonoBehaviour
     {
         public PickupIndex previousIndex;
@@ -16,15 +16,13 @@ namespace WolfoQoL_Client
 
     public class MoreMessages
     {
-        private static GameEndingDef EscapeSequenceFailed = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/EscapeSequenceFailed.asset").WaitForCompletion();
-
+        
         public static void Start()
         {
             On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += DeathMessage.OnDeathMessage;
             ItemLoss_Host.Start();
             LunarSeer.Start();
             EquipmentDrone.Start();
-
 
             On.RoR2.Run.OnClientGameOver += WinMessage_Client;
 
@@ -242,7 +240,7 @@ namespace WolfoQoL_Client
                     tokenFormat = "WIN_FORMAT_WIN";
                 }
             }
-            else if (gameEnd == EscapeSequenceFailed)
+            else if (gameEnd == MissedContent.GameEndings.EscapeSequenceFailed)
             {
                 send = true;
                 tokenOutro = survToken_VANISH;

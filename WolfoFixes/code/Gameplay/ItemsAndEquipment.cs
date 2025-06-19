@@ -4,6 +4,7 @@ using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using System;
 
 namespace WolfoFixes
 {
@@ -13,7 +14,10 @@ namespace WolfoFixes
         public static void Start()
         {
             Addressables.LoadAssetAsync<GameObject>(key: "9ca7d392fa3bb444b827d475b36b9253").WaitForCompletion().AddComponent<ThisIsASawmarang>();
+            Addressables.LoadAssetAsync<EquipmentDef>(key: "f2ddbb7586240e648945ad494ebe3984").WaitForCompletion().cooldown = 0; //Why does this have a cooldown it just fucks you up when buying shops quickly
             IL.RoR2.GlobalEventManager.ProcessHitEnemy += FixSawmarang;
+
+           // IL.RoR2.HealthComponent.TakeDamageProcess += FixEchoOSP;
             IL.RoR2.HealthComponent.TakeDamageProcess += FixWarpedEchoE8;
 
             On.RoR2.Util.HealthComponentToTransform += FixTwisteds_NotWorkingOnPlayers;
@@ -21,6 +25,83 @@ namespace WolfoFixes
             On.RoR2.JetpackController.SetupWings += BugWingsAlways_SetupWings;
             On.RoR2.JetpackController.OnDisable += BugWingsAlways_OnDisable;
 
+            IL.RoR2.GlobalEventManager.ProcessHitEnemy += FixChargedPerferatorCrit;
+
+
+            //Addressables.LoadAssetAsync<GameObject>(key: "4f612c5811d31594990dd8f53f0faf3b").WaitForCompletion().GetComponent<VFXAttributes>().DoNotPool = true;
+        }
+
+        private static void FixEchoOSP(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            int beforeEcho = -1;
+            int beforeOSP = -1;
+            int afterOSP = -1;
+
+            ILCursor cbeforeEcho;
+            ILCursor cbeforeOSP;
+            ILCursor cafterOSP;
+                
+                    
+
+            //Goto X
+            //Y
+            //Echo Code
+            //Goto Z
+            //X
+            //OSP
+            //Goto Y
+            //Z
+ 
+            c.TryGotoNext(MoveType.After,
+            x => x.MatchLdsfld("RoR2.DLC2Content/Buff", "DelayedDamageBuff"));
+            c.TryGotoNext(MoveType.After,
+            x => x.MatchNewobj("RoR2.Orbs.SimpleLightningStrikeOrb"));
+
+
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchStfld("RoR2.Orbs.GenericDamageOrb", "isCrit")
+            ))
+            {
+
+                cbeforeEcho = c.Emit(OpCodes.Break);
+           
+              
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : FixChargedPerferatorCrit");
+            }
+
+        }
+
+
+
+        public static void FixChargedPerferatorCrit(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.After,
+            x => x.MatchLdsfld("RoR2.RoR2Content/Items", "LightningStrikeOnHit"));
+            c.TryGotoNext(MoveType.After,
+            x => x.MatchNewobj("RoR2.Orbs.SimpleLightningStrikeOrb"));
+
+
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchStfld("RoR2.Orbs.GenericDamageOrb", "isCrit")
+            ))
+            {
+
+                c.Emit(OpCodes.Ldarg_1);
+                c.EmitDelegate<Func<bool, DamageInfo, bool>>((isCrit, damageInfo) =>
+                {
+                    return damageInfo.crit;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : FixChargedPerferatorCrit");
+            }
         }
 
         private static Transform FixTwisteds_NotWorkingOnPlayers(On.RoR2.Util.orig_HealthComponentToTransform orig, HealthComponent healthComponent)
@@ -44,6 +125,7 @@ namespace WolfoFixes
            x => x.MatchLdfld("RoR2.DamageInfo", "delayedDamageSecondHalf")
            ))
             {
+ 
                 c.Remove();
                 c.EmitDelegate<System.Func<DamageInfo, bool>>((damageInfo) =>
                 {

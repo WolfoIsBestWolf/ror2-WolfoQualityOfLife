@@ -11,6 +11,9 @@ namespace WolfoFixes
         public static ItemTag evoBlacklistTag = (ItemTag)94;
         public static void Start()
         {
+            //Using more tags because most of these tags are meant to be AIBlacklisted anyways.
+            //Ie all Sprint -> AiBlacklist but not always tagged as such
+
             BasicPickupDropTable dtMonsterTeamTier1Item = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/MonsterTeamGainsItems/dtMonsterTeamTier1Item.asset").WaitForCompletion();
             BasicPickupDropTable dtMonsterTeamTier2Item = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/MonsterTeamGainsItems/dtMonsterTeamTier2Item.asset").WaitForCompletion();
             BasicPickupDropTable dtMonsterTeamTier3Item = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/MonsterTeamGainsItems/dtMonsterTeamTier3Item.asset").WaitForCompletion();
@@ -24,8 +27,26 @@ namespace WolfoFixes
             BasicPickupDropTable dtAISafeTier3Item = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/Common/dtAISafeTier3Item.asset").WaitForCompletion();
 
 
-            ItemTag[] TagsScav = { ItemTag.AIBlacklist, ItemTag.SprintRelated, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated };
-            ItemTag[] TagsMobs = { ItemTag.AIBlacklist, ItemTag.OnKillEffect, ItemTag.CannotCopy, evoBlacklistTag, ItemTag.EquipmentRelated, ItemTag.SprintRelated, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.HoldoutZoneRelated };
+            ItemTag[] TagsScav = { 
+                ItemTag.AIBlacklist, 
+                ItemTag.SprintRelated, 
+                ItemTag.InteractableRelated, 
+                ItemTag.OnStageBeginEffect, 
+                ItemTag.HoldoutZoneRelated 
+            };
+            //No Equipment
+            //No Onkill
+            //
+            ItemTag[] TagsMobs = { 
+                ItemTag.AIBlacklist, 
+                ItemTag.OnKillEffect,
+                ItemTag.CannotCopy, 
+                evoBlacklistTag, 
+                ItemTag.EquipmentRelated, 
+                ItemTag.InteractableRelated, 
+                ItemTag.OnStageBeginEffect, 
+                ItemTag.HoldoutZoneRelated 
+            };
 
             dtMonsterTeamTier1Item.bannedItemTags = TagsMobs;
             dtMonsterTeamTier2Item.bannedItemTags = TagsMobs;
@@ -42,7 +63,7 @@ namespace WolfoFixes
 
         }
 
-        public static void ItemTagChanges()
+        public static void CallLate()
         {
             #region Tag Fixes
 

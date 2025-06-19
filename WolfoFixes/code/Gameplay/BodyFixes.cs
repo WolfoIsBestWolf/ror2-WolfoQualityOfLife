@@ -7,35 +7,64 @@ using UnityEngine.Networking;
 using EntityStates.Fauna;
 using HarmonyLib;
 using EntityStates.EngiTurret.EngiTurretWeapon;
-
+using RoR2.Projectile;
+using EntityStates;
+ 
 namespace WolfoFixes
 {
-
     public class MithrixPhase4Fix : MonoBehaviour
     {
+        public bool stoleItems = false;
         public void Start()
         {
             //-> PreAwake Fix Hurtable in body prefab
             //-> Awake does his thing
             //-> Start, we need to turn them on again if he's not doing the animation.
-            HurtBoxGroup component = this.GetComponent<HurtBoxGroup>();
+            SetStateOnHurt component = this.GetComponent<SetStateOnHurt>();
             if (component)
             {
+                component.canBeHitStunned = true;
+            }
+            HurtBoxGroup hurtBoxGroup = this.GetComponent<HurtBoxGroup>();
+            if (hurtBoxGroup)
+            {
                 //Debug.Log(component.hurtBoxesDeactivatorCounter);
-                if (component.hurtBoxesDeactivatorCounter == 0)
+                if (hurtBoxGroup.hurtBoxesDeactivatorCounter == 0)
                 {
-                    component.SetHurtboxesActive(true);
+                    hurtBoxGroup.SetHurtboxesActive(true);
                 }
             }
         }
     }
-
     public class BodyFixes
     {
+        public static void SetSkippable(object sender, System.EventArgs e)
+        {
+            GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
+            SetStateOnHurt component = BrotherHurtBody.GetComponent<SetStateOnHurt>();
+            if (component)
+            {
+                component.canBeHitStunned = !WConfig.cfgMithrix4Skip.Value;
+            }
+            if (BrotherHurtBody.GetComponent<MithrixPhase4Fix>() == null)
+            {
+                component.gameObject.AddComponent<MithrixPhase4Fix>();
+            }
+
+
+            /*HurtBoxGroup hurtBoxGroup = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
+               hurtBoxGroup.gameObject.AddComponent<MithrixPhase4Fix>();
+               if (hurtBoxGroup)
+               {
+                   hurtBoxGroup.SetHurtboxesActive(false);
+               }*/
+
+        }
+
         public static void Start()
         {
-
-
+            SetSkippable(null, null);
+ 
             On.EntityStates.Merc.WhirlwindBase.OnEnter += WhirlwindBase_OnEnter;
 
             On.EntityStates.Croco.Spawn.OnEnter += (orig, self) =>
@@ -55,20 +84,7 @@ namespace WolfoFixes
                     self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 3f);
                 }
             };
-
-
-            if (WConfig.cfgMithrix4Skip.Value)
-            {
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherBody.prefab").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags &= ~CharacterBody.BodyFlags.IgnoresRecordDeathEvent;
-                GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
-                HurtBoxGroup component = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
-                component.gameObject.AddComponent<MithrixPhase4Fix>();
-                if (component)
-                {
-                    component.hurtBoxesDeactivatorCounter = 1;
-                }
-            }
-           
+ 
 
             GameObject ChildBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Child/ChildBody.prefab").WaitForCompletion();
             CharacterBody Child = ChildBody.GetComponent<CharacterBody>();
@@ -88,7 +104,7 @@ namespace WolfoFixes
             On.EntityStates.Chef.IceBox.OnEnter += IceBox_OnEnter;
 
             On.RoR2.Projectile.CleaverProjectile.ChargeCleaver += CleaverProjectile_ChargeCleaver;
-
+           
 
             //Mushroom tree do not produce fruit or die or whatever 
             On.EntityStates.Fauna.HabitatFruitDeathState.OnEnter += FixDumbFruit;
@@ -103,6 +119,56 @@ namespace WolfoFixes
 
             //Addressables.LoadAssetAsync<GameObject>(key: "cdbb41712e896454da142ab00d046d9f").WaitForCompletion().GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].requiredSkill = null;
 
+            IL.EntityStates.CaptainSupplyDrop.HitGroundState.OnEnter += FixCaptainBeaconNoCrit;
+
+            On.EntityStates.Chef.OilSpillBase.OnExit += OilSpillBase_OnExit;
+ 
+            if (WConfig.cfgFunnyIceSpear.Value)
+            {
+                //Ice Spear wrong phys layer
+                Addressables.LoadAssetAsync<GameObject>(key: "7a5eecba2b015474dbed965c120860d0").WaitForCompletion().layer = 8;
+
+            }
+
+        }
+  
+        public static void CallLate()
+        {
+            //Fix Back-Up drones not scaling with level
+            Addressables.LoadAssetAsync<GameObject>(key: "3a44327eee358a74ba0580dbca78897e").WaitForCompletion().AddComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[]
+            {
+                new GivePickupsOnStart.ItemDefInfo
+                {
+                    itemDef = RoR2Content.Items.UseAmbientLevel,
+                    count = 1,
+                }
+            };
+        }
+
+        private static void OilSpillBase_OnExit(On.EntityStates.Chef.OilSpillBase.orig_OnExit orig, EntityStates.Chef.OilSpillBase self)
+        {
+            //In case gets cancelled
+            self.characterBody.AddTimedBuff(JunkContent.Buffs.IgnoreFallDamage, 0.66f);
+            orig(self);
+
+        }
+ 
+        private static void FixCaptainBeaconNoCrit(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+                x => x.MatchStfld("RoR2.BulletAttack", "isCrit")))
+            {
+                c.Emit(OpCodes.Ldloc_1);
+                c.EmitDelegate<System.Func<bool, ProjectileDamage, bool>>((a,projectileDamage) =>
+                {
+                    return projectileDamage.crit;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : FixCaptainBeaconNoCrit");
+            }
         }
 
         private static void XI_LaserFix(On.EntityStates.MajorConstruct.Weapon.FireLaser.orig_OnExit orig, EntityStates.MajorConstruct.Weapon.FireLaser self)
@@ -112,24 +178,7 @@ namespace WolfoFixes
         }
 
 
-
-        //Stolen from miscFixes because they decided to remove it
-        //Didnt ask
-        [HarmonyPatch(typeof(FireBeam), nameof(FireBeam.FixedUpdate))]
-        [HarmonyILManipulator]
-        public static void FireBeam_FixedUpdate(ILContext il)
-        {
-            var c = new ILCursor(il);
-            // Using ShouldFireLaser as a landmark juuuust in case there are ever multiple SetNextStateToMain calls
-            if (c.TryGotoNext(x => x.MatchCallOrCallvirt<FireBeam>(nameof(FireBeam.ShouldFireLaser))) &&
-                c.TryGotoNext(x => x.MatchCallOrCallvirt<EntityStateMachine>(nameof(EntityStateMachine.SetNextStateToMain))))
-            {
-                c.Emit(OpCodes.Ldarg_0);
-                c.Emit(OpCodes.Callvirt, AccessTools.Method(typeof(FireBeam), nameof(FireBeam.GetNextState)));
-                c.Next.Operand = AccessTools.Method(typeof(EntityStateMachine), nameof(EntityStateMachine.SetNextState));
-            }
-            else Debug.LogWarning(il);
-        }
+ 
 
         public static GameObject JellyfishDeath;
         private static void FixDumbFruit(On.EntityStates.Fauna.HabitatFruitDeathState.orig_OnEnter orig, EntityStates.Fauna.HabitatFruitDeathState self)
@@ -148,8 +197,7 @@ namespace WolfoFixes
             }
             orig(self);
         }
-
-
+ 
         private static void IceBox_OnEnter(On.EntityStates.Chef.IceBox.orig_OnEnter orig, EntityStates.Chef.IceBox self)
         {
             orig(self);
@@ -183,7 +231,7 @@ namespace WolfoFixes
             }
             else
             {
-                Debug.LogWarning("CommandoReloadStateRemove Failed");
+                Debug.LogWarning("IL Failed : CommandoReloadStateRemove");
             }
         }
 

@@ -1,6 +1,6 @@
 {
     "name": "WolfoQualityOfLife",
-    "version_number": "4.1.3",
+    "version_number": "4.1.4",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife",
     "description": "[Client-Side]: Adds colored effects to Mercenary Skins and Blight Acrid, Adds unique ping icons for everything, Reminders to do stuff, Informational chat messages (death, losing items), and like a lot of things.",
     "dependencies": [

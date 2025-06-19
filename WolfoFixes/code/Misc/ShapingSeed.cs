@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace WolfoFixes
 {
-    public class ShrineShaping
+    public class ShrineShapingFixes
     {
         public static void Start()
         {

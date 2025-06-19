@@ -8,7 +8,7 @@ namespace WolfoFixes
     public class TextFixes
     {
 
-        public static void Start()
+        public static void CallLate()
         {
             if (WConfig.cfgTextItems.Value)
             {
@@ -19,9 +19,9 @@ namespace WolfoFixes
                 CharacterText();
             }
             LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/LunarExploderBody").GetComponent<CharacterBody>().subtitleNameToken = "LUNAREXPLODER_BODY_SUBTITLE";
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/AssassinBody").GetComponent<CharacterBody>().baseNameToken = "";
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/AssassinBody").GetComponent<CharacterBody>().baseNameToken = ""; //He is not ENGI_BODY
 
-
+            LanguageAPI.Add("CHEF_UTILITY_ALT_BOOST_DESCRIPTION_SKILL", "Twirl upwards then slam down, exploding with <style=cIsUtility>activated oil</style> for <style=cIsDamage>200% damage</style>. <style=cIsDamage>Launch again</style> by reactivating this ability before landing.");
 
         }
 
@@ -44,12 +44,12 @@ namespace WolfoFixes
             LanguageAPI.Add("ITEM_EQUIPMENTMAGAZINEVOID_PICKUP", "Add an extra charge of your Special skill. Reduce Special skill cooldown. <style=cIsVoid>Corrupts all Fuel Cells</style>.", "en");
             LanguageAPI.Add("ITEM_EQUIPMENTMAGAZINEVOID_DESC", "Add <style=cIsUtility>+1</style> <style=cStack>(+1 per stack)</style> charge of your <style=cIsUtility>Special skill</style>. <style=cIsUtility>Reduces Special skill cooldown</style> by <style=cIsUtility>33%</style>. <style=cIsVoid>Corrupts all Fuel Cells</style>.", "en");
 
-            //Straight up just doesn't say it corrupts any items like cmon.
+            //Straight up just doesn't say it corrupts any items.
             LanguageAPI.Add("ITEM_VOIDMEGACRABITEM_DESC", "Every <style=cIsUtility>60</style><style=cStack>(-50% per stack)</style> seconds, gain a random <style=cIsVoid>Void</style> ally. Can have up to <style=cIsUtility>1</style><style=cStack>(+1 per stack)</style> allies at a time. <style=cIsVoid>Corrupts all </style><style=cIsTierBoss>yellow items</style><style=cIsVoid>.</style>", "en");
             //Wrong rarities
             LanguageAPI.Add("ITEM_TREASURECACHEVOID_DESC", "A <style=cIsUtility>hidden cache</style> containing an item (42%/<style=cIsHealing>42%</style>/<style=cIsHealth>16%</style>) will appear in a random location <style=cIsUtility>on each stage</style>. Opening the cache <style=cIsUtility>consumes</style> this item. <style=cIsVoid>Corrupts all Rusted Keys</style>.", "en");
 
-            //2+1 stack so 15s on start
+            //First stack counts for cooldown reduction, 15s start
             LanguageAPI.Add("ITEM_NOVAONLOWHEALTH_DESC", "Falling below <style=cIsHealth>25% health</style> causes you to explode, dealing <style=cIsDamage>6000% base damage</style>. Recharges every <style=cIsUtility>15 seconds</style> <style=cStack>(-33% per stack)</style>.");
             //Is TOTAL Damage
             LanguageAPI.Add("ITEM_LIGHTNINGSTRIKEONHIT_DESC", "<style=cIsDamage>10%</style> chance on hit to down a lightning strike, dealing <style=cIsDamage>500%</style> <style=cStack>(+500% per stack)</style> TOTAL damage.");
@@ -61,7 +61,7 @@ namespace WolfoFixes
             //Added Radius
             LanguageAPI.Add("ITEM_BOUNCENEARBY_DESC", "<style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> chance on hit to <style=cIsDamage>fire homing hooks</style> at up to <style=cIsDamage>10</style> <style=cStack>(+5 per stack)</style> enemies within <style=cIsDamage>30m</style> for <style=cIsDamage>100%</style> TOTAL damage.");
 
-            //Wrong radius start
+            //Stacks as 2 + 1, 10m start
             LanguageAPI.Add("ITEM_INTERSTELLARDESKPLANT_DESC", "On kill, plant a <style=cIsHealing>healing</style> fruit seed that grows into a plant after <style=cIsUtility>5</style> seconds. \n\nThe plant <style=cIsHealing>heals</style> for <style=cIsHealing>10%</style> of <style=cIsHealing>maximum health</style> every second to all allies within <style=cIsHealing>10m</style> <style=cStack>(+5m per stack)</style>. Lasts <style=cIsUtility>10</style> seconds.", "en");
             //Wrong radius
             LanguageAPI.Add("ITEM_MUSHROOM_DESC", "After standing still for <style=cIsHealing>1</style> second, create a zone that <style=cIsHealing>heals</style> for <style=cIsHealing>4.5%</style> <style=cStack>(+2.25% per stack)</style> of your <style=cIsHealing>health</style> every second to all allies within <style=cIsHealing>3.5m</style> <style=cStack>(+1.5m per stack)</style>.", "en");
@@ -76,6 +76,32 @@ namespace WolfoFixes
             //16x not 15x // or Bonus +15, either way not mentioned correctly
             LanguageAPI.Add("ITEM_GHOSTONKILL_DESC", "Killing enemies has a <style=cIsDamage>7%</style> chance to <style=cIsDamage>spawn a ghost</style> of the killed enemy with <style=cIsDamage>1600%</style> damage. Lasts <style=cIsDamage>30s</style> <style=cStack>(+30s per stack)</style>.", "en");
 
+            if (!WolfoMain.riskyFixes)
+            {
+                //First stack counts for cooldown reduction
+                LanguageAPI.Add("ITEM_BEARVOID_DESC", "<style=cIsHealing>Blocks</style> incoming damage once. Recharges after <style=cIsUtility>13.5 seconds</style> <style=cStack>(-10% per stack)</style>. <style=cIsVoid>Corrupts all Tougher Times</style>.", "en");
+            }
+
+            //Elec boomerang is 40% per tick but ig it ticks 3 times per second.
+
+            //5% not 4%, also just written cleaner and mention rarities.
+            LanguageAPI.Add("ITEM_ITEMDROPCHANCEONKILL_DESC", "Killing a large monster will always drop an <style=cIsUtility>item</style>. (90%/<style=cIsHealing>10%</style>/<style=cIsHealth>0.1%</style>) Killing a elite has a <style=cIsUtility>5%</style> <style=cStack>(+1% per stack)</style> chance of dropping an <style=cIsUtility>item</style>.", "en");
+
+            //Mention rarities, cleaner written?
+            LanguageAPI.Add("ITEM_EXTRASHRINEITEM_DESC", "Shrine of Chance rewards have a <style=cIsUtility>40%</style> <style=cStack>(+10% per stack)</style> chance to be of higher rarity. (<style=cIsHealing>79%</style>/<style=cIsHealth>20%</style>/<style=cIsTierBoss>1%</style>)", "en");
+            
+            //Unique buff (nitpick)
+            LanguageAPI.Add("ITEM_BOOSTALLSTATS_DESC", "Grants <style=cIsUtility>4%</style> increase to <style=cIsUtility>ALL stats</style> for each unique buff, up to a maximum of <style=cIsUtility>4</style> <style=cStack>(+4 per stack)</style>.", "en");
+            
+            //Nonsensical stacking
+            //LanguageAPI.Add("ITEM_LOWERPRICEDCHESTS_DESC", "The first chest opened per stage drops an <style=cIsUtility>extra item</style>. Having 2 Sale Stars adds a chance to gain upwards of <style=cIsUtility>5 items</style>. <style=cStack>Each additional Sale Star increases the chance by 5%</style>.", "en");
+            //LanguageAPI.Add("ITEM_LOWERPRICEDCHESTS_DESC", "The first chest opened per stage drops an <style=cIsUtility>extra item</style>. Multiple Sale Stars add a 30% chance to gain 3, 4.5% chance for 4, 0.1% chance for 5 items. <style=cStack>Additional Sale Stars increases each chance by 5%</style>. At the start of each stage, it regenerates.", "en");
+            LanguageAPI.Add("ITEM_LOWERPRICEDCHESTS_DESC", "The first chest opened per stage drops an <style=cIsUtility>extra item</style>. Multiple Sale Stars add a <style=cIsUtility>(30%/4.5%/0.1%)</style> <style=cStack>(+5% per stack)</style> chance to gain <style=cIsUtility>3</style>, <style=cIsUtility>4</style> or <style=cIsUtility>5</style> items. At the start of each stage, it regenerates.", "en");
+
+            //I guess?
+            //LanguageAPI.Add("ITEM_METEORATTACKONHIGHDAMAGE_DESC", "<style=cIsDamage>3%</style> chance on hit to call a meteor strike, dealing <style=cIsDamage>2000%</style> base damage. Every <style=cIsDamage>100%</style> attack damage dealt increases the activation chance by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style> and damage by <style=cIsDamage>150%</style> <style=cStack>(+50% per stack)</style>. Cannot exceed 7500% damage and 50% chance.", "en");
+            LanguageAPI.Add("ITEM_METEORATTACKONHIGHDAMAGE_DESC", "<style=cIsDamage>3%</style> chance on hit to call a meteor strike, dealing <style=cIsDamage>2000%</style> base damage. For every <style=cIsDamage>100%</style> attack damage, increase activation chance by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style> and damage by <style=cIsDamage>150%</style> <style=cStack>(+50% per stack)</style>. Maximum cap of <style=cIsDamage>7500%</style> damage and <style=cIsDamage>50%</style> chance.", "en");
+           
             #endregion
             #region Equipment
             //Remove, removed Movement Speed Buff

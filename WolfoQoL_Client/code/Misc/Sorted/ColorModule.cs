@@ -273,8 +273,10 @@ namespace WolfoQoL_Client
 
             On.RoR2.EquipmentDef.AttemptGrant += EquipmentDef_AttemptGrant;
             On.RoR2.CharacterModel.SetEquipmentDisplay += EquipmentHighlighter;
+ 
         }
 
+ 
         private static void EquipmentDef_AttemptGrant(On.RoR2.EquipmentDef.orig_AttemptGrant orig, ref PickupDef.GrantContext context)
         {
             orig(ref context);
@@ -287,7 +289,12 @@ namespace WolfoQoL_Client
         public static void EquipmentHighlighter(On.RoR2.CharacterModel.orig_SetEquipmentDisplay orig, global::RoR2.CharacterModel self, EquipmentIndex newEquipmentIndex)
         {
             orig(self, newEquipmentIndex);
-            if (newEquipmentIndex != EquipmentIndex.None && HighlightEquipment == true)
+            if (!HighlightEquipment)
+            {
+                return;
+            }
+            HighlightEquipment = false;
+            if (newEquipmentIndex != EquipmentIndex.None)
             {
                 GameObject Highlight = HighlightOrangeItem;
                 if (EquipmentCatalog.GetEquipmentDef(newEquipmentIndex).isLunar == true)
@@ -317,7 +324,7 @@ namespace WolfoQoL_Client
 
                 };
             }
-            HighlightEquipment = false;
+            
         }
 
 

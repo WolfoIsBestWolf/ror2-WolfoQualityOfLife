@@ -4,6 +4,7 @@ using MonoMod.Cil;
 using RoR2;
 using RoR2.UI;
 using UnityEngine;
+using static MonoMod.InlineRT.MonoModRule;
 
 namespace WolfoQoL_Client
 {
@@ -101,11 +102,23 @@ namespace WolfoQoL_Client
                         if (characterModel)
                         {
                             self.targetTransformToFollow = characterModel.coreTransform;
-                            if (characterModel.mainSkinnedMeshRenderer)
+                            Renderer target = characterModel.mainSkinnedMeshRenderer;
+                            if (!target)
+                            {
+                                foreach (CharacterModel.RendererInfo rendererInfo in characterModel.baseRendererInfos)
+                                {
+                                    if (!rendererInfo.ignoreOverlays)
+                                    {
+                                        target = rendererInfo.renderer;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (target)
                             {
                                 self.pingHighlight.highlightColor = Highlight.HighlightColor.custom;
                                 self.pingHighlight.CustomColor = playerTeamPingColor;
-                                self.pingHighlight.targetRenderer = characterModel.mainSkinnedMeshRenderer;
+                                self.pingHighlight.targetRenderer = target;
                                 self.pingHighlight.strength = 1f;
                                 self.pingHighlight.isOn = true;
                                 self.pingHighlight.enabled = true;

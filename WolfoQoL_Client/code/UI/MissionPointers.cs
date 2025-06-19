@@ -49,7 +49,7 @@ namespace WolfoQoL_Client
                 sprites[i].color = new Color(0.5223f, 0.8071f, 0.9151f, 1f);
             }
             ObjectScaleCurve scale = newIndicator.transform.GetChild(2).GetChild(0).GetComponent<ObjectScaleCurve>();
-            scale.timeMax = 11;
+            scale.timeMax = 15;
             scale.useOverallCurveOnly = true;
             scale.overallCurve = newCurve;
             DestroyOnTimer destroy = newIndicator.AddComponent<DestroyOnTimer>();
@@ -68,24 +68,7 @@ namespace WolfoQoL_Client
             destroy.duration = scale.timeMax + 1;
             #endregion
 
-            GameObject DeepVoidPortalBattery = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion();
-            Transform Beam = DeepVoidPortalBattery.transform.GetChild(0).GetChild(2).GetChild(3).GetChild(0);
-            Beam.localScale = new Vector3(1, 3, 1); //LongerBeam
 
-            //2D beam fix
-            ParticleSystem ps = Beam.GetComponent<ParticleSystem>();
-            var psM = ps.main;
-            //psM.startRotationX = 6.66f;
-            psM.startRotationXMultiplier = 6.66f;
-            psM.startRotation3D = true;
-
-            ////Explain
-            //Arenas beams aren't 3d, they're 2d, but start with random Rotation,
-            //If we add random rotation, and fix the starting point, it'd work
-
-            //Random X axis dont work it seems
-
-            //270 90 0
         }
 
 

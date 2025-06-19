@@ -2,7 +2,7 @@ using R2API;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using static WolfoFixes.MissedContent;
+using static WolfoFixes.MissedContent.Equipment;
 
 namespace WolfoFixes
 {
@@ -31,11 +31,18 @@ namespace WolfoFixes
 
         public static void AddDisplay(string asset, EquipmentDef equipmentDef, DisplayRuleGroup dsr)
         {
-            ItemDisplayRuleSet idrs = Addressables.LoadAssetAsync<ItemDisplayRuleSet>(key: asset).WaitForCompletion();
-            idrs.runtimeEquipmentRuleGroups[(int)equipmentDef.equipmentIndex] = dsr;
+            ItemDisplayRuleSet idrs = Addressables.LoadAssetAsync<ItemDisplayRuleSet>(key: asset).WaitForCompletion();   
+            //idrs.runtimeEquipmentRuleGroups[(int)equipmentDef.equipmentIndex].rules = dsr.rules;
+            HG.ArrayUtils.ArrayAppend(ref idrs.keyAssetRuleGroups, new ItemDisplayRuleSet.KeyAssetRuleGroup
+            {
+                keyAsset = equipmentDef,
+                displayRuleGroup = dsr
+            });
+
+
         }
 
-        public static void AddDisplay(ItemDisplayRuleSet idrs, EquipmentDef equipmentDef, DisplayRuleGroup dsr, GameObject prefab, bool cloneRule)
+        public static void AddDisplay(ItemDisplayRuleSet idrs, EquipmentDef equipmentDef, DisplayRuleGroup dsr, GameObject prefab, bool cloneRule = false)
         {
             if (prefab)
             {
@@ -51,7 +58,12 @@ namespace WolfoFixes
                     dsr.rules[i].followerPrefab = prefab;
                 }
             }
-            idrs.runtimeEquipmentRuleGroups[(int)equipmentDef.equipmentIndex] = dsr;
+            //idrs.runtimeEquipmentRuleGroups[(int)equipmentDef.equipmentIndex] = dsr;
+            HG.ArrayUtils.ArrayAppend(ref idrs.keyAssetRuleGroups, new ItemDisplayRuleSet.KeyAssetRuleGroup
+            {
+                keyAsset = equipmentDef,
+                displayRuleGroup = dsr
+            });
         }
 
         public static void OtherItemDisplays()
@@ -208,9 +220,7 @@ namespace WolfoFixes
 
         public static void MissingElites()
         {
-            EquipmentDef EliteEarthEquipment = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteEarth/EliteEarthEquipment.asset").WaitForCompletion();
-            EquipmentDef EliteSecretSpeedEquipment = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteSecretSpeedEquipment.asset").WaitForCompletion();
-
+             
             GameObject EliteFireHorn = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/EliteFire/DisplayEliteHorn.prefab").WaitForCompletion();
             GameObject EliteLightningHorn = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/EliteLightning/DisplayEliteRhinoHorn.prefab").WaitForCompletion();
             GameObject EliteIceCrown = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/EliteIce/DisplayEliteIceCrown.prefab").WaitForCompletion();
@@ -895,7 +905,6 @@ namespace WolfoFixes
             #region Elites : XI Construct
             GameObject XIBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/MajorAndMinorConstruct/MegaConstructBody.prefab").WaitForCompletion();
             ItemDisplayRuleSet XI = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
-            XI.GenerateRuntimeValues();
             XI.name = "idrsMegaConstruct_WolfMade";
             XIBody.transform.GetChild(0).GetChild(0).GetComponent<CharacterModel>().itemDisplayRuleSet = XI;
 
@@ -1028,6 +1037,34 @@ namespace WolfoFixes
                         },
   }
             };
+
+            DisplayRuleGroup rabbit4XI_drg = new DisplayRuleGroup
+            {
+                rules = new ItemDisplayRule[]
+  {
+                        new ItemDisplayRule
+                        {
+                            childName = "AttachmentPoint0",
+                            localScale = new Vector3(-15F, 13F, 13F)
+                        },
+                        new ItemDisplayRule
+                        {
+                            childName = "AttachmentPoint1",
+                            localScale = new Vector3(15F, 13F, 13F)
+                        },
+                        new ItemDisplayRule
+                        {
+                            childName = "AttachmentPoint2",
+                            localScale = new Vector3(15F, 13F, 13F)
+                        },
+                          new ItemDisplayRule
+                        {
+                            childName = "AttachmentPoint3",
+                            localScale = new Vector3(-15F, 13F, 13F)
+                        },
+  }
+            };
+
             DisplayRuleGroup bead4XI_drg = new DisplayRuleGroup
             {
                 rules = new ItemDisplayRule[]
@@ -1098,12 +1135,14 @@ namespace WolfoFixes
 
             AddDisplay(XI, EliteEarthEquipment, earth1XI_drg, EliteEarthHorn, false);
             AddDisplay(XI, DLC1Content.Equipment.EliteVoidEquipment, voidXI_drg, EliteVoid, false);
+            AddDisplay(XI, MissedContent.Equipment.EliteSecretSpeedEquipment, rabbit4XI_drg, EliteRabbitEars, false);
 
             AddDisplay(XI, DLC2Content.Equipment.EliteAurelioniteEquipment, aur1XI_drg, EliteAurCrown, false);
             AddDisplay(XI, DLC2Content.Equipment.EliteBeadEquipment, bead4XI_drg, EliteBeadSpike, false);
 
+            XI.GenerateRuntimeValuesAsync();
             #endregion
-
+          
         }
 
         public static void MithrixItemDisplay()
@@ -1642,7 +1681,7 @@ namespace WolfoFixes
                             childName = "Head",
                             localPos = new Vector3(0f, 1f, 2f),
                             localAngles = new Vector3(0f,0f,0f),
-                            localScale = new Vector3(3f, 3f, 3f),
+                            localScale = new Vector3(4f, 4f, 4f),
                         },
 }
             };

@@ -16,9 +16,11 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkipItemDisplays;
         public static ConfigEntry<bool> cfgOldSotsEliteIcons;
         public static ConfigEntry<bool> cfgDarkTwisted;
+        public static ConfigEntry<bool> cfgTwistedFire;
         public static ConfigEntry<bool> cfgMithrixPhase4SkipFix;
         public static ConfigEntry<Position> cfgLoadoutOnDeathScreen;
         public static ConfigEntry<bool> cfgSmoothCaptain;
+        public static ConfigEntry<bool> cfgFreezeTimer;
 
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
@@ -54,7 +56,8 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgRemindersGeneral;
         public static ConfigEntry<bool> cfgMessagesGeneral;
 
-        public static ConfigEntry<bool> cfgHelminthFix;
+        public static ConfigEntry<bool> cfgHelminthLightingFix;
+        public static ConfigEntry<bool> cfgRootJungleLighting;
 
         public static ConfigEntry<bool> cfgRemindersKeys;
         public static ConfigEntry<bool> cfgRemindersFreechest;
@@ -108,7 +111,7 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> cfgLogbook_More;
         public static ConfigEntry<bool> cfgLogbook_EliteEquip;
-         public static ConfigEntry<bool> cfgLogbook_EliteEquipEarlyViewable;
+        public static ConfigEntry<bool> cfgLogbook_EliteEquipEarlyViewable;
 
 
         //Misc 
@@ -386,11 +389,17 @@ namespace WolfoQoL_Client
 
             #region Visuals
 
-            cfgHelminthFix = ConfigFile_Client.Bind(
+            cfgHelminthLightingFix = ConfigFile_Client.Bind(
                "Visuals",
-               "Brighter Helminth",
+               "Brighter Helminth Hatchery",
                true,
-               "Fix Helminths lighting being darker than what is seemingly intended."
+               "Change Helminths lighting to be considerably brighter and to what is seemingly intended.\n\nThis happens because the lighting is set to a too low priority and/or gets improperly loaded."
+           );
+            cfgRootJungleLighting = ConfigFile_Client.Bind(
+               "Visuals",
+               "Brighter Sundered Grove",
+               true,
+               "Slightly increase the visibility on sundered as it's probably the darkest stage."
            );
 
             cfgMountainStacks = ConfigFile_Client.Bind(
@@ -645,6 +654,12 @@ namespace WolfoQoL_Client
                 false,
                 "Makes the armor on the skin smooth instead of battered"
             );
+            cfgTwistedFire = ConfigFile_Client.Bind(
+                "Visuals",
+                "Fire Twisted Elites",
+                true,
+                "Readds the lunar fire visual effect that twisted elites once had."
+            );
             cfgDarkTwisted = ConfigFile_Client.Bind(
                 "Visuals",
                 "Dark Twisted Elites",
@@ -753,6 +768,7 @@ namespace WolfoQoL_Client
                 cfgTestDisableMod2,
                 cfgSmoothCaptain,
                 cfgDarkTwisted,
+                cfgTwistedFire,
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();

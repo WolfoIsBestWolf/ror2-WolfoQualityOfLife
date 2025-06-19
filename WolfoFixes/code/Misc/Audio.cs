@@ -11,31 +11,8 @@ namespace WolfoFixes
     public class Audio
     {
 
-
-        public static void Start()
+        public static void UnusedSounds()
         {
-
-            //Would be nice to sync sound only to spawn if it has missiles
-            IL.RoR2.BarrageOnBossBehaviour.StartMissileCountdown += WarBondsNoise_OnlyIfActuallyMissile;
-            //Steal this
-            GameObject VoidOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/VoidOrb");
-            foreach (AkEvent a in VoidOrb.GetComponents<AkEvent>())
-            {
-                GameObject.Destroy(a);
-            }
-            GameObject.Destroy(VoidOrb.GetComponent<AkGameObj>());
-            PlaySoundOnEvent sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
-            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Start;
-            sound.soundEvent = "Play_UI_item_spawn_tier3";
-            sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
-            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Destroy;
-            sound.soundEvent = "Play_nullifier_death_vortex_explode";
-
-            On.RoR2.WwiseUtils.SoundbankLoader.Start += SoundbankLoader_Start;
-
-            On.EntityStates.Engi.SpiderMine.Detonate.OnEnter += FixClientNoiseSpam;
-
-
 
             //Add unused cool bubbly noise
             On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
@@ -72,27 +49,51 @@ namespace WolfoFixes
             On.EntityStates.GlobalSkills.LunarDetonator.Detonate.OnEnter += (orig, self) =>
             {
                 orig(self);
-                RoR2.Util.PlaySound("Play_item_lunar_specialReplace_apply", self.outer.gameObject);
+                Util.PlaySound("Play_item_lunar_specialReplace_apply", self.outer.gameObject);
             };
+        }
 
+
+        public static void Start()
+        {
+            UnusedSounds();
+
+            //Would be nice to sync sound only to spawn if it has missiles
+            IL.RoR2.BarrageOnBossBehaviour.StartMissileCountdown += WarBondsNoise_OnlyIfActuallyMissile;
+            
+            //Fix Void Orb sound
+            GameObject VoidOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/VoidOrb");
+            foreach (AkEvent a in VoidOrb.GetComponents<AkEvent>())
+            {
+                GameObject.Destroy(a);
+            }
+            GameObject.Destroy(VoidOrb.GetComponent<AkGameObj>());
+            PlaySoundOnEvent sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
+            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Start;
+            sound.soundEvent = "Play_UI_item_spawn_tier3";
+            sound = VoidOrb.AddComponent<PlaySoundOnEvent>();
+            sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Destroy;
+            sound.soundEvent = "Play_nullifier_death_vortex_explode";
+
+          
+            On.RoR2.WwiseUtils.SoundbankLoader.Start += LoadMulTSoundsForScrapper;
+
+            On.EntityStates.Engi.SpiderMine.Detonate.OnEnter += FixClientNoiseSpam;
+ 
+
+            //Spawn sound not actually set?
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBoss/RoboBallMiniBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallRedBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBuddy/RoboBallGreenBuddyBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
 
+            //Syringe Impact sound somehow gone
+            var REX_m1 = Addressables.LoadAssetAsync<GameObject>(key: "8fa98ca49d9137045a738929c63567c7").WaitForCompletion().AddComponent<PlaySoundOnEvent>();
+            REX_m1.soundEvent = "Play_treeBot_m1_impact";
+            REX_m1.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Destroy;
 
-            //Sound is just too quiet
-            On.RoR2.CharacterMaster.PlayExtraLifeSFX += (orig, self) =>
-            {
-                orig(self);
-
-                GameObject bodyInstanceObject = self.GetBodyObject();
-                if (bodyInstanceObject)
-                {
-                    Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
-                    Util.PlaySound("Play_item_proc_extraLife", bodyInstanceObject);
-                }
-            };
-
+            REX_m1 = Addressables.LoadAssetAsync<GameObject>(key: "1e58dd828d88f5d46bd5ac5a33bbd589").WaitForCompletion().AddComponent<PlaySoundOnEvent>();
+            REX_m1.soundEvent = "Play_treeBot_m1_impact";
+            REX_m1.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Destroy;
         }
 
 
@@ -115,7 +116,7 @@ namespace WolfoFixes
         }
 
 
-        private static void SoundbankLoader_Start(On.RoR2.WwiseUtils.SoundbankLoader.orig_Start orig, RoR2.WwiseUtils.SoundbankLoader self)
+        private static void LoadMulTSoundsForScrapper(On.RoR2.WwiseUtils.SoundbankLoader.orig_Start orig, RoR2.WwiseUtils.SoundbankLoader self)
         {
             HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "char_Toolbot");
             orig(self);
