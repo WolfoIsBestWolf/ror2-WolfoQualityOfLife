@@ -1,19 +1,17 @@
 ﻿using RoR2;
-using RoR2.ExpansionManagement;
 using RoR2.UI.LogBook;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 
-namespace WolfoFixes
+namespace WolfoFixes.Testing
 {
 
     public class Test_Logbook
     {
 
- 
+
         public static void CheatLogbook()
         {
 

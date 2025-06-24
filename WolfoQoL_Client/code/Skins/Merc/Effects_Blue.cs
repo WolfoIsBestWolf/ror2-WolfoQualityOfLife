@@ -1,7 +1,7 @@
 ﻿using RoR2;
 using UnityEngine;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class Merc_Blue
     {

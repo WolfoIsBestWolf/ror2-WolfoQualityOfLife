@@ -1,10 +1,8 @@
 ﻿using BepInEx;
 using R2API.Utils;
 using RoR2;
-using System;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
- 
+using WolfoFixes.Testing;
+
 namespace WolfoFixes
 {
     [BepInDependency("com.bepis.r2api")]
@@ -15,7 +13,7 @@ namespace WolfoFixes
         public static bool riskyFixes;
         public void Awake()
         {
-   
+
             WConfig.Start();
         }
 
@@ -28,9 +26,9 @@ namespace WolfoFixes
                 TestLoadOrder.Logger = base.Logger;
             }
             Commands.Start();
-            Testing.Start();
+            Test.Start();
             RoR2Application.onLoad += addRiskConfigLatest;
-           
+
             riskyFixes = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.RiskyFixes");
             VoidSuppressor.SuppresedScrap();
             if (WConfig.cfgDisable.Value)
@@ -54,7 +52,7 @@ namespace WolfoFixes
             ShrineHalcyonFixes.Start();
 
             LogFixes.Start();
- 
+
             SkinFixes.Start();
             Visuals.Start();
 
@@ -74,7 +72,8 @@ namespace WolfoFixes
             {
                 WConfig.RiskConfig();
             }
-           
+            EntityStates.FalseSon.LaserFather.laserPrefab = null;
+
         }
 
         internal static void ModSupport_CallLate()
@@ -83,12 +82,14 @@ namespace WolfoFixes
             {
                 return;
             }
+         
+
             //The later the better because first come first serve with LanguageAPI
             //Tho could do it with a language file I guess?
             TextFixes.CallLate();
             ItemTags.CallLate();
             BodyFixes.CallLate();
- 
+
             RoR2Content.Buffs.HiddenInvincibility.canStack = false;
             DLC2Content.Buffs.Boosted.canStack = false;
 
@@ -97,7 +98,7 @@ namespace WolfoFixes
 
             //Prevent scrapping regen scrap.
             HG.ArrayUtils.ArrayAppend(ref DLC1Content.Items.RegeneratingScrap.tags, ItemTag.Scrap);
- 
+
         }
 
 

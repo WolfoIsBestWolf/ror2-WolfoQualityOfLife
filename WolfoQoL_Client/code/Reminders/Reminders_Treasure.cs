@@ -2,7 +2,7 @@ using RoR2;
 using UnityEngine;
 
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Reminders
 {
     public class Reminders_Treasure
     {
@@ -41,7 +41,7 @@ namespace WolfoQoL_Client
                 {
                     if (TreasureReminder.instance)
                     {
-                        Reminders.CompleteObjective(TreasureReminder.instance.Objective_RegenScrap);
+                        Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_RegenScrap);
                     }
                 }
             }
@@ -51,7 +51,7 @@ namespace WolfoQoL_Client
                 {
                     if (TreasureReminder.instance)
                     {
-                        Reminders.CompleteObjective(TreasureReminder.instance.Objective_SaleStar);
+                        Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_SaleStar);
                     }
                 }
             }
@@ -82,7 +82,7 @@ namespace WolfoQoL_Client
             orig(self, activator);
             if (hadSale > 0 && self.saleStarCompatible)
             {
-                Chat.SendBroadcastChat(new SaleStarMessage
+                Chat.SendBroadcastChat(new Text.SaleStarMessage
                 {
                     interactableToken = self.displayNameToken,
                     subjectAsCharacterBody = body,

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
 
     public class OptionPickupStuff

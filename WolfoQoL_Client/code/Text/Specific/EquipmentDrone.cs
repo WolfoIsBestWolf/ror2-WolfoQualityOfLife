@@ -3,7 +3,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
 
     public class EquipmentDrone
@@ -17,7 +17,7 @@ namespace WolfoQoL_Client
         private static void AllyCardController_UpdateInfo(On.RoR2.UI.AllyCardController.orig_UpdateInfo orig, RoR2.UI.AllyCardController self)
         {
             orig(self);
-            if (self.sourceMaster) 
+            if (self.sourceMaster)
             {
                 EquipmentDroneNameComponent drone = null;
                 if (self.sourceMaster.TryGetComponent<EquipmentDroneNameComponent>(out drone))
@@ -70,7 +70,7 @@ namespace WolfoQoL_Client
             {
                 inventory.onEquipmentChangedClient -= Inventory_onEquipmentChangedClient;
             }
-          
+
         }
         private void Master_onBodyStart(CharacterBody obj)
         {

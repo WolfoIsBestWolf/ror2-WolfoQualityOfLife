@@ -1,10 +1,7 @@
 {
 	"strings":
 	{
-			"YOU": "You",
-			"HIDDEN_REALM_PREFIX": "Hidden Realm: ",
-		
- 
+	 
 			"VOID_SUPPRESSOR_DESCRIPTION": "Eradicate the shown item from existence, preventing it from appearing again for the current run. Existing copies of the item will be scrapped instantly.",
 		
 		
@@ -63,7 +60,7 @@
 			"STATNAME_HIGHESTLUNARPURCHASES": "Most Lunar Purchases",
 			"STATNAME_HIGHESTBLOODPURCHASES": "Most Blood Purchases",
 		
-			"OBJECTIVE_GOLDSHORES_ACTIVATE_BEACONS": "Rebuild the <color=#FFE880>Halcyon Beacons</color> ({0}/{1})",
+			"OBJECTIVE_GOLDSHORES_ACTIVATE_BEACONS": "Rebuild the <style=cGold>Halcyon Beacons</color> ({0}/{1})",
 
             "OBJECTIVE_CLEAR_ARENA": "Activate all <style=cIsVoid>Cell Vents</style> ({0}/{1})",
             "OBJECTIVE_ARENA_CHARGE_CELL": "Breach the <style=cIsVoid>Cell</style> ({0}%)",
@@ -99,13 +96,14 @@
 			
             "EQUIPMENT_AFFIXLUNAR_DESC": "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>25%</style> and <style=cIsUtility>movement speed</style> by <style=cIsUtility>30%</style>. \nConvert all <style=cIsHealing>health</style> into <style=cIsHealing>regenerating shields</style>. \n<style=cIsDamage>Cripple</style> enemies on hit for <style=cIsUtility>4s</style> reducing <style=cIsUtility>movement speed</style> by <style=cIsUtility>100%</style> and <style=cIsDamage>armor</style> by <style=cIsDamage>20</style>. \nPeriodically shoot out 4 orbs dealing <style=cIsDamage>30%</style> base damage when attacking.",
 
-            "EQUIPMENT_AFFIXEARTH_DESC": "<style=cIsHealing>Heal</style> a nearby hurt ally for <style=cIsHealing>120%</style> of your <style=cIsDamage>base damage</style> per second. <style=cDeath>On death</style> leave a <style=cIsHealing>Healing Core</style> which will <style=cIsHealing>heal</style> all creatures for <style=cIsHealing>80</style> health.",
+            "EQUIPMENT_AFFIXEARTH_DESC": "<style=cIsHealing>Heal</style> a nearby hurt ally for <style=cIsHealing>120%</style> of your <style=cIsDamage>base damage</style> per second. <style=cDeath>On death</style> leave a <style=cIsHealing>Healing Core</style> which will <style=cIsHealing>heal</style> all nearby creatures after <style=cIsHealing>3s</style> ",
 
 
 			"EQUIPMENT_AFFIXAURELIONITE_DESC": "On hit, enemies will drop <style=cIsUtility>nuggets</style> worth <style=cIsUtility>$8</style>. <style=cIsUtility>Scales over time.</style> Upon activation or every <style=cIsDamage>12s</style>, launch a <style=cIsDamage>eruption</style> dealing <style=cIsDamage>15% damage</style> then <style=cIsDamage>150% damage.</style>",
 				
           
-			"EQUIPMENT_AFFIXBEAD_DESC": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>10</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and inflicting <style=cIsDamage>Lunar Ruin</style>.", 
+			"EQUIPMENT_AFFIXBEAD_DESC": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>10</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and inflicting <style=cIsDamage>Lunar Ruin</style>. Recharges after 10s.", 
+			"EQUIPMENT_AFFIXBEAD_DESC_LTG": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>5</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and <style=cIsDamage>disables all skills</style> for 5s.", 
 
 	}
 }

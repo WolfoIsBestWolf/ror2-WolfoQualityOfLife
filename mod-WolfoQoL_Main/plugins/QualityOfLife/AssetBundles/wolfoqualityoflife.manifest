@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2225395107
+CRC: 2260229836
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0af8ffaf7a6941d7b69b9c3d5e000a60
+    Hash: 5786dab3d78e0ca2a8bbb311222878e1
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9bbf464575cb1bcdb68fd883cc18858a
@@ -25,6 +25,7 @@ Assets:
 - Assets/WQoL/Items/EliteLightning.png
 - Assets/WQoL/Items/Modded/AffixLostTransitVolatile.png
 - Assets/WQoL/PingIcons/ScrapperIcon_V3.png
+- Assets/WQoL/SimuPreview/texDampcavePreview.png
 - Assets/WQoL/Items/Modded/texAffixPlatedIcon.png
 - Assets/WQoL/Items/Modded/AffixVarietyBanner.png
 - Assets/WQoL/General/animDuplicatorOld.controller
@@ -67,6 +68,7 @@ Assets:
 - Assets/WQoL/Items/Modded/AffixAetheriumSanguine.png
 - Assets/WQoL/PingIcons/DroneFlameIcon.png
 - Assets/WQoL/Buffs/texBuffFeather.png
+- Assets/WQoL/SimuPreview/texMoonPreview.png
 - Assets/WQoL/PingIcons/ChestEquipIcon.png
 - Assets/WQoL/PingIcons/MultiShop3.png
 - Assets/WQoL/Buffs/texBuffHeadStompOff.png
@@ -81,6 +83,7 @@ Assets:
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkDark.png
 - Assets/WQoL/Body/texBodyRoboBallBuddyRed.png
 - Assets/WQoL/SkinRamps/texRampHuntressSoftRed.png
+- Assets/WQoL/General/texUIHighlightBoxOutline.png
 - Assets/WQoL/PingIcons/ChestLunarIcon.png
 - Assets/WQoL/Items/Beta/betaEffigy.png
 - Assets/WQoL/Body/texBodyClayMan.png
@@ -98,11 +101,12 @@ Assets:
 - Assets/WQoL/Body/texBodyBrother.png
 - Assets/WQoL/Items/Modded/AffixVarietyTinker.png
 - Assets/WQoL/SkinScalable/texEngiTurretAltColossusDiffuse.png
+- Assets/WQoL/SimuPreview/texAncientLoftPreview.png
 - Assets/WQoL/Body/texBodyRoboBallBuddyGreen.png
 - Assets/WQoL/PingIcons/ChestLegendaryIcon.png
 - Assets/WQoL/PingIcons/SotsIcon3_Shrunk.png
-- Assets/WQoL/Items/Modded/texAffixRaging.png
 - Assets/WQoL/PingIcons/PingIconVoidEradicator.png
+- Assets/WQoL/Items/Modded/texAffixRaging.png
 - Assets/WQoL/Buffs/texBuffFrostRelic.png
 - Assets/WQoL/SkinRamps/texRampHuntressGreen.png
 - Assets/WQoL/SkinRamps/RampEliteAur.png
@@ -115,10 +119,12 @@ Assets:
 - Assets/WQoL/Buffs/texBuffBeetleUp.png
 - Assets/WQoL/General/texUICorner4.png
 - Assets/WQoL/Body/BeetleAllyEnemy.png
+- Assets/WQoL/SimuPreview/texFrozenwallPreview.png
 - Assets/WQoL/PingIcons/DroneMegaIcon.png
 - Assets/WQoL/General/texCrocoBlightSkin.png
 - Assets/WQoL/General/texGameResultRebirth.png
 - Assets/WQoL/SkinRamps/texRampHuntressSoftGreen.png
+- Assets/WQoL/General/texTrimSheetMetalDiffuseMediumWorn.png
 - Assets/WQoL/PingIcons/VoidIcon.png
 - Assets/WQoL/SkinRamps/texRampMercDustRed.png
 - Assets/WQoL/Items/Beta/betaTempest.png
@@ -147,6 +153,7 @@ Assets:
 - Assets/WQoL/SkinScalable/texCrocoPoisonMask - Copy.png
 - Assets/WQoL/Body/texBodyWispSoul.png
 - Assets/WQoL/PingIcons/SeerIcon.png
+- Assets/WQoL/SimuPreview/texGoolakePreview.png
 - Assets/WQoL/PingIcons/DroneEquipmentIcon.png
 - Assets/WQoL/Items/Modded/EliteBlight.png
 - Assets/WQoL/PingIcons/ScrapperIcon_V2.png
@@ -160,6 +167,7 @@ Assets:
 - Assets/WQoL/PingIcons/MultiShop1_Shrunk.png
 - Assets/WQoL/Items/Modded/AffixVarietyImp.png
 - Assets/WQoL/Body/SulfurPod.png
+- Assets/WQoL/SimuPreview/texGolemplainsPreview.png
 - Assets/WQoL/SkinRamps/texRampHuntressRed.png
 - Assets/WQoL/PingIcons/CleanseIcon.png
 - Assets/WQoL/PingIcons/ShrineHealIcon.png
@@ -182,6 +190,7 @@ Assets:
 - Assets/WQoL/Items/LunarPotion.png
 - Assets/WQoL/SkinRamps/texRampHuntress.png
 - Assets/WQoL/Buffs/texBuffMercExposeIcon.png
+- Assets/WQoL/PingIcons/EquipAffix.png
 - Assets/WQoL/Items/UsedKey.png
 - Assets/WQoL/Buffs/texBuffLunarShellIcon.png
 - Assets/WQoL/Buffs/texBuffBodyArmor.png
@@ -189,24 +198,26 @@ Assets:
 - Assets/WQoL/PingIcons/MultiShop1.png
 - Assets/WQoL/PingIcons/ShrineGoldIcon.png
 - Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png
+- Assets/WQoL/PingIcons/Equip.png
 - Assets/WQoL/SkinScalable/texCrocoEmissionBlight.png
 - Assets/WQoL/PingIcons/CellIcon.png
 - Assets/WQoL/PingIcons/RadarTower.png
 - Assets/WQoL/Items/EliteEarth.png
 - Assets/WQoL/SkinScalable/texTreebotVineForColossus.png
 - Assets/WQoL/Items/LunarMeteor.png
-- Assets/WQoL/PingIcons/PrinterMili.png
+- Assets/WQoL/SimuPreview/texSkymeadowPreview.png
 - Assets/WQoL/PingIcons/ChestCategoryUtility.png
+- Assets/WQoL/PingIcons/PrinterMili.png
 - Assets/WQoL/PingIcons/CauldronIcon.png
-- Assets/WQoL/Buffs/texBuffRaincoat.png
 - Assets/WQoL/Items/EliteSecret.png
 - Assets/WQoL/Body/texBodyTitanGoldAlly.png
 - Assets/WQoL/PingIcons/LockedIconAlt.png
 - Assets/WQoL/PingIcons/ChestInvisibleIcon.png
 - Assets/WQoL/PingIcons/PrimordialTeleporterChargedIcon.png
 - Assets/WQoL/General/texEquipmentBossBG.png
-- Assets/WQoL/Buffs/texBuffShuriken.png
+- Assets/WQoL/Buffs/texBuffRaincoat.png
 - Assets/WQoL/PingIcons/ChestCasinoIcon.png
+- Assets/WQoL/Buffs/texBuffShuriken.png
 - Assets/WQoL/PingIcons/ChestCategoryDamage.png
 - Assets/WQoL/SkinScalable/texOniMercSwordDiffuse.png
 - Assets/WQoL/Buffs/texBuffDisableAllSkillsIcon.png

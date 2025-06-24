@@ -1,10 +1,10 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using System;
 
 namespace WolfoFixes
 {
@@ -17,7 +17,7 @@ namespace WolfoFixes
             Addressables.LoadAssetAsync<EquipmentDef>(key: "f2ddbb7586240e648945ad494ebe3984").WaitForCompletion().cooldown = 0; //Why does this have a cooldown it just fucks you up when buying shops quickly
             IL.RoR2.GlobalEventManager.ProcessHitEnemy += FixSawmarang;
 
-           // IL.RoR2.HealthComponent.TakeDamageProcess += FixEchoOSP;
+            // IL.RoR2.HealthComponent.TakeDamageProcess += FixEchoOSP;
             IL.RoR2.HealthComponent.TakeDamageProcess += FixWarpedEchoE8;
 
             On.RoR2.Util.HealthComponentToTransform += FixTwisteds_NotWorkingOnPlayers;
@@ -42,8 +42,8 @@ namespace WolfoFixes
             ILCursor cbeforeEcho;
             ILCursor cbeforeOSP;
             ILCursor cafterOSP;
-                
-                    
+
+
 
             //Goto X
             //Y
@@ -53,7 +53,7 @@ namespace WolfoFixes
             //OSP
             //Goto Y
             //Z
- 
+
             c.TryGotoNext(MoveType.After,
             x => x.MatchLdsfld("RoR2.DLC2Content/Buff", "DelayedDamageBuff"));
             c.TryGotoNext(MoveType.After,
@@ -66,8 +66,8 @@ namespace WolfoFixes
             {
 
                 cbeforeEcho = c.Emit(OpCodes.Break);
-           
-              
+
+
             }
             else
             {
@@ -125,7 +125,7 @@ namespace WolfoFixes
            x => x.MatchLdfld("RoR2.DamageInfo", "delayedDamageSecondHalf")
            ))
             {
- 
+
                 c.Remove();
                 c.EmitDelegate<System.Func<DamageInfo, bool>>((damageInfo) =>
                 {

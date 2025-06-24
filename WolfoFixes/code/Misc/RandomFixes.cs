@@ -1,8 +1,8 @@
-﻿using RoR2;
-using EntityStates;
-using UnityEngine;
+﻿using EntityStates;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using RoR2;
+using UnityEngine;
 
 namespace WolfoFixes
 {
@@ -47,7 +47,7 @@ namespace WolfoFixes
             On.EntityStates.VagrantNovaItem.ChargeState.OnExit += ChargeState_OnExit;
 
             IL.RoR2.IncreaseDamageOnMultiKillItemDisplayUpdater.SetVisibleHologram += FixChronocDisplayNullRefOnCorpse;
- 
+
         }
 
         private static void FixChronocDisplayNullRefOnCorpse(MonoMod.Cil.ILContext il)
@@ -73,7 +73,7 @@ namespace WolfoFixes
                 Debug.LogWarning("IL Failed : IncreaseDamageOnMultiKillItemDisplayUpdater");
             }
         }
- 
+
 
         private static void ChargeState_OnExit(On.EntityStates.VagrantNovaItem.ChargeState.orig_OnExit orig, EntityStates.VagrantNovaItem.ChargeState self)
         {
@@ -105,7 +105,7 @@ namespace WolfoFixes
             {
                 return false;
             }
-            return orig(self,viewer);
+            return orig(self, viewer);
         }
 
         private static void NewtAvailableFix12(On.RoR2.PortalStatueBehavior.orig_PreStartClient orig, PortalStatueBehavior self)

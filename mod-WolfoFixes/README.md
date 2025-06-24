@@ -22,14 +22,16 @@ Captain Beacons being unable to crit.
 
 Child being burnable by the sun.
 
+XI Construct Laser not exploding at the end.
+
+Grandparent rock fragments being invisible.
+
 (Off by default)\
 Mithrix Phase 4 being skipable because the game thinks he has 0 health.
 
-XI Construct Laser not exploding at the end.
-
 ## Items / Equipment
 
-Corrects/Fixes some wrong item descriptions.
+Corrects various wrong item descriptions.
 
 For Retool, Enigma, Bottled Chaos
 - Sawmerang not bleeding if you don't have the equipment.
@@ -55,7 +57,7 @@ Some item tags were changed.
 ## Gameplay Misc
 Being able to skip right to Prime Meridian by entering 2 portals at the same time.
 
-Newt Altars will no longer purchasable after Teleporter.\
+Newt Altars will no longer purchasable after Teleporter. (Like pre SotS)\
 Newt Altars will not be purchasable if Teleporter starts with Blue Orb.
 
 Fixes Vengence + Swarms spawning one of them without any items.
@@ -75,7 +77,7 @@ Prevents Halcyon Shrine entityState nullref on Client.\
 Removes the log spam from Halcyon Shrines on Client.
 
 Aurelionite Fragments & Potentials now spin for clients.\
-Prayer Beads desyncing for clients, leading to various issues..\
+Prayer Beads desyncing for clients, leading to various issues.\
 Spider-Mines constantly beeping for clients
 
 Simulacrum teleporting Clients into the void instead of the Focus.\
@@ -96,9 +98,11 @@ Fixes some monsters not slowly appearing their spawn animation:
 - Vagrant
 - XI has more issues and still looks bugged
 
-Defense Nuclease Alpha Constructs no longer being Gold.
+Defense Nucleus Alpha Constructs no longer being Gold.
 
 Gilded Elite corpses no longer look like blazing elite corpses.
+
+REXs flower vines disappearing quickly
 
 Mercurias Rachis visual radius not matching the actual buff radius.
 
@@ -109,25 +113,16 @@ Railgunners Scope being more opaque than in the past
 Void Command Essence not having particles.\
 Deep Void Signals Beam being flat.
 
+Shrine of Shaping and Seed of Life not using the revive effect. (Instead of failing to spawn a unfinished object)
+
+Artifact of Glass will now make you and minions appear as glass.
+
 Stone Titan pinging the particles instead of the body.\
 Mithrix Hammer/Nothing pinging instead of the body.
 
 Lunar Exploder not having a subtitleToken.
 
-Shrine of Shaping and Seed of Life not using the revive effect. (Instead of failing to spawn a unfinished object)
-
-Green Orb message will now pop up as you load into the stage so you can actually see it.
-
-Artifact of Glass will now make you and minions appear as glass.
-
-Log Fixes : 
-- Eclipse not incrementing Wins
-- Bazaar Diorama being empty
-- Sulfur Pools Diorama having a red base.
-- Void Locust Diorama, Void Devastator being too zoomed in.
-- Nkuhanas Opinion being too zoomed out.
-- Devoted Lemurians being in log instead of wild.
- 
+Halcyon Shrine often not having its tip golden due to a redundant check.
 
 ## Audio
 Void items spawning in not playing sound.\
@@ -142,8 +137,18 @@ Scavengers not playing their Spawn Sound
 Soup not playing their Soup sound
 
 ## Misc
+Log Fixes : 
+- Eclipse not incrementing Wins
+- Bazaar Diorama being empty
+- Sulfur Pools Diorama having a red base.
+- Void Locust Diorama, Void Devastator being too zoomed in.
+- Nkuhanas Opinion being too zoomed out.
+- Devoted Lemurians being in log instead of wild.
+ 
+
 Adds 'simu_softlock' softlock command to forcefully end wave and start next, or otherwise spawns Portal.
 
+Green Orb message will now pop up as you load into the stage so you can actually see it.
 
 NullRef from Corpses with Chronic Expansion
 
@@ -175,7 +180,7 @@ Void Eradicators are less unfinished:
  
 Testing Commands
 - scanner | Scanner equip + 100 BoostEquipRecharge
-- godenemy | Sets enemy level absurdly high making them virtually unkillable.
+- godenemy | Sets enemy level absurdly high making them basically unkillable.
 - goto_boss | Teleports you to Mithrix/FalseSon/Teleporter
 - no_interactables | For clean stage screenshots.
 - set_damage | Set damage to desired for clean testing.

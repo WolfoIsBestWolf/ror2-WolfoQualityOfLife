@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Logging;
 using R2API.Utils;
 using RoR2;
 using RoR2.ContentManagement;
@@ -8,8 +9,11 @@ using System.Security.Permissions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-
-
+using WolfoQoL_Client.DeathScreen;
+using WolfoQoL_Client.Reminders;
+using WolfoQoL_Client.Skins;
+using WolfoQoL_Client.Text;
+ 
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -19,7 +23,7 @@ namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("Early.Wolfo.WolfFixes")]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.1.0")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.2.0")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WolfoMain : BaseUnityPlugin
     {
@@ -55,13 +59,13 @@ namespace WolfoQoL_Client
                 HostHasMod_ = value;
             }
         }
-
+        
         public void Awake()
         {
             WConfig.Start();
             Assets.Init(Info);
             WConfig.RiskConfig();
-
+            Help.Log = base.Logger;
             if (WConfig.cfgTestDisableMod.Value || WConfig.cfgTestDisableMod2.Value)
             {
                 Debug.LogWarning("Disabled Mod for Test");
@@ -81,11 +85,14 @@ namespace WolfoQoL_Client
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DeathMessage.DetailedDeathMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(DeathMessage.DetailedDeathMessage));
 
-            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(KillerInventory.KillerInventoryMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-            ChatMessageBase.chatMessageIndexToType.Add(typeof(KillerInventory.KillerInventoryMessage));
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(KillerInventoryMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(KillerInventoryMessage));
 
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(HostPingAllClients), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(HostPingAllClients));
+
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(PerPlayer_ExtraStatTracker.SyncValues), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(PerPlayer_ExtraStatTracker.SyncValues));
 
 
             SkinChanges.Start();
@@ -96,13 +103,13 @@ namespace WolfoQoL_Client
 
             //Text
             MoreMessages.Start();
-            Reminders.Start();
+            Reminders.Reminders_Main.Start();
 
 
-       
+
             Eclipse.Start();
 
-            DeathScreen_Expanded.Start();
+            DeathScreen_Main.Start();
             BodyIcons.Start();
             ColorModule.Main();
             UIBorders.Start();
@@ -120,7 +127,7 @@ namespace WolfoQoL_Client
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
 
-            
+
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
 
             //Main Menu Stuff
@@ -163,7 +170,7 @@ namespace WolfoQoL_Client
         internal static void ModSupport_CallLate()
         {
             OtherEnemies.CallLate();
-            
+
             RoR2Content.Items.AdaptiveArmor.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
             RoR2Content.Items.BoostEquipmentRecharge.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
             JunkContent.Equipment.Enigma.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
@@ -180,9 +187,9 @@ namespace WolfoQoL_Client
             PrayerBeads.moffeine = ItemCatalog.FindItemIndex("MoffeinBeadStatItem");
             PrayerBeads.usedBeads = ItemCatalog.FindItemIndex("ExtraStatsOnLevelUpConsumed");
             RandomMisc.LemurianBruiser = BodyCatalog.FindBodyIndex("LemurianBruiserBody");
- 
+
             TextChanges.UntieredItemTokens();
- 
+
             if (WConfig.cfgColorMain.Value == true)
             {
                 ColorModule.ChangeColorsPost();
@@ -290,6 +297,20 @@ namespace WolfoQoL_Client
                         }
                     }
                     break;
+                case "wispgraveyard":
+                    if (WConfig.cfgNerf_Shadwos.Value)
+                    {
+                        GameObject lighting = GameObject.Find("/Weather, Wispgraveyard/Directional Light (SUN)");
+                        Light sun = lighting.GetComponent<Light>();
+                        if (sun.intensity == 1.3f) //Default lighting check
+                        {
+                            if (sun.shadowStrength == 1f)
+                            {
+                                sun.shadowStrength = 0.8f; 
+                            }
+                        }
+                    }
+                    break;
                 case "sulfurpools":
                     if (WConfig.cfgNewGeysers.Value)
                     {
@@ -335,6 +356,18 @@ namespace WolfoQoL_Client
                             LoopParticles.GetChild(3).GetComponent<ParticleSystemRenderer>().material = MatLavaGeyser2;
                         }
                     }
+                    if (WConfig.cfgNerf_Shadwos.Value)
+                    {
+                        GameObject lighting = GameObject.Find("/HOLDER: Lighting, PP, Wind, Misc/Directional Light (SUN)");
+                        Light sun = lighting.GetComponent<Light>();
+                        if (sun.intensity == 0.5f)
+                        {
+                            if (sun.shadowStrength == 1f)
+                            {
+                                sun.shadowStrength = 0.8f; //1f
+                            }
+                        }
+                    }
                     break;
                 case "itdampcave":
                     if (WConfig.cfgPingIcons.Value)
@@ -346,7 +379,7 @@ namespace WolfoQoL_Client
                 case "rootjungle":
                     if (WConfig.cfgPingIcons.Value)
                     {
-                        
+
                         GameObject LegendaryChest = GameObject.Find("/HOLDER: Randomization/GROUP: Large Treasure Chests/CHOICE: Root Bridge Front Chest/GoldChest/");
                         if (LegendaryChest)
                         {
@@ -373,14 +406,13 @@ namespace WolfoQoL_Client
                             LegendaryChest.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.LegendaryChestIcon;
                         }
                     }
-
-                    if (WConfig.cfgRootJungleLighting.Value)
+                    if (WConfig.cfgNerf_Shadwos.Value)
                     {
                         GameObject lighting = GameObject.Find("/HOLDER: Weather Set 1/Directional Light (SUN)");
                         Light sun = lighting.GetComponent<Light>();
                         if (sun.intensity == 0.7f)
                         {
-                            sun.intensity = 0.8f; //0.7f
+                            //sun.intensity = 0.8f; //0.7f
                             if (sun.shadowStrength == 1f)
                             {
                                 sun.shadowStrength = 0.6f; //1f
@@ -461,6 +493,17 @@ namespace WolfoQoL_Client
                         Phase2.GetComponent<BossGroup>().bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
                     }
 
+
+                    GameObject Elevators = GameObject.Find("/HOLDER: Elevators");
+                    if (Elevators)
+                    {
+                        var platforms = Elevators.GetComponentsInChildren<GenericInteraction>();
+                        foreach (GenericInteraction a in platforms)
+                        {
+                            a.gameObject.AddComponent<BlockScanner>();
+                        }
+                    }
+
                     break;
                 case "bazaar":
                     if (WConfig.cfgPingIcons.Value)
@@ -502,6 +545,13 @@ namespace WolfoQoL_Client
                         GameObject PortalArena = GameObject.Find("/HOLDER: Starting Cave/HOLDER: Arena Entrance/Trigger/PortalArena/");
                         PortalArena.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.PortalIcon;
                         PortalArena.transform.parent.GetChild(2).gameObject.GetComponent<SphereCollider>().radius = 130;
+                    }
+
+                    GameObject Artificer = GameObject.Find("/HOLDER: Store/HOLDER: Store Platforms/LockedMage/");
+                    Artificer.GetComponent<GameObjectUnlockableFilter>().enabled = false;
+                    if (Artificer.GetComponent<GameObjectUnlockableFilter>().ShouldShowGameObject() == false)
+                    {
+                        Artificer.GetComponent<PurchaseInteraction>().Networkavailable = false;
                     }
                     break;
                 case "meridian":
@@ -576,10 +626,9 @@ namespace WolfoQoL_Client
                     {
                         GameObject PortalArena = GameObject.Find("/PortalArena");
                         PortalArena.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.PortalIcon;
-                        //PortalArena.AddComponent<GenericObjectiveProvider>().objectiveToken = "Exit the <style=cIsVoid>Void Fields</style>";
-
-                        GameObject Chests = GameObject.Find("/ArenaMissionController");
-                        var purchases = Chests.GetComponentsInChildren<PurchaseInteraction>(false);
+                         
+                        GameObject VoidCells = GameObject.Find("/ArenaMissionController");
+                        var purchases = VoidCells.GetComponentsInChildren<PurchaseInteraction>(false);
                         for (int i = 0; i < purchases.Length; i++)
                         {
                             purchases[i].gameObject.GetComponent<PingInfoProvider>().pingIconOverride = PingIcons.NullVentIcon;
@@ -846,27 +895,6 @@ namespace WolfoQoL_Client
 
 
     }
-    public class MakeThisMercRed : MonoBehaviour
-    {
-    }
-    public class MakeThisMercGreen : MonoBehaviour
-    {
-    }
-    public class MakeThisAcridBlight : MonoBehaviour
-    {
-        public void Start()
-        {
-            //How reliable would this be on Client?
-            CrocoDamageTypeController controller = this.gameObject.GetComponent<CrocoDamageTypeController>();
-            if (controller == null)
-            {
-                Destroy(this);
-            }
-            if (controller.GetDamageType() != DamageType.BlightOnHit)
-            {
-                Destroy(this);
-            }
-        }
-    }
+
 
 }

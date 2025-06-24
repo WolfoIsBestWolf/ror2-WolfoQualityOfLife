@@ -1,18 +1,14 @@
-using Newtonsoft.Json.Utilities;
 using RoR2;
+using RoR2.UI;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
-namespace WolfoFixes
+namespace WolfoFixes.Testing
 {
     class Commands
     {
-       
+
         public static void Start()
         {
             Run.onRunStartGlobal += Run_onRunStartGlobal;
@@ -36,6 +32,65 @@ namespace WolfoFixes
             }
         }
 
+        [ConCommand(commandName = "skill", flags = ConVarFlags.ExecuteOnServer, helpText = "Switch Skills of current survivor Shorthand")]
+        public static void CC_Skill(ConCommandArgs args)
+        {
+            if (!args.senderMaster)
+            {
+                return;
+            } 
+            if (!args.senderMaster.GetBody())
+            {
+                return;
+            }
+            if (!NetworkServer.active)
+            {
+                return;
+            }
+            BodyIndex argBodyIndex = args.senderMaster.GetBody().bodyIndex;
+            int argInt = args.GetArgInt(0);
+            int argInt2 = args.GetArgInt(1);
+            UserProfile userProfile = args.GetSenderLocalUser().userProfile;
+            Loadout loadout = new Loadout();
+            userProfile.loadout.Copy(loadout);
+            loadout.bodyLoadoutManager.SetSkillVariant(argBodyIndex, argInt, (uint)argInt2);
+            userProfile.SetLoadout(loadout);
+            if (args.senderMaster)
+            {
+                args.senderMaster.SetLoadoutServer(loadout);
+            }
+            if (args.senderBody)
+            {
+                args.senderBody.SetLoadoutServer(loadout);
+            }
+        }
+
+
+        [ConCommand(commandName = "invis", flags = ConVarFlags.None, helpText = "Turn off your model for screenshots")]
+        [ConCommand(commandName = "model", flags = ConVarFlags.None, helpText = "Turn off your model for screenshots")]
+        public static void CC_TurnOffModel(ConCommandArgs args)
+        {
+            if (!args.senderMaster)
+            {
+                Debug.Log("No Master");
+                return;
+            }
+            if (!args.senderMaster.GetBody())
+            {
+                Debug.Log("No Body");
+                return;
+            }
+            GameObject mdl = args.senderMaster.GetBody().GetComponent<ModelLocator>().modelTransform.gameObject;
+            mdl.SetActive(!mdl.activeSelf);
+
+        }
+
+        [ConCommand(commandName = "hud", flags = ConVarFlags.None, helpText = "Enable/disable the HUD")]
+        [ConCommand(commandName = "ui", flags = ConVarFlags.None, helpText = "Enable/disable the HUD")]
+        public static void CC_ToggleHUD(ConCommandArgs args)
+        {
+            HUD.cvHudEnable.SetBool(!HUD.cvHudEnable.value);
+        }
 
         public static bool noInteractables;
         [ConCommand(commandName = "no_interactables", flags = ConVarFlags.ExecuteOnServer, helpText = "Prevent interactables from being spawned")]
@@ -53,7 +108,7 @@ namespace WolfoFixes
             TeamManager.instance.teamLevels[2] = godEnemyBool ? (uint)100001 : (uint)0;
             Debug.Log(godEnemyBool ? "Enemy level set to 100001" : "Enemy level set back to normal");
         }
-   
+
         [ConCommand(commandName = "scanner", flags = ConVarFlags.ExecuteOnServer, helpText = "Give Radar Scanner and Equipment Cooldown Reduction hidden item")]
         public static void CCScanner(ConCommandArgs args)
         {
@@ -85,7 +140,7 @@ namespace WolfoFixes
             args.senderMaster.GetBody().baseDamage = newDamage;
             args.senderMaster.GetBody().levelDamage = 0;
             args.senderMaster.GetBody().damage = newDamage;
-            
+
         }
 
 
@@ -101,6 +156,10 @@ namespace WolfoFixes
             else if (Stage.instance.sceneDef.cachedName == "meridian")
             {
                 newPosition = new Vector3(85.2065f, 146.5167f, -70.5265f);
+            }  
+            else if (Stage.instance.sceneDef.cachedName == "mysteryspace")
+            {
+                newPosition = new Vector3(362.9097f, - 151.5964f, 213.0157f);
             }
             else if (Stage.instance.sceneDef.cachedName == "voidraid")
             {
@@ -117,7 +176,7 @@ namespace WolfoFixes
                 {
                     newPosition = new Vector3(-105f, 0.2f, 92f);
                 }
-                
+
             }
             else if (TeleporterInteraction.instance)
             {
@@ -125,12 +184,22 @@ namespace WolfoFixes
             }
             else
             {
-                Debug.Log("No Teleporter or Boss location set");
+                for (int i = 0; i < CharacterBody.instancesList.Count; i++)
+                {
+                    if (CharacterBody.instancesList[i].isBoss)
+                    {
+                        newPosition = CharacterBody.instancesList[i].corePosition;
+                    }
+                }
+            }
+            if (newPosition == Vector3.zero)
+            {
+                Debug.Log("No Teleporter, Specific Location or Boss Monster found.");
                 return;
             }
             TeleportHelper.TeleportGameObject(senderBody.gameObject, newPosition);
         }
- 
+
         [ConCommand(commandName = "simu_softlock", flags = ConVarFlags.SenderMustBeServer, helpText = "Attempts to end current wave or otherwise spawn a portal")]
         public static void CCSimuSoftlock(ConCommandArgs args)
         {
@@ -201,7 +270,7 @@ namespace WolfoFixes
             }
             Debug.LogWarning("Report any errors");
         }
- 
+
 
     }
 

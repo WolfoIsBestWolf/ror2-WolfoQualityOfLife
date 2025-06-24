@@ -13,12 +13,32 @@ namespace WolfoQoL_Client
 
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Client.cfg", true);
 
+        //DeathScreen
+        //public static ConfigEntry<bool> cfgExpandedDeathScreen;
+        public static ConfigEntry<bool> CancelGeyserLock_Jump;
+        public static ConfigEntry<bool> CancelGeyserLock_Skill;
+        public static ConfigEntry<bool> ItemsTeleport;
+
+        public static ConfigEntry<bool> DC_CompactStats;
+        public static ConfigEntry<bool> DC_MoreStats;
+        public static ConfigEntry<Position> DC_Loadout;
+
+        public static ConfigEntry<bool> DC_StageRecap;
+        public static ConfigEntry<bool> DC_LatestWave;
+ 
+        public static ConfigEntry<bool> DC_KillerInventory;
+        public static ConfigEntry<bool> DC_KillerInventory_EvenIfJustElite;
+
+        public static ConfigEntry<bool> SimuStagesInLog;
+
+
+
         public static ConfigEntry<bool> cfgSkipItemDisplays;
         public static ConfigEntry<bool> cfgOldSotsEliteIcons;
         public static ConfigEntry<bool> cfgDarkTwisted;
         public static ConfigEntry<bool> cfgTwistedFire;
         public static ConfigEntry<bool> cfgMithrixPhase4SkipFix;
-        public static ConfigEntry<Position> cfgLoadoutOnDeathScreen;
+ 
         public static ConfigEntry<bool> cfgSmoothCaptain;
         public static ConfigEntry<bool> cfgFreezeTimer;
 
@@ -57,7 +77,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMessagesGeneral;
 
         public static ConfigEntry<bool> cfgHelminthLightingFix;
-        public static ConfigEntry<bool> cfgRootJungleLighting;
+        public static ConfigEntry<bool> cfgNerf_Shadwos;
 
         public static ConfigEntry<bool> cfgRemindersKeys;
         public static ConfigEntry<bool> cfgRemindersFreechest;
@@ -92,11 +112,6 @@ namespace WolfoQoL_Client
             White,
             Colored
         }
- 
-        //DeathScreen
-        public static ConfigEntry<bool> cfgExpandedDeathScreen;
-        public static ConfigEntry<bool> cfgDeathScreenStats;
-        public static ConfigEntry<bool> cfgDeathScreenAlwaysChatBox;
 
 
 
@@ -158,7 +173,6 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgFragmentColor;
         public static ConfigEntry<bool> cfgFragmentSheen;
 
-        public static ConfigEntry<bool> cfgKillerInvAlwaysDisplay;
 
         public static ConfigEntry<bool> cfgLunarSeerName;
 
@@ -191,7 +205,7 @@ namespace WolfoQoL_Client
         public static void Start()
         {
             Debug.Log("WQoL InitConfig");
-            
+
             InitConfig();
             TestConfig();
 
@@ -395,11 +409,11 @@ namespace WolfoQoL_Client
                true,
                "Change Helminths lighting to be considerably brighter and to what is seemingly intended.\n\nThis happens because the lighting is set to a too low priority and/or gets improperly loaded."
            );
-            cfgRootJungleLighting = ConfigFile_Client.Bind(
+            cfgNerf_Shadwos = ConfigFile_Client.Bind(
                "Visuals",
-               "Brighter Sundered Grove",
+               "Brighter Shadows",
                true,
-               "Slightly increase the visibility on sundered as it's probably the darkest stage."
+               "Lessens the darkness of shadows in Scorched Acres, Sundered Grove and Abyssal Depths, increasing general visibility."
            );
 
             cfgMountainStacks = ConfigFile_Client.Bind(
@@ -516,13 +530,19 @@ namespace WolfoQoL_Client
             );
             cfgLogbook_More = ConfigFile_Client.Bind(
                 "Menu",
-                "More log entries",
+                "Log | More Entries",
                 true,
                 "Add some missing mobs and equipment to the log.\n\nTwisted Scav, Geep, Gip, Malachite Urchin, Fuel Array, Consumed Seed of Life, Consumed Tricorn"
             );
+            SimuStagesInLog = ConfigFile_Client.Bind(
+                "Menu",
+                "Log | Simu Stages",
+                true,
+                "Add Simulacrum stages to log. Unlocked if beaten once."
+            );
             cfgLogbook_EliteEquip = ConfigFile_Client.Bind(
                 "Menu",
-                "Elite Aspect log entries",
+                "Log | Elite Aspects",
                 true,
                 "Add Elite Aspect Equipment to the logbook."
             );
@@ -534,38 +554,51 @@ namespace WolfoQoL_Client
             );
             cfgLogbook_SortBosses = ConfigFile_Client.Bind(
                 "Menu",
-                "Sort Bosses",
+                "Log | Sort Bosses",
                 true,
                 "Sort Bosses to the end of the Monster category"
             );
-
-            cfgExpandedDeathScreen = ConfigFile_Client.Bind(
+  
+            DC_Loadout = ConfigFile_Client.Bind(
                "Menu",
-               "Expanded Death Screen",
-               true,
-               "What Equipment you had will be shown.\nIf your killer had any items, they will be displayed.\nUseful for things such as Scavengers and Phase 4 Mithrix."
+               "Death Screen | Loadout",
+               Position.Top,
+               "Players skill loadouts will be shown, for sharing and inspecting."
            );
-            cfgLoadoutOnDeathScreen = ConfigFile_Client.Bind(
-               "Menu",
-               "Loadout Death Screen",
-               Position.Bottom,
-               "Players skill loadouts will be shown, for sharing screenshots primarily."
-           );
-            cfgDeathScreenAlwaysChatBox = ConfigFile_Client.Bind(
+        
+            DC_MoreStats = ConfigFile_Client.Bind(
                 "Menu",
-                "Death Screen Always show Chat",
+                "Death Screen | More Stats",
                 true,
-                "Useful for showing recent activity. Intended to primarily alongside Death/Win messages so you can see them on the game over screen."
-             );
-            cfgDeathScreenStats = ConfigFile_Client.Bind(
-                "Menu",
-                "Death Screen More Stats",
-                true,
-                "Show more stats like Healing recieved, and reorder them."
+                "Add various custom stats and make some more vanilla stats viewable."
             );
-            cfgKillerInvAlwaysDisplay = ConfigFile_Client.Bind(
+            DC_CompactStats = ConfigFile_Client.Bind(
                 "Menu",
-                "Killer show Elite Equip",
+                "Death Screen | Compact Stats",
+                true,
+                "Combine most stats into 2 per column and hide the score. Score per stat will be shown by hovering over it."
+            );
+            DC_KillerInventory = ConfigFile_Client.Bind(
+                "Menu",
+                "Death Screen | Killer Inventory",
+                true,
+                "Show the Killers Inventory, if he had any items.\nIf no killer was found, tries to display Items from Artifact of Evolution & Simulacrum"
+            );
+            DC_StageRecap = ConfigFile_Client.Bind(
+                "Menu",
+                "Death Screen | Stage Recap",
+                true,
+                "Show stages traversed during run.\nUseful for sharing if you went through various alt paths or did optional things like Void Fields\n\nInspired by Spelunky 2"
+            );
+            DC_LatestWave = ConfigFile_Client.Bind(
+                "Menu",
+                "Death Screen | Latest Wave",
+                true,
+                "Show latest Simu Wave"
+            );
+            DC_KillerInventory_EvenIfJustElite = ConfigFile_Client.Bind(
+                "Menu",
+                "Death Screen | Killer Elite Equip",
                 false,
                 "Show the killers inventory even if they only have a Elite Equipment and no items."
             );
@@ -648,6 +681,24 @@ namespace WolfoQoL_Client
                 true,
                 "Minor quality of life for gameplay. Most will not be in this mod.\n\nEnables Prismatic Trials\nAllows changing Primoridal Teleporter after TP event."
             );
+            CancelGeyserLock_Jump = ConfigFile_Client.Bind(
+                "Other",
+                "Regain Air Control from Jumping",
+                true,
+                "Using midair jump unlocks air movement if locked by Geyser. Such as Hopoo Feather"
+            );
+            CancelGeyserLock_Skill = ConfigFile_Client.Bind(
+                "Other",
+                "Regain Air Control from Skills",
+                true,
+                "Using utility skills unlocks air movement if locked by Geyser."
+            );
+            ItemsTeleport = ConfigFile_Client.Bind(
+                "Other",
+                "Fallen Items Teleport",
+                true,
+                "Items will teleport if they fall of the map."
+            );
             cfgSmoothCaptain = ConfigFile_Client.Bind(
                 "Skins",
                 "Colossus Captain Smooth",
@@ -666,13 +717,19 @@ namespace WolfoQoL_Client
                 true,
                 "Gives Twisted Elites a dark blue coloration instead of reusing Overloading."
             );
+            cfgFreezeTimer = ConfigFile_Client.Bind(
+                "Hud",
+                "Freeze Timer Buff",
+                true,
+                "Adds a freeze duration timer in the form of a buff. 1 Buff per 0.5s. Useful for timing attacks\n\nIf Extras mod installed use that mods config."
+            );            
             cfgOldSotsEliteIcons = ConfigFile_Client.Bind(
                 "Hud",
                 "SotS Elite Icon change",
                 false,
                 "Change the Elite Icons of SotS elites to be more in line with the other elites.  These sprites are in the files. it is unknown why they were replaced."
             );
-            cfgOldSotsEliteIcons.SettingChanged += OtherEnemies.UpdateSotsEliteIcon;
+            cfgOldSotsEliteIcons.SettingChanged += Skins.OtherEnemies.UpdateSotsEliteIcon;
             cfgPrimordialBlueText = ConfigFile_Client.Bind(
                 "Other",
                 "Primordial | Blue objective",
@@ -769,6 +826,7 @@ namespace WolfoQoL_Client
                 cfgSmoothCaptain,
                 cfgDarkTwisted,
                 cfgTwistedFire,
+                CancelGeyserLock_Skill,
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();
@@ -799,8 +857,20 @@ namespace WolfoQoL_Client
                 }
                 else if (entry.SettingType == typeof(Position))
                 {
-                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<Position>)entry, false));
-                }  
+                    if (entry == DC_Loadout)
+                    {
+                        ModSettingsManager.AddOption(new ChoiceOption(DC_Loadout, new ChoiceConfig
+                        {
+                            name = "Death Screen |\nLoadout",
+                            restartRequired = false,
+                        }));
+                    }
+                    else
+                    {
+                        ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<Position>)entry, false));
+                    }
+
+                }
                 else if (entry.SettingType == typeof(LookingGlassPresets.Preset))
                 {
                     ModSettingsManager.AddOption(new ChoiceOption(LookingGlassPresets.cfgLookingGlassPreset, new ChoiceConfig
@@ -823,7 +893,7 @@ namespace WolfoQoL_Client
                     {
                         ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<ColorOrNot>)entry, false));
                     }
-                   
+
                 }
                 else
                 {

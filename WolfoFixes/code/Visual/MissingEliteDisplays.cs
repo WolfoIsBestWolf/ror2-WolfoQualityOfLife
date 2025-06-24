@@ -31,7 +31,7 @@ namespace WolfoFixes
 
         public static void AddDisplay(string asset, EquipmentDef equipmentDef, DisplayRuleGroup dsr)
         {
-            ItemDisplayRuleSet idrs = Addressables.LoadAssetAsync<ItemDisplayRuleSet>(key: asset).WaitForCompletion();   
+            ItemDisplayRuleSet idrs = Addressables.LoadAssetAsync<ItemDisplayRuleSet>(key: asset).WaitForCompletion();
             //idrs.runtimeEquipmentRuleGroups[(int)equipmentDef.equipmentIndex].rules = dsr.rules;
             HG.ArrayUtils.ArrayAppend(ref idrs.keyAssetRuleGroups, new ItemDisplayRuleSet.KeyAssetRuleGroup
             {
@@ -220,7 +220,7 @@ namespace WolfoFixes
 
         public static void MissingElites()
         {
-             
+
             GameObject EliteFireHorn = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/EliteFire/DisplayEliteHorn.prefab").WaitForCompletion();
             GameObject EliteLightningHorn = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/EliteLightning/DisplayEliteRhinoHorn.prefab").WaitForCompletion();
             GameObject EliteIceCrown = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/EliteIce/DisplayEliteIceCrown.prefab").WaitForCompletion();
@@ -1142,7 +1142,7 @@ namespace WolfoFixes
 
             XI.GenerateRuntimeValuesAsync();
             #endregion
-          
+
         }
 
         public static void MithrixItemDisplay()

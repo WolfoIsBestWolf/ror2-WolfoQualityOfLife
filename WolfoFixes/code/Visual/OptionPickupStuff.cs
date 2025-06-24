@@ -11,7 +11,7 @@ namespace WolfoFixes
         public static void Start()
         {
             On.RoR2.PickupPickerController.SetOptionsInternal += OptionPickup_Fixes;
-          
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/OptionPickup/OptionPickerPanel.prefab").WaitForCompletion().GetComponent<RoR2.UI.PickupPickerPanel>().maxColumnCount = 3; //Hud does not support 5 columns
 
         }
@@ -19,11 +19,11 @@ namespace WolfoFixes
         private static void OptionPickup_Fixes(On.RoR2.PickupPickerController.orig_SetOptionsInternal orig, PickupPickerController self, PickupPickerController.Option[] newOptions)
         {
             orig(self, newOptions);
-           
+
             PickupIndexNetworker index = self.GetComponent<PickupIndexNetworker>();
             if (index != null)
             {
-              
+
                 //Void Command Essence lacks particles.
                 if (self.name.StartsWith("Command"))
                 {
@@ -63,10 +63,10 @@ namespace WolfoFixes
 
             }
 
-       
-               
-         
-           
+
+
+
+
 
         }
 

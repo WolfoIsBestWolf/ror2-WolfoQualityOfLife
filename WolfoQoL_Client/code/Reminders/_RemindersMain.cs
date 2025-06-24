@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Reminders
 {
-    public class Reminders
+    public class Reminders_Main
     {
         public static void Start()
         {
@@ -200,37 +200,35 @@ namespace WolfoQoL_Client
 
         }
 
-        public class SpawnListener : MonoBehaviour
-        {
-            public bool voidFreeChest = false;
-            public bool greenPrinter = false;
-            public bool newtAltar = false;
-            public void OnEnable()
-            {
-                if (greenPrinter)
-                {
-                    TreasureReminder.greenPrinterSpawned = true;
-                }
-                if (newtAltar)
-                {
-                    TreasureReminder.newtShrineSpawned++;
-                }
-            }
-            public void OnDisable()
-            {
-                if (newtAltar)
-                {
-                    if (TreasureReminder.newtShrineSpawned != 0)
-                    {
-                        TreasureReminder.newtShrineSpawned--;
-                    }
+    }
 
-                }
+    public class SpawnListener : MonoBehaviour
+    {
+        public bool voidFreeChest = false;
+        public bool greenPrinter = false;
+        public bool newtAltar = false;
+        public void OnEnable()
+        {
+            if (greenPrinter)
+            {
+                TreasureReminder.greenPrinterSpawned = true;
+            }
+            if (newtAltar)
+            {
+                TreasureReminder.newtShrineSpawned++;
             }
         }
+        public void OnDisable()
+        {
+            if (newtAltar)
+            {
+                if (TreasureReminder.newtShrineSpawned != 0)
+                {
+                    TreasureReminder.newtShrineSpawned--;
+                }
 
-
-
+            }
+        }
     }
 
     public class TreasureReminder : MonoBehaviour
@@ -462,7 +460,7 @@ namespace WolfoQoL_Client
             }
             if (keys == 0)
             {
-                Reminders.FailObjective(instance.Objective_Lockbox);
+                Reminders_Main.FailObjective(instance.Objective_Lockbox);
             }
             else if (instance.lockboxCount > keys)
             {
@@ -491,7 +489,7 @@ namespace WolfoQoL_Client
             }
             if (lockboxCount == 0)
             {
-                Reminders.CompleteObjective(Objective_Lockbox);
+                Reminders_Main.CompleteObjective(Objective_Lockbox);
             }
 
         }
@@ -512,7 +510,7 @@ namespace WolfoQoL_Client
             }
             if (lockboxVoidCount == 0)
             {
-                Reminders.CompleteObjective(Objective_LockboxVoid);
+                Reminders_Main.CompleteObjective(Objective_LockboxVoid);
             }
 
         }
@@ -533,7 +531,7 @@ namespace WolfoQoL_Client
             }
             if (freeChestCount == 0)
             {
-                Reminders.CompleteObjective(Objective_FreeChest);
+                Reminders_Main.CompleteObjective(Objective_FreeChest);
             }
         }
 
@@ -555,7 +553,7 @@ namespace WolfoQoL_Client
                 {
                     if (player.networkUser.isLocalPlayer)
                     {
-                        Reminders.FailObjective(Objective_SaleStar);
+                        Reminders_Main.FailObjective(Objective_SaleStar);
                     }
                 }
             }
@@ -565,7 +563,7 @@ namespace WolfoQoL_Client
         {
             if (Objective_FreeChestVVVoid != null)
             {
-                Reminders.CompleteObjective(this.Objective_FreeChestVVVoid);
+                Reminders_Main.CompleteObjective(this.Objective_FreeChestVVVoid);
             }
         }
 

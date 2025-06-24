@@ -1,18 +1,12 @@
-﻿using MonoMod.Cil;
-using RoR2;
+﻿using RoR2;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 
 namespace WolfoFixes
 {
- 
+
     public static class ModUtil
     {
-        public static BasicPickupDropTable dtAllTier;
-      
+       
         public static List<EquipmentIndex> GetEliteEquipment(bool droppableOnly = true)
         {
             List<EquipmentIndex> eliteEquips = new List<EquipmentIndex>();
@@ -25,7 +19,7 @@ namespace WolfoFixes
                     if (droppableOnly && def.dropOnDeathChance > 0 || !droppableOnly)
                     {
                         eliteEquips.Add(def.equipmentIndex);
-                    }                  
+                    }
                 }
             }
             if (!droppableOnly)
@@ -44,7 +38,7 @@ namespace WolfoFixes
           
             return eliteDefs;
         }*/
- 
+
     }
 
 }

@@ -2,6 +2,41 @@
 	"strings":
 	{
 	
+			"STAT_MOSTKILLED": "Most Killed Monster: <color=#FFFF7F>{0}</color>",
+			"STAT_MOSTHURTBY": "Most Hurt By: <color=#FFFF7F>{0}</color>",
+			"STAT_STACKEDITEM": "Most Stacked Item: <color=#FFFF7F>{0}</color>",
+			
+
+			"STAT_MOSTKILLED_AMOUNT": "<color=#FFFF7F>Killed {0}</color>",
+			"STAT_MOSTHURTBY_AMOUNT": "<color=#FFFF7F>{0} Damage Taken</color>",
+			"STAT_STACKEDITEM_AMOUNT": "<color=#FFFF7F>{0}x</color>",
+			 
+			"STAT_EXTRAHEADER": "Additional Information",
+			 
+			"STAT_MISSED_ITEMS": "Chests Left Behind: <color=#FFFF7F>{0}</color>",
+			"STAT_MISSED_DRONE": "Drones Left Behind: <color=#FFFF7F>{0}</color>",
+			
+			"STAT_MISSED_SHRINECHANCE": "Missed Shrine of Chance Drops: <color=#FFFF7F>{0}</color>",
+			"STAT_MISSED_ITEMS": "Items Left Behind: <color=#FFFF7F>{0}</color>",
+			"STAT_MISSED_EQUIPMENT": "Equipment Left Behind: <color=#FFFF7F>{0}</color>",
+			
+			
+			"STAT_SPENT_LUNARCOIN": "Lunar Coins Spent: <color=#FFFF7F>{0}</color>",
+			"STAT_SPENT_VOIDCOIN": "Void Markers Spent: <color=#FFFF7F>{0}</color>",
+			"STAT_SPENT_BLOOD": "Blood Spent: <color=#FFFF7F>{0}</color>",
+			
+			
+			"STAT_DAMAGETAKENBYMINIONS": "Minions Damage Taken: <color=#FFFF7F>{0}</color>",
+			"STAT_TIMESJUMPED": "Times Jumped: <color=#FFFF7F>{0}</color>",
+			
+			"STAT_BUFFS_RECIEVED": "Buffs Recieved: <color=#FFFF7F>{0}</color>",
+			
+			"STAT_SCRAPPED_ITEMS": "Items Scrapped: <color=#FFFF7F>{0}</color>",
+			"STAT_SCRAPPED_DRONES": "Drones Scrapped: <color=#FFFF7F>{0}</color>",
+			"RUN_RECAP": "Run Recap",
+			"LATEST_WAVE": "Last Wave:",
+	
+	
 			"VultureEggBody":"Vulture Eggs",
 			"VagrantTrackingBomb":"Vagrant Charge",
 			"ScavSackProjectile":"Thqwib",
@@ -77,21 +112,21 @@
 
 
 		    "REMINDER_PORTAL_LUNAR": "Proceed through the <style=cIsLunar>Blue Portal</style>",    
-			"REMINDER_PORTAL_GOLD": "Proceed through the <color=#FFE880>Gold Portal</color>",
-            "REMINDER_PORTAL_MS": "Proceed through the <color=#7CFEF3>Celestial Portal</color>",
+			"REMINDER_PORTAL_GOLD": "Proceed through the <style=cGold>Gold Portal</color>",
+            "REMINDER_PORTAL_MS": "Proceed through the <style=cMysterySpace>Celestial Portal</color>",
 			"REMINDER_PORTAL_ARTIFACT": "Proceed through the <style=cDeath>Artifact Portal</style>",
                 
 			"REMINDER_PORTAL_NULL": "Proceed through the <style=cIsVoid>Null Portal</style>",
             "REMINDER_PORTAL_VOID": "Proceed through the <style=cIsVoid>Void Portal</style>",
-            "REMINDER_PORTAL_GREEN": "Proceed through the <color=#7CFE7C>Green Portal</color>",
+            "REMINDER_PORTAL_GREEN": "Proceed through the <style=cRebirth>Green Portal</color>",
 				 
 			
-		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <color=#FFE880>Halcyon Shrine</color> ({0}%)",
-            "OBJECTIVE_CHARGE_HALCSHRINE_NOPERCENT": "Charge the <color=#FFE880>Halcyon Shrine</color>",
-            "OBJECTIVE_KILL_HALCSHRINE": "Defeat the <color=#FFE880>Guardian</color>",
+		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <style=cGold>alcyon Shrine</color> ({0}%)",
+            "OBJECTIVE_CHARGE_HALCSHRINE_NOPERCENT": "Charge the <style=cGold>Halcyon Shrine</color>",
+            "OBJECTIVE_KILL_HALCSHRINE": "Defeat the <style=cGold>Guardian</color>",
 			
 			"OBJECTIVE_ARTIFACT_TRIAL": "Complete the \n<style=cArtifact>Trial of {0}</style>",
-			"OBJECTIVE_GLASS_YOURSELF": "<color=#7CFEF3>Obliterate</color> yourself from existence",
+			"OBJECTIVE_GLASS_YOURSELF": "<style=cMysterySpace>Obliterate</color> yourself from existence",
 			"OBJECTIVE_DESERT_ELDERS": "Explore the hidden chamber",
 		
 		
@@ -112,7 +147,7 @@
 			
             "REMINDER_FREECHESTVOID": "Find and activate the <style=cIsVoid>Lost Battery</style>",
 			
-			"REMINDER_SECRET_GEODE": "Crack the <color=#FFE880>Aurelionite Geodes</color> ({0}/{1})",
+			"REMINDER_SECRET_GEODE": "Crack the <style=cGold>Aurelionite Geodes</color> ({0}/{1})",
            
 
 			"ITEM_TREASURECACHECONSUMED_NAME": "Rusted Key (Consumed)",
@@ -194,16 +229,12 @@
             "DEATH_GENERIC": "{0} was killed by {1}.",
 
             "DEATH_DAMAGE": " ({0} damage taken)</style>",
-		
-			"cStyleGold": "",
-			"cStyleSots": "",
-			"cStyleMS":"#7CFEF3",
-			
+ 
 			"WIN_FORMAT_WIN":"<style=cIsHealing><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			"WIN_FORMAT_FAIL":"<style=cDeath><sprite name=\"Skull\" tint=1> {0} <sprite name=\"Skull\" tint=1></style>",
 			"WIN_FORMAT_MS":"<style=cLunarObjective><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			"WIN_FORMAT_VOID":"<style=cIsVoid><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
-			"WIN_FORMAT_REBIRTH":"<color=#7CFE7C><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+			"WIN_FORMAT_REBIRTH":"<style=cRebirth><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
 			
 	 
 	}

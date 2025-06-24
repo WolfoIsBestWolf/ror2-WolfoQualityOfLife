@@ -14,7 +14,7 @@ namespace WolfoQoL_Server
         public static BuffDef bdBugWings;
         public static BuffDef bdStrides;
         public static BuffDef bdRoseBuckle;
- 
+
         public static BuffDef bdHeadstompOn;
         public static BuffDef bdHeadstompOff;
         public static BuffDef bdFeather;
@@ -167,7 +167,6 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Frozen
-
  
             ContentAddition.AddBuffDef(BuffIcons.bdFrozen);
 

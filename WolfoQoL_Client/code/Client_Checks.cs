@@ -5,6 +5,8 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using WolfoQoL_Client.Reminders;
+using WolfoQoL_Client.Text;
 
 namespace WolfoQoL_Client
 {
@@ -216,10 +218,8 @@ namespace WolfoQoL_Client
 
             }
         }
-
-
-
     }
+
     public class KillerInfo_ClientListener : MonoBehaviour
     {
         public GameObject playerBodyObject;
@@ -251,9 +251,7 @@ namespace WolfoQoL_Client
                 deathEvent = new UnityAction(this.OnBodyDeath);
                 playerMaster.onBodyDeath.AddListener(deathEvent);
             }
-
-
-
+ 
         }
         public void OnDisable()
         {

@@ -1,12 +1,7 @@
 ﻿using RoR2;
-using RoR2.UI;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using EntityStates;
-using System;
-using R2API;
-using UnityEngine.Networking;
-using RoR2.Stats;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 
 namespace WolfoQoL_Client
 {
@@ -15,10 +10,11 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-            On.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_OverrideRuleChoices;
-            On.RoR2.EclipseRun.GetEclipseDifficultyIndex += EclipseRun_GetEclipseDifficultyIndex;
-             
             DifficultyColors();
+
+            //On.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_OverrideRuleChoices;
+            //On.RoR2.EclipseRun.GetEclipseDifficultyIndex += EclipseRun_GetEclipseDifficultyIndex;
+
         }
 
 
@@ -33,11 +29,11 @@ namespace WolfoQoL_Client
             Debug.Log("EclipseRuleoverride");
             orig(self, mustInclude, mustExclude, runSeed);
 
- 
- 
+
+
             for (int i = 1; i > 17; i++)
             {
-               // base.ForceChoice(mustInclude, mustExclude, string.Format("Difficulty.{0}", EclipseRun.GetEclipseDifficultyIndex(num).ToString()));
+                // base.ForceChoice(mustInclude, mustExclude, string.Format("Difficulty.{0}", EclipseRun.GetEclipseDifficultyIndex(num).ToString()));
                 RuleChoiceDef eclipse = RuleCatalog.FindChoiceDef(string.Format("Difficulty.Eclipse{0}", i));
                 if (mustInclude[eclipse.globalIndex] == true)
                 {
@@ -87,5 +83,5 @@ namespace WolfoQoL_Client
         }
 
     }
-    
+
 }

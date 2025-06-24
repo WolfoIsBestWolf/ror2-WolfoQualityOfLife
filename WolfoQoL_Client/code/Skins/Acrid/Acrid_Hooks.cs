@@ -6,7 +6,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class Acrid_Hooks
     {

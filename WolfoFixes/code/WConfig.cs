@@ -1,7 +1,7 @@
 using BepInEx;
 using BepInEx.Configuration;
-using RiskOfOptions.Options;
 using RiskOfOptions;
+using RiskOfOptions.Options;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -23,14 +23,14 @@ namespace WolfoFixes
         public static ConfigEntry<bool> cfgTextItems;
         public static ConfigEntry<bool> cfgTextCharacters;
         public static ConfigEntry<bool> cfgMithrix4Skip;
-        
+
         public static ConfigEntry<bool> cfgItemTags;
         public static ConfigEntry<bool> cfgDevotionSpareDroneParts;
         public static ConfigEntry<bool> cfgXILaser;
         public static ConfigEntry<bool> cfgDisable;
         public static ConfigEntry<bool> cfgSlayerScale;
         public static ConfigEntry<bool> cfgFalseSonP2;
-         public static ConfigEntry<bool> cfgFunnyIceSpear;
+        public static ConfigEntry<bool> cfgFunnyIceSpear;
 
         public static ConfigEntry<bool> cfgTestMultiplayer;
         public static ConfigEntry<bool> cfgTestLogbook;
@@ -46,7 +46,7 @@ namespace WolfoFixes
 
         public static void InitConfig()
         {
-            
+
             cfgMithrix4Skip = ConfigFile_Client.Bind(
                "Gameplay",
                "Fix Mithrix P4 Skip",
@@ -60,19 +60,19 @@ namespace WolfoFixes
                true,
                "This bug happens because Ice Spears physics layer was set incorrectly at some point."
            );
-           //Is he tho?
-           /*cfgFalseSonP2 = ConfigFile_Client.Bind(
-               "Gameplay",
-               "Fix False Son P2 Shotgun",
-               true,
-               "False Son Phase 2 is intended to use the spike shotgun, but can't due to a bugged skill driver."
-           );*/
-           cfgXILaser = ConfigFile_Client.Bind(
-               "Gameplay",
-               "Fix XI Laser",
-               true,
-               "This bug happens because the laser state just ends instead of checking what it should do next. \n\nProbably low on the priority which is why it has not been fixed."
-           );
+            //Is he tho?
+            /*cfgFalseSonP2 = ConfigFile_Client.Bind(
+                "Gameplay",
+                "Fix False Son P2 Shotgun",
+                true,
+                "False Son Phase 2 is intended to use the spike shotgun, but can't due to a bugged skill driver."
+            );*/
+            cfgXILaser = ConfigFile_Client.Bind(
+                "Gameplay",
+                "Fix XI Laser",
+                true,
+                "This bug happens because the laser state just ends instead of checking what it should do next. \n\nProbably low on the priority which is why it has not been fixed."
+            );
             cfgItemTags = ConfigFile_Client.Bind(
                 "Gameplay",
                 "Item Tag Changes",
@@ -126,12 +126,12 @@ namespace WolfoFixes
                 false,
                 "Allows you to join yourself via connect localhost:7777"
             );
-           cfgLoadOrder = ConfigFile_Client.Bind(
-                "Testing",
-                "Debugging",
-                false,
-                "Log prints when certain events happen"
-            );
+            cfgLoadOrder = ConfigFile_Client.Bind(
+                 "Testing",
+                 "Debugging",
+                 false,
+                 "Log prints when certain events happen"
+             );
             #endregion
         }
 
@@ -139,7 +139,7 @@ namespace WolfoFixes
 
         public static void RiskConfig()
         {
-           ModSettingsManager.SetModIcon(Addressables.LoadAssetAsync<Sprite>(key: "8d5cb4f0268083645999f52a10c6904b").WaitForCompletion());
+            ModSettingsManager.SetModIcon(Addressables.LoadAssetAsync<Sprite>(key: "8d5cb4f0268083645999f52a10c6904b").WaitForCompletion());
             ModSettingsManager.SetModDescription("Random assortment of fixes for bugs that bothered me.");
 
             List<ConfigEntry<bool>> noResetB = new List<ConfigEntry<bool>>()

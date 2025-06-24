@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class Skins_Engi
     {
@@ -59,7 +59,7 @@ namespace WolfoQoL_Client
 
             SkinDefParams skinEngiAlt = Addressables.LoadAssetAsync<SkinDefParams>(key: "RoR2/Base/Engi/skinEngiAlt_params.asset").WaitForCompletion();
             SkinDefParams skinEngiAltColossus = Addressables.LoadAssetAsync<SkinDefParams>(key: "RoR2/Base/Engi/skinEngiAltColossus_params.asset").WaitForCompletion();
- 
+
             GameObject EngiHarpoonProjectile = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoon.prefab").WaitForCompletion();
             GameObject EngiHarpoonGhostSkin_Alt = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Alt", false);
             GameObject EngiHarpoonGhostSkin_Sots = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Sots", false);
@@ -124,7 +124,7 @@ namespace WolfoQoL_Client
             Texture2D TexEngiTurretAlt = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png");
             Texture2D texEngiTurretAltColossusDiffuse = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texEngiTurretAltColossusDiffuse.png");
             Material matEngiAltColossus = Addressables.LoadAssetAsync<Material>(key: "5e174f0491412c341a6615fe95839efe").WaitForCompletion();
-            
+
             matEngiTurretAlt = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "a9b91ae3f60a5d14a97ec97e5991dc57").WaitForCompletion());
             matEngiTurretAlt.mainTexture = TexEngiTurretAlt;
             matEngiTurretAlt.SetColor("_EmColor", new Color32(28, 194, 182, 255));

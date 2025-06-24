@@ -1,11 +1,7 @@
-using MonoMod.Cil;
 using RoR2;
-using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 
 namespace WolfoQoL_Client
 {
@@ -16,9 +12,9 @@ namespace WolfoQoL_Client
         {
             //The Oil is kinda lacking in the vfx department
             GameObject ChefImpactOilGhost = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Chef/ChefImpactOilGhost.prefab").WaitForCompletion();
-            
-            
-            
+
+
+
             On.OilGhostController.DoGhostVisual += OilGhostController_DoGhostVisual;
 
             ChefImpactOilGhost.transform.GetChild(0).GetChild(1).gameObject.AddComponent<PlaySoundOnEvent>().soundEvent = "Play_scorchling_slagBomb_explo";
@@ -28,7 +24,7 @@ namespace WolfoQoL_Client
 
         private static void OilGhostController_DoGhostVisual(On.OilGhostController.orig_DoGhostVisual orig, OilGhostController self, bool ignited, bool boosted, bool frozen)
         {
-        
+
             orig(self, ignited, boosted, frozen);
             if (ignited)
             {
@@ -46,7 +42,7 @@ namespace WolfoQoL_Client
                 EffectManager.SpawnEffect(Addressables.LoadAssetAsync<GameObject>(key: "d7fd97a7825c2644e83cea446b03e54b").WaitForCompletion(), new EffectData
                 {
                     origin = self.transform.position,
-                    scale = 4f,
+                    scale = 7.5f,
                 }, false);
             }
         }

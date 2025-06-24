@@ -7,22 +7,17 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.DeathScreen
 {
-    public class Death_Loadout
+    public class LoadoutStat
     {
 
 
-        public static void Add_Loadout(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, global::RoR2.UI.GameEndReportPanelController self, global::RoR2.RunReport.PlayerInfo playerInfo, int playerIndex)
+        public static void Add_Loadout(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
         {
-            orig(self, playerInfo, playerIndex);
 
 
-            if (WConfig.cfgLoadoutOnDeathScreen.Value == WConfig.Position.Off)
-            {
-                return;
-            }
-            if (!Run.instance)
+            if (WConfig.DC_Loadout.Value == WConfig.Position.Off)
             {
                 return;
             }
@@ -41,7 +36,7 @@ namespace WolfoQoL_Client
                 Debug.LogWarning("Loadout Inventory : Null BodyLoadoutManager");
                 return;
             }
-            Debug.Log("Add Loutout to run death screen");
+            Debug.Log("Add Loadout to run death screen");
             Loadout.BodyLoadoutManager.BodyLoadout loadout = playerInfo.master.loadout.bodyLoadoutManager.GetOrCreateModifiedBodyLoadout(playerInfo.bodyIndex);
 
             GameEndLoadoutAsStat storage = self.gameObject.GetComponent<GameEndLoadoutAsStat>();
@@ -81,14 +76,15 @@ namespace WolfoQoL_Client
             }
             if (rootObject == null)
             {
-                GameObject difficulty = panel.selectedDifficultyLabel.gameObject.transform.parent.gameObject;
+                //GameObject difficulty = panel.selectedDifficultyLabel.gameObject.transform.parent.gameObject;
+                GameObject difficulty = DeathScreenExpanded.difficulty_stat;
                 rootObject = Instantiate(difficulty);
                 rootObject.name = "LoadoutRootStrip";
-                rootObject.transform.SetParent(difficulty.transform.parent, false);
+                rootObject.transform.SetParent(panel.statContentArea, false);
 
                 MPEventSystemLocator whatever1 = difficulty.GetComponent<RoR2.UI.MPEventSystemLocator>();
                 MPEventSystemLocator whatever2 = rootObject.GetComponent<RoR2.UI.MPEventSystemLocator>();
-                whatever2.eventSystemProvider = whatever2.eventSystemProvider;
+                whatever2.eventSystemProvider = whatever1.eventSystemProvider;
                 whatever2.eventSystem = whatever1.eventSystem;
 
                 LanguageTextMeshController lang = rootObject.transform.GetChild(0).GetComponent<RoR2.UI.LanguageTextMeshController>();
@@ -114,10 +110,10 @@ namespace WolfoQoL_Client
 
                 background = backgroundObject.AddComponent<RectTransform>();
                 Image image = backgroundObject.AddComponent<Image>();
-                image.sprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/Base/UI/texUIHighlightBoxOutline.png").WaitForCompletion(); ;
+                image.sprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/Base/UI/texUIHighlightBoxOutline.png").WaitForCompletion();
                 image.type = Image.Type.Sliced;
-
-                if (WConfig.cfgLoadoutOnDeathScreen.Value == WConfig.Position.Top)
+                image.color = new Color(1f, 1f, 1f, 0.7f);
+                if (WConfig.DC_Loadout.Value == WConfig.Position.Top)
                 {
                     rootObject.transform.SetSiblingIndex(1);
                 }

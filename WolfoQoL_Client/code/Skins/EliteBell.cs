@@ -5,7 +5,7 @@ using RoR2;
 using System;
 using UnityEngine;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class EliteBell
     {

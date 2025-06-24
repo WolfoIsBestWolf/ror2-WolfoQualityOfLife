@@ -1,32 +1,29 @@
-﻿using RoR2;
+﻿using EntityStates;
+using RoR2;
 using RoR2.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using EntityStates;
-using System;
-using R2API;
-using UnityEngine.Networking;
 
 namespace WolfoQoL_Client
 {
-  
+
     public class BuffIcons
     {
 
         public static void BuffColorChanger()
         {
- 
             LegacyResourcesAPI.Load<BuffDef>("buffdefs/AffixHauntedRecipient").buffColor = new Color32(148, 215, 214, 255); //94D7D6 Celestine Elite
             LegacyResourcesAPI.Load<BuffDef>("buffdefs/SmallArmorBoost").buffColor = new Color(0.6784f, 0.6118f, 0.4118f, 1f);
             LegacyResourcesAPI.Load<BuffDef>("buffdefs/WhipBoost").buffColor = new Color32(245, 158, 73, 255); //E8813D
         }
+
         public static void Awake()
         {
             if (WConfig.cfgBuff_RepeatColors.Value == true)
             {
                 BuffColorChanger();
             }
- 
+
             BuffDef RainCoat = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC1/ImmuneToDebuff/bdImmuneToDebuffReady.asset").WaitForCompletion();
             if (RainCoat.iconSprite.name.StartsWith("texBuffImmune"))
             {
@@ -51,26 +48,27 @@ namespace WolfoQoL_Client
             bdFrozen.ignoreGrowthNectar = true;
 
         }
+
+
         public static void Start()
         {
-           
-            if (!WolfoMain.ServerModInstalled)
+            bool riskyModEnabled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.RiskyLives.RiskyMod");
+            if (!WolfoMain.ServerModInstalled && WConfig.cfgFreezeTimer.Value && !riskyModEnabled)
             {
+                On.RoR2.UI.BuffDisplay.AllocateIcons += BuffDisplay_AllocateIcons;
 
-                
+                On.EntityStates.FrozenState.OnEnter += (orig, self) =>
+                {
+                    orig(self);
+                    self.gameObject.AddComponent<FrozenTracker>().state = self;
+                };
+                On.EntityStates.FrozenState.OnExit += (orig, self) =>
+                {
+                    orig(self);
+                    GameObject.DestroyImmediate(self.GetComponent<FrozenTracker>());
+                };
             }
-            On.RoR2.UI.BuffDisplay.AllocateIcons += BuffDisplay_AllocateIcons;
-
-            On.EntityStates.FrozenState.OnEnter += (orig, self) =>
-            {
-                orig(self);
-                self.gameObject.AddComponent<FrozenTracker>().state = self;
-            };
-            On.EntityStates.FrozenState.OnExit += (orig, self) =>
-            {
-                orig(self);
-                GameObject.DestroyImmediate(self.GetComponent<FrozenTracker>());
-            };
+           
         }
 
         public static BuffDef bdFrozen;

@@ -3,7 +3,7 @@ using MonoMod.Cil;
 using RoR2;
 using UnityEngine;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Reminders
 {
     public class Objective_Halcyonite
     {
@@ -72,7 +72,7 @@ namespace WolfoQoL_Client
         private static void Update_Objective(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            c.GotoNext(MoveType.After,
+            c.TryGotoNext(MoveType.After,
             x => x.MatchCall("UnityEngine.Networking.NetworkServer", "get_active"));
 
             if (c.TryGotoPrev(MoveType.After,
@@ -175,7 +175,7 @@ namespace WolfoQoL_Client
         }
         public void AddKill()
         {
-            Reminders.CompleteObjective(this);
+            Reminders_Main.CompleteObjective(this);
             killObjective = gameObject.AddComponent<GenericObjectiveProvider>();
             killObjective.objectiveToken = Language.GetString("OBJECTIVE_KILL_HALCSHRINE");
             this.enabled = false;

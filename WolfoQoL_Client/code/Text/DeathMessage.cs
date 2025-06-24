@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
-using static WolfoQoL_Client.KillerInventory;
+using WolfoQoL_Client.DeathScreen;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
 
     public class DeathMessage
@@ -26,12 +26,16 @@ namespace WolfoQoL_Client
 
         public static void DetailedDeathMessages(DamageReport damageReport)
         {
- 
+
             DeathAndKillerInventoryMessage(damageReport.damageInfo.damage, damageReport.victimBody, damageReport.attackerBody, damageReport.attackerMaster, damageReport.damageInfo.damageType, damageReport.damageInfo.damageColorIndex, damageReport.damageInfo.delayedDamageSecondHalf, true);
         }
 
         public static void DeathAndKillerInventoryMessage(float damage, CharacterBody victimBody, CharacterBody attackerBody, CharacterMaster attackerMaster, DamageTypeCombo damageType, DamageColorIndex dmgColor, bool echo, bool sendOverNetwork)
         {
+            if (victimBody == null || victimBody.master == null)
+            {
+                return;
+            }
             string VictimName = Util.GetBestBodyName(victimBody.gameObject);
             string KillerName = "UNIDENTIFIED_KILLER_NAME";
             if (attackerBody != null)
@@ -111,6 +115,7 @@ namespace WolfoQoL_Client
                 subjectAsCharacterBody = victimBody,
                 baseToken = token,
                 victimName = VictimName,
+                victimMaster = victimBody.master.gameObject,
                 killerBackupName = KillerName,
                 damageDone = damageVal,
                 attackerObject = attackerBody ? attackerBody.gameObject : null,
@@ -164,14 +169,15 @@ namespace WolfoQoL_Client
                     KillerName = Language.GetString(killerBackupName);
                 }
 
-                string result = "<style=cDeath>";
+                string result = string.Empty;
                 if (base.IsSecondPerson())
                 {
                     baseToken += "_2P";
                 }
                 result += string.Format(Language.GetString(baseToken), victimName, KillerName);
                 result += string.Format(Language.GetString("DEATH_DAMAGE"), damageDone);
-
+                victimMaster.GetComponent<PerPlayer_ExtraStatTracker>().latestDetailedDeathMessage = result;
+                result = "<style=cDeath>" + result;
                 return result;
             }
 
@@ -180,6 +186,7 @@ namespace WolfoQoL_Client
             public string damageDone;
             public bool doesNotShowEnemy;
             public GameObject attackerObject;
+            public GameObject victimMaster;
 
             public override void Serialize(NetworkWriter writer)
             {
@@ -188,6 +195,7 @@ namespace WolfoQoL_Client
                 writer.Write(killerBackupName);
                 writer.Write(damageDone);
                 writer.Write(attackerObject);
+                writer.Write(victimMaster);
                 //Debug.LogWarning("Serialize " + writer);
             }
 
@@ -202,6 +210,7 @@ namespace WolfoQoL_Client
                 killerBackupName = reader.ReadString();
                 damageDone = reader.ReadString();
                 attackerObject = reader.ReadGameObject();
+                victimMaster = reader.ReadGameObject();
                 //Debug.LogWarning("Deserialize " + reader);
             }
         }

@@ -1,11 +1,10 @@
 using BepInEx;
 using BepInEx.Configuration;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace WolfoQoL_Client
 {
-   
+
     public class LookingGlassPresets
     {
         public enum Preset
@@ -38,7 +37,7 @@ namespace WolfoQoL_Client
                 var entries = config.GetConfigEntries();
                 foreach (ConfigEntryBase entry in entries)
                 {
-                    
+
                     Debug.LogFormat("\n{0}\n{1}\n{2}\n{3}\n{4}\n{5}", new object[]
                     {
                         entry,
@@ -49,7 +48,7 @@ namespace WolfoQoL_Client
                         entry.Definition.Key,
                         entry.Description,
                     });
-            
+
                 }
             }
         }
@@ -174,7 +173,7 @@ namespace WolfoQoL_Client
                                 break;
                             case "Hide Count If Zero":
                                 entry.BoxedValue = true;
-                                break;                            
+                                break;
                             case "Tier Order":
                                 entry.BoxedValue = "Tier1 VoidTier1 Tier2 VoidTier2 Tier3 VoidTier3 Boss VoidBoss Lunar NoTier";
                                 break;
@@ -206,11 +205,11 @@ namespace WolfoQoL_Client
 
                         }
                     }
-    
+
                 }
             }
 
-            cfgLookingGlassPreset.Value = Preset.Set; 
+            cfgLookingGlassPreset.Value = Preset.Set;
         }
     }
 

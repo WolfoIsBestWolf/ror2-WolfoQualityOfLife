@@ -1,13 +1,66 @@
 #Changelog
 ```
-v4.1.4
-Made Sundered Grove slightly less dark.
-(TODO)Made Glowing Meteor effect less dark.
-Added Freeze duration buff here but like unregistered.
+v4.2.0
+Death Screen Update
+-Most stats now 2 per row.
+-New Stats
+--How many Items scrapped
+--How many Chests left behind
+--How many Drones left behind
+--How much damage Minions took. (How effective are the meat shields stat)
+--How many Lunar Coins used 	(How much are you cheating)
+--How many times you Jumped.
+--What enemy you killed most
+--What enemy hurt you most
+-Unlockable section changed to general Run Recap
+--Show Stages you went through
+---Show off you beat all 3 final bosses
+---Or went to Bazaar/Gilded 3 times
+--Show Last Simu Wave
+-Moved Loadout Stat higher
+-Button to open/close Chat area.
+--Chat closed by default again for Solo
+-Put detailed death message & Victory quotes top right
+-Increased size a bit because needed space
+ 
+Added Simu Stages to Log.
+-Needed a icon for the stage recap.
+-`Unlocked` by beating them once no need to find
+ 
+Chef Oil will now do a small effect when changing states.
+Igniting Oil will now play sound effect like freezing.
+
+Scanner icons now get removed upon purchase
+Equipments now use wrench icon. 
+
+MidAir Jumps now unlock movement if locked by Geyser.
+-Some guy fucking died to Hopoo Feather on Eclipse due to a Geyser.
+More skills now unlock movement if locked by Geyser.
+-Commando Util
+-Ion Surge
+-Merc Util
+-Eviscerate
+-Loader Util
+-Void Fiend Util
+-Step Brothers
+-Oil Spill
+-Srides of Heresy
+
+Made Sundered Grove, Abyssal Depths, Scorched Acres shadows slightly less dark by default.
+Glowing Meteor effect slightly less dark.
+ReAdded Twisteds Fire visual effect
+ReAdded Freeze duration buff but client side.
+Multi shops show up as before on Scanner. (Technical issues)
+Artificer will always shown in Bazaar as decor, just be unpurchasable if already unlocked.
+Broken TC280s will not be snowed on non snowy stages.
+Twisteds spawning does a little static False Son sound.
+Changed buff icon of +1 to unused more fitting icon.
+
 Fixed Ally Ping not outlining most turrets.
-Change buff icon of +1 to unused more fitting icon.
+Fixed effect replacers not having saftey check.
 
-
+ 
+ 
 
 v4.1.3
 MultiShop ping icon is now 3 chests stacked to differentiate them.

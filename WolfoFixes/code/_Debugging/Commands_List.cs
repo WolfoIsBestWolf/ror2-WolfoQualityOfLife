@@ -1,16 +1,58 @@
 using Newtonsoft.Json.Utilities;
 using RoR2;
+using RoR2.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using RoR2.Stats;
 
-namespace WolfoFixes
+namespace WolfoFixes.Testing
 {
     class Commands_Lists
     {
+        [ConCommand(commandName = "list_mystats", flags = ConVarFlags.None, helpText = "List all StatDefs")]
+        public static void CCList_CurrentStats(ConCommandArgs args)
+        {
+            if (PlayerCharacterMasterController.instances.Count == 0)
+            {
+                Debug.Log("No Players");
+                return;
+            }
+            string log = "";
+            var aa = PlayerCharacterMasterController.instances[0].master.playerStatsComponent.currentStats;
+            for (int i = 0; i < aa.fields.Length; i++)
+            {
+                StatDef def = aa.fields[i].statDef;
+                if (def.dataType == StatDataType.ULong)
+                {
+                    if (aa.fields[i].ulongValue > 0)
+                    {
+                        log += string.Format("\n[{0}] {1} | {2}", new object[]
+                        {
+                            i,
+                            def.name,
+                             aa.fields[i].ulongValue
+                        });
+                    }
+                }
+                else if (def.dataType == StatDataType.Double)
+                {
+                    if (aa.fields[i].doubleValue > 0)
+                    {
+                        log += string.Format("\n[{0}] {1} | {2}", new object[]
+                        {
+                            i,
+                            def.name,
+                             aa.fields[i].doubleValue
+                        });
+                    }
+                }
+            }
+
+            Debug.Log(log);
+        }
+
         [ConCommand(commandName = "list_statdef", flags = ConVarFlags.None, helpText = "List all StatDefs")]
         public static void CCList_StatDef(ConCommandArgs args)
         {
@@ -21,7 +63,39 @@ namespace WolfoFixes
             }
             Debug.Log(log);
         }
-
+        [ConCommand(commandName = "list_sceneDefColors", flags = ConVarFlags.None, helpText = "List all StatDefs")]
+        public static void CCList_SceneDef(ConCommandArgs args)
+        {
+            string log = "";
+            foreach (SceneDef def in SceneCatalog.allSceneDefs)
+            {
+                if (!def.isOfflineScene)
+                {
+                    log += "\n" + def.cachedName + " | " + def.environmentColor;
+                }
+            }
+            Debug.Log(log);
+        }
+        [ConCommand(commandName = "dccs_catPercent", flags = ConVarFlags.None, helpText = "List all StatDefs")]
+        public static void CCListCategoriesInPercent(ConCommandArgs args)
+        {
+            if (!ClassicStageInfo.instance)
+            {
+                Debug.Log("Must be on stage");
+            }
+            var dccs = ClassicStageInfo.instance.interactableCategories;
+            if (!dccs)
+            {
+                Debug.Log("No DCCS");
+            }
+            float totalWeight = dccs.SumOfAllCategories();
+            string log = "--" + SceneInfo.instance.sceneDef.cachedName + "--\n";
+            foreach (var cat in dccs.categories)
+            {
+                log += cat.name + " | " + cat.selectionWeight / totalWeight * 100 + "%\n";
+            }
+            Debug.Log(log);
+        }
 
         [ConCommand(commandName = "list_rules", flags = ConVarFlags.None, helpText = "List all RuleDef and RuleChoiceDef")]
         public static void CCList_RuleDef(ConCommandArgs args)
@@ -29,7 +103,7 @@ namespace WolfoFixes
             string log = "";
             foreach (var rule in RuleCatalog.allRuleDefs)
             {
-                log += "\n"+rule.globalName;
+                log += "\n" + rule.globalName;
                 foreach (var choice in rule.choices)
                 {
                     log += "\n-" + choice.globalName;
@@ -37,14 +111,14 @@ namespace WolfoFixes
             }
             Debug.Log(log);
         }
-       
+
         [ConCommand(commandName = "list_effectdef", flags = ConVarFlags.None, helpText = "List all EffectDefs")]
         public static void CCList_EffectDef(ConCommandArgs args)
         {
             string log = "";
             foreach (var def in EffectCatalog.entries)
             {
-                log += "\n"+ def.prefabName;              
+                log += "\n" + def.prefabName;
             }
             Debug.Log(log);
         }
@@ -132,7 +206,7 @@ namespace WolfoFixes
             string logHiddenBuffs = "\n--HiddenBuffs--";
             string logNectar = "\n--IgnoredByNectar--";
             string logNoxBlacklist = "\n--IgnoredByNoxThorn--";
- 
+
             foreach (BuffDef buff in BuffCatalog.buffDefs)
             {
                 if (buff.isHidden)
@@ -153,7 +227,7 @@ namespace WolfoFixes
                         }
                     }
                 }
-               
+
 
             };
             Debug.Log(logHiddenBuffs);
@@ -177,6 +251,25 @@ namespace WolfoFixes
         [ConCommand(commandName = "list_simuwaves", flags = ConVarFlags.None, helpText = "Simple info dump of Simulacrum waves")]
         public static void CCList_SimuWaves(ConCommandArgs args)
         {
+            List<DetachParticleOnDestroyAndEndEmission> aaaa = Resources.FindObjectsOfTypeAll<DetachParticleOnDestroyAndEndEmission>().ToList();
+            foreach (var a in aaaa)
+            {
+                if (a.GetComponent<EffectComponent>())
+                {
+                    if (a.enabled && a.particleSystem != null)
+                    {
+                        Debug.LogWarning(a.transform.root.name);
+                    }
+                    else
+                    {
+                        Debug.Log(a.transform.root.name);
+                    }
+                }
+
+
+            }
+
+
             List<InfiniteTowerWaveCategory> categories = Resources.FindObjectsOfTypeAll<InfiniteTowerWaveCategory>().ToList();
             foreach (InfiniteTowerWaveCategory category in categories)
             {

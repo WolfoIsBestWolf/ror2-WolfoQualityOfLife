@@ -89,10 +89,10 @@ namespace WolfoFixes
 
             //Mention rarities, cleaner written?
             LanguageAPI.Add("ITEM_EXTRASHRINEITEM_DESC", "Shrine of Chance rewards have a <style=cIsUtility>40%</style> <style=cStack>(+10% per stack)</style> chance to be of higher rarity. (<style=cIsHealing>79%</style>/<style=cIsHealth>20%</style>/<style=cIsTierBoss>1%</style>)", "en");
-            
+
             //Unique buff (nitpick)
             LanguageAPI.Add("ITEM_BOOSTALLSTATS_DESC", "Grants <style=cIsUtility>4%</style> increase to <style=cIsUtility>ALL stats</style> for each unique buff, up to a maximum of <style=cIsUtility>4</style> <style=cStack>(+4 per stack)</style>.", "en");
-            
+
             //Nonsensical stacking
             //LanguageAPI.Add("ITEM_LOWERPRICEDCHESTS_DESC", "The first chest opened per stage drops an <style=cIsUtility>extra item</style>. Having 2 Sale Stars adds a chance to gain upwards of <style=cIsUtility>5 items</style>. <style=cStack>Each additional Sale Star increases the chance by 5%</style>.", "en");
             //LanguageAPI.Add("ITEM_LOWERPRICEDCHESTS_DESC", "The first chest opened per stage drops an <style=cIsUtility>extra item</style>. Multiple Sale Stars add a 30% chance to gain 3, 4.5% chance for 4, 0.1% chance for 5 items. <style=cStack>Additional Sale Stars increases each chance by 5%</style>. At the start of each stage, it regenerates.", "en");
@@ -101,7 +101,7 @@ namespace WolfoFixes
             //I guess?
             //LanguageAPI.Add("ITEM_METEORATTACKONHIGHDAMAGE_DESC", "<style=cIsDamage>3%</style> chance on hit to call a meteor strike, dealing <style=cIsDamage>2000%</style> base damage. Every <style=cIsDamage>100%</style> attack damage dealt increases the activation chance by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style> and damage by <style=cIsDamage>150%</style> <style=cStack>(+50% per stack)</style>. Cannot exceed 7500% damage and 50% chance.", "en");
             LanguageAPI.Add("ITEM_METEORATTACKONHIGHDAMAGE_DESC", "<style=cIsDamage>3%</style> chance on hit to call a meteor strike, dealing <style=cIsDamage>2000%</style> base damage. For every <style=cIsDamage>100%</style> attack damage, increase activation chance by <style=cIsDamage>3%</style> <style=cStack>(+3% per stack)</style> and damage by <style=cIsDamage>150%</style> <style=cStack>(+50% per stack)</style>. Maximum cap of <style=cIsDamage>7500%</style> damage and <style=cIsDamage>50%</style> chance.", "en");
-           
+
             #endregion
             #region Equipment
             //Remove, removed Movement Speed Buff

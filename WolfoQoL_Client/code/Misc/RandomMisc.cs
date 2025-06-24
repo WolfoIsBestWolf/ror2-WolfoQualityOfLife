@@ -2,12 +2,9 @@
 using MonoMod.Cil;
 using R2API;
 using RoR2;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering.PostProcessing;
-using RoR2.Stats;
 
 namespace WolfoQoL_Client
 {
@@ -34,19 +31,14 @@ namespace WolfoQoL_Client
             matChild.SetFloat("_EliteBrightnessMax", 1.09f); //2.18
             matChild.SetFloat("_EliteBrightnessMin", -0.7f); //-1.4
 
-
+            //Bigger I think?
             GameObject LowerPricedChestsGlow = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow");
             LowerPricedChestsGlow.transform.GetChild(0).localPosition = new Vector3(0, 0.6f, 0f);
             LowerPricedChestsGlow.transform.GetChild(1).localPosition = new Vector3(0, 0.6f, 0f);
             LowerPricedChestsGlow.transform.GetChild(2).localPosition = new Vector3(0, 0.4f, 0f);
             LowerPricedChestsGlow.transform.GetChild(3).localPosition = new Vector3(0, 0.7f, 0f);
             LowerPricedChestsGlow.transform.GetChild(3).localScale = new Vector3(1, 1.4f, 1f);
-
-
-
-            //Sorting the hidden stages in the menu, kinda dubmb but whatevs
-
-
+ 
             #region LunarScavLunarBeadBead
             GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
             GivePickupsOnStart.ItemDefInfo[] ScavLunarBeadsGiver = new GivePickupsOnStart.ItemDefInfo[] { Beads };
@@ -85,7 +77,6 @@ namespace WolfoQoL_Client
 
 
             //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
-
             /*On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
             {
                 orig(self);
@@ -108,16 +99,13 @@ namespace WolfoQoL_Client
             MusicTrackDef MusicSulfurPoolsBoss = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muBossfightDLC1_12.asset").WaitForCompletion();
             rootjungle.bossTrack = MusicSulfurPoolsBoss;
 
-
-
             GameObject MiniGeodeBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
             MiniGeodeBody.transform.localScale = Vector3.one * 1.5f;
             Light geode = MiniGeodeBody.transform.GetChild(0).GetChild(2).GetComponent<Light>();
             geode.range = 25;
             geode.intensity = 8;
 
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
-
+           
             On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
 
 
@@ -127,6 +115,7 @@ namespace WolfoQoL_Client
 
             PostProcessProfile ppLocalMeteorStorm = Addressables.LoadAssetAsync<PostProcessProfile>(key: "affc373eac3cb4c43b38adc2c7a61451").WaitForCompletion();
             (ppLocalMeteorStorm.settings[1] as ColorGrading).postExposure.value = 0.2f;
+            ppLocalMeteorStorm.settings[2].active = false; //Vignette
 
         }
         public static BodyIndex LemurianBruiser = BodyIndex.None;

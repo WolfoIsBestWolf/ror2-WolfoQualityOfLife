@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public static class Merc_Red
     {

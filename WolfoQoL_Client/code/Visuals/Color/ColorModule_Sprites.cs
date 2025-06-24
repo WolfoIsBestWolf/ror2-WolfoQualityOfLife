@@ -1,6 +1,5 @@
 using RoR2;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using WolfoFixes;
 
 namespace WolfoQoL_Client

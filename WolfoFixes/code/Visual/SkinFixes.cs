@@ -1,5 +1,4 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -33,7 +32,10 @@ namespace WolfoFixes
         {
             if ((ulong)skinIndex >= (ulong)(long)self.skins.Length)
             {
-                skinIndex %= self.skins.Length;
+                if (self.skins.Length > 0)
+                {
+                    skinIndex %= self.skins.Length;
+                }
             }
             return orig(self, skinIndex, unloadType);
         }
@@ -68,14 +70,21 @@ namespace WolfoFixes
         {
             Addressables.LoadAssetAsync<GameObject>(key: "bf5b53aa9306bce4b910220a43b30062").WaitForCompletion().transform.GetChild(0).GetChild(0).GetComponent<ModelSkinController>().skins[0] = Addressables.LoadAssetAsync<SkinDef>(key: "114a09a96091efd43896f52f45be4adf").WaitForCompletion();
         }
- 
+
         public static void FixTitanPing()
         {
             //Swap Body first so Body pinged instead of random particles.
-            SkinDefParams titan0 = Addressables.LoadAssetAsync<SkinDefParams>(key: "8aa47f1e288b32f4abb8e63aea8c2ea0").WaitForCompletion();
-            HG.ArrayUtils.Swap(titan0.rendererInfos, 19, 0);
-            SkinDefParams titanG = Addressables.LoadAssetAsync<SkinDefParams>(key: "ea05e89f54cbdee409061420648b0cd9").WaitForCompletion();
-            HG.ArrayUtils.Swap(titanG.rendererInfos, 19, 0);
+            SkinDefParams titanGP = Addressables.LoadAssetAsync<SkinDefParams>(key: "21b8d0bf5fdccb94b9e5694f28491514").WaitForCompletion();
+            HG.ArrayUtils.Swap(titanGP.rendererInfos, 19, 0);
+            SkinDefParams titanDC = Addressables.LoadAssetAsync<SkinDefParams>(key: "980ab5f724b028847af364dc596630c8").WaitForCompletion();
+            HG.ArrayUtils.Swap(titanDC.rendererInfos, 19, 0);
+            SkinDefParams titanGL = Addressables.LoadAssetAsync<SkinDefParams>(key: "0fbedd25dbb06224e8615535dfe8c1d0").WaitForCompletion();
+            HG.ArrayUtils.Swap(titanGL.rendererInfos, 19, 0);
+            SkinDefParams titanBB = Addressables.LoadAssetAsync<SkinDefParams>(key: "5ef4744f083778346bd813d33dfd7c39").WaitForCompletion();
+            HG.ArrayUtils.Swap(titanBB.rendererInfos, 19, 0);
+
+            SkinDefParams aur = Addressables.LoadAssetAsync<SkinDefParams>(key: "ea05e89f54cbdee409061420648b0cd9").WaitForCompletion();
+            HG.ArrayUtils.Swap(aur.rendererInfos, 19, 0);
 
         }
 
@@ -85,7 +94,7 @@ namespace WolfoFixes
             //Swap Body first so Body pinged instead of hammer.
             SkinDef skinBrotherBodyDefault = Addressables.LoadAssetAsync<SkinDef>(key: "9f70f6d6114130041967d933f25db793").WaitForCompletion();
             SkinDefParams paramsBrotherBodyDefault = Addressables.LoadAssetAsync<SkinDefParams>(key: "40e2275652aaf89429ac1c68b5036259").WaitForCompletion();
-            HG.ArrayUtils.Swap(paramsBrotherBodyDefault.rendererInfos, 6, 0); 
+            HG.ArrayUtils.Swap(paramsBrotherBodyDefault.rendererInfos, 6, 0);
 
 
             //Cannot do stacked renders with render infos or skins I believe.
@@ -103,8 +112,11 @@ namespace WolfoFixes
             HG.ArrayUtils.ArrayRemoveAtAndResize(ref paramsBrotherGlass.rendererInfos, 0);
 
             GameObject brotherGlassBody = Addressables.LoadAssetAsync<GameObject>(key: "1a4c444a7f6a47e41bdc558a2c5e68a7").WaitForCompletion();
-            brotherGlassBody.GetComponentInChildren<ModelSkinController>().skins[0] = skinBrotherGlass;
-
+            var model = brotherGlassBody.GetComponentInChildren<ModelSkinController>();
+            if (model)
+            {
+                model.skins = new SkinDef[] { skinBrotherGlass };
+            }
         }
 
 

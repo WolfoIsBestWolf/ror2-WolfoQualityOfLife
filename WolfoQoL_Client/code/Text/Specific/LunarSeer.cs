@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
 
     public class LunarSeer

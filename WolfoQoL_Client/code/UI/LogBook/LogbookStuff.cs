@@ -1,11 +1,10 @@
 ﻿using RoR2;
 using RoR2.ExpansionManagement;
 using RoR2.UI.LogBook;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using WolfoFixes;
 
 
 namespace WolfoQoL_Client
@@ -24,7 +23,7 @@ namespace WolfoQoL_Client
 
             On.RoR2.UI.LogBook.LogBookController.GetPickupStatus += EliteEquipmentViewable;
 
-
+            SceneCatalog.availability.CallWhenAvailable(LogSimuStages.Add);
             #region Sort Hidden Realms
             Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/meridian/meridian.asset").WaitForCompletion().stageOrder = 80;
             LegacyResourcesAPI.Load<SceneDef>("SceneDefs/goldshores").stageOrder = 81; //Next to Meridian
@@ -146,6 +145,12 @@ namespace WolfoQoL_Client
             GameObject newtBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody");
             Transform mdlNewt = newtBody.transform.GetChild(0).GetChild(0);
             ModelPanelParameters Newt = mdlNewt.gameObject.AddComponent<ModelPanelParameters>();
+            var AAAA = mdlNewt.gameObject.AddComponent<InstantiateModelParams>();
+            Newt.minDistance = 5;
+            Newt.maxDistance = 15;
+            AAAA.CameraPosition = new Vector3(-1.5f, 4f, 3f);
+            AAAA.FocusPosition = new Vector3(0f, 3f, 0f);
+
 
             LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").dioramaPrefab = mdlNewt.gameObject;
 
@@ -256,7 +261,7 @@ namespace WolfoQoL_Client
             }
             return array;
         }
- 
+
     }
 
 }

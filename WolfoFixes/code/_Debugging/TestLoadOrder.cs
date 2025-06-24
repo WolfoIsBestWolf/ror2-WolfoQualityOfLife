@@ -1,8 +1,7 @@
 ﻿using BepInEx.Logging;
 using RoR2;
-using UnityEngine;
 
-namespace WolfoFixes
+namespace WolfoFixes.Testing
 {
     internal class TestLoadOrder
     {
@@ -15,7 +14,7 @@ namespace WolfoFixes
                 return;
             }
 
-          
+
             RoR2Application.onStart += onStart;
             RoR2Application.onLoad += onLoad;
             RoR2Application.onLoadFinished += onLoadFinished;
@@ -25,13 +24,18 @@ namespace WolfoFixes
             On.RoR2.Run.PreStartClient += Run_PreStartClient;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 
+            On.RoR2.SceneInfo.Awake += SceneInfo_Awake;
+            On.RoR2.SceneInfo.Start += SceneInfo_Start;
+            On.RoR2.SceneInfo.OnDisable += SceneInfo_OnDisable;
+            On.RoR2.SceneInfo.OnDestroy += SceneInfo_OnDestroy;
+
             On.RoR2.Stage.PreStartClient += Stage_PreStartClient;
             Stage.onStageStartGlobal += Stage_onStageStartGlobal;
             On.RoR2.Stage.OnDisable += Stage_OnDisable;
-
+             
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
 
-        
+
             RoR2.SceneCatalog.availability.CallWhenAvailable(SceneCatalog);
             RoR2.GameModeCatalog.availability.CallWhenAvailable(GameModeCatalog);
 
@@ -51,10 +55,34 @@ namespace WolfoFixes
 
         }
 
+        private static void SceneInfo_OnDestroy(On.RoR2.SceneInfo.orig_OnDestroy orig, SceneInfo self)
+        {
+            orig(self);
+            Logger.LogWarning("SceneInfo_OnDestroy");
+        }
+
+        private static void SceneInfo_OnDisable(On.RoR2.SceneInfo.orig_OnDisable orig, SceneInfo self)
+        {
+            orig(self);
+            Logger.LogWarning("SceneInfo_OnDisable");
+        }
+
+        private static void SceneInfo_Start(On.RoR2.SceneInfo.orig_Start orig, SceneInfo self)
+        {
+            orig(self);
+            Logger.LogWarning("SceneInfo_Start");
+        }
+
+        private static void SceneInfo_Awake(On.RoR2.SceneInfo.orig_Awake orig, SceneInfo self)
+        {
+            orig(self);
+            Logger.LogWarning("SceneInfo_Awake");
+        }
+
         private static void MasterCatalog_Init(On.RoR2.MasterCatalog.orig_Init orig)
         {
             Logger.LogWarning("MasterCatalog");
-           orig();
+            orig();
         }
 
         private static System.Collections.IEnumerator PickupCatalog_Init(On.RoR2.PickupCatalog.orig_Init orig)
@@ -105,7 +133,7 @@ namespace WolfoFixes
         {
             Logger.LogWarning("UnlockableCatalog");
         }
- 
+
         private static void Run_onRunDestroyGlobal(Run obj)
         {
             Logger.LogWarning("Run_onRunDestroyGlobal");

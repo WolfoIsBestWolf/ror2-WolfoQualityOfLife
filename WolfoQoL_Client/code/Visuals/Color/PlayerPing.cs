@@ -1,10 +1,8 @@
-﻿//using System;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using RoR2.UI;
 using UnityEngine;
-using static MonoMod.InlineRT.MonoModRule;
 
 namespace WolfoQoL_Client
 {

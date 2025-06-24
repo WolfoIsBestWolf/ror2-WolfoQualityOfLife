@@ -1,12 +1,7 @@
 ﻿//using System;
 using MonoMod.Cil;
-using R2API;
 using RoR2;
-using System;
-using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace WolfoFixes
 {
@@ -30,8 +25,8 @@ namespace WolfoFixes
                 self.ForceChoice(mustInclude, mustExclude, ruleChoiceDef);
             }
         }
-     
- 
+
+
 
         public static void Waiting_SetRadius(On.EntityStates.InfiniteTowerSafeWard.AwaitingActivation.orig_OnEnter orig, EntityStates.InfiniteTowerSafeWard.AwaitingActivation self)
         {

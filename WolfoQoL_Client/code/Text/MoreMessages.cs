@@ -3,11 +3,10 @@ using MonoMod.Cil;
 using RoR2;
 using System;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using WolfoFixes;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
     public class StoreLatestPickupindex : MonoBehaviour
     {
@@ -16,7 +15,7 @@ namespace WolfoQoL_Client
 
     public class MoreMessages
     {
-        
+
         public static void Start()
         {
             On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += DeathMessage.OnDeathMessage;
@@ -260,6 +259,7 @@ namespace WolfoQoL_Client
             }
             if (send)
             {
+                playerInfo.finalMessageToken = tokenOutro;
                 Chat.AddMessage("   " + string.Format(Language.GetString(tokenFormat), Language.GetString(tokenOutro)));
             }
 

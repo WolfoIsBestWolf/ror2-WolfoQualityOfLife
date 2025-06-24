@@ -19,11 +19,12 @@ namespace WolfoQoL_Client
         public static void Start()
         {
 
+
             if (WConfig.cfgTpIconDiscoveredRed.Value)
             {
                 IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
             }
- 
+
             On.RoR2.UI.ChatBox.Awake += AllowMoreChatMessages;
 
             On.RoR2.UI.CrosshairManager.OnEnable += CrosshairManager_OnEnable;
@@ -52,6 +53,10 @@ namespace WolfoQoL_Client
             IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
 
             On.RoR2.SubjectChatMessage.GetSubjectName += IncludeEliteTypeInSubjectName;
+
+            //Fix fukin Lunar Coin background being purple
+            GameObject hud = LegacyResourcesAPI.Load<GameObject>("Prefabs/HUDSimple");
+            hud.GetComponent<HUD>().lunarCoinContainer.transform.GetChild(0).GetComponent<RawImage>().color = new Color(0.5199f, 0.5837f, 0.66f, 0.1333f);//0.6288 0.4514 0.6509 0.1333
 
         }
 
@@ -151,13 +156,13 @@ namespace WolfoQoL_Client
             {
                 return;
             }
-            SprintingCrosshair.transform.localScale = Vector3.one * 1.2f;
+            SprintingCrosshair.transform.localScale = Vector3.one * 1.1f;
             CrosshairController SprintingCrosshairUI = SprintingCrosshair.GetComponent<RoR2.UI.CrosshairController>();
             RawImage rawMid = SprintingCrosshair.GetComponent<RawImage>();
-            SprintingCrosshairUI.maxSpreadAngle = 10;
+            SprintingCrosshairUI.maxSpreadAngle = 8;
 
             rawMid.texture = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/UI/texCrosshairDot.png").WaitForCompletion();
-            rawMid.color = new Color(1f, 1f, 1f, 0.6f);
+            rawMid.color = new Color(1f, 1f, 1f, 0.8f);
 
             Texture2D Arrow = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/UI/texCrosshairArrow.png").WaitForCompletion();
             GameObject Right = new GameObject("Right");
@@ -170,12 +175,13 @@ namespace WolfoQoL_Client
             raw.texture = Arrow;
             raw.color = rawMid.color;
 
-            Right.transform.localScale = Vector3.one;
-            Left.transform.localScale = Vector3.one;
+
             Right.transform.SetParent(SprintingCrosshair.transform);
             Left.transform.SetParent(SprintingCrosshair.transform);
             Right.transform.SetLocalEulerAngles(new Vector3(0, 0, -90), RotationOrder.OrderXYZ);
             Left.transform.SetLocalEulerAngles(new Vector3(0, 0, 90), RotationOrder.OrderXYZ);
+            Right.transform.localScale = Vector3.one;
+            Left.transform.localScale = Vector3.one;
 
             SprintingCrosshairUI.spriteSpreadPositions = new RoR2.UI.CrosshairController.SpritePosition[]
             {

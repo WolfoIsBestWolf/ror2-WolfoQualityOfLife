@@ -1,15 +1,12 @@
-﻿using MonoMod.Cil;
+﻿using EntityStates.Fauna;
 using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using RoR2;
+using RoR2.Projectile;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using EntityStates.Fauna;
-using HarmonyLib;
-using EntityStates.EngiTurret.EngiTurretWeapon;
-using RoR2.Projectile;
-using EntityStates;
- 
+
 namespace WolfoFixes
 {
     public class MithrixPhase4Fix : MonoBehaviour
@@ -64,7 +61,8 @@ namespace WolfoFixes
         public static void Start()
         {
             SetSkippable(null, null);
- 
+            ChefFixes();
+
             On.EntityStates.Merc.WhirlwindBase.OnEnter += WhirlwindBase_OnEnter;
 
             On.EntityStates.Croco.Spawn.OnEnter += (orig, self) =>
@@ -84,7 +82,7 @@ namespace WolfoFixes
                     self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 3f);
                 }
             };
- 
+
 
             GameObject ChildBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Child/ChildBody.prefab").WaitForCompletion();
             CharacterBody Child = ChildBody.GetComponent<CharacterBody>();
@@ -99,16 +97,9 @@ namespace WolfoFixes
             IL.EntityStates.Commando.CommandoWeapon.FirePistol2.FixedUpdate += CommandoReloadStateRemove;
             //Huntress issue only starts at 780% attack speed who cares really
 
-            //Boosted Icebox fix
-            Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "6870bda0b12690048a9701539d1e2285").WaitForCompletion().activationState = Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "c97062b172b41af4ebdb42c312ac1989").WaitForCompletion().activationState;
-            On.EntityStates.Chef.IceBox.OnEnter += IceBox_OnEnter;
-
-            On.RoR2.Projectile.CleaverProjectile.ChargeCleaver += CleaverProjectile_ChargeCleaver;
-           
-
             //Mushroom tree do not produce fruit or die or whatever 
             On.EntityStates.Fauna.HabitatFruitDeathState.OnEnter += FixDumbFruit;
-            
+
             HabitatFruitDeathState.deathSoundString = "Play_jellyfish_death";
             HabitatFruitDeathState.healPackMaxVelocity = 60;
             HabitatFruitDeathState.fractionalHealing = 0.15f;
@@ -121,8 +112,7 @@ namespace WolfoFixes
 
             IL.EntityStates.CaptainSupplyDrop.HitGroundState.OnEnter += FixCaptainBeaconNoCrit;
 
-            On.EntityStates.Chef.OilSpillBase.OnExit += OilSpillBase_OnExit;
- 
+
             if (WConfig.cfgFunnyIceSpear.Value)
             {
                 //Ice Spear wrong phys layer
@@ -131,7 +121,22 @@ namespace WolfoFixes
             }
 
         }
-  
+
+        public static void ChefFixes()
+        {
+            //Boosted Icebox fix
+            Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "6870bda0b12690048a9701539d1e2285").WaitForCompletion().activationState = Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "c97062b172b41af4ebdb42c312ac1989").WaitForCompletion().activationState;
+            On.EntityStates.Chef.IceBox.OnEnter += IceBox_OnEnter;
+
+            On.RoR2.Projectile.CleaverProjectile.ChargeCleaver += CleaverProjectile_ChargeCleaver;
+            //ChefDiceEnhanced Boosted Projectile needs to be changed seperately
+            Addressables.LoadAssetAsync<GameObject>(key: "a327aaf45e7e3b44f8b0bcc20c7eacfa").WaitForCompletion().GetComponent<ProjectileOverlapAttack>().overlapProcCoefficient = 1;
+
+            //Might need to adjust this
+            On.EntityStates.Chef.OilSpillBase.OnExit += FallDamageImmunityOnOilSpillCancel;
+
+        }
+
         public static void CallLate()
         {
             //Fix Back-Up drones not scaling with level
@@ -145,14 +150,16 @@ namespace WolfoFixes
             };
         }
 
-        private static void OilSpillBase_OnExit(On.EntityStates.Chef.OilSpillBase.orig_OnExit orig, EntityStates.Chef.OilSpillBase self)
+        private static void FallDamageImmunityOnOilSpillCancel(On.EntityStates.Chef.OilSpillBase.orig_OnExit orig, EntityStates.Chef.OilSpillBase self)
         {
-            //In case gets cancelled
-            self.characterBody.AddTimedBuff(JunkContent.Buffs.IgnoreFallDamage, 0.66f);
+            //Intended for when called with YES Chef,
+            //Would be more ideal to have a way where hitting an enemy and dropping still does damage
+            //Like how Acrid has it
+            self.characterBody.AddTimedBuff(JunkContent.Buffs.IgnoreFallDamage, 0.25f);
             orig(self);
 
         }
- 
+
         private static void FixCaptainBeaconNoCrit(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -160,7 +167,7 @@ namespace WolfoFixes
                 x => x.MatchStfld("RoR2.BulletAttack", "isCrit")))
             {
                 c.Emit(OpCodes.Ldloc_1);
-                c.EmitDelegate<System.Func<bool, ProjectileDamage, bool>>((a,projectileDamage) =>
+                c.EmitDelegate<System.Func<bool, ProjectileDamage, bool>>((a, projectileDamage) =>
                 {
                     return projectileDamage.crit;
                 });
@@ -174,20 +181,20 @@ namespace WolfoFixes
         private static void XI_LaserFix(On.EntityStates.MajorConstruct.Weapon.FireLaser.orig_OnExit orig, EntityStates.MajorConstruct.Weapon.FireLaser self)
         {
             orig(self);
-            self.outer.SetNextState(self.GetNextState()); 
+            self.outer.SetNextState(self.GetNextState());
         }
 
 
- 
+
 
         public static GameObject JellyfishDeath;
         private static void FixDumbFruit(On.EntityStates.Fauna.HabitatFruitDeathState.orig_OnEnter orig, EntityStates.Fauna.HabitatFruitDeathState self)
-        { 
+        {
             Transform Fruit = self.gameObject.transform.GetChild(1).GetChild(3);
             EffectManager.SimpleImpactEffect(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Jellyfish/JellyfishDeath.prefab").WaitForCompletion(), Fruit.position, Vector3.up, false);
             if (NetworkServer.active)
             {
-                
+
                 GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/HealPack"), Fruit.position, UnityEngine.Random.rotation);
                 gameObject.GetComponent<TeamFilter>().teamIndex = TeamIndex.Player;
                 gameObject.GetComponentInChildren<HealthPickup>().fractionalHealing = HabitatFruitDeathState.fractionalHealing;
@@ -197,7 +204,7 @@ namespace WolfoFixes
             }
             orig(self);
         }
- 
+
         private static void IceBox_OnEnter(On.EntityStates.Chef.IceBox.orig_OnEnter orig, EntityStates.Chef.IceBox self)
         {
             orig(self);

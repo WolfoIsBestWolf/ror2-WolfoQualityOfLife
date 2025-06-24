@@ -1,5 +1,17 @@
 ## Changelog:
 ```
+v1.1.6
+Fixed REXs flower vine effect disappearing too soon.
+-Should fix like 3-4 other effects but less noticible.
+Fixed Grandparent mini rock being invisible.
+Fixed Charging Father Laser spawning a Red line at 111,8,68
+Fixed Halcyon Shrine often not having its tip golden.
+Double checking for certain skin fixes.
+
+ 
+v1.1.5
+Fixed Boosted Cleaver proc to also be 1.5 
+
 v1.1.4
 Phase 4 fix is now off by default due to feedback.
 Moved Gilded Corpse blazing fix here

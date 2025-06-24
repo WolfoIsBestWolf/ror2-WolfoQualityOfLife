@@ -1,7 +1,9 @@
 ﻿using RoR2;
-using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 
 namespace WolfoQoL_Client
 {
@@ -27,18 +29,21 @@ namespace WolfoQoL_Client
     {
         public static void Start()
         {
-            if (!WConfig.cfgGameplay.Value)
+            if (WConfig.cfgGameplay.Value)
             {
-                return;
+                PrismaticTrial.AllowPrismaticTrials();
+
+                On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.FixedUpdate += LunarTeleporterBaseState_FixedUpdate;
+
             }
-            PrismaticTrial.AllowPrismaticTrials();
-
-            On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.FixedUpdate += LunarTeleporterBaseState_FixedUpdate;
-
-            GameObject PickupDroplet = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Common/PickupDroplet.prefab").WaitForCompletion();
-            PickupDroplet.AddComponent<ItemOrbPhysicsChanger>();
-            On.RoR2.MapZone.TryZoneStart += TeleportItems;
-
+            if (WConfig.ItemsTeleport.Value)
+            {
+                GameObject PickupDroplet = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Common/PickupDroplet.prefab").WaitForCompletion();
+                PickupDroplet.AddComponent<ItemOrbPhysicsChanger>();
+                On.RoR2.MapZone.TryZoneStart += TeleportItems;
+            }
+            GeyserLock.Start();
+             
         }
 
         public static bool IsItem(Collider collider)

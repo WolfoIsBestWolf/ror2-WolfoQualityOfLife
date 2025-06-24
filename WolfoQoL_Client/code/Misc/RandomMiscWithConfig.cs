@@ -1,12 +1,4 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using RoR2;
-using RoR2.UI;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.UI;
-
-namespace WolfoQoL_Client
+﻿namespace WolfoQoL_Client
 {
     public class RandomMiscWithConfig
     {
@@ -16,10 +8,10 @@ namespace WolfoQoL_Client
         public static void Start()
         {
 
-        
- 
+
+
         }
- 
+
 
     }
 

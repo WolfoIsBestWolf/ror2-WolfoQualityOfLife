@@ -2,7 +2,6 @@ using MonoMod.Cil;
 using RoR2;
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -134,11 +133,11 @@ namespace WolfoQoL_Client
             PrefabLockbox.AddComponent<RoR2.Hologram.HologramProjector>();
             PrefabLockboxVoid.AddComponent<RoR2.Hologram.HologramProjector>();
             PrefabVendingMachine.AddComponent<RoR2.Hologram.HologramProjector>();
- 
+
             PrefabLockbox.AddComponent<MakePriceTransform>().holoPos = new Vector3(0f, 1.6f, 0f);
             PrefabLockboxVoid.AddComponent<MakePriceTransform>().holoPos = new Vector3(0f, 2f, 0f);
             PrefabVendingMachine.AddComponent<MakePriceTransform>().holoPos = new Vector3(0.0f, 4.5f, 0f);
-     
+
         }
 
         private static void CharacterMaster_RespawnExtraLifeShrine(On.RoR2.CharacterMaster.orig_RespawnExtraLifeShrine orig, CharacterMaster self)

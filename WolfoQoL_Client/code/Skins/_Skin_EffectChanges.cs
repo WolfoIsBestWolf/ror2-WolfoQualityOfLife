@@ -3,7 +3,7 @@ using RoR2.Projectile;
 using UnityEngine;
 
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     //EffectData has no Owner or anything like this
     //Most effects have no origin or any way to deduce where the come from
@@ -29,7 +29,7 @@ namespace WolfoQoL_Client
             Mercenary_Main.Start();
             Acrid_Main.Start();
             EliteBell.Start();
-            OtherEnemies.Start();
+        
         }
 
 
@@ -248,7 +248,11 @@ namespace WolfoQoL_Client
         {
             //IF any saftey checks needed, we can all uniformly put them here.
             //Debug.Log(prefab + " | " + i);
-            prefab.GetComponent<EffectReplacer>().SetReplacement(i);
+            EffectReplacer effectReplacer;
+            if (prefab.TryGetComponent(out effectReplacer))
+            {
+                effectReplacer.SetReplacement(i);
+            }
         }
 
         private void SetReplacement(int i)
@@ -274,5 +278,26 @@ namespace WolfoQoL_Client
         }
     }
 
-
+    public class MakeThisMercRed : MonoBehaviour
+    {
+    }
+    public class MakeThisMercGreen : MonoBehaviour
+    {
+    }
+    public class MakeThisAcridBlight : MonoBehaviour
+    {
+        public void Start()
+        {
+            //How reliable would this be on Client?
+            CrocoDamageTypeController controller = this.gameObject.GetComponent<CrocoDamageTypeController>();
+            if (controller == null)
+            {
+                Destroy(this);
+            }
+            if (controller.GetDamageType() != DamageType.BlightOnHit)
+            {
+                Destroy(this);
+            }
+        }
+    }
 }

@@ -1,6 +1,6 @@
 ﻿using RoR2;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Reminders
 {
     public class Reminders_Newt
     {
@@ -22,7 +22,7 @@ namespace WolfoQoL_Client
             {
                 if (TreasureReminder.instance)
                 {
-                    Reminders.CompleteObjective(TreasureReminder.instance.Objective_NewtShrine);
+                    Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_NewtShrine);
                 }
             }
         }
@@ -46,7 +46,7 @@ namespace WolfoQoL_Client
             {
                 if (TreasureReminder.instance)
                 {
-                    Reminders.CompleteObjective(TreasureReminder.instance.Objective_NewtShrine);
+                    Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_NewtShrine);
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace WolfoQoL_Client
             {
                 if (TreasureReminder.instance)
                 {
-                    Reminders.CompleteObjective(TreasureReminder.instance.Objective_NewtShrine);
+                    Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_NewtShrine);
                 }
             }
         }

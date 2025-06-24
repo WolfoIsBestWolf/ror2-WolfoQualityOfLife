@@ -5,17 +5,17 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using UnityEngine.Rendering.PostProcessing;
 
-namespace WolfoFixes
+namespace WolfoFixes.Testing
 {
-    public class Testing
+    public class Test
     {
         public static void Start()
         {
-            
+
             if (WConfig.cfgTestMultiplayer.Value)
             {
-                IL.RoR2.Networking.ServerAuthManager.HandleSetClientAuth += Testing.ServerAuthManager_HandleSetClientAuth;
-                On.RoR2.Run.GetUserMaster += Testing.Run_GetUserMaster;
+                IL.RoR2.Networking.ServerAuthManager.HandleSetClientAuth += ServerAuthManager_HandleSetClientAuth;
+                On.RoR2.Run.GetUserMaster += Run_GetUserMaster;
                 On.RoR2.SteamworksLobbyManager.OnLobbyJoined_bool_string += SteamworksLobbyManager_OnLobbyJoined_bool_string;
             }
             if (WConfig.cfgTestLogbook.Value)
@@ -72,7 +72,7 @@ namespace WolfoFixes
                 Debug.LogWarning("IL Failed: ServerAuthManager_HandleSetClientAuth");
             }
         }
-  
+
         public static void UnusedStages()
         {
             SceneDef newScenedDef = ScriptableObject.CreateInstance<SceneDef>();

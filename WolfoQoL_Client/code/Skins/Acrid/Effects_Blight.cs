@@ -3,7 +3,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class Effects_Blight
     {

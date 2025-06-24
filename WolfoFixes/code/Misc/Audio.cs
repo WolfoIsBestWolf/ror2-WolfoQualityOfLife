@@ -60,7 +60,7 @@ namespace WolfoFixes
 
             //Would be nice to sync sound only to spawn if it has missiles
             IL.RoR2.BarrageOnBossBehaviour.StartMissileCountdown += WarBondsNoise_OnlyIfActuallyMissile;
-            
+
             //Fix Void Orb sound
             GameObject VoidOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/VoidOrb");
             foreach (AkEvent a in VoidOrb.GetComponents<AkEvent>())
@@ -75,11 +75,11 @@ namespace WolfoFixes
             sound.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Destroy;
             sound.soundEvent = "Play_nullifier_death_vortex_explode";
 
-          
+
             On.RoR2.WwiseUtils.SoundbankLoader.Start += LoadMulTSoundsForScrapper;
 
             On.EntityStates.Engi.SpiderMine.Detonate.OnEnter += FixClientNoiseSpam;
- 
+
 
             //Spawn sound not actually set?
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/RoboBallBoss/RoboBallMiniBody.prefab").WaitForCompletion().GetComponent<SfxLocator>().aliveLoopStart = "Play_roboBall_attack2_mini_spawn";
@@ -119,6 +119,7 @@ namespace WolfoFixes
         private static void LoadMulTSoundsForScrapper(On.RoR2.WwiseUtils.SoundbankLoader.orig_Start orig, RoR2.WwiseUtils.SoundbankLoader self)
         {
             HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "char_Toolbot");
+             HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "Boss_FalseSon");
             orig(self);
         }
 

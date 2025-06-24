@@ -4,8 +4,8 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-
-namespace WolfoQoL_Client
+using WolfoFixes;
+namespace WolfoQoL_Client.Skins
 {
     public class OtherEnemies
     {
@@ -17,17 +17,15 @@ namespace WolfoQoL_Client
                 GameObject BeetleBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleBody.prefab").WaitForCompletion();
                 GameObject BeetleGuardBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/BeetleGuard/BeetleGuardBody.prefab").WaitForCompletion();
                 GameObject BeetleQueenBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/BeetleQueen/BeetleQueen2Body.prefab").WaitForCompletion();
-                SceneDef sulfurpools = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/sulfurpools/sulfurpools.asset").WaitForCompletion();
-                //SceneIndex sulfur = SceneCatalog.FindSceneIndex("sulfurpools");
-
-                BeetleBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
-                BeetleGuardBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
-                BeetleQueenBody.AddComponent<ChangeSkinOnStage>().sceneDef = sulfurpools;
+               
+                BeetleBody.AddComponent<ChangeSkinOnStage>().sceneDef = SceneList.SulfurPools;
+                BeetleGuardBody.AddComponent<ChangeSkinOnStage>().sceneDef = SceneList.SulfurPools;
+                BeetleQueenBody.AddComponent<ChangeSkinOnStage>().sceneDef = SceneList.SulfurPools;
 
             }
             ChangeSkinOnStage GolemBody = Addressables.LoadAssetAsync<GameObject>(key: "f21a0264f74389246acbbc5e281092b1").WaitForCompletion().AddComponent<ChangeSkinOnStage>();
-            GolemBody.sceneDef = Addressables.LoadAssetAsync<SceneDef>(key: "ced489f798226594db0d115af2101a9b").WaitForCompletion();
-        
+            GolemBody.sceneDef = SceneList.RootJungle;
+
             if (WConfig.cfgVoidAllyCyanEyes.Value)
             {
                 Material voidAlly = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Nullifier/matNullifierAlly.mat").WaitForCompletion();
@@ -63,9 +61,20 @@ namespace WolfoQoL_Client
             {
                 On.RoR2.AffixBeadBehavior.Update += AffixBeadBehavior_Update;
             }
-          
+            On.RoR2.AffixBeadBehavior.OnEnable += AffixBeadBehavior_OnEnable;
         }
 
+        private static void AffixBeadBehavior_OnEnable(On.RoR2.AffixBeadBehavior.orig_OnEnable orig, AffixBeadBehavior self)
+        {
+            orig(self); 
+            //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_impact", self.gameObject);
+            Util.PlaySound("Play_boss_falseson_skill3plus_lunarGaze_end", self.gameObject);
+            //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_cast", self.gameObject);
+            //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_lightning_tether", self.gameObject);
+             
+           
+        }
+ 
         private static void AffixBeadBehavior_Update(On.RoR2.AffixBeadBehavior.orig_Update orig, AffixBeadBehavior self)
         {
             if (!NetworkServer.active)

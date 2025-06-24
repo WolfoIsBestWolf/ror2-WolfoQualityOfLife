@@ -1,9 +1,8 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class Mercenary_Main
     {
@@ -100,7 +99,7 @@ namespace WolfoQoL_Client
             Sprite texMercOniBluesS = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/SkinRamps/texMercOniBlues.png");
             skinDef.icon = texMercOniBluesS;
 
-            Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), skinDef);
+            R2API.Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/MercBody"), skinDef);
 
 
         }

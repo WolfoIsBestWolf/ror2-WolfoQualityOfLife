@@ -4,8 +4,9 @@ using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using WolfoQoL_Client.DeathScreen;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
     public class ItemLoss_Host
     {
@@ -140,13 +141,34 @@ namespace WolfoQoL_Client
 
 
 
-        public class ItemLossMessage : RoR2.SubjectChatMessage
+        public class ItemLossMessage : SubjectChatMessage
         {
             public override string ConstructChatString()
             {
-                if (WConfig.cfgMessageScrap.Value == false && baseToken == "ITEM_LOSS_SCRAP")
+                if (baseToken == "ITEM_LOSS_SCRAP")
                 {
-                    return null;
+                    if (subjectAsNetworkUser && subjectAsNetworkUser.master)
+                    {
+                        var Tracker = subjectAsNetworkUser.master.GetComponent<PerPlayer_ExtraStatTracker>();
+                        Tracker.scrappedItems += itemCount;
+                        /*if (Tracker.scrappedItemsTotal == null)
+                        {
+                            Tracker.scrappedItemsTotal = new System.Collections.Generic.Dictionary<PickupIndex, int>();
+                        }
+                        if (Tracker.scrappedItemsTotal.TryGetValue(pickupIndexOnlyOneItem, out int i))
+                        {
+                            Tracker.scrappedItemsTotal[pickupIndexOnlyOneItem] = i + itemCount;
+                        }
+                        else
+                        {
+                            Tracker.scrappedItemsTotal.Add(pickupIndexOnlyOneItem, itemCount);
+                        }*/
+
+                    }
+                    if (WConfig.cfgMessageScrap.Value == false)
+                    {
+                        return null;
+                    }
                 }
                 else if (WConfig.cfgMessagePrint.Value == false)
                 {
@@ -176,7 +198,7 @@ namespace WolfoQoL_Client
                     {
                         if (itemStacks[i] > 0)
                         {
-                            
+
                             if (addedItem == true)
                             {
                                 itemsLost += ", ";

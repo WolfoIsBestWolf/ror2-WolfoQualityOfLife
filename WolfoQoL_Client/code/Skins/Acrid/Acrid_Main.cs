@@ -1,10 +1,9 @@
-﻿using R2API;
-using RoR2;
+﻿using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class Acrid_Main
     {
@@ -143,7 +142,7 @@ namespace WolfoQoL_Client
             newSkin.rootObject = skinCrocoDefault.rootObject;
             newSkin.baseSkins = new SkinDef[] { skinCrocoDefault };
 
-            Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody"), newSkin);
+            R2API.Skins.AddSkinToCharacter(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CrocoBody"), newSkin);
 
 
         }

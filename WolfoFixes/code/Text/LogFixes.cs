@@ -1,13 +1,16 @@
-﻿using MonoMod.Cil;
-using RoR2;
-using System.Collections;
+﻿using RoR2;
+using RoR2.Stats;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using RoR2.Stats;
 
 namespace WolfoFixes
 {
+    public class InstantiateModelParams : MonoBehaviour
+    {
+        public Vector3 CameraPosition = new Vector3(-1.5f, 1f, 3f);
+        public Vector3 FocusPosition = new Vector3(0f, 1f, 0f);
+   
+    }
     public class LogFixes
     {
         public static void Start()
@@ -45,6 +48,10 @@ namespace WolfoFixes
             PickupDevilHorns.cameraPositionTransform.localPosition = new Vector3(-0.0047f, 0.35f, -0.0111f);
             PickupDevilHorns.cameraPositionTransform.localPosition = new Vector3(0f, 0.35f, 0f);
 
+            //Default fallback
+            On.RoR2.UI.ModelPanel.CameraFramingCalculator.GetCharacterThumbnailPosition += AddOrSetDefaultModelPanelParamsIfMissing;
+            On.RoR2.ModelPanelParameters.OnDrawGizmos += SetValuesForMissingPanelParams;
+
         }
 
         private static void CountEclipseSimuAsWins(On.RoR2.Stats.StatManager.orig_OnServerGameOver orig, Run run, GameEndingDef gameEndingDef)
@@ -64,6 +71,50 @@ namespace WolfoFixes
                     }
                 }
             }
+        }
+
+        private static void AddOrSetDefaultModelPanelParamsIfMissing(On.RoR2.UI.ModelPanel.CameraFramingCalculator.orig_GetCharacterThumbnailPosition orig, RoR2.UI.ModelPanel.CameraFramingCalculator self, float fov)
+        {
+            ModelPanelParameters component = self.modelInstance.GetComponent<ModelPanelParameters>();
+            if (component)
+            {
+                component.OnDrawGizmos();
+            }
+            orig(self, fov);
+
+        }
+
+        private static void SetValuesForMissingPanelParams(On.RoR2.ModelPanelParameters.orig_OnDrawGizmos orig, ModelPanelParameters self)
+        {
+
+            if (self.cameraPositionTransform == null && self.focusPointTransform == null)
+            {
+                var fallback = self.GetComponent<InstantiateModelParams>();
+                if (fallback == null)
+                {
+                    fallback = self.gameObject.AddComponent<InstantiateModelParams>();
+                }
+
+
+                GameObject cameraPos = new GameObject("cameraPos");
+                cameraPos.transform.SetParent(self.transform, false);
+                cameraPos.transform.localPosition = fallback.CameraPosition;
+                self.cameraPositionTransform = cameraPos.transform;
+
+                GameObject focusPoint = new GameObject("focusPoint");
+                focusPoint.transform.SetParent(self.transform, false);
+                focusPoint.transform.localPosition = fallback.FocusPosition;
+                self.focusPointTransform = focusPoint.transform;
+
+                if (self.minDistance == 1 && self.maxDistance == 10)
+                {
+                    self.minDistance = 2;
+                    self.maxDistance = 8;
+                }
+       
+              
+            }
+            orig(self);
         }
 
 

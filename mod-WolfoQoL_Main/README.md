@@ -31,11 +31,14 @@ Geysers in Sulfur Pools and Abyssal Depths have different fluid color to match t
 
 Readds the old chunky printer Model for Uncommon and Mili Tech Printers.
 
-Lunar/Elite Equipment, Void White/Red/Boss, Lunar Coins now use their own color.\
+Lunar/Elite/Constumed Equipment, Void White/Red/Boss, Lunar Coins now use their own color.\
 Adds colored highlights for Tiers that were lacking one and for Equipment.
 
 Twisted Elites are now Dark Blue instead of reusing Overloading colors.\
-Twisted Elites have a fire visual effect again.
+Twisted Elites have a fire visual effect again.\
+Twisted Elites play a little sound upon spawning.
+
+Broken TC280 wont look snowed on if spawned outside of snowy areas.
 
 ![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
 
@@ -48,20 +51,42 @@ Objectives for the following:
 - Getting the extra Halcyonite Fragment on Prime Meridian
 
 Updated Death Screen including.
-- Equipment you had on death.
-- Elite prefix of killer.
-- What items the killer had. (if any)
-- Skill Loadout
+- Stats more compact
+- More Stats Shown
+- - Healing Recieved
+- - Damage taken by Minions
+- - Skill Loadout
+- - Items Scrapped
+- - Lunar Coins Spent
+- - Chests Missed
+- - Drones Missed
+- - Most Killed Monster
+- - Most Hurt By Monster
+- - Distanced Walked
+- - Times Jumped
+- Run Recap
+- - Stages you went through during the run.
+- - Last Simu Wave
+- Inventory
+- - Players equipment shown
+- - Killers Elite Prefix
+- - Killers Inventory if he had items.
+- - - (Scav, P4 Mithrix, etc)
+- - - Evolution/Simu/Void Fields items otherwise.
+- Button to open/close chat
+- Victory Quote top right
+- Alt endings have a different quote
 
 Many more messages so you have another chance to see what happened, or to see what someone else is doing.
 - On death, a detailed death message is sent, so you know what you died to.
 - Message for items lost to printing/cauldron/cleansing.
 - Message for items scrapped.
 - Message for Benthic or Egocentrism changing your items.
-- Message for breaking your Elixir or Watches.
+- Message for breaking Elixir or Watches.
 - Message reviving using an item.
 - Message when Shrine of Shaping activates.
 - Victory quotes displayed in chat.
+- Recycling
  
 
 Picking up a void will show how many it corrupted on pickup.\
@@ -83,18 +108,19 @@ Changes the name of Lunar Chimera to include their type.\
 Adds descriptions to items lacking one. (Elite Equipment, Tonic Debuff, Fuel Array)\
 Fixed many wrong descriptions.
 
-Cleansing Pools, Lockboxes and Lunar Recycler show their cost when near them.
+Cleansing Pools, Lockboxes and Lunar Recycler now also have a Cost Hologram.
 
-Charge Indicator for Void Field Cells like other Holdout zones
-
-The Void and Limbo ending now have their own coloration/text.
-
+Charge Indicator for Void Field Cells like other Holdout zones.
+ 
 Void Potentials & Aurelionite Fragments now have their tiers particle effects.\
-Void Potentials & Aurelionite Fragments display their items in ping messages\
+Void Potentials & Aurelionite Fragments display their items in ping messages
 
 ![Image of various features](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures1.png)
 ## Menu & Hud
 A Unique Ping Icon for the vast majority of Interactables.
+
+Purchasing will remove the scanner icon immediately.
+
 
 Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Pot.\
 Updated Body Icon for Squid Polyp, Devoted Lemurians, Ally Aurelionite.
@@ -106,7 +132,7 @@ Simulacrum lobbies will show a Pink Border on the characters you beat Wave 50 on
 
 Main Menu theme now changes randomly.
 
-Sprinting Crosshair is different to support charge attacks.
+Sprinting Crosshair is different to support charging attacks.
 
 Objective Hud can have it's font size and spacing customized to fit better for some languages.
 
@@ -119,6 +145,7 @@ Logbook additions:
 - Geep, Gip, Malachite Urchin, Twisted Scavengers
 - Bosses sorted after enemies
 - Newt in Bazaar Log and some small fixes.
+- Simulacrum Stages
 
 ![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)
 ## Gameplay fixes
@@ -128,11 +155,16 @@ Prsimatic Trials are available without leaderboard and with random seed.
 
 Items teleport if they fall of the map.
 
+Jumping with mid air will unlock movement if it was locked by a Geyser.\
+More Skills unlock movement too.
+
 ## Miscellaneous
 Pillar and Void holdout zones get flowers if you have Lepton Daisy.\
-Captains Shock Beacon now has a range indicator.\
-Deskplant looks bigger in the ground\
-Scavengers play a sound when spawning.
+Captains Shock Beacon now has a range indicator.
+
+Boosted & Corrupted skills will be now be prefixed as such.\
+Corrupted Skills now have actual descriptions mid run.\
+Simulacrum Stages include the stage they're one in their name.
 
 Void Fiends Mouse2 now has a crosshair response like other charging attacks.\
 Void Allies have cyan eyes for slighty easier identification in the dark.
@@ -140,6 +172,7 @@ Void Allies have cyan eyes for slighty easier identification in the dark.
 Elite Children have stronger colors so you can notice them easier.\
 Some Lunar Seer destinations look less bright.
 
+Adds a Frozen buff icon to act as a timer for how long they're still frozen for.\
 Makes the "Unstable Transmitter Active" buff visible & gives it a Icon.
 
 Lunar Seers replace the Blue Portal with a Green/Gold/Void when going to those places.

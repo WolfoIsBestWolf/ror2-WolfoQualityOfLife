@@ -39,7 +39,7 @@ namespace WolfoQoL_Client
             GameObject DevotedLemurianElder = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/CU8/DevotedLemurianBruiserBody.prefab").WaitForCompletion();
             DevotedLemurian.GetComponent<CharacterBody>().portraitIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Body/texBodyDevotedLemurian.png");
             DevotedLemurianElder.GetComponent<CharacterBody>().portraitIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/Body/texBodyDevotedElder.png");
- 
+
 
 
             Texture GenericPlanetDeath = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").GetComponent<CharacterBody>().portraitIcon;

@@ -1,4 +1,4 @@
-﻿//using System;
+﻿using RoR2;
 namespace WolfoQoL_Client
 {
     public class PrismaticTrial
@@ -12,7 +12,7 @@ namespace WolfoQoL_Client
             };
             On.RoR2.WeeklyRun.GetCurrentSeedCycle += (orig) =>
             {
-                return (uint)WolfoMain.random.Next();
+                return (uint)(WeeklyRun.now.Ticks*WolfoMain.random.NextDouble());
             };
             On.RoR2.WeeklyRun.ClientSubmitLeaderboardScore += (orig, self, runReport) =>
             {

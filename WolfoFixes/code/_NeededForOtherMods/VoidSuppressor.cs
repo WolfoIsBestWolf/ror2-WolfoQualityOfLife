@@ -1,10 +1,7 @@
 ﻿//using System;
-using MonoMod.Cil;
 using R2API;
 using RoR2;
 using System;
-using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -22,11 +19,11 @@ namespace WolfoFixes
             MissedContent.Items.ScrapWhiteSuppressed.descriptionToken = "ITEM_SCRAPWHITE_DESC";
             MissedContent.Items.ScrapGreenSuppressed.descriptionToken = "ITEM_SCRAPGREEN_DESC";
             MissedContent.Items.ScrapRedSuppressed.descriptionToken = "ITEM_SCRAPRED_DESC";
- 
+
             On.RoR2.PickupCatalog.Init += MakeTiered;
             On.RoR2.PickupCatalog.SetEntries += MakeUntiered;
             Run.onRunStartGlobal += MakeTieredAgain;
-            On.RoR2.GameCompletionStatsHelper.ctor += RemoveFromCompletion;        
+            On.RoR2.GameCompletionStatsHelper.ctor += RemoveFromCompletion;
         }
 
         public static void FixInteractable()
@@ -39,7 +36,7 @@ namespace WolfoFixes
             VoidSuppressorBehavior suppressor = VoidSuppressor.GetComponent<VoidSuppressorBehavior>();
             //suppressor.itemRefreshDelay = 0.5f;
             suppressor.useRefreshDelay = 1.05f; //Cannot go above this
- 
+
             VoidSuppressor.GetComponent<PurchaseInteraction>().isShrine = true;
             VoidSuppressor.GetComponent<VoidSuppressorBehavior>().effectColor.a = 0.85f;
             //Better item position and effects
@@ -82,7 +79,7 @@ namespace WolfoFixes
 
             On.RoR2.VoidSuppressorBehavior.PreStartClient += AddPriceHologram;
             On.RoR2.VoidSuppressorBehavior.RefreshPickupDisplays += FixPickupDisplayTooSmallDueToLossyScale;
- 
+
         }
 
 
@@ -97,7 +94,7 @@ namespace WolfoFixes
 
         private static void MakeTieredAgain(Run obj)
         {
-        
+
             MissedContent.Items.ScrapWhiteSuppressed.tier = ItemTier.Tier1;
             MissedContent.Items.ScrapGreenSuppressed.tier = ItemTier.Tier2;
             MissedContent.Items.ScrapRedSuppressed.tier = ItemTier.Tier3;
@@ -123,10 +120,10 @@ namespace WolfoFixes
             self.encounterablePickups.Remove(pickupDef3);
         }
 
- 
+
 
         private static void FixPickupDisplayTooSmallDueToLossyScale(On.RoR2.VoidSuppressorBehavior.orig_RefreshPickupDisplays orig, VoidSuppressorBehavior self)
-        { 
+        {
             //Cirvumcent PickupDisplay using lossyScale
             //Which permamently makes some displays smaller
             //Randomly depending on when in the animation its set
@@ -151,10 +148,10 @@ namespace WolfoFixes
             hologram.disableHologramRotation = true;
             LockboxHoloPivot.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
             hologram.hologramPivot = LockboxHoloPivot.transform;
-  
+
         }
- 
- 
+
+
     }
 
 

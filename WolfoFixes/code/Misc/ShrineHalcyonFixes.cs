@@ -21,12 +21,33 @@ namespace WolfoFixes
 
             //QoL
             IL.RoR2.PortalSpawner.Start += DelayThunderMessage;
+            IL.EntityStates.ShrineHalcyonite.ShrineHalcyoniteBaseState.ModifyVisuals += FixVisualsBeingInconsistent;
+        }
+
+        //Visual checks for isDraining when it already only updates when it is draining
+        //But this check adds delay every time players exit
+        //So it never actually fully reaches gold status
+        private static void FixVisualsBeingInconsistent(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoNext(MoveType.After,
+                x => x.MatchLdfld("RoR2.HalcyoniteShrineInteractable", "isDraining")))
+            {
+                c.EmitDelegate<System.Func<bool, bool>>((target) =>
+                {
+                    return true;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: FixVisualsBeingInconsistent");
+            }
         }
 
         private static void DelayThunderMessage(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-
             if (c.TryGotoNext(MoveType.After,
                 x => x.MatchLdfld("RoR2.PortalSpawner", "spawnPreviewMessageToken")))
             {
@@ -39,7 +60,7 @@ namespace WolfoFixes
                     }
                     return target;
                 });
-                Debug.Log("IL Found: Delay Thunder Message");
+                ///Debug.Log("IL Found: Delay Thunder Message");
             }
             else
             {

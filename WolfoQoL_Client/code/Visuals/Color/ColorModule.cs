@@ -111,9 +111,30 @@ namespace WolfoQoL_Client
                 pickup.dropletDisplayPrefab = EquipmentLunarOrb;
             }
 
-
             return pickup;
         }
+
+        public static void MissingSceneColors()
+        {
+
+            SceneCatalog.FindSceneDef("lakes").environmentColor = new Color32(153, 247, 219, 255);
+            SceneCatalog.FindSceneDef("lakesnight").environmentColor = new Color32(116, 93, 166, 255);
+            SceneCatalog.FindSceneDef("village").environmentColor = new Color32(170, 179, 145, 255);
+            SceneCatalog.FindSceneDef("villagenight").environmentColor = new Color32(71, 137, 168, 255);
+            SceneCatalog.FindSceneDef("lemuriantemple").environmentColor = new Color32(246, 188, 67, 255);
+            SceneCatalog.FindSceneDef("habitat").environmentColor = new Color32(163, 182, 94, 255);
+            SceneCatalog.FindSceneDef("habitatfall").environmentColor = new Color32(214, 121, 66, 255);
+            SceneCatalog.FindSceneDef("meridian").environmentColor = new Color32(132, 201, 255, 255);
+            SceneCatalog.FindSceneDef("helminthroost").environmentColor = new Color32(203, 0, 0, 255);
+
+            Color ArtifactWorld = SceneCatalog.FindSceneDef("artifactworld").environmentColor;
+            SceneCatalog.FindSceneDef("artifactworld01").environmentColor = ArtifactWorld;
+            SceneCatalog.FindSceneDef("artifactworld02").environmentColor = ArtifactWorld;
+            SceneCatalog.FindSceneDef("artifactworld03").environmentColor = ArtifactWorld;
+
+        }
+
+
 
         private static System.Collections.IEnumerator PickupCatalog_Init(On.RoR2.PickupCatalog.orig_Init orig)
         {
@@ -123,6 +144,7 @@ namespace WolfoQoL_Client
 
         public static void OrbMaker()
         {
+
 
             GameObject EquipmentOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/EquipmentOrb");
             Color reduction = new Color(0.2f, 0.2f, 0.2f, 0f);
@@ -236,6 +258,7 @@ namespace WolfoQoL_Client
 
         public static void ChangeColorsPost()
         {
+            MissingSceneColors();
             //Void Coins already use their own color
             PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex("LunarCoin.Coin0")).baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.LunarCoin);
             PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex("LunarCoin.Coin0")).darkColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.LunarCoin);
@@ -273,17 +296,17 @@ namespace WolfoQoL_Client
 
             On.RoR2.EquipmentDef.AttemptGrant += EquipmentDef_AttemptGrant;
             On.RoR2.CharacterModel.SetEquipmentDisplay += EquipmentHighlighter;
- 
+
         }
 
- 
+
         private static void EquipmentDef_AttemptGrant(On.RoR2.EquipmentDef.orig_AttemptGrant orig, ref PickupDef.GrantContext context)
         {
-            orig(ref context);
             if (context.body.hasAuthority)
             {
                 HighlightEquipment = true;
             }
+            orig(ref context); 
         }
 
         public static void EquipmentHighlighter(On.RoR2.CharacterModel.orig_SetEquipmentDisplay orig, global::RoR2.CharacterModel self, EquipmentIndex newEquipmentIndex)
@@ -293,15 +316,16 @@ namespace WolfoQoL_Client
             {
                 return;
             }
-            HighlightEquipment = false;
             if (newEquipmentIndex != EquipmentIndex.None)
             {
+                HighlightEquipment = false;
                 GameObject Highlight = HighlightOrangeItem;
-                if (EquipmentCatalog.GetEquipmentDef(newEquipmentIndex).isLunar == true)
+                EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(newEquipmentIndex);
+                if (equipmentDef.isLunar == true)
                 {
                     Highlight = HighlightOrangeLunarItem;
                 }
-                else if (EquipmentCatalog.GetEquipmentDef(newEquipmentIndex).isBoss == true)
+                else if (equipmentDef.isBoss == true)
                 {
                     Highlight = HighlightOrangeBossItem;
                 }
@@ -309,22 +333,21 @@ namespace WolfoQoL_Client
                 for (int i = 0; i < tempList.Count; i++)
                 {
                     Renderer renderer = tempList[i].GetComponentInChildren<Renderer>();
+                    if (!renderer)
+                    {
+                        ItemFollower follower = tempList[i].GetComponent<ItemFollower>();
+                        if (follower && follower.followerInstance)
+                        {
+                            renderer = follower.followerInstance.GetComponentInChildren<Renderer>();
+                        }
+                    }
                     if (renderer)
                     {
                         HighlightRect.CreateHighlight(self.body.gameObject, renderer, Highlight, -1, false);
                     }
-                    else
-                    {
-                        renderer = tempList[i].GetComponent<Renderer>();
-                        if (renderer)
-                        {
-                            HighlightRect.CreateHighlight(self.body.gameObject, renderer, Highlight, -1, false);
-                        }
-                    }
-
                 };
             }
-            
+
         }
 
 

@@ -3,7 +3,7 @@ using RoR2.Skills;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Skins
 {
     public class SkinTouchups
     {
@@ -14,11 +14,13 @@ namespace WolfoQoL_Client
             On.RoR2.SkinDef.ApplyAsync += SkinDef_ApplyAsync;
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
 
-            Skins_Merc.Start();    
+            Skins_Merc.Start();
             Skins_Engi.Start();
             Skins_REX.Start();
             Skins_Loader();
             Skins_Toolbot();
+            OtherEnemies.Start();
+            InteractableSkins.Start();
 
             if (WConfig.cfgSmoothCaptain.Value)
             {
@@ -30,7 +32,7 @@ namespace WolfoQoL_Client
             //Random mat got switched
             SkinDefParams skinVoidSurvivorDefault_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "105cacfa3b8253c4c8cf34cb95818dff").WaitForCompletion();
             skinVoidSurvivorDefault_params.rendererInfos[3].defaultMaterialAddress = skinVoidSurvivorDefault_params.rendererInfos[0].defaultMaterialAddress;
- 
+
         }
 
 

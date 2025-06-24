@@ -8,7 +8,7 @@ using RoR2.Skills;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
     public class PurchaseTokenOverwrite : MonoBehaviour
     {
@@ -88,20 +88,17 @@ namespace WolfoQoL_Client
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC2/Chef/ChefOilSpillBoosted.asset").WaitForCompletion();
             BoostedNameToken(skill, "CHEF_BOOSTED_FORMAT");
             #endregion
-            #region Enemy Names
-            //Can't really do enemy names as hoped because different languages dont use Prefixes the same way
 
-            //LanguageAPI.Add("URCHINTURRET_BODY_LORE", Language.GetString("ASSASSIN2_BODY_LORE"));
-            //LanguageAPI.Add("GEEP_BODY_LORE", Language.GetString("GUP_BODY_LORE"));
-            //LanguageAPI.Add("GIP_BODY_LORE", Language.GetString("GUP_BODY_LORE"));
+
+            skill = Addressables.LoadAssetAsync<SkillDef>(key: "dacc509e9126ce5488645a54da6a8509").WaitForCompletion();
+            skill.skillNameToken = "FALSESON_PRIMARY_NAME";
+            skill.skillDescriptionToken = "FALSESON_PRIMARY_DESCRIPTION";
+
 
             DLC1Content.Items.FragileDamageBonusConsumed.descriptionToken = DLC1Content.Items.FragileDamageBonusConsumed.pickupToken;
             DLC1Content.Items.HealingPotionConsumed.descriptionToken = DLC1Content.Items.HealingPotionConsumed.pickupToken;
 
-            //DLC1Content.Equipment.BossHunterConsumed.loreToken = DLC1Content.Equipment.BossHunter.loreToken;
-            //DLC2Content.Equipment.HealAndReviveConsumed.loreToken = DLC2Content.Equipment.HealAndRevive.loreToken;
 
-            #endregion
         }
 
         public static void BoostedNameToken(SkillDef skill, string format)
@@ -128,7 +125,7 @@ namespace WolfoQoL_Client
                         {
                             return overwrite.contextToken;
                         }
-                    }                 
+                    }
                     return ret;
                 });
             }
@@ -157,7 +154,7 @@ namespace WolfoQoL_Client
             GameEndingDef PrismEnding = LegacyResourcesAPI.Load<GameEndingDef>("GameEndingDefs/PrismaticTrialEnding");
             PrismEnding.backgroundColor = new Color(0.7f, 0.3f, 0.7f, 0.615f);
             PrismEnding.foregroundColor = new Color(0.9f, 0.6f, 0.9f, 0.833f);
-           
+
             GameEndingDef MainEnding = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/MainEnding.asset").WaitForCompletion();
             GameEndingDef EscapeSequenceFailed = Addressables.LoadAssetAsync<GameEndingDef>(key: "RoR2/Base/ClassicRun/EscapeSequenceFailed.asset").WaitForCompletion();
 

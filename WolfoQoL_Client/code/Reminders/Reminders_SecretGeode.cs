@@ -1,7 +1,7 @@
 using RoR2;
 using UnityEngine;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Reminders
 {
     public class Reminders_SecretGeode
     {
@@ -79,7 +79,7 @@ namespace WolfoQoL_Client
                 var objective = self.gameObject.GetComponent<GenericObjectiveProvider>();
                 if (objective)
                 {
-                    Reminders.CompleteObjective(objective);
+                    Reminders_Main.CompleteObjective(objective);
                     Object.Destroy(objective);
                 }
                 Debug.Log("Secret Geode End");

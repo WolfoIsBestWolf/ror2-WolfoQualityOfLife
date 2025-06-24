@@ -3,7 +3,7 @@ using RoR2;
 using RoR2.UI;
 using UnityEngine;
 
-namespace WolfoQoL_Client
+namespace WolfoQoL_Client.Text
 {
 
     public class PrayerBeads

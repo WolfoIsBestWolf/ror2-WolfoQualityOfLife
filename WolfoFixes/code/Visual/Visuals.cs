@@ -1,11 +1,23 @@
-﻿using MonoMod.Cil;
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using Mono.Cecil.Cil;
 
 namespace WolfoFixes
 {
+    public class ReStartParticleOnStart : MonoBehaviour
+    {
+        private void OnEnable()
+        {
+            if (particleSystem)
+            {
+                particleSystem.enableEmission = true;
+            }
+        }
+
+        public ParticleSystem particleSystem;
+    }
     public class Visuals
     {
         public static void Start()
@@ -28,10 +40,6 @@ namespace WolfoFixes
             //Unused like blue explosion so he doesn't use magma explosion ig, probably unused for a reason but it looks fine
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion().GetComponent<WormBodyPositions2>().blastAttackEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Junk/ElectricWorm/ElectricWormImpactExplosion.prefab").WaitForCompletion();
 
-         
-            //Default fallback
-            On.RoR2.UI.ModelPanel.CameraFramingCalculator.GetCharacterThumbnailPosition += AddOrSetDefaultModelPanelParamsIfMissing;
-            On.RoR2.ModelPanelParameters.OnDrawGizmos += SetValuesForMissingPanelParams;
 
 
             //2D beam fix
@@ -49,6 +57,38 @@ namespace WolfoFixes
             //Glass when isGlass
             IL.RoR2.CharacterModel.UpdateOverlays += CharacterModel_UpdateOverlayStates;
             IL.RoR2.CharacterModel.UpdateOverlayStates += CharacterModel_UpdateOverlayStates;
+
+            //REX vine dissappears too fast
+            GameObject EntangleOrbEffect = Addressables.LoadAssetAsync<GameObject>(key: "6e330e0a639bc3d4a9c1c282d70705b1").WaitForCompletion();
+            AnimateShaderAlpha[] alphas = EntangleOrbEffect.transform.GetChild(0).GetComponents<AnimateShaderAlpha>();
+            alphas[0].continueExistingAfterTimeMaxIsReached = false;
+            alphas[1].continueExistingAfterTimeMaxIsReached = true;
+            //EntangleOrbEffect.GetComponent<DetachParticleOnDestroyAndEndEmission>().enabled = false;
+
+            //Grandparent invisible rock
+            GameObject miniRock = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Grandparent/GrandparentMiniBoulderGhost.prefab").WaitForCompletion();
+            MeshFilter mesh = miniRock.transform.GetChild(0).GetChild(0).GetComponent<MeshFilter>();
+            mesh.mesh = Addressables.LoadAssetAsync<Mesh>("RoR2/Base/skymeadow/SMRockAngular.fbx").WaitForCompletion();
+
+            On.RoR2.DetachParticleOnDestroyAndEndEmission.OnDisable += RenableParticlesOnEnable;
+
+           
+        }
+
+        private static void RenableParticlesOnEnable(On.RoR2.DetachParticleOnDestroyAndEndEmission.orig_OnDisable orig, DetachParticleOnDestroyAndEndEmission self)
+        {
+            orig(self);
+            //Pooled effects get reused
+            //So permamently disabling a particle effect means they dont show up again
+            //And look wrong upon re-using
+            //Small list but for the REX fix
+            if (self.GetComponent<EffectComponent>())
+            {
+                if (!self.GetComponent<ReStartParticleOnStart>())
+                {
+                    self.gameObject.AddComponent<ReStartParticleOnStart>().particleSystem = self.particleSystem;
+                }
+            }
 
         }
 
@@ -78,49 +118,7 @@ namespace WolfoFixes
 
 
 
-        private static void AddOrSetDefaultModelPanelParamsIfMissing(On.RoR2.UI.ModelPanel.CameraFramingCalculator.orig_GetCharacterThumbnailPosition orig, RoR2.UI.ModelPanel.CameraFramingCalculator self, float fov)
-        {
-            ModelPanelParameters component = self.modelInstance.GetComponent<ModelPanelParameters>();
-            if (component)
-            {
-                component.OnDrawGizmos();
-            }
-            orig(self, fov);
 
-        }
-
-        private static void SetValuesForMissingPanelParams(On.RoR2.ModelPanelParameters.orig_OnDrawGizmos orig, ModelPanelParameters self)
-        {
-
-            if (self.cameraPositionTransform == null && self.focusPointTransform == null)
-            {
-                GameObject cameraPos = new GameObject("cameraPos");
-                cameraPos.transform.SetParent(self.transform, false);
-                cameraPos.transform.localPosition = new Vector3(-1.5f, 1f, 3f);
-                self.cameraPositionTransform = cameraPos.transform;
-
-                GameObject focusPoint = new GameObject("focusPoint");
-                focusPoint.transform.SetParent(self.transform, false);
-                self.focusPointTransform = focusPoint.transform;
-                self.minDistance = 2;
-                self.maxDistance = 8;
-
-                if (self.name.StartsWith("mdlNewt"))
-                {
-                    self.minDistance = 5;
-                    self.maxDistance = 15;
-                    cameraPos.transform.localPosition = new Vector3(-1.5f, 4f, 3f);
-                    focusPoint.transform.localPosition = new Vector3(0f, 3f, 0f);
-                }
-                else if (self.GetComponent<CharacterModel>() != null)
-                {
-                    focusPoint.transform.localPosition = new Vector3(0f, 1f, 0f);
-                }
-            }
-            orig(self);
-        }
-
- 
 
 
 

@@ -27,25 +27,26 @@ namespace WolfoFixes
             BasicPickupDropTable dtAISafeTier3Item = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/Common/dtAISafeTier3Item.asset").WaitForCompletion();
 
 
-            ItemTag[] TagsScav = { 
-                ItemTag.AIBlacklist, 
-                ItemTag.SprintRelated, 
-                ItemTag.InteractableRelated, 
-                ItemTag.OnStageBeginEffect, 
-                ItemTag.HoldoutZoneRelated 
+            ItemTag[] TagsScav = {
+                ItemTag.AIBlacklist,
+                ItemTag.SprintRelated,
+                ItemTag.InteractableRelated,
+                ItemTag.OnStageBeginEffect,
+                ItemTag.HoldoutZoneRelated
             };
             //No Equipment
             //No Onkill
             //
-            ItemTag[] TagsMobs = { 
-                ItemTag.AIBlacklist, 
+            ItemTag[] TagsMobs = {
+                ItemTag.AIBlacklist,
                 ItemTag.OnKillEffect,
-                ItemTag.CannotCopy, 
-                evoBlacklistTag, 
-                ItemTag.EquipmentRelated, 
-                ItemTag.InteractableRelated, 
-                ItemTag.OnStageBeginEffect, 
-                ItemTag.HoldoutZoneRelated 
+                ItemTag.EquipmentRelated,
+                ItemTag.CannotCopy,
+                evoBlacklistTag,
+                ItemTag.SprintRelated,
+                ItemTag.InteractableRelated,
+                ItemTag.OnStageBeginEffect,
+                ItemTag.HoldoutZoneRelated
             };
 
             dtMonsterTeamTier1Item.bannedItemTags = TagsMobs;
@@ -69,7 +70,7 @@ namespace WolfoFixes
 
             ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.FlatHealth.tags, 1, 1); //Remove OnkillTag
 
-             
+
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.BonusGoldPackOnKill.tags, ItemTag.AIBlacklist); //Enemies cannot use Gold
 
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.MoveSpeedOnKill.tags, ItemTag.OnKillEffect); //Missed Tag
@@ -105,7 +106,7 @@ namespace WolfoFixes
             #region Green
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.Infusion.tags, ItemTag.AIBlacklist); //Useless
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.PrimarySkillShuriken.tags, evoBlacklistTag); //Borderline Overpowered
-           
+
             #endregion
             #region Red
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.NovaOnHeal.tags, ItemTag.AIBlacklist); //Overpowered
@@ -129,12 +130,12 @@ namespace WolfoFixes
             #region Lunar
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.LunarSun.tags, ItemTag.AIBlacklist);
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.RandomlyLunar.tags, ItemTag.AIBlacklist);
-            
+
             #endregion
             #region Void
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.ElementalRingVoid.tags, ItemTag.AIBlacklist); //Unfun
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.ExplodeOnDeathVoid.tags, ItemTag.AIBlacklist); //Op
-           
+
             #endregion
             #endregion
 
