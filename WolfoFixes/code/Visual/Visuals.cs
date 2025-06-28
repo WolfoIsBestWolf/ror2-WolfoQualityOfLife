@@ -72,7 +72,7 @@ namespace WolfoFixes
 
             On.RoR2.DetachParticleOnDestroyAndEndEmission.OnDisable += RenableParticlesOnEnable;
 
-           
+
         }
 
         private static void RenableParticlesOnEnable(On.RoR2.DetachParticleOnDestroyAndEndEmission.orig_OnDisable orig, DetachParticleOnDestroyAndEndEmission self)

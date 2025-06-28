@@ -52,6 +52,7 @@ namespace WolfoQoL_Client.Text
             On.RoR2.PurchaseInteraction.GetDisplayName += PurchaseInteraction_GetDisplayName;
             IL.RoR2.PurchaseInteraction.GetContextString += PurchaseInteraction_GetContextString;
 
+
         }
 
 
@@ -118,14 +119,19 @@ namespace WolfoQoL_Client.Text
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<System.Func<string, PurchaseInteraction, string>>((ret, self) =>
                 {
-                    if (self.isActiveAndEnabled)
+                    PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();
+                    if (overwrite)
+                    {
+                        return overwrite.contextToken;
+                    }
+                    /*if (self.isActiveAndEnabled)
                     {
                         PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();
                         if (overwrite)
                         {
                             return overwrite.contextToken;
                         }
-                    }
+                    }*/
                     return ret;
                 });
             }
@@ -138,13 +144,18 @@ namespace WolfoQoL_Client.Text
         private static string PurchaseInteraction_GetDisplayName(On.RoR2.PurchaseInteraction.orig_GetDisplayName orig, PurchaseInteraction self)
         {
             //Check for activeandenabled due to DebugToolkit or smth
-            if (self.isActiveAndEnabled)
+            /*if (self.isActiveAndEnabled)
             {
                 PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();
                 if (overwrite)
                 {
                     return Language.GetString(overwrite.displayNameToken);
                 }
+            }*/
+            PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();
+            if (overwrite)
+            {
+                return Language.GetString(overwrite.displayNameToken);
             }
             return orig(self);
         }

@@ -54,7 +54,7 @@ namespace WolfoQoL_Client
             matConstellationShellYellow.SetFloat("_AlphaBoost", 46.8f);
             Material matConstelationSolid = Object.Instantiate(matConstellationShellPurple);
             matConstelationSolid.SetFloat("_AlphaBoost", 10000f);
-         
+
             ITMoonDiorama.transform.localScale = Vector3.one;
             ITMoonDiorama.transform.GetChild(0).gameObject.SetActive(false);
             ITMoonDiorama.transform.GetChild(2).GetComponent<Renderer>().material = matConstelationSolid;
@@ -92,7 +92,6 @@ namespace WolfoQoL_Client
                 {
                     return EntryStatus.Available;
                 }
-                return EntryStatus.Unencountered;
             }
             return orig(ref entry, viewerProfile);
         }

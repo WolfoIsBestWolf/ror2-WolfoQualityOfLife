@@ -1,23 +1,23 @@
 using MonoMod.Cil;
 using RoR2;
 using RoR2.Stats;
-using RoR2.UI;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
-using UnityEngine.UI;
-using Mono.Cecil.Cil;
- 
+
 namespace WolfoQoL_Client.DeathScreen
 {
     public class RunExtraStatTracker : MonoBehaviour
     {
         public static RunExtraStatTracker instance;
 
+        public Dictionary<string, int> dic_missedChests;
+        public Dictionary<string, int> dic_missedDrones;
+
         public GameObject latestWaveUiPrefab;
-        public int missedChests;
-        public int missedShrineChanceItems;
+        public int missedChests = 0;
+        public int missedShrineChanceItems = 0;
         public int missedItems;
         public int missedDrones;
         public bool expectingLoop = false;
@@ -27,6 +27,8 @@ namespace WolfoQoL_Client.DeathScreen
         public void OnEnable()
         {
             instance = this;
+            dic_missedChests = new Dictionary<string, int>();
+            dic_missedDrones = new Dictionary<string, int>();
             visitedScenes = new List<SceneDef>();
             visitedScenesTOTAL = new List<List<SceneDef>>();
             visitedScenesTOTAL.Add(visitedScenes);
@@ -72,7 +74,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             visitedScenes.Add(newSceneDef);
         }
-    
+
         public static void OnPurchaseDestroyed(OnDestroyCallback self)
         {
             if (!instance)
@@ -83,26 +85,53 @@ namespace WolfoQoL_Client.DeathScreen
             PurchaseInteraction purchase = self.GetComponent<PurchaseInteraction>();
             if (purchase.available)
             {
-                if (purchase.costType == CostTypeIndex.LunarCoin)
+                bool realChest = false;
+                if (self.TryGetComponent<ChestBehavior>(out var chest))
                 {
-                    return;
+                    //Filter out frozenwall fan because hopoo james
+                    if (chest.dropTable)
+                    {
+                        realChest = true;
+                    }
+                    if (SceneCatalog.mostRecentSceneDef.isFinalStage)
+                    {
+                        realChest = purchase.costType == CostTypeIndex.TreasureCacheItem;
+                    }
                 }
-                if (self.GetComponent<ChestBehavior>()
+                if (realChest
                  || self.GetComponent<OptionChestBehavior>()
                  || self.GetComponent<RouletteChestController>())
                 {
-                    //Help.Log.LogWarning("Missed Chest: " + self.name);
-                    instance.missedChests++;
+                    if (purchase.costType != CostTypeIndex.LunarCoin)
+                    {
+                        instance.missedChests++;
+                    }
+                    string display = purchase.GetDisplayName();
+                    if (instance.dic_missedChests.ContainsKey(display))
+                    {
+                        instance.dic_missedChests[display]++;
+                    }
+                    else
+                    {
+                        instance.dic_missedChests.Add(display, 1);
+                    }
                 }
                 if (self.TryGetComponent<ShrineChanceBehavior>(out var chance))
                 {
-                    //Help.Log.LogWarning("Missed Chance: " + self.name);
                     instance.missedShrineChanceItems += chance.maxPurchaseCount - chance.successfulPurchaseCount;
                 }
                 if (self.GetComponent<SummonMasterBehavior>())
                 {
-                    //Help.Log.LogWarning("Missed Drone: " + self.name);
                     instance.missedDrones++;
+                    string display = purchase.GetDisplayName();
+                    if (instance.dic_missedDrones.ContainsKey(display))
+                    {
+                        instance.dic_missedDrones[display]++;
+                    }
+                    else
+                    {
+                        instance.dic_missedDrones.Add(display, 1);
+                    }
                 }
             }
         }
@@ -118,13 +147,22 @@ namespace WolfoQoL_Client.DeathScreen
         public float minionHealingTotal; //Can't do
         
         public int spentVoidCoins;
+        public int skillActivations;
+
         */
 
+        public Dictionary<ItemIndex, int> scrappedItemTotal;
+
         public int timesJumped = -1; //Client-Only
-        public float minionDamageTaken; //Server-Only
+        public float minionDamageTaken;
+        public float minionHealing;
+        public int minionDeaths; //Important for like, how many drones did bro rebuy i guess?
+        public int minionDeathsSuicide;
+
         public int spentLunarCoins; //Works
+
         public int scrappedItems; //Works
-        public int scrappedDrones; //Idk if this is even real
+        public int scrappedDrones; //SS2, maybe DLC3?
 
         public string latestDetailedDeathMessage;
 
@@ -133,6 +171,12 @@ namespace WolfoQoL_Client.DeathScreen
         {
             master = this.GetComponent<CharacterMaster>();
             master.onBodyStart += Master_onBodyStart;
+
+        }
+        public void Start()
+        {
+            Debug.Log(master.hasAuthority);
+            Debug.Log(master.hasEffectiveAuthority);
             if (master.hasEffectiveAuthority)
             {
                 timesJumped = 0;
@@ -144,7 +188,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 master.onBodyStart -= Master_onBodyStart;
             }
-          
+
         }
 
 
@@ -155,7 +199,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 body.onJump += OnJump;
             }
-       
+
         }
 
         public void OnJump()
@@ -175,12 +219,12 @@ namespace WolfoQoL_Client.DeathScreen
                     return null;
                 }
                 var tracker = masterObject.GetComponent<PerPlayer_ExtraStatTracker>();
-                if (timesJumped > 0) 
+                if (timesJumped > -1)
                 {
                     tracker.timesJumped = timesJumped;
                     Debug.Log("timesJumped" + timesJumped);
                 }
-          
+
                 return null;
             }
             public override void Serialize(NetworkWriter writer)
@@ -203,48 +247,66 @@ namespace WolfoQoL_Client.DeathScreen
 
     }
 
-    public class MinionDamageTakenListener : MonoBehaviour
+    public class MinionMasterStatTracker : MonoBehaviour
     {
         public PerPlayer_ExtraStatTracker tracker;
         public CharacterMaster master;
         public GameObject bodyObject;
+        public HealthComponent body;
+        public UnityAction deathEvent;
+
+
         public void OnEnable()
         {
             master = this.GetComponent<CharacterMaster>();
-            tracker = master.minionOwnership.ownerMaster.GetComponent<PerPlayer_ExtraStatTracker>();   
+            tracker = master.minionOwnership.ownerMaster.GetComponent<PerPlayer_ExtraStatTracker>();
 
-            master.onBodyStart += Master_onBodyStart;
-            master.onBodyDestroyed += Master_onBodyDestroyed;
+            master.onBodyStart += OnBodyStart;
+            master.onBodyDeath.AddListener(new UnityAction(this.OnBodyDeath));
         }
-        private void Master_onBodyStart(CharacterBody body)
+        public void OnDisable()
         {
-            bodyObject = body.gameObject;
-            GlobalEventManager.onClientDamageNotified += onClientDamageNotified;
-        }
-        private void Master_onBodyDestroyed(CharacterBody obj)
-        {
-            GlobalEventManager.onClientDamageNotified -= onClientDamageNotified;
-            bodyObject = null;
-        }
-
-        private void onClientDamageNotified(DamageDealtMessage message)
-        {
-            if (message.victim == bodyObject)
+            if (master)
             {
-                tracker.minionDamageTaken += message.damage;
+                master.onBodyDeath.RemoveListener(new UnityAction(this.OnBodyDeath));
+            }
+        }
+        private void OnBodyStart(CharacterBody newBody)
+        {
+            bodyObject = newBody.gameObject;
+            body = newBody.healthComponent;
+            newBody.gameObject.AddComponent<MinionBody_StatLocator>().tracker = tracker;
+        }
+        public void OnBodyDeath()
+        {
+            if (body && body.timeSinceLastHit < 0.1f)
+            {
+                //If wasn't hit in the last short while
+                //But still died
+                //Then probably was due to Suicide or Negative Regen
+                tracker.minionDeaths++;
+            }
+            else
+            {
+                tracker.minionDeathsSuicide++;
             }
         }
 
-       
+
+    }
+
+    public class MinionBody_StatLocator : MonoBehaviour
+    {
+        public PerPlayer_ExtraStatTracker tracker;
     }
 
     public class ExtraStatsTracking
     {
-        
+
         public static void Start()
         {
             On.RoR2.NetworkUser.RpcDeductLunarCoins += LunarCoinSpentTracking;
-    
+
             On.RoR2.PurchaseInteraction.Start += AddMissedCallBack;
             On.RoR2.MultiShopController.OnDestroy += AddMissedShops;
 
@@ -255,30 +317,64 @@ namespace WolfoQoL_Client.DeathScreen
             On.RoR2.MinionOwnership.OnStartClient += MinionDamageTakenStat;
             Run.onClientGameOverGlobal += Run_onClientGameOverGlobal;
 
+            GlobalEventManager.onClientDamageNotified += GlobalEventManager_onClientDamageNotified;
+            IL.RoR2.HealthComponent.HandleHeal += HealthComponent_HandleHeal;
+        }
 
+        private static void GlobalEventManager_onClientDamageNotified(DamageDealtMessage damageEvent)
+        {
+            if (damageEvent.victim && damageEvent.victim.TryGetComponent<MinionBody_StatLocator>(out var a))
+            {
+                a.tracker.minionDamageTaken += damageEvent.damage;
+            }
+        }
+
+        private static void HealthComponent_HandleHeal(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+                x => x.MatchStloc(0)
+                ))
+            {
+                c.EmitDelegate<System.Func<HealthComponent.HealMessage, HealthComponent.HealMessage>>((healEvent) =>
+                {
+                    if (healEvent.target.TryGetComponent<MinionBody_StatLocator>(out var a))
+                    {
+                        a.tracker.minionHealing += healEvent.amount;
+                    }
+                    return healEvent;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: HealthComponent_HandleHeal");
+            }
         }
 
         public static void Run_onClientGameOverGlobal(Run arg1, RunReport arg2)
         {
             foreach (var player in PlayerCharacterMasterController.instances)
             {
-                var tracker = player.GetComponent<PerPlayer_ExtraStatTracker>();
-                Chat.SendBroadcastChat(new PerPlayer_ExtraStatTracker.SyncValues
+                if (player.hasAuthority)
                 {
-                    masterObject = player.gameObject,
-                    timesJumped = tracker.timesJumped,
-                });
+                    var tracker = player.GetComponent<PerPlayer_ExtraStatTracker>();
+                    Chat.SendBroadcastChat(new PerPlayer_ExtraStatTracker.SyncValues
+                    {
+                        masterObject = player.gameObject,
+                        timesJumped = tracker.timesJumped,
+                    });
+                }
             }
-            
+
         }
         private static void MinionDamageTakenStat(On.RoR2.MinionOwnership.orig_OnStartClient orig, MinionOwnership self)
         {
             orig(self);
             if (self.ownerMaster && self.ownerMaster.playerCharacterMasterController != null)
             {
-                if (self.GetComponent<MinionDamageTakenListener>() == null)
+                if (self.GetComponent<MinionMasterStatTracker>() == null)
                 {
-                    self.gameObject.AddComponent<MinionDamageTakenListener>();
+                    self.gameObject.AddComponent<MinionMasterStatTracker>();
                 }
             }
         }
@@ -286,7 +382,7 @@ namespace WolfoQoL_Client.DeathScreen
         private static void MinionDamageTakenStat(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-         
+
             if (c.TryGotoNext(MoveType.Before,
                 x => x.MatchLdfld("RoR2.Stats.StatManager/DamageEvent", "damageDealt")
                 ))
@@ -301,7 +397,7 @@ namespace WolfoQoL_Client.DeathScreen
                             if (a)
                             {
                                 a.minionDamageTaken += damageEvent.damageDealt;
-                            }                      
+                            }
                         }
                     }
                     return damageEvent;
@@ -330,7 +426,7 @@ namespace WolfoQoL_Client.DeathScreen
             if (self.gameObject.activeInHierarchy)
             {
                 OnDestroyCallback.AddCallback(self.gameObject, new System.Action<OnDestroyCallback>(RunExtraStatTracker.OnPurchaseDestroyed));
-            }     
+            }
         }
         private static void AddMissedShops(On.RoR2.MultiShopController.orig_OnDestroy orig, MultiShopController self)
         {
@@ -341,6 +437,15 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     //Help.Log.LogWarning("Missed MultiShop: " + self.gameObject);
                     RunExtraStatTracker.instance.missedChests++;
+                    string display = self.terminalPrefab.GetComponent<PurchaseInteraction>().GetDisplayName();
+                    if (RunExtraStatTracker.instance.dic_missedChests.ContainsKey(display))
+                    {
+                        RunExtraStatTracker.instance.dic_missedChests[display]++;
+                    }
+                    else
+                    {
+                        RunExtraStatTracker.instance.dic_missedChests.Add(display, 1);
+                    }
                 }
             }
         }

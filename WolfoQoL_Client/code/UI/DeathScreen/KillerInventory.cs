@@ -18,12 +18,12 @@ namespace WolfoQoL_Client.DeathScreen
                 return;
             }
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
- 
+
             if (extras.killerInventory == null)
             {
                 Transform ItemArea = self.itemInventoryDisplay.transform.parent.parent.parent;
-                 GameObject killerInventory = UnityEngine.Object.Instantiate(DeathScreenExpanded.item_area, ItemArea.parent);
-              
+                GameObject killerInventory = UnityEngine.Object.Instantiate(DeathScreenExpanded.item_area, ItemArea.parent);
+
                 killerInventory.name = "KillerItemArea";
                 killerInventory.transform.SetSiblingIndex(3);
                 LayoutElement layout = killerInventory.GetComponent<LayoutElement>();
@@ -34,7 +34,7 @@ namespace WolfoQoL_Client.DeathScreen
                 ItemInventoryDisplay inv = killerInventory.GetComponentInChildren<ItemInventoryDisplay>();
                 //inv.ResetItems();
                 inv.maxHeight = 128f;
-                extras.killerInventory = killerInventory; 
+                extras.killerInventory = killerInventory;
                 killerInventory.SetActive(true);
             }
             if (playerInfo.networkUser == null)
@@ -50,7 +50,7 @@ namespace WolfoQoL_Client.DeathScreen
                 Debug.Log("No GameEndInventoryHelper Found, Making One");
                 helper = playerInfo.master.gameObject.AddComponent<KillerInventoryInfoStorage>();
                 helper.victimMaster = playerInfo.master.gameObject;
-              
+
             }
             else if (helper.victimMaster.GetComponent<PlayerCharacterMasterController>().networkUser != playerInfo.networkUser)
             {
@@ -95,7 +95,7 @@ namespace WolfoQoL_Client.DeathScreen
                 if (Run.instance && Run.instance is InfiniteTowerRun)
                 {
                     NoKillerButWithEvo = true;
-                      helper.AddItemsFrom(Run.instance.GetComponent<Inventory>().itemStacks, ItemFilters.AllowAllItemFilterDelegate);
+                    helper.AddItemsFrom(Run.instance.GetComponent<Inventory>().itemStacks, ItemFilters.AllowAllItemFilterDelegate);
                 }
                 if (ArenaMissionController.instance)
                 {
@@ -115,7 +115,7 @@ namespace WolfoQoL_Client.DeathScreen
                 self.itemInventoryDisplay.maxHeight = 256;
                 EquipOnDeathInventory.DeathEquip_Enemy1 = helper.primaryEquipment;
                 extras.killerInventory.SetActive(true);
-   
+
                 ItemInventoryDisplay inventoryDisplay = extras.killerInventory.GetComponentInChildren<ItemInventoryDisplay>();
                 inventoryDisplay.SetItems(helper.itemAcquisitionOrder, helper.itemStacks);
                 inventoryDisplay.UpdateDisplay();
@@ -131,14 +131,22 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                self.itemInventoryDisplay.maxHeight = 384;
+                if (self.unlockContentArea.childCount > 3)
+                {
+                    self.itemInventoryDisplay.maxHeight = 320;
+                }
+                else
+                {
+                    self.itemInventoryDisplay.maxHeight = 384;
+                }
+                
                 extras.killerInventory.SetActive(false);
                 if (extras.killerInventory)
                 {
                     ItemInventoryDisplay KillerInvDisplay = extras.killerInventory.GetComponentInChildren<ItemInventoryDisplay>();
                     KillerInvDisplay.ResetItems();
                 }
- 
+
             }
 
 

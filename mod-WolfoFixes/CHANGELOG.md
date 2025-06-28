@@ -1,5 +1,14 @@
 ## Changelog:
 ```
+v1.1.8 : Part of mod was no longer running on accident
+v1.1.7
+Fixed Boosted Sear Oil Pools dealing 0% damage instead of 20%
+Fixed Simulacrums Fog damage being far lower due to unrelated Void Fields balance changes and it being left forgotten.
+Removed Chance Doll from Simulacrum as there are no Shrine of Chance. (If SimulacrumAdditions not installed)
+Fixed Treeborn Canopy and Helminth Hatchery being blacklisted from RandomStageOrder
+Fixed NegativeRegen not triggering OnDeath effects. (Happiest Mask would never trigger Ice/Mending OnDeath)
+
+
 v1.1.6
 Fixed REXs flower vine effect disappearing too soon.
 -Should fix like 3-4 other effects but less noticible.

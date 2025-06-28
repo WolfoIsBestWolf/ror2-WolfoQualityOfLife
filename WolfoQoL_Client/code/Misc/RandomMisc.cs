@@ -18,8 +18,6 @@ namespace WolfoQoL_Client
 
             HoldoutZoneFlowers.FlowersForOtherHoldoutZones();
 
-            VoidAffix();
-
             bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("0p41.Sots_Items_Reworked");
             if (!otherMod)
             {
@@ -38,7 +36,7 @@ namespace WolfoQoL_Client
             LowerPricedChestsGlow.transform.GetChild(2).localPosition = new Vector3(0, 0.4f, 0f);
             LowerPricedChestsGlow.transform.GetChild(3).localPosition = new Vector3(0, 0.7f, 0f);
             LowerPricedChestsGlow.transform.GetChild(3).localScale = new Vector3(1, 1.4f, 1f);
- 
+
             #region LunarScavLunarBeadBead
             GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
             GivePickupsOnStart.ItemDefInfo[] ScavLunarBeadsGiver = new GivePickupsOnStart.ItemDefInfo[] { Beads };
@@ -105,7 +103,7 @@ namespace WolfoQoL_Client
             geode.range = 25;
             geode.intensity = 8;
 
-           
+
             On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
 
 
@@ -261,26 +259,6 @@ namespace WolfoQoL_Client
             }
         }
 
-        public static void VoidAffix()
-        {
-            //Do we even need to add a display?
-            EquipmentDef VoidAffix = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteVoid/EliteVoidEquipment.asset").WaitForCompletion();
-            GameObject VoidAffixDisplay = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteVoid/DisplayAffixVoid.prefab").WaitForCompletion(), "PickupAffixVoidW", false);
-            VoidAffixDisplay.transform.GetChild(0).GetChild(1).SetAsFirstSibling();
-            VoidAffixDisplay.transform.GetChild(1).localPosition = new Vector3(0f, 0.7f, 0f);
-            VoidAffixDisplay.transform.GetChild(1).GetChild(0).localPosition = new Vector3(0, -0.5f, -0.6f);
-            VoidAffixDisplay.transform.GetChild(1).GetChild(0).localScale = new Vector3(1.5f, 1.5f, 1.5f);
-            VoidAffixDisplay.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
-            VoidAffixDisplay.transform.GetChild(1).GetChild(3).gameObject.SetActive(false);
-            VoidAffixDisplay.transform.GetChild(0).eulerAngles = new Vector3(310, 0, 0);
-            VoidAffixDisplay.transform.GetChild(0).localScale = new Vector3(0.75f, 0.75f, 0.75f);
-
-            ItemDisplay display = VoidAffixDisplay.GetComponent<ItemDisplay>();
-            display.rendererInfos = display.rendererInfos.Remove(display.rendererInfos[4]);
-            VoidAffixDisplay.AddComponent<ModelPanelParameters>();
-
-            VoidAffix.pickupModelPrefab = VoidAffixDisplay;
-        }
 
 
         public class InstantiateGameObjectAtLocation : MonoBehaviour

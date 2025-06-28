@@ -2,12 +2,11 @@ using RoR2;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 
 
 namespace WolfoQoL_Client
 {
-     
+
     public class BlockScanner : PingInfoProvider
     {
 
@@ -75,7 +74,7 @@ namespace WolfoQoL_Client
                 }
             }
         }
- 
+
 
         private static void RemoveScannerIcon_Barrel(On.RoR2.BarrelInteraction.orig_OnInteractionBegin orig, BarrelInteraction self, Interactor activator)
         {
@@ -223,8 +222,8 @@ namespace WolfoQoL_Client
             GameObject TerminalE = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Chest/MultiShopEquipmentTerminal");
             TerminalE.AddComponent<DifferentIconScanner>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/MultiShopE_Shrunk.png");
             //TerminalE.GetComponent<DifferentIconScanner>().scannerIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ChestEquipIcon.png");
- 
-          
+
+
             #endregion
         }
 
@@ -238,7 +237,7 @@ namespace WolfoQoL_Client
                     self.positionIndicator.insideViewObject.GetComponent<SpriteRenderer>().sprite = icon.scannerIconOverride;
                 }
             }
-         
+
         }
 
         private static bool BlockScanner_Generic(On.RoR2.GenericInteraction.orig_ShouldShowOnScanner orig, GenericInteraction self)
@@ -250,7 +249,7 @@ namespace WolfoQoL_Client
             return orig(self);
         }
 
-         
+
         private static bool BlockScanner_Purchase(On.RoR2.PurchaseInteraction.orig_ShouldShowOnScanner orig, PurchaseInteraction self)
         {
             if (self.GetComponent<BlockScanner>() != null)

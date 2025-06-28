@@ -11,17 +11,19 @@ namespace WolfoFixes.Testing
 
         public static void Start()
         {
-            Run.onRunStartGlobal += Run_onRunStartGlobal;
+            On.RoR2.TeamManager.Start += TeamManager_Start;
             SceneDirector.onPrePopulateSceneServer += SceneDirector_onPrePopulateSceneServer;
         }
 
-        public static void Run_onRunStartGlobal(Run obj)
+        private static void TeamManager_Start(On.RoR2.TeamManager.orig_Start orig, TeamManager self)
         {
+            orig(self);
             if (godEnemyBool)
             {
                 TeamManager.instance.teamLevels[2] = godEnemyBool ? (uint)100001 : (uint)0;
             }
         }
+
         public static void SceneDirector_onPrePopulateSceneServer(SceneDirector obj)
         {
             if (noInteractables)
@@ -32,13 +34,58 @@ namespace WolfoFixes.Testing
             }
         }
 
+        [ConCommand(commandName = "remove_all_unlocks", flags = ConVarFlags.None, helpText = "Removes all unlockables and achievements on current profile")]
+        public static void CC_RemoveUnlocks(ConCommandArgs args)
+        {
+            var a = LocalUserManager.GetFirstLocalUser();
+            var b = a.userProfile;
+            var c = b.statSheet;
+
+            if (b != null)
+            {
+                for (int i = 0; UnlockableCatalog.unlockableCount > i; i++)
+                {
+                    c.RemoveUnlockable((UnlockableIndex)i);
+                }
+                for (int i = b.achievementsList.Count - 1; 0 <= i; i--)
+                {
+                    b.RevokeAchievement(b.achievementsList[i]);
+                }
+                b.RequestEventualSave();
+            }
+
+        }
+
+
+
+        [ConCommand(commandName = "cooldown", flags = ConVarFlags.ExecuteOnServer, helpText = "Removes Skill Cooldown for current stage")]
+        [ConCommand(commandName = "nocooldown", flags = ConVarFlags.ExecuteOnServer, helpText = "Removes Skill Cooldown for current stage")]
+        public static void CC_Cooldown(ConCommandArgs args)
+        {
+            if (!args.senderMaster)
+            {
+                return;
+            }
+            if (!args.senderMaster.GetBody())
+            {
+                return;
+            }
+            GenericSkill[] slots = args.senderMaster.GetBody().GetComponents<GenericSkill>();
+            foreach (GenericSkill slot in slots)
+            {
+                slot.cooldownOverride = 0.01f;
+            }
+        }
+
+
         [ConCommand(commandName = "skill", flags = ConVarFlags.ExecuteOnServer, helpText = "Switch Skills of current survivor Shorthand")]
+        [ConCommand(commandName = "swapskill", flags = ConVarFlags.ExecuteOnServer, helpText = "Switch Skills of current survivor Shorthand")]
         public static void CC_Skill(ConCommandArgs args)
         {
             if (!args.senderMaster)
             {
                 return;
-            } 
+            }
             if (!args.senderMaster.GetBody())
             {
                 return;
@@ -156,10 +203,10 @@ namespace WolfoFixes.Testing
             else if (Stage.instance.sceneDef.cachedName == "meridian")
             {
                 newPosition = new Vector3(85.2065f, 146.5167f, -70.5265f);
-            }  
+            }
             else if (Stage.instance.sceneDef.cachedName == "mysteryspace")
             {
-                newPosition = new Vector3(362.9097f, - 151.5964f, 213.0157f);
+                newPosition = new Vector3(362.9097f, -151.5964f, 213.0157f);
             }
             else if (Stage.instance.sceneDef.cachedName == "voidraid")
             {

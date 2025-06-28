@@ -1,9 +1,6 @@
-﻿using RoR2;
+﻿using MonoMod.Cil;
+using RoR2;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 
 namespace WolfoQoL_Client
 {
@@ -108,7 +105,7 @@ namespace WolfoQoL_Client
         private static void GenericCharacterMain_ProcessJump_bool(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);
-           
+
             if (c.TryGotoNext(MoveType.Before,
                x => x.MatchLdfld("RoR2.CharacterBody", "onJump")
                ))

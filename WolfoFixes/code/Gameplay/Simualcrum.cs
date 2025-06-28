@@ -2,6 +2,7 @@
 using MonoMod.Cil;
 using RoR2;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace WolfoFixes
 {
@@ -13,6 +14,27 @@ namespace WolfoFixes
             IL.RoR2.InfiniteTowerWaveController.FixedUpdate += FixRequestIndicatorsClient;
             On.EntityStates.InfiniteTowerSafeWard.AwaitingActivation.OnEnter += Waiting_SetRadius;
             On.RoR2.InfiniteTowerRun.OverrideRuleChoices += ForceSotVOn;
+
+            //Simulacrums Fog was not update to account for the the newly introduced FogDamageController.healthFractionRampIncreaseCooldown
+            //This left it dealing pitiful amounts of damage
+            FogDamageController InfiniteTowerFogDamager = Addressables.LoadAssetAsync<GameObject>(key: "9c7ca1b454882464f90010d3a68b6795").WaitForCompletion().GetComponent<FogDamageController>();
+            InfiniteTowerFogDamager.healthFractionRampIncreaseCooldown = 0;
+
+        }
+
+
+        public static void CallLate()
+        {
+            bool simulacrumAdds = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.SimulacrumAdditions");
+
+            if (simulacrumAdds == false)
+            {
+                //Simulacrum normally has no Shrines of Chance
+                InfiniteTowerRun infiniteTowerRun = Addressables.LoadAssetAsync<GameObject>(key: "ba84d17b27db8b84d925071b4af1e352").WaitForCompletion().GetComponent<InfiniteTowerRun>();
+                HG.ArrayUtils.ArrayAppend(ref infiniteTowerRun.blacklistedItems, DLC2Content.Items.ExtraShrineItem);
+
+            }
+
         }
 
         private static void ForceSotVOn(On.RoR2.InfiniteTowerRun.orig_OverrideRuleChoices orig, InfiniteTowerRun self, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude, ulong runSeed)

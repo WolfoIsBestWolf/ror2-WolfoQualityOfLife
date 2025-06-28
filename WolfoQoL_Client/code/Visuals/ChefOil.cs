@@ -22,6 +22,9 @@ namespace WolfoQoL_Client
             Destroy(ChefImpactOilGhost.transform.GetChild(0).GetChild(4).gameObject.GetComponent<AkEvent>());
         }
 
+        public static GameObject FireMeatBallExplosion = Addressables.LoadAssetAsync<GameObject>(key: "02e06953c75c74746b1e1f957f804e37").WaitForCompletion();
+        public static GameObject ChefIceBoxExplosionVFX = Addressables.LoadAssetAsync<GameObject>(key: "d7fd97a7825c2644e83cea446b03e54b").WaitForCompletion();
+
         private static void OilGhostController_DoGhostVisual(On.OilGhostController.orig_DoGhostVisual orig, OilGhostController self, bool ignited, bool boosted, bool frozen)
         {
 
@@ -29,20 +32,23 @@ namespace WolfoQoL_Client
             if (ignited)
             {
                 //FireMeatBallExplosion
-                EffectManager.SpawnEffect(Addressables.LoadAssetAsync<GameObject>(key: "02e06953c75c74746b1e1f957f804e37").WaitForCompletion(), new EffectData
+                EffectManager.SpawnEffect(FireMeatBallExplosion, new EffectData
                 {
                     origin = self.transform.position,
-                    scale = 15f,
+                    scale = 25, //Scale does not work
+
                 }, false);
             }
             else if (frozen)
             {
                 //ChefIceBoxExplosionVFX
+                //BoostedProjectileExplosion
                 //EffectManager.SpawnEffect(Addressables.LoadAssetAsync<GameObject>(key: "d4f722af5c54e554b9ac663e3a37bef4").WaitForCompletion(), new EffectData
-                EffectManager.SpawnEffect(Addressables.LoadAssetAsync<GameObject>(key: "d7fd97a7825c2644e83cea446b03e54b").WaitForCompletion(), new EffectData
+                EffectManager.SpawnEffect(ChefIceBoxExplosionVFX, new EffectData
+                //EffectManager.SpawnEffect(Addressables.LoadAssetAsync<GameObject>(key: "893c0492eea544c49921724592c84974").WaitForCompletion(), new EffectData
                 {
                     origin = self.transform.position,
-                    scale = 7.5f,
+                    scale = 10, //Scale does not work
                 }, false);
             }
         }

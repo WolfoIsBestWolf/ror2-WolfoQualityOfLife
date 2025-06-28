@@ -251,7 +251,7 @@ namespace WolfoQoL_Client
                 deathEvent = new UnityAction(this.OnBodyDeath);
                 playerMaster.onBodyDeath.AddListener(deathEvent);
             }
- 
+
         }
         public void OnDisable()
         {

@@ -119,7 +119,7 @@ namespace WolfoFixes
         private static void LoadMulTSoundsForScrapper(On.RoR2.WwiseUtils.SoundbankLoader.orig_Start orig, RoR2.WwiseUtils.SoundbankLoader self)
         {
             HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "char_Toolbot");
-             HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "Boss_FalseSon");
+            HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "Boss_FalseSon");
             orig(self);
         }
 

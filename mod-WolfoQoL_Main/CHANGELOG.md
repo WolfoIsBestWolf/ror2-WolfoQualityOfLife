@@ -1,5 +1,28 @@
 #Changelog
 ```
+v4.2.1
+Added Minion Healing Recieved stat
+Added Minion Death stat
+Missed Chest & Drone stat now have a detailed breakdown of what was missed.
+Fixed custom stats not using comma seperators
+Fixed Fans counting as missed chests.
+(TOCHECK)Fixed Pillar indicator looking weird
+Fixed Most Killed/Hurt stats being able to select hidden monsters.
+Fixed unlock area not expanding properly.
+Fixed some console spam
+Removed Frozen Buff timer because clients have 0 info on the duration.
+
+
+ 
+(TODO)Fix purple in achievement lunar header thing
+
+(TODO)Added Ping Icons for Sandwept
+(TODO)2 Drones, 3 Shrines
+(TODO)Added Ping Icons for Enemies Returns
+(TODO)Lynx Shrine, Lynx Trap, Broken Mechanical Spider
+(TODO)Broken robot root jungle icon exclamation ig
+ 
+
 v4.2.0
 Death Screen Update
 -Most stats now 2 per row.
@@ -50,12 +73,11 @@ Made Sundered Grove, Abyssal Depths, Scorched Acres shadows slightly less dark b
 Glowing Meteor effect slightly less dark.
 ReAdded Twisteds Fire visual effect
 ReAdded Freeze duration buff but client side.
-Multi shops show up as before on Scanner. (Technical issues)
 Artificer will always shown in Bazaar as decor, just be unpurchasable if already unlocked.
 Broken TC280s will not be snowed on non snowy stages.
 Twisteds spawning does a little static False Son sound.
 Changed buff icon of +1 to unused more fitting icon.
-
+Multi shops show up as before on Scanner. (Technical issues)
 Fixed Ally Ping not outlining most turrets.
 Fixed effect replacers not having saftey check.
 

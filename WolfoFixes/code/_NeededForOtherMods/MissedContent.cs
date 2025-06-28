@@ -18,7 +18,7 @@ namespace WolfoFixes
     }
     public static class SceneList
     {
-        
+
         public static SceneDef SulfurPools = Addressables.LoadAssetAsync<SceneDef>(key: "796f9b67682b3db4c8c5af7294d0490c").WaitForCompletion();
         public static SceneDef RootJungle = Addressables.LoadAssetAsync<SceneDef>(key: "ced489f798226594db0d115af2101a9b").WaitForCompletion();
 

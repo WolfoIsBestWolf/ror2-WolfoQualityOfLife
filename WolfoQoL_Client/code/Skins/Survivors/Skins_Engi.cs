@@ -11,6 +11,7 @@ namespace WolfoQoL_Client.Skins
     {
         public static Material matEngiTurretAlt;
         public static Material matEngiTurretColossus;
+        public static Material matEngiTurretColossusProjectiles;
         public static Material matEngiTrail_Alt;
 
         public static void Start()
@@ -101,7 +102,7 @@ namespace WolfoQoL_Client.Skins
             //newRings = GameObject.Instantiate(particleSystem.material);
             //newRings.SetColor("_TintColor", new Color(1f, 0.6f, 0.1f, 1f)); //0.1533 1 0.0047 1
             //particleSystem.material = newRings;
-            EngiHarpoonGhostSkin_Sots.transform.GetChild(1).GetComponent<MeshRenderer>().material = matEngiTurretColossus;
+            EngiHarpoonGhostSkin_Sots.transform.GetChild(1).GetComponent<MeshRenderer>().material = matEngiTurretColossusProjectiles;
             trailRender = EngiHarpoonGhostSkin_Sots.transform.GetChild(1).GetChild(0).GetComponent<TrailRenderer>(); //matEngiHarpoonTrail 
             trailRender.startColor = new Color32(255, 160, 60, 0);
             trailRender.endColor = new Color32(255, 160, 60, 0);
@@ -130,6 +131,12 @@ namespace WolfoQoL_Client.Skins
             matEngiTurretAlt.SetColor("_EmColor", new Color32(28, 194, 182, 255));
             matEngiTurretAlt.name = "matEngiTurretAlt";
 
+            matEngiTurretColossusProjectiles = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "a9b91ae3f60a5d14a97ec97e5991dc57").WaitForCompletion());
+            matEngiTurretColossusProjectiles.mainTexture = texEngiTurretAltColossusDiffuse;
+            matEngiTurretColossusProjectiles.SetColor("_EmColor", new Color32(255, 128, 0, 255));
+            matEngiTurretColossusProjectiles.name = "matEngiTurretColossusTool";
+
+
             matEngiTurretColossus = UnityEngine.Object.Instantiate(matEngiTurretAlt);
             matEngiTurretColossus.mainTexture = texEngiTurretAltColossusDiffuse;
             matEngiTurretColossus.SetColor("_EmColor", new Color(1, 0.5f, -1f, 1f));
@@ -147,26 +154,17 @@ namespace WolfoQoL_Client.Skins
             LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiGrenadeGhostSkin2").GetComponentInChildren<MeshRenderer>().material = matEngiTurretAlt;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/EngiMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretAlt;
 
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiGrenadeGhostSkin3.prefab").WaitForCompletion().GetComponentInChildren<MeshRenderer>().material = matEngiTurretColossus;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiMineGhost3.prefab").WaitForCompletion().GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretColossus;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiGrenadeGhostSkin3.prefab").WaitForCompletion().GetComponentInChildren<MeshRenderer>().material = matEngiTurretColossusProjectiles;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiMineGhost3.prefab").WaitForCompletion().GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretColossusProjectiles;
 
             //LegacyResourcesAPI.Load<GameObject>("Prefabs/projectileghosts/SpiderMineGhost2").GetComponentInChildren<SkinnedMeshRenderer>().material = MatEngiTurretGreen;
 
-            var EngiDisplayMines = LegacyResourcesAPI.Load<GameObject>("Prefabs/characterdisplays/EngiDisplay").transform.Find("mdlEngi/EngiArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/hand.l/IKBoneStart/IKBoneMid/MineHolder/").transform.GetComponentsInChildren<SkinnedMeshRenderer>(true);
-            //Debug.LogWarning(EngiDisplayMines.Length);
-            for (int i = 0; i < EngiDisplayMines.Length; i++)
-            {
-                if (EngiDisplayMines[i].material.name.EndsWith("Colossus") && EngiDisplayMines[i].name.StartsWith("EngiMineMesh"))
-                {
-                    EngiDisplayMines[i].material = matEngiTurretColossus;
-                }
-                else if (EngiDisplayMines[i].material.name.EndsWith("Alt") && EngiDisplayMines[i].name.StartsWith("EngiMineMesh"))
-                {
-                    EngiDisplayMines[i].material = matEngiTurretAlt;
-                };
-            };
+            Transform engiMineHolder = LegacyResourcesAPI.Load<GameObject>("Prefabs/characterdisplays/EngiDisplay").transform.Find("mdlEngi/EngiArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/hand.l/IKBoneStart/IKBoneMid/MineHolder/").transform;
 
 
+            engiMineHolder.GetChild(0).GetChild(2).GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretAlt;
+            engiMineHolder.GetChild(0).GetChild(3).GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretAlt;
+ 
             SkinDefParams Alt = Addressables.LoadAssetAsync<SkinDefParams>(key: "b98626ea4e0476344af7e02f66c2d5e0").WaitForCompletion();
             SkinDefParams Colossus = Addressables.LoadAssetAsync<SkinDefParams>(key: "c8f3b0a0035b6734783a9fde35234ba3").WaitForCompletion();
 

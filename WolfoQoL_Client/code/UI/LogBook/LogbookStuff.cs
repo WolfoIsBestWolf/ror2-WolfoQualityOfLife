@@ -40,6 +40,11 @@ namespace WolfoQoL_Client
 
         private static EntryStatus EliteEquipmentViewable(On.RoR2.UI.LogBook.LogBookController.orig_GetPickupStatus orig, ref Entry entry, UserProfile viewerProfile)
         {
+            var temp = orig(ref entry, viewerProfile);
+            if (temp == EntryStatus.Available)
+            {
+                return temp;
+            }
             PickupIndex pickupIndex = (PickupIndex)entry.extraData;
             PickupDef pickupDef = PickupCatalog.GetPickupDef(pickupIndex);
             EquipmentIndex equipmentIndex = (pickupDef != null) ? pickupDef.equipmentIndex : EquipmentIndex.None;
@@ -87,7 +92,7 @@ namespace WolfoQoL_Client
                     }
                 }
             }
-            return orig(ref entry, viewerProfile);
+            return temp;
         }
 
         private static Entry[] SortBossMonster(On.RoR2.UI.LogBook.LogBookController.orig_BuildMonsterEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)

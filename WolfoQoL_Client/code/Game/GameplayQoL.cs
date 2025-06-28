@@ -2,8 +2,6 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 
 namespace WolfoQoL_Client
 {
@@ -43,7 +41,7 @@ namespace WolfoQoL_Client
                 On.RoR2.MapZone.TryZoneStart += TeleportItems;
             }
             GeyserLock.Start();
-             
+
         }
 
         public static bool IsItem(Collider collider)

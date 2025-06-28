@@ -14,6 +14,7 @@ namespace WolfoQoL_Client.DeathScreen
     {
         public bool compactedStats;
         public bool addedRunRecap;
+        public bool addedRunTrackedStats;
         public bool isLogRunReport;
         //public static DeathScreenExpanded instance;
         public GameObject killerInventory;
@@ -23,7 +24,7 @@ namespace WolfoQoL_Client.DeathScreen
         public GameObject latestWaveStrip;
 
         public static GameObject difficulty_stat;
- 
+
         public static GameObject item_area;
         public static GameObject unlock_area;
         public static GameObject statHolderPrefab;
@@ -40,7 +41,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         public GameObject chatToggleButton;
         public bool chatActive;
-        
+
         public void ToggleChat()
         {
             Util.PlaySound("Play_UI_menuClick", this.gameObject);
@@ -52,9 +53,9 @@ namespace WolfoQoL_Client.DeathScreen
 
     public class DeathScreen_Main
     {
- 
+
         public static bool otherMod = false;
- 
+
         public static void Start()
         {
             otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("local.fix.history");
@@ -75,7 +76,7 @@ namespace WolfoQoL_Client.DeathScreen
             StatDef.totalEliteKills.pointValue = 20.0;
 
         }
- 
+
         private static void AddManyExtras(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
         {
             EquipOnDeathInventory.DeathEquip_Enemy1 = EquipmentIndex.None;
@@ -96,13 +97,13 @@ namespace WolfoQoL_Client.DeathScreen
                 ExtraStats.AddCustomStats(self, playerInfo);
 
             }
-            catch (System.Exception ex) 
+            catch (System.Exception ex)
             {
-                    //It's the death screen, it can afford it
-                 Debug.LogException(ex);
+                //It's the death screen, it can afford it
+                Debug.LogException(ex);
             }
 
-        
+
             //Dont just remove the spacer because it looks too bunched together
             GameObject killerArea = self.killerPanelObject;
             if (killerArea != null)
@@ -123,6 +124,7 @@ namespace WolfoQoL_Client.DeathScreen
             GameEndReportPanelController game = GameEndReportPanel.GetComponent<GameEndReportPanelController>();
 
             DeathScreenExpanded.difficulty_stat = game.statContentArea.GetChild(0).gameObject;
+
             DeathScreenExpanded.unlock_area = game.unlockContentArea.parent.parent.parent.gameObject;
             DeathScreenExpanded.item_area = DeathScreenExpanded.unlock_area.transform.parent.GetChild(2).gameObject;
 
@@ -211,25 +213,27 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     ExtraStats.ChangeStats(self, newDisplayData.runReport);
                 }
-              
+
             }
             extras.isLogRunReport = newDisplayData.runReport.FindFirstPlayerInfo().master == null;
 
             orig(self, newDisplayData);
-            if (extras.oneTimeExtras == false)
-            {
-                extras.chatActive = self.chatboxTransform.gameObject.activeSelf;
-            }
             if (self.chatboxTransform)
             {
-                self.chatboxTransform.gameObject.SetActive(extras.chatActive);
+                if (extras.oneTimeExtras == false)
+                {
+                    extras.chatActive = self.chatboxTransform.gameObject.activeSelf;
+                }
+                else
+                {
+                    self.chatboxTransform.gameObject.SetActive(extras.chatActive);
+                }
             }
             if (extras.oneTimeExtras)
             {
                 return;
             }
             extras.oneTimeExtras = true;
-            extras.chatActive = self.chatboxTransform.gameObject.activeSelf;
 
             ExtraStats.DifficultyTooltip(self);
 
@@ -273,7 +277,7 @@ namespace WolfoQoL_Client.DeathScreen
                 var I = toggleChatButton.AddComponent<Image>();
                 var B = toggleChatButton.AddComponent<Button>();
                 var L = toggleChatButton.AddComponent<LayoutElement>();
-                 
+
                 L.ignoreLayout = true;
 
                 I.sprite = Addressables.LoadAssetAsync<Sprite>(key: "040ee8a9d9afe894088ab8a0875b1925").WaitForCompletion();

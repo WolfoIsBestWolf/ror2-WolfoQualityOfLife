@@ -17,7 +17,7 @@ namespace WolfoQoL_Client.Skins
                 GameObject BeetleBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleBody.prefab").WaitForCompletion();
                 GameObject BeetleGuardBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/BeetleGuard/BeetleGuardBody.prefab").WaitForCompletion();
                 GameObject BeetleQueenBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/BeetleQueen/BeetleQueen2Body.prefab").WaitForCompletion();
-               
+
                 BeetleBody.AddComponent<ChangeSkinOnStage>().sceneDef = SceneList.SulfurPools;
                 BeetleGuardBody.AddComponent<ChangeSkinOnStage>().sceneDef = SceneList.SulfurPools;
                 BeetleQueenBody.AddComponent<ChangeSkinOnStage>().sceneDef = SceneList.SulfurPools;
@@ -66,15 +66,15 @@ namespace WolfoQoL_Client.Skins
 
         private static void AffixBeadBehavior_OnEnable(On.RoR2.AffixBeadBehavior.orig_OnEnable orig, AffixBeadBehavior self)
         {
-            orig(self); 
+            orig(self);
             //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_impact", self.gameObject);
             Util.PlaySound("Play_boss_falseson_skill3plus_lunarGaze_end", self.gameObject);
             //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_cast", self.gameObject);
             //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_lightning_tether", self.gameObject);
-             
-           
+
+
         }
- 
+
         private static void AffixBeadBehavior_Update(On.RoR2.AffixBeadBehavior.orig_Update orig, AffixBeadBehavior self)
         {
             if (!NetworkServer.active)

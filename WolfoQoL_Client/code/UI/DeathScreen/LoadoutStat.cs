@@ -81,7 +81,7 @@ namespace WolfoQoL_Client.DeathScreen
                 rootObject = Instantiate(difficulty);
                 rootObject.name = "LoadoutRootStrip";
                 rootObject.transform.SetParent(panel.statContentArea, false);
-
+                rootObject.GetComponent<LayoutElement>().preferredWidth = 300;
                 MPEventSystemLocator whatever1 = difficulty.GetComponent<RoR2.UI.MPEventSystemLocator>();
                 MPEventSystemLocator whatever2 = rootObject.GetComponent<RoR2.UI.MPEventSystemLocator>();
                 whatever2.eventSystemProvider = whatever1.eventSystemProvider;
@@ -120,6 +120,12 @@ namespace WolfoQoL_Client.DeathScreen
             }
             setup = true;
             scaleBig = scale * 1.25f;
+
+            if (panel.artifactDisplayPanelController.gameObject.activeSelf)
+            {
+                ExtraStats.CombineDifficultyLoadout(panel.statContentArea); //
+            }
+       
         }
 
         public void SetLoadout(Loadout.BodyLoadoutManager.BodyLoadout loadout)

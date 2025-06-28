@@ -10,6 +10,7 @@ Better to keep it bundled in it's own mod
 ## Survivor / Monsters
 Chef Boosted Ice Box not clearing properly.\
 Chef Cleaver Bonus Proc being 2.25 instead of 1.5.\
+Chef Boosted Sear Oil Puddles dealing 0% instead of 20% damage.\
 If OilSpill is cancelled, brief fall damage immunity is maintained.
 
 Mercenary sometimes breaking his legs with M2.
@@ -33,11 +34,9 @@ Mithrix Phase 4 being skipable because the game thinks he has 0 health.
 
 Corrects various wrong item descriptions.
 
-For Retool, Enigma, Bottled Chaos
-- Sawmerang not bleeding if you don't have the equipment.
-- Milky Chrysalis flight will always have wings.
-
 Warped Echo not inflicting Eclipse 8 curse.
+
+Happiest Mask Ghosts not triggering OnDeath effects. (Ice Explosion, Healing Core, Malachite Urchin)
 
 Charged Perferator rolling for crit instead of inheriting like other procs.
  
@@ -47,6 +46,9 @@ Executive Card no longer fails if buying multi shops really quickly.
 
 Twisted Elites not being able to give armor to some enemies and all players.
 
+For Retool, Enigma, Bottled Chaos
+- Sawmerang not bleeding if you don't have the equipment.
+- Milky Chrysalis flight will always have wings.
 
 Some item tags were changed.
 - Hunters Harpoon missing OnKill.
@@ -55,12 +57,17 @@ Some item tags were changed.
 - Infusion & Nkuhanas AIBlacklisted
 
 ## Gameplay Misc
+Simulacrums Fog ramping up 25x slower than what is intended.
+
+Removed Chance Doll from Simulacrum, as there are no Shrine of Chance. (Unless SimulacrumAdditions is installed)
+
+
 Being able to skip right to Prime Meridian by entering 2 portals at the same time.
 
 Newt Altars will no longer purchasable after Teleporter. (Like pre SotS)\
 Newt Altars will not be purchasable if Teleporter starts with Blue Orb.
 
-Fixes Vengence + Swarms spawning one of them without any items.
+Fixes Vengence + Swarms spawning one of them as not an Umbra/Without any items.
 
 Fixed 10 bugs or errors with Artifact of Devotion leading to :
 - Lemurian evolution no longer results in all but 1 Lemurian having less items than intended.
@@ -71,6 +78,9 @@ Fixed 10 bugs or errors with Artifact of Devotion leading to :
 - Devoted Lemurians now being tagged as such.
 - - Different spawn sound + Works with Spare Drone Parts. (Yeah that's intended)
 - - They just put it on the normal Lemurians instead of the Devoted ones.
+
+
+Treeborn Canopy & Helminth Hatchery being blacklisted from Random Stage Order.
 
 ## Client specific fixes
 Prevents Halcyon Shrine entityState nullref on Client.\
@@ -96,7 +106,6 @@ Fixes some monsters not slowly appearing their spawn animation:
 - Void Reaver, Devestator, Voidling
 - Engineer Turret, Walker
 - Vagrant
-- XI has more issues and still looks bugged
 
 Defense Nucleus Alpha Constructs no longer being Gold.
 

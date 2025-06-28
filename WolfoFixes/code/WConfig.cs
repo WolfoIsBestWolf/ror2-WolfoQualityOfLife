@@ -36,7 +36,7 @@ namespace WolfoFixes
         public static ConfigEntry<bool> cfgTestLogbook;
         public static ConfigEntry<bool> cfgLoadOrder;
 
-        public static void Start()
+        public static void Awake()
         {
 
             InitConfig();

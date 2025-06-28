@@ -9,7 +9,7 @@ namespace WolfoFixes
     {
         public Vector3 CameraPosition = new Vector3(-1.5f, 1f, 3f);
         public Vector3 FocusPosition = new Vector3(0f, 1f, 0f);
-   
+
     }
     public class LogFixes
     {
@@ -111,8 +111,8 @@ namespace WolfoFixes
                     self.minDistance = 2;
                     self.maxDistance = 8;
                 }
-       
-              
+
+
             }
             orig(self);
         }

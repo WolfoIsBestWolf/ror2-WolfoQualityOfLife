@@ -14,14 +14,14 @@ Includes acid pool in lobby.
 
 
 Engineer Skins will have skinned Harpoons.\
-Fixes Engineers Mastery & Colossus Skin Turrets looking worse than intended. (Glows more now)\
+Fixes Engineers Mastery & Colossus Skin Turrets looking worse than seemingly intended. (Glows more now)\
 REX's vines when sprinting now match his skin.\
 Loaders Alt skin will have matching Hook Hand.\
 MulT shows off his primary skill in lobby.
 
 Helminth Hatcheries Lighting is now what was seemingly originally intended. [(Brighter, Warmer)](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/helminth.png?raw=true)\
-Sundered Groves dark parts are less dark.\
-Sundered Groves pink mushs are visible at lower settings.
+Sundered Groves, Abyssal Depths & Scorched Acres have slightly less dark shadows.\
+Sundered Groves pink mushrooms are visible at lower settings.
 
 Elite Brass contraptions will have colored balls.
 
@@ -39,6 +39,9 @@ Twisted Elites have a fire visual effect again.\
 Twisted Elites play a little sound upon spawning.
 
 Broken TC280 wont look snowed on if spawned outside of snowy areas.
+
+Chef Oil will spawn a little effect when changing states.\
+Igniting Oil will play a sound.
 
 ![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
 
@@ -86,7 +89,8 @@ Many more messages so you have another chance to see what happened, or to see wh
 - Message reviving using an item.
 - Message when Shrine of Shaping activates.
 - Victory quotes displayed in chat.
-- Recycling
+- Recycling an item into another.
+- What Sale Star was used on.
  
 
 Picking up a void will show how many it corrupted on pickup.\
@@ -112,15 +116,12 @@ Cleansing Pools, Lockboxes and Lunar Recycler now also have a Cost Hologram.
 
 Charge Indicator for Void Field Cells like other Holdout zones.
  
-Void Potentials & Aurelionite Fragments now have their tiers particle effects.\
+Void Potentials & Aurelionite Fragments now have tiered particle effects.\
 Void Potentials & Aurelionite Fragments display their items in ping messages
 
 ![Image of various features](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures1.png)
-## Menu & Hud
+## Menu / Hud / UI
 A Unique Ping Icon for the vast majority of Interactables.
-
-Purchasing will remove the scanner icon immediately.
-
 
 Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Pot.\
 Updated Body Icon for Squid Polyp, Devoted Lemurians, Ally Aurelionite.
@@ -147,6 +148,11 @@ Logbook additions:
 - Newt in Bazaar Log and some small fixes.
 - Simulacrum Stages
 
+
+Adds a Frozen buff icon to act as a timer for how long they're still frozen for.\
+Makes the "Unstable Transmitter Active" buff visible & gives it a Icon.
+
+
 ![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)
 ## Gameplay fixes
 Primordial Teleporter destination can be shifted after the TP boss. (Host only)
@@ -162,18 +168,18 @@ More Skills unlock movement too.
 Pillar and Void holdout zones get flowers if you have Lepton Daisy.\
 Captains Shock Beacon now has a range indicator.
 
+For Radar Scanner; Purchasing will remove the scanner icon immediately.
+
 Boosted & Corrupted skills will be now be prefixed as such.\
 Corrupted Skills now have actual descriptions mid run.\
-Simulacrum Stages include the stage they're one in their name.
+Simulacrum Stages include the stages name in their name.
 
 Void Fiends Mouse2 now has a crosshair response like other charging attacks.\
 Void Allies have cyan eyes for slighty easier identification in the dark.
 
-Elite Children have stronger colors so you can notice them easier.\
+Elite Children have stronger colors so you can distinguish them easier.\
 Some Lunar Seer destinations look less bright.
 
-Adds a Frozen buff icon to act as a timer for how long they're still frozen for.\
-Makes the "Unstable Transmitter Active" buff visible & gives it a Icon.
 
 Lunar Seers replace the Blue Portal with a Green/Gold/Void when going to those places.
 

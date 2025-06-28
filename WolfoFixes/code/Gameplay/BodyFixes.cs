@@ -55,7 +55,9 @@ namespace WolfoFixes
                {
                    hurtBoxGroup.SetHurtboxesActive(false);
                }*/
-
+            CharacterBody DeathProjectile = Addressables.LoadAssetAsync<GameObject>(key: "1336d77e77299964884c3bd02757fde7").WaitForCompletion().GetComponent<CharacterBody>();
+            DeathProjectile.baseNameToken = "EQUIPMENT_DEATHPROJECTILE_NAME";
+            DeathProjectile.portraitIcon = Addressables.LoadAssetAsync<Texture2D>(key: "dda5febead506894fa6e053cea042ddc").WaitForCompletion();
         }
 
         public static void Start()
@@ -135,6 +137,10 @@ namespace WolfoFixes
             //Might need to adjust this
             On.EntityStates.Chef.OilSpillBase.OnExit += FallDamageImmunityOnOilSpillCancel;
 
+            //BoostedSearFireballProjectile has childDmgCoeff of 0 resulting in 0 damage Oil Pools
+            //Oil pools normally do 20% damage 
+            Addressables.LoadAssetAsync<GameObject>(key: "c00152ae354576245849336ff7e67ba6").WaitForCompletion().GetComponent<ProjectileExplosion>().childrenDamageCoefficient = 2f / 70f;
+
         }
 
         public static void CallLate()
@@ -152,7 +158,7 @@ namespace WolfoFixes
 
         private static void FallDamageImmunityOnOilSpillCancel(On.EntityStates.Chef.OilSpillBase.orig_OnExit orig, EntityStates.Chef.OilSpillBase self)
         {
-            //Intended for when called with YES Chef,
+            //Intended for when cancelled with YES Chef,
             //Would be more ideal to have a way where hitting an enemy and dropping still does damage
             //Like how Acrid has it
             self.characterBody.AddTimedBuff(JunkContent.Buffs.IgnoreFallDamage, 0.25f);

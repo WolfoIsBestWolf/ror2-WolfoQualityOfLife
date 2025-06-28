@@ -32,7 +32,7 @@ namespace WolfoFixes.Testing
             On.RoR2.Stage.PreStartClient += Stage_PreStartClient;
             Stage.onStageStartGlobal += Stage_onStageStartGlobal;
             On.RoR2.Stage.OnDisable += Stage_OnDisable;
-             
+
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
 
 

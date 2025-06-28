@@ -48,10 +48,12 @@ namespace WolfoQoL_Client
             {
                 sprites[i].color = new Color(0.5223f, 0.8071f, 0.9151f, 1f);
             }
-            ObjectScaleCurve scale = newIndicator.transform.GetChild(2).GetChild(0).GetComponent<ObjectScaleCurve>();
+            Object.Destroy(newIndicator.transform.GetChild(2).GetChild(0).GetComponent<ObjectScaleCurve>());
+            ObjectScaleCurve scale = newIndicator.AddComponent<ObjectScaleCurve>();
             scale.timeMax = 15;
             scale.useOverallCurveOnly = true;
             scale.overallCurve = newCurve;
+
             DestroyOnTimer destroy = newIndicator.AddComponent<DestroyOnTimer>();
             destroy.duration = scale.timeMax + 1;
             #endregion
@@ -133,9 +135,14 @@ namespace WolfoQoL_Client
             {
                 return;
             }
+
             //For every pillar, not completed, 
             if (MoonBatteryMissionController.instance)
             {
+                if (MoonBatteryMissionController.instance.numChargedBatteries >= MoonBatteryMissionController.instance._numRequiredBatteries)
+                {
+                    return;
+                }
                 var battery = MoonBatteryMissionController.instance.batteryHoldoutZones;
                 for (int i = 0; i < battery.Length; i++)
                 {

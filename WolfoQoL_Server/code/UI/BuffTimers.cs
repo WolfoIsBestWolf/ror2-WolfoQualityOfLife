@@ -3,7 +3,6 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using WolfoQoL_Client;
 
 namespace WolfoQoL_Server
 {
@@ -24,7 +23,7 @@ namespace WolfoQoL_Server
         //public static BuffDef bdHellFireDuration;
         public static BuffDef bdFrostRelic;
         public static BuffDef bdOpalCooldown;
-
+        public static BuffDef bdFrozen;
 
         public static void Buffs_NewBuffs()
         {
@@ -167,8 +166,17 @@ namespace WolfoQoL_Server
             }
             #endregion
             #region Frozen
- 
-            ContentAddition.AddBuffDef(BuffIcons.bdFrozen);
+
+
+            bdFrozen = ScriptableObject.CreateInstance<BuffDef>();
+            bdFrozen.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffBrokenCube.png");
+            bdFrozen.buffColor = new Color32(184, 216, 239, 255); //CFDBE0 // B8D8EF
+            bdFrozen.name = "wqol_Frozen";
+            bdFrozen.isDebuff = false;
+            bdFrozen.canStack = true;
+            bdFrozen.ignoreGrowthNectar = true;
+
+            ContentAddition.AddBuffDef(bdFrozen);
 
             if (WConfig.cfgBuff_Frozen.Value == true && riskyModEnabled == false)
             {
@@ -180,7 +188,7 @@ namespace WolfoQoL_Server
                         for (float num5 = 0; num5 <= self.freezeDuration; num5 += 0.5f)
                         {
                             //self.characterBody.AddTimedBuff(bdFrozen, (float)num5);
-                            self.characterBody.AddTimedBuffAuthority(BuffIcons.bdFrozen.buffIndex, (float)num5);
+                            self.characterBody.AddTimedBuffAuthority(bdFrozen.buffIndex, (float)num5);
                         }
                     }
                 };
@@ -190,7 +198,7 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        self.characterBody.ClearTimedBuffs(BuffIcons.bdFrozen);
+                        self.characterBody.ClearTimedBuffs(bdFrozen);
                     }
                 };
             }

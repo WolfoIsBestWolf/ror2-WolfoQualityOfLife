@@ -1,7 +1,5 @@
 ﻿using RoR2;
 using UnityEngine;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 
 namespace WolfoQoL_Client
 {

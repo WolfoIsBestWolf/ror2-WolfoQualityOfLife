@@ -2,6 +2,7 @@
 using RoR2;
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace WolfoFixes
 {
@@ -20,6 +21,38 @@ namespace WolfoFixes
                 On.RoR2.HealthComponent.TakeDamageProcess += SlayerApplyingToProc;
             }
 
+            //Helminth Roost should realistically be blocked from Stage 1 in WeeklyRun specifically
+            //But both of these should be allowed for RandomStage order
+            //At least 2 of my mods used it so i'm putting here.
+            SceneDef scene = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/habitat/habitat.asset").WaitForCompletion();
+            scene.validForRandomSelection = true;
+            scene = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/helminthroost/helminthroost.asset").WaitForCompletion();
+            scene.validForRandomSelection = true;
+
+
+            //Needed for SimuAdds
+            IL.RoR2.HealthComponent.ServerFixedUpdate += AllowGhostsToSuicideProperly;
+        }
+
+        public static void AllowGhostsToSuicideProperly(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.Before,
+                x => x.MatchCall("RoR2.HealthComponent", "Suicide"));
+
+            if (c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdarg(0)))
+            {
+                c.EmitDelegate<System.Func<HealthComponent, HealthComponent>>((stock) =>
+                {
+                    stock.health = 1;
+                    return stock;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : HealthComponent_ServerFixedUpdateHealthComponent_Suicide1");
+            }
         }
 
 

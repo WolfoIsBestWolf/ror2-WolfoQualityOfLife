@@ -86,7 +86,7 @@ namespace WolfoFixes
                 return;
             }
             var list = ModUtil.GetEliteEquipment();
-           
+
             foreach (EquipmentIndex equipmentIndex in list)
             {
                 if (run.expansionLockedEquipment.Contains(equipmentIndex))
@@ -103,8 +103,6 @@ namespace WolfoFixes
 
     }
 
-
-  
     public static class Shared
     {
         public static BasicPickupDropTable dtAllTier
@@ -128,7 +126,7 @@ namespace WolfoFixes
             }
             //Normal
             //W80, G20, R1
- 
+
             AdvancedPickupDropTable dtAllTier = ScriptableObject.CreateInstance<AdvancedPickupDropTable>();
             dtAllTier.name = "dtAllTier";
             dtAllTier.tier1Weight = 160;

@@ -12,7 +12,7 @@ namespace WolfoQoL_Client
             };
             On.RoR2.WeeklyRun.GetCurrentSeedCycle += (orig) =>
             {
-                return (uint)(WeeklyRun.now.Ticks*WolfoMain.random.NextDouble());
+                return (uint)(WeeklyRun.now.Ticks * WolfoMain.random.NextDouble());
             };
             On.RoR2.WeeklyRun.ClientSubmitLeaderboardScore += (orig, self, runReport) =>
             {

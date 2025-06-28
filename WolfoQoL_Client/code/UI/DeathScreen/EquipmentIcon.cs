@@ -57,7 +57,7 @@ namespace WolfoQoL_Client.DeathScreen
 
                         }
                     }
-              
+
                     if (equipmentCount.Count == 0)
                     {
                         orig(self, desiredItemCount);

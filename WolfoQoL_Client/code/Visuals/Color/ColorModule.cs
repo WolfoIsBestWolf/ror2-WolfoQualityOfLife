@@ -306,7 +306,7 @@ namespace WolfoQoL_Client
             {
                 HighlightEquipment = true;
             }
-            orig(ref context); 
+            orig(ref context);
         }
 
         public static void EquipmentHighlighter(On.RoR2.CharacterModel.orig_SetEquipmentDisplay orig, global::RoR2.CharacterModel self, EquipmentIndex newEquipmentIndex)

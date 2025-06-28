@@ -1,4 +1,5 @@
 ﻿using BepInEx.Logging;
+using HG;
 using RoR2;
 using RoR2.Stats;
 using UnityEngine;
@@ -28,6 +29,42 @@ namespace WolfoQoL_Client
                 return ItemIndex.None;
             }
             return result;
+        }
+
+        internal static bool IconIsNotSuitable(CharacterBody body)
+        {
+            //Used by game to determine for body generate
+            //But not really ideal for death screen I feel
+            if (!body.portraitIcon)
+            {
+                return true;
+            }
+            string name = body.portraitIcon.name;
+            return name == "texMysteryIcon" || name == "texNullIcon";
+        }
+        public static BodyIndex FindBodyWithHighestStatNotMasterless(StatSheet statSheet, PerBodyStatDef perBodyStatDef)
+        {
+            StatField statField = statSheet.fields[perBodyStatDef.FindStatDef((BodyIndex)0).index];
+            int result = 0;
+            for (int bodyIndex = 1; bodyIndex < BodyCatalog.bodyCount; bodyIndex++)
+            {
+                ref StatField ptr = ref statSheet.fields[ArrayUtils.GetSafe(perBodyStatDef.bodyIndexToStatDef, bodyIndex).index];
+                if (ptr.ulongValue > (ulong)0 && statField.CompareTo(ptr) < 0)
+                //if (statField.ulongValue < ptr.ulongValue) //??
+                {
+                    //Only check if Is Bigger, not check every body
+                    if (!IconIsNotSuitable(BodyCatalog.bodyPrefabBodyComponents[bodyIndex]))
+                    {
+                        statField = ptr;
+                        result = bodyIndex;
+                    }
+                }
+            }
+            if (statField.IsDefault())
+            {
+                return BodyIndex.None;
+            }
+            return (BodyIndex)result;
         }
 
 

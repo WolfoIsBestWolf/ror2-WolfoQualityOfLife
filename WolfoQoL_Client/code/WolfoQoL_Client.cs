@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using BepInEx.Logging;
 using R2API.Utils;
 using RoR2;
 using RoR2.ContentManagement;
@@ -13,7 +12,7 @@ using WolfoQoL_Client.DeathScreen;
 using WolfoQoL_Client.Reminders;
 using WolfoQoL_Client.Skins;
 using WolfoQoL_Client.Text;
- 
+
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -23,7 +22,7 @@ namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("Early.Wolfo.WolfFixes")]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.2.0")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.2.1")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WolfoMain : BaseUnityPlugin
     {
@@ -59,7 +58,7 @@ namespace WolfoQoL_Client
                 HostHasMod_ = value;
             }
         }
-        
+
         public void Awake()
         {
             WConfig.Start();
@@ -122,6 +121,7 @@ namespace WolfoQoL_Client
 
             On.RoR2.Stage.PreStartClient += PingVisualStageChanges;
 
+
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 
@@ -163,8 +163,7 @@ namespace WolfoQoL_Client
             LogbookStuff.NormalLogbook();
 
             TextChanges.Main();
-            //UI
-            BuffIcons.Start();
+
         }
 
         internal static void ModSupport_CallLate()
@@ -214,7 +213,10 @@ namespace WolfoQoL_Client
         private void PingVisualStageChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
         {
             orig(self);
-
+            if (!SceneInfo.instance)
+            {
+                return;
+            }
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
                 case "lakes":
@@ -306,7 +308,7 @@ namespace WolfoQoL_Client
                         {
                             if (sun.shadowStrength == 1f)
                             {
-                                sun.shadowStrength = 0.8f; 
+                                sun.shadowStrength = 0.8f;
                             }
                         }
                     }
@@ -626,7 +628,7 @@ namespace WolfoQoL_Client
                     {
                         GameObject PortalArena = GameObject.Find("/PortalArena");
                         PortalArena.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.PortalIcon;
-                         
+
                         GameObject VoidCells = GameObject.Find("/ArenaMissionController");
                         var purchases = VoidCells.GetComponentsInChildren<PurchaseInteraction>(false);
                         for (int i = 0; i < purchases.Length; i++)

@@ -1,6 +1,8 @@
 ﻿using BepInEx;
+using MonoMod.Cil;
 using R2API.Utils;
 using RoR2;
+using UnityEngine;
 using WolfoFixes.Testing;
 
 namespace WolfoFixes
@@ -14,7 +16,7 @@ namespace WolfoFixes
         public void Awake()
         {
 
-            WConfig.Start();
+            WConfig.Awake();
         }
 
 
@@ -36,7 +38,7 @@ namespace WolfoFixes
                 return;
             }
             VoidSuppressor.FixInteractable();
-
+            VoidElite.VoidAffix();
 
             BodyFixes.Start();
             DevotionFixes.Start();
@@ -63,7 +65,7 @@ namespace WolfoFixes
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
         }
-
+ 
         void addRiskConfigLatest()
         {
             RoR2Application.onLoad -= addRiskConfigLatest;
@@ -82,13 +84,14 @@ namespace WolfoFixes
             {
                 return;
             }
-         
+
 
             //The later the better because first come first serve with LanguageAPI
             //Tho could do it with a language file I guess?
             TextFixes.CallLate();
             ItemTags.CallLate();
             BodyFixes.CallLate();
+            Simualcrum.CallLate();
 
             RoR2Content.Buffs.HiddenInvincibility.canStack = false;
             DLC2Content.Buffs.Boosted.canStack = false;

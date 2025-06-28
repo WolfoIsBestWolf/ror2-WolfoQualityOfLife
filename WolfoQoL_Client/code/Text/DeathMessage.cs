@@ -106,9 +106,19 @@ namespace WolfoQoL_Client.Text
                     token = "DEATH_GENERIC";
                 }
             }
-
-            string damageVal = $"{damage:F2}";
-
+            string damageVal = string.Empty;
+            if (damage > 1000)
+            {
+                damageVal = $"{damage:F0}";
+            }
+            else if (damage > 100)
+            {
+                damageVal = $"{damage:F1}";
+            }
+            else
+            {
+                damageVal = $"{damage:F2}";
+            }
 
             DetailedDeathMessage deathMessage = new DetailedDeathMessage
             {
@@ -154,10 +164,6 @@ namespace WolfoQoL_Client.Text
         {
             public override string ConstructChatString()
             {
-                if (WConfig.cfgMessageDeath.Value == false)
-                {
-                    return null;
-                }
                 string KillerName = "";
                 if (attackerObject != null)
                 {
@@ -177,6 +183,10 @@ namespace WolfoQoL_Client.Text
                 result += string.Format(Language.GetString(baseToken), victimName, KillerName);
                 result += string.Format(Language.GetString("DEATH_DAMAGE"), damageDone);
                 victimMaster.GetComponent<PerPlayer_ExtraStatTracker>().latestDetailedDeathMessage = result;
+                if (WConfig.cfgMessageDeath.Value == false)
+                {
+                    return null;
+                }
                 result = "<style=cDeath>" + result;
                 return result;
             }

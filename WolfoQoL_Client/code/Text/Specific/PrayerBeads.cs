@@ -99,7 +99,7 @@ namespace WolfoQoL_Client.Text
 
         public static string GetPrayerBeadsToken(Inventory inventory, CharacterBody body, string tokenIn)
         {
-            Debug.Log("PrayerBeads_Ovelay");
+            //Debug.Log("PrayerBeads_Ovelay");
             if (body == null)
             {
                 body = inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>();

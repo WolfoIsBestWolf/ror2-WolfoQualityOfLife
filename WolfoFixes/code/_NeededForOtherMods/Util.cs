@@ -6,7 +6,7 @@ namespace WolfoFixes
 
     public static class ModUtil
     {
-       
+
         public static List<EquipmentIndex> GetEliteEquipment(bool droppableOnly = true)
         {
             List<EquipmentIndex> eliteEquips = new List<EquipmentIndex>();

@@ -25,7 +25,7 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> DC_StageRecap;
         public static ConfigEntry<bool> DC_LatestWave;
- 
+
         public static ConfigEntry<bool> DC_KillerInventory;
         public static ConfigEntry<bool> DC_KillerInventory_EvenIfJustElite;
 
@@ -38,9 +38,8 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgDarkTwisted;
         public static ConfigEntry<bool> cfgTwistedFire;
         public static ConfigEntry<bool> cfgMithrixPhase4SkipFix;
- 
+
         public static ConfigEntry<bool> cfgSmoothCaptain;
-        public static ConfigEntry<bool> cfgFreezeTimer;
 
         //Visuals
         public static ConfigEntry<bool> cfgSkinAcridBlight;
@@ -558,14 +557,14 @@ namespace WolfoQoL_Client
                 true,
                 "Sort Bosses to the end of the Monster category"
             );
-  
+
             DC_Loadout = ConfigFile_Client.Bind(
                "Menu",
                "Death Screen | Loadout",
                Position.Top,
                "Players skill loadouts will be shown, for sharing and inspecting."
            );
-        
+
             DC_MoreStats = ConfigFile_Client.Bind(
                 "Menu",
                 "Death Screen | More Stats",
@@ -717,12 +716,7 @@ namespace WolfoQoL_Client
                 true,
                 "Gives Twisted Elites a dark blue coloration instead of reusing Overloading."
             );
-            cfgFreezeTimer = ConfigFile_Client.Bind(
-                "Hud",
-                "Freeze Timer Buff",
-                true,
-                "Adds a freeze duration timer in the form of a buff. 1 Buff per 0.5s. Useful for timing attacks\n\nIf Extras mod installed use that mods config."
-            );            
+
             cfgOldSotsEliteIcons = ConfigFile_Client.Bind(
                 "Hud",
                 "SotS Elite Icon change",

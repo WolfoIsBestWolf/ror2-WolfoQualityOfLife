@@ -27,8 +27,36 @@ namespace WolfoFixes
 
             IL.RoR2.GlobalEventManager.ProcessHitEnemy += FixChargedPerferatorCrit;
 
+            //Needed for SimuAdds
+            On.EntityStates.QuestVolatileBattery.CountDown.OnEnter += FallbackIfNoItemDisplay;
+        }
 
-            //Addressables.LoadAssetAsync<GameObject>(key: "4f612c5811d31594990dd8f53f0faf3b").WaitForCompletion().GetComponent<VFXAttributes>().DoNotPool = true;
+        private static void FallbackIfNoItemDisplay(On.EntityStates.QuestVolatileBattery.CountDown.orig_OnEnter orig, EntityStates.QuestVolatileBattery.CountDown self)
+        {
+            orig(self);
+            if (self.vfxInstances.Length == 0)
+            {
+                if (!self.networkedBodyAttachment.attachedBody)
+                {
+                    return;
+                }
+                if (EntityStates.QuestVolatileBattery.CountDown.vfxPrefab && self.attachedCharacterModel)
+                {
+                    self.vfxInstances = new GameObject[1];
+                    GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(EntityStates.QuestVolatileBattery.CountDown.vfxPrefab, self.networkedBodyAttachment.attachedBody.coreTransform);
+                    gameObject.transform.localPosition = Vector3.zero;
+                    gameObject.transform.localRotation = Quaternion.identity;
+                    gameObject.transform.localScale = new Vector3(2.5f / gameObject.transform.lossyScale.x, 2.5f / gameObject.transform.lossyScale.y, 2.5f / gameObject.transform.lossyScale.z);
+                    if (gameObject.transform.localScale.z < 1)
+                    {
+                        gameObject.transform.localScale = new Vector3(1, 1, 1); //Idk dude
+                    }
+                    gameObject.transform.GetChild(0).GetComponent<Light>().range *= 3;
+                    gameObject.transform.GetChild(0).GetComponent<Light>().intensity *= 3;
+                    gameObject.transform.GetChild(0).GetComponent<LightIntensityCurve>().timeMax /= 2;
+                    self.vfxInstances[0] = gameObject;
+                }
+            }
         }
 
         private static void FixEchoOSP(ILContext il)

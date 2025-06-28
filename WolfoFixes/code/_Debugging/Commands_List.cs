@@ -63,6 +63,7 @@ namespace WolfoFixes.Testing
             }
             Debug.Log(log);
         }
+        
         [ConCommand(commandName = "list_sceneDefColors", flags = ConVarFlags.None, helpText = "List all StatDefs")]
         public static void CCList_SceneDef(ConCommandArgs args)
         {
@@ -76,6 +77,7 @@ namespace WolfoFixes.Testing
             }
             Debug.Log(log);
         }
+        
         [ConCommand(commandName = "dccs_catPercent", flags = ConVarFlags.None, helpText = "List all StatDefs")]
         public static void CCListCategoriesInPercent(ConCommandArgs args)
         {
@@ -123,6 +125,26 @@ namespace WolfoFixes.Testing
             Debug.Log(log);
         }
 
+        [ConCommand(commandName = "list_combatdirector", flags = ConVarFlags.None, helpText = "WeightedSelection of monsters on current stage.")]
+        public static void CCList_CombatDirector(ConCommandArgs args)
+        {
+            var a = SceneDirector.FindFirstObjectByType<SceneDirector>();
+            if (!ClassicStageInfo.instance)
+            {
+                Debug.Log("No SceneDirector");
+                return;
+            }
+
+            string log = string.Empty;
+            float totalWeight = ClassicStageInfo.instance.modifiableMonsterCategories.SumOfAllCategories();
+            for (int i = 0; i < ClassicStageInfo.instance.monsterSelection.Count; i++)
+            {
+                var c = ClassicStageInfo.instance.monsterSelection.choices[i];
+                log += string.Format("\n{0} | {1}", new object[] { c.value.spawnCard.name, c.weight / totalWeight * 100 + "%" });
+            }
+
+            Debug.Log(log);
+        }
 
         [ConCommand(commandName = "list_scenedirector", flags = ConVarFlags.None, helpText = "WeightedSelection of interactables on current stage.")]
         public static void CCList_SceneDirector(ConCommandArgs args)
@@ -296,7 +318,7 @@ namespace WolfoFixes.Testing
             for (int i = 0; i < ItemCatalog.allItemDefs.Length; i++)
             {
                 ItemDef def = ItemCatalog.allItemDefs[i];
-                string info = "\n__" + def.nameToken + "__";
+                string info = "\n__" + def.name + " | " + Language.GetString(def.nameToken) + "__";
                 for (int j = 0; j < def.tags.Length; j++)
                 {
                     info += "\n" + def.tags[j].ToString();
@@ -357,7 +379,7 @@ namespace WolfoFixes.Testing
 
         }
 
-        [ConCommand(commandName = "list_dccs", flags = ConVarFlags.None, helpText = "List all dccs, dp, csc, isc. Will take a moment & Restart afterwards. Does not get modded dccs or dp")]
+        [ConCommand(commandName = "list_all_dccs", flags = ConVarFlags.None, helpText = "List all dccs, dp, csc, isc. Will take a moment & Restart afterwards. Does not get modded dccs or dp")]
         public static void CCList_DCCS(ConCommandArgs args)
         {
             List<DirectorCardCategorySelection> allVanillaDccs = new List<DirectorCardCategorySelection>();
