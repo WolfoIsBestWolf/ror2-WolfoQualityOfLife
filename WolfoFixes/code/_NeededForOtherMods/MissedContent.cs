@@ -10,6 +10,7 @@ namespace WolfoFixes
         public static ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>(key: "d4f30c23b971a9b428e2796dc04ae099").WaitForCompletion();
         public static ExpansionDef DLC2 = Addressables.LoadAssetAsync<ExpansionDef>(key: "851f234056d389b42822523d1be6a167").WaitForCompletion();
         //public static ExpansionDef DLC3 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC3/Common/DLC3.asset").WaitForCompletion();
+        public static ExpansionDef DLC3 = null;
 
         public static EntitlementDef entitlementDLC1 = Addressables.LoadAssetAsync<EntitlementDef>(key: "0166774839e0bd345bb11554aecbfd32").WaitForCompletion();
         public static EntitlementDef entitlementDLC2 = Addressables.LoadAssetAsync<EntitlementDef>(key: "68fcfaddae5157f4581a1fc209e4eac6").WaitForCompletion();

@@ -308,38 +308,8 @@ namespace WolfoQoL_Server
             //bdOpalCooldown.isHidden = true;
             if (WConfig.cfgBuff_ShieldOpalCooldown.Value == true)
             {
-                On.RoR2.CharacterBody.OnTakeDamageServer += (orig, self, damageReport) =>
-                {
-                    orig(self, damageReport);
-                    if (NetworkServer.active && self.teamComponent.teamIndex == TeamIndex.Player)
-                    {
-                        if (self.outOfDangerStopwatch < 0.5f)
-                        {
-                            if (self.healthComponent.fullShield > 0 && self.healthComponent.shield < self.healthComponent.fullShield)
-                            {
-                                float duration = 7f - self.outOfDangerStopwatch;
-                                if (self.healthComponent.itemCounts.missileVoid > 0)
-                                {
-                                    self.AddTimedBuff(bdShieldDelayPink, duration);
-                                }
-                                else
-                                {
-                                    self.AddTimedBuff(bdShieldDelay, duration);
-                                }
-                            }
-                            if (self.inventory)
-                            {
-                                float duration = 7f - self.outOfDangerStopwatch;
-                                if (self.inventory.GetItemCount(DLC1Content.Items.OutOfCombatArmor) > 0)
-                                {
-                                    self.AddTimedBuff(bdOpalCooldown, duration);
-                                }
-                            }
-                        }
-                    }
-                };
-                //On.RoR2.HealthComponent.HandleDamageDealt Runs slightly less often but some server message shit idk
-
+                On.RoR2.CharacterBody.OnTakeDamageServer += ShieldAndOpal;
+ 
                 On.RoR2.HealthComponent.ForceShieldRegen += (orig, self) =>
                 {
                     orig(self);
@@ -485,6 +455,36 @@ namespace WolfoQoL_Server
             //On.RoR2.BuffCatalog.SetBuffDefs += ReplaceBuffOrderIGuess;
         }
 
+        private static void ShieldAndOpal(On.RoR2.CharacterBody.orig_OnTakeDamageServer orig, CharacterBody self, DamageReport damageReport)
+        {
+            orig(self, damageReport);
+            if (NetworkServer.active && self.teamComponent.teamIndex == TeamIndex.Player)
+            {
+                if (!self._outOfDanger)
+                {
+                    if (self.healthComponent.fullShield > 0 && self.healthComponent.shield < self.healthComponent.fullShield)
+                    {
+                        float duration = 7f - self.outOfDangerStopwatch;
+                        if (self.healthComponent.itemCounts.missileVoid > 0)
+                        {
+                            self.AddTimedBuff(bdShieldDelayPink, duration);
+                        }
+                        else
+                        {
+                            self.AddTimedBuff(bdShieldDelay, duration);
+                        }
+                    }
+                    if (self.inventory)
+                    {
+                        float duration = 7f - self.outOfDangerStopwatch;
+                        if (self.inventory.GetItemCount(DLC1Content.Items.OutOfCombatArmor) > 0)
+                        {
+                            self.AddTimedBuff(bdOpalCooldown, duration);
+                        }
+                    }
+                }
+            }
+        }
 
         private static void ReplaceBuffOrderIGuess(On.RoR2.BuffCatalog.orig_SetBuffDefs orig, BuffDef[] newBuffDefs)
         {

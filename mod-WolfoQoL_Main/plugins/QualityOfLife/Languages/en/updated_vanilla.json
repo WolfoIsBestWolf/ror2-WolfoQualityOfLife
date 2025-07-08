@@ -13,8 +13,8 @@
             "PLAYER_DEATH_QUOTE_33_2P": "You are not OK from this encounter.",
             "PLAYER_DEATH_QUOTE_33": "{0} is not OK from this encounter.",
   
-            "LOCKEDTREEBOT_CONTEXT", "Repair the survivor",
-            "LOCKEDMAGE_NAME", "Frozen Survivor",
+            "LOCKEDTREEBOT_CONTEXT": "Repair the survivor",
+            "LOCKEDMAGE_NAME": "Frozen Survivor",
 		
 		
 			"PRIMEMERIDIANHEAD_BODY_NAME": "Head of the Colossus",
@@ -103,7 +103,7 @@
 				
           
 			"EQUIPMENT_AFFIXBEAD_DESC": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>10</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and inflicting <style=cIsDamage>Lunar Ruin</style>. Recharges after 10s.", 
-			"EQUIPMENT_AFFIXBEAD_DESC_LTG": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>5</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and <style=cIsDamage>disables all skills</style> for 5s.", 
+			"EQUIPMENT_AFFIXBEAD_DESC_LGT": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>5</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and <style=cIsDamage>disables all skills</style> for 5s.", 
 
 	}
 }

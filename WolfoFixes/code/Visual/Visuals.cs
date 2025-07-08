@@ -65,10 +65,14 @@ namespace WolfoFixes
             alphas[1].continueExistingAfterTimeMaxIsReached = true;
             //EntangleOrbEffect.GetComponent<DetachParticleOnDestroyAndEndEmission>().enabled = false;
 
+
+
+           /* bool otherGrandparent = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Moffein.RiskyFixes");
             //Grandparent invisible rock
             GameObject miniRock = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Grandparent/GrandparentMiniBoulderGhost.prefab").WaitForCompletion();
-            MeshFilter mesh = miniRock.transform.GetChild(0).GetChild(0).GetComponent<MeshFilter>();
-            mesh.mesh = Addressables.LoadAssetAsync<Mesh>("RoR2/Base/skymeadow/SMRockAngular.fbx").WaitForCompletion();
+            //MeshFilter mesh = miniRock.transform.GetChild(0).GetChild(0).GetComponent<MeshFilter>();
+            //mesh.sharedMesh = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/skymeadow/SMRockAngular.fbx").WaitForCompletion().GetComponent<MeshFilter>().mesh;
+            miniRock.transform.GetChild(0).localScale *= 30;*/
 
             On.RoR2.DetachParticleOnDestroyAndEndEmission.OnDisable += RenableParticlesOnEnable;
 

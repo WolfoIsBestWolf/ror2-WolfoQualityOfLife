@@ -103,6 +103,17 @@ namespace WolfoFixes
 
     }
 
+
+    public class ForcedTeamCSC : CharacterSpawnCard
+    {
+        public TeamIndex teamIndexOverride = TeamIndex.Monster;
+        public override void Spawn(Vector3 position, Quaternion rotation, DirectorSpawnRequest directorSpawnRequest, ref SpawnCard.SpawnResult result)
+        {
+            directorSpawnRequest.teamIndexOverride = teamIndexOverride;
+            base.Spawn(position, rotation, directorSpawnRequest, ref result);
+        }
+    }
+
     public static class Shared
     {
         public static BasicPickupDropTable dtAllTier

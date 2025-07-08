@@ -1,4 +1,6 @@
 using R2API;
+using RewiredConsts;
+using RiskOfOptions.Components.Layout;
 using RoR2;
 using RoR2.Stats;
 using RoR2.UI;
@@ -6,27 +8,63 @@ using RoR2.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 namespace WolfoQoL_Client.DeathScreen
 {
-
+     
+    public class InventoryDisplayFitter : UIBehaviour
+    {
+        public ItemInventoryDisplay inv;
+        public float previousHeight = 0;
+        public RectTransform rectTransform;
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            rectTransform = GetComponent<RectTransform>();
+            inv = GetComponentInChildren<ItemInventoryDisplay>();
+        }
+        public override void OnRectTransformDimensionsChange()
+        {
+            base.OnRectTransformDimensionsChange();
+            if (this.rectTransform)
+            {
+                float width = this.rectTransform.rect.height;
+                if (width != this.previousHeight)
+                {
+                    this.previousHeight = width;
+                    inv.maxHeight = rectTransform.sizeDelta.y;
+                    inv.LayoutAllIcons();
+                    inv.transform.parent.GetComponent<Image>().OnEnable();
+                }
+            }
+        }
+     
+    }
     public class DeathScreenExpanded : MonoBehaviour
     {
         public bool compactedStats;
         public bool addedRunRecap;
         public bool addedRunTrackedStats;
         public bool isLogRunReport;
-        //public static DeathScreenExpanded instance;
-        public GameObject killerInventory;
-        public bool IsEvoInventory;
 
-        public GameObject stat_loadout;
+        public GameEndReportPanelController GameEndReportPanel;
+        public Transform ItemArea;
+       
+        //Instance
         public GameObject latestWaveStrip;
 
+        public GameObject bonusInventoyHolder;
+        public GameObject killerInventory;
+        public GameObject minionInventory;
+        public bool IsEvoInventory;
+
+       
+        //References
         public static GameObject difficulty_stat;
 
-        public static GameObject item_area;
-        public static GameObject unlock_area;
+        public static GameObject itemAreaPrefab;
+        public static GameObject unlockAreaPrefab;
         public static GameObject statHolderPrefab;
 
         public bool oneTimeExtras = false;
@@ -37,10 +75,49 @@ namespace WolfoQoL_Client.DeathScreen
         public static GameObject stageIconPrefab;
         public static GameObject stageStripPrefab;
         public static GameObject waveStripPrefab;
-        public GameEndReportPanelController GameEndReportPanel;
+        public static GameObject bodyIconPrefab;
+
+        public static GameObject scrollBoxPrefab;
+
+
 
         public GameObject chatToggleButton;
         public bool chatActive;
+        public GameObject continueToggleBotton;
+        public bool continueActive;
+
+        public GameObject MakeInventory()
+        {
+            if (!bonusInventoyHolder)
+            {
+                GameObject inventoryHolder = new GameObject("inventoryHolder");
+                this.bonusInventoyHolder = inventoryHolder;
+
+                LayoutElement lay = inventoryHolder.AddComponent<LayoutElement>();
+                HorizontalLayoutGroup hor = inventoryHolder.AddComponent<HorizontalLayoutGroup>();
+                lay.flexibleHeight = 0;
+                lay.preferredHeight = 180;
+                hor.spacing = 2;
+ 
+                inventoryHolder.transform.SetParent(ItemArea.parent, false);
+                inventoryHolder.transform.SetSiblingIndex(3);
+ 
+            }
+            
+
+            GameObject newInventory = UnityEngine.Object.Instantiate(DeathScreenExpanded.itemAreaPrefab, bonusInventoyHolder.transform);
+            LayoutElement layout = newInventory.GetComponent<LayoutElement>();
+            ItemInventoryDisplay inv = newInventory.GetComponentInChildren<ItemInventoryDisplay>();
+            newInventory.transform.GetChild(1).gameObject.AddComponent<InventoryDisplayFitter>();
+            inv.transform.parent.GetComponent<Image>().enabled = false; //Disable image clipping
+
+            layout.flexibleHeight = -1;
+            layout.preferredHeight = -1;
+            //inv.maxHeight = 116f; 
+            //inv.UpdateDisplay();
+            return newInventory;
+        }
+ 
 
         public void ToggleChat()
         {
@@ -48,6 +125,13 @@ namespace WolfoQoL_Client.DeathScreen
             chatToggleButton.transform.localScale = new Vector3(0.5f, -chatToggleButton.transform.localScale.y, 0.5f);
             chatActive = !chatActive;
             GameEndReportPanel.chatboxTransform.gameObject.SetActive(chatActive);
+        }
+        public void ToggleContinue()
+        {
+            Util.PlaySound("Play_UI_menuClick", this.gameObject);
+            chatToggleButton.transform.localScale = new Vector3(0.5f, -chatToggleButton.transform.localScale.y, 0.5f);
+            continueActive = !continueActive;
+            GameEndReportPanel.acceptButtonArea.gameObject.SetActive(continueActive);
         }
     }
 
@@ -74,8 +158,12 @@ namespace WolfoQoL_Client.DeathScreen
 
 
             StatDef.totalEliteKills.pointValue = 20.0;
+            Run.onClientGameOverGlobal += Inventory_Minions.CountOnGameover;
 
+            
         }
+
+     
 
         private static void AddManyExtras(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
         {
@@ -89,13 +177,15 @@ namespace WolfoQoL_Client.DeathScreen
 
             orig(self, playerInfo, playerIndex);
 
+            var extras = self.GetComponent<DeathScreenExpanded>();
             try
             {
+
                 LoadoutStat.Add_Loadout(self, playerInfo);
                 RunRecap.AddRunRecap(self, playerInfo);
-                KillerInventory.AddKillerInventory(self, playerInfo);
+                Inventory_Minions.AddMinionInventory(self, playerInfo);
+                Inventory_Killer.AddKillerInventory(self, playerInfo);
                 ExtraStats.AddCustomStats(self, playerInfo);
-
             }
             catch (System.Exception ex)
             {
@@ -116,6 +206,15 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 self.finalMessageLabel.fontSizeMin = self.finalMessageLabel.fontSizeMax;
             }
+            if (!extras.isLogRunReport)
+            {
+                bool eitherActive = extras.killerInventory.activeSelf || extras.minionInventory.activeSelf;
+                extras.bonusInventoyHolder.SetActive(eitherActive);
+            }
+     
+   
+ 
+ 
         }
 
         public static void MakePrefabs()
@@ -125,9 +224,9 @@ namespace WolfoQoL_Client.DeathScreen
 
             DeathScreenExpanded.difficulty_stat = game.statContentArea.GetChild(0).gameObject;
 
-            DeathScreenExpanded.unlock_area = game.unlockContentArea.parent.parent.parent.gameObject;
-            DeathScreenExpanded.item_area = DeathScreenExpanded.unlock_area.transform.parent.GetChild(2).gameObject;
-
+            DeathScreenExpanded.unlockAreaPrefab = game.unlockContentArea.parent.parent.parent.gameObject;
+            DeathScreenExpanded.itemAreaPrefab = DeathScreenExpanded.unlockAreaPrefab.transform.parent.GetChild(2).gameObject;
+            DeathScreenExpanded.scrollBoxPrefab = DeathScreenExpanded.unlockAreaPrefab.transform.GetChild(1).gameObject;
             #region MutliStat Holder
             GameObject statHolder = new GameObject("StatHolder");
             statHolder.AddComponent<RectTransform>();
@@ -209,12 +308,17 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 extras = self.gameObject.AddComponent<DeathScreenExpanded>();
                 extras.GameEndReportPanel = self;
+                extras.ItemArea = self.itemInventoryDisplay.transform.parent.parent.parent;
+
                 if (WConfig.DC_MoreStats.Value)
                 {
                     ExtraStats.ChangeStats(self, newDisplayData.runReport);
                 }
+                extras.ItemArea.GetChild(1).gameObject.AddComponent<InventoryDisplayFitter>();
+                //extras.ItemArea.GetChild(1).GetChild(0).GetComponent<Image>().enabled = false; //Disable image clipping
 
             }
+
             extras.isLogRunReport = newDisplayData.runReport.FindFirstPlayerInfo().master == null;
 
             orig(self, newDisplayData);
@@ -260,6 +364,8 @@ namespace WolfoQoL_Client.DeathScreen
 
                 //Make Right a bit wider
                 (bodyArea.GetChild(1) as RectTransform).anchorMin = new Vector2(0.59f, 0f); //Even just 0.01 makes a difference
+                (bodyArea.GetChild(1) as RectTransform).offsetMax = new Vector2(0f, -24f);
+                (bodyArea.GetChild(1) as RectTransform).offsetMin = new Vector2(0f, -24f);
 
                 Transform InfoBody = bodyArea.GetChild(1).GetChild(0).GetChild(3);
                 VerticalLayoutGroup vert = InfoBody.GetComponent<VerticalLayoutGroup>();
@@ -296,6 +402,27 @@ namespace WolfoQoL_Client.DeathScreen
                 toggleChatButton.transform.localEulerAngles = Vector3.zero;
                 extras.chatToggleButton = toggleChatButton;
                 extras.chatToggleButton.transform.localPosition = new Vector3(-360, 0, 0);
+                
+
+                //Put entire fucking right side into a scroll box
+                Transform InfoArea = self.transform.Find("SafeArea (JUICED)/BodyArea/RightArea/InfoArea");
+                InfoArea.GetComponent<VerticalLayoutGroup>().spacing = 0;
+                InfoArea.GetChild(3).GetComponent<VerticalLayoutGroup>().spacing = 8;
+                /*GameObject scroll = GameObject.Instantiate(DeathScreenExpanded.scrollBoxPrefab, InfoArea);
+                Transform Content = scroll.transform.GetChild(0).GetChild(0);
+
+                GameObject.Destroy(scroll.GetComponent<Image>());
+                scroll.SetActive(false);*/
+                //Content.GetComponent<VerticalLayoutGroup>
+
+                //Content.GetComponent<VerticalLayoutGroup>().enabled = false;
+                //ContentSizeFitter evil = Content.GetComponent<ContentSizeFitter>();
+
+                //InfoBody.SetParent(Content);
+                //self.acceptButtonArea.SetParent(Content);
+
+                // self.acceptButtonArea.GetComponent<>
+
             }
 
 

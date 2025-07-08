@@ -80,6 +80,8 @@ namespace WolfoQoL_Client
             ChatMessageBase.chatMessageIndexToType.Add(typeof(ItemLoss_Host.ItemLossMessage));
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(SaleStarMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(SaleStarMessage));
+             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DevotionMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(DevotionMessage));
 
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(DeathMessage.DetailedDeathMessage), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(DeathMessage.DetailedDeathMessage));
@@ -889,7 +891,7 @@ namespace WolfoQoL_Client
                 foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
                 {
                     Destroy(player.GetComponent<KillerInfo_ClientListener>());
-                    Destroy(player.GetComponent<ItemLoss_ClientListener>());
+                    Destroy(player.GetComponent<PlayerItemLoss_ClientListener>());
                 }
                 return null;
             }

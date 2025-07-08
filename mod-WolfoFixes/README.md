@@ -7,7 +7,7 @@ Better to keep it bundled in it's own mod
 #
 ### Fixes the following :
 
-## Survivor / Monsters
+## Survivor Fixes
 Chef Boosted Ice Box not clearing properly.\
 Chef Cleaver Bonus Proc being 2.25 instead of 1.5.\
 Chef Boosted Sear Oil Puddles dealing 0% instead of 20% damage.\
@@ -21,25 +21,34 @@ Acrid not having spawn invulnerability.
 
 Captain Beacons being unable to crit.
 
+## Monster Fixes
 Child being burnable by the sun.
 
 XI Construct Laser not exploding at the end.
-
-Grandparent rock fragments being invisible.
-
+ 
 (Off by default)\
 Mithrix Phase 4 being skipable because the game thinks he has 0 health.
 
-## Items / Equipment
-
+## Item Fixes
 Corrects various wrong item descriptions.
 
-Warped Echo not inflicting Eclipse 8 curse.
+Warped Echo ignoring Armor.\
+Warped Echo ignoring OneShotProtection\
+Warped Echos first hit being ignored if OSP was triggered.\
+Warped Echos first hit no longer putting you into danger.\
+Warped Echo no longer inflicting Eclipse 8 curse.
 
 Happiest Mask Ghosts not triggering OnDeath effects. (Ice Explosion, Healing Core, Malachite Urchin)
 
 Charged Perferator rolling for crit instead of inheriting like other procs.
- 
+
+Some item tags were changed.
+- Hunters Harpoon missing OnKill.
+- Bison Steak still being OnKill.
+- Planula still being Damage.
+- Infusion & Nkuhanas AIBlacklisted
+
+## Equipment Fixes
 Back-Up Drones not scaling with ambient level like other drones.
  
 Executive Card no longer fails if buying multi shops really quickly.
@@ -50,13 +59,7 @@ For Retool, Enigma, Bottled Chaos
 - Sawmerang not bleeding if you don't have the equipment.
 - Milky Chrysalis flight will always have wings.
 
-Some item tags were changed.
-- Hunters Harpoon missing OnKill.
-- Bison Steak still being OnKill.
-- Planula still being Damage.
-- Infusion & Nkuhanas AIBlacklisted
-
-## Gameplay Misc
+## Misc Gameplay Fixes
 Simulacrums Fog ramping up 25x slower than what is intended.
 
 Removed Chance Doll from Simulacrum, as there are no Shrine of Chance. (Unless SimulacrumAdditions is installed)
@@ -66,6 +69,8 @@ Being able to skip right to Prime Meridian by entering 2 portals at the same tim
 
 Newt Altars will no longer purchasable after Teleporter. (Like pre SotS)\
 Newt Altars will not be purchasable if Teleporter starts with Blue Orb.
+
+Bazaar Seers being able to select 2 Plains/2 Roosts.
 
 Fixes Vengence + Swarms spawning one of them as not an Umbra/Without any items.
 
@@ -100,7 +105,7 @@ Adds various missing item displays :
 - Elite Displays for XI Construct, Mithrix.
 - Fuel Array Display for Engineer Turrets.
  
-Fixes some monsters not slowly appearing their spawn animation:
+Fixes some monsters not slowly appearing during their spawn animation:
 - Child, Parent
 - Lesser, Greater, Lunar Wisp
 - Void Reaver, Devestator, Voidling
@@ -134,7 +139,7 @@ Lunar Exploder not having a subtitleToken.
 Halcyon Shrine often not having its tip golden due to a redundant check.
 
 ## Audio
-Void items spawning in not playing sound.\
+Void items not playing the drop sound.\
 Scrappers not playing sound.\
 REX m1 not playing impact sound.
 
@@ -169,10 +174,7 @@ Invincibility and Chef Boost showing stacks of the buff.
 
 Item/Survivor description fixes can be turned off in case you play with rebalance mods.\
 But should work fine even if you don't.
-
-
-
-
+ 
 ## For Other Mods
 
 Glass Mithrix is Glass again instead of naked.
@@ -185,17 +187,21 @@ Void Eradicators are less unfinished:
 - Suppresed Scrap is tiered and usable, but kept hidden from log.
 - Suppresed Items tab wider so item icons arent clipping
 
-##
+Multiple of my mods have Perfected nonLunar enemies or add Void Suppressors and rely on better AIBlacklist.\
+But those changes dont affect vanilla much, if at all.
+
+## Commands
  
 Testing Commands
-- scanner | Scanner equip + 100 BoostEquipRecharge
+- scanner | Radar Scanner equip + 100 BoostEquipRecharge
 - godenemy | Sets enemy level absurdly high making them basically unkillable.
 - goto_boss | Teleports you to Mithrix/FalseSon/Teleporter
 - no_interactables | For clean stage screenshots.
-- set_damage | Set damage to desired for clean testing.
+- evolve_lemurian | Evolves all Devoted Lemurians.
+- set_damage | Set damage.
+- set_health | Set health and disable regen
 - Various list_ commands
 
-Multiple of my mods have Perfected nonLunar enemies or add Void Suppressors and rely on better AIBlacklist.
 
 
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\

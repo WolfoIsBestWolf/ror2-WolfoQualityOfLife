@@ -1,5 +1,7 @@
 This mod and all it's features should work regardless if anyone else has it installed.
 
+This includes stuff that other mods have as Server-Side (such as Item loss messages)
+
 Some features were cut when I made this mod ClientSide, [See here.](https://thunderstore.io/package/Wolfo/WolfoQoL_OptionalExtras/)
 
 Everything configurable ingame via RiskOfOptions.
@@ -58,11 +60,15 @@ Updated Death Screen including.
 - More Stats Shown
 - - Healing Recieved
 - - Damage taken by Minions
+- - Healing done to Minions
+- - Drone/Devotion Deaths
 - - Skill Loadout
 - - Items Scrapped
 - - Lunar Coins Spent
 - - Chests Missed
 - - Drones Missed
+- - DoT damage
+- - Damage Blocked
 - - Most Killed Monster
 - - Most Hurt By Monster
 - - Distanced Walked
@@ -71,7 +77,8 @@ Updated Death Screen including.
 - - Stages you went through during the run.
 - - Last Simu Wave
 - Inventory
-- - Players equipment shown
+- - Players Equipment shown
+- - Players Drones or Devotion collection. (Mobs, Items, Equipment)
 - - Killers Elite Prefix
 - - Killers Inventory if he had items.
 - - - (Scav, P4 Mithrix, etc)

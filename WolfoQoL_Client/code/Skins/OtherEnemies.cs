@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using WolfoFixes;
+using static MonoMod.InlineRT.MonoModRule;
 namespace WolfoQoL_Client.Skins
 {
     public class OtherEnemies
@@ -57,43 +58,51 @@ namespace WolfoQoL_Client.Skins
             }
             Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion().shaderEliteRampIndex = 0;
 
+          
+            On.RoR2.AffixBeadBehavior.OnEnable += TwistedSound;
             if (WConfig.cfgTwistedFire.Value)
             {
-                On.RoR2.AffixBeadBehavior.Update += AffixBeadBehavior_Update;
+                IL.RoR2.AffixBeadBehavior.Update += TwistedFire;
             }
-            On.RoR2.AffixBeadBehavior.OnEnable += AffixBeadBehavior_OnEnable;
+            
         }
 
-        private static void AffixBeadBehavior_OnEnable(On.RoR2.AffixBeadBehavior.orig_OnEnable orig, AffixBeadBehavior self)
+        private static void TwistedFire(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.Before,
+                x => x.MatchStfld("RoR2.AffixBeadBehavior", "affixBeadWard"));
+
+            if (c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdarg(0)))
+            {
+                c.EmitDelegate<System.Func<AffixBeadBehavior, AffixBeadBehavior>>((self) =>
+                {          
+                    if (self.beadHolderVFX == null)
+                    {
+                        if (NetworkServer.active)
+                        {
+                            self.beadHolderVFX = UnityEngine.Object.Instantiate<GameObject>(self.beadHolderVFXReference);
+                            self.beadHolderVFX.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(self.body.gameObject, "Head");
+                            self.beadHolderVFX.transform.localScale *= self.body.modelLocator.modelScaleCompensation;
+                        }
+                    }
+                    return self;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("TwistedFire FAILED");
+            }
+        }
+
+        private static void TwistedSound(On.RoR2.AffixBeadBehavior.orig_OnEnable orig, AffixBeadBehavior self)
         {
             orig(self);
-            //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_impact", self.gameObject);
-            Util.PlaySound("Play_boss_falseson_skill3plus_lunarGaze_end", self.gameObject);
-            //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_cast", self.gameObject);
-            //Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_lightning_tether", self.gameObject);
-
-
+            //Util.PlaySound("Play_boss_falseson_skill3plus_lunarGaze_end", self.gameObject);
+            Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_lightning_tether", self.gameObject);
         }
-
-        private static void AffixBeadBehavior_Update(On.RoR2.AffixBeadBehavior.orig_Update orig, AffixBeadBehavior self)
-        {
-            if (!NetworkServer.active)
-            {
-                return;
-            }
-            bool flag = self.stack > 0;
-            if (self.beadHolderVFX != flag)
-            {
-                if (flag)
-                {
-                    self.beadHolderVFX = UnityEngine.Object.Instantiate<GameObject>(self.beadHolderVFXReference);
-                    self.beadHolderVFX.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(self.body.gameObject, "Head");
-                    self.beadHolderVFX.transform.localScale *= self.body.modelLocator.modelScaleCompensation;
-                }
-            }
-            orig(self);
-        }
-
+ 
         private static void CharacterModel_UpdateOverlays(ILContext il)
         {
             ILCursor c = new ILCursor(il);

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2260229836
+CRC: 1406964310
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5786dab3d78e0ca2a8bbb311222878e1
+    Hash: 52886e59f64a887960aa5fe4a8c18aed
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9bbf464575cb1bcdb68fd883cc18858a
@@ -145,6 +145,7 @@ Assets:
 - Assets/WQoL/PingIcons/ChestCategory2Utility.png
 - Assets/WQoL/Items/Modded/AffixVarietyGold.png
 - Assets/WQoL/Buffs/texBuffEgg.png
+- Assets/WQoL/PingIcons/PingLemurianEgg_v2.png
 - Assets/WQoL/Body/texBodySquidTurret.png
 - Assets/WQoL/Items/LunarPortal.png
 - Assets/WQoL/Items/Beta/betaWicked.png

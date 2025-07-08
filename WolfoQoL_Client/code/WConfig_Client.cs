@@ -19,6 +19,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> CancelGeyserLock_Skill;
         public static ConfigEntry<bool> ItemsTeleport;
 
+        public static ConfigEntry<bool> DC_DroneInventory;
         public static ConfigEntry<bool> DC_CompactStats;
         public static ConfigEntry<bool> DC_MoreStats;
         public static ConfigEntry<Position> DC_Loadout;
@@ -657,7 +658,7 @@ namespace WolfoQoL_Client
             cfgSkinMakeBlightedAcrid = ConfigFile_Client.Bind(
                 "Skins",
                 "Default Acrid Blight Recolor",
-                true,
+                false,
                 "Simple recolor where instead of green it's more yellow-orange"
             );
             cfgSkinEngiHarpoons = ConfigFile_Client.Bind(

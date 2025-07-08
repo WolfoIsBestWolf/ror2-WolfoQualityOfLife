@@ -58,6 +58,28 @@ namespace WolfoFixes
             CharacterBody DeathProjectile = Addressables.LoadAssetAsync<GameObject>(key: "1336d77e77299964884c3bd02757fde7").WaitForCompletion().GetComponent<CharacterBody>();
             DeathProjectile.baseNameToken = "EQUIPMENT_DEATHPROJECTILE_NAME";
             DeathProjectile.portraitIcon = Addressables.LoadAssetAsync<Texture2D>(key: "dda5febead506894fa6e053cea042ddc").WaitForCompletion();
+        
+        
+        }
+        //On.RoR2.GenericSkill.SetSkillOverride += FixHeresyForEnemies;
+        //Is this even still needed check that
+        private static void FixHeresyForEnemies(On.RoR2.GenericSkill.orig_SetSkillOverride orig, GenericSkill self, object source, RoR2.Skills.SkillDef skillDef, GenericSkill.SkillOverridePriority priority)
+        {
+            if (priority == GenericSkill.SkillOverridePriority.Replacement && self.characterBody && !self.characterBody.isPlayerControlled)
+            {
+                //Why do I do this again?
+                EntityStateMachine stateMachine = self.stateMachine;
+                orig(self, source, skillDef, priority);
+                if (stateMachine)
+                {
+                    self.stateMachine = stateMachine;
+                }
+                return;
+            }
+            else
+            {
+                orig(self, source, skillDef, priority);
+            }
         }
 
         public static void Start()

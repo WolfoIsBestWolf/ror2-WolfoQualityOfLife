@@ -14,7 +14,9 @@ namespace WolfoQoL_Client
     {
         public static void Start()
         {
+            //Maybe we could add most of these only when needed?
             On.RoR2.PlayerCharacterMasterController.Start += AddClientListeners;
+            On.RoR2.PlayerCharacterMasterController.SetBodyPrefabToPreference += PlayerCharacterMasterController_SetBodyPrefabToPreference;
 
             On.RoR2.MultiShopController.OnDeserialize += ClientCheck_Multishop;
             On.EntityStates.Scrapper.ScrapperBaseState.OnEnter += ScrapperBaseState_OnEnter;
@@ -23,7 +25,16 @@ namespace WolfoQoL_Client
             IL.RoR2.Inventory.OnDeserialize += Inventory_OnDeserialize;
 
             On.RoR2.SummonMasterBehavior.OnDisable += EquipmentDrone_ForceMessage;
+        }
 
+        private static void PlayerCharacterMasterController_SetBodyPrefabToPreference(On.RoR2.PlayerCharacterMasterController.orig_SetBodyPrefabToPreference orig, PlayerCharacterMasterController self)
+        {
+            Debug.Log("PlayerCharacterMasterController_SetBodyPrefabToPreference");
+            orig(self);
+            if (self.TryGetComponent<ItemLossBase_ClientListener>(out var a))
+            {
+                a.subjectAsNetworkUser = self.networkUser;
+            }
         }
 
         private static void EquipmentDrone_ForceMessage(On.RoR2.SummonMasterBehavior.orig_OnDisable orig, SummonMasterBehavior self)
@@ -36,9 +47,9 @@ namespace WolfoQoL_Client
                 var purchasse = self.GetComponent<PurchaseInteraction>();
                 if (purchasse && purchasse.costType == CostTypeIndex.Equipment)
                 {
-                    ItemLoss_ClientListener.forceEquip = true;
-                    ItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
-                    ItemLoss_ClientListener.TryMessage();
+                    PlayerItemLoss_ClientListener.forceEquip = true;
+                    PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
+                    PlayerItemLoss_ClientListener.TryMessage();
                 }
             }
         }
@@ -77,8 +88,8 @@ namespace WolfoQoL_Client
             {
                 c.EmitDelegate<Func<Inventory, Inventory>>((inventory) =>
                 {
-                    ItemLoss_ClientListener a;
-                    if (inventory.TryGetComponent<ItemLoss_ClientListener>(out a))
+                    PlayerItemLoss_ClientListener a;
+                    if (inventory.TryGetComponent<PlayerItemLoss_ClientListener>(out a))
                     {
                         //Debug.Log("Desearal Items");
                         Array.Copy(inventory.itemStacks, a.prevItems, a.prevItems.Length);
@@ -102,8 +113,8 @@ namespace WolfoQoL_Client
                 c.EmitDelegate<Func<Inventory, Inventory>>((inventory) =>
                 {
                     //Latest equipment
-                    ItemLoss_ClientListener a;
-                    if (inventory.TryGetComponent<ItemLoss_ClientListener>(out a))
+                    PlayerItemLoss_ClientListener a;
+                    if (inventory.TryGetComponent<PlayerItemLoss_ClientListener>(out a))
                     {
                         a.prevEquip = inventory.currentEquipmentIndex;
                     }
@@ -123,8 +134,8 @@ namespace WolfoQoL_Client
             {
                 if (self is EntityStates.Scrapper.WaitToBeginScrapping)
                 {
-                    ItemLoss_ClientListener.isScrapper = true;
-                    ItemLoss_ClientListener.TryMessage();
+                    PlayerItemLoss_ClientListener.isScrapper = true;
+                    PlayerItemLoss_ClientListener.TryMessage();
                 }
             }
         }
@@ -135,7 +146,7 @@ namespace WolfoQoL_Client
             if (!WolfoMain.HostHasMod)
             {
                 self.gameObject.AddComponent<KillerInfo_ClientListener>();
-                self.gameObject.AddComponent<ItemLoss_ClientListener>();
+                self.gameObject.AddComponent<PlayerItemLoss_ClientListener>();
             }
 
         }
@@ -166,7 +177,7 @@ namespace WolfoQoL_Client
             {
                 if (purchase.saleStarCompatible)
                 {
-                    ItemLoss_ClientListener.TrySaleStar(purchase);
+                    PlayerItemLoss_ClientListener.TrySaleStar(purchase);
                 }
                 switch (purchase.costType)
                 {
@@ -177,23 +188,23 @@ namespace WolfoQoL_Client
 
                         if (purchase.gameObject.name.StartsWith("LunarCauldron"))
                         {
-                            ItemLoss_ClientListener.token = "ITEM_LOSS_CAULDRON";
+                            PlayerItemLoss_ClientListener.token = "ITEM_LOSS_CAULDRON";
                         }
                         else
                         {
-                            ItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
+                            PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
                         }
-                        ItemLoss_ClientListener.TryMessage();
+                        PlayerItemLoss_ClientListener.TryMessage();
                         break;
                     case CostTypeIndex.Equipment:
-                        ItemLoss_ClientListener.checkEquip = true;
-                        ItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
-                        ItemLoss_ClientListener.TryMessage();
+                        PlayerItemLoss_ClientListener.checkEquip = true;
+                        PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
+                        PlayerItemLoss_ClientListener.TryMessage();
                         break;
                     case CostTypeIndex.LunarItemOrEquipment:
-                        ItemLoss_ClientListener.checkEquip = true;
-                        ItemLoss_ClientListener.token = "ITEM_LOSS_CLEANSING";
-                        ItemLoss_ClientListener.TryMessage();
+                        PlayerItemLoss_ClientListener.checkEquip = true;
+                        PlayerItemLoss_ClientListener.token = "ITEM_LOSS_CLEANSING";
+                        PlayerItemLoss_ClientListener.TryMessage();
                         break;
                     case CostTypeIndex.TreasureCacheItem:
                         if (TreasureReminder.instance)
@@ -331,23 +342,20 @@ namespace WolfoQoL_Client
         }
     }
 
-    public class ItemLoss_ClientListener : MonoBehaviour
+
+
+    public class ItemLossBase_ClientListener : MonoBehaviour
     {
         //Used for all players at once ig?
-        public static ItemLoss_ClientListener latest;
-        public static bool isScrapper = false;
-        public static bool forceEquip = false;
-        public static bool checkEquip = false;
-        public static bool checkSaleStar = false;
-        public static string token = "ITEM_LOSS_GENERIC";
-
-        public PlayerCharacterMasterController playerMaster;
+        public static ItemLossBase_ClientListener latest;
         public Inventory inventory;
+
+        public NetworkUser subjectAsNetworkUser;
 
         public int[] prevItems = ItemCatalog.RequestItemStackArray();
         public EquipmentIndex prevEquip = EquipmentIndex.None;
 
-        public void OnEnable()
+        public virtual void OnEnable()
         {
             if (WolfoMain.HostHasMod)
             {
@@ -355,11 +363,10 @@ namespace WolfoQoL_Client
                 Destroy(this);
                 return;
             }
-            playerMaster = GetComponent<PlayerCharacterMasterController>();
-            inventory = playerMaster.master.inventory;
+            inventory = GetComponent<Inventory>();
             inventory.onInventoryChanged += Inventory_onInventoryChanged;
         }
-        public void OnDisable()
+        public virtual void OnDisable()
         {
             if (inventory)
             {
@@ -368,15 +375,10 @@ namespace WolfoQoL_Client
         }
 
 
-        private void Inventory_onInventoryChanged()
+        public virtual void Inventory_onInventoryChanged()
         {
+            //Debug.Log("onInventoryChanged"+this.gameObject);
             latest = this;
-            //Seems more like summon master happens first, before removing the equipment
-            //But might be lag dependent, again, which sucks,
-            if (forceEquip)
-            {
-                TryMessage();
-            }
         }
         public static void TryMessage()
         {
@@ -385,7 +387,103 @@ namespace WolfoQoL_Client
                 latest.TryMessageInstance();
             }
         }
+        public virtual void TryMessageInstance()
+        {
+            //Debug.Log("TryMessageInstance"+this.gameObject);
+        }
+    }
 
+    public class DevotionItemLoss_ClientListener : ItemLossBase_ClientListener
+    {
+ 
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            var a = GetComponent<DevotionInventoryController>().SummonerMaster;
+            if (a == null)
+            {
+                Debug.LogWarning("DevotionItemLoss Client Listener null Summoner Master");
+            }
+            subjectAsNetworkUser = a.playerCharacterMasterController.networkUser;
+        }
+ 
+        public override void Inventory_onInventoryChanged()
+        {
+            base.Inventory_onInventoryChanged();
+            SingleItemLoss(inventory.itemStacks); //Try every time I guess??
+        }
+
+        public bool SingleItemLoss(int[] now)
+        {
+            bool send = false;
+            int item = -1;
+            int itemCount = -1;
+            for (int i = 0; i < prevItems.Length; i++)
+            {
+                if (prevItems[i] > now[i])
+                {
+                    send = true;
+                    item = i;
+                    itemCount = prevItems[i] - now[i];
+                    break;
+                }
+            }
+            if (send)
+            {
+                PickupDef def = PickupCatalog.FindPickupIndex((ItemIndex)item).pickupDef;
+                Debug.Log(def.internalName);
+                Chat.AddMessage(new DevotionMessage
+                {
+                    //subjectAsNetworkUser = self._devotionInventoryController.SummonerMaster.playerCharacterMasterController.networkUserObject.GetComponent<NetworkUser>(),
+                    subjectAsNetworkUser = subjectAsNetworkUser,
+                    baseToken = "DEVOTED_LEMURIAN_DEATH",
+                    pickupToken = def.nameToken,
+                    pickupColor = def.baseColor,
+                    pickupQuantity = (uint)itemCount
+                });
+            }
+            Array.Copy(inventory.itemStacks, prevItems, prevItems.Length);
+            return send;
+        }
+
+
+    }
+
+
+    public class PlayerItemLoss_ClientListener : ItemLossBase_ClientListener
+    {
+        //Used for all players at once ig?
+ 
+        public static bool isScrapper = false;
+        public static bool forceEquip = false;
+        public static bool checkEquip = false;
+        public static bool checkSaleStar = false;
+        public static string token = "ITEM_LOSS_GENERIC";
+
+        //OnEnable is too soon, might need a better way of doing this
+        public void Start()
+        {
+            subjectAsNetworkUser = GetComponent<PlayerCharacterMasterController>().networkUser;
+
+        }
+
+
+
+        public override void Inventory_onInventoryChanged()
+        {
+            base.Inventory_onInventoryChanged();
+            /*if (!subjectAsNetworkUser)
+            {
+                subjectAsNetworkUser = GetComponent<PlayerCharacterMasterController>().networkUser;
+            }*/
+            //Seems more like summon master happens first, before removing the equipment
+            //But might be lag dependent, again, which sucks,
+            if (forceEquip)
+            {
+                TryMessage();
+            }
+        }
+   
         public static void TrySaleStar(PurchaseInteraction purchase)
         {
             if (!WConfig.cfgMessagesSaleStar.Value)
@@ -405,7 +503,7 @@ namespace WolfoQoL_Client
                     Chat.AddMessage(new SaleStarMessage
                     {
                         interactableToken = purchase.displayNameToken,
-                        subjectNetworkUserObject = latest.playerMaster.networkUserObject,
+                        subjectAsNetworkUser = latest.subjectAsNetworkUser,
                     });
                 }
 
@@ -413,8 +511,9 @@ namespace WolfoQoL_Client
             }
         }
 
-        public void TryMessageInstance()
+        public override void TryMessageInstance()
         {
+            base.TryMessageInstance();
             bool succeeded = false;
             if (isScrapper)
             {
@@ -439,7 +538,7 @@ namespace WolfoQoL_Client
             }
             if (!succeeded)
             {
-                Debug.Log("Attempted message with no differences.");
+                //Debug.Log("Attempted message with no differences.");
             }
             //Always set?
             forceEquip = false;
@@ -473,7 +572,7 @@ namespace WolfoQoL_Client
                 Chat.AddMessage(new ItemLoss_Host.ItemLossMessage
                 {
                     baseToken = "ITEM_LOSS_SCRAP",
-                    subjectAsNetworkUser = playerMaster.networkUser,
+                    subjectAsNetworkUser = subjectAsNetworkUser,
                     pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex((ItemIndex)item),
                     itemCount = itemCount,
                 });
@@ -509,7 +608,7 @@ namespace WolfoQoL_Client
                 Chat.AddMessage(new ItemLoss_Host.ItemLossMessage
                 {
                     baseToken = token,
-                    subjectAsNetworkUser = playerMaster.networkUser,
+                    subjectAsNetworkUser = subjectAsNetworkUser,
                     pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex((ItemIndex)item),
                 });
             }
@@ -518,7 +617,7 @@ namespace WolfoQoL_Client
                 Chat.AddMessage(new ItemLoss_Host.ItemLossMessage
                 {
                     baseToken = token,
-                    subjectAsNetworkUser = playerMaster.networkUser,
+                    subjectAsNetworkUser = subjectAsNetworkUser,
                     itemStacks = itemLosses,
                 });
             }
@@ -529,14 +628,19 @@ namespace WolfoQoL_Client
         public bool EquipmentMessage()
         {
             bool succeeded = false;
-            if (prevEquip != EquipmentIndex.None)
+            EquipmentIndex equip = inventory.currentEquipmentIndex;
+            if (equip == EquipmentIndex.None)
+            {
+                equip = prevEquip;
+            }
+            if (equip != EquipmentIndex.None)
             {
                 succeeded = true;
                 Chat.AddMessage(new ItemLoss_Host.ItemLossMessage
                 {
                     baseToken = token,
-                    pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(prevEquip),
-                    subjectAsNetworkUser = playerMaster.networkUser,
+                    pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(equip),
+                    subjectAsNetworkUser = subjectAsNetworkUser,
                 });
             }
             else

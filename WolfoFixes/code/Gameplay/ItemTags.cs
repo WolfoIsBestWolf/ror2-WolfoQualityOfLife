@@ -37,7 +37,7 @@ namespace WolfoFixes
             //No Equipment
             //No Onkill
             //
-            ItemTag[] TagsMobs = {
+            ItemTag[] TagsMobsEvo = {
                 ItemTag.AIBlacklist,
                 ItemTag.OnKillEffect,
                 ItemTag.EquipmentRelated,
@@ -48,14 +48,23 @@ namespace WolfoFixes
                 ItemTag.OnStageBeginEffect,
                 ItemTag.HoldoutZoneRelated
             };
-
+            ItemTag[] TagsMobs = {
+                ItemTag.AIBlacklist,
+                ItemTag.OnKillEffect,
+                ItemTag.EquipmentRelated,
+                ItemTag.CannotCopy,
+                ItemTag.SprintRelated,
+                ItemTag.InteractableRelated,
+                ItemTag.OnStageBeginEffect,
+                ItemTag.HoldoutZoneRelated
+            };
             dtMonsterTeamTier1Item.bannedItemTags = TagsMobs;
             dtMonsterTeamTier2Item.bannedItemTags = TagsMobs;
             dtMonsterTeamTier3Item.bannedItemTags = TagsMobs;
 
-            dtArenaMonsterTier1.bannedItemTags = TagsMobs;
-            dtArenaMonsterTier2.bannedItemTags = TagsMobs;
-            dtArenaMonsterTier3.bannedItemTags = TagsMobs;
+            dtArenaMonsterTier1.bannedItemTags = TagsMobsEvo;
+            dtArenaMonsterTier2.bannedItemTags = TagsMobsEvo;
+            dtArenaMonsterTier3.bannedItemTags = TagsMobsEvo;
 
             dtAISafeTier1Item.bannedItemTags = TagsScav;
             dtAISafeTier2Item.bannedItemTags = TagsScav;
@@ -98,14 +107,13 @@ namespace WolfoFixes
 
             #region AI Blacklist
             #region White
-
-
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.FlatHealth.tags, evoBlacklistTag); //Useless
+ 
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.FlatHealth.tags, evoBlacklistTag); //Useless,
 
             #endregion
             #region Green
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.Infusion.tags, ItemTag.AIBlacklist); //Useless
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.PrimarySkillShuriken.tags, evoBlacklistTag); //Borderline Overpowered
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.PrimarySkillShuriken.tags, evoBlacklistTag); //Borderline Overpowered, Keeping in Vfields
 
             #endregion
             #region Red
@@ -113,22 +121,21 @@ namespace WolfoFixes
 
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.BarrierOnOverHeal.tags, evoBlacklistTag); //Useless
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.MoreMissile.tags, evoBlacklistTag); //Useless
-
+            
+            //ArrayUtils.ArrayAppend(ref RoR2Content.Items.CaptainDefenseMatrix.tags, ItemTag.CannotSteal); //Passive shouldnt be stealable ig?
             #endregion
             #region Boss
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.TitanGoldDuringTP.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.SprintWisp.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.SiphonOnLowHealth.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MinorConstructOnKill.tags, ItemTag.AIBlacklist);
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.TitanGoldDuringTP.tags, ItemTag.AIBlacklist); //Cant use
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.SprintWisp.tags, ItemTag.AIBlacklist); //Cant use
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.SiphonOnLowHealth.tags, ItemTag.AIBlacklist); //Uhhh?
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MinorConstructOnKill.tags, ItemTag.AIBlacklist);  //Cant use
 
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.RoboBallBuddy.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.MinorConstructOnKill.tags, ItemTag.AIBlacklist);
-            ArrayUtils.ArrayAppend(ref RoR2Content.Items.CaptainDefenseMatrix.tags, ItemTag.CannotSteal);
-
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.RoboBallBuddy.tags, ItemTag.AIBlacklist); //Op Confusing
+           
 
             #endregion
             #region Lunar
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.LunarSun.tags, ItemTag.AIBlacklist);
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.LunarSun.tags, ItemTag.AIBlacklist); //Op
             ArrayUtils.ArrayAppend(ref DLC1Content.Items.RandomlyLunar.tags, ItemTag.AIBlacklist);
 
             #endregion

@@ -43,21 +43,18 @@ namespace WolfoFixes
             BodyFixes.Start();
             DevotionFixes.Start();
             GameplayMisc.Start();
-            ItemsAndEquipment.Start();
+            InteractableFixes.Start();
+            ItemFixes.Start();
+            EquipmentFixes.Start();
             ItemTags.Start();
             PrayerBeads.Start();
             Simualcrum.Start();
 
             Audio.Start();
             RandomFixes.Start();
-            ShrineShapingFixes.Start();
-            ShrineHalcyonFixes.Start();
-
+   
             LogFixes.Start();
-
-            SkinFixes.Start();
-            Visuals.Start();
-
+ 
             OptionPickupStuff.Start();
             SkinFixes.Start();
             Visuals.Start();

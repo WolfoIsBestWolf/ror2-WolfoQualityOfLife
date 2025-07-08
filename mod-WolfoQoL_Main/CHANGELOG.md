@@ -1,27 +1,52 @@
 #Changelog
 ```
-v4.2.1
+v4.3.0
+Added Drone Collection
+-More preperation for DLC3 where Drones will be treated more like items.
+-Will show Drones/DroneEquipment
+-Will show DevotedLems/DevotedItems/DevotedEquips
+
+
+Added DoT Damage stat
+-How good was Bleed/Poison/Blight/Burn in your run?
+Added Damage Blocked stat (Host Only)
+-Armor & Blocked entirely
+-Clients do not get original damage values so can't be client side.
+--Might remove either stat as they dont seem that impactful on most runs?
+
+Minion Deaths -> Specifically permament deaths (Drones, Turrets, Devotion). 
+
+Message for giving an item to a Lemurian Egg
+Message for losing a Devoted Lemurian and what item they had. 
+Eggs now count for "Drones Left Behind"
+ 
+Death Loadout now shows Heresy replacements.
+ 
+Inventories on the death screen now automatically use all space available.
+-To better fit different screen sizes 
+-And also fit the extras I add.
+
+Sorted Blight recolor to as late as possible and default to false.
+Fixed an AffixBeadBehavior_OnEnable nullref.
+Fixed Most X stats lacking the monster name.
+Made EliteBell IL cleaner.
+ 
+
+v4.2.5
 Added Minion Healing Recieved stat
 Added Minion Death stat
 Missed Chest & Drone stat now have a detailed breakdown of what was missed.
 Fixed custom stats not using comma seperators
 Fixed Fans counting as missed chests.
-(TOCHECK)Fixed Pillar indicator looking weird
+Fixed Pillar indicator looking weird
 Fixed Most Killed/Hurt stats being able to select hidden monsters.
 Fixed unlock area not expanding properly.
 Fixed some console spam
-Removed Frozen Buff timer because clients have 0 info on the duration.
+Fixed Artifact Reliquary having a Scrapper Icon (???)
+Fixed alcyon Shrine. (Happened due to style changes)
+Removed Frozen Buff timer because clients have 0 info on the duration so it can't really be client side.
 
 
- 
-(TODO)Fix purple in achievement lunar header thing
-
-(TODO)Added Ping Icons for Sandwept
-(TODO)2 Drones, 3 Shrines
-(TODO)Added Ping Icons for Enemies Returns
-(TODO)Lynx Shrine, Lynx Trap, Broken Mechanical Spider
-(TODO)Broken robot root jungle icon exclamation ig
- 
 
 v4.2.0
 Death Screen Update
@@ -713,8 +738,4 @@ v1.1.0
 * Added Position Indicator to Void Field Cells
 
 v1.0.0 - Release.
-
-
-
-
 

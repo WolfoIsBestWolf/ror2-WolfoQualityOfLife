@@ -108,7 +108,7 @@ namespace WolfoQoL_Client
             {
                 if (TeleporterInteraction.instance)
                 {
-                    if (TeleporterInteraction.instance.isInFinalSequence)
+                    if (TeleporterInteraction.instance.isCharging || TeleporterInteraction.instance.isInFinalSequence)
                     {
                         self.genericInteraction.Networkinteractability = Interactability.Disabled;
                         return;

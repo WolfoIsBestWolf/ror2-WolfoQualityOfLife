@@ -56,8 +56,7 @@ namespace WolfoFixes
 
         private static void CountEclipseSimuAsWins(On.RoR2.Stats.StatManager.orig_OnServerGameOver orig, Run run, GameEndingDef gameEndingDef)
         {
-            Debug.Log(run.GetType());
-            Debug.Log(run.GetType() == typeof(Run));
+            orig(run,gameEndingDef);
             if (gameEndingDef.isWin && run.GetType() != typeof(Run) && run.GetType() != typeof(WeeklyRun))
             {
                 foreach (PlayerStatsComponent playerStatsComponent in PlayerStatsComponent.instancesList)

@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-
+ 
 namespace WolfoQoL_Client.DeathScreen
 {
-    public class KillerInventory
+    public class Inventory_Killer
     {
         public static void AddKillerInventory(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
         {
@@ -21,21 +21,10 @@ namespace WolfoQoL_Client.DeathScreen
 
             if (extras.killerInventory == null)
             {
-                Transform ItemArea = self.itemInventoryDisplay.transform.parent.parent.parent;
-                GameObject killerInventory = UnityEngine.Object.Instantiate(DeathScreenExpanded.item_area, ItemArea.parent);
-
-                killerInventory.name = "KillerItemArea";
-                killerInventory.transform.SetSiblingIndex(3);
-                LayoutElement layout = killerInventory.GetComponent<LayoutElement>();
-                layout.flexibleHeight = 0.5f;
-                //layout.minHeight = 80;
-                layout.preferredHeight = 80;
-
-                ItemInventoryDisplay inv = killerInventory.GetComponentInChildren<ItemInventoryDisplay>();
-                //inv.ResetItems();
-                inv.maxHeight = 128f;
-                extras.killerInventory = killerInventory;
-                killerInventory.SetActive(true);
+                GameObject newInventory = extras.MakeInventory();
+                newInventory.name = "KillerItemArea";
+                extras.killerInventory = newInventory;
+                newInventory.SetActive(true);
             }
             if (playerInfo.networkUser == null)
             {
@@ -52,13 +41,10 @@ namespace WolfoQoL_Client.DeathScreen
                 helper.victimMaster = playerInfo.master.gameObject;
 
             }
-            else if (helper.victimMaster.GetComponent<PlayerCharacterMasterController>().networkUser != playerInfo.networkUser)
-            {
-                //How did this happen?
-                Debug.Log("Report for other Network User");
-            }
+ 
             Debug.Log("Applying Killer Inventory Screen");
 
+            #region Detailed Killer Name
             if (helper.killerName != "")
             {
                 string KillerNameOverride = string.Format(Language.GetString("STAT_KILLER_NAME_FORMAT"), helper.killerName);
@@ -70,6 +56,9 @@ namespace WolfoQoL_Client.DeathScreen
                 extras.killerInventory.SetActive(false);
                 return;
             }
+            #endregion
+
+
             //Make it so this can run without a Helper present too
             if (self.displayData.runReport.gameEnding.isWin)
             {
@@ -107,8 +96,14 @@ namespace WolfoQoL_Client.DeathScreen
             extras.IsEvoInventory = NoKillerButWithEvo;
             if (NoKillerButWithEvo)
             {
-                extras.killerInventory.name = "EvolutionArea";
+                extras.killerInventory.transform.GetChild(0).GetChild(0).GetComponent<LanguageTextMeshController>().token = "INVENTORY_MONSTER";     
             }
+            else
+            {
+                extras.killerInventory.transform.GetChild(0).GetChild(0).GetComponent<LanguageTextMeshController>().token = "INVENTORY_KILLER";    
+            }
+
+
             //If items found
             if (helper.itemAcquisitionOrder.Count != 0 || HasViewableEquipment)
             {
@@ -119,27 +114,10 @@ namespace WolfoQoL_Client.DeathScreen
                 ItemInventoryDisplay inventoryDisplay = extras.killerInventory.GetComponentInChildren<ItemInventoryDisplay>();
                 inventoryDisplay.SetItems(helper.itemAcquisitionOrder, helper.itemStacks);
                 inventoryDisplay.UpdateDisplay();
-
-                if (self.unlockContentArea.childCount > 0)
-                {
-                    self.unlockContentArea.parent.parent.parent.gameObject.SetActive(true);
-                }
-                else
-                {
-                    self.unlockContentArea.parent.parent.parent.gameObject.SetActive(false);
-                }
             }
             else
             {
-                if (self.unlockContentArea.childCount > 3)
-                {
-                    self.itemInventoryDisplay.maxHeight = 320;
-                }
-                else
-                {
-                    self.itemInventoryDisplay.maxHeight = 384;
-                }
-                
+
                 extras.killerInventory.SetActive(false);
                 if (extras.killerInventory)
                 {
@@ -153,6 +131,7 @@ namespace WolfoQoL_Client.DeathScreen
         }
 
     }
+    
     public class KillerInventoryMessage : RoR2.ChatMessageBase
     {
         public override string ConstructChatString()
@@ -167,7 +146,7 @@ namespace WolfoQoL_Client.DeathScreen
                 killerBackupName = Language.GetString(killerBackupName);
             }
 
-            Debug.Log("SendGameEndInvHelper");
+            //Debug.Log("SendGameEndInvHelper");
             KillerInventoryInfoStorage.SetupFromData(killerBackupName, attackerObject, victimMaster, itemStacks, primaryEquipment, secondaryEquipment, false);
             return null;
         }
@@ -182,10 +161,6 @@ namespace WolfoQoL_Client.DeathScreen
 
         public override void Serialize(NetworkWriter writer)
         {
-            if (WConfig.cfgTestClient.Value)
-            {
-                return;
-            }
             base.Serialize(writer);
             writer.Write(killerBackupName);
             writer.Write(attackerObject);

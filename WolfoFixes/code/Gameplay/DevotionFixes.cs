@@ -40,8 +40,8 @@ namespace WolfoFixes
                 GameObject DevotedLemurian = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/CU8/DevotedLemurianBody.prefab").WaitForCompletion();
                 GameObject DevotedLemurianElder = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/CU8/DevotedLemurianBruiserBody.prefab").WaitForCompletion();
 
-                DevotedLemurian.GetComponent<CharacterBody>().bodyFlags &= CharacterBody.BodyFlags.Devotion;
-                DevotedLemurianElder.GetComponent<CharacterBody>().bodyFlags &= CharacterBody.BodyFlags.Devotion;
+                DevotedLemurian.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.Devotion;
+                DevotedLemurianElder.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.Devotion;
 
             }
 

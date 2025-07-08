@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using WolfoFixes;
+using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Text
 {
@@ -22,6 +23,7 @@ namespace WolfoQoL_Client.Text
             ItemLoss_Host.Start();
             LunarSeer.Start();
             EquipmentDrone.Start();
+            DevotionLoss.Start();
 
             On.RoR2.Run.OnClientGameOver += WinMessage_Client;
 
@@ -273,6 +275,8 @@ namespace WolfoQoL_Client.Text
                 newIndex + " | " +
                 transformationType);*/
 
+            //Cannot get Watch / old Benthic item count because this is after those items were removed.
+
             orig(characterMaster, oldIndex, newIndex, transformationType);
             if (!characterMaster.playerCharacterMasterController)
             {
@@ -280,6 +284,16 @@ namespace WolfoQoL_Client.Text
             }
             string player = Util.GetBestMasterName(characterMaster);
             //Any player message here
+            ItemDef newDef = ItemCatalog.GetItemDef(newIndex);
+            /*if (newDef.tier >= ItemTier.VoidTier1 && newDef.tier <= ItemTier.VoidBoss) 
+            {
+                if (characterMaster.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
+                {
+            //This doesn't have the item amount, how fix?
+                    Stats.itemsVoided++;
+                }
+            }*/
+ 
             if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
                 if (WConfig.cfgMessagesRevive.Value)
@@ -294,43 +308,24 @@ namespace WolfoQoL_Client.Text
                     }
 
                 }
-            }
-            if (!characterMaster.hasAuthority)
-            {
-                //Specifically in NO Authority
-                if (WConfig.cfgMessageElixir.Value == WConfig.MessageWho.Anybody)
+                if (WConfig.cfgMessageElixir.Value != WConfig.MessageWho.Off)
                 {
+                    string authString = characterMaster.hasAuthority ? "" : "_1P";
+                    if (characterMaster.hasAuthority == false && WConfig.cfgMessageElixir.Value != WConfig.MessageWho.Anybody)
+                    {
+                        return;
+                    }
                     if (newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
                     {
-                        Chat.AddMessage(string.Format(Language.GetString("ITEM_USE_ELIXIR_1P"), player));
+                        Chat.AddMessage(Language.GetString("ITEM_USE_ELIXIR" + authString));
                     }
                     else if (newIndex == DLC1Content.Items.FragileDamageBonusConsumed.itemIndex)
                     {
-                        Chat.AddMessage(string.Format(Language.GetString("ITEM_USE_WATCH_1P"), player));
+                        Chat.AddMessage(Language.GetString("ITEM_USE_WATCH" + authString));
                     }
                     else if (newIndex == VanillaVoids_WatchBrokeItem)
                     {
-                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH_1P"), Help.GetColoredName(oldIndex), player);
-                        Chat.AddMessage(result);
-                    }
-                }
-                return;
-            }
-            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
-            {
-                if (WConfig.cfgMessageElixir.Value > WConfig.MessageWho.Off)
-                {
-                    if (newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
-                    {
-                        Chat.AddMessage(Language.GetString("ITEM_USE_ELIXIR"));
-                    }
-                    else if (newIndex == DLC1Content.Items.FragileDamageBonusConsumed.itemIndex)
-                    {
-                        Chat.AddMessage(Language.GetString("ITEM_USE_WATCH"));
-                    }
-                    else if (newIndex == VanillaVoids_WatchBrokeItem)
-                    {
-                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH"), Help.GetColoredName(oldIndex));
+                        string result = string.Format(Language.GetString("ITEM_USE_VV_VOIDWATCH" + authString), Help.GetColoredName(oldIndex));
                         Chat.AddMessage(result);
                     }
                 }
@@ -351,14 +346,14 @@ namespace WolfoQoL_Client.Text
             {
                 if (WConfig.cfgMessageVoidTransform.Value)
                 {
-                    if (ItemCatalog.GetItemDef(newIndex).tier == ItemTier.NoTier)
+                    if (newDef.tier == ItemTier.NoTier)
                     {
                         return;
                     }
                     string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
                     string hex2 = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(newIndex).pickupDef.baseColor);
                     string name = Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
-                    string name2 = Language.GetString(ItemCatalog.GetItemDef(newIndex).nameToken) + "</color>";
+                    string name2 = Language.GetString(newDef.nameToken) + "</color>";
                     int newitemcount = characterMaster.inventory.GetItemCount(newIndex);
                     if (newitemcount > 1)
                     {

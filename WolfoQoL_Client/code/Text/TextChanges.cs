@@ -7,6 +7,8 @@ using RoR2.Skills;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
+using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Text
 {
@@ -44,7 +46,7 @@ namespace WolfoQoL_Client.Text
 
             On.RoR2.TeleporterInteraction.Start += BlueTeleporterObjective;
 
-            On.RoR2.GenericPickupController.HandlePickupMessage += GenericPickupController_HandlePickupMessage;
+            On.RoR2.GenericPickupController.HandlePickupMessage += AddVoidQuantity;
             IL.RoR2.GenericPickupController.HandlePickupMessage += IL_PICKUP;
 
             OptionPickupStuff.Start();
@@ -247,7 +249,7 @@ namespace WolfoQoL_Client.Text
             }
         }
 
-        private static void GenericPickupController_HandlePickupMessage(On.RoR2.GenericPickupController.orig_HandlePickupMessage orig, UnityEngine.Networking.NetworkMessage netMsg)
+        private static void AddVoidQuantity(On.RoR2.GenericPickupController.orig_HandlePickupMessage orig, UnityEngine.Networking.NetworkMessage netMsg)
         {
             orig(netMsg);
             if (WConfig.cfgMessagesVoidQuantity.Value)
@@ -278,7 +280,7 @@ namespace WolfoQoL_Client.Text
                     {
                         //If is Void, shouldn't we only bother checking the first time?
                         int voidCount = inventory.GetItemCount(itemDef);
-                        if (voidCount < 2)
+                        if (voidCount <= 1)
                         {
                             foreach (ContagiousItemManager.TransformationInfo transformationInfo in ContagiousItemManager._transformationInfos)
                             {
@@ -287,7 +289,16 @@ namespace WolfoQoL_Client.Text
                                     int original = inventory.GetItemCount(transformationInfo.originalItem);
                                     if (original > 0)
                                     {
-                                        VoidQuantity += original;
+                                        VoidQuantity += original; 
+                                        if (!NetworkServer.active)
+                                        {
+                                            if (masterGameObject.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
+                                            {
+                                                //This doesn't have the item amount, how fix?
+                                                Stats.itemsVoided += original;
+                                            }
+                                        }
+                                       
                                     }
                                 }
                             }
@@ -300,6 +311,14 @@ namespace WolfoQoL_Client.Text
                         int voidCount = inventory.GetItemCount(voidIndex);
                         if (voidCount > 0)
                         {
+                            if (!NetworkServer.active)
+                            {
+                                if (masterGameObject.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
+                                {
+                                    //This doesn't have the item amount, how fix?
+                                    Stats.itemsVoided++;
+                                }
+                            }
                             VoidQuantity += voidCount;
                         }
                     }

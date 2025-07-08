@@ -52,11 +52,13 @@ namespace WolfoQoL_Client.DeathScreen
 
                 MakeCombinedStat(statContentArea, "totalTimeAlive"); //+Stages / Waves
                 MakeCombinedStat(statContentArea, "totalItemsCollected");
-                MakeCombinedStat(statContentArea, "totalDronesPurchased", 3);
+                MakeCombinedStat(statContentArea, "totalDronesPurchased", 2);
                 MakeCombinedStat(statContentArea, "totalDamageDealt", 2);
                 MakeCombinedStat(statContentArea, "totalKills", 2);
                 MakeCombinedStat(statContentArea, "totalDamageTaken");
                 MakeCombinedStat(statContentArea, "totalHealthHealed");
+                MakeCombinedStat(statContentArea, "custom_DotDamage");
+                MakeCombinedStat(statContentArea, "custom_DamageBlocked");
                 MakeCombinedStat(statContentArea, "totalDeaths");
                 MakeCombinedStat(statContentArea, "totalPurchases", 2);
                 MakeCombinedStat(statContentArea, "custom_ChestsMissed", 2);
@@ -133,26 +135,29 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void ChangeStats(GameEndReportPanelController self, RunReport runReport)
         {
-            bool simu = runReport.gameMode is InfiniteTowerRun;
+            bool IsSimu = runReport.gameMode is InfiniteTowerRun;
+            bool DLC1 = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Expansions.DLC1")).localIndex == 0;
+            //bool DLC3 = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Expansions.DLC3")).localIndex == 0;
+            bool DLC3 = false;
+            bool SS2 = false;
+           
             bool isLog = runReport.FindFirstPlayerInfo().master == null;
             self.statsToDisplay = new string[] {
                             "totalTimeAlive",
-                            simu ? "highestInfiniteTowerWaveReached" : "totalStagesCompleted",
+                            IsSimu ? "highestInfiniteTowerWaveReached" : "totalStagesCompleted",
 
                             "totalItemsCollected",
                             "custom_ItemsScrapped",
 
-                            simu ? "null" : "totalDronesPurchased",
-                            simu ? "null" : "custom_DronesScrapped",
-                            simu ? "null" : "totalTurretsPurchased",
-
+                            IsSimu ? "null" : "totalDronesPurchased",
+                            IsSimu || !DLC3 ? "null" : "custom_DronesScrapped",
+                           
                             "totalKills",
                             "totalMinionKills",
 
                             "totalDamageDealt",
                             "totalMinionDamageDealt",
 
-                            "highestDamageDealt", //Funny big number
 
                             "totalDamageTaken",
                             "custom_MinionDamageTaken",
@@ -160,24 +165,31 @@ namespace WolfoQoL_Client.DeathScreen
                             "totalHealthHealed",
                             "custom_MinionHealthHealed",
 
-                             "totalDeaths",
+                            "totalDeaths",
                             "custom_MinionDeaths",
 
-                            simu ? "null" : "custom_ChestsMissed",
-                            simu ? "null" : "custom_DronesMissed",
+
+
+                            IsSimu ? "null" : "custom_ChestsMissed",
+                            IsSimu ? "null" : "custom_DronesMissed",
 
                             "totalPurchases",
                              "totalGoldCollected",
 
-                             isLog ? "totalLunarPurchases" : "custom_LunarCoinsSpent",
+                            isLog ? "totalLunarPurchases" : "custom_LunarCoinsSpent",
+                            //DLC1 && !isLog ? "custom_ItemsVoided" : "totalBloodPurchases",
                             "totalBloodPurchases",
-
-                               
-                            "totalEliteKills", //Remove?
-                            "highestLevel", //Meh
-
+                            //"totalEliteKills", //Remove?
+   
                             "totalDistanceTraveled",
                             "custom_TimesJumped",
+
+
+                            "custom_DotDamage",
+                            "highestDamageDealt", //Funny big number
+
+                            "custom_DamageBlocked",
+                            "highestLevel", //Meh
 
                             "custom_MostKilledEnemy",
                             "custom_EnemyMostHurtBy",
@@ -200,32 +212,10 @@ namespace WolfoQoL_Client.DeathScreen
         public static void AddCustomStats(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
         {
             Debug.Log("ExtraStats");
-            Transform totalEliteKills = FindStatStrip(self, "totalEliteKills");
+            //Transform totalEliteKills = FindStatStrip(self, "totalEliteKills");
             Transform mostKilled = self.statContentArea.Find("custom_MostKilledEnemy");
             Transform mostHurtby = self.statContentArea.Find("custom_EnemyMostHurtBy");
 
-
-            Transform totalDronesPurchased = FindStatStrip(self, "totalDronesPurchased");
-            Transform totalTurretsPurchased = FindStatStrip(self, "totalTurretsPurchased");
-
-
-            Transform ChestsMissed = FindStatStrip(self, "custom_ChestsMissed");
-            Transform DronesMissed = FindStatStrip(self, "custom_DronesMissed");
-
-            Transform itemsScrapped = FindStatStrip(self, "custom_ItemsScrapped");
-            Transform dronesScrapped = FindStatStrip(self, "custom_DronesScrapped");
-            if (dronesScrapped)
-            {
-                //Figure out how to SS2 
-                dronesScrapped.gameObject.SetActive(false);
-            }
-            Transform LunarCoinsSpent = FindStatStrip(self, "custom_LunarCoinsSpent");
-
-            Transform custom_TimesJumped = FindStatStrip(self, "custom_TimesJumped");
-
-            Transform custom_MinionDamageTaken = FindStatStrip(self, "custom_MinionDamageTaken");
-            Transform custom_MinionHealthHealed = FindStatStrip(self, "custom_MinionHealthHealed");
-            Transform custom_MinionDeaths = FindStatStrip(self, "custom_MinionDeaths");
 
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
             if (!extras.madeStats)
@@ -249,8 +239,7 @@ namespace WolfoQoL_Client.DeathScreen
                 GameObject.Destroy(mostHurtby.gameObject);
                 mostHurtby = newMostHurtby.transform;
             }
-
-
+ 
             if (playerInfo.statSheet == null)
             {
                 mostKilled.gameObject.SetActive(false);
@@ -259,21 +248,6 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                if (dronesScrapped && dronesScrapped.gameObject.activeSelf && totalTurretsPurchased)
-                {
-                    totalTurretsPurchased.gameObject.SetActive(false);
-                    if (!totalDronesPurchased.TryGetComponent<TooltipProvider>(out var tooltipProvider))
-                    {
-                        tooltipProvider = totalDronesPurchased.gameObject.AddComponent<TooltipProvider>();
-                        tooltipProvider.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
-                    }
-                    tooltipProvider.bodyToken = totalTurretsPurchased.GetChild(0).GetComponent<HGTextMeshProUGUI>().text;
-                    tooltipProvider.titleToken = "STAT_EXTRAHEADER";
-                }
-
-                //string eliteKills = playerInfo.statSheet.GetStatDisplayValue(StatDef.totalEliteKills);
-                //totalEliteKills.transform.GetChild(0).GetComponent<TMP_Text>().text = string.Format(Language.GetString("MONSTER_PREFIX_ELITESKILLED").Replace("style=cEvent", "color=#FFFF7F").Replace("/style", "/color"), eliteKills);
-
                 Transform icon;
                 CharacterBody body = null;
                 BodyIndex kills = Help.FindBodyWithHighestStatNotMasterless(playerInfo.statSheet, PerBodyStatDef.killsAgainst);
@@ -337,11 +311,7 @@ namespace WolfoQoL_Client.DeathScreen
                         total
                     });
                 }
-                else
-                {
-
-                }
-
+          
                 if (equip != EquipmentIndex.None)
                 {
                     EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equip);
@@ -353,31 +323,12 @@ namespace WolfoQoL_Client.DeathScreen
                         total
                     });
                 }
-                else
-                {
-
-                }
+                 
             }
 
             if (extras.isLogRunReport)
             {
-                /*itemsScrapped.gameObject.SetActive(false);
-
-                custom_TimesJumped.gameObject.SetActive(false);
-                custom_MinionDamageTaken.gameObject.SetActive(false);
-                custom_MinionHealthHealed.gameObject.SetActive(false);
-                custom_MinionDeaths.gameObject.SetActive(false);
-
-                //Check Simu/SS2/DLC?
-                if (dronesScrapped)
-                {
-                    dronesScrapped.gameObject.SetActive(false);
-                }
-                if (DronesMissed)
-                {
-                    ChestsMissed.gameObject.SetActive(false);
-                    DronesMissed.gameObject.SetActive(false);
-                }*/
+                //All custom stats get auto disabled
                 return;
             }
 
@@ -389,15 +340,42 @@ namespace WolfoQoL_Client.DeathScreen
                 self.finalMessageLabel.SetText(newFinal, true);
             }
 
-            SetupStat(custom_MinionDamageTaken, "STAT_MINION_DAMAGETAKEN", (int)playerTracker.minionDamageTaken);
-            SetupStat(custom_MinionHealthHealed, "STAT_MINION_HEALTHHEALED", (int)playerTracker.minionHealing);
-            SetupStat(custom_MinionDeaths, "STAT_MINION_DEATH", playerTracker.minionDeaths);
 
-            SetupStat(itemsScrapped, "STAT_SCRAPPED_ITEMS", playerTracker.scrappedItems);
-            SetupStat(dronesScrapped, "STAT_SCRAPPED_DRONES", playerTracker.scrappedDrones);
-      
-            SetupStat(custom_TimesJumped, "STAT_TIMESJUMPED", playerTracker.timesJumped);
-            SetupStat(LunarCoinsSpent, "STAT_SPENT_LUNARCOIN", playerTracker.spentLunarCoins);
+            //Transform totalDronesPurchased = FindStatStrip(self, "totalDronesPurchased");
+            //Transform totalTurretsPurchased = FindStatStrip(self, "totalTurretsPurchased");
+
+            int visibleItems = 0;
+            for (int i = 0; i < playerInfo.itemStacks.Length; i++)
+            {
+                if (ItemInventoryDisplay.ItemIsVisible((ItemIndex)i))
+                {
+                    visibleItems += playerInfo.itemStacks[i];
+                }
+            }
+        
+
+            // SetupStat(self, "totalItemsCollected", "STATNAME_TOTALITEMSCOLLECTED", visibleItems);
+ 
+            SetupStat(self, "custom_MinionDamageTaken", "STAT_MINION_DAMAGETAKEN", (int)playerTracker.minionDamageTaken);
+            SetupStat(self, "custom_MinionHealthHealed", "STAT_MINION_HEALTHHEALED", (int)playerTracker.minionHealing);
+            SetupStat(self, "custom_MinionDeaths", "STAT_MINION_DEATH", playerTracker.minionDeaths);
+
+            SetupStat(self, "custom_ItemsScrapped", "STAT_SCRAPPED_ITEMS", playerTracker.scrappedItems);
+            var dronesScrapped = SetupStat(self, "custom_DronesScrapped", "STAT_SCRAPPED_DRONES", playerTracker.scrappedDrones);
+            if (dronesScrapped)
+            {
+                dronesScrapped.gameObject.SetActive(false); //Figure out how to SS2
+            }
+            SetupStat(self, "custom_TimesJumped", "STAT_TIMESJUMPED", playerTracker.timesJumped, true);
+            SetupStat(self, "custom_LunarCoinsSpent", "STAT_SPENT_LUNARCOIN", playerTracker.spentLunarCoins);
+            //SetupStat(self, "custom_ItemsVoided", "STAT_SPENT_VOIDSTUFF", playerTracker.itemsVoided);
+
+            SetupStat(self, "custom_DotDamage", "STAT_DAMAGE_DOT", (int)playerTracker.dotDamageDone);
+            Transform damageBlocked = SetupStat(self, "custom_DamageBlocked", "STAT_DAMAGE_BLOCKED", (int)playerTracker.damageBlocked, true);
+            if (playerTracker.damageBlocked == -1)
+            {
+                damageBlocked.gameObject.SetActive(false);
+            }
 
             if (extras.addedRunTrackedStats)
             {
@@ -406,11 +384,11 @@ namespace WolfoQoL_Client.DeathScreen
             extras.addedRunTrackedStats = true;
             var runTracker = Run.instance.GetComponent<RunExtraStatTracker>();
 
+            var ChestsMissed = SetupStat(self, "custom_ChestsMissed", "STAT_MISSED_CHEST", runTracker.missedChests);
+            var DronesMissed = SetupStat(self, "custom_DronesMissed", "STAT_MISSED_DRONE", runTracker.missedDrones);
             if (ChestsMissed)
             {
-                SetupStat(ChestsMissed, "STAT_MISSED_CHEST", runTracker.missedChests);
-                SetupStat(DronesMissed, "STAT_MISSED_DRONE", runTracker.missedDrones);
-
+               
                 TooltipProvider tip = ChestsMissed.gameObject.AddComponent<TooltipProvider>();
                 tip.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
                 tip.titleToken = "STAT_DETAILS";
@@ -447,18 +425,28 @@ namespace WolfoQoL_Client.DeathScreen
             return string.Format(Language.GetString("STAT_NAME_VALUE_FORMAT"), Language.GetString(displayToken), value);
         }
 
-        public static void SetupStat(Transform stat, string displayToken, int value)
+        public static Transform SetupStat(GameEndReportPanelController self, string lookingFor, string displayToken, int value, bool disableIfNeg = false)
         {
+            Transform stat = FindStatStrip(self, lookingFor);
             if (!stat)
             {
                 Debug.Log(displayToken + " does not exist");
-                return;
+                return null;
             }
-
+         
             string formatted = TextSerialization.ToStringNumeric(value);
-            stat.gameObject.SetActive(true);
+            if (disableIfNeg && value == -1)
+            {
+                self.gameObject.SetActive(false);
+            }
+            else
+            {
+                stat.gameObject.SetActive(true);
+            }
+      
             stat.GetChild(0).GetComponent<TextMeshProUGUI>().text = string.Format(Language.GetString("STAT_NAME_VALUE_FORMAT"), Language.GetString(displayToken), formatted);
             stat.GetChild(1).gameObject.SetActive(false);
+            return stat;
         }
 
 

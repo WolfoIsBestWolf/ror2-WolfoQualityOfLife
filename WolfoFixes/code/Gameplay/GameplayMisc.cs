@@ -29,6 +29,9 @@ namespace WolfoFixes
             scene = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/helminthroost/helminthroost.asset").WaitForCompletion();
             scene.validForRandomSelection = true;
 
+            //Halcyon Shrine drop table no longer split between NoSotS/YesSots just Any/YesSots which seems wrong.
+            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "e291748f54c927a47ad44789d295c39f").WaitForCompletion().bannedItemTags = new ItemTag[] { ItemTag.HalcyoniteShrine };
+
 
             //Needed for SimuAdds
             IL.RoR2.HealthComponent.ServerFixedUpdate += AllowGhostsToSuicideProperly;

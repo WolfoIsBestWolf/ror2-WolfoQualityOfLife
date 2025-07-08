@@ -45,7 +45,7 @@ namespace WolfoQoL_Client.DeathScreen
                 storage = self.gameObject.AddComponent<GameEndLoadoutAsStat>();
             }
             storage.panel = self;
-            storage.SetLoadout(loadout);
+            storage.SetLoadout(loadout, playerInfo.itemStacks);
 
         }
 
@@ -128,8 +128,9 @@ namespace WolfoQoL_Client.DeathScreen
        
         }
 
-        public void SetLoadout(Loadout.BodyLoadoutManager.BodyLoadout loadout)
+        public void SetLoadout(Loadout.BodyLoadoutManager.BodyLoadout loadout, int[] inventory)
         {
+           
 
             latest = loadout;
             if (!setup)
@@ -151,20 +152,62 @@ namespace WolfoQoL_Client.DeathScreen
             }
             Color color = bodyPrefab.GetComponent<CharacterBody>().bodyColor;
             List<GenericSkill> gameObjectComponents = GetComponentsCache<GenericSkill>.GetGameObjectComponents(bodyPrefab);
+            SkillLocator skillLocator = bodyPrefab.GetComponent<SkillLocator>();    
+            
 
             int length = loadout.skillPreferences.Length;
             for (int i = 0; i < length; i++)
             {
+                Color color2 = color;
                 GenericSkill skillSlot = gameObjectComponents[i];
                 SkillDef def = skillSlot.skillFamily.variants[loadout.skillPreferences[i]].skillDef;
+
+                SkillSlot slot = skillLocator.FindSkillSlot(skillSlot);
+                if (slot != SkillSlot.None)
+                {
+                    switch (slot)
+                    {
+                        case SkillSlot.Primary:
+                            if(inventory[(int)RoR2Content.Items.LunarPrimaryReplacement.itemIndex] > 0)
+                            {
+                                def = CharacterBody.CommonAssets.lunarPrimaryReplacementSkillDef;
+                                color2 = new Color(0.2018f, 0.182f, 0.2736f, 1f);
+                            }
+                            break;
+                        case SkillSlot.Secondary:
+                            bool heresy2 = inventory[(int)RoR2Content.Items.LunarSecondaryReplacement.itemIndex] > 0;
+                            if (inventory[(int)RoR2Content.Items.LunarSecondaryReplacement.itemIndex] > 0)
+                            {
+                                def = CharacterBody.CommonAssets.lunarSecondaryReplacementSkillDef;
+                                color2 = new Color(0.2018f, 0.182f, 0.2736f, 1f);
+                            }
+                            break;
+                        case SkillSlot.Utility:
+                            if (inventory[(int)RoR2Content.Items.LunarUtilityReplacement.itemIndex] > 0)
+                            {
+                                def = CharacterBody.CommonAssets.lunarUtilityReplacementSkillDef;
+                                color2 = new Color(0.2018f, 0.182f, 0.2736f, 1f);
+                            }
+                            break;
+                        case SkillSlot.Special:
+                            if (inventory[(int)RoR2Content.Items.LunarSpecialReplacement.itemIndex] > 0)
+                            {
+                                def = CharacterBody.CommonAssets.lunarSpecialReplacementSkillDef;
+                                color2 = new Color(0.2018f, 0.182f, 0.2736f, 1f);
+                            }
+                            break;
+
+
+                    }
+                }
+                
                 //Debug.Log(def);
                 GameObject icon = new GameObject("SkillIcon");
                 icon.transform.SetParent(skills, false);
-                icon.AddComponent<Image>();
+                icon.AddComponent<Image>().sprite = def.icon;
                 icon.GetComponent<RectTransform>().sizeDelta = new Vector2(scale, scale);
-                icon.GetComponent<Image>().sprite = def.icon;
                 TooltipProvider tooltipProvider = icon.AddComponent<TooltipProvider>();
-                tooltipProvider.titleColor = color;
+                tooltipProvider.titleColor = color2;     
                 tooltipProvider.titleToken = def.skillNameToken;
                 tooltipProvider.bodyToken = def.skillDescriptionToken;
 
@@ -175,6 +218,11 @@ namespace WolfoQoL_Client.DeathScreen
             background.sizeDelta = new Vector2(scaleBig, scaleBig);
             background.offsetMax = new Vector2(scaleBig * 0.5f, scaleBig * 0.5f);
             background.offsetMin = new Vector2(-(loadout.skillPreferences.Length * scale - scale * 0.375f), scaleBig * -0.5f);
+
+   
+          
+           
+
 
         }
 

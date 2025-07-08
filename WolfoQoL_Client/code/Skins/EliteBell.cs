@@ -38,43 +38,23 @@ namespace WolfoQoL_Client.Skins
         {
             ILCursor c = new ILCursor(il);
 
-            if (c.TryGotoNext(MoveType.After,
-                x => x.MatchLdsfld("EntityStates.Bell.BellWeapon.ChargeTrioBomb", "preppedBombPrefab")))
+            if (c.TryGotoNext(MoveType.Before,
+                //x => x.MatchLdsfld("EntityStates.Bell.BellWeapon.ChargeTrioBomb", "preppedBombPrefab")
+                 x => x.MatchStloc(1)
+                ))
             {
-                //CurrentIndex 37
-                c.Index += 6;
-                //Debug.Log(c + " " + c.Next + " " + c.Next.Operand);
+      
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<GameObject, EntityStates.Bell.BellWeapon.ChargeTrioBomb, GameObject>>((ballPrep, entityState) =>
                 {
                     //Instance of Object not base Object
                     if (entityState.characterBody.isElite)
                     {
-                        //ballPrep; //Do Ball Stuff
-                        //ballPrep.transform.GetChild(0).GetComponent<UnityEngine.MeshRenderer>().material = EquipmentCatalog.GetEquipmentDef(entityState.characterBody.equipmentSlot.equipmentIndex).pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
-                        if (!entityState.isAuthority)
-                        {
-                            BellBallGhostElite.transform.GetChild(0).GetComponent<MeshRenderer>().material = entityState.characterBody.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
-                        }
                         ballPrep.transform.GetChild(0).GetComponent<MeshRenderer>().material = entityState.characterBody.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
                     }
                     return ballPrep;
                 });
-                /* c.Index += 4;
-                 c.TryGotoNext(MoveType.After,
-                 x => x.MatchLdsfld("EntityStates.Bell.BellWeapon.ChargeTrioBomb", "bombProjectilePrefab"));
-                 //Debug.Log(c + " " + c.Next + " " + c.Next.Operand);
-                 c.Emit(OpCodes.Ldarg_0);
-                 c.EmitDelegate<Func<GameObject, EntityStates.Bell.BellWeapon.ChargeTrioBomb, GameObject>>((ballProj, entityState) =>
-                 {
-                     if (entityState.characterBody.isElite)
-                     {
-                         //BellBallGhostElite.transform.GetChild(0).GetComponent<MeshRenderer>().material = entityState.characterBody.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
-                         //return BellBallElite;
-                     }
-                     return ballProj;
-                 });*/
-
+ 
             }
             else
             {

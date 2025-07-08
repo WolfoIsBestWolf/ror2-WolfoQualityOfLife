@@ -1,5 +1,24 @@
 ## Changelog:
 ```
+v1.1.12
+Fixed WEcho always bypassing OSP
+Fixed Bazaar being able to select 2 Plains or 2 Roosts
+Fixed a mod nullRef with HealthComponentToTransform
+
+v1.1.11
+Fixed missing orig() making only Eclipse count as wins.
+
+v1.1.10
+Fixed an issue with the way I added some bodyFlags
+
+v1.1.9
+Fixed Warped Echo ignoring Armor entirely.
+Fixed Warped Echo not putting you into danger
+Fixed Milky Chrysalis not doing it's flight animation due to mod.
+Removed my Grandparent Rock fix that was too small and just added someone elses.
+(This is technically fixed in vanilla, the rock is just 60x too small)
+
+
 v1.1.8 : Part of mod was no longer running on accident
 v1.1.7
 Fixed Boosted Sear Oil Pools dealing 0% damage instead of 20%

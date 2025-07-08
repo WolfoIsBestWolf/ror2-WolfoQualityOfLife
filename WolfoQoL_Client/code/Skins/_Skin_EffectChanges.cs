@@ -140,7 +140,7 @@ namespace WolfoQoL_Client.Skins
                     return ghostPrefab_2;
                 }
             }
-            if (condition == SkinChanges.Case.Acrid)
+            else if (condition == SkinChanges.Case.Acrid)
             {
                 if (useReplacement)
                 {
@@ -152,7 +152,7 @@ namespace WolfoQoL_Client.Skins
                     return ghostPrefab_1;
                 }
             }
-            if (condition == SkinChanges.Case.Brass)
+            else if(condition == SkinChanges.Case.Brass)
             {
                 CharacterBody component = pjC.owner.GetComponent<CharacterBody>();
                 if (component && component.isElite)

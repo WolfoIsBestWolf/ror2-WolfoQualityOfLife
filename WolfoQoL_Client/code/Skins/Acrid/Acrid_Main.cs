@@ -26,7 +26,7 @@ namespace WolfoQoL_Client.Skins
 
             if (WConfig.cfgSkinMakeBlightedAcrid.Value == true)
             {
-                CrocoBlightSkin();
+                BodyCatalog.availability.CallWhenAvailable(CrocoBlightSkin);
             }
 
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnEnable += SpawnBlightPuddleInLobby;

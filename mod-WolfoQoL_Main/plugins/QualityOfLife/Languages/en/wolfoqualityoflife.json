@@ -2,40 +2,62 @@
 	"strings":
 	{
 	
-			"STAT_MOSTKILLED": "Most Killed Monster: <color=#FFFF7F>{0}</color>",
-			"STAT_MOSTHURTBY": "Most Hurt By: <color=#FFFF7F>{0}</color>",
-			"STAT_STACKEDITEM": "Most Stacked Item: <color=#FFFF7F>{0}</color>",
-			
+			"STAT_MOST_KILLED": "Most Killed Monster: <color=#FFFF7F>{0}</color>",
+			"STAT_MOST_HURTBY": "Most Hurt By: <color=#FFFF7F>{0}</color>",
+			"STAT_MOST_FOUNDITEM": "Most Found Item: <color=#FFFF7F>{0}</color>",
+			"STAT_MOST_USEDEQUIP": "Most Used Equipment: <color=#FFFF7F>{0}</color>",
 
-			"STAT_MOSTKILLED_AMOUNT": "<color=#FFFF7F>Killed {0}</color>",
-			"STAT_MOSTHURTBY_AMOUNT": "<color=#FFFF7F>{0} Damage Taken</color>",
-			"STAT_STACKEDITEM_AMOUNT": "<color=#FFFF7F>{0}x</color>",
-			 
+
+			"STAT_AMOUNT_KILLED": "<color=#FFFF7F>Killed {0}</color>",
+			"STAT_AMOUNT_HURTBY": "<color=#FFFF7F>{0} Damage Taken</color>",
+			"STAT_AMOUNT_FOUNDITEM": "<color=#FFFF7F>{0}x</color>",
+			"STAT_AMOUNT_USEDEQUIP": "<color=#FFFF7F>{0} activations</color>",
+
 			"STAT_EXTRAHEADER": "Additional Information",
-			 
-			"STAT_MISSED_ITEMS": "Chests Left Behind: <color=#FFFF7F>{0}</color>",
-			"STAT_MISSED_DRONE": "Drones Left Behind: <color=#FFFF7F>{0}</color>",
+			"STAT_DETAILS": "Detailed Breakdown",
+
+			"STAT_MINION_DAMAGETAKEN": "Minion Damage Taken",
+			"STAT_MINION_HEALTHHEALED": "Minion Healing Recieved",
+			"STAT_MINION_DEATH": "Drone Deaths",
+
+			"STAT_SCRAPPED_ITEMS": "Items Scrapped",
+			"STAT_SCRAPPED_DRONES": "Drones Scrapped",
+
+			"STAT_MISSED_CHEST": "Chests Left Behind",
+			"STAT_MISSED_DRONE": "Drones Left Behind",	
+			"STAT_MISSED_SHRINECHANCE": "Shrine of Chance Drops",
+
+			"STAT_TIMESJUMPED": "Times Jumped",
+			"STAT_SPENT_LUNARCOIN": "Lunar Coins Spent",
+			"STAT_SPENT_VOIDSTUFF": "Void Transformations",
 			
-			"STAT_MISSED_SHRINECHANCE": "Missed Shrine of Chance Drops: <color=#FFFF7F>{0}</color>",
-			"STAT_MISSED_ITEMS": "Items Left Behind: <color=#FFFF7F>{0}</color>",
-			"STAT_MISSED_EQUIPMENT": "Equipment Left Behind: <color=#FFFF7F>{0}</color>",
 			
+			"STAT_SPENT_VOIDCOIN": "Void Markers Spent",
+			"STAT_BUFFS_RECIEVED": "Buffs Recieved",
+			"STAT_SKILLS_USED": "Skill Activations",
 			
-			"STAT_SPENT_LUNARCOIN": "Lunar Coins Spent: <color=#FFFF7F>{0}</color>",
-			"STAT_SPENT_VOIDCOIN": "Void Markers Spent: <color=#FFFF7F>{0}</color>",
-			"STAT_SPENT_BLOOD": "Blood Spent: <color=#FFFF7F>{0}</color>",
-			
-			
-			"STAT_DAMAGETAKENBYMINIONS": "Minions Damage Taken: <color=#FFFF7F>{0}</color>",
-			"STAT_TIMESJUMPED": "Times Jumped: <color=#FFFF7F>{0}</color>",
-			
-			"STAT_BUFFS_RECIEVED": "Buffs Recieved: <color=#FFFF7F>{0}</color>",
-			
-			"STAT_SCRAPPED_ITEMS": "Items Scrapped: <color=#FFFF7F>{0}</color>",
-			"STAT_SCRAPPED_DRONES": "Drones Scrapped: <color=#FFFF7F>{0}</color>",
-			"RUN_RECAP": "Run Recap",
-			"LATEST_WAVE": "Last Wave:",
+			"STAT_DAMAGE_DOT": "Damage Over Time Inflicted",
+			"STAT_DAMAGE_BLOCKED": "Damage Blocked",
+			"STAT_TELEPORTERTIME": "Time Spent Charging Zones",
 	
+			"RUN_RECAP": "Run Recap",
+			"LATEST_WAVE": "Last Wave: ",
+	
+	
+			"INVENTORY_DEVOTION": "Devotion Collection",
+			"INVENTORY_DEVOTIONDRONE": "Devotion & Drone Collection",
+			"INVENTORY_DRONES": "Drone Collection",
+			
+			"INVENTORY_KILLER": "Killers Items",
+			"INVENTORY_MONSTER": "Monsters Items",
+			
+	
+			"DEVOTED_LEMURIAN_DEATH_2P": "<style=cDeath>You lost a devotee. Your pack loses {1}{2}</style>",
+			"DEVOTED_LEMURIAN_DEATH": "<style=cDeath>{0} lost a devotee. Their pack loses {1}{2}</style>",
+			
+			"ITEM_LOSS_EGG_2P": "<style=cEvent>You offer your devotees {1}</style>",
+			"ITEM_LOSS_EGG": "<style=cEvent>{0} offers their devotees {1}</style>",
+			 
 	
 			"VultureEggBody":"Vulture Eggs",
 			"VagrantTrackingBomb":"Vagrant Charge",
@@ -121,7 +143,7 @@
             "REMINDER_PORTAL_GREEN": "Proceed through the <style=cRebirth>Green Portal</color>",
 				 
 			
-		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <style=cGold>alcyon Shrine</color> ({0}%)",
+		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <style=cGold>Halcyon Shrine</color> ({0}%)",
             "OBJECTIVE_CHARGE_HALCSHRINE_NOPERCENT": "Charge the <style=cGold>Halcyon Shrine</color>",
             "OBJECTIVE_KILL_HALCSHRINE": "Defeat the <style=cGold>Guardian</color>",
 			
@@ -165,8 +187,6 @@
 			"OVERLAY_EXTRASTATSONLEVELUP_DESC": "Your Prayer Beads have blessed you with <style=cIsUtility>+{0} levels</style>, increasing <style=cIsHealing>max health</style> by <style=cIsHealing>{1}</style>, <style=cIsHealing>regeneration</style> by <style=cIsHealing>{2} hp/s</style> and <style=cIsDamage>damage</style> by <style=cIsDamage>{3}</style>.",
 			
 
-			"INVENTORY_KILLER": "Killers Items",
-			"INVENTORY_MONSTER": "Monsters Items",
 			
 			 "ITEM_LOSS_GENERIC_2P": "<style=cEvent>You got rid of {1}</style>",
 				"ITEM_LOSS_GENERIC": "<style=cEvent>{0} got rid of {1}</style>",

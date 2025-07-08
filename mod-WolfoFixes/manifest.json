@@ -1,6 +1,6 @@
 {
     "name": "WolfFixes",
-    "version_number": "1.1.8",
+    "version_number": "1.1.12",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife",
     "description": "Yet another fix mod. Fixes of all variety. Some gameplay, visual, audio, item descriptions, client fixes.",
     "dependencies": [
@@ -13,6 +13,7 @@
 		"Goorakh-VFiX-1.0.3",
 		"Goorakh-PizzaSoundFix-1.0.0",
 		"LordVGames-GildedChunkSpamFix-1.0.1",
-		"Moffein-FixGenesisLoopConsoleSpam-1.0.0"
+		"Moffein-FixGenesisLoopConsoleSpam-1.0.0",
+		"viliger-RestoreGrandparentRock-1.0.0"
     ]
 }

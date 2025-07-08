@@ -56,6 +56,11 @@ namespace WolfoFixes.Testing
 
         }
 
+        [ConCommand(commandName = "evolve_lemurian", flags = ConVarFlags.ExecuteOnServer, helpText = "Evolves all Devoted Lemurians")]
+        public static void CC_evolve_lemurian(ConCommandArgs args)
+        {
+            DevotionInventoryController.ActivateAllDevotedEvolution();
+        }
 
 
         [ConCommand(commandName = "cooldown", flags = ConVarFlags.ExecuteOnServer, helpText = "Removes Skill Cooldown for current stage")]
@@ -152,8 +157,8 @@ namespace WolfoFixes.Testing
         public static void CCGodEnemy(ConCommandArgs args)
         {
             godEnemyBool = !godEnemyBool;
-            TeamManager.instance.teamLevels[2] = godEnemyBool ? (uint)100001 : (uint)0;
-            Debug.Log(godEnemyBool ? "Enemy level set to 100001" : "Enemy level set back to normal");
+            TeamManager.instance.teamLevels[2] = godEnemyBool ? (uint)10000 : (uint)0;
+            Debug.Log(godEnemyBool ? "Enemy level set to 10000" : "Enemy level set back to normal");
         }
 
         [ConCommand(commandName = "scanner", flags = ConVarFlags.ExecuteOnServer, helpText = "Give Radar Scanner and Equipment Cooldown Reduction hidden item")]
@@ -171,7 +176,7 @@ namespace WolfoFixes.Testing
             args.senderMaster.inventory.GiveItem(RoR2Content.Items.BoostEquipmentRecharge, 100);
         }
 
-        [ConCommand(commandName = "set_damage", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets damage.")]
+        [ConCommand(commandName = "set_damage", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets damage for testing.")]
         public static void CC_Damage(ConCommandArgs args)
         {
             if (!args.senderMaster)
@@ -190,8 +195,57 @@ namespace WolfoFixes.Testing
 
         }
 
+        [ConCommand(commandName = "set_health", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets health and removes regen, for testing.")]
+        public static void CC_SetHP(ConCommandArgs args)
+        {
+            if (!args.senderMaster)
+            {
+                return;
+            }
+            if (!args.senderMaster.GetBody())
+            {
+                Debug.Log("No Body");
+                return;
+            }
+            float newDamage = (float)Convert.ToInt16(args[0]);
+            var body = args.senderMaster.GetBody();
+            body.baseMaxHealth = newDamage;
+            body.levelMaxHealth = 0;
+            body.maxHealth = newDamage;
+            body.baseRegen = 0;
+            body.levelRegen = 0;
+            body.regen = 0;
 
-        [ConCommand(commandName = "goto_boss", flags = ConVarFlags.ExecuteOnServer, helpText = "Tp to Teleporter, Mithrix or False son depending on stage.")]
+            body.healthComponent.health = body.maxHealth;
+        }
+
+        [ConCommand(commandName = "speed", flags = ConVarFlags.None, helpText = "Speed")]
+        [ConCommand(commandName = "set_speed", flags = ConVarFlags.None, helpText = "Speed")]
+        public static void CC_SetSpeed(ConCommandArgs args)
+        {
+            if (!args.senderMaster)
+            {
+                return;
+            }
+            if (!args.senderMaster.GetBody())
+            {
+                Debug.Log("No Body");
+                return;
+            }
+            float newNumb = (float)Convert.ToInt16(args[0]);
+            var body = args.senderMaster.GetBody();
+            body.moveSpeed = newNumb;
+            body.baseMoveSpeed = newNumb;
+            body.levelMoveSpeed = 0;
+
+            body.baseJumpCount = 10000;
+            body.maxJumpCount = 10000;
+            body.baseAcceleration = body.baseAcceleration/7*newNumb;
+            body.acceleration = body.baseAcceleration;
+        }
+
+
+        [ConCommand(commandName = "goto_boss", flags = ConVarFlags.None, helpText = "Tp to Teleporter, Mithrix or False son depending on stage.")]
         public static void CC_GotoMithrix(ConCommandArgs args)
         {
             Component senderBody = args.GetSenderBody();

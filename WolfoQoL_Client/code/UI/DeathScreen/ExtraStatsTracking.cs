@@ -1,10 +1,13 @@
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using RoR2.CharacterAI;
 using RoR2.Stats;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using static RoR2.Stats.StatManager;
 
 namespace WolfoQoL_Client.DeathScreen
 {
@@ -58,18 +61,37 @@ namespace WolfoQoL_Client.DeathScreen
             }
             //Was on Stage 5 -> Next normal stage
             //As loop decider
-            if (lastSeenLoopCount != Run.instance.loopClearCount)
+
+            if (Run.instance.ruleBook.stageOrder == StageOrder.Normal)
             {
-                expectingLoop = true;
-                lastSeenLoopCount = Run.instance.loopClearCount;
-            }
-            if (expectingLoop)
-            {
-                if (newSceneDef.stageOrder < 6 || Run.instance is InfiniteTowerRun)
+                //If 5 -> 1 then consider loop, only then.
+                if (newSceneDef.stageOrder == 5)
+                {
+                    expectingLoop = true;
+                    lastSeenLoopCount = Run.instance.loopClearCount;
+                }
+                else if (newSceneDef.stageOrder == 1 && expectingLoop)
                 {
                     expectingLoop = false;
                     visitedScenes = new List<SceneDef>();
                     visitedScenesTOTAL.Add(visitedScenes);
+                }
+            }
+            else
+            {
+                if (lastSeenLoopCount != Run.instance.loopClearCount)
+                {
+                    expectingLoop = true;
+                    lastSeenLoopCount = Run.instance.loopClearCount;
+                }
+                if (expectingLoop)
+                {
+                    if (newSceneDef.stageOrder < 6)
+                    {
+                        expectingLoop = false;
+                        visitedScenes = new List<SceneDef>();
+                        visitedScenesTOTAL.Add(visitedScenes);
+                    }
                 }
             }
             visitedScenes.Add(newSceneDef);
@@ -120,7 +142,8 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     instance.missedShrineChanceItems += chance.maxPurchaseCount - chance.successfulPurchaseCount;
                 }
-                if (self.GetComponent<SummonMasterBehavior>())
+                if (self.GetComponent<SummonMasterBehavior>()||
+                    self.GetComponent<LemurianEggController>())
                 {
                     instance.missedDrones++;
                     string display = purchase.GetDisplayName();
@@ -142,27 +165,28 @@ namespace WolfoQoL_Client.DeathScreen
         //Unused
         /*public int totalBuffsGotten;
         public float timeSpentInChargeZone;
-        public int totalMinionDeaths;
-        public int DoTsInflcited;
-        public float minionHealingTotal; //Can't do
-        
-        public int spentVoidCoins;
         public int skillActivations;
-
         */
 
         public Dictionary<ItemIndex, int> scrappedItemTotal;
 
-        public int timesJumped = -1; //Client-Only
+        public int timesJumped; //Client-Only
         public float minionDamageTaken;
         public float minionHealing;
         public int minionDeaths; //Important for like, how many drones did bro rebuy i guess?
-        public int minionDeathsSuicide;
+        //public int minionDeathsSuicide;
 
         public int spentLunarCoins; //Works
-
+        public int itemsVoided;
+         
         public int scrappedItems; //Works
-        public int scrappedDrones; //SS2, maybe DLC3?
+        public int scrappedDrones; //DLC3?
+
+
+        public float dotDamageDone; //Can be client??
+        //public float dotPoison;
+        //public float dotBlight;
+        public float damageBlocked; //Definitely Server Only
 
         public string latestDetailedDeathMessage;
 
@@ -171,16 +195,22 @@ namespace WolfoQoL_Client.DeathScreen
         {
             master = this.GetComponent<CharacterMaster>();
             master.onBodyStart += Master_onBodyStart;
-
+            if (!NetworkServer.active)
+            {
+              
+            }
+            //scrappedItemTotal = new Dictionary<ItemIndex, int>();
         }
         public void Start()
         {
-            Debug.Log(master.hasAuthority);
-            Debug.Log(master.hasEffectiveAuthority);
-            if (master.hasEffectiveAuthority)
+            //Debug.Log(master.hasAuthority);
+            //Debug.Log(master.hasEffectiveAuthority);
+            if (!master.hasEffectiveAuthority)
             {
-                timesJumped = 0;
+                timesJumped = -1;
+                damageBlocked = -1;
             }
+  
         }
         public void OnDisable()
         {
@@ -199,6 +229,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 body.onJump += OnJump;
             }
+            body.gameObject.AddComponent<PlayerDamageBlockedTracker>().tracker = this;
 
         }
 
@@ -211,6 +242,8 @@ namespace WolfoQoL_Client.DeathScreen
         {
             public GameObject masterObject;
             public int timesJumped;
+            public int itemsVoided;
+            public float damageBlocked;
             public override string ConstructChatString()
             {
                 if (masterObject == null)
@@ -219,11 +252,10 @@ namespace WolfoQoL_Client.DeathScreen
                     return null;
                 }
                 var tracker = masterObject.GetComponent<PerPlayer_ExtraStatTracker>();
-                if (timesJumped > -1)
-                {
-                    tracker.timesJumped = timesJumped;
-                    Debug.Log("timesJumped" + timesJumped);
-                }
+                tracker.timesJumped = Mathf.Max(tracker.timesJumped, timesJumped);
+                tracker.damageBlocked = Mathf.Max(tracker.damageBlocked, damageBlocked);
+                tracker.itemsVoided = Mathf.Max(tracker.itemsVoided, itemsVoided);
+     
 
                 return null;
             }
@@ -232,6 +264,8 @@ namespace WolfoQoL_Client.DeathScreen
                 base.Serialize(writer);
                 writer.Write(masterObject);
                 writer.Write(timesJumped);
+                writer.Write(damageBlocked);
+                writer.Write(itemsVoided);
             }
             public override void Deserialize(NetworkReader reader)
             {
@@ -242,9 +276,52 @@ namespace WolfoQoL_Client.DeathScreen
                 base.Deserialize(reader);
                 masterObject = reader.ReadGameObject();
                 timesJumped = reader.ReadInt32();
+                damageBlocked = (float)reader.ReadSingle();
+                itemsVoided = reader.ReadInt32();
+
             }
         }
 
+    }
+
+    public class PlayerDamageBlockedTracker : MonoBehaviour, IOnTakeDamageServerReceiver, IOnIncomingDamageServerReceiver
+    {
+        public PerPlayer_ExtraStatTracker tracker;
+        public void OnEnable()
+        {
+            GetComponent<HealthComponent>().onIncomingDamageReceivers = this.GetComponents<IOnIncomingDamageServerReceiver>();
+            GetComponent<HealthComponent>().onTakeDamageReceivers = this.GetComponents<IOnTakeDamageServerReceiver>();
+        }
+
+       /* public void OnDamageDealtServer(DamageReport damageReport)
+        {
+            if ((damageReport.damageInfo.damageType & DamageType.DoT) != 0UL && damageReport.attacker)
+            {
+                if (damageReport.victim.health != 1 || (damageReport.damageInfo.damageType & DamageType.NonLethal) == 0UL)
+                {
+                    tracker.dotDamageDone += damageReport.damageDealt;
+                }
+            }
+        }*/
+        public void OnIncomingDamageServer(DamageInfo damageInfo)
+        {
+            /* Debug.Log("Damage: " + damageInfo.damage);
+             Debug.Log("Blocked?: " + damageInfo.rejected);*/
+            if (damageInfo.rejected)
+            {
+                tracker.damageBlocked += damageInfo.damage;
+            }
+        }
+        public void OnTakeDamageServer(DamageReport damageReport)
+        {
+            /*Debug.Log("DamagePre: "+damageReport.damageInfo.damage);
+            Debug.Log("DamagePost: " + damageReport.damageDealt);*/
+            if (damageReport.damageInfo.damage != damageReport.damageDealt)
+            {
+                tracker.damageBlocked += (damageReport.damageInfo.damage - damageReport.damageDealt);
+            }
+         
+        }
     }
 
     public class MinionMasterStatTracker : MonoBehaviour
@@ -276,20 +353,25 @@ namespace WolfoQoL_Client.DeathScreen
             bodyObject = newBody.gameObject;
             body = newBody.healthComponent;
             newBody.gameObject.AddComponent<MinionBody_StatLocator>().tracker = tracker;
+           
+            
         }
         public void OnBodyDeath()
         {
+            //Suicide Checker
+            //If wasn't hit in the last short while
+            //But still died
+            //Then probably was due to Suicide or Negative Regen
             if (body && body.timeSinceLastHit < 0.1f)
             {
-                //If wasn't hit in the last short while
-                //But still died
-                //Then probably was due to Suicide or Negative Regen
-                tracker.minionDeaths++;
+                //Only count deaths that matter
+                if (this.GetComponent<SetDontDestroyOnLoad>())
+                {
+                    tracker.minionDeaths++;
+                }
+              
             }
-            else
-            {
-                tracker.minionDeathsSuicide++;
-            }
+          
         }
 
 
@@ -310,26 +392,73 @@ namespace WolfoQoL_Client.DeathScreen
             On.RoR2.PurchaseInteraction.Start += AddMissedCallBack;
             On.RoR2.MultiShopController.OnDestroy += AddMissedShops;
 
-            //On.RoR2.Stage.OnDisable += Stage_OnDisable;
+ 
+            On.RoR2.MinionOwnership.OnStartClient += Add_MinionDamageTracker;
+            Run.onClientGameOverGlobal += SendSyncMessages;
+ 
+            IL.RoR2.HealthComponent.HandleDamageDealt += Track_DoTDamage_MinionHurt;
+            IL.RoR2.HealthComponent.HandleHeal += Track_MinionHealing;
 
-            //IL.RoR2.Stats.StatManager.ProcessDamageEvents += MinionDamageTakenStat;
-
-            On.RoR2.MinionOwnership.OnStartClient += MinionDamageTakenStat;
-            Run.onClientGameOverGlobal += Run_onClientGameOverGlobal;
-
-            GlobalEventManager.onClientDamageNotified += GlobalEventManager_onClientDamageNotified;
-            IL.RoR2.HealthComponent.HandleHeal += HealthComponent_HandleHeal;
+            IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
         }
 
-        private static void GlobalEventManager_onClientDamageNotified(DamageDealtMessage damageEvent)
+        private static void Track_DoTDamage_MinionHurt(ILContext il)
         {
-            if (damageEvent.victim && damageEvent.victim.TryGetComponent<MinionBody_StatLocator>(out var a))
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+                x => x.MatchStloc(1)
+                ))
             {
-                a.tracker.minionDamageTaken += damageEvent.damage;
+                c.Emit(OpCodes.Ldloc_0);
+                c.EmitDelegate<System.Func<HealthComponent, DamageDealtMessage, HealthComponent>>((self, damageEvent) =>
+                {
+                    if (damageEvent.victim.TryGetComponent<MinionBody_StatLocator>(out var a))
+                    {
+                        a.tracker.minionDamageTaken += damageEvent.damage;
+                    }
+                    if ((damageEvent.damageType & DamageType.DoT) != 0UL && damageEvent.attacker && self && damageEvent.attacker.TryGetComponent<PlayerDamageBlockedTracker>(out var tracker))
+                    {
+                        if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
+                        {
+                            tracker.tracker.dotDamageDone += damageEvent.damage;
+                        }
+                    }
+                    return self;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: HealthComponent_HandleHeal");
             }
         }
 
-        private static void HealthComponent_HandleHeal(ILContext il)
+        private static void Host_TrackVoidedItems(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+ 
+           if (c.TryGotoNext(MoveType.Before,
+                x => x.MatchCallvirt("RoR2.Inventory","RemoveItem")
+                ))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<System.Func<int, Inventory, int>>((count, inventory) =>
+                {
+                    if (inventory.TryGetComponent<PerPlayer_ExtraStatTracker>(out var a))
+                    {
+                        a.itemsVoided += count;
+                    }
+                    return count;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: HealthComponent_HandleHeal");
+            }
+        }
+
+ 
+
+        private static void Track_MinionHealing(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.Before,
@@ -338,7 +467,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 c.EmitDelegate<System.Func<HealthComponent.HealMessage, HealthComponent.HealMessage>>((healEvent) =>
                 {
-                    if (healEvent.target.TryGetComponent<MinionBody_StatLocator>(out var a))
+                    if (healEvent.target && healEvent.target.TryGetComponent<MinionBody_StatLocator>(out var a))
                     {
                         a.tracker.minionHealing += healEvent.amount;
                     }
@@ -351,23 +480,23 @@ namespace WolfoQoL_Client.DeathScreen
             }
         }
 
-        public static void Run_onClientGameOverGlobal(Run arg1, RunReport arg2)
+        public static void SendSyncMessages(Run arg1, RunReport arg2)
         {
             foreach (var player in PlayerCharacterMasterController.instances)
             {
-                if (player.hasAuthority)
+                var tracker = player.GetComponent<PerPlayer_ExtraStatTracker>();
+                Chat.SendBroadcastChat(new PerPlayer_ExtraStatTracker.SyncValues
                 {
-                    var tracker = player.GetComponent<PerPlayer_ExtraStatTracker>();
-                    Chat.SendBroadcastChat(new PerPlayer_ExtraStatTracker.SyncValues
-                    {
-                        masterObject = player.gameObject,
-                        timesJumped = tracker.timesJumped,
-                    });
-                }
+                    masterObject = player.gameObject,
+                    timesJumped = tracker.timesJumped,
+                    itemsVoided = tracker.itemsVoided,
+                    damageBlocked = tracker.damageBlocked,
+
+                });
             }
 
         }
-        private static void MinionDamageTakenStat(On.RoR2.MinionOwnership.orig_OnStartClient orig, MinionOwnership self)
+        private static void Add_MinionDamageTracker(On.RoR2.MinionOwnership.orig_OnStartClient orig, MinionOwnership self)
         {
             orig(self);
             if (self.ownerMaster && self.ownerMaster.playerCharacterMasterController != null)

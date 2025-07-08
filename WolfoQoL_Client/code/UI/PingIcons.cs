@@ -2,6 +2,7 @@ using RoR2;
 //using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 
 
 namespace WolfoQoL_Client
@@ -347,7 +348,7 @@ namespace WolfoQoL_Client
 
 
             Sprite VoidDeepSymbol = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/DeepVoidPortalBattery/texDeepVoidPortalBatteryIcon.png").WaitForCompletion();
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/ScrapperIcon.png");
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").AddComponent<BlockScanner>();
             NullVentIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/CellIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/NullSafeWard").AddComponent<PingInfoProvider>().pingIconOverride = NullVentIcon;
 

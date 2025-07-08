@@ -8,14 +8,13 @@ namespace WolfoQoL_Client
     {
         public static void Start()
         {
-            IL.EntityStates.GenericCharacterMain.ProcessJump_bool += GenericCharacterMain_ProcessJump_bool;
-            //On.RoR2.CharacterBody.OnSkillActivated += AllUtilitiesRemoveGeyserLock;
-
             if (WConfig.CancelGeyserLock_Skill.Value == false)
             {
                 return;
             }
-
+            IL.EntityStates.GenericCharacterMain.ProcessJump_bool += GenericCharacterMain_ProcessJump_bool;
+            //On.RoR2.CharacterBody.OnSkillActivated += AllUtilitiesRemoveGeyserLock;
+ 
             On.EntityStates.Commando.DodgeState.OnEnter += DodgeState_OnEnter;
             On.EntityStates.Commando.SlideState.OnEnter += SlideState_OnEnter; //Alt
 

@@ -50,68 +50,6 @@ namespace WolfoQoL_Client.DeathScreen
 
                 bool eitherChange = false;
                 bool hadAnyUnlockables = self.unlockContentArea.childCount > 0;
-                if (WConfig.DC_StageRecap.Value)
-                {
-                    Debug.Log("Run Recap");
-                    eitherChange = true;
-                    if (extras.addedStageRecap == false)
-                    {
-                        extras.addedStageRecap = true;
-                        extras.stageStrips = new List<GameObject>();
-                        for (int list = 0; list < RunExtraStatTracker.instance.visitedScenesTOTAL.Count; list++)
-                        {
-                            var scenes = RunExtraStatTracker.instance.visitedScenesTOTAL[list];
-                            GameObject areaStrip = Object.Instantiate(DeathScreenExpanded.stageStripPrefab, self.unlockContentArea);
-                            extras.stageStrips.Add(areaStrip);
-
-                            //7 is fine but tight
-                            float iconHeight = 48f;
-                            float mult = 7f / scenes.Count;
-                            if (mult < 1)
-                            {
-                                iconHeight = 52f * mult;
-                            }
-
-                            int extraIcons = 5 - scenes.Count;
-                            for (int i = 0; i < scenes.Count; i++)
-                            {
-                                GameObject icon = Object.Instantiate(DeathScreenExpanded.stageIconPrefab, areaStrip.transform);
-                                TooltipProvider info = icon.GetComponent<TooltipProvider>();
-                                if (scenes[i].environmentColor.a != 0)
-                                {
-                                    info.titleColor = scenes[i].environmentColor;
-                                }
-                                else
-                                {
-                                    info.titleColor = Color.gray;
-                                }
-                                //icon.name = scenes[i].cachedName;
-                                icon.GetComponent<LayoutElement>().preferredHeight = iconHeight;
-                                info.titleToken = scenes[i].nameToken;
-                                info.bodyToken = scenes[i].subtitleToken;
-                                icon.GetComponent<RawImage>().texture = scenes[i].previewTexture;
-                            }
-                            if (extraIcons > 0)
-                            {
-                                //Have at least 5 Icons for alignment
-                                for (int i = 0; i < extraIcons; i++)
-                                {
-                                    GameObject icon = Object.Instantiate(DeathScreenExpanded.stageIconPrefab, areaStrip.transform);
-                                    icon.GetComponent<RawImage>().enabled = false;
-                                    icon.transform.GetChild(0).gameObject.SetActive(false);
-                                }
-                            }
-                        }
-                    }
-                    if (extras.addedStageRecap == true)
-                    {
-                        for (int i = 0; i < extras.stageStrips.Count; i++)
-                        {
-                            extras.stageStrips[i].transform.SetSiblingIndex(i);
-                        }
-                    }
-
-                }
                 if (WConfig.DC_LatestWave.Value)
                 {
                     eitherChange = true;
@@ -175,6 +113,69 @@ namespace WolfoQoL_Client.DeathScreen
 
                 }
 
+                if (WConfig.DC_StageRecap.Value)
+                {
+                    Debug.Log("Run Recap");
+                    eitherChange = true;
+                    if (extras.addedStageRecap == false)
+                    {
+                        extras.addedStageRecap = true;
+                        extras.stageStrips = new List<GameObject>();
+                        for (int list = 0; list < RunExtraStatTracker.instance.visitedScenesTOTAL.Count; list++)
+                        {
+                            var scenes = RunExtraStatTracker.instance.visitedScenesTOTAL[list];
+                            GameObject areaStrip = Object.Instantiate(DeathScreenExpanded.stageStripPrefab, self.unlockContentArea);
+                            extras.stageStrips.Add(areaStrip);
+
+                            //7 is fine but tight
+                            float iconHeight = 48f;
+                            float mult = 7f / scenes.Count;
+                            if (mult < 1)
+                            {
+                                iconHeight = 52f * mult;
+                            }
+
+                            int extraIcons = 5 - scenes.Count;
+                            for (int i = 0; i < scenes.Count; i++)
+                            {
+                                GameObject icon = Object.Instantiate(DeathScreenExpanded.stageIconPrefab, areaStrip.transform);
+                                TooltipProvider info = icon.GetComponent<TooltipProvider>();
+                                if (scenes[i].environmentColor.a != 0)
+                                {
+                                    info.titleColor = scenes[i].environmentColor;
+                                }
+                                else
+                                {
+                                    info.titleColor = Color.gray;
+                                }
+                                //icon.name = scenes[i].cachedName;
+                                icon.GetComponent<LayoutElement>().preferredHeight = iconHeight;
+                                info.titleToken = scenes[i].nameToken;
+                                info.bodyToken = scenes[i].subtitleToken;
+                                icon.GetComponent<RawImage>().texture = scenes[i].previewTexture;
+                            }
+                            if (extraIcons > 0)
+                            {
+                                //Have at least 5 Icons for alignment
+                                for (int i = 0; i < extraIcons; i++)
+                                {
+                                    GameObject icon = Object.Instantiate(DeathScreenExpanded.stageIconPrefab, areaStrip.transform);
+                                    icon.GetComponent<RawImage>().enabled = false;
+                                    icon.transform.GetChild(0).gameObject.SetActive(false);
+                                }
+                            }
+                        }
+                    }
+                    if (extras.addedStageRecap == true)
+                    {
+                        for (int i = 0; i < extras.stageStrips.Count; i++)
+                        {
+                            extras.stageStrips[i].transform.SetSiblingIndex(i);
+                        }
+                    }
+
+                }
+                
                 if (eitherChange)
                 {
                     //Shrink this so it only fits 1 and expand it up to 4.
@@ -190,10 +191,17 @@ namespace WolfoQoL_Client.DeathScreen
                     unlockArea.GetChild(0).GetChild(0).GetComponent<LanguageTextMeshController>().token = token;
                 }
             }
+            //48 Header
+            //4 Padding
+            //64 Strip
+            LayoutElement lay = unlockArea.GetComponent<LayoutElement>();
             Debug.Log(self.unlockContentArea.childCount);
-            float flexHeight = Mathf.Pow(2, Mathf.Max(self.unlockContentArea.childCount - 1, 1f)) * 0.1f;
-            flexHeight = Mathf.Min(flexHeight, 1.5f);
-            unlockArea.GetComponent<LayoutElement>().flexibleHeight = flexHeight;
+            float childMult = Mathf.Max(self.unlockContentArea.childCount, 2f);
+            childMult = Mathf.Min(childMult, 2.5f);
+            float height = 64 * childMult + 52;
+            lay.flexibleHeight = 0;
+            lay.minHeight = 116f;
+            lay.preferredHeight = height;
         }
 
 

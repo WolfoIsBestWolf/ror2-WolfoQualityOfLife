@@ -18,10 +18,13 @@ namespace WolfoQoL_Client.DeathScreen
         {
             if (Run.instance && Run.instance.isGameOverServer || self.inventory == null)
             {
+              
                 //It'd probably be good if this only ran on death screens but uhhhh
                 if (self.name == "Content")
                 {
+                    bool isLog = self.inventory == null;
                     Transform area = self.transform.parent.parent.parent;
+                    Transform area2 = self.transform.parent.parent;
 
                     Dictionary<EquipmentIndex, int> equipmentCount = new Dictionary<EquipmentIndex, int>();
                     if (area.name == "KillerItemArea")
@@ -30,13 +33,12 @@ namespace WolfoQoL_Client.DeathScreen
                         {
                             equipmentCount.Add(DeathEquip_Enemy1, 1);
                         }
-                        area.GetChild(0).GetChild(0).GetComponent<LanguageTextMeshController>().token = "INVENTORY_KILLER";
                     }
                     else if (area.name == "EvolutionArea")
                     {
-                        area.GetChild(0).GetChild(0).GetComponent<LanguageTextMeshController>().token = "INVENTORY_MONSTER";
+
                     }
-                    else
+                    else if (area.name == "ItemArea" || area2.name == "ItemArea")
                     {
                         if (!DeathScreen_Main.otherMod)
                         {
@@ -69,7 +71,7 @@ namespace WolfoQoL_Client.DeathScreen
                         {
                             var pair = equipmentCount.ElementAt(i);
                             //Debug.Log(pair.Key + " : " + pair.Value);
-                            MakeEquipmentIcon(self.gameObject.transform.GetChild(desiredItemCount + i).gameObject, pair.Key, pair.Value);
+                            MakeEquipmentIcon(self.itemIcons[desiredItemCount + i], EquipmentCatalog.GetEquipmentDef(pair.Key), pair.Value);
                         }
                     }
                     return;
@@ -79,13 +81,12 @@ namespace WolfoQoL_Client.DeathScreen
 
         }
 
-        public static void MakeEquipmentIcon(GameObject equipmentIcon, EquipmentIndex equipmentIndex, int stack)
+        
+        public static void MakeEquipmentIcon(ItemIcon equipmentIcon, EquipmentDef equipmentDef, int stack)
         {
             Debug.Log("Making EquipmentIcon");
             equipmentIcon.GetComponent<ItemIcon>().SetItemIndex(RoR2Content.Items.BoostAttackSpeed.itemIndex, stack);
-
-            EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
-
+ 
             equipmentIcon.GetComponent<UnityEngine.UI.RawImage>().texture = equipmentDef.pickupIconTexture;
             TooltipProvider tempTooltip = equipmentIcon.GetComponent<TooltipProvider>();
             equipmentIcon.name = "EquipmentIcon";
@@ -94,12 +95,8 @@ namespace WolfoQoL_Client.DeathScreen
             tempTooltip.bodyToken = equipmentDef.descriptionToken;
             tempTooltip.overrideBodyText = Language.GetString(equipmentDef.descriptionToken);//Fukin lookin glass
             tempTooltip.bodyColor = new Color(0.6f, 0.6f, 0.6f, 1f);
-
-            //PickupDef pickupDef = PickupCatalog.FindPickupIndex(equipmentIndex).pickupDef;
-            //tempTooltip.titleColor = pickupDef.darkColor;
             tempTooltip.titleColor = ColorCatalog.GetColor(equipmentDef.colorIndex);
         }
-
     }
 
 

@@ -163,7 +163,7 @@ namespace WolfoQoL_Client.Skins
 
 
             engiMineHolder.GetChild(0).GetChild(2).GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretAlt;
-            engiMineHolder.GetChild(0).GetChild(3).GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretAlt;
+            engiMineHolder.GetChild(0).GetChild(3).GetComponentInChildren<SkinnedMeshRenderer>().material = matEngiTurretColossusProjectiles;
  
             SkinDefParams Alt = Addressables.LoadAssetAsync<SkinDefParams>(key: "b98626ea4e0476344af7e02f66c2d5e0").WaitForCompletion();
             SkinDefParams Colossus = Addressables.LoadAssetAsync<SkinDefParams>(key: "c8f3b0a0035b6734783a9fde35234ba3").WaitForCompletion();
