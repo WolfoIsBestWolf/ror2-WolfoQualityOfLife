@@ -8,7 +8,7 @@ using UnityEngine;
 namespace WolfoFixes.Testing
 {
 
-    public class Test_Logbook
+    internal class Test_Logbook
     {
 
 

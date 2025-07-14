@@ -11,7 +11,7 @@ namespace WolfoFixes
         public Vector3 FocusPosition = new Vector3(0f, 1f, 0f);
 
     }
-    public class LogFixes
+    internal class LogFixes
     {
         public static void Start()
         {

@@ -93,9 +93,7 @@ namespace WolfoQoL_Client
                                 {
                                     entry.BoxedValue =
                                      "<margin-left=0.6em><line-height=110%>" +
-                                     "<align=center><size=120%>" +
-                                     "Stats:" +
-                                     "</size></align>\n" +
+                                    "<align=center><size=115%>Stats:</align></size>\n" +
                                      "Damage: [damage]\n" +
                                      "Crit Chance: [critWithLuck]\n" +
                                      "Attack Speed: [attackSpeed]\n" +
@@ -116,11 +114,10 @@ namespace WolfoQoL_Client
                                 {
                                     entry.BoxedValue =
                                      "<margin-left=0.6em><line-height=110%>" +
-                                     "<align=center><size=120%>" +
-                                     "Stats:" +
-                                     "</size></align>\n" +
+                                     "<align=center><size=115%>Stats:</align></size>\n" +
                                      "Damage: [damage]\n" +
                                      "Crit Chance: [critWithLuck]\n" +
+                                     "Bleed Chance: [bleedChanceWithLuck]\n" +
                                      "Attack Speed: [attackSpeed]\n" +
                                      "Armor: [armor] | [armorDamageReduction]\n" +
                                      "Regen: [regen]\n" +
@@ -128,7 +125,7 @@ namespace WolfoQoL_Client
                                      "Jumps: [availableJumps]/[maxJumps]\n" +
                                      "Kills: [killCount]\n" +
                                      "Mountain Shrines: [mountainShrines]\n" +
-                                     "Bazaar Portal: [shopPortal]\n \n\n" +
+                                     "<size=70%>Bazaar: [shopPortal] Gold: [goldPortal] Void: [voidPortal]</size>" +
                                      "</line-height></margin>";
                                 }
                                 else if (cfgLookingGlassPreset.Value == Preset.Minimal)
@@ -136,6 +133,7 @@ namespace WolfoQoL_Client
                                     entry.BoxedValue =
                                      "<margin-left=0.6em><line-height=110%>" +
                                      "Crit Chance: [critWithLuck]\n" +
+                                     "Bleed Chance: [bleedChanceWithLuck]\n" +
                                      "Mountain Shrines: [mountainShrines]\n" +
                                      "Bazaar Portal: [shopPortal]" +
                                      "</line-height></margin>";

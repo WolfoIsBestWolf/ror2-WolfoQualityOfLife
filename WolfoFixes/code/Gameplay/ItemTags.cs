@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoFixes
 {
 
-    public class ItemTags
+    internal class ItemTags
     {
 
         public static ItemTag evoBlacklistTag = (ItemTag)94;
@@ -48,7 +48,7 @@ namespace WolfoFixes
                 ItemTag.OnStageBeginEffect,
                 ItemTag.HoldoutZoneRelated
             };
-            ItemTag[] TagsMobs = {
+            ItemTag[] Arena = {
                 ItemTag.AIBlacklist,
                 ItemTag.OnKillEffect,
                 ItemTag.EquipmentRelated,
@@ -58,13 +58,13 @@ namespace WolfoFixes
                 ItemTag.OnStageBeginEffect,
                 ItemTag.HoldoutZoneRelated
             };
-            dtMonsterTeamTier1Item.bannedItemTags = TagsMobs;
-            dtMonsterTeamTier2Item.bannedItemTags = TagsMobs;
-            dtMonsterTeamTier3Item.bannedItemTags = TagsMobs;
+            dtMonsterTeamTier1Item.bannedItemTags = TagsMobsEvo;
+            dtMonsterTeamTier2Item.bannedItemTags = TagsMobsEvo;
+            dtMonsterTeamTier3Item.bannedItemTags = TagsMobsEvo;
 
-            dtArenaMonsterTier1.bannedItemTags = TagsMobsEvo;
-            dtArenaMonsterTier2.bannedItemTags = TagsMobsEvo;
-            dtArenaMonsterTier3.bannedItemTags = TagsMobsEvo;
+            dtArenaMonsterTier1.bannedItemTags = Arena;
+            dtArenaMonsterTier2.bannedItemTags = Arena;
+            dtArenaMonsterTier3.bannedItemTags = Arena;
 
             dtAISafeTier1Item.bannedItemTags = TagsScav;
             dtAISafeTier2Item.bannedItemTags = TagsScav;
@@ -75,6 +75,11 @@ namespace WolfoFixes
 
         public static void CallLate()
         {
+            ArrayUtils.ArrayAppend(ref DLC1Content.Items.CloverVoid.tags, ItemTag.DevotionBlacklist);
+            //HG.ArrayUtils.ArrayAppend(ref DLC2Content.Items.SpeedBoostPickup.tags, ItemTag.DevotionBlacklist);
+
+
+
             #region Tag Fixes
 
             ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.FlatHealth.tags, 1, 1); //Remove OnkillTag
@@ -160,31 +165,48 @@ namespace WolfoFixes
             #endregion
 
             #region Category stuff
+            //General rule changes
+            //Barrier -> Healing : Instead of Healing+Utility
+            //Max HP -> Healing : Instead of Healing+Utility
 
+            //Some Max HP is already only tagged as Healing
+            //How Barrier is Utility? Like it's not DR 
+            //Healing is a small pool it shouldnt overlap with much other stuff
+
+            #region White
+            ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.BarrierOnKill.tags, 0); //Remove Utility
+            #endregion
+            #region Green
             //Green
             ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.Infusion.tags, 0); //Remove Utility
-
-            //Red
+            ArrayUtils.ArrayAppend(ref DLC2Content.Items.TeleportOnLowHealth.tags, ItemTag.Healing); //Barrier is Healing.
+            #endregion
+            #region Red
             ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.HeadHunter.tags, 0); //Remove Utility
-            ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.BarrierOnKill.tags, 0); //Remove Utility
-            ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.BarrierOnOverHeal.tags, 0); //Remove Utility
+            ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.BarrierOnOverHeal.tags, 0); //Remove Utility, Barrier is Healing.
+
             ArrayUtils.ArrayAppend(ref RoR2Content.Items.NovaOnHeal.tags, ItemTag.Healing);
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.ImmuneToDebuff.tags, ItemTag.Healing);
+            //ArrayUtils.ArrayAppend(ref DLC1Content.Items.ImmuneToDebuff.tags, ItemTag.Healing); //Already is Healing
 
-            //Lunar
-            RoR2Content.Items.RandomDamageZone.tags[0] = ItemTag.Damage;
-            DLC1Content.Items.HalfSpeedDoubleHealth.tags[0] = ItemTag.Healing;
-            DLC1Content.Items.LunarSun.tags[0] = ItemTag.Damage;
-            RoR2Content.Items.LunarUtilityReplacement.tags[0] = ItemTag.Healing;
-            RoR2Content.Items.ShieldOnly.tags[0] = ItemTag.Healing;
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.HalfSpeedDoubleHealth.tags, ItemTag.Healing);
-
-            //Boss
+            #endregion
+            #region Boss
             ArrayUtils.ArrayRemoveAtAndResize(ref RoR2Content.Items.Knurl.tags, 0); //Remove Utility
 
-            //Void
-            ArrayUtils.ArrayAppend(ref DLC1Content.Items.ElementalRingVoid.tags, ItemTag.Utility);
+            #endregion
+            #region Lunar
 
+            RoR2Content.Items.RandomDamageZone.tags[0] = ItemTag.Damage; //Utility???
+            DLC1Content.Items.HalfSpeedDoubleHealth.tags[0] = ItemTag.Healing; //Utility???
+            DLC1Content.Items.LunarSun.tags[0] = ItemTag.Damage; //Utility???
+            RoR2Content.Items.LunarUtilityReplacement.tags[0] = ItemTag.Healing; //This Heals you
+            ArrayUtils.ArrayAppend(ref RoR2Content.Items.ShieldOnly.tags, ItemTag.Healing); //Max HP
+            #endregion
+
+            #region Void
+            //ArrayUtils.ArrayAppend(ref DLC1Content.Items.ElementalRingVoid.tags, ItemTag.Utility); //Uh?
+
+            #endregion
+  
             #endregion
 
         }

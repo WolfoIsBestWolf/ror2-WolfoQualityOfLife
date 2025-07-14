@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace WolfoFixes
 {
-    public class ShrineHalcyonFixes
+    internal class ShrineHalcyonFixes
     {
         public static void Start()
         {

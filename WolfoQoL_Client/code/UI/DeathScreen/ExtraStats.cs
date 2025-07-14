@@ -1,6 +1,7 @@
 using RoR2;
 using RoR2.Stats;
 using RoR2.UI;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -20,13 +21,16 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                if (destStatStrip.gameObject.GetComponent<TooltipProvider>() == null)
+                TooltipProvider tool = destStatStrip.gameObject.GetComponent<TooltipProvider>();
+                if (tool == null)
                 {
-                    TooltipProvider tool = destStatStrip.gameObject.AddComponent<TooltipProvider>();
-                    tool.titleToken = Language.GetString(statDef.displayToken);
-                    tool.bodyToken = destStatStrip.transform.GetChild(1).GetComponent<HGTextMeshProUGUI>().text;
+                    tool = destStatStrip.gameObject.AddComponent<TooltipProvider>();
                     tool.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
                 }
+                tool.titleToken = Language.GetString(statDef.displayToken);
+                tool.bodyToken = destStatStrip.transform.GetChild(1).GetComponent<HGTextMeshProUGUI>().text;
+            
+                 
             }
         }
 
@@ -167,9 +171,7 @@ namespace WolfoQoL_Client.DeathScreen
 
                             "totalDeaths",
                             "custom_MinionDeaths",
-
-
-
+ 
                             IsSimu ? "null" : "custom_ChestsMissed",
                             IsSimu ? "null" : "custom_DronesMissed",
 
@@ -194,6 +196,7 @@ namespace WolfoQoL_Client.DeathScreen
                             "custom_MostKilledEnemy",
                             "custom_EnemyMostHurtBy",
                             //"custom_HighestStackedItem" //This would almost always be WhiteScrap
+                             "custom_StrongestMinion"
                     };
         }
 
@@ -215,8 +218,8 @@ namespace WolfoQoL_Client.DeathScreen
             //Transform totalEliteKills = FindStatStrip(self, "totalEliteKills");
             Transform mostKilled = self.statContentArea.Find("custom_MostKilledEnemy");
             Transform mostHurtby = self.statContentArea.Find("custom_EnemyMostHurtBy");
-
-
+            Transform mvpMinion = self.statContentArea.Find("custom_StrongestMinion");
+ 
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
             if (!extras.madeStats)
             {
@@ -238,93 +241,54 @@ namespace WolfoQoL_Client.DeathScreen
 
                 GameObject.Destroy(mostHurtby.gameObject);
                 mostHurtby = newMostHurtby.transform;
+
+                GameObject newMinionMVP = GameObject.Instantiate(newMostKilled, mostKilled.parent);
+                newMinionMVP.transform.SetSiblingIndex(mvpMinion.GetSiblingIndex());
+                newMinionMVP.name = mvpMinion.name;
+
+                GameObject.Destroy(mvpMinion.gameObject);
+                mvpMinion = newMinionMVP.transform;
             }
- 
+            mvpMinion.gameObject.SetActive(false);
             if (playerInfo.statSheet == null)
             {
                 mostKilled.gameObject.SetActive(false);
-                mostHurtby.gameObject.SetActive(false);
+                mostHurtby.gameObject.SetActive(false);     
                 return;
             }
             else
             {
-                Transform icon;
-                CharacterBody body = null;
                 BodyIndex kills = Help.FindBodyWithHighestStatNotMasterless(playerInfo.statSheet, PerBodyStatDef.killsAgainst);
-                BodyIndex hurts = Help.FindBodyWithHighestStatNotMasterless(playerInfo.statSheet, PerBodyStatDef.damageTakenFrom);
-                ItemIndex item = Help.FindItemWithHighestStat(playerInfo.statSheet, PerItemStatDef.totalCollected);
-                EquipmentIndex equip = playerInfo.statSheet.FindEquipmentWithHighestStat(PerEquipmentStatDef.totalTimesFired);
-
-
                 if (kills != BodyIndex.None)
                 {
-                    mostKilled.gameObject.SetActive(true);
-                    body = BodyCatalog.bodyPrefabBodyComponents[(int)kills];
                     ulong killed = playerInfo.statSheet.fields[PerBodyStatDef.killsAgainst.FindStatDef(kills).index].ulongValue;
-
-                    mostKilled.GetChild(0).GetComponent<LanguageTextMeshController>().token = string.Format(Language.GetString("STAT_MOST_KILLED"), Language.GetString(body.baseNameToken));
-                    mostKilled.GetChild(2).GetComponent<LanguageTextMeshController>().token = string.Format(Language.GetString("STAT_AMOUNT_KILLED"), killed);
-
-                    icon = mostKilled.GetChild(3);
-                    if (!icon.gameObject.TryGetComponent<RawImage>(out var raw))
-                    {
-                        Object.DestroyImmediate(icon.GetComponent<Image>());
-                        raw = icon.gameObject.AddComponent<RawImage>();
-                    };
-                    raw.texture = body.portraitIcon;
+                    SetupBodyStat(mostKilled, killed, kills, "STAT_MOST_KILLED", "STAT_AMOUNT_KILLED");
                 }
                 else
                 {
                     mostKilled.gameObject.SetActive(false);
                 }
 
+                BodyIndex hurts = Help.FindBodyWithHighestStatNotMasterless(playerInfo.statSheet, PerBodyStatDef.damageTakenFrom);
                 if (hurts != BodyIndex.None)
                 {
-                    mostHurtby.gameObject.SetActive(true);
-                    body = BodyCatalog.bodyPrefabBodyComponents[(int)hurts];
                     ulong damageTaken = playerInfo.statSheet.fields[PerBodyStatDef.damageTakenFrom.FindStatDef(hurts).index].ulongValue;
-
-                    mostHurtby.GetChild(0).GetComponent<LanguageTextMeshController>().token = string.Format(Language.GetString("STAT_MOST_HURTBY"), Language.GetString(body.baseNameToken));
-                    mostHurtby.GetChild(2).GetComponent<LanguageTextMeshController>().token = string.Format(Language.GetString("STAT_AMOUNT_HURTBY"), damageTaken);
-
-                    icon = mostHurtby.GetChild(3);
-                    if (!icon.gameObject.TryGetComponent<RawImage>(out var raw))
-                    {
-                        Object.DestroyImmediate(icon.GetComponent<Image>());
-                        raw = icon.gameObject.AddComponent<RawImage>();
-                    };
-                    raw.texture = body.portraitIcon;
+                    SetupBodyStat(mostHurtby, damageTaken, hurts, "STAT_MOST_HURTBY", "STAT_AMOUNT_HURTBY");
                 }
                 else
                 {
                     mostHurtby.gameObject.SetActive(false);
                 }
-
-                if (item != ItemIndex.None)
-                {
-                    ItemDef itemDef = ItemCatalog.GetItemDef(item);
-                    ulong total = playerInfo.statSheet.fields[PerItemStatDef.totalCollected.FindStatDef(item).index].ulongValue;
-
-                    Debug.LogFormat("Most gotten item: {0} | {1}", new object[]
-                    {
-                       Language.GetString(itemDef.nameToken),
-                        total
-                    });
-                }
-          
-                if (equip != EquipmentIndex.None)
-                {
-                    EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equip);
-                    ulong total = playerInfo.statSheet.fields[PerEquipmentStatDef.totalTimesFired.FindStatDef(equip).index].ulongValue;
-
-                    Debug.LogFormat("Most used equip: {0} | {1}", new object[]
-                    {
-                       Language.GetString(equipmentDef.nameToken),
-                        total
-                    });
-                }
-                 
+   
             }
+
+            float damageDealt = playerInfo.statSheet.GetStatValueULong(StatDef.totalDamageDealt);
+            float minionDamage = playerInfo.statSheet.GetStatValueULong(StatDef.totalMinionDamageDealt);
+            float TotalDamage = damageDealt + minionDamage;
+
+            DamagePercentTooltip(self, "totalDamageDealt", TotalDamage, damageDealt);
+            DamagePercentTooltip(self, "totalMinionDamageDealt", TotalDamage, minionDamage);
+            DamagePercentTooltip(self, "highestDamageDealt", TotalDamage, playerInfo.statSheet.GetStatValueULong(StatDef.highestDamageDealt));
 
             if (extras.isLogRunReport)
             {
@@ -352,10 +316,19 @@ namespace WolfoQoL_Client.DeathScreen
                     visibleItems += playerInfo.itemStacks[i];
                 }
             }
-        
+
+            if (playerTracker.strongestMinion == (BodyIndex)(-2))
+            {
+                playerTracker.EvaluateStrongestMinion();
+            }
+            if (playerTracker.strongestMinion != BodyIndex.None)
+            {
+                SetupBodyStat(mvpMinion, playerTracker.strongestMinionDamage, playerTracker.strongestMinion, "STAT_MOST_MVPDRONE", "STAT_AMOUNT_MVPDRONE");
+            }
+      
 
             // SetupStat(self, "totalItemsCollected", "STATNAME_TOTALITEMSCOLLECTED", visibleItems);
- 
+
             SetupStat(self, "custom_MinionDamageTaken", "STAT_MINION_DAMAGETAKEN", (int)playerTracker.minionDamageTaken);
             SetupStat(self, "custom_MinionHealthHealed", "STAT_MINION_HEALTHHEALED", (int)playerTracker.minionHealing);
             SetupStat(self, "custom_MinionDeaths", "STAT_MINION_DEATH", playerTracker.minionDeaths);
@@ -377,48 +350,85 @@ namespace WolfoQoL_Client.DeathScreen
                 damageBlocked.gameObject.SetActive(false);
             }
 
-            if (extras.addedRunTrackedStats)
+        
+            //Custom damage Done
+            DamagePercentTooltip(self, "custom_DotDamage", TotalDamage, playerTracker.dotDamageDone);
+            DamagePercentTooltip(self, "custom_StrongestMinion", TotalDamage, playerTracker.strongestMinionDamage);
+
+            //Per Run Stats / Only do once ?
+            if (!extras.addedRunTrackedStats)
+            {
+                extras.addedRunTrackedStats = true;
+                var runTracker = Run.instance.GetComponent<RunExtraStatTracker>();
+
+                var ChestsMissed = SetupStat(self, "custom_ChestsMissed", "STAT_MISSED_CHEST", runTracker.missedChests);
+                var DronesMissed = SetupStat(self, "custom_DronesMissed", "STAT_MISSED_DRONE", runTracker.missedDrones);
+                if (ChestsMissed)
+                {
+                    TooltipProvider toolTip;
+                    toolTip = AddDetailedTooltip(ChestsMissed, runTracker.dic_missedChests);
+                    if (runTracker.missedShrineChanceItems > 0)
+                    {
+                        toolTip.bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
+                    }
+                    AddDetailedTooltip(DronesMissed, runTracker.dic_missedDrones);
+                }
+            }
+        }
+
+        public static void DamagePercentTooltip(GameEndReportPanelController self, string lookingFor, float TotalDamage, float thisDamage)
+        {
+            Transform stat = FindStatStrip(self, lookingFor);
+            if (!stat)
             {
                 return;
             }
-            extras.addedRunTrackedStats = true;
-            var runTracker = Run.instance.GetComponent<RunExtraStatTracker>();
-
-            var ChestsMissed = SetupStat(self, "custom_ChestsMissed", "STAT_MISSED_CHEST", runTracker.missedChests);
-            var DronesMissed = SetupStat(self, "custom_DronesMissed", "STAT_MISSED_DRONE", runTracker.missedDrones);
-            if (ChestsMissed)
+            TooltipProvider tool = stat.GetComponent<TooltipProvider>();
+            if (tool == null)
             {
-               
-                TooltipProvider tip = ChestsMissed.gameObject.AddComponent<TooltipProvider>();
-                tip.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
-                tip.titleToken = "STAT_DETAILS";
-                string bodyToken = string.Empty;
-                if (runTracker.missedShrineChanceItems > 0)
-                {
-                    bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
-                }
-                for (int i = 0; runTracker.dic_missedChests.Count > i; i++)
-                {
-                    var pair = runTracker.dic_missedChests.ElementAt(i);
-                    bodyToken += GetStatFormatted(pair.Key, pair.Value) + "\n";
-                }
-                tip.bodyToken = bodyToken;
-
-                tip = DronesMissed.gameObject.AddComponent<TooltipProvider>();
-                tip.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
-                tip.titleToken = "STAT_DETAILS";
-                bodyToken = string.Empty;
-                for (int i = 0; runTracker.dic_missedDrones.Count > i; i++)
-                {
-                    var pair = runTracker.dic_missedDrones.ElementAt(i);
-                    bodyToken += GetStatFormatted(pair.Key, pair.Value) + "\n";
-                }
-                tip.bodyToken = bodyToken;
+                tool = stat.gameObject.AddComponent<TooltipProvider>();
+                tool.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
             }
-
+            
+            tool.overrideBodyText = tool.bodyToken + "\n"+string.Format(Language.GetString("TOTALDAMAGE_PERCENTTIP"), $"{(thisDamage / TotalDamage) * 100f:F2}");
         }
 
+        public static TooltipProvider AddDetailedTooltip(Transform stat, Dictionary<string, int> data)
+        {
+            TooltipProvider tip = stat.gameObject.AddComponent<TooltipProvider>();
+            tip.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
+            tip.titleToken = "STAT_DETAILS";
+            string bodyToken = string.Empty;
+            for (int i = 0; data.Count > i; i++)
+            {
+                var pair = data.ElementAt(i);
+                bodyToken += GetStatFormatted(pair.Key, pair.Value) + "\n";
+            }
+            tip.bodyToken = bodyToken;
+            return tip;
+        }
 
+        public static void SetupBodyStat(Transform transform, float value, BodyIndex bodyIndex, string displayToken, string displayToken2)
+        {
+            if (bodyIndex == BodyIndex.None)
+            {
+                transform.gameObject.SetActive(false);
+                return;
+            }
+            transform.gameObject.SetActive(true);
+            CharacterBody body = BodyCatalog.bodyPrefabBodyComponents[(int)bodyIndex];
+
+            transform.GetChild(0).GetComponent<LanguageTextMeshController>().token = string.Format(Language.GetString(displayToken), Language.GetString(body.baseNameToken));
+            transform.GetChild(2).GetComponent<LanguageTextMeshController>().token = string.Format(Language.GetString(displayToken2), TextSerialization.ToStringNumeric(value));
+
+            Transform icon = transform.GetChild(3);
+            if (!icon.gameObject.TryGetComponent<RawImage>(out var raw))
+            {
+                Object.DestroyImmediate(icon.GetComponent<Image>());
+                raw = icon.gameObject.AddComponent<RawImage>();
+            };
+            raw.texture = body.portraitIcon;
+        }
 
         public static string GetStatFormatted(string displayToken, object value)
         {
@@ -433,7 +443,15 @@ namespace WolfoQoL_Client.DeathScreen
                 Debug.Log(displayToken + " does not exist");
                 return null;
             }
-         
+            TooltipProvider tool = stat.gameObject.GetComponent<TooltipProvider>();
+            if (tool == null)
+            {
+                tool = stat.gameObject.AddComponent<TooltipProvider>();
+                tool.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
+                tool.titleToken = displayToken;
+            }
+
+
             string formatted = TextSerialization.ToStringNumeric(value);
             if (disableIfNeg && value == -1)
             {

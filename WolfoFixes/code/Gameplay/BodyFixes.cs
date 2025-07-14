@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 
 namespace WolfoFixes
 {
-    public class MithrixPhase4Fix : MonoBehaviour
+    internal class MithrixPhase4Fix : MonoBehaviour
     {
         public bool stoleItems = false;
         public void Start()
@@ -33,7 +33,7 @@ namespace WolfoFixes
             }
         }
     }
-    public class BodyFixes
+    internal class BodyFixes
     {
         public static void SetSkippable(object sender, System.EventArgs e)
         {
@@ -58,8 +58,14 @@ namespace WolfoFixes
             CharacterBody DeathProjectile = Addressables.LoadAssetAsync<GameObject>(key: "1336d77e77299964884c3bd02757fde7").WaitForCompletion().GetComponent<CharacterBody>();
             DeathProjectile.baseNameToken = "EQUIPMENT_DEATHPROJECTILE_NAME";
             DeathProjectile.portraitIcon = Addressables.LoadAssetAsync<Texture2D>(key: "dda5febead506894fa6e053cea042ddc").WaitForCompletion();
-        
-        
+
+
+            //bdLunarRuin
+            //Dont count as debuff because its already a DoT in most cases
+            //Ideally i'd make all cases a DoT but uhhh
+            //Needs to be kept as a debuff ahh fuck
+            //Addressables.LoadAssetAsync<BuffDef>(key: "4f0cbda1787e0074ab5e44d1df995d6b").WaitForCompletion().isDebuff = false;
+
         }
         //On.RoR2.GenericSkill.SetSkillOverride += FixHeresyForEnemies;
         //Is this even still needed check that

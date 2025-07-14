@@ -10,7 +10,7 @@ namespace WolfoFixes
     {
         public int lastSeenBeadAmount;
     }
-    public class PrayerBeads
+    internal class PrayerBeads
     {
 
         public static void Start()

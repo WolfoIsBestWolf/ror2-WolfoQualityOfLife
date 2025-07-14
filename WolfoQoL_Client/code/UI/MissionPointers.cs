@@ -62,7 +62,7 @@ namespace WolfoQoL_Client
             MissionPointer.GoldShoresPositionIndicator = newIndicator;
             Object.Destroy(newIndicator.transform.GetChild(2).GetChild(0).GetComponent<ObjectScaleCurve>());
             scale = newIndicator.AddComponent<ObjectScaleCurve>();
-            scale.timeMax = 2.5f;
+            scale.timeMax = 4f;
             scale.useOverallCurveOnly = true;
             scale.overallCurve = newCurve;
 

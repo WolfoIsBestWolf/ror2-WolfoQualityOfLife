@@ -158,8 +158,7 @@ namespace WolfoQoL_Client.DeathScreen
 
 
             StatDef.totalEliteKills.pointValue = 20.0;
-            Run.onClientGameOverGlobal += Inventory_Minions.CountOnGameover;
-
+            Inventory_Minions.Hooks();
             
         }
 
@@ -180,41 +179,37 @@ namespace WolfoQoL_Client.DeathScreen
             var extras = self.GetComponent<DeathScreenExpanded>();
             try
             {
-
                 LoadoutStat.Add_Loadout(self, playerInfo);
                 RunRecap.AddRunRecap(self, playerInfo);
                 Inventory_Minions.AddMinionInventory(self, playerInfo);
                 Inventory_Killer.AddKillerInventory(self, playerInfo);
                 ExtraStats.AddCustomStats(self, playerInfo);
+
+
+                //Dont just remove the spacer because it looks too bunched together
+                GameObject killerArea = self.killerPanelObject;
+                if (killerArea != null)
+                {
+                    killerArea.SetActive(true);
+                    killerArea.transform.GetChild(0).gameObject.SetActive(playerInfo.isDead);
+                    killerArea.transform.GetChild(1).gameObject.SetActive(playerInfo.isDead);
+                }
+                if (self.finalMessageLabel)
+                {
+                    self.finalMessageLabel.fontSizeMin = self.finalMessageLabel.fontSizeMax;
+                }
+                if (!extras.isLogRunReport)
+                {
+                    bool eitherActive = extras.killerInventory.activeSelf || extras.minionInventory.activeSelf;
+                    extras.bonusInventoyHolder.SetActive(eitherActive);
+                }
+
             }
             catch (System.Exception ex)
             {
                 //It's the death screen, it can afford it
                 Debug.LogException(ex);
             }
-
-
-            //Dont just remove the spacer because it looks too bunched together
-            GameObject killerArea = self.killerPanelObject;
-            if (killerArea != null)
-            {
-                killerArea.SetActive(true);
-                killerArea.transform.GetChild(0).gameObject.SetActive(playerInfo.isDead);
-                killerArea.transform.GetChild(1).gameObject.SetActive(playerInfo.isDead);
-            }
-            if (self.finalMessageLabel)
-            {
-                self.finalMessageLabel.fontSizeMin = self.finalMessageLabel.fontSizeMax;
-            }
-            if (!extras.isLogRunReport)
-            {
-                bool eitherActive = extras.killerInventory.activeSelf || extras.minionInventory.activeSelf;
-                extras.bonusInventoyHolder.SetActive(eitherActive);
-            }
-     
-   
- 
- 
         }
 
         public static void MakePrefabs()
@@ -247,8 +242,9 @@ namespace WolfoQoL_Client.DeathScreen
             waveStrip.GetComponent<Image>().color = game.unlockStripPrefab.GetComponent<Image>().color;
 
             //Stat
-            waveStrip.transform.GetChild(0).name = "WaveName";
-            waveStrip.transform.GetChild(2).name = "WaveIcon";
+            waveStrip.transform.GetChild(0).name = "WaveStat";
+            waveStrip.transform.GetChild(2).name = "WaveNamr";
+            waveStrip.transform.GetChild(3).name = "WaveIcon";
             waveStrip.transform.GetChild(0).GetComponent<LanguageTextMeshController>().token = "LATEST_WAVE";
             waveStrip.transform.GetChild(0).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 24;
             waveStrip.transform.GetChild(2).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 24;

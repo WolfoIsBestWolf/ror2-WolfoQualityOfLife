@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoFixes
 {
 
-    public static class VoidElite
+    internal static class VoidElite
     {
         public static void VoidAffix()
         {

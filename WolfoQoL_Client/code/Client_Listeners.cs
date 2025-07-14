@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using WolfoQoL_Client.DeathScreen;
 using WolfoQoL_Client.Reminders;
 using WolfoQoL_Client.Text;
 
@@ -148,7 +149,7 @@ namespace WolfoQoL_Client
                 self.gameObject.AddComponent<KillerInfo_ClientListener>();
                 self.gameObject.AddComponent<PlayerItemLoss_ClientListener>();
             }
-
+            self.gameObject.AddComponent<DroneCollection>();
         }
 
         //If interactables used too fast together, the clients never actually get it set to true

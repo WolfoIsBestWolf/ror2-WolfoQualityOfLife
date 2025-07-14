@@ -43,27 +43,22 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }
+            bool hasAnyUnlocks = self.unlockStrips.Count > 0;
             Transform unlockArea = self.unlockContentArea.parent.parent.parent;
             if (!extras.addedRunRecap)
             {
                 extras.addedRunRecap = true;
-
-                bool eitherChange = false;
-                bool hadAnyUnlockables = self.unlockContentArea.childCount > 0;
                 if (WConfig.DC_LatestWave.Value)
                 {
-                    eitherChange = true;
                     InfiniteTowerRun Simu = Run.instance.GetComponent<InfiniteTowerRun>();
                     if (Simu && !extras.latestWaveStrip)
                     {
                         GameObject waveUI = RunExtraStatTracker.instance.latestWaveUiPrefab;
                         if (waveUI != null)
                         {
-
-
                             Transform waveUIRoot = waveUI.transform.GetChild(0);
                             GameObject waveStrip = Object.Instantiate(DeathScreenExpanded.waveStripPrefab, self.unlockContentArea);
-
+                            extras.latestWaveStrip = waveStrip;
                             //Text
                             string waveToken = waveUIRoot.GetChild(1).GetChild(0).GetComponent<InfiniteTowerWaveCounter>().token;
                             waveToken = Language.GetString(waveToken);
@@ -71,8 +66,7 @@ namespace WolfoQoL_Client.DeathScreen
                             Color waveColor = waveUIRoot.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().color;
                             waveStrip.transform.GetChild(2).GetComponent<HGTextMeshProUGUI>().color = waveColor;
                             waveStrip.transform.GetChild(2).GetComponent<LanguageTextMeshController>().token = waveToken;
-                            //waveStrip.transform.GetChild(2).SetAsLastSibling();
-
+                          
                             //waveStrip.transform.GetChild(2).GetComponent<HGTextMeshProUGUI>().m_underlineColor = waveUIRoot.GetChild(2).GetComponent<Image>().color;
                             //waveStrip.transform.GetChild(2).GetComponent<HGTextMeshProUGUI>().fontStyle |= TMPro.FontStyles.Underline;
 
@@ -106,17 +100,11 @@ namespace WolfoQoL_Client.DeathScreen
                             }
                         }
                     }
-                    if (extras.latestWaveStrip)
-                    {
-                        extras.latestWaveStrip.transform.SetSiblingIndex(0);
-                    }
-
+                 
                 }
-
                 if (WConfig.DC_StageRecap.Value)
                 {
                     Debug.Log("Run Recap");
-                    eitherChange = true;
                     if (extras.addedStageRecap == false)
                     {
                         extras.addedStageRecap = true;
@@ -126,7 +114,6 @@ namespace WolfoQoL_Client.DeathScreen
                             var scenes = RunExtraStatTracker.instance.visitedScenesTOTAL[list];
                             GameObject areaStrip = Object.Instantiate(DeathScreenExpanded.stageStripPrefab, self.unlockContentArea);
                             extras.stageStrips.Add(areaStrip);
-
                             //7 is fine but tight
                             float iconHeight = 48f;
                             float mult = 7f / scenes.Count;
@@ -166,31 +153,23 @@ namespace WolfoQoL_Client.DeathScreen
                             }
                         }
                     }
-                    if (extras.addedStageRecap == true)
-                    {
-                        for (int i = 0; i < extras.stageStrips.Count; i++)
-                        {
-                            extras.stageStrips[i].transform.SetSiblingIndex(i);
-                        }
-                    }
 
                 }
-                
-                if (eitherChange)
+            }
+             if (WConfig.DC_LatestWave.Value || WConfig.DC_StageRecap.Value)
                 {
                     //Shrink this so it only fits 1 and expand it up to 4.
                     string token = "RUN_RECAP";
-                    /*if (hadAnyUnlockables)
+                    if (hasAnyUnlocks)
                     {
                         token = string.Format("{0} & {1}", new string[]
                         {
-                            Language.GetString(token),
                             Language.GetString("TOOLTIP_UNLOCK_GENERIC_NAME"),
+                            Language.GetString(token),
                         });
-                    }*/
+                    }
                     unlockArea.GetChild(0).GetChild(0).GetComponent<LanguageTextMeshController>().token = token;
                 }
-            }
             //48 Header
             //4 Padding
             //64 Strip
@@ -202,6 +181,15 @@ namespace WolfoQoL_Client.DeathScreen
             lay.flexibleHeight = 0;
             lay.minHeight = 116f;
             lay.preferredHeight = height;
+
+            if (extras.latestWaveStrip)
+            {
+                extras.latestWaveStrip.transform.SetAsLastSibling();
+            }
+            for (int i = 0; i < extras.stageStrips.Count; i++)
+            {
+                extras.stageStrips[i].transform.SetAsLastSibling();
+            }
         }
 
 

@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoFixes
 {
-    public class GameplayMisc
+    internal class GameplayMisc
     {
         public static void Start()
         {

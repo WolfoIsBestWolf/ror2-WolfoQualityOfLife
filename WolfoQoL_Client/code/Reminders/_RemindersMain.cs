@@ -1,6 +1,7 @@
 ﻿using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
+using WolfoFixes;
 
 namespace WolfoQoL_Client.Reminders
 {
@@ -31,7 +32,9 @@ namespace WolfoQoL_Client.Reminders
                 On.RoR2.HoldoutZoneController.PreStartClient += CheckForFreeChestVoid;
                 On.RoR2.HoldoutZoneController.OnEnable += IsFreeVoidChest_ClearNewt;
 
-                On.EntityStates.Missions.BrotherEncounter.PreEncounter.OnEnter += ClearTreasure_OnBrother;
+                ExtraActions.onMithrixPhase1 += FailAllReminders;
+                ExtraActions.onFalseSonPhase1 += FailAllReminders;
+
                 On.EntityStates.VoidRaidCrab.EscapeDeath.OnExit += ClearTreasure_OnVoidlingDeath;
                 EntityStates.MeridianEvent.MeridianEventStart.OnMeridianEventStart += ClearReminders_OnFalseSon;
             }
@@ -105,18 +108,13 @@ namespace WolfoQoL_Client.Reminders
         private static void ClearTreasure_OnVoidlingDeath(On.EntityStates.VoidRaidCrab.EscapeDeath.orig_OnExit orig, EntityStates.VoidRaidCrab.EscapeDeath self)
         {
             orig(self);
-            FailAllReminders(TreasureReminder.instance);
-        }
-
-        private static void ClearTreasure_OnBrother(On.EntityStates.Missions.BrotherEncounter.PreEncounter.orig_OnEnter orig, EntityStates.Missions.BrotherEncounter.PreEncounter self)
-        {
-            orig(self);
-            FailAllReminders(TreasureReminder.instance);
+            FailAllReminders();
         }
 
 
-        public static void FailAllReminders(TreasureReminder reminder)
+        public static void FailAllReminders()
         {
+            TreasureReminder reminder = TreasureReminder.instance;
             if (!reminder)
             {
                 return;
@@ -175,8 +173,6 @@ namespace WolfoQoL_Client.Reminders
 
         private static void ClearReminders_OnFalseSon()
         {
-            FailAllReminders(TreasureReminder.instance);
-
             //Debug.LogWarning("Secret Geode : End Early Boss");
             GameObject SecretMission = GameObject.Find("/Meridian_Halcyonite_Encounter");
             if (SecretMission)

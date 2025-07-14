@@ -5,11 +5,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using RoR2.Navigation;
 
 namespace WolfoFixes
 {
 
-    public class ItemFixes
+    internal class ItemFixes
     {
         public static void Start()
         {
@@ -17,10 +18,60 @@ namespace WolfoFixes
             // IL.RoR2.HealthComponent.TakeDamageProcess += FixEchoOSP;
             IL.RoR2.HealthComponent.TakeDamageProcess += FixWarpedEchoE8;
             IL.RoR2.HealthComponent.TakeDamageProcess += FixWarpedEchoNotUsingArmor;
- 
-            IL.RoR2.GlobalEventManager.ProcessHitEnemy += FixChargedPerferatorCrit;
-
             On.RoR2.CharacterBody.OnTakeDamageServer += WEchoFirstHitIntoDanger;
+
+            IL.RoR2.GlobalEventManager.ProcessHitEnemy += FixChargedPerferatorCrit;
+    
+            //Checks for NetworkAuth instead of EffectiveAuth
+            IL.RoR2.CharacterBody.RpcRequestShardInfoClient += Antler_FixWrongAuth;
+            On.RoR2.CharacterBody.RpcRequestShardInfoClient += Antler_FixNullRefOnNullMotor;
+        }
+
+        private static void Antler_FixNullRefOnNullMotor(On.RoR2.CharacterBody.orig_RpcRequestShardInfoClient orig, CharacterBody self)
+        {
+            //Lacks nullCheck for Body,
+            //nullReffing on Engi Stationary Turrets
+            if (self.characterMotor)
+            {
+                orig(self);
+                return;
+            }
+            else
+            {
+                Quaternion rotation = Quaternion.Euler(0f, UnityEngine.Random.Range(-45f, 45f), 0f);
+                Vector3 point = new Vector3(self.inputBank.aimDirection.x, 0f, self.inputBank.aimDirection.z);
+                Vector3 vector = rotation * point;
+                Vector3 vector2 = self.gameObject.transform.position + vector * (UnityEngine.Random.Range(15f, 30f));
+                NodeGraph groundNodes = SceneInfo.instance.groundNodes;
+                NodeGraph.NodeIndex nodeIndex = groundNodes.FindClosestNode(vector2, HullClassification.Human, float.PositiveInfinity);
+                if (groundNodes.GetNodePosition(nodeIndex, out vector2))
+                {
+                    float num2 = HullDef.Find(HullClassification.Human).radius * 0.7f;
+                    if (!HGPhysics.DoesOverlapSphere(vector2 + Vector3.up * (num2 + 0.25f), num2, LayerIndex.world.mask | LayerIndex.defaultLayer.mask | LayerIndex.CommonMasks.fakeActorLayers | LayerIndex.entityPrecise.mask | LayerIndex.debris.mask, QueryTriggerInteraction.UseGlobal))
+                    {
+                        self.CallCmdSpawnShard(vector2);
+                    }
+                }
+            }
+        }
+
+        private static void Antler_FixWrongAuth(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchCall("UnityEngine.Networking.NetworkBehaviour", "get_hasAuthority")//This will break like instantly on update but probably fine mods right idk
+           ))
+            {
+                c.Remove(); //Surely this is fine
+                c.EmitDelegate<Func<CharacterBody, bool>>((body) =>
+                {
+                    return body.hasEffectiveAuthority;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : Antler_FixWrongAuth");
+            }
         }
 
         private static void WEchoFirstHitIntoDanger(On.RoR2.CharacterBody.orig_OnTakeDamageServer orig, CharacterBody self, DamageReport damageReport)
@@ -36,6 +87,27 @@ namespace WolfoFixes
         private static void FixWarpedEchoNotUsingArmor(ILContext il)
         {
             ILCursor c = new ILCursor(il);
+
+            //WEchos first hit is rejected if OSP Happens
+            //Because it happens during the OSPTimer that rejects ALL Damage
+            if(c.TryGotoNext(MoveType.After,
+            x => x.MatchLdfld("RoR2.HealthComponent", "ospTimer")))
+            {
+                c.Emit(OpCodes.Ldarg_1);
+                c.EmitDelegate<Func<float, DamageInfo, float>>((timer, damageInfo) =>
+                {
+                    if (damageInfo.delayedDamageSecondHalf)
+                    {
+                        return 0;
+                    }
+                    return timer;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : WECHO dont delete first hit if OSPed");
+            }
+
             c.TryGotoNext(MoveType.After,
             x => x.MatchLdsfld("RoR2.DLC2Content/Items","DelayedDamage"));
 
@@ -61,7 +133,7 @@ namespace WolfoFixes
 
             //After 80%
             if (c.TryGotoNext(MoveType.Before,
-           x => x.MatchStloc(50) //This will break like instantly on update but probably fine mods right idk
+           x => x.MatchStloc(50) //This will break like instantly on update but probably fine with other mods right idk
            ))
             {
                 c.Emit(OpCodes.Ldarg_0);
@@ -80,9 +152,7 @@ namespace WolfoFixes
                         if (damage != huh) //If you already took exactly 90% damage, dont do OSP (??)
                         {
                             Debug.Log("Trigger Warped OSP");
-                            //self.TriggerOneShotProtection(); 
-                            //Doing this rejects the first WEcho damage
-                            //I'll just do this instead of dealing with OspTimer 
+                            self.TriggerOneShotProtection(); 
                         }
                     }
                     //Debug.Log("Post" + damage);

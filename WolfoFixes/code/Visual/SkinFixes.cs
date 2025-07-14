@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoFixes
 {
-    public class SkinFixes
+    internal class SkinFixes
     {
 
 

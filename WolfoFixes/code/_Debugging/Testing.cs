@@ -7,7 +7,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 namespace WolfoFixes.Testing
 {
-    public class Test
+    internal class Test
     {
         public static void Start()
         {

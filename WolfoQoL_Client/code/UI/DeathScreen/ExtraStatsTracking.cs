@@ -4,16 +4,17 @@ using RoR2;
 using RoR2.CharacterAI;
 using RoR2.Stats;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-using static RoR2.Stats.StatManager;
-
+ 
 namespace WolfoQoL_Client.DeathScreen
 {
     public class RunExtraStatTracker : MonoBehaviour
     {
         public static RunExtraStatTracker instance;
+        public bool alreadyCountedDronesForStage = false;
 
         public Dictionary<string, int> dic_missedChests;
         public Dictionary<string, int> dic_missedDrones;
@@ -61,7 +62,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             //Was on Stage 5 -> Next normal stage
             //As loop decider
-
+            alreadyCountedDronesForStage = false;
             if (Run.instance.ruleBook.stageOrder == StageOrder.Normal)
             {
                 //If 5 -> 1 then consider loop, only then.
@@ -168,6 +169,10 @@ namespace WolfoQoL_Client.DeathScreen
         public int skillActivations;
         */
 
+        public float[] perMinionDamage;
+        public BodyIndex strongestMinion = (BodyIndex)(-2);
+        public float strongestMinionDamage;
+
         public Dictionary<ItemIndex, int> scrappedItemTotal;
 
         public int timesJumped; //Client-Only
@@ -184,8 +189,6 @@ namespace WolfoQoL_Client.DeathScreen
 
 
         public float dotDamageDone; //Can be client??
-        //public float dotPoison;
-        //public float dotBlight;
         public float damageBlocked; //Definitely Server Only
 
         public string latestDetailedDeathMessage;
@@ -193,6 +196,7 @@ namespace WolfoQoL_Client.DeathScreen
         public CharacterMaster master;
         public void OnEnable()
         {
+            perMinionDamage = new float[BodyCatalog.bodyCount];
             master = this.GetComponent<CharacterMaster>();
             master.onBodyStart += Master_onBodyStart;
             if (!NetworkServer.active)
@@ -220,7 +224,21 @@ namespace WolfoQoL_Client.DeathScreen
             }
 
         }
-
+        public void EvaluateStrongestMinion()
+        {
+            float val = 0f;
+            int chosen = -1;
+            for (int i = 0; i < perMinionDamage.Length; i++)
+            {
+                if (perMinionDamage[i] > val)
+                {
+                    val = perMinionDamage[i];
+                    chosen = i;
+                }
+            }
+            strongestMinion = (BodyIndex)chosen;
+            strongestMinionDamage =val;
+        }
 
         private void Master_onBodyStart(CharacterBody body)
         {
@@ -292,19 +310,10 @@ namespace WolfoQoL_Client.DeathScreen
             GetComponent<HealthComponent>().onIncomingDamageReceivers = this.GetComponents<IOnIncomingDamageServerReceiver>();
             GetComponent<HealthComponent>().onTakeDamageReceivers = this.GetComponents<IOnTakeDamageServerReceiver>();
         }
-
-       /* public void OnDamageDealtServer(DamageReport damageReport)
-        {
-            if ((damageReport.damageInfo.damageType & DamageType.DoT) != 0UL && damageReport.attacker)
-            {
-                if (damageReport.victim.health != 1 || (damageReport.damageInfo.damageType & DamageType.NonLethal) == 0UL)
-                {
-                    tracker.dotDamageDone += damageReport.damageDealt;
-                }
-            }
-        }*/
+ 
         public void OnIncomingDamageServer(DamageInfo damageInfo)
         {
+            //Does either of these like account for OSP and OSP timer?
             /* Debug.Log("Damage: " + damageInfo.damage);
              Debug.Log("Blocked?: " + damageInfo.rejected);*/
             if (damageInfo.rejected)
@@ -331,8 +340,7 @@ namespace WolfoQoL_Client.DeathScreen
         public GameObject bodyObject;
         public HealthComponent body;
         public UnityAction deathEvent;
-
-
+ 
         public void OnEnable()
         {
             master = this.GetComponent<CharacterMaster>();
@@ -365,8 +373,11 @@ namespace WolfoQoL_Client.DeathScreen
             if (body && body.timeSinceLastHit < 0.1f)
             {
                 //Only count deaths that matter
-                if (this.GetComponent<SetDontDestroyOnLoad>())
+                if (this.GetComponent<SetDontDestroyOnLoad>() && !this.GetComponent<MasterSuicideOnTimer>())
                 {
+                    Debug.Log(this.gameObject.name + " died");
+                    //Chat.AddMessage(this.gameObject.name + " died");
+
                     tracker.minionDeaths++;
                 }
               
@@ -400,6 +411,32 @@ namespace WolfoQoL_Client.DeathScreen
             IL.RoR2.HealthComponent.HandleHeal += Track_MinionHealing;
 
             IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
+
+            IL.RoR2.Stats.StatManager.ProcessDamageEvents += TrackPerMinionDamage;
+        }
+
+        private static void TrackPerMinionDamage(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdfld("RoR2.Stats.StatManager/DamageEvent", "attackerOwnerBodyIndex"));
+            if (c.TryGotoNext(MoveType.Before,
+                x => x.MatchLdfld("RoR2.Stats.StatManager/DamageEvent", "attackerOwnerBodyIndex")
+                ))
+            {
+                c.EmitDelegate<System.Func<StatManager.DamageEvent, StatManager.DamageEvent>>((damageEvent) =>
+                {
+                    if (damageEvent.attackerBodyIndex != BodyIndex.None)
+                    {
+                        damageEvent.attackerOwnerMaster.GetComponent<PerPlayer_ExtraStatTracker>().perMinionDamage[(int)damageEvent.attackerBodyIndex] += damageEvent.damageDealt;
+                    }
+                    return damageEvent;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: TrackPerMinionDamage");
+            }
         }
 
         private static void Track_DoTDamage_MinionHurt(ILContext il)
@@ -416,13 +453,21 @@ namespace WolfoQoL_Client.DeathScreen
                     {
                         a.tracker.minionDamageTaken += damageEvent.damage;
                     }
-                    if ((damageEvent.damageType & DamageType.DoT) != 0UL && damageEvent.attacker && self && damageEvent.attacker.TryGetComponent<PlayerDamageBlockedTracker>(out var tracker))
+                    if (damageEvent.attacker)
                     {
-                        if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
+                       /* if (damageEvent.attacker.TryGetComponent<MinionBody_StatLocator>(out var a))
                         {
-                            tracker.tracker.dotDamageDone += damageEvent.damage;
+                            a.tracker.minionDamageTaken += damageEvent.damage;
+                        }*/
+                        if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && damageEvent.attacker.TryGetComponent<PlayerDamageBlockedTracker>(out var tracker))
+                        {
+                            if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
+                            {
+                                tracker.tracker.dotDamageDone += damageEvent.damage;
+                            }
                         }
                     }
+                   
                     return self;
                 });
             }

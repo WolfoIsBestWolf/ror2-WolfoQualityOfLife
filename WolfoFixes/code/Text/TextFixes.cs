@@ -5,7 +5,7 @@ using UnityEngine;
 namespace WolfoFixes
 {
 
-    public class TextFixes
+    internal class TextFixes
     {
 
         public static void CallLate()

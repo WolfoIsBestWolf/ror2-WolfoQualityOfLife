@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoFixes
 {
 
-    public class OptionPickupStuff
+   internal class OptionPickupStuff
     {
         public static void Start()
         {

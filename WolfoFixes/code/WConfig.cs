@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoFixes
 {
-    public class WConfig
+    internal class WConfig
     {
 
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoFixes.cfg", true);

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace WolfoFixes
 {
-    public class Audio
+    internal class Audio
     {
 
         public static void UnusedSounds()

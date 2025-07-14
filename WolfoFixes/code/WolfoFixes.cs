@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using HG;
 using MonoMod.Cil;
 using R2API.Utils;
 using RoR2;
@@ -15,7 +16,6 @@ namespace WolfoFixes
         public static bool riskyFixes;
         public void Awake()
         {
-
             WConfig.Awake();
         }
 
@@ -61,6 +61,7 @@ namespace WolfoFixes
             EquipmentCatalog.availability.CallWhenAvailable(MissingEliteDisplays.Start);
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport_CallLate);
+            ExtraActions.Start();
         }
  
         void addRiskConfigLatest()
@@ -72,7 +73,8 @@ namespace WolfoFixes
                 WConfig.RiskConfig();
             }
             EntityStates.FalseSon.LaserFather.laserPrefab = null;
-
+ 
+            DLC2Content.Items.SpeedBoostPickup.tags = DLC2Content.Items.SpeedBoostPickup.tags.Remove(ItemTag.DevotionBlacklist);
         }
 
         internal static void ModSupport_CallLate()
@@ -92,7 +94,7 @@ namespace WolfoFixes
 
             RoR2Content.Buffs.HiddenInvincibility.canStack = false;
             DLC2Content.Buffs.Boosted.canStack = false;
-
+            
             RoR2.Stats.StatDef.highestLunarPurchases.displayToken = "STATNAME_HIGHESTLUNARPURCHASES";
             RoR2.Stats.StatDef.highestBloodPurchases.displayToken = "STATNAME_HIGHESTBLOODPURCHASES";
 

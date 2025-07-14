@@ -18,7 +18,7 @@ namespace WolfoFixes
 
         public ParticleSystem particleSystem;
     }
-    public class Visuals
+    internal class Visuals
     {
         public static void Start()
         {

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace WolfoFixes
 {
-    public class RandomFixes
+    internal class RandomFixes
     {
 
         public static void Start()

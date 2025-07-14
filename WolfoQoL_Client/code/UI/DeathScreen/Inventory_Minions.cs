@@ -7,17 +7,36 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
- 
+using static WolfoFixes.ExtraActions;
+
 namespace WolfoQoL_Client.DeathScreen
 {
     public class Inventory_Minions
     {
+        public static void Hooks()
+        {
+            Run.onClientGameOverGlobal += CountOnGameover;
+
+            onMithrixPhase1 += Count;
+            onVoidlingPhase1 += Count;
+            onFalseSonPhase1 += Count;
+            onSolusWing += Count;
+        }
+        public static void Count()
+        {
+            //Count Mith Start -> Prevent being counted again
+            if (RunExtraStatTracker.instance && !RunExtraStatTracker.instance.alreadyCountedDronesForStage)
+            {
+                RunExtraStatTracker.instance.alreadyCountedDronesForStage = true;
+                foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
+                {
+                    player.gameObject.GetComponent<DroneCollection>().CountDrones();
+                }
+            }
+        }
         public static void CountOnGameover(Run run, RunReport runReport)
         {
-            foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
-            {
-                player.gameObject.AddComponent<DroneCollection>();
-            }
+            Count();
         }
         
         public static void AddMinionInventory(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
@@ -37,17 +56,7 @@ namespace WolfoQoL_Client.DeathScreen
                 minionInventory.name = "DroneCollection";
                 LayoutElement layout = minionInventory.GetComponent<LayoutElement>();
                 ItemInventoryDisplay inv = minionInventory.GetComponentInChildren<ItemInventoryDisplay>();
-
-                //What we just did 1 time changes and cloned killer inventory instead?
-
-                //Just have shared values somewhere
-
-                //How do headers stay the same size just apply that to the body??   
-
-                //If both inventories active and side by side maxIconWidit = 48??
-
-                //Devotion?
-
+ 
                 extras.minionInventory = minionInventory;
                 var aaa = inv.gameObject.AddComponent<DroneCollectionDisplay>();
                 aaa.root = minionInventory;
@@ -183,7 +192,7 @@ namespace WolfoQoL_Client.DeathScreen
         public bool hasDrones = false;
         public bool hasDevotion = false;
         public bool noMinions = true;
-        public void OnEnable()
+        public void CountDrones()
         {
             //Drone
             //Drone Items (?)
@@ -229,6 +238,18 @@ namespace WolfoQoL_Client.DeathScreen
             }
         
         }
+        public void Reset()
+        {
+            RunExtraStatTracker.instance.alreadyCountedDronesForStage = false;
+            noMinions = false;
+            bodyDict_Drone = null;
+            bodyDict_Devotion = null;
+            itemDict_Drone = null;
+            itemDict_Devotion = null;   
+            equipmentDict_Drone = null;
+            equipmentDict_Devotion = null;
+        }
+ 
 
         public void AddToCollection(MinionOwnership minion)
         {
@@ -240,10 +261,18 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }
+            if (minion.GetComponent<MasterSuicideOnTimer>())
+            {
+                return;
+            }
             CharacterMaster master = minion.GetComponent<CharacterMaster>();
             if (master == null || master.bodyPrefab == null) 
             {
                 return; //???
+            }
+            if (master.inventory.GetItemCount(RoR2Content.Items.HealthDecay) > 0)
+            {
+                return;
             }
             bool isDevotedLem = master.GetComponent<DevotedLemurianController>();
             if (!isDevotedLem)

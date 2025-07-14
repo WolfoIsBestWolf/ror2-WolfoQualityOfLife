@@ -25,7 +25,7 @@ namespace WolfoQoL_Client.Text
             EquipmentDrone.Start();
             DevotionLoss.Start();
 
-            On.RoR2.Run.OnClientGameOver += WinMessage_Client;
+            RoR2.Run.onClientGameOverGlobal += WinMessage_Client;
 
             if (WConfig.cfgMessagesColoredItemPings.Value)
             {
@@ -137,9 +137,8 @@ namespace WolfoQoL_Client.Text
             }
         }
 
-        private static void WinMessage_Client(On.RoR2.Run.orig_OnClientGameOver orig, Run self, RunReport runReport)
+        private static void WinMessage_Client(Run self, RunReport runReport)
         {
-            orig(self, runReport);
             if (runReport.gameEnding == RoR2Content.GameEndings.StandardLoss)
             {
                 return;
@@ -213,24 +212,36 @@ namespace WolfoQoL_Client.Text
 
         private static void WinMessageMethod(GameEndingDef gameEnd, RunReport.PlayerInfo playerInfo)
         {
-            BodyIndex bodyIndex = playerInfo.bodyIndex;
-            bool dead = playerInfo.isDead;
+            if (playerInfo == null)
+            {
+                return;
+            }
             bool send = false;
             string tokenFormat = "";
             string tokenOutro = "";
             string survToken_WIN = "GENERIC_OUTRO_FLAVOR";
             string survToken_VANISH = "GENERIC_MAIN_ENDING_ESCAPE_FAILURE_FLAVOR";
-            SurvivorDef tempsurv = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(bodyIndex));
-            if (tempsurv && tempsurv.mainEndingEscapeFailureFlavorToken != null)
-            {
-                survToken_WIN = tempsurv.outroFlavorToken;
-                survToken_VANISH = tempsurv.mainEndingEscapeFailureFlavorToken;
-            }
 
+            Debug.Log(playerInfo.bodyIndex);
+            Debug.Log(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
+            SurvivorDef survivorDef = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
+            Debug.Log(survivorDef);
+
+            if (survivorDef)
+            {
+                if (survivorDef.outroFlavorToken != null)
+                {
+                    survToken_WIN = survivorDef.outroFlavorToken;
+                }
+                if (survivorDef.mainEndingEscapeFailureFlavorToken != null)
+                {
+                    survToken_VANISH = survivorDef.mainEndingEscapeFailureFlavorToken;
+                }              
+            }
             if (gameEnd == RoR2Content.GameEndings.MainEnding)
             {
                 send = true;
-                if (dead)
+                if (playerInfo.isDead)
                 {
                     tokenOutro = survToken_VANISH;
                     tokenFormat = "WIN_FORMAT_FAIL";

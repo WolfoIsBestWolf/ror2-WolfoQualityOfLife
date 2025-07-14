@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoFixes
 {
 
-    public class VoidSuppressor
+    internal class VoidSuppressor
     {
         public static void SuppresedScrap()
         {

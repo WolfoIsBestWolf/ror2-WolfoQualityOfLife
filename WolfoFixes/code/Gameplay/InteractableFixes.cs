@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace WolfoFixes
 {
-    public class InteractableFixes
+    internal class InteractableFixes
     {
         public static void Start()
         {

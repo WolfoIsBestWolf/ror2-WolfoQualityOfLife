@@ -2,7 +2,7 @@ Various bug or overseight fixes that I found.
  
 Better to keep it bundled in it's own mod
 
- 
+Some fixes are Server Side, some are Client Side, some are Client Specific. Generally recommended for everyone.
 
 #
 ### Fixes the following :
@@ -21,6 +21,7 @@ Acrid not having spawn invulnerability.
 
 Captain Beacons being unable to crit.
 
+ 
 ## Monster Fixes
 Child being burnable by the sun.
 
@@ -37,6 +38,9 @@ Warped Echo ignoring OneShotProtection\
 Warped Echos first hit being ignored if OSP was triggered.\
 Warped Echos first hit no longer putting you into danger.\
 Warped Echo no longer inflicting Eclipse 8 curse.
+
+Elusive Antler producing an Error instead of working for Stationary Engi Turrets.\
+Elusive Antler not working on Devoted Lemurians due to wrong check.
 
 Happiest Mask Ghosts not triggering OnDeath effects. (Ice Explosion, Healing Core, Malachite Urchin)
 
@@ -152,7 +156,7 @@ Soup not playing their Soup sound
 
 ## Misc
 Log Fixes : 
-- Eclipse not incrementing Wins
+- Eclipse not incrementing Wins / (Thus not unlocking logs)
 - Bazaar Diorama being empty
 - Sulfur Pools Diorama having a red base.
 - Void Locust Diorama, Void Devastator being too zoomed in.

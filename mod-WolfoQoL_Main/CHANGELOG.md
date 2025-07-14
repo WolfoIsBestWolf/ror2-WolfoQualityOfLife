@@ -1,5 +1,19 @@
 #Changelog
 ```
+v4.3.1
+Stat showing what Minion type dealt the most damage
+Tooltip for damage stats will show % of Total Run damage was done by that category
+(TODO)Scrapped items records what items were scrapped?
+
+Unlockables moved above RunRecap
+Drones get Counted before a final boss instead of run end, to better represent the run. 
+(Since often they kill quite a lot of drones)
+
+Fixed Gummy Equipment Drone counting for Drone Collection.
+Fixed some issues with Latest Wave Stat
+Fixed Ending Quote Stuff for Survivors with Outro but not Vanish quotes
+
+
 v4.3.0
 Added Drone Collection
 -More preperation for DLC3 where Drones will be treated more like items.

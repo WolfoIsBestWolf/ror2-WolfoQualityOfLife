@@ -1,5 +1,16 @@
 ## Changelog:
 ```
+v1.1.14
+Reversed Lunar Ruin fix because it made Ruin from lightning not get removed by geodes.
+Warped Echo OSP fix now gives you 0.1s of invul like regular OSP.
+
+v1.1.13
+Fixed Lunar Ruin counting as 2 debuffs.
+Fixed Elusive Antler not working on Devoted Lemurians (Wrong Auth Check)
+Fixed Elusive Antler producing errors instead of working on Stationary Turrets (Missing NullCheck)
+Tagged Unstable Transmitter as Healing (Barrier Items are all tagged as Healing)
+
+
 v1.1.12
 Fixed WEcho always bypassing OSP
 Fixed Bazaar being able to select 2 Plains or 2 Roosts

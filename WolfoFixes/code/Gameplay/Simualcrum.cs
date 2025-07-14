@@ -7,7 +7,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoFixes
 {
 
-    public class Simualcrum
+    internal class Simualcrum
     {
         public static void Start()
         {

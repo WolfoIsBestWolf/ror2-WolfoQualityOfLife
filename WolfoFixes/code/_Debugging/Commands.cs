@@ -57,6 +57,7 @@ namespace WolfoFixes.Testing
         }
 
         [ConCommand(commandName = "evolve_lemurian", flags = ConVarFlags.ExecuteOnServer, helpText = "Evolves all Devoted Lemurians")]
+        [ConCommand(commandName = "evolve_lemurians", flags = ConVarFlags.ExecuteOnServer, helpText = "Evolves all Devoted Lemurians")]
         public static void CC_evolve_lemurian(ConCommandArgs args)
         {
             DevotionInventoryController.ActivateAllDevotedEvolution();
@@ -162,6 +163,7 @@ namespace WolfoFixes.Testing
         }
 
         [ConCommand(commandName = "scanner", flags = ConVarFlags.ExecuteOnServer, helpText = "Give Radar Scanner and Equipment Cooldown Reduction hidden item")]
+        [ConCommand(commandName = "give_scanner", flags = ConVarFlags.ExecuteOnServer, helpText = "Give Radar Scanner and Equipment Cooldown Reduction hidden item")]
         public static void CCScanner(ConCommandArgs args)
         {
             if (!args.senderMaster)
@@ -372,6 +374,24 @@ namespace WolfoFixes.Testing
             Debug.LogWarning("Report any errors");
         }
 
+
+        [ConCommand(commandName = "all_items_test", flags = ConVarFlags.ExecuteOnServer, helpText = "Give every single item.")]
+        public static void CCAllItems(ConCommandArgs args)
+        {
+            if (!args.senderMaster)
+            {
+                return;
+            }
+            if (!NetworkServer.active)
+            {
+                return;
+            }
+            for (int i = 0; i < ItemCatalog.itemCount; i++)
+            {
+                args.senderMaster.inventory.GiveItem((ItemIndex)i);
+            }
+            args.senderMaster.inventory.GiveItem(RoR2Content.Items.HealthDecay, 9999);
+        }
 
     }
 

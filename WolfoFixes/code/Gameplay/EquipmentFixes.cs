@@ -9,7 +9,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoFixes
 {
 
-    public class EquipmentFixes
+    internal class EquipmentFixes
     {
         public static void Start()
         {
@@ -136,14 +136,12 @@ namespace WolfoFixes
 
 
     }
-    public class ThisIsASawmarang : MonoBehaviour
+    internal class ThisIsASawmarang : MonoBehaviour
     {
 
     }
-    public class BlockModelUndo : MonoBehaviour
-    { 
-    }
-    public class DontDestroyIfJetpack : MonoBehaviour
+
+    internal class DontDestroyIfJetpack : MonoBehaviour
     {
         public CharacterModel characterModel;
   
