@@ -1,7 +1,10 @@
 ## Changelog:
 ```
+v1.1.15
+Fixed various objects on Helminth not being pingable due to missing Null Check.
+
 v1.1.14
-Reversed Lunar Ruin fix because it made Ruin from lightning not get removed by geodes.
+Reverted Lunar Ruin fix because it made Ruin from lightning not get removed by geodes.
 Warped Echo OSP fix now gives you 0.1s of invul like regular OSP.
 
 v1.1.13

@@ -48,6 +48,32 @@ namespace WolfoFixes
 
             IL.RoR2.IncreaseDamageOnMultiKillItemDisplayUpdater.SetVisibleHologram += FixChronocDisplayNullRefOnCorpse;
 
+            IL.RoR2.PingerController.GeneratePingInfo += FixUnpingableHelminthRocks;
+        }
+
+        private static void FixUnpingableHelminthRocks(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdloc(11),
+            x => x.MatchCall("UnityEngine.Object", "op_Implicit")
+            ))
+            {
+                //Missing Null Check
+                c.Index++;
+                c.EmitDelegate<System.Func<EntityLocator, EntityLocator>>((entitylocator) =>
+                {
+                    if (entitylocator && entitylocator.entity == null)
+                    {
+                        return null;
+                    }
+                    return entitylocator;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed : PingerController_GeneratePingInfo");
+            }
         }
 
         private static void FixChronocDisplayNullRefOnCorpse(MonoMod.Cil.ILContext il)
@@ -57,6 +83,7 @@ namespace WolfoFixes
             x => x.MatchLdfld("RoR2.IncreaseDamageOnMultiKillItemDisplayUpdater", "body")
             ))
             {
+                //Missing Null Check
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<System.Func<CharacterBody, IncreaseDamageOnMultiKillItemDisplayUpdater, CharacterBody>>((body, self) =>
                 {
