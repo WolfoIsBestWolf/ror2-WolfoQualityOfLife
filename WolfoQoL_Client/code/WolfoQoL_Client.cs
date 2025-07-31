@@ -22,7 +22,7 @@ namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("Early.Wolfo.WolfFixes")]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.2.1")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "4.3.1")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WolfoMain : BaseUnityPlugin
     {
@@ -451,7 +451,7 @@ namespace WolfoQoL_Client
                     {
                         GameObject lighting = GameObject.Find("/HOLDER: Lighting/Weather, Helminthroost/PP + Amb");
                         var PP = lighting.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessVolume>();
-                        PP.priority = 20;
+                        PP.priority = 2.1f;
                     }
                     if (WConfig.cfgPingIcons.Value)
                     {
@@ -551,12 +551,16 @@ namespace WolfoQoL_Client
                         PortalArena.transform.parent.GetChild(2).gameObject.GetComponent<SphereCollider>().radius = 130;
                     }
 
-                    GameObject Artificer = GameObject.Find("/HOLDER: Store/HOLDER: Store Platforms/LockedMage/");
-                    Artificer.GetComponent<GameObjectUnlockableFilter>().enabled = false;
-                    if (Artificer.GetComponent<GameObjectUnlockableFilter>().ShouldShowGameObject() == false)
+                    if (WConfig.ArtificerBazaarAlways.Value)
                     {
-                        Artificer.GetComponent<PurchaseInteraction>().Networkavailable = false;
+                        GameObject Artificer = GameObject.Find("/HOLDER: Store/HOLDER: Store Platforms/LockedMage/");
+                        Artificer.GetComponent<GameObjectUnlockableFilter>().enabled = false;
+                        if (Artificer.GetComponent<GameObjectUnlockableFilter>().ShouldShowGameObject() == false)
+                        {
+                            Artificer.GetComponent<PurchaseInteraction>().Networkavailable = false;
+                        }
                     }
+                    
                     break;
                 case "meridian":
 

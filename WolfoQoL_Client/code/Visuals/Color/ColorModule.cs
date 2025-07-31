@@ -74,17 +74,19 @@ namespace WolfoQoL_Client
             index_Void3 = ColorsAPI.RegisterColor(ColorVoid3);
             index_Void4 = ColorsAPI.RegisterColor(ColorVoid4);
 
-            Debug.Log(index_EquipBoss);
+            //Debug.Log(index_EquipBoss);
 
             texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentBossBG.png");
             texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentLunarBG.png");
 
+            if (WConfig.cfgColorMain.Value)
+            {
+                EquipmentCatalog.availability.CallWhenAvailable(ColorModule_Sprites.NewColorOutlineIcons);
+                On.RoR2.PickupCatalog.Init += PickupCatalog_Init;
 
-            EquipmentCatalog.availability.CallWhenAvailable(ColorModule_Sprites.NewColorOutlineIcons);
-            On.RoR2.PickupCatalog.Init += PickupCatalog_Init;
-
-            On.RoR2.ItemDef.CreatePickupDef += ItemDef_CreatePickupDef;
-            On.RoR2.EquipmentDef.CreatePickupDef += EquipmentDef_CreatePickupDef;
+                On.RoR2.ItemDef.CreatePickupDef += ItemDef_CreatePickupDef;
+                On.RoR2.EquipmentDef.CreatePickupDef += EquipmentDef_CreatePickupDef;
+            }
         }
 
         private static PickupDef ItemDef_CreatePickupDef(On.RoR2.ItemDef.orig_CreatePickupDef orig, ItemDef self)
@@ -109,7 +111,6 @@ namespace WolfoQoL_Client
             {
                 pickup.dropletDisplayPrefab = EquipmentLunarOrb;
             }
-
             return pickup;
         }
 

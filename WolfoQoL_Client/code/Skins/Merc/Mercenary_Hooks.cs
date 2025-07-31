@@ -366,6 +366,28 @@ namespace WolfoQoL_Client.Skins
             {
                 Debug.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
             }
+
+            if (c.TryGotoNext(MoveType.Before,
+                    x => x.MatchStfld("RoR2.TemporaryOverlayInstance","originalMaterial")))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<Func<Material, Evis, Material>>((material, entityState) =>
+                {
+                    if (entityState.gameObject.GetComponent<MakeThisMercRed>())
+                    {
+                        return Merc_Red.matMercEvisTarget_Red;
+                    }
+                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
+                    {
+                        return Merc_Green.matMercEvisTarget_Green;
+                    }
+                    return material;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
+            }
         }
 
         public static void Special_Dash(ILContext il)

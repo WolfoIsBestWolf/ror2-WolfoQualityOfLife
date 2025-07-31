@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client
 {
-
+    /*
     public class LookingGlassPresets
     {
         public enum Preset
@@ -210,5 +210,5 @@ namespace WolfoQoL_Client
             cfgLookingGlassPreset.Value = Preset.Set;
         }
     }
-
+    */
 }

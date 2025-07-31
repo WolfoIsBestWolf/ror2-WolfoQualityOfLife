@@ -2,16 +2,21 @@
 ```
 v4.3.1
 Stat showing what Minion type dealt the most damage
-Tooltip for damage stats will show % of Total Run damage was done by that category
-(TODO)Scrapped items records what items were scrapped?
+Tooltip for damage stats will show % of Total Run damage was done by that category. (ie 90% done by you, 10% done by minions)
+Merc Eviscerate hit overlay effect now skin colored. 
 
 Unlockables moved above RunRecap
 Drones get Counted before a final boss instead of run end, to better represent the run. 
 (Since often they kill quite a lot of drones)
 
+Simu Stage logs now also visisble by having Void Fiend unlocked. (Some guy got confused)
 Fixed Gummy Equipment Drone counting for Drone Collection.
 Fixed some issues with Latest Wave Stat
-Fixed Ending Quote Stuff for Survivors with Outro but not Vanish quotes
+Fixed Survivors with a Ending Quote, but not a Vanish Quote, not using the Ending quote. 
+Fixed Item/Equipment tier color config not working.
+Fixed Glowing Meteor effect not really being visible on Helminth.
+Removed Looking Glass Stat Presets, that is being added over there eventually.
+Arti Always in bazaar Config now default false. (Surprised by how many people think its confusing)
 
 
 v4.3.0
@@ -752,4 +757,10 @@ v1.1.0
 * Added Position Indicator to Void Field Cells
 
 v1.0.0 - Release.
+```
+```
+v5.0.0
 
+Drone buy message including count of drone
+Drone upgrade message
+```

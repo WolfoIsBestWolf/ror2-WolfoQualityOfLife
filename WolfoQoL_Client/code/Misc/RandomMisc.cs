@@ -108,12 +108,16 @@ namespace WolfoQoL_Client
 
 
             GameObject NoCooldownEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/KillEliteFrenzy/NoCooldownEffect.prefab").WaitForCompletion();
-            NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().priority = 19;
+            NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().priority = 2;
+            var profile = NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().sharedProfile;
+            //(profile.settings[0] as ColorGrading).lift.value *= 0.5f;  //1 0.8043 0.9415 0
+            //(profile.settings[0] as ColorGrading).saturation.value = 17f; //34.2
+
 
 
             PostProcessProfile ppLocalMeteorStorm = Addressables.LoadAssetAsync<PostProcessProfile>(key: "affc373eac3cb4c43b38adc2c7a61451").WaitForCompletion();
             (ppLocalMeteorStorm.settings[1] as ColorGrading).postExposure.value = 0.2f;
-            ppLocalMeteorStorm.settings[2].active = false; //Vignette
+            //ppLocalMeteorStorm.settings[2].active = false; //Vignette
 
         }
         public static BodyIndex LemurianBruiser = BodyIndex.None;

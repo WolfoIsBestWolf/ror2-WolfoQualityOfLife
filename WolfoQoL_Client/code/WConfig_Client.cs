@@ -193,6 +193,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgPlayerPing;
         public static ConfigEntry<bool> cfgGameplay;
         public static ConfigEntry<bool> SulfurPoolsSkin;
+        public static ConfigEntry<bool> ArtificerBazaarAlways;
 
         public enum Player
         {
@@ -217,6 +218,22 @@ namespace WolfoQoL_Client
 
         public static void InitConfig()
         {
+            #region MAIN
+
+            //Ig it's fine to just be like this tbh
+
+            //Reminders + Objectives
+            //Skin Stuff
+            //Death Screen Stuff
+            //Gameplay ig
+            //Log stuff?
+            //Color Stuff
+            
+
+
+            #endregion
+
+
             #region Reminders
             cfgRemindersGeneral = ConfigFile_Client.Bind(
                "Reminders",
@@ -360,7 +377,7 @@ namespace WolfoQoL_Client
               true,
               "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
             );
-            LookingGlassPresets.Start();
+            //LookingGlassPresets.Start();
 
             cfgBuff_RepeatColors = ConfigFile_Client.Bind(
                  "Hud",
@@ -437,9 +454,9 @@ namespace WolfoQoL_Client
 
             cfgColorMain = ConfigFile_Client.Bind(
                 "Visuals",
-                "Enable Color Changes",
+                "Item & Equipment Outline Color Changes",
                 true,
-                "Change the colors of Lunar/Elite equipment to something unique. Lunar Coins will use their color for their outline. Void items will have tiered colors."
+                "Change the colors of Lunar/Elite equipment to a different blue/yellow\nLunar Coins will use the Lunar Coin color instead of Lunar Item\nVoid White will be slightly lighter\nVoid Red slightly more saturated."
             );
             cfgFragmentColor = ConfigFile_Client.Bind(
                "Visuals",
@@ -699,6 +716,12 @@ namespace WolfoQoL_Client
                 true,
                 "Items will teleport if they fall of the map."
             );
+            ArtificerBazaarAlways = ConfigFile_Client.Bind(
+                "Other",
+                "Artificer Always in Bazaar",
+                false,
+                "I just think she's a nice Decoration and REX is always there."
+            );            
             cfgSmoothCaptain = ConfigFile_Client.Bind(
                 "Skins",
                 "Colossus Captain Smooth",
@@ -865,14 +888,6 @@ namespace WolfoQoL_Client
                         ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<Position>)entry, false));
                     }
 
-                }
-                else if (entry.SettingType == typeof(LookingGlassPresets.Preset))
-                {
-                    ModSettingsManager.AddOption(new ChoiceOption(LookingGlassPresets.cfgLookingGlassPreset, new ChoiceConfig
-                    {
-                        name = "Looking Glass\nPreset",
-                        restartRequired = false,
-                    }));
                 }
                 else if (entry.SettingType == typeof(ColorOrNot))
                 {

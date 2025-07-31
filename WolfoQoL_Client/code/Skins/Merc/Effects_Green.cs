@@ -10,7 +10,7 @@ namespace WolfoQoL_Client.Skins
     {
 
         public static Material matMercEnergized_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
-        //public static Material matMercEvisTarget_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
+        public static Material matMercEvisTarget_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
 
         public static Material matHuntressFlashBright_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
         public static Material matHuntressFlashExpanded_Green = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
@@ -89,6 +89,10 @@ namespace WolfoQoL_Client.Skins
         public static void Merc_GreenEffects()
         {
 
+        
+
+
+
             Material matHuntressSwipe_Green;
             Material matHuntressCharged_Green;
 
@@ -115,6 +119,11 @@ namespace WolfoQoL_Client.Skins
             Texture2D texRampMercDust_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampMercDustGreen.png");
             Texture2D texRampHuntressSoft_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressSoftGreen.png");
             Texture2D texRampHuntress_Green = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressGreen.png");
+
+
+            matMercEvisTarget_Green = GameObject.Instantiate(LegacyResourcesAPI.Load<Material>("Materials/matMercEvisTarget"));
+            matMercEvisTarget_Green.SetTexture("_RemapTex", texRampHuntressSoft_Green);
+            matMercEvisTarget_Green.SetColor("_TintColor", new Color(0.35f,0.44f,0f));
 
 
             ParticleSystemRenderer MercSwordSlash_GreenRenderer0 = MercSwordSlash_Green.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();

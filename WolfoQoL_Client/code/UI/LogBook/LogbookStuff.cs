@@ -242,15 +242,17 @@ namespace WolfoQoL_Client
                 if (temppickdef.equipmentIndex != EquipmentIndex.None)
                 {
                     EquipmentDef tempeqdef = EquipmentCatalog.GetEquipmentDef(temppickdef.equipmentIndex);
-                    if (tempeqdef.isBoss == true)
+                    if (WConfig.cfgColorMain.Value)
                     {
-                        array[i].bgTexture = ColorModule.texEquipmentBossBG;
+                        if (tempeqdef.isBoss == true)
+                        {
+                            array[i].bgTexture = ColorModule.texEquipmentBossBG;
+                        }
+                        else if (tempeqdef.isLunar == true)
+                        {
+                            array[i].bgTexture = ColorModule.texEquipmentLunarBG;
+                        }
                     }
-                    else if (tempeqdef.isLunar == true)
-                    {
-                        array[i].bgTexture = ColorModule.texEquipmentLunarBG;
-                    }
-
                 }
             }
             #endregion

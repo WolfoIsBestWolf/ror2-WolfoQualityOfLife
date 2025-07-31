@@ -88,7 +88,7 @@ namespace WolfoQoL_Client
             SceneDef sceneDef = (entry.extraData as SceneDef);
             if (sceneDef.stageOrder > 5129)
             {
-                if (viewerProfile.statSheet.GetStatValueULong(PerStageStatDef.totalTimesCleared.FindStatDef(sceneDef.baseSceneName)) > 0U)
+                if (viewerProfile.statSheet.HasUnlockable(MissedContent.Survivors.VoidSurvivor.unlockableDef) || viewerProfile.statSheet.GetStatValueULong(PerStageStatDef.totalTimesCleared.FindStatDef(sceneDef.baseSceneName)) > 0U)
                 {
                     return EntryStatus.Available;
                 }

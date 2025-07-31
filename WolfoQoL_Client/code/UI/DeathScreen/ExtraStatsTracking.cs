@@ -360,8 +360,9 @@ namespace WolfoQoL_Client.DeathScreen
         {
             bodyObject = newBody.gameObject;
             body = newBody.healthComponent;
-            newBody.gameObject.AddComponent<MinionBody_StatLocator>().tracker = tracker;
-           
+            var subTracker = newBody.gameObject.AddComponent<MinionBody_StatLocator>();
+            subTracker.tracker = tracker;
+            subTracker.bodyIndex = (int)newBody.bodyIndex;
             
         }
         public void OnBodyDeath()
@@ -390,6 +391,7 @@ namespace WolfoQoL_Client.DeathScreen
 
     public class MinionBody_StatLocator : MonoBehaviour
     {
+        public int bodyIndex;
         public PerPlayer_ExtraStatTracker tracker;
     }
 
@@ -411,34 +413,10 @@ namespace WolfoQoL_Client.DeathScreen
             IL.RoR2.HealthComponent.HandleHeal += Track_MinionHealing;
 
             IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
-
-            IL.RoR2.Stats.StatManager.ProcessDamageEvents += TrackPerMinionDamage;
+ 
         }
 
-        private static void TrackPerMinionDamage(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.TryGotoNext(MoveType.Before,
-            x => x.MatchLdfld("RoR2.Stats.StatManager/DamageEvent", "attackerOwnerBodyIndex"));
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchLdfld("RoR2.Stats.StatManager/DamageEvent", "attackerOwnerBodyIndex")
-                ))
-            {
-                c.EmitDelegate<System.Func<StatManager.DamageEvent, StatManager.DamageEvent>>((damageEvent) =>
-                {
-                    if (damageEvent.attackerBodyIndex != BodyIndex.None)
-                    {
-                        damageEvent.attackerOwnerMaster.GetComponent<PerPlayer_ExtraStatTracker>().perMinionDamage[(int)damageEvent.attackerBodyIndex] += damageEvent.damageDealt;
-                    }
-                    return damageEvent;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: TrackPerMinionDamage");
-            }
-        }
-
+     
         private static void Track_DoTDamage_MinionHurt(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -449,16 +427,13 @@ namespace WolfoQoL_Client.DeathScreen
                 c.Emit(OpCodes.Ldloc_0);
                 c.EmitDelegate<System.Func<HealthComponent, DamageDealtMessage, HealthComponent>>((self, damageEvent) =>
                 {
-                    if (damageEvent.victim.TryGetComponent<MinionBody_StatLocator>(out var a))
-                    {
-                        a.tracker.minionDamageTaken += damageEvent.damage;
-                    }
+                    
                     if (damageEvent.attacker)
                     {
-                       /* if (damageEvent.attacker.TryGetComponent<MinionBody_StatLocator>(out var a))
+                        if (damageEvent.attacker.TryGetComponent<MinionBody_StatLocator>(out MinionBody_StatLocator attacker))
                         {
-                            a.tracker.minionDamageTaken += damageEvent.damage;
-                        }*/
+                            attacker.tracker.perMinionDamage[attacker.bodyIndex] += damageEvent.damage;
+                        }
                         if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && damageEvent.attacker.TryGetComponent<PlayerDamageBlockedTracker>(out var tracker))
                         {
                             if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
@@ -467,7 +442,10 @@ namespace WolfoQoL_Client.DeathScreen
                             }
                         }
                     }
-                   
+                    if (damageEvent.victim.TryGetComponent<MinionBody_StatLocator>(out var a))
+                    {
+                        a.tracker.minionDamageTaken += damageEvent.damage;
+                    }
                     return self;
                 });
             }

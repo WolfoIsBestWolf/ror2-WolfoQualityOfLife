@@ -10,7 +10,7 @@ namespace WolfoQoL_Client.Skins
     {
 
         public static Material matMercEnergized_Red = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
-        //public static Material matMercEvisTarget_Red = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
+        public static Material matMercEvisTarget_Red = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
 
         public static Material matHuntressFlashBright_Red = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));
         public static Material matHuntressFlashExpanded_Red = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashExpanded"));
@@ -81,7 +81,7 @@ namespace WolfoQoL_Client.Skins
             //AddEffects_ServerSided();
         }
 
-        public static void AddEffects_ServerSided()
+        /*public static void AddEffects_ServerSided()
         {
             //M2
             ContentAddition.AddEffect(MercSwordSlashWhirlwind_Red);
@@ -111,7 +111,7 @@ namespace WolfoQoL_Client.Skins
 
             ContentAddition.AddEffect(MercExposeConsumeEffect_Red);
 
-        }
+        }*/
         public static Material matMercIgnition_Red = null;
 
         [Obsolete]
@@ -144,6 +144,12 @@ namespace WolfoQoL_Client.Skins
             Texture2D texRampMercDustRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampMercDustRed.png");
             Texture2D texRampHuntressSoftRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressSoftRed.png");
             Texture2D texRampHuntressRed = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampHuntressRed.png");
+
+            matMercEvisTarget_Red = GameObject.Instantiate(LegacyResourcesAPI.Load<Material>("Materials/matMercEvisTarget"));
+            matMercEvisTarget_Red.SetTexture("_RemapTex", texRampHuntressSoftRed);
+            matMercEvisTarget_Red.SetColor("_TintColor", Color.red);
+            matMercEvisTarget_Red.SetColor("_CutoffScroll", new Color(0f, 12f, 12f));
+
 
             ParticleSystemRenderer MercSwordSlashRedRenderer0 = MercSwordSlash_Red.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
             matMercSwipe1_Red = UnityEngine.Object.Instantiate(MercSwordSlashRedRenderer0.material);

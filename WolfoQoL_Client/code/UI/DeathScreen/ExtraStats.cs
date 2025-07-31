@@ -227,8 +227,9 @@ namespace WolfoQoL_Client.DeathScreen
 
                 GameObject newMostKilled = GameObject.Instantiate(DeathScreenExpanded.difficulty_stat, mostKilled.parent);
                 newMostKilled.transform.SetSiblingIndex(mostKilled.GetSiblingIndex());
-                newMostKilled.GetComponent<LayoutElement>().preferredHeight = 56;
+                newMostKilled.GetComponent<LayoutElement>().preferredHeight = 50; //56
                 newMostKilled.transform.GetChild(3).gameObject.AddComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.WidthControlsHeight;
+                newMostKilled.transform.GetChild(3).gameObject.GetComponent<LayoutElement>().preferredWidth = 42; //48
                 newMostKilled.name = mostKilled.name;
 
                 GameObject.Destroy(mostKilled.gameObject);

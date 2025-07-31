@@ -4,7 +4,9 @@ This includes stuff that other mods have as Server-Side (such as Item loss messa
 
 Some features were cut when I made this mod ClientSide, [See here.](https://thunderstore.io/package/Wolfo/WolfoQoL_OptionalExtras/)
 
-Everything configurable ingame via RiskOfOptions.
+Everything configurable ingame via RiskOfOptions. 
+
+If something isn't working, or something should be configuerable that isn't, tell me.
 
 ## Visuals
 Oni Mercenary will have a red sword.\
@@ -38,7 +40,7 @@ Adds colored highlights for Tiers that were lacking one and for Equipment.
 
 Twisted Elites are now Dark Blue instead of reusing Overloading colors.\
 Twisted Elites have a fire visual effect again.\
-Twisted Elites play a little sound upon spawning.
+Twisted Elites play a sound upon spawning.
 
 Broken TC280 wont look snowed on if spawned outside of snowy areas.
 
@@ -56,7 +58,8 @@ Objectives for the following:
 - Getting the extra Halcyonite Fragment on Prime Meridian
 
 Updated Death Screen including.
-- Stats more compact
+```
+- 2 Stats per row
 - More Stats Shown
 - - Healing Recieved
 - - Damage taken by Minions
@@ -71,6 +74,7 @@ Updated Death Screen including.
 - - Damage Blocked
 - - Most Killed Monster
 - - Most Hurt By Monster
+- - Strongest Minion Type
 - - Distanced Walked
 - - Times Jumped
 - Run Recap
@@ -84,8 +88,9 @@ Updated Death Screen including.
 - - - (Scav, P4 Mithrix, etc)
 - - - Evolution/Simu/Void Fields items otherwise.
 - Button to open/close chat
-- Victory Quote top right
+- Victory / Vanish Quote top right
 - Alt endings have a different quote
+```
 
 Many more messages so you have another chance to see what happened, or to see what someone else is doing.
 - On death, a detailed death message is sent, so you know what you died to.

@@ -102,7 +102,14 @@ namespace WolfoQoL_Client.Text
 
         private static void FalseSon_GreenOrRed(On.EntityStates.FalseSonBoss.SkyJumpDeathState.orig_GiveColossusItem orig, EntityStates.FalseSonBoss.SkyJumpDeathState self)
         {
-            self.rewardDisplayTier = MeridianFragmentRedOrGreenOrWhite(true);
+            if (self.FalseSonUnlockStateMet())
+            {
+                self.rewardDisplayTier = ItemTier.Tier3;
+            }
+            else
+            {
+                self.rewardDisplayTier = ItemTier.Tier2;
+            }
             orig(self);
         }
 
@@ -160,18 +167,21 @@ namespace WolfoQoL_Client.Text
                 Highlight original = self.GetComponent<Highlight>();
                 if (MeridianEventTriggerInteraction.instance)
                 {
-                    ItemTier tier = MeridianFragmentRedOrGreenOrWhite(false);
-                    if (tier == ItemTier.Tier3)
+                    if(index.NetworkpickupIndex == PickupCatalog.itemTierToPickupIndex[ItemTier.Tier1])
                     {
-                        /*GameObject AurelioniteHeart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/AurelioniteHeart.prefab").WaitForCompletion();
-                        SkinnedMeshRenderer Heart = AurelioniteHeart.GetComponentInChildren<SkinnedMeshRenderer>();
-                        MeshRenderer FragmentMat = (original.targetRenderer as MeshRenderer);
-                        MeshFilter FragmentMesh = original.targetRenderer.GetComponent<MeshFilter>();
+                        ItemTier tier = MeridianFragmentRedOrGreenOrWhite(false);
+                        if (tier == ItemTier.Tier3)
+                        {
+                            /*GameObject AurelioniteHeart = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/AurelioniteHeart.prefab").WaitForCompletion();
+                            SkinnedMeshRenderer Heart = AurelioniteHeart.GetComponentInChildren<SkinnedMeshRenderer>();
+                            MeshRenderer FragmentMat = (original.targetRenderer as MeshRenderer);
+                            MeshFilter FragmentMesh = original.targetRenderer.GetComponent<MeshFilter>();
 
-                        FragmentMesh.sharedMesh = Heart.sharedMesh;
-                        FragmentMat.sharedMaterials = Heart.sharedMaterials;*/
-                    }
-                    index.NetworkpickupIndex = PickupCatalog.itemTierToPickupIndex[tier];
+                            FragmentMesh.sharedMesh = Heart.sharedMesh;
+                            FragmentMat.sharedMaterials = Heart.sharedMaterials;*/
+                        }
+                        index.NetworkpickupIndex = PickupCatalog.itemTierToPickupIndex[tier];
+                    }            
                 }
                 if (WConfig.cfgAurFragment_ItemsInPing.Value)
                 {
