@@ -92,7 +92,7 @@ namespace WolfoQoL_Client.Reminders
             }
             else
             {
-                Debug.LogWarning("IL Failed: PlayerPingsIL");
+                WolfoMain.log.LogWarning("IL Failed: PlayerPingsIL");
             }
 
         }
@@ -135,7 +135,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (master.money >= moneyPre)
                 {
-                    Debug.Log("No money was actually drained." + deducedGoldDrain);
+                    WolfoMain.log.LogMessage("No money was actually drained." + deducedGoldDrain);
                     return;
                 }
                 //Then second time he gets pre-drained, check money lost
@@ -145,9 +145,9 @@ namespace WolfoQoL_Client.Reminders
 
                 goldDrained += deducedGoldDrain * missedGoldDrains;
 
-                Debug.Log("Gold Drain Deduced is " + deducedGoldDrain);
-                Debug.Log("Expected Gold Drain was " + Halc.goldDrainValue);
-                Debug.Log("Adding Missing Drains x" + missedGoldDrains);
+                WolfoMain.log.LogMessage("Gold Drain Deduced is " + deducedGoldDrain);
+                WolfoMain.log.LogMessage("Expected Gold Drain was " + Halc.goldDrainValue);
+                WolfoMain.log.LogMessage("Adding Missing Drains x" + missedGoldDrains);
             }
             else
             {

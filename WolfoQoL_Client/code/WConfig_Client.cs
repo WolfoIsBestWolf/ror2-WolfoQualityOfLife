@@ -205,7 +205,7 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-            Debug.Log("WQoL InitConfig");
+            WolfoMain.log.LogMessage("WQoL InitConfig");
 
             InitConfig();
             TestConfig();
@@ -848,8 +848,8 @@ namespace WolfoQoL_Client
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();
-            Debug.Log("Config Values Total : " + entries.Length);
-            Debug.Log("Config Values Reset : " + (resetB.Count));
+            WolfoMain.log.LogMessage("Config Values Total : " + entries.Length);
+            WolfoMain.log.LogMessage("Config Values Reset : " + (resetB.Count));
             foreach (ConfigEntryBase entry in entries)
             {
                 if (entry.SettingType == typeof(bool))
@@ -907,7 +907,7 @@ namespace WolfoQoL_Client
                 }
                 else
                 {
-                    Debug.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
+                    WolfoMain.log.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
                 }
             }
 

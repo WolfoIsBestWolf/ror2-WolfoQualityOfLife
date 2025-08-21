@@ -78,7 +78,7 @@ namespace WolfoQoL_Client.DeathScreen
             Transform stat = statContentArea.Find(name);
             if (stat == null)
             {
-                Debug.Log(name + " does not exist");
+                WolfoMain.log.LogMessage(name + " does not exist");
                 return;
             }
             int childIndex = stat.GetSiblingIndex();
@@ -143,18 +143,25 @@ namespace WolfoQoL_Client.DeathScreen
             bool DLC1 = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Expansions.DLC1")).localIndex == 0;
             //bool DLC3 = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Expansions.DLC3")).localIndex == 0;
             bool DLC3 = false;
-            bool SS2 = false;
+            bool SS2 = false; 
+            var ruleSS2 = RuleCatalog.FindRuleDef("Expansions.SS2");
+            if (ruleSS2 != null)
+            {
+                SS2 = runReport.ruleBook.GetRuleChoice(ruleSS2).localIndex == 0;
+            }
+    
            
             bool isLog = runReport.FindFirstPlayerInfo().master == null;
             self.statsToDisplay = new string[] {
                             "totalTimeAlive",
                             IsSimu ? "highestInfiniteTowerWaveReached" : "totalStagesCompleted",
 
-                            "totalItemsCollected",
+                            //"totalItemsCollected",
+                            "highestItemsCollected",
                             "custom_ItemsScrapped",
 
                             IsSimu ? "null" : "totalDronesPurchased",
-                            IsSimu || !DLC3 ? "null" : "custom_DronesScrapped",
+                            IsSimu || !SS2 ? "null" : "custom_DronesScrapped",
                            
                             "totalKills",
                             "totalMinionKills",
@@ -206,7 +213,15 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (self.statsToDisplay[i] == statName)
                 {
-                    return self.statStrips[i].transform;
+                    if (self.statStrips[i])
+                    {
+                        return self.statStrips[i].transform;
+                    }
+                    else
+                    {
+                        WolfoMain.log.LogMessage(statName + " Stat does not exist.");
+                        return null;
+                    }
                 }
             }
             return null;
@@ -214,7 +229,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void AddCustomStats(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
         {
-            Debug.Log("ExtraStats");
+            WolfoMain.log.LogMessage("ExtraStats");
             //Transform totalEliteKills = FindStatStrip(self, "totalEliteKills");
             Transform mostKilled = self.statContentArea.Find("custom_MostKilledEnemy");
             Transform mostHurtby = self.statContentArea.Find("custom_EnemyMostHurtBy");
@@ -441,7 +456,7 @@ namespace WolfoQoL_Client.DeathScreen
             Transform stat = FindStatStrip(self, lookingFor);
             if (!stat)
             {
-                Debug.Log(displayToken + " does not exist");
+                WolfoMain.log.LogMessage(displayToken + " does not exist");
                 return null;
             }
             TooltipProvider tool = stat.gameObject.GetComponent<TooltipProvider>();

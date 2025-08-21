@@ -92,7 +92,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("IL Failed: ScoreboardForDeadPeopleToo");
+                WolfoMain.log.LogWarning("IL Failed: ScoreboardForDeadPeopleToo");
             }
 
         }
@@ -151,7 +151,7 @@ namespace WolfoQoL_Client
 
         private static void CrosshairManager_OnEnable(On.RoR2.UI.CrosshairManager.orig_OnEnable orig, RoR2.UI.CrosshairManager self)
         {
-            //Debug.Log(" On.RoR2.UI.CrosshairManager.OnEnable " + self);
+            //WolfoMain.log.LogMessage(" On.RoR2.UI.CrosshairManager.OnEnable " + self);
             orig(self);
             if (WConfig.cfgNewSprintCrosshair.Value == false)
             {
@@ -226,7 +226,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("IL Failed: TP RED DISCOVER CHANGE");
+                WolfoMain.log.LogWarning("IL Failed: TP RED DISCOVER CHANGE");
             }
         }
 
@@ -241,7 +241,7 @@ namespace WolfoQoL_Client
                 TeleporterInteraction teleporter = teleporterObject.GetComponent<TeleporterInteraction>();
                 if (teleporter)
                 {
-                    Debug.Log("Sent ExtraMountainIcon");
+                    WolfoMain.log.LogMessage("Sent ExtraMountainIcon");
                     if (shrineStacks == 1)
                     {
                         GameObject tempbossicon = teleporter.bossShrineIndicator;
@@ -263,7 +263,7 @@ namespace WolfoQoL_Client
                 }
                 else
                 {
-                    Debug.LogWarning("Sent ExtraMountainIcon without Teleporter Object");
+                    WolfoMain.log.LogWarning("Sent ExtraMountainIcon without Teleporter Object");
                 }
 
 

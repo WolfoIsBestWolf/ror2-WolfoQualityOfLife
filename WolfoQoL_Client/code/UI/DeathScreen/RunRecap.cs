@@ -104,7 +104,7 @@ namespace WolfoQoL_Client.DeathScreen
                 }
                 if (WConfig.DC_StageRecap.Value)
                 {
-                    Debug.Log("Run Recap");
+                    WolfoMain.log.LogMessage("Run Recap");
                     if (extras.addedStageRecap == false)
                     {
                         extras.addedStageRecap = true;
@@ -174,7 +174,7 @@ namespace WolfoQoL_Client.DeathScreen
             //4 Padding
             //64 Strip
             LayoutElement lay = unlockArea.GetComponent<LayoutElement>();
-            Debug.Log(self.unlockContentArea.childCount);
+            WolfoMain.log.LogMessage(self.unlockContentArea.childCount);
             float childMult = Mathf.Max(self.unlockContentArea.childCount, 2f);
             childMult = Mathf.Min(childMult, 2.5f);
             float height = 64 * childMult + 52;

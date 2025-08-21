@@ -63,7 +63,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Blight: IL.RoR2.Orbs.LightningOrb.Begin");
+                WolfoMain.log.LogWarning("IL Failed: Blight: IL.RoR2.Orbs.LightningOrb.Begin");
             }
         }
 

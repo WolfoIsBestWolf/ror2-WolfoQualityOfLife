@@ -44,7 +44,7 @@ namespace WolfoQoL_Client.DeathScreen
             SceneCatalog.onMostRecentSceneDefChanged -= this.HandleMostRecentSceneDefChanged;
             foreach (SceneDef sceneDef in visitedScenes)
             {
-                Debug.Log(visitedScenes);
+                WolfoMain.log.LogMessage(visitedScenes);
             }
         }
         public int lastSeenLoopCount = 0;
@@ -207,8 +207,8 @@ namespace WolfoQoL_Client.DeathScreen
         }
         public void Start()
         {
-            //Debug.Log(master.hasAuthority);
-            //Debug.Log(master.hasEffectiveAuthority);
+            //WolfoMain.log.LogMessage(master.hasAuthority);
+            //WolfoMain.log.LogMessage(master.hasEffectiveAuthority);
             if (!master.hasEffectiveAuthority)
             {
                 timesJumped = -1;
@@ -266,7 +266,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (masterObject == null)
                 {
-                    Debug.LogWarning("No Master");
+                    WolfoMain.log.LogWarning("No Master");
                     return null;
                 }
                 var tracker = masterObject.GetComponent<PerPlayer_ExtraStatTracker>();
@@ -314,8 +314,8 @@ namespace WolfoQoL_Client.DeathScreen
         public void OnIncomingDamageServer(DamageInfo damageInfo)
         {
             //Does either of these like account for OSP and OSP timer?
-            /* Debug.Log("Damage: " + damageInfo.damage);
-             Debug.Log("Blocked?: " + damageInfo.rejected);*/
+            /* WolfoMain.log.LogMessage("Damage: " + damageInfo.damage);
+             WolfoMain.log.LogMessage("Blocked?: " + damageInfo.rejected);*/
             if (damageInfo.rejected)
             {
                 tracker.damageBlocked += damageInfo.damage;
@@ -323,8 +323,8 @@ namespace WolfoQoL_Client.DeathScreen
         }
         public void OnTakeDamageServer(DamageReport damageReport)
         {
-            /*Debug.Log("DamagePre: "+damageReport.damageInfo.damage);
-            Debug.Log("DamagePost: " + damageReport.damageDealt);*/
+            /*WolfoMain.log.LogMessage("DamagePre: "+damageReport.damageInfo.damage);
+            WolfoMain.log.LogMessage("DamagePost: " + damageReport.damageDealt);*/
             if (damageReport.damageInfo.damage != damageReport.damageDealt)
             {
                 tracker.damageBlocked += (damageReport.damageInfo.damage - damageReport.damageDealt);
@@ -376,7 +376,7 @@ namespace WolfoQoL_Client.DeathScreen
                 //Only count deaths that matter
                 if (this.GetComponent<SetDontDestroyOnLoad>() && !this.GetComponent<MasterSuicideOnTimer>())
                 {
-                    Debug.Log(this.gameObject.name + " died");
+                    WolfoMain.log.LogMessage(this.gameObject.name + " died");
                     //Chat.AddMessage(this.gameObject.name + " died");
 
                     tracker.minionDeaths++;
@@ -451,7 +451,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                Debug.LogWarning("IL Failed: HealthComponent_HandleHeal");
+                WolfoMain.log.LogWarning("IL Failed: HealthComponent_HandleHeal");
             }
         }
 
@@ -475,7 +475,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                Debug.LogWarning("IL Failed: HealthComponent_HandleHeal");
+                WolfoMain.log.LogWarning("IL Failed: HealthComponent_HandleHeal");
             }
         }
 
@@ -499,7 +499,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                Debug.LogWarning("IL Failed: HealthComponent_HandleHeal");
+                WolfoMain.log.LogWarning("IL Failed: HealthComponent_HandleHeal");
             }
         }
 
@@ -557,7 +557,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                Debug.LogWarning("IL Failed: MinionDamageTakenStat");
+                WolfoMain.log.LogWarning("IL Failed: MinionDamageTakenStat");
             }
         }
 
@@ -565,10 +565,10 @@ namespace WolfoQoL_Client.DeathScreen
         {
             orig(self);
             GenericPickupController[] pickups = Object.FindObjectsOfType<GenericPickupController>();
-            Debug.Log(pickups.Length);
+            WolfoMain.log.LogMessage(pickups.Length);
             foreach (var pickup in pickups)
             {
-                Debug.Log(pickup.pickupIndex);
+                WolfoMain.log.LogMessage(pickup.pickupIndex);
             }
         }
 
@@ -604,7 +604,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         private static void LunarCoinSpentTracking(On.RoR2.NetworkUser.orig_RpcDeductLunarCoins orig, NetworkUser self, uint count)
         {
-            //Debug.Log("RpcDeductLunarCoins "+ self+self.master + " | "+count);
+            //WolfoMain.log.LogMessage("RpcDeductLunarCoins "+ self+self.master + " | "+count);
             orig(self, count);
             if (self.master)
             {

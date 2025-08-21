@@ -120,7 +120,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("IL Failed: PlayerPingsIL");
+                WolfoMain.log.LogWarning("IL Failed: PlayerPingsIL");
             }
 
         }

@@ -29,20 +29,20 @@ namespace WolfoQoL_Client.DeathScreen
             if (playerInfo.networkUser == null)
             {
                 extras.killerInventory.SetActive(false);
-                Debug.LogWarning("Killer Inventory : No NetworkUser");
+                WolfoMain.log.LogWarning("Killer Inventory : No NetworkUser");
                 return;
             }
 
             KillerInventoryInfoStorage helper = playerInfo.master.GetComponent<KillerInventoryInfoStorage>();
             if (helper == null)
             {
-                Debug.Log("No GameEndInventoryHelper Found, Making One");
+                WolfoMain.log.LogMessage("No GameEndInventoryHelper Found, Making One");
                 helper = playerInfo.master.gameObject.AddComponent<KillerInventoryInfoStorage>();
                 helper.victimMaster = playerInfo.master.gameObject;
 
             }
  
-            Debug.Log("Applying Killer Inventory Screen");
+            WolfoMain.log.LogMessage("Applying Killer Inventory Screen");
 
             #region Detailed Killer Name
             if (helper.killerName != "")
@@ -72,7 +72,7 @@ namespace WolfoQoL_Client.DeathScreen
             //If no Killer, try to find static sources of items.
             if (helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment)
             {
-                Debug.Log("Could not find Killer Inventory or Inventory empty");
+                WolfoMain.log.LogMessage("Could not find Killer Inventory or Inventory empty");
                 if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.monsterTeamGainsItemsArtifactDef))
                 {
                     NoKillerButWithEvo = true;
@@ -146,7 +146,7 @@ namespace WolfoQoL_Client.DeathScreen
                 killerBackupName = Language.GetString(killerBackupName);
             }
 
-            //Debug.Log("SendGameEndInvHelper");
+            //WolfoMain.log.LogMessage("SendGameEndInvHelper");
             KillerInventoryInfoStorage.SetupFromData(killerBackupName, attackerObject, victimMaster, itemStacks, primaryEquipment, secondaryEquipment, false);
             return null;
         }
@@ -205,10 +205,10 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void SetupFromData(string killerName, GameObject killerObject, GameObject victimMaster, int[] itemStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment, bool killerNoMaster)
         {
-            Debug.Log("GameEndInventoryHelp : SetupFromData");
+            WolfoMain.log.LogMessage("GameEndInventoryHelp : SetupFromData");
             if (victimMaster == null)
             {
-                Debug.LogWarning("GameEndInventoryHelper : Victim Object is null");
+                WolfoMain.log.LogWarning("GameEndInventoryHelper : Victim Object is null");
                 return;
             }
 

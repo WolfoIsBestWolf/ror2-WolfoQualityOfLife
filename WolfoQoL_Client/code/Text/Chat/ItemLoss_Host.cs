@@ -72,7 +72,7 @@ namespace WolfoQoL_Client.Text
             if (c.TryGotoNext(MoveType.Before,
                     x => x.MatchLdfld("RoR2.CostTypeDef/PayCostResults", "itemsTaken")))
             {
-                //Debug.Log(c);
+                //WolfoMain.log.LogMessage(c);
                 c.Emit(OpCodes.Ldarg_0);
                 c.Emit(OpCodes.Ldarg_1);
                 c.EmitDelegate<Func<RoR2.CostTypeDef.PayCostResults, PurchaseInteraction, RoR2.Interactor, RoR2.CostTypeDef.PayCostResults>>((payResults, purchase, interactor) =>
@@ -131,11 +131,11 @@ namespace WolfoQoL_Client.Text
                     }
                     return payResults;
                 });
-                //Debug.Log("IL Found: IL.PurchaseInteraction.OnInteractionBegin");
+                //WolfoMain.log.LogMessage("IL Found: IL.PurchaseInteraction.OnInteractionBegin");
             }
             else
             {
-                Debug.LogWarning("IL Failed: IL.PurchaseInteraction.OnInteractionBegin");
+                WolfoMain.log.LogWarning("IL Failed: IL.PurchaseInteraction.OnInteractionBegin");
             }
         }
 
@@ -246,7 +246,7 @@ namespace WolfoQoL_Client.Text
                 {
                     reader.ReadItemStacks(itemStacks);
                 }
-                //Debug.LogWarning("Deserialize " + reader);
+                //WolfoMain.log.LogWarning("Deserialize " + reader);
             }
         }
 

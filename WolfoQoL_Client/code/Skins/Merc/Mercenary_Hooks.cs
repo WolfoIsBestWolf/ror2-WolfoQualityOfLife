@@ -66,7 +66,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
             }
         }
 
@@ -184,11 +184,11 @@ namespace WolfoQoL_Client.Skins
                     }
                     return material;
                 });
-                //Debug.Log("IL Found: Red Merc: IL.EntityStates.Merc.Evis.OnExit");
+                //WolfoMain.log.LogMessage("IL Found: Red Merc: IL.EntityStates.Merc.Evis.OnExit");
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: IL.EntityStates.Merc.Evis.OnExit");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: IL.EntityStates.Merc.Evis.OnExit");
             }
         }
 
@@ -214,11 +214,11 @@ namespace WolfoQoL_Client.Skins
                     }
                     return target;
                 });
-                Debug.Log("IL Found: Red Merc: GroundLight2_OnEnter");
+                WolfoMain.log.LogMessage("IL Found: Red Merc: GroundLight2_OnEnter");
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: GroundLight2_OnEnter");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: GroundLight2_OnEnter");
             }
         }
 
@@ -234,11 +234,11 @@ namespace WolfoQoL_Client.Skins
                     EffectReplacer.ActivateMerc(target, entityState.outer.gameObject);
                     return target;
                 });
-                Debug.Log("IL Found: Red Merc: WhirlwindBase_FixedUpdate");
+                WolfoMain.log.LogMessage("IL Found: Red Merc: WhirlwindBase_FixedUpdate");
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: WhirlwindBase_FixedUpdate");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: WhirlwindBase_FixedUpdate");
             }
         }
 
@@ -254,11 +254,11 @@ namespace WolfoQoL_Client.Skins
                     EffectReplacer.ActivateMerc(target, entityState.outer.gameObject);
                     return target;
                 });
-                //Debug.Log("IL Found: Red Merc: WhirlwindBase_OnEnter");
+                //WolfoMain.log.LogMessage("IL Found: Red Merc: WhirlwindBase_OnEnter");
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: WhirlwindBase_OnEnter");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: WhirlwindBase_OnEnter");
             }
         }
 
@@ -278,7 +278,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Uppercut_FixedUpdate");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Uppercut_FixedUpdate");
             }
         }
 
@@ -297,7 +297,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Uppercut_OnEnter");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Uppercut_OnEnter");
             }
         }
 
@@ -324,7 +324,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Assaulter2_OnEnter");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Assaulter2_OnEnter");
             }
         }
 
@@ -344,7 +344,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
             }
         }
 
@@ -364,7 +364,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
             }
 
             if (c.TryGotoNext(MoveType.Before,
@@ -386,7 +386,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
             }
         }
 
@@ -429,7 +429,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("IL Failed: Red Merc: Merc.EvisDash.FixedUpdate");
+                WolfoMain.log.LogWarning("IL Failed: Red Merc: Merc.EvisDash.FixedUpdate");
             }
         }
 

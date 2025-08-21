@@ -13,7 +13,7 @@ namespace WolfoQoL_Client
         {
             float spacing = WConfig.cfgObjectiveHeight.Value; //Default 32
             float fonzSize = WConfig.cfgObjectiveFontSize.Value; //Default 12
-            Debug.Log("Updating Hud spacing" + WConfig.cfgObjectiveHeight.Value + " / font" + WConfig.cfgObjectiveFontSize.Value);
+            WolfoMain.log.LogMessage("Updating Hud spacing" + WConfig.cfgObjectiveHeight.Value + " / font" + WConfig.cfgObjectiveFontSize.Value);
 
             HGTextMeshProUGUI text;
             Transform ObjectivePannelRoot;
@@ -105,7 +105,7 @@ namespace WolfoQoL_Client
                     if (self.survivorDef)
                     {
                         int localUserSurvivorCompletedEclipseLevel = EclipseRun.GetLocalUserSurvivorCompletedEclipseLevel(firstLocalUser, self.survivorDef);
-                        //Debug.Log(localUserSurvivorCompletedEclipseLevel);
+                        //WolfoMain.log.LogMessage(localUserSurvivorCompletedEclipseLevel);
 
                         Transform HolderTransform = self.transform.Find("Eclipse_Holder");
                         GameObject Holder = null;

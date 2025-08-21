@@ -123,7 +123,7 @@ namespace WolfoQoL_Client.DeathScreen
             int count = droneCollection.bodyDict_Drone.Count + droneCollection.bodyDict_Devotion.Count;
             count += droneCollection.itemDict_Drone.Count + droneCollection.itemDict_Devotion.Count;
             count += droneCollection.equipmentDict_Drone.Count + droneCollection.equipmentDict_Devotion.Count;
-            Debug.Log("Drone Display "+ count);
+            WolfoMain.log.LogMessage("Drone Display "+ count);
   
             icon = 0;
             itemDisplay.AllocateIcons(count);

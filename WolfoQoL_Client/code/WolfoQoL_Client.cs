@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Logging;
 using R2API.Utils;
 using RoR2;
 using RoR2.ContentManagement;
@@ -26,6 +27,7 @@ namespace WolfoQoL_Client
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WolfoMain : BaseUnityPlugin
     {
+       
         public static readonly System.Random random = new System.Random();
         //public static readonly UnityEngine.Random random = new(); //???
 
@@ -58,6 +60,7 @@ namespace WolfoQoL_Client
                 HostHasMod_ = value;
             }
         }
+        public static ManualLogSource log;
 
         public void Awake()
         {
@@ -67,10 +70,13 @@ namespace WolfoQoL_Client
             Help.Log = base.Logger;
             if (WConfig.cfgTestDisableMod.Value || WConfig.cfgTestDisableMod2.Value)
             {
-                Debug.LogWarning("Disabled Mod for Test");
+                WolfoMain.log.LogWarning("Disabled Mod for Test");
+                WolfoMain.log.LogMessage("Disabled Mod for Test");
                 return;
             }
-
+            
+            log = base.Logger;
+            
             GameplayQualityOfLife.Start();
 
             //Generally Host send -> Host recieve always works fine for these messages
@@ -137,8 +143,8 @@ namespace WolfoQoL_Client
 
             MissionPointers.Start();
 
-            //Debug.Log(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGold.prefab").WaitForCompletion());
-            //Debug.Log(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGreen.prefab").WaitForCompletion());
+            //WolfoMain.log.LogMessage(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGold.prefab").WaitForCompletion());
+            //WolfoMain.log.LogMessage(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/HealAndRevive/fxHealAndReviveGreen.prefab").WaitForCompletion());
 
             ClientChecks.Start();
 
@@ -148,6 +154,11 @@ namespace WolfoQoL_Client
             TMPStyles.styles.Add(new TMPro.TMP_Style("cRebirth", "<color=#7CFE7C>", "</color>"));
             TMPStyles.styles.Add(new TMPro.TMP_Style("cMysterySpace", "<color=#89F1E8>", "</color>"));
 
+            //TMPStyles.styles.Add(new TMPro.TMP_Style("cAlly", "<color=#94B2F7>", "</color>"));
+            TMPStyles.styles.Add(new TMPro.TMP_Style("cAlly", "<color=#A3C3EF>", "</color>"));
+            TMPStyles.styles.Add(new TMPro.TMP_Style("cTimed", "<color=#66CADA>", "</color>"));
+            TMPStyles.styles.Add(new TMPro.TMP_Style("cTimed", "<color=#C0D8EF>", "</color>"));
+
             BuffIcons.Awake();
             ChefOil.Start();
         }
@@ -155,7 +166,7 @@ namespace WolfoQoL_Client
         public void Start()
         {
             ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
-            Debug.Log("WolfoQoL_Extras installed? : " + ServerModInstalled);
+            WolfoMain.log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
 
             if (WConfig.cfgTestDisableMod.Value || WConfig.cfgTestDisableMod2.Value)
             {
@@ -279,7 +290,7 @@ namespace WolfoQoL_Client
                     GameObjectUnlockableFilter[] dummylist = FindObjectsOfType(typeof(RoR2.GameObjectUnlockableFilter)) as RoR2.GameObjectUnlockableFilter[];
                     for (var i = 0; i < dummylist.Length; i++)
                     {
-                        Debug.Log(dummylist[i]);
+                        WolfoMain.log.LogMessage(dummylist[i]);
                         Destroy(dummylist[i]);
                     }
                     break;
@@ -427,7 +438,7 @@ namespace WolfoQoL_Client
                     LODGroup[] lodlist = GameObject.Find("HOLDER: Randomization/GROUP: Large Treasure Chests").GetComponentsInChildren<LODGroup>();
                     for (var i = 0; i < lodlist.Length; i++)
                     {
-                        //Debug.LogWarning(purchaserlist[i]); ////DISABLE THIS
+                        //WolfoMain.log.LogWarning(purchaserlist[i]); ////DISABLE THIS
                         if (lodlist[i].name.StartsWith("RJpinkshroom"))
                         {
                             Destroy(lodlist[i]);
@@ -673,7 +684,7 @@ namespace WolfoQoL_Client
                             if (spltis.Length > 0)
                             {
                                 artifactname = spltis[spltis.Length - 1];
-                                Debug.Log(artifactname);
+                                WolfoMain.log.LogMessage(artifactname);
                             }
                         }
                         if (WConfig.ArtifactOutline.Value == true)
@@ -692,8 +703,8 @@ namespace WolfoQoL_Client
                     MissionController.GetComponent<VoidStageMissionController>().deepVoidPortalObjectiveProvider = null;
                     break;
                 case "voidraid":
-                    Debug.Log(GameObject.Find("/CenterSwirl"));
-                    Debug.Log(GameObject.Find("/BrightSwirlPP"));
+                    WolfoMain.log.LogMessage(GameObject.Find("/CenterSwirl"));
+                    WolfoMain.log.LogMessage(GameObject.Find("/BrightSwirlPP"));
                     break;
             };
 
@@ -831,19 +842,19 @@ namespace WolfoQoL_Client
 
             /* if (WConfig.cfgTestMultiplayer.Value)
              {
-                 Debug.LogWarning("Any PingInfoProvider with Null Icon?");
+                 WolfoMain.log.LogWarning("Any PingInfoProvider with Null Icon?");
                  PingInfoProvider[] highlightlist = Resources.FindObjectsOfTypeAll(typeof(PingInfoProvider)) as PingInfoProvider[];
                  for (var i = 0; i < highlightlist.Length; i++)
                  {
                      if (highlightlist[i].pingIconOverride == null)
                      {
-                         Debug.LogWarning(highlightlist[i] + " PingInfoProvider with Null Icon");
+                         WolfoMain.log.LogWarning(highlightlist[i] + " PingInfoProvider with Null Icon");
                      }
                  }
 
                  for (var i = 0; i < BodyCatalog.bodyComponents.Length; i++)
                  {
-                     Debug.Log(BodyCatalog.bodyPrefabBodyComponents[i] + " | " + BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken + " | " + Language.GetString(BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken));
+                     WolfoMain.log.LogMessage(BodyCatalog.bodyPrefabBodyComponents[i] + " | " + BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken + " | " + Language.GetString(BodyCatalog.bodyPrefabBodyComponents[i].baseNameToken));
                  }
              }*/
 
@@ -860,7 +871,7 @@ namespace WolfoQoL_Client
                     TreasureReminder.SetupRemindersStatic();
                 }
             }
-            Debug.Log("WolfoQoL-" + SceneInfo.instance.sceneDef.baseSceneName);
+            WolfoMain.log.LogMessage("WolfoQoL-" + SceneInfo.instance.sceneDef.baseSceneName);
 
         }
 
@@ -882,7 +893,7 @@ namespace WolfoQoL_Client
                 HostHasMod = true;
                 if (!NetworkServer.active)
                 {
-                    Debug.Log("Host has WolfoQoL_Client: " + HostHasMod_);
+                    WolfoMain.log.LogMessage("Host has WolfoQoL_Client: " + HostHasMod_);
                 }
 
                 //Hard to account for, when does PlayerMaster get made

@@ -143,7 +143,7 @@ namespace WolfoQoL_Client.Text
             }
 
             //In actual round this should only run for the Host, or for clients if the Host doesn't have it
-            Debug.Log(VictimName + " killed by " + KillerName + " | Networked? " + sendOverNetwork);
+            WolfoMain.log.LogMessage(VictimName + " killed by " + KillerName + " | Networked? " + sendOverNetwork);
             if (sendOverNetwork)
             {
                 Chat.SendBroadcastChat(deathMessage);
@@ -206,7 +206,7 @@ namespace WolfoQoL_Client.Text
                 writer.Write(damageDone);
                 writer.Write(attackerObject);
                 writer.Write(victimMaster);
-                //Debug.LogWarning("Serialize " + writer);
+                //WolfoMain.log.LogWarning("Serialize " + writer);
             }
 
             public override void Deserialize(NetworkReader reader)
@@ -221,7 +221,7 @@ namespace WolfoQoL_Client.Text
                 damageDone = reader.ReadString();
                 attackerObject = reader.ReadGameObject();
                 victimMaster = reader.ReadGameObject();
-                //Debug.LogWarning("Deserialize " + reader);
+                //WolfoMain.log.LogWarning("Deserialize " + reader);
             }
         }
 

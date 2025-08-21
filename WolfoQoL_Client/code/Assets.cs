@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Logging;
 using System.IO;
 using System.Linq;
 using UnityEngine;

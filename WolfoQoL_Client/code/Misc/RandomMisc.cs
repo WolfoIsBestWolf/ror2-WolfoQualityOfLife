@@ -247,7 +247,7 @@ namespace WolfoQoL_Client
                 x => x.MatchCall("UnityEngine.Object", "Destroy"));
                 c.TryGotoPrev(MoveType.After,
                 x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"));
-                //Debug.Log(c);
+                //WolfoMain.log.LogMessage(c);
                 c.EmitDelegate<System.Func<GameObject, GameObject>>((target) =>
                 {
                     return null;
@@ -255,11 +255,11 @@ namespace WolfoQoL_Client
 
 
 
-                Debug.Log("IL Found: Sale Star Range");
+                WolfoMain.log.LogMessage("IL Found: Sale Star Range");
             }
             else
             {
-                Debug.LogWarning("IL Failed: Sale Star Range");
+                WolfoMain.log.LogWarning("IL Failed: Sale Star Range");
             }
         }
 

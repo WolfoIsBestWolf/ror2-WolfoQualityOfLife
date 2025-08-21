@@ -33,7 +33,7 @@ namespace WolfoQoL_Client.Text
             {
                 GameObject ShopPortal = GameObject.Find("/PortalShop");
                 SceneDef tempscenedef = SceneCatalog.GetSceneDef((SceneIndex)self.NetworktargetSceneDefIndex);
-                //Debug.LogWarning(tempscenedef);
+                //WolfoMain.log.LogWarning(tempscenedef);
 
                 if (tempscenedef && ShopPortal)
                 {

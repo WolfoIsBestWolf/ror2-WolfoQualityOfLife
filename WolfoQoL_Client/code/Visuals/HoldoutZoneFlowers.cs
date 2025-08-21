@@ -39,7 +39,7 @@ namespace WolfoQoL_Client
             GlowFlowerForPillar.transform.GetChild(3).localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
 
-            //Debug.LogWarning(LeptonDaisyTeleporterDecoration);
+            //WolfoMain.log.LogWarning(LeptonDaisyTeleporterDecoration);
 
             On.RoR2.HoldoutZoneController.Awake += AddFlowersToMiscHoldoutZone;
 
@@ -64,7 +64,7 @@ namespace WolfoQoL_Client
                         }
                     }
                 }
-                //Debug.LogWarning("HoldoutZoneController.Start");
+                //WolfoMain.log.LogWarning("HoldoutZoneController.Start");
             };
 
         }
@@ -72,7 +72,7 @@ namespace WolfoQoL_Client
         private static void AddFlowersToMiscHoldoutZone(On.RoR2.HoldoutZoneController.orig_Awake orig, HoldoutZoneController self)
         {
             orig(self);
-            //Debug.LogWarning(self);
+            //WolfoMain.log.LogWarning(self);
             if (self.applyHealingNova)
             {
                 if (!self.healingNovaItemEffect)

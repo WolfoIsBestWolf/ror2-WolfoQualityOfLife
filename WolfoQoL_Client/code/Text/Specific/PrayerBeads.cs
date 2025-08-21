@@ -99,7 +99,7 @@ namespace WolfoQoL_Client.Text
 
         public static string GetPrayerBeadsToken(Inventory inventory, CharacterBody body, string tokenIn)
         {
-            //Debug.Log("PrayerBeads_Ovelay");
+            //WolfoMain.log.LogMessage("PrayerBeads_Ovelay");
             if (body == null)
             {
                 body = inventory.GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>();
@@ -122,7 +122,7 @@ namespace WolfoQoL_Client.Text
             string bonusStat1 = beadHealth.ToString("0.##");
             string bonusStat2 = beadRegen.ToString("0.##");
             string bonusStat3 = beadDamage.ToString("0.##");
-            //Debug.Log("Bead Levels " + bonusLevels);
+            //WolfoMain.log.LogMessage("Bead Levels " + bonusLevels);
             return string.Format(Language.GetString(tokenIn), bonusStat0, bonusStat1, bonusStat2, bonusStat3);
         }
 
@@ -130,7 +130,7 @@ namespace WolfoQoL_Client.Text
         {
             if (body == null)
             {
-                Debug.Log("PrayerBeads_Ovelay NullBody");
+                WolfoMain.log.LogMessage("PrayerBeads_Ovelay NullBody");
                 return;
             }
             if (!master.hasAuthority)

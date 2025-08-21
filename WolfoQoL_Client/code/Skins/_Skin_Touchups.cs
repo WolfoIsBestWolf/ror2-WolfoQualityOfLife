@@ -81,7 +81,7 @@ namespace WolfoQoL_Client.Skins
                 //orig(self);
                 SkinnedMeshRenderer temprender = EntityStates.Loader.ThrowPylon.projectilePrefab.transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
                 temprender.materials[1].mainTexture = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial.mainTexture;
-                //Debug.LogWarning("CHANGE LOADER PYLON");
+                //WolfoMain.log.LogWarning("CHANGE LOADER PYLON");
                 orig(self);
             };*/
         }
@@ -116,13 +116,13 @@ namespace WolfoQoL_Client.Skins
                 ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
                 if (childLocator == null)
                 {
-                    Debug.LogWarning("mdlMerc without childLocator");
+                    WolfoMain.log.LogWarning("mdlMerc without childLocator");
                     return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
                 }
                 Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
                 if (PreDashEffect == null)
                 {
-                    Debug.Log("mdlMerc without PreDashEffect");
+                    WolfoMain.log.LogMessage("mdlMerc without PreDashEffect");
                     return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
                 }
 
@@ -158,7 +158,7 @@ namespace WolfoQoL_Client.Skins
             {
                 return;
             }
-            Debug.Log(self + " User: " + changedNetworkUser.id.value);
+            WolfoMain.log.LogMessage(self + " User: " + changedNetworkUser.id.value);
 
             if (self.name.StartsWith("EngiDisplay"))
             {
@@ -183,7 +183,7 @@ namespace WolfoQoL_Client.Skins
 
                 Loadout temploadout = self.networkUser.networkLoadout.loadout;
                 BodyIndex Toolbot = BodyCatalog.FindBodyIndexCaseInsensitive("ToolbotBody");
-                //Debug.LogWarning(Croco);
+                //WolfoMain.log.LogWarning(Croco);
                 if (temploadout != null && self.networkUser.bodyIndexPreference == Toolbot)
                 {
                     int skill = (int)temploadout.bodyLoadoutManager.GetSkillVariant(Toolbot, 0);
@@ -192,7 +192,7 @@ namespace WolfoQoL_Client.Skins
                     var BodyLoadout = temploadout.bodyLoadoutManager.GetReadOnlyBodyLoadout(Toolbot);
                     SkillFamily family = BodyLoadout.GetSkillFamily(0);
                     ToolbotWeaponSkillDef toolBotSkill = (ToolbotWeaponSkillDef)family.variants[skill].skillDef;
-                    Debug.Log(toolBotSkill);
+                    WolfoMain.log.LogMessage(toolBotSkill);
 
                     Transform mdlToolbot = self.transform.GetChild(0).transform.GetChild(0);
                     Transform toolbase = mdlToolbot.Find("ToolbotArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/toolbase");

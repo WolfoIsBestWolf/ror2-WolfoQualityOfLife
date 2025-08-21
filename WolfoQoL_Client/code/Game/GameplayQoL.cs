@@ -63,7 +63,7 @@ namespace WolfoQoL_Client
                     InfiniteTowerRun itRun = Run.instance.GetComponent<InfiniteTowerRun>();
                     if (itRun && itRun.safeWardController)
                     {
-                        Debug.Log("it tp item back");
+                        WolfoMain.log.LogMessage("it tp item back");
                         TeleportHelper.TeleportGameObject(collider.gameObject, itRun.safeWardController.transform.position);
                         if (teleportEffectPrefab)
                         {
@@ -86,7 +86,7 @@ namespace WolfoQoL_Client
                         GameObject gameObject = DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(spawnCard, placementRule, RoR2Application.rng));
                         if (gameObject)
                         {
-                            //Debug.Log("tp item back");
+                            //WolfoMain.log.LogMessage("tp item back");
                             TeleportHelper.TeleportGameObject(collider.gameObject, gameObject.transform.position);
                             if (teleportEffectPrefab)
                             {

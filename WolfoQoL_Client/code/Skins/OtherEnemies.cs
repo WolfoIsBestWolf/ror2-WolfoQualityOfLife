@@ -92,7 +92,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("TwistedFire FAILED");
+                WolfoMain.log.LogWarning("TwistedFire FAILED");
             }
         }
 
@@ -119,7 +119,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                Debug.LogWarning("CharacterModel_UpdateOverlays FAILED");
+                WolfoMain.log.LogWarning("CharacterModel_UpdateOverlays FAILED");
             }
 
         }

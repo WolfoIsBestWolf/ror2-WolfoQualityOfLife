@@ -139,7 +139,7 @@ namespace WolfoQoL_Client.Text
             }
             else
             {
-                Debug.LogWarning("IL Failed: PurchaseInteraction_GetContextString");
+                WolfoMain.log.LogWarning("IL Failed: PurchaseInteraction_GetContextString");
             }
         }
 
@@ -245,7 +245,7 @@ namespace WolfoQoL_Client.Text
             }
             else
             {
-                Debug.LogWarning("IL Failed: SIL_PICKUP");
+                WolfoMain.log.LogWarning("IL Failed: SIL_PICKUP");
             }
         }
 
@@ -332,7 +332,7 @@ namespace WolfoQoL_Client.Text
                     }
 
                 }
-                Debug.Log(Chat.log[Chat.log.Count - 1]);
+                WolfoMain.log.LogMessage(Chat.log[Chat.log.Count - 1]);
             }
         }
 

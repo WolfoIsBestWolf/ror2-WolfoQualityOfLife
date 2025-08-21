@@ -70,7 +70,7 @@ namespace WolfoQoL_Client.DeathScreen
                         for (int i = 0; i < equipmentCount.Count; i++)
                         {
                             var pair = equipmentCount.ElementAt(i);
-                            //Debug.Log(pair.Key + " : " + pair.Value);
+                            //WolfoMain.log.LogMessage(pair.Key + " : " + pair.Value);
                             MakeEquipmentIcon(self.itemIcons[desiredItemCount + i], EquipmentCatalog.GetEquipmentDef(pair.Key), pair.Value);
                         }
                     }
@@ -84,7 +84,7 @@ namespace WolfoQoL_Client.DeathScreen
         
         public static void MakeEquipmentIcon(ItemIcon equipmentIcon, EquipmentDef equipmentDef, int stack)
         {
-            Debug.Log("Making EquipmentIcon");
+            WolfoMain.log.LogMessage("Making EquipmentIcon");
             equipmentIcon.GetComponent<ItemIcon>().SetItemIndex(RoR2Content.Items.BoostAttackSpeed.itemIndex, stack);
  
             equipmentIcon.GetComponent<UnityEngine.UI.RawImage>().texture = equipmentDef.pickupIconTexture;

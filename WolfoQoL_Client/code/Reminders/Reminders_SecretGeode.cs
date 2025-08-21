@@ -34,7 +34,7 @@ namespace WolfoQoL_Client.Reminders
             //Does not run on client for whatever reason
             //Collider event just happens on network ig?
             orig(self);
-            Debug.LogWarning("Secret Geode Reward");
+            WolfoMain.log.LogWarning("Secret Geode Reward");
             Object.Destroy(self.gameObject.GetComponent<GenericObjectiveProvider>());
         }
 
@@ -44,7 +44,7 @@ namespace WolfoQoL_Client.Reminders
             geodeInstance = self.geodeSecretMissionController;
             if (WConfig.cfgRemindersSecretGeode.Value)
             {
-                Debug.LogWarning("Secret Geode Start");
+                WolfoMain.log.LogWarning("Secret Geode Start");
                 if (geodeInstance.geodeInteractionsTracker == 0)
                 {
                     string text = string.Format(Language.GetString("REMINDER_SECRET_GEODE"), 0, self.geodeSecretMissionController.numberOfGeodesNecessary);
@@ -57,7 +57,7 @@ namespace WolfoQoL_Client.Reminders
         private static void GeodeObjective_Update(On.RoR2.GeodeSecretMissionController.orig_AdvanceGeodeSecretMission orig, GeodeSecretMissionController self)
         {
             orig(self);
-            Debug.LogWarning("Secret Geode Advance");
+            WolfoMain.log.LogWarning("Secret Geode Advance");
             GenericObjectiveProvider Objective = self.gameObject.GetComponent<GenericObjectiveProvider>();
             if (Objective)
             {
@@ -65,7 +65,7 @@ namespace WolfoQoL_Client.Reminders
                 Objective.objectiveToken = text;
                 if (self.numberOfGeodesNecessary <= self.geodeInteractionsTracker)
                 {
-                    Debug.LogWarning("Secret Geode Complete");
+                    WolfoMain.log.LogWarning("Secret Geode Complete");
                     Object.Destroy(Objective);
                 }
             }
@@ -82,7 +82,7 @@ namespace WolfoQoL_Client.Reminders
                     Reminders_Main.CompleteObjective(objective);
                     Object.Destroy(objective);
                 }
-                Debug.Log("Secret Geode End");
+                WolfoMain.log.LogMessage("Secret Geode End");
             }
         }
 

@@ -153,7 +153,7 @@ namespace WolfoQoL_Client.Reminders
         {
             if (!objective)
             {
-                Debug.Log("FailObjective Null Objective");
+                WolfoMain.log.LogMessage("FailObjective Null Objective");
                 return;
             }
             objective.markCompletedOnRetired = false;
@@ -164,7 +164,7 @@ namespace WolfoQoL_Client.Reminders
         {
             if (!objective)
             {
-                Debug.Log("CompleteObjective Null Objective");
+                WolfoMain.log.LogMessage("CompleteObjective Null Objective");
                 return;
             }
             objective.objectiveToken = "<color=#808080><s>" + objective.objectiveToken + "</color></s>";
@@ -173,7 +173,7 @@ namespace WolfoQoL_Client.Reminders
 
         private static void ClearReminders_OnFalseSon()
         {
-            //Debug.LogWarning("Secret Geode : End Early Boss");
+            //WolfoMain.log.LogWarning("Secret Geode : End Early Boss");
             GameObject SecretMission = GameObject.Find("/Meridian_Halcyonite_Encounter");
             if (SecretMission)
             {
@@ -331,7 +331,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (lockboxVoidCount > 0)
                 {
-                    Debug.Log("TreasureCacheVoidCount " + lockboxVoidCount);
+                    WolfoMain.log.LogMessage("TreasureCacheVoidCount " + lockboxVoidCount);
                     string token = string.Empty;
                     if (lockboxVoidCount > 1)
                     {
@@ -346,7 +346,7 @@ namespace WolfoQoL_Client.Reminders
                 }
                 if (lockboxCount > 0)
                 {
-                    Debug.Log("TreasureCacheCount " + lockboxCount);
+                    WolfoMain.log.LogMessage("TreasureCacheCount " + lockboxCount);
                     string token = string.Empty;
                     if (lockboxCount > 1)
                     {
@@ -364,7 +364,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (freeChestCount > 0)
                 {
-                    Debug.Log("FreeChestCount " + freeChestCount);
+                    WolfoMain.log.LogMessage("FreeChestCount " + freeChestCount);
                     string token = string.Empty;
                     if (freeChestCount > 1)
                     {
@@ -379,7 +379,7 @@ namespace WolfoQoL_Client.Reminders
                 }
                 if (voidFreeChestSpawned)
                 {
-                    Debug.Log("FreeChestVoid Reminder");
+                    WolfoMain.log.LogMessage("FreeChestVoid Reminder");
                     string token = Language.GetString("REMINDER_FREECHESTVOID");
                     Objective_FreeChestVVVoid = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     Objective_FreeChestVVVoid.objectiveToken = token;
@@ -391,7 +391,7 @@ namespace WolfoQoL_Client.Reminders
                 {
                     if (localHasRegenScrap)
                     {
-                        Debug.Log("Local RegenScrap Reminder");
+                        WolfoMain.log.LogMessage("Local RegenScrap Reminder");
                         string token = Language.GetString("REMINDER_REGENSCRAP");
                         Objective_RegenScrap = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                         Objective_RegenScrap.objectiveToken = token;
@@ -402,7 +402,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (localHasSaleStar)
                 {
-                    Debug.Log("Local SaleStar Reminder");
+                    WolfoMain.log.LogMessage("Local SaleStar Reminder");
                     string token = Language.GetString("REMINDER_SALESTAR");
                     Objective_SaleStar = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     Objective_SaleStar.objectiveToken = token;
@@ -412,7 +412,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (newtShrineSpawned > 0 || WConfig.cfgRemindersNewt.Value == WConfig.ReminderChoice.Always)
                 {
-                    Debug.Log("Newt Reminder");
+                    WolfoMain.log.LogMessage("Newt Reminder");
                     string token = Language.GetString("REMINDER_NEWT");
                     Objective_NewtShrine = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
                     Objective_NewtShrine.objectiveToken = token;
@@ -439,7 +439,7 @@ namespace WolfoQoL_Client.Reminders
                     //maximumKeysVoid += enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid);
                 }
             }
-            Debug.Log("Check if voided Lockbox reminder : " + maximumKeys);
+            WolfoMain.log.LogMessage("Check if voided Lockbox reminder : " + maximumKeys);
             ShouldRemoveKeyObjective(maximumKeys);
         }
 
@@ -475,7 +475,7 @@ namespace WolfoQoL_Client.Reminders
                 return;
             }
 
-            Debug.Log("TreasureCacheCount " + lockboxCount);
+            WolfoMain.log.LogMessage("TreasureCacheCount " + lockboxCount);
             if (lockboxCount > 0)
             {
                 string old = "(" + lockboxCount + "/";
@@ -496,7 +496,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 return;
             }
-            Debug.Log("TreasureCacheVoidCount " + lockboxVoidCount);
+            WolfoMain.log.LogMessage("TreasureCacheVoidCount " + lockboxVoidCount);
             if (lockboxVoidCount > 0)
             {
                 string old = "(" + lockboxVoidCount + "/";
@@ -517,7 +517,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 return;
             }
-            Debug.Log("FreeChestCount " + freeChestCount);
+            WolfoMain.log.LogMessage("FreeChestCount " + freeChestCount);
             if (freeChestCount > 0)
             {
                 string old = "(" + freeChestCount + "/";
@@ -543,7 +543,7 @@ namespace WolfoQoL_Client.Reminders
                 }
                 if (!master)
                 {
-                    Debug.LogWarning("Remove Sale Star Objective No master");
+                    WolfoMain.log.LogWarning("Remove Sale Star Objective No master");
                 }
                 if (master && master.TryGetComponent<PlayerCharacterMasterController>(out player))
                 {

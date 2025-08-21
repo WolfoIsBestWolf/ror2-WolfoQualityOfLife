@@ -57,7 +57,7 @@ namespace WolfoQoL_Client.Text
             bool preRecycle = self.Recycled;
             PickupIndex pre = self.NetworkpickupIndex;
             orig(self, reader, initialState);
-            //Debug.Log(pre + " | "+self.NetworkpickupIndex + " | "+self.Recycled);
+            //WolfoMain.log.LogMessage(pre + " | "+self.NetworkpickupIndex + " | "+self.Recycled);
 
             bool newPickup = pre != PickupIndex.none && pre != self.NetworkpickupIndex;
             bool justRecyled = preRecycle == false && self.Recycled == true;
@@ -133,7 +133,7 @@ namespace WolfoQoL_Client.Text
             }
             else
             {
-                Debug.LogWarning("IL Failed : AttemptToFixClients");
+                WolfoMain.log.LogWarning("IL Failed : AttemptToFixClients");
             }
         }
 
@@ -181,30 +181,30 @@ namespace WolfoQoL_Client.Text
             //x => x.MatchLdstr("?")
             ))
             {
-                //Debug.Log(c +"  Next:"+ c.Next.Operand);
+                //WolfoMain.log.LogMessage(c +"  Next:"+ c.Next.Operand);
                 var A = c.Next.Operand;
                 c.Index += 27; //UnIdeal
-                               //Debug.Log(c + "  Next:" + c.Next.Operand);
+                               //WolfoMain.log.LogMessage(c + "  Next:" + c.Next.Operand);
                 c.Emit(OpCodes.Ldloc_S, A);
                 c.EmitDelegate<Func<string, PickupIndex, string>>((text, pickupIndex) =>
                 {
                     PickupDef pickupDef = PickupCatalog.GetPickupDef(pickupIndex);
-                    //Debug.Log(pickupDef);
+                    //WolfoMain.log.LogMessage(pickupDef);
                     if (pickupDef != null)
                     {
                         string hex = ColorUtility.ToHtmlStringRGB(pickupDef.baseColor);
-                        //Debug.Log(text);
+                        //WolfoMain.log.LogMessage(text);
                         text = text.Replace("(", "(<color=#" + hex + ">");
                         text = text.Replace(")", "</color>)");
-                        //Debug.Log(text);
+                        //WolfoMain.log.LogMessage(text);
                     }
                     return text;
                 });
-                //Debug.Log("IL Found : IL.RoR2.UI.PingIndicator.RebuildPing");
+                //WolfoMain.log.LogMessage("IL Found : IL.RoR2.UI.PingIndicator.RebuildPing");
             }
             else
             {
-                Debug.LogWarning("IL Failed : IL.RoR2.UI.PingIndicator.RebuildPing");
+                WolfoMain.log.LogWarning("IL Failed : IL.RoR2.UI.PingIndicator.RebuildPing");
             }
         }
 
@@ -222,10 +222,10 @@ namespace WolfoQoL_Client.Text
             string survToken_WIN = "GENERIC_OUTRO_FLAVOR";
             string survToken_VANISH = "GENERIC_MAIN_ENDING_ESCAPE_FAILURE_FLAVOR";
 
-            Debug.Log(playerInfo.bodyIndex);
-            Debug.Log(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
+            WolfoMain.log.LogMessage(playerInfo.bodyIndex);
+            WolfoMain.log.LogMessage(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
             SurvivorDef survivorDef = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
-            Debug.Log(survivorDef);
+            WolfoMain.log.LogMessage(survivorDef);
 
             if (survivorDef)
             {
@@ -281,7 +281,7 @@ namespace WolfoQoL_Client.Text
         public static ItemIndex VanillaVoids_WatchBrokeItem = (ItemIndex)(-3);
         private static void TransformItem_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
-            /*Debug.Log(characterMaster + " | " +
+            /*WolfoMain.log.LogMessage(characterMaster + " | " +
                 oldIndex + " | " +
                 newIndex + " | " +
                 transformationType);*/
@@ -380,7 +380,7 @@ namespace WolfoQoL_Client.Text
 
         private static void TransformEquipment_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushEquipmentTransformNotification orig, CharacterMaster characterMaster, EquipmentIndex oldIndex, EquipmentIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
-            /*Debug.Log(characterMaster + " | " +
+            /*WolfoMain.log.LogMessage(characterMaster + " | " +
                   oldIndex + " | " +
                   newIndex + " | " +
                   transformationType);*/

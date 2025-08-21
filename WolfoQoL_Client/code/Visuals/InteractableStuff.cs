@@ -88,7 +88,7 @@ namespace WolfoQoL_Client
                 {
                     if (body)
                     {
-                        //Debug.Log(body + " : " + body.transform.position);
+                        //WolfoMain.log.LogMessage(body + " : " + body.transform.position);
                         GameObject gameObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/HippoRezEffect");
                         EffectManager.SpawnEffect(gameObject, new EffectData
                         {
@@ -102,7 +102,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("IL Failed : bro they forgot to make a rez effect2");
+                WolfoMain.log.LogWarning("IL Failed : bro they forgot to make a rez effect2");
             }
         }
 
@@ -181,7 +181,7 @@ namespace WolfoQoL_Client
                 }
                 var body = master.GetBodyObject();
 
-                Debug.Log(master.lostBodyToDeath + " " + body);
+                WolfoMain.log.LogMessage(master.lostBodyToDeath + " " + body);
 
 
                 //Extra SFX & VFX
@@ -316,7 +316,7 @@ namespace WolfoQoL_Client
         public void AddShrineIcon()
         {
             shrineStacks++;
-            Debug.Log("WQoL ExtraMountainIcon");
+            WolfoMain.log.LogMessage("WQoL ExtraMountainIcon");
             if (shrineStacks == 1)
             {
                 GameObject tempbossicon = TeleporterInteraction.instance.bossShrineIndicator;

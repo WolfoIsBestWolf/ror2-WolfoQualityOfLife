@@ -30,7 +30,7 @@ namespace WolfoQoL_Client
 
         private static void PlayerCharacterMasterController_SetBodyPrefabToPreference(On.RoR2.PlayerCharacterMasterController.orig_SetBodyPrefabToPreference orig, PlayerCharacterMasterController self)
         {
-            Debug.Log("PlayerCharacterMasterController_SetBodyPrefabToPreference");
+            WolfoMain.log.LogMessage("PlayerCharacterMasterController_SetBodyPrefabToPreference");
             orig(self);
             if (self.TryGetComponent<ItemLossBase_ClientListener>(out var a))
             {
@@ -76,7 +76,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("IL Failed : PurchaseInteraction_OnDeserialize");
+                WolfoMain.log.LogWarning("IL Failed : PurchaseInteraction_OnDeserialize");
             }
         }
 
@@ -92,7 +92,7 @@ namespace WolfoQoL_Client
                     PlayerItemLoss_ClientListener a;
                     if (inventory.TryGetComponent<PlayerItemLoss_ClientListener>(out a))
                     {
-                        //Debug.Log("Desearal Items");
+                        //WolfoMain.log.LogMessage("Desearal Items");
                         Array.Copy(inventory.itemStacks, a.prevItems, a.prevItems.Length);
                         a.prevEquip = inventory.currentEquipmentIndex;
                     }
@@ -101,7 +101,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("IL Failed : Inventory_OnDeserialize");
+                WolfoMain.log.LogWarning("IL Failed : Inventory_OnDeserialize");
             }
             c.TryGotoNext(MoveType.Before,
              x => x.MatchStfld("RoR2.Inventory", "equipmentDisabled"));
@@ -124,7 +124,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("IL Failed : Inventory_OnDeserialize");
+                WolfoMain.log.LogWarning("IL Failed : Inventory_OnDeserialize");
             }
         }
 
@@ -245,7 +245,7 @@ namespace WolfoQoL_Client
         {
             if (WolfoMain.HostHasMod)
             {
-                Debug.Log("Host has mod, removing Client Workaround : KillerInfo_ClientListener");
+                WolfoMain.log.LogMessage("Host has mod, removing Client Workaround : KillerInfo_ClientListener");
                 Destroy(this);
                 return;
             }
@@ -283,11 +283,11 @@ namespace WolfoQoL_Client
             }
             if (charBody.healthComponent.alive)
             {
-                Debug.Log("KillerInfo_ClientListener | Sending message but is Alive?" + charBody);
+                WolfoMain.log.LogMessage("KillerInfo_ClientListener | Sending message but is Alive?" + charBody);
             }
             if (killed)
             {
-                Debug.Log("KillerInfo_ClientListener | Already sent message, how are they dying again?" + charBody);
+                WolfoMain.log.LogMessage("KillerInfo_ClientListener | Already sent message, how are they dying again?" + charBody);
                 return; //Prevents multiple messages rarely
             }
             killed = true;
@@ -360,7 +360,7 @@ namespace WolfoQoL_Client
         {
             if (WolfoMain.HostHasMod)
             {
-                Debug.Log("Host has mod, removing Client Workaround : ItemLoss_ClientListener");
+                WolfoMain.log.LogMessage("Host has mod, removing Client Workaround : ItemLoss_ClientListener");
                 Destroy(this);
                 return;
             }
@@ -378,7 +378,7 @@ namespace WolfoQoL_Client
 
         public virtual void Inventory_onInventoryChanged()
         {
-            //Debug.Log("onInventoryChanged"+this.gameObject);
+            //WolfoMain.log.LogMessage("onInventoryChanged"+this.gameObject);
             latest = this;
         }
         public static void TryMessage()
@@ -390,7 +390,7 @@ namespace WolfoQoL_Client
         }
         public virtual void TryMessageInstance()
         {
-            //Debug.Log("TryMessageInstance"+this.gameObject);
+            //WolfoMain.log.LogMessage("TryMessageInstance"+this.gameObject);
         }
     }
 
@@ -403,7 +403,7 @@ namespace WolfoQoL_Client
             var a = GetComponent<DevotionInventoryController>().SummonerMaster;
             if (a == null)
             {
-                Debug.LogWarning("DevotionItemLoss Client Listener null Summoner Master");
+                WolfoMain.log.LogWarning("DevotionItemLoss Client Listener null Summoner Master");
             }
             subjectAsNetworkUser = a.playerCharacterMasterController.networkUser;
         }
@@ -432,7 +432,7 @@ namespace WolfoQoL_Client
             if (send)
             {
                 PickupDef def = PickupCatalog.FindPickupIndex((ItemIndex)item).pickupDef;
-                Debug.Log(def.internalName);
+                WolfoMain.log.LogMessage(def.internalName);
                 Chat.AddMessage(new DevotionMessage
                 {
                     //subjectAsNetworkUser = self._devotionInventoryController.SummonerMaster.playerCharacterMasterController.networkUserObject.GetComponent<NetworkUser>(),
@@ -496,7 +496,7 @@ namespace WolfoQoL_Client
                 int index = (int)DLC2Content.Items.LowerPricedChests.itemIndex;
                 int salePre = latest.prevItems[index];
                 int salePost = latest.inventory.itemStacks[index];
-                Debug.Log("SaleStar " + salePre + " " + salePost);
+                WolfoMain.log.LogMessage("SaleStar " + salePre + " " + salePost);
 
                 if (salePre > 0 && salePost == 0)
                 {
@@ -539,7 +539,7 @@ namespace WolfoQoL_Client
             }
             if (!succeeded)
             {
-                //Debug.Log("Attempted message with no differences.");
+                //WolfoMain.log.LogMessage("Attempted message with no differences.");
             }
             //Always set?
             forceEquip = false;
@@ -646,7 +646,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                Debug.LogWarning("EquipmentMessage but without Equipment?");
+                WolfoMain.log.LogWarning("EquipmentMessage but without Equipment?");
             }
             prevEquip = inventory.currentEquipmentIndex;
             return succeeded;

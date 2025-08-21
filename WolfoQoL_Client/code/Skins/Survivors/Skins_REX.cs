@@ -65,7 +65,7 @@ namespace WolfoQoL_Client.Skins
   {
       On.RoR2.Orbs.OrbEffect.Start += (orig, self) =>
       {
-          //Debug.LogWarning(self);
+          //WolfoMain.log.LogWarning(self);
           orig(self);
           if (self.name.StartsWith("EntangleOrbEffect(Clone)"))
           {
@@ -81,7 +81,7 @@ namespace WolfoQoL_Client.Skins
       On.EntityStates.FireFlower2.OnEnter += (orig, self) =>
       {
           //self.outer
-          //Debug.LogWarning("FireFlower2.OnEnter "+EntityStates.FireFlower2.projectilePrefab);
+          //WolfoMain.log.LogWarning("FireFlower2.OnEnter "+EntityStates.FireFlower2.projectilePrefab);
           if (self.outer.commonComponents.characterBody.skinIndex != REXSkinFlowerP)
           {
               REXSkinFlowerP = self.outer.commonComponents.characterBody.skinIndex;
@@ -95,7 +95,7 @@ namespace WolfoQoL_Client.Skins
 
       On.EntityStates.Treebot.TreebotFlower.SpawnState.OnEnter += (orig, self) =>
       {
-          //Debug.LogWarning("SpawnState.OnEnter " + self.outer.gameObject);
+          //WolfoMain.log.LogWarning("SpawnState.OnEnter " + self.outer.gameObject);
           orig(self);
           Material temp = self.outer.commonComponents.projectileController.owner.GetComponent<ModelLocator>().modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
 
@@ -107,9 +107,9 @@ namespace WolfoQoL_Client.Skins
 
       On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.OnEnter += (orig, self) =>
       {
-          //Debug.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
-          //Debug.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
-          //Debug.LogWarning(self.outer.gameObject);
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
+          //WolfoMain.log.LogWarning(self.outer.gameObject);
 
           uint utemp = self.outer.commonComponents.projectileController.owner.GetComponent<CharacterBody>().skinIndex;
           if (utemp != REXSkinFlowerEnter)
@@ -132,8 +132,8 @@ namespace WolfoQoL_Client.Skins
 
       On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.OnExit += (orig, self) =>
       {
-          //Debug.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
-          //Debug.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
           GameObject tempowner = self.outer.commonComponents.projectileController.owner;
           if (tempowner)
           {
@@ -191,7 +191,7 @@ namespace WolfoQoL_Client.Skins
               }
 
           }
-          //Debug.LogWarning("AimMortar2 " + self.projectilePrefab);
+          //WolfoMain.log.LogWarning("AimMortar2 " + self.projectilePrefab);
           orig(self);
       };
 

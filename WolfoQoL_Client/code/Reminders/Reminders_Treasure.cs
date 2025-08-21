@@ -23,7 +23,7 @@ namespace WolfoQoL_Client.Reminders
         private static void Clear_Star_Regen(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
             orig(characterMaster, oldIndex, newIndex, transformationType);
-            /*Debug.Log("PUSH" +
+            /*WolfoMain.log.LogMessage("PUSH" +
                 "\nC:" + characterMaster+
                 "\no" + oldIndex+
                 "\nn" + newIndex+
@@ -65,7 +65,7 @@ namespace WolfoQoL_Client.Reminders
         public static void FreeChestReminderUpdater_Host(On.RoR2.MultiShopController.orig_OnPurchase orig, MultiShopController self, Interactor interactor, PurchaseInteraction purchaseInteraction)
         {
             orig(self, interactor, purchaseInteraction);
-            //Debug.LogWarning(self);
+            //WolfoMain.log.LogWarning(self);
             if (!self.available && self.name.StartsWith("FreeChestMultiShop"))
             {
                 if (TreasureReminder.instance)

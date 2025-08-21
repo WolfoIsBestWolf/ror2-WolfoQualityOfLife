@@ -23,20 +23,20 @@ namespace WolfoQoL_Client.DeathScreen
             }
             if (playerInfo.master == null)
             {
-                Debug.LogWarning("Loadout Inventory : Null Master");
+                WolfoMain.log.LogWarning("Loadout Inventory : Null Master");
                 return;
             }
             if (playerInfo.master.loadout == null)
             {
-                Debug.LogWarning("Loadout Inventory : Null Loadout");
+                WolfoMain.log.LogWarning("Loadout Inventory : Null Loadout");
                 return;
             }
             if (playerInfo.master.loadout.bodyLoadoutManager == null)
             {
-                Debug.LogWarning("Loadout Inventory : Null BodyLoadoutManager");
+                WolfoMain.log.LogWarning("Loadout Inventory : Null BodyLoadoutManager");
                 return;
             }
-            Debug.Log("Add Loadout to run death screen");
+            WolfoMain.log.LogMessage("Add Loadout to run death screen");
             Loadout.BodyLoadoutManager.BodyLoadout loadout = playerInfo.master.loadout.bodyLoadoutManager.GetOrCreateModifiedBodyLoadout(playerInfo.bodyIndex);
 
             GameEndLoadoutAsStat storage = self.gameObject.GetComponent<GameEndLoadoutAsStat>();
@@ -147,7 +147,7 @@ namespace WolfoQoL_Client.DeathScreen
             GameObject bodyPrefab = BodyCatalog.GetBodyPrefab(loadout.bodyIndex);
             if (!bodyPrefab)
             {
-                Debug.LogWarning("Null BodyPrefab");
+                WolfoMain.log.LogWarning("Null BodyPrefab");
                 return;
             }
             Color color = bodyPrefab.GetComponent<CharacterBody>().bodyColor;
@@ -201,7 +201,7 @@ namespace WolfoQoL_Client.DeathScreen
                     }
                 }
                 
-                //Debug.Log(def);
+                //WolfoMain.log.LogMessage(def);
                 GameObject icon = new GameObject("SkillIcon");
                 icon.transform.SetParent(skills, false);
                 icon.AddComponent<Image>().sprite = def.icon;

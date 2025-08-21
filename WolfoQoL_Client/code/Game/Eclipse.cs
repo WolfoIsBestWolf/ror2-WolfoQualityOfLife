@@ -18,13 +18,13 @@ namespace WolfoQoL_Client
 
         private static DifficultyIndex EclipseRun_GetEclipseDifficultyIndex(On.RoR2.EclipseRun.orig_GetEclipseDifficultyIndex orig, int eclipseLevel)
         {
-            Debug.Log("EclipseLevel" + orig(eclipseLevel));
+            WolfoMain.log.LogMessage("EclipseLevel" + orig(eclipseLevel));
             return orig(eclipseLevel);
         }
 
         private static void EclipseRun_OverrideRuleChoices(On.RoR2.EclipseRun.orig_OverrideRuleChoices orig, EclipseRun self, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude, ulong runSeed)
         {
-            Debug.Log("EclipseRuleoverride");
+            WolfoMain.log.LogMessage("EclipseRuleoverride");
             orig(self, mustInclude, mustExclude, runSeed);
 
 

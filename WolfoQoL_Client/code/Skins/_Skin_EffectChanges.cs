@@ -247,7 +247,7 @@ namespace WolfoQoL_Client.Skins
         public static void Activate(GameObject prefab, int i)
         {
             //IF any saftey checks needed, we can all uniformly put them here.
-            //Debug.Log(prefab + " | " + i);
+            //WolfoMain.log.LogMessage(prefab + " | " + i);
             EffectReplacer effectReplacer;
             if (prefab.TryGetComponent(out effectReplacer))
             {
@@ -257,7 +257,7 @@ namespace WolfoQoL_Client.Skins
 
         private void SetReplacement(int i)
         {
-            //Debug.Log("ActivateReplacement "+i);
+            //WolfoMain.log.LogMessage("ActivateReplacement "+i);
             if (i == lastSeenCase)
             {
                 return;

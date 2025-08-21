@@ -59,6 +59,7 @@ namespace WolfoQoL_Client.Text
 
 
             AssignName();
+            //Why isn't this on the body?
         }
         public void OnDisable()
         {
@@ -70,11 +71,12 @@ namespace WolfoQoL_Client.Text
             {
                 inventory.onEquipmentChangedClient -= Inventory_onEquipmentChangedClient;
             }
-
         }
+
         private void Master_onBodyStart(CharacterBody obj)
         {
-            body = obj;
+            body = obj; 
+            lastEquipmentIndex = inventory.currentEquipmentIndex;
             AssignName();
         }
 
@@ -91,22 +93,26 @@ namespace WolfoQoL_Client.Text
 
         public void AssignName()
         {
-            if (body && lastEquipmentIndex != EquipmentIndex.None)
+            if (body)
             {
-                if (inventory.currentEquipmentIndex == DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
+                if (lastEquipmentIndex != EquipmentIndex.None)
                 {
-                    body.baseNameToken = "EQUIPMENTDRONE_BODY_NAME";
-                }
-                else
-                {
-                    if (WConfig.cfgEquipmentDroneName.Value == WConfig.ColorOrNot.Colored)
+                    if (lastEquipmentIndex == DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
                     {
-                        body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Help.GetColoredName(inventory.currentEquipmentIndex) + ")";
+                        body.baseNameToken = "EQUIPMENTDRONE_BODY_NAME";
+                        return;
                     }
                     else
                     {
-                        EquipmentDef equip = EquipmentCatalog.GetEquipmentDef(inventory.currentEquipmentIndex);
-                        body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(equip.nameToken) + ")";
+                        if (WConfig.cfgEquipmentDroneName.Value == WConfig.ColorOrNot.Colored)
+                        {
+                            body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Help.GetColoredName(inventory.currentEquipmentIndex) + ")";
+                        }
+                        else
+                        {
+                            EquipmentDef equip = EquipmentCatalog.GetEquipmentDef(inventory.currentEquipmentIndex);
+                            body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(equip.nameToken) + ")";
+                        }
                     }
                 }
             }

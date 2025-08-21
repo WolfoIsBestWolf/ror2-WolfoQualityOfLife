@@ -38,6 +38,23 @@ namespace WolfoQoL_Client
         public static Color VoidDefault = new Color(0.8211f, 0.5f, 1, 1);
         public static Color VoidFocused = new Color(0f, 3.9411764f, 5f, 1f);
 
+        public static void SetAllIcons(GameObject obj, Sprite sprite)
+        {
+            if (obj.TryGetComponent<PingInfoProvider>(out var ping))
+            {
+                ping.pingIconOverride = sprite;
+            }
+            else
+            {
+                obj.AddComponent<PingInfoProvider>().pingIconOverride = sprite;
+            }
+            if (obj.TryGetComponent<GenericInspectInfoProvider>(out var inspect))
+            {
+                inspect.InspectInfo.Info.Visual = sprite;
+            }
+            
+        }
+
         public static void Start()
         {
             Pings_Other();
@@ -412,7 +429,7 @@ namespace WolfoQoL_Client
         private static void VoidCell_DestroyIndicator(On.EntityStates.Missions.Arena.NullWard.Complete.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.Complete self)
         {
             orig(self);
-            Debug.Log("Destroy NullCell Indicator");
+            WolfoMain.log.LogMessage("Destroy NullCell Indicator");
             Object.Destroy(NullTempPosIndicator);
             self.outer.gameObject.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_TintColor", VoidDefault);
 
@@ -457,7 +474,7 @@ namespace WolfoQoL_Client
             InteractableSpawnCard[] ISCList = Resources.FindObjectsOfTypeAll(typeof(InteractableSpawnCard)) as InteractableSpawnCard[];
             for (var i = 0; i < ISCList.Length; i++)
             {
-                //Debug.LogWarning(ISCList[i]);
+                //WolfoMain.log.LogWarning(ISCList[i]);
                 switch (ISCList[i].name)
                 {
                     case "iscDroneTable":
@@ -496,11 +513,11 @@ namespace WolfoQoL_Client
             }
 
             //This is stupidd idk how else to find stuff like Broken Han-d
-            //Debug.LogWarning(RedMercSkin.MercSwordSlashRed.transform.parent);
+            //WolfoMain.log.LogWarning(RedMercSkin.MercSwordSlashRed.transform.parent);
             RoR2.ModelLocator.DestructionNotifier[] moddedPurchasesList = Resources.FindObjectsOfTypeAll(typeof(RoR2.ModelLocator.DestructionNotifier)) as RoR2.ModelLocator.DestructionNotifier[];
             for (var i = 0; i < moddedPurchasesList.Length; i++)
             {
-                //Debug.LogWarning(moddedPurchasesList[i]);
+                //WolfoMain.log.LogWarning(moddedPurchasesList[i]);
                 switch (moddedPurchasesList[i].name)
                 {
                     case "BrokenJanitorInteractable":
