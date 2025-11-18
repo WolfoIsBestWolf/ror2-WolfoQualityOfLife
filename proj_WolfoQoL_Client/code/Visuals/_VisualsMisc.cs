@@ -1,0 +1,317 @@
+﻿using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using R2API;
+using RoR2;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering.PostProcessing;
+
+namespace WolfoQoL_Client
+{
+    public class VisualsMisc
+    {
+
+        public static void Start()
+        {
+
+
+
+            bool otherMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("0p41.Sots_Items_Reworked");
+            if (!otherMod)
+            {
+                //This like runs for every character in the game for a very minor benefit idk if that's really worth it.
+                IL.RoR2.InteractionDriver.MyFixedUpdate += BiggerSaleStarRange;
+            }
+
+            Material matChild = Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/Child/matChild.mat").WaitForCompletion();
+            matChild.SetFloat("_EliteBrightnessMax", 1.09f); //2.18
+            matChild.SetFloat("_EliteBrightnessMin", -0.7f); //-1.4
+
+            //Bigger I think?
+            GameObject LowerPricedChestsGlow = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow");
+            LowerPricedChestsGlow.transform.GetChild(0).localPosition = new Vector3(0, 0.6f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(1).localPosition = new Vector3(0, 0.6f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(2).localPosition = new Vector3(0, 0.4f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(3).localPosition = new Vector3(0, 0.7f, 0f);
+            LowerPricedChestsGlow.transform.GetChild(3).localScale = new Vector3(1, 1.4f, 1f);
+
+            #region LunarScavLunarBeadBead
+            GivePickupsOnStart.ItemDefInfo Beads = new GivePickupsOnStart.ItemDefInfo { itemDef = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/LunarTrinket"), count = 1, dontExceedCount = true };
+            GivePickupsOnStart.ItemDefInfo[] ScavLunarBeadsGiver = new GivePickupsOnStart.ItemDefInfo[] { Beads };
+
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").AddComponent<GivePickupsOnStart>().itemDefInfos = ScavLunarBeadsGiver;
+            #endregion
+
+            #region Captain Shock Beacon Radius
+            GameObject CaptainShockBeaconRadius = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Hacking.prefab").WaitForCompletion().transform.GetChild(2).GetChild(0).GetChild(4).gameObject, "ShockIndicator", false);
+            Material CaptainHackingBeaconIndicatorMaterial = Object.Instantiate(CaptainShockBeaconRadius.transform.GetChild(0).GetComponent<MeshRenderer>().material);
+            CaptainHackingBeaconIndicatorMaterial.SetColor("_TintColor", new Color(0, 0.4f, 0.8f, 1f));
+            CaptainShockBeaconRadius.transform.GetChild(0).GetComponent<MeshRenderer>().material = CaptainHackingBeaconIndicatorMaterial;
+            CaptainShockBeaconRadius.transform.localScale = new Vector3(6.67f, 6.67f, 6.67f);
+
+
+            GameObject shockBeacon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Captain/CaptainSupplyDrop, Shocking.prefab").WaitForCompletion();
+            shockBeacon.transform.GetChild(2).GetChild(0).gameObject.AddComponent<InstantiateGameObjectAtLocation>().objectToInstantiate = CaptainShockBeaconRadius;
+            #endregion
+
+
+            //UI spreading like how charging works on other characters
+            On.EntityStates.VoidSurvivor.Weapon.ReadyMegaBlaster.OnEnter += (orig, self) =>
+            {
+                orig(self);
+                self.characterBody.AddSpreadBloom(0.4f);
+            };
+            On.EntityStates.VoidSurvivor.Weapon.ReadyMegaBlaster.FixedUpdate += (orig, self) =>
+            {
+                orig(self);
+                self.characterBody.SetSpreadBloom(0.2f, true);
+            };
+
+
+
+            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion();
+            /*On.RoR2.ShopTerminalBehavior.PreStartClient += (orig, self) =>
+            {
+                orig(self);
+                if (self.name.StartsWith("Duplicator"))
+                {
+                    if (self.pickupIndex != PickupIndex.none && self.pickupIndex.pickupDef.isLunar)
+                    {
+                        GameObject LunarInfection = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/LunarInfectionSmallMesh.prefab").WaitForCompletion(), self.gameObject.transform,false);
+                        LunarInfection.transform.localPosition = new Vector3(-1.2f, 1.6f, -0.45f);
+                        LunarInfection.transform.localScale = new Vector3(0.35f, 0.6f, 0.6f);
+                        LunarInfection.transform.localEulerAngles = new Vector3(345f, 330f, 270f);
+
+                    }
+                }
+            }; */
+
+
+
+            SceneDef rootjungle = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/Base/rootjungle/rootjungle.asset").WaitForCompletion();
+            MusicTrackDef MusicSulfurPoolsBoss = Addressables.LoadAssetAsync<MusicTrackDef>(key: "RoR2/DLC1/Common/muBossfightDLC1_12.asset").WaitForCompletion();
+            rootjungle.bossTrack = MusicSulfurPoolsBoss;
+
+            GameObject MiniGeodeBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/MiniGeodeBody.prefab").WaitForCompletion();
+            MiniGeodeBody.transform.localScale = Vector3.one * 1.5f;
+            Light geode = MiniGeodeBody.transform.GetChild(0).GetChild(2).GetComponent<Light>();
+            geode.range = 25;
+            geode.intensity = 8;
+
+
+
+
+            GameObject NoCooldownEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/KillEliteFrenzy/NoCooldownEffect.prefab").WaitForCompletion();
+            NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().priority = 2;
+            var profile = NoCooldownEffect.GetComponentInChildren<PostProcessVolume>().sharedProfile;
+            //(profile.settings[0] as ColorGrading).lift.value *= 0.5f;  //1 0.8043 0.9415 0
+            //(profile.settings[0] as ColorGrading).saturation.value = 17f; //34.2
+
+
+
+            PostProcessProfile ppLocalMeteorStorm = Addressables.LoadAssetAsync<PostProcessProfile>(key: "affc373eac3cb4c43b38adc2c7a61451").WaitForCompletion();
+            (ppLocalMeteorStorm.settings[1] as ColorGrading).postExposure.value = 0.2f;
+            //ppLocalMeteorStorm.settings[2].active = false; //Vignette
+
+
+            //Operator Drone Jump Visiblity
+            GameObject DroneTrackingIndicator = Addressables.LoadAssetAsync<GameObject>(key: "54d961ee6ebdb68419804536906b4ab7").WaitForCompletion();
+            //0 0.2863 0.2902 0.5176
+            int i = 0;
+            foreach (SpriteRenderer sprite in DroneTrackingIndicator.GetComponentsInChildren<SpriteRenderer>())
+            {
+                if (i == 0)
+                {
+                    i++;
+                }
+                else
+                {
+                    sprite.color = new Color(0.122f, 0.937f, 0.678f, 1);
+                }
+            }
+            //
+
+
+            On.EntityStates.SolusWing2.Mission5Death.OnEnter += RestartMusicAfterSolusWing;
+            DifficultyColors();
+
+            //Parry Success play sound again(?)
+            GameObject parryEffect = Addressables.LoadAssetAsync<GameObject>(key: "c6f87be1350f96b4c8545a4ae7f22207").WaitForCompletion();
+            //SFX doesnt play again if effect is restarted, so we'll just not pool it ig.
+            parryEffect.GetComponent<VFXAttributes>().DoNotPool = true;
+            PlaySoundOnEvent parry = parryEffect.AddComponent<PlaySoundOnEvent>();
+            parry.soundEvent = "Play_item_proc_extraShrineItem";
+            parry.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Start;
+            parry = parryEffect.AddComponent<PlaySoundOnEvent>();
+            parry.soundEvent = "Play_item_proc_extraShrineItem";
+            parry.triggeringEvent = PlaySoundOnEvent.PlaySoundEvent.Start;
+
+        }
+
+        private static void DifficultyColors()
+        {
+            Color eclipseColor = new Color(0.2f, 0.22f, 0.4f, 1);
+
+            DifficultyCatalog.difficultyDefs[3].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[4].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[5].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[6].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[7].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[8].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[9].color = eclipseColor;
+            DifficultyCatalog.difficultyDefs[10].color = eclipseColor;
+
+            DifficultyCatalog.difficultyDefs[3].serverTag = "e1";
+            DifficultyCatalog.difficultyDefs[4].serverTag = "e2";
+            DifficultyCatalog.difficultyDefs[5].serverTag = "e3";
+            DifficultyCatalog.difficultyDefs[6].serverTag = "e4";
+            DifficultyCatalog.difficultyDefs[7].serverTag = "e5";
+            DifficultyCatalog.difficultyDefs[8].serverTag = "e6";
+            DifficultyCatalog.difficultyDefs[9].serverTag = "e7";
+            DifficultyCatalog.difficultyDefs[10].serverTag = "e8";
+        }
+        private static void RestartMusicAfterSolusWing(On.EntityStates.SolusWing2.Mission5Death.orig_OnEnter orig, EntityStates.SolusWing2.Mission5Death self)
+        {
+            orig(self);
+            self.solutionalHauntReferences.PostFightMusic.AddComponent<DestroyOnTimer>().duration = 10;
+        }
+
+
+
+        private static void BiggerSaleStarRange(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.After,
+            x => x.MatchLdsfld("RoR2.DLC2Content/Items", "LowerPricedChests"));
+
+            if (c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "currentInteractable")))
+            {
+
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<System.Func<GameObject, InteractionDriver, GameObject>>((target, interactionDriver) =>
+                {
+                    if (interactionDriver.networkIdentity.hasAuthority) //Only players
+                    {
+                        //IS checkign for an item less intensive
+                        //Or checking for every interactable in a decent radius
+                        if (interactionDriver.characterBody.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0)
+                        {
+                            if (target == null)
+                            {
+                                /*if (interactionDriver.interactableCheckCooldown > 0f)
+                                {
+                                    return interactionDriver.currentInteractable;
+                                }
+                                //What?
+                                interactionDriver.interactableCheckCooldown = 0f;*/
+                                float num = 0f;
+                                float num2 = interactionDriver.interactor.maxInteractionDistance * 2f;
+
+                                Vector3 vector = interactionDriver.inputBank.aimOrigin;
+                                Vector3 vector2 = interactionDriver.inputBank.aimDirection;
+                                if (interactionDriver.useAimOffset)
+                                {
+                                    Vector3 a = vector + vector2 * num2;
+                                    vector = interactionDriver.inputBank.aimOrigin + interactionDriver.aimOffset;
+                                    vector2 = (a - vector) / num2;
+                                }
+                                Ray originalAimRay = new Ray(vector, vector2);
+                                Ray raycastRay = CameraRigController.ModifyAimRayIfApplicable(originalAimRay, interactionDriver.gameObject, out num);
+                                target = interactionDriver.interactor.FindBestInteractableObject(raycastRay, num2 + num, originalAimRay.origin, num2);
+                            }
+                            ;
+                            if (target)
+                            {
+                                PurchaseInteraction component = target.GetComponent<PurchaseInteraction>();
+                                if (component != null && component.saleStarCompatible && !interactionDriver.saleStarEffect)
+                                {
+                                    interactionDriver.saleStarEffect = UnityEngine.Object.Instantiate<GameObject>(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/LowerPricedChestsGlow"), target.transform.position, Quaternion.identity, target.transform);
+                                    return null;
+                                }
+                            }
+                            else if (interactionDriver.saleStarEffect)
+                            {
+                                UnityEngine.Object.Destroy(interactionDriver.saleStarEffect);
+                                return null;
+                            }
+                        }
+                        else if (interactionDriver.saleStarEffect)
+                        {
+                            if (!interactionDriver.saleStarEffect.GetComponent<ObjectScaleCurve>())
+                            {
+                                AnimationCurve newCurve = new AnimationCurve
+                                {
+                                    keys = new Keyframe[]
+                                      {
+                                            new Keyframe(0f,1f),
+                                            new Keyframe(0.25f,1.05f),
+                                            new Keyframe(1f,0f)
+                                      },
+                                    postWrapMode = WrapMode.Once,
+                                    preWrapMode = WrapMode.Once,
+                                };
+
+                                //UnityEngine.Object.Destroy(interactionDriver.saleStarEffect);
+                                interactionDriver.saleStarEffect.AddComponent<ObjectScaleCurve>();
+                                ObjectScaleCurve scale = interactionDriver.saleStarEffect.transform.GetChild(2).gameObject.AddComponent<ObjectScaleCurve>();
+                                scale.overallCurve = newCurve;
+                                scale.useOverallCurveOnly = true;
+                                scale.timeMax = 1.1f;
+                                scale = interactionDriver.saleStarEffect.transform.GetChild(3).gameObject.AddComponent<ObjectScaleCurve>();
+                                scale.overallCurve = newCurve;
+                                scale.useOverallCurveOnly = true;
+                                scale.timeMax = 1.1f;
+                                scale = interactionDriver.saleStarEffect.transform.GetChild(0).gameObject.AddComponent<ObjectScaleCurve>();
+                                scale.overallCurve = newCurve;
+                                scale.useOverallCurveOnly = true;
+                                scale.timeMax = 1.1f;
+                                Object.Destroy(interactionDriver.saleStarEffect, 1.6f);
+                            }
+                            return null;
+                        }
+                    }
+                    return null;
+                });
+
+                c.TryGotoNext(MoveType.Before,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"),
+                x => x.MatchCall("UnityEngine.Object", "Destroy"));
+                c.TryGotoNext(MoveType.Before,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"),
+                x => x.MatchCall("UnityEngine.Object", "Destroy"));
+                c.TryGotoPrev(MoveType.After,
+                x => x.MatchLdfld("RoR2.InteractionDriver", "saleStarEffect"));
+                //WolfoMain.log.LogMessage(c);
+                c.EmitDelegate<System.Func<GameObject, GameObject>>((target) =>
+                {
+                    return null;
+                });
+
+
+
+                //WQoLMain.log.LogMessage("IL Found: Sale Star Range");
+            }
+            else
+            {
+                WQoLMain.log.LogWarning("IL Failed: Sale Star Range");
+            }
+        }
+
+
+
+        public class InstantiateGameObjectAtLocation : MonoBehaviour
+        {
+            public GameObject objectToInstantiate;
+
+            public void Start()
+            {
+                Instantiate(objectToInstantiate, this.transform);
+            }
+        }
+    }
+
+}

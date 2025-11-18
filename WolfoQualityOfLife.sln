@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfoQoL_Server", "WolfoQoL_Server\WolfoQoL_Server.csproj", "{EA822E74-53B7-4253-AF83-3659C9AE0C5F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfoQoL_Client", "WolfoQoL_Client\WolfoQoL_Client.csproj", "{25A149A1-D057-4EF0-BC21-F4B33C2E5108}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfoFixes", "..\ror2-WolfFixes\proj_WolfoFixes\WolfoFixes.csproj", "{82827C56-CA0D-489F-937D-3C2D6105C367}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfoLibrary", "..\ror2-WolfFixes\proj_WolfoLibrary\WolfoLibrary.csproj", "{8FBED6E2-FE6C-4E1C-89BC-7C5B48DCE79D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfoQoL_Client", "proj_WolfoQoL_Client\WolfoQoL_Client.csproj", "{56789B20-F93D-BA48-E9EC-8A573F293BB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfoQoL_Server", "proj_WolfoQoL_Server\WolfoQoL_Server.csproj", "{4516E5C0-2CC3-5D42-62EA-5B081969C226}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WQoL_Gameplay", "proj_WQoL_Gameplay\WQoL_Gameplay.csproj", "{7A7D8CC3-E48D-5280-2AF4-C256E6E4EF19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +19,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EA822E74-53B7-4253-AF83-3659C9AE0C5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA822E74-53B7-4253-AF83-3659C9AE0C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA822E74-53B7-4253-AF83-3659C9AE0C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA822E74-53B7-4253-AF83-3659C9AE0C5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25A149A1-D057-4EF0-BC21-F4B33C2E5108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25A149A1-D057-4EF0-BC21-F4B33C2E5108}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25A149A1-D057-4EF0-BC21-F4B33C2E5108}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25A149A1-D057-4EF0-BC21-F4B33C2E5108}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82827C56-CA0D-489F-937D-3C2D6105C367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82827C56-CA0D-489F-937D-3C2D6105C367}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82827C56-CA0D-489F-937D-3C2D6105C367}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82827C56-CA0D-489F-937D-3C2D6105C367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FBED6E2-FE6C-4E1C-89BC-7C5B48DCE79D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FBED6E2-FE6C-4E1C-89BC-7C5B48DCE79D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FBED6E2-FE6C-4E1C-89BC-7C5B48DCE79D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FBED6E2-FE6C-4E1C-89BC-7C5B48DCE79D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56789B20-F93D-BA48-E9EC-8A573F293BB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56789B20-F93D-BA48-E9EC-8A573F293BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56789B20-F93D-BA48-E9EC-8A573F293BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56789B20-F93D-BA48-E9EC-8A573F293BB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4516E5C0-2CC3-5D42-62EA-5B081969C226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4516E5C0-2CC3-5D42-62EA-5B081969C226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4516E5C0-2CC3-5D42-62EA-5B081969C226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4516E5C0-2CC3-5D42-62EA-5B081969C226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A7D8CC3-E48D-5280-2AF4-C256E6E4EF19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A7D8CC3-E48D-5280-2AF4-C256E6E4EF19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A7D8CC3-E48D-5280-2AF4-C256E6E4EF19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A7D8CC3-E48D-5280-2AF4-C256E6E4EF19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

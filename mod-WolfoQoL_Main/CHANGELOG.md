@@ -1,5 +1,130 @@
 #Changelog
 ```
+v5.0.0 - Updated for Alloyed Collect - DLC3
+
+
+Added more categorical config, to turn off major parts of the mod more easily.
+Split gameplay qol into it's own.
+
+ 
+Added support for new content. 
+- Ping Icons and all that
+- New Merc Skin: Pink Effects
+- New Rex Skin: New Vines
+
+  
+Option for Finding Halcyon Shrine Reminder (Off Default)
+Option for Finding Access Node Reminder (Off Default)
+Conduit Canyon Objectives now show progress of how many keys were installed (x/3)
+
+
+Logbook
+-Survivor & Monster Pages now show more stats, that are tracked in the base game.
+-Drone Logbook Section now includes all allies.
+-Drone Log Icon now light blue instead of red.
+-Drone Pages will show additional info:
+ 
+--Some Drone descriptions are a bit more informative.
+--Drone Logbook now shows what unique upgrade they get from combining.
+--Drone Logbook now shows Operator Admin command.
+--Drone Base Cost
+ 
+
+Message for repairing Drones
+Message for scrapping Drones
+Message for combining Drones
+Message for remote operating Drones.
+Message for cooking.
+(Should all work for Clients even if Host does not have mod)
+
+Death Screen:
+-Redone Stage Recap to be column
+-Turrets now count toward the Drones repaired stat.
+-Devotion runs will now count Lemurian things instead of Drone things.
+-Custom tracked stats & Run Stage Recap no longer show up on Save&Reloaded runs.
+--Since tracked progress is lost.
+-Removed Most Killed Monster. (Not varied enough)
+
+Added updated icon for Mini Mushroom,  Devoted Lemurians
+
+
+EclipseUI; Number now shows next Eclipse Level to complete & Border upon beating E8.
+
+
+Moved "Golden Dieback leaves" on loop Prime Meridian and Reformed Altar here.
+
+
+Operator "Jump to drone" indicator more visible.
+Scorchling Particles follow them midair, to show them falling off ledges, instead of invisible.
+Jailed Buff now has unique icon.
+Solutional Haunt music restarts post fight.
+(Default Off)Prestige makes Mountain Shrine Icons pink like in returns
+
+Cloaked Chests slightly more visible.
+Updated some ping icons.
+Added some more config.
+
+Fixed GreenMerc Slicing Winds effect not spawning.
+Fixed SimuStagesInLog config not working.
+Fixed SimuStagesInLog appearing without SotV.
+Fixed DeathMessage damage value not accounting for crit, and some items.
+Fixed Specific Item messages {0} instead of player name for multiplayer.
+Fixed Newt Reminder showing up on Clients, if Teleporter started with Blue Orb.
+Log no longer spams "This stat does not exist"
+Removed Twisted playing a false son sound on spawn.
+
+
+-
+
+   
+
+evolution item added fukin quote
+
+  
+(TODO)Mountain Shrines no longer get disabled by the teleporter during Prestige.
+(TODO)Mountain Shrines from Prestige will now be Sandy/Snowy in relevant areas.
+ 
+
+Make Operator drone skins for alt skin idk
+
+ 
+
+ 
+
+
+sort passives specifically first
+ 
+can we exit to lobby instead of exit toscreen on win
+  
+minigeodebody on radar scanner?
+
+do fucking make the blue lunar coin bg color better it just bothers me dude i hate that it bothers me
+ 
+ 
+ 
+
+try setting elite shader index of titan fist
+what if we just elite ramp on balls elite balls
+ 
+
+ 
+Parry success sound effect or smth
+
+ 
+(TODO)Passive visible next to class icon on tab.
+ 
+
+(TODO)MoVe Lem Inv display maybe
+ 
+Substandard Duplicator pickup thing suggest (else add)
+ 
+ 
+
+TODO Combat Shrine mention elite type OR
+Collective Combat shrine just mention collective summon
+
+```
+```
 v4.3.1
 Stat showing what Minion type dealt the most damage
 Tooltip for damage stats will show % of Total Run damage was done by that category. (ie 90% done by you, 10% done by minions)
@@ -757,10 +882,4 @@ v1.1.0
 * Added Position Indicator to Void Field Cells
 
 v1.0.0 - Release.
-```
-```
-v5.0.0
-
-Drone buy message including count of drone
-Drone upgrade message
 ```
