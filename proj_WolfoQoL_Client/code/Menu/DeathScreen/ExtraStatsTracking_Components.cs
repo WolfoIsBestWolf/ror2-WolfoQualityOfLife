@@ -485,16 +485,16 @@ namespace WolfoQoL_Client.DeathScreen
             //If wasn't hit in the last short while
             //But still died
             //Then probably was due to Suicide or Negative Regen
-            if (body && body.timeSinceLastHit < 0.1f)
+            if (body)
             {
                 //Only count deaths that matter
-                if (this.GetComponent<SetDontDestroyOnLoad>() && !this.GetComponent<MasterSuicideOnTimer>())
+                if (DroneCollection.isPermamentMinion(this.gameObject))
                 {
                     WQoLMain.log.LogMessage(this.gameObject.name + " died");
                     //Chat.AddMessage(this.gameObject.name + " died");
-
                     tracker.minionDeaths++;
                 }
+ 
 
             }
 

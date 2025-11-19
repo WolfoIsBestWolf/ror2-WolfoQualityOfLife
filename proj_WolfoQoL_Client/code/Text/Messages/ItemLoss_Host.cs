@@ -12,10 +12,16 @@ namespace WolfoQoL_Client.Text
 
         public static void Start()
         {
-            IL.RoR2.PurchaseInteraction.OnInteractionBegin += ItemGiveUpMessages;
+            //Needed for tracking other junk
             IL.RoR2.ScrapperController.BeginScrapping_UniquePickup += ScrappingMessage;
             On.RoR2.DroneScrapperController.TryDestroyDrone += DroneScrapperController_TryDestroyDrone;
 
+            if (!WConfig.module_text_chat.Value)
+            {
+                return;
+            }
+            IL.RoR2.PurchaseInteraction.OnInteractionBegin += ItemGiveUpMessages;
+            
             //On.RoR2.ScrapperController.BeginScrapping += Old_ScrappingMessage;
 
             //On.EntityStates.QuestVolatileBattery.CountDown.OnExit += CountDown_OnExit;
@@ -259,7 +265,10 @@ namespace WolfoQoL_Client.Text
                     return null;
                 }
             }
-
+            if (!WConfig.module_text_chat.Value)
+            {
+                return null;
+            }
 
             if (base.IsSecondPerson())
             {

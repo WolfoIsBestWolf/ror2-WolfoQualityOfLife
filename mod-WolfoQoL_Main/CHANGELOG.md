@@ -3,7 +3,7 @@
 v5.0.0 - Updated for Alloyed Collect - DLC3
 
 
-Added more categorical config, to turn off major parts of the mod more easily.
+Added 9 categorical config, to turn off major parts of the mod more easily.
 Split gameplay qol into it's own.
 
  
@@ -12,18 +12,19 @@ Added support for new content.
 - New Merc Skin: Pink Effects
 - New Rex Skin: New Vines
 
+Added `Real Time Timer` under Timer/Wave Counter when scoreboard is open
+-*With so many hidden realms, it can be hard to guess how long a run has actually been going on for*
   
+
+Conduit Canyon Objectives now show progress of how many keys were installed (x/3)
 Option for Finding Halcyon Shrine Reminder (Off Default)
 Option for Finding Access Node Reminder (Off Default)
-Conduit Canyon Objectives now show progress of how many keys were installed (x/3)
-
 
 Logbook
 -Survivor & Monster Pages now show more stats, that are tracked in the base game.
 -Drone Logbook Section now includes all allies.
 -Drone Log Icon now light blue instead of red.
 -Drone Pages will show additional info:
- 
 --Some Drone descriptions are a bit more informative.
 --Drone Logbook now shows what unique upgrade they get from combining.
 --Drone Logbook now shows Operator Admin command.
@@ -39,17 +40,20 @@ Message for cooking.
 
 Death Screen:
 -Redone Stage Recap to be column
+-Temp Items are now visible for death screens in the run.
 -Turrets now count toward the Drones repaired stat.
+-Items Collected stat will now deduct, removed items.
+-Time Alive Stat will now show "Real Time" if you spent long enough in hidden realms.
 -Devotion runs will now count Lemurian things instead of Drone things.
 -Custom tracked stats & Run Stage Recap no longer show up on Save&Reloaded runs.
---Since tracked progress is lost.
+--Since custom tracked progress is lost.
 -Removed Most Killed Monster. (Not varied enough)
+
+
 
 Added updated icon for Mini Mushroom,  Devoted Lemurians
 
-
 EclipseUI; Number now shows next Eclipse Level to complete & Border upon beating E8.
-
 
 Moved "Golden Dieback leaves" on loop Prime Meridian and Reformed Altar here.
 
@@ -65,6 +69,7 @@ Updated some ping icons.
 Added some more config.
 
 Fixed GreenMerc Slicing Winds effect not spawning.
+SimuStagesInlow now default false.
 Fixed SimuStagesInLog config not working.
 Fixed SimuStagesInLog appearing without SotV.
 Fixed DeathMessage damage value not accounting for crit, and some items.
@@ -73,56 +78,9 @@ Fixed Newt Reminder showing up on Clients, if Teleporter started with Blue Orb.
 Log no longer spams "This stat does not exist"
 Removed Twisted playing a false son sound on spawn.
 
-
--
-
-   
-
-evolution item added fukin quote
-
+Mod no longer does Ping Icon edits if `PingIconsOverhaul` is installed.
   
-(TODO)Mountain Shrines no longer get disabled by the teleporter during Prestige.
-(TODO)Mountain Shrines from Prestige will now be Sandy/Snowy in relevant areas.
- 
-
-Make Operator drone skins for alt skin idk
-
- 
-
- 
-
-
-sort passives specifically first
- 
-can we exit to lobby instead of exit toscreen on win
   
-minigeodebody on radar scanner?
-
-do fucking make the blue lunar coin bg color better it just bothers me dude i hate that it bothers me
- 
- 
- 
-
-try setting elite shader index of titan fist
-what if we just elite ramp on balls elite balls
- 
-
- 
-Parry success sound effect or smth
-
- 
-(TODO)Passive visible next to class icon on tab.
- 
-
-(TODO)MoVe Lem Inv display maybe
- 
-Substandard Duplicator pickup thing suggest (else add)
- 
- 
-
-TODO Combat Shrine mention elite type OR
-Collective Combat shrine just mention collective summon
-
 ```
 ```
 v4.3.1

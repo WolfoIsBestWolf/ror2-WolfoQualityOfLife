@@ -117,22 +117,8 @@ namespace WolfoQoL_Client
             //ppLocalMeteorStorm.settings[2].active = false; //Vignette
 
 
-            //Operator Drone Jump Visiblity
-            GameObject DroneTrackingIndicator = Addressables.LoadAssetAsync<GameObject>(key: "54d961ee6ebdb68419804536906b4ab7").WaitForCompletion();
-            //0 0.2863 0.2902 0.5176
-            int i = 0;
-            foreach (SpriteRenderer sprite in DroneTrackingIndicator.GetComponentsInChildren<SpriteRenderer>())
-            {
-                if (i == 0)
-                {
-                    i++;
-                }
-                else
-                {
-                    sprite.color = new Color(0.122f, 0.937f, 0.678f, 1);
-                }
-            }
-            //
+
+            
 
 
             On.EntityStates.SolusWing2.Mission5Death.OnEnter += RestartMusicAfterSolusWing;

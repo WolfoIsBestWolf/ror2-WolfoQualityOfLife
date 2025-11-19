@@ -3,13 +3,15 @@ using BepInEx.Configuration;
 using RiskOfOptions;
 using RiskOfOptions.Options;
 using System.Collections.Generic;
- 
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+
 namespace WQoL_Gameplay
 {
     public class WConfig
     {
 
-        public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.SimpleGameplayQol.cfg", true);
+        public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Gameplay.cfg", true);
 
 
         //public static ConfigEntry<bool> CancelGeyserLock_Jump;
@@ -77,6 +79,12 @@ namespace WQoL_Gameplay
                 true,
                 "Makes damage for player-allies 2%, like enemies. Instead of 10%, which is intended for players only.\n\nLava can make things like Devotion borderline unplayable"
             );
+            cfgRedWhip = ConfigFile_Client.Bind(
+                "Main",
+                "Red Whip Consistency",
+                true,
+                "More non damaging moves no longer put you into combat.\n\nREX Util\nLoader Secondary\nRailgunner Zoom"
+            );
 
 
         }
@@ -85,7 +93,7 @@ namespace WQoL_Gameplay
 
         public static void RiskConfig()
         {
-            //ModSettingsManager.SetModIcon(null);
+            ModSettingsManager.SetModIcon( Addressables.LoadAssetAsync<Sprite>(key: "0630116480f210e489cde8f7e69e28a9").WaitForCompletion());
             ModSettingsManager.SetModDescription("Random assortment of gameplay quality of life.");
 
             List<ConfigEntry<bool>> noReset = new List<ConfigEntry<bool>>()

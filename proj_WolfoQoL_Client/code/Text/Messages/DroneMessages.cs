@@ -38,7 +38,7 @@ namespace WolfoQoL_Client.Text
                     //If Perma
                     //If Player
 
-                    if (DroneCollection.isPermamentMinion(minion))
+                    if (DroneCollection.isPermamentMinion(minion.gameObject))
                     {
                         BodyIndex bodyIndex = BodyCatalog.FindBodyIndex(minion.GetComponent<CharacterMaster>().bodyPrefab);
                         DroneIndex droneIndexFromBodyIndex = DroneCatalog.GetDroneIndexFromBodyIndex(bodyIndex);
@@ -286,6 +286,10 @@ namespace WolfoQoL_Client.Text
 
         public override string ConstructChatString()
         {
+            if (!WConfig.module_text_chat.Value)
+            {
+                return null;
+            }
             if (base.IsSecondPerson())
             {
                 baseToken += "_2P";

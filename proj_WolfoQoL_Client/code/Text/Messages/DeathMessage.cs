@@ -175,6 +175,10 @@ namespace WolfoQoL_Client.Text
         {
             public override string ConstructChatString()
             {
+                if (!WConfig.module_text_chat.Value)
+                {
+                    return null;
+                }
                 string KillerName = "";
                 if (attackerObject != null)
                 {

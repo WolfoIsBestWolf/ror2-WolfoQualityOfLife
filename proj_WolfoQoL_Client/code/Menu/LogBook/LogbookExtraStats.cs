@@ -155,7 +155,7 @@ namespace WolfoQoL_Client
                 //FFA6A6
                 if (bodyPrefabComponent.subtitleNameToken.Length != 0)
                 {
-                    self.AddSimpleTextPanel("   <style=cSub><sprite name=\"CloudLeft\" tint=1> " + Language.GetString(bodyPrefabComponent.subtitleNameToken) + " <sprite name=\"CloudRight\" tint=1></style>");
+                    self.AddSimpleTextPanel("   <color=#D5EBF2><sprite name=\"CloudLeft\" tint=1> " + Language.GetString(bodyPrefabComponent.subtitleNameToken) + " <sprite name=\"CloudRight\" tint=1></style>");
                 }
             }
 

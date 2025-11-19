@@ -62,6 +62,10 @@ namespace WolfoQoL_Client.Text
         public string interactableToken;
         public override string ConstructChatString()
         {
+            if (!WConfig.module_text_chat.Value)
+            {
+                return null;
+            }
             if (!WConfig.cfgMessagesSaleStar.Value)
             {
                 return null;

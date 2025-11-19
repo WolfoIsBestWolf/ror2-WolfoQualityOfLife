@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfoQoL_Client", "proj_Wol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfoQoL_Server", "proj_WolfoQoL_Server\WolfoQoL_Server.csproj", "{4516E5C0-2CC3-5D42-62EA-5B081969C226}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WQoL_Gameplay", "proj_WQoL_Gameplay\WQoL_Gameplay.csproj", "{7A7D8CC3-E48D-5280-2AF4-C256E6E4EF19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfoQoL_Gameplay", "proj_WQoL_Gameplay\WolfoQoL_Gameplay.csproj", "{7A7D8CC3-E48D-5280-2AF4-C256E6E4EF19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

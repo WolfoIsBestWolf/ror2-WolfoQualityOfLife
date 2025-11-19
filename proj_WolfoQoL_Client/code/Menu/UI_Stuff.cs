@@ -19,8 +19,6 @@ namespace WolfoQoL_Client
         {
 
 
-
-
             On.RoR2.UI.ChatBox.Awake += AllowMoreChatMessages;
 
             On.RoR2.UI.CrosshairManager.OnEnable += CrosshairManager_OnEnable;

@@ -4,6 +4,7 @@ using RoR2;
 using RoR2.CharacterAI;
 using RoR2.Stats;
 using UnityEngine;
+using static UnityEngine.Rendering.PostProcessing.SubpixelMorphologicalAntialiasing;
 
 namespace WolfoQoL_Client.DeathScreen
 {
@@ -27,8 +28,21 @@ namespace WolfoQoL_Client.DeathScreen
             IL.RoR2.HealthComponent.HandleDamageDealt += Track_DoTDamage_MinionHurt;
             IL.RoR2.HealthComponent.HandleHeal += Track_MinionHealing;
 
-            IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
+           // IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
 
+            On.RoR2.Inventory.RemoveItemPermanent_ItemIndex_int += Inventory_RemoveItemPermanent_ItemIndex_int;
+        }
+
+        private static void Inventory_RemoveItemPermanent_ItemIndex_int(On.RoR2.Inventory.orig_RemoveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+        {
+            orig(self, itemIndex, count);   
+            StatManager.itemCollectedEvents.Enqueue(new StatManager.ItemCollectedEvent
+            {
+                inventory = self,
+                itemIndex = itemIndex,
+                quantity = -count,
+                newCount = 0
+            });
         }
 
         private static void LemurianEggController_OnDestroy(On.RoR2.CharacterAI.LemurianEggController.orig_OnDestroy orig, LemurianEggController self)

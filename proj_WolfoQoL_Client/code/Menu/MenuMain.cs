@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using RoR2.EntitlementManagement;
+using RoR2;
 using RoR2.ContentManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -25,6 +26,8 @@ namespace WolfoQoL_Client.Menu
                 On.RoR2.UI.MainMenu.MainMenuController.Start += MainMenuExtras;
                 UIBorders.Start();
                 UI_Stuff.Start();
+                UI_RealTimeTimer.Start();
+                UI_Color.Start();
 
             }
 
@@ -45,32 +48,35 @@ namespace WolfoQoL_Client.Menu
                 Object.Destroy(ScavHolder.transform.GetChild(0).gameObject);
                 ScavHolder.SetActive(true);
 
-                GameObject gupBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion();
-                GameObject mdlGup = Object.Instantiate(gupBody.transform.GetChild(0).GetChild(0).gameObject);
+                if(EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(WolfoLibrary.DLCS.entitlementDLC1))
+                 {
+ 
+                    GameObject gupBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion();
+                    GameObject mdlGup = Object.Instantiate(gupBody.transform.GetChild(0).GetChild(0).gameObject);
 
-                ModelSkinController gup = mdlGup.GetComponent<ModelSkinController>();
-                if (!gup.DelayLoadingAnimatorUntilMaterialsHaveCompleted && gup.animator)
-                {
-                    if (gup.avatarRef != null)
+                    ModelSkinController gup = mdlGup.GetComponent<ModelSkinController>();
+                    if (!gup.DelayLoadingAnimatorUntilMaterialsHaveCompleted && gup.animator)
                     {
-                        gup.avatarRef.SetUnloadType(AsyncReferenceHandleUnloadType.OnSceneUnload);
+                        if (gup.avatarRef != null)
+                        {
+                            gup.avatarRef.SetUnloadType(AsyncReferenceHandleUnloadType.OnSceneUnload);
+                        }
+                        if (gup.animatorControllerRef != null)
+                        {
+                            gup.animatorControllerRef.SetUnloadType(AsyncReferenceHandleUnloadType.OnSceneUnload);
+                        }
                     }
-                    if (gup.animatorControllerRef != null)
-                    {
-                        gup.animatorControllerRef.SetUnloadType(AsyncReferenceHandleUnloadType.OnSceneUnload);
-                    }
+                    self.StartCoroutine(gup.ApplySkinAsync(0, AsyncReferenceHandleUnloadType.OnSceneUnload));
+                    mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
+                    mdlGup.transform.localScale = new Vector3(7, 7, 7);
+                    mdlGup.transform.localPosition = new Vector3(55.2f, -1f, 11.5f);
+                    mdlGup.transform.localEulerAngles = new Vector3(7f, 262f, 0);
+
+                    mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
+                    mdlGup.transform.localScale = new Vector3(7, 7, 7);
+                    mdlGup.transform.localPosition = new Vector3(52f, -1.2f, 160f);
+                    mdlGup.transform.localEulerAngles = new Vector3(7f, 157f, 345f);
                 }
-                self.StartCoroutine(gup.ApplySkinAsync(0, AsyncReferenceHandleUnloadType.OnSceneUnload));
-                mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
-                mdlGup.transform.localScale = new Vector3(7, 7, 7);
-                mdlGup.transform.localPosition = new Vector3(55.2f, -1f, 11.5f);
-                mdlGup.transform.localEulerAngles = new Vector3(7f, 262f, 0);
-
-                mdlGup.GetComponent<Animator>().Play("Spawn1", 0, 1);
-                mdlGup.transform.localScale = new Vector3(7, 7, 7);
-                mdlGup.transform.localPosition = new Vector3(52f, -1.2f, 160f);
-                mdlGup.transform.localEulerAngles = new Vector3(7f, 157f, 345f);
-
                 Transform temp = self.extraGameModeMenuScreen.desiredCameraTransform;
                 self.extraGameModeMenuScreen.desiredCameraTransform = self.moreMenuScreen.desiredCameraTransform;
                 self.moreMenuScreen.desiredCameraTransform = temp;

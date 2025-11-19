@@ -37,7 +37,23 @@ namespace WolfoQoL_Client
                 On.RoR2.UI.ItemIcon.SetItemIndex_ItemIndex_int_float += ShowTemporaryItemStacksDifferently;
 
             }
-
+            if (WConfig.OperatorDroneIndicator.Value)
+            {
+                GameObject DroneTrackingIndicator = Addressables.LoadAssetAsync<GameObject>(key: "54d961ee6ebdb68419804536906b4ab7").WaitForCompletion();
+                //0 0.2863 0.2902 0.5176
+                int i = 0;
+                foreach (SpriteRenderer sprite in DroneTrackingIndicator.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    if (i == 0)
+                    {
+                        i++;
+                    }
+                    else
+                    {
+                        sprite.color = new Color(0.122f, 0.937f, 0.678f, 1);
+                    }
+                }
+            }
         }
 
 

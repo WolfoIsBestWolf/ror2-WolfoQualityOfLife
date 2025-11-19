@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using RoR2;
 using R2API.Utils;
 using System.Security;
 using System.Security.Permissions;
@@ -13,8 +14,7 @@ using WQoL_Gameplay;
 
 namespace WQoL_Gameplay
 {
-    [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.WolfoQoL_Gameplay", "SimpleGameplayQoL", "5.0.0")]
+    [BepInPlugin("Wolfo.WolfoQoL_Gameplay", "WolfoQoL_Gameplay", "1.1.0")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WGQoLMain : BaseUnityPlugin
     {
@@ -26,12 +26,14 @@ namespace WQoL_Gameplay
             log = Logger;
 
             WConfig.Start();
-            WConfig.RiskConfig();
+           
 
             GameplayQualityOfLife.Start();
 
             PrismaticTrial.AllowPrismaticTrials();
             Eclipse.Start();
+
+            GameModeCatalog.availability.CallWhenAvailable(WConfig.RiskConfig);
         }
 
 

@@ -156,6 +156,16 @@ namespace WolfoQoL_Client.DeathScreen
             var extras = self.GetComponent<DeathScreenExpanded>();
             try
             {
+                if (playerInfo.master)
+                {
+                    playerInfo.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);
+                    self.itemInventoryDisplay.SetSubscribedInventory(playerInfo.master.inventory);
+                }
+                else
+                {
+                    self.itemInventoryDisplay.SetSubscribedInventory(null);
+                }
+
                 GeneralQuality(self, playerInfo, extras.isLogRunReport);
                 LoadoutStat.Add_Loadout(self, playerInfo);
                 RunRecap.AddRunRecapV2(self, playerInfo);

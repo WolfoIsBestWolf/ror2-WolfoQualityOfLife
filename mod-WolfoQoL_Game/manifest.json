@@ -1,12 +1,11 @@
 {
-    "name": "WQoL_GameplayStuff",
-    "version_number": "1.0.0",
+    "name": "WolfoQoL_Gameplay",
+    "version_number": "1.1.0",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife",
-    "description": "[Server-Side]: Items & Drones that fall of the map teleport back. And a couple random qol tidbits",
+    "description": "[Server-Side, Vanilla-Compatible]: Non intrusive gameplay QoL. Items & Drones that fall of the map teleport back. And a couple random qol tidbits",
     "dependencies": [
-		"Wolfo-WolfFixes-1.0.0",
+		"Wolfo-WolfFixes-1.2.0",
         "Rune580-Risk_Of_Options-2.8.2",
-        "tristanmcpherson-R2API-5.0.5",
-		"RiskofThunder-R2API_Colors-1.0.3"
+        "RiskofThunder-R2API_Networking-1.0.3",
     ]
 }

@@ -13,6 +13,10 @@ namespace WolfoQoL_Client
 
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Client.cfg", true);
 
+        public static ConfigEntry<bool> OperatorDroneIndicator;
+
+        public static ConfigEntry<bool> RealTimeTimer;
+
         public static ConfigEntry<bool> cfgHelminthLightingFix;
         public static ConfigEntry<bool> cfgSofterShadows;
         public static ConfigEntry<bool> PrestigeColors;
@@ -484,20 +488,25 @@ namespace WolfoQoL_Client
             #endregion
             #region Hud - MidRun
             //UI -> Hud?
-            cfgMissionPointers = ConfigFile_Client.Bind(
-               "Hud",
-               "Mission Pointers",
-               true,
-               "Void Fields : Indicator where the next Cell is.\n\nCommencement : Lunar Pillar locations shown briefly after charging one.\n\nGilded Coast : Location of last 3 Halcyon Beacon"
-           );
-
-            cfgNewSprintCrosshair = ConfigFile_Client.Bind(
+           
+            RealTimeTimer = ConfigFile_Client.Bind(
+              "Hud",
+              "Real Time Timer",
+              true,
+              "Adds a secondary timer, underneath the Run Timer / Wave Counter when Scoreboard is open.\n\nThis uses the full time of the run including time spent in Hidden Realms"
+            );
+           cfgNewSprintCrosshair = ConfigFile_Client.Bind(
               "Hud",
               "Sprinting Crosshair Changes",
               true,
               "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
             );
-            //LookingGlassPresets.Start();
+            cfgMissionPointers = ConfigFile_Client.Bind(
+                 "Hud",
+                 "Mission Pointers",
+                 true,
+                 "Void Fields : Indicator where the next Cell is.\n\nCommencement : Lunar Pillar locations shown briefly after charging one.\n\nGilded Coast : Location of last 3 Halcyon Beacon"
+             );
 
             cfgBuff_RepeatColors = ConfigFile_Client.Bind(
                  "Hud",
@@ -510,6 +519,12 @@ namespace WolfoQoL_Client
               "Teleporter Icon Discovered Color Red",
               true,
               "When you have the discover teleporter icon setting on. Makes the icon light red at first and only white when charged."
+            );
+            OperatorDroneIndicator = ConfigFile_Client.Bind(
+              "Hud",
+              "Operator noticible Drone Indicator",
+              true,
+              "Operators `Jump to this drone` indicator for the default Utility will be more visible."
             );
 
             cfgPingIcons = ConfigFile_Client.Bind(
@@ -680,8 +695,8 @@ namespace WolfoQoL_Client
             );
             SimuStagesInLog = ConfigFile_Client.Bind(
                 "Menu",
-                "Log | Simu Stages",
-                true,
+                "Log | Show Simu Stages",
+                false,
                 "Add Simulacrum stages to log. Unlocked if beaten once."
             );
             cfgLogbook_EliteEquip = ConfigFile_Client.Bind(

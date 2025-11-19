@@ -17,8 +17,14 @@ namespace WolfoQoL_Client.Text
 
         public static void Start()
         {
-            On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += DeathMessage.OnDeathMessage;
+            //Multi purpose
             ItemLoss_Host.Start();
+            if (!WConfig.module_text_chat.Value)
+            {
+                return;
+            }
+            On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += DeathMessage.OnDeathMessage;
+        
             LunarSeer.Start();
             EquipmentDrone.Start();
             DevotionLoss.Start();

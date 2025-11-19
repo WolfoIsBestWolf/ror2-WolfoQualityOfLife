@@ -256,7 +256,7 @@ namespace WolfoQoL_Client.DeathScreen
 
     public class DroneCollection : MonoBehaviour
     {
-        public static bool isPermamentMinion(MinionOwnership minion)
+        public static bool isPermamentMinion(GameObject minion)
         {
             if (!minion.GetComponent<SetDontDestroyOnLoad>())
             {
@@ -361,7 +361,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }
-            if (!isPermamentMinion(minion))
+            if (!isPermamentMinion(minion.gameObject))
             {
                 return;
             }

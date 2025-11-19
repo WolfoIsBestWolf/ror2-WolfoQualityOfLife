@@ -1,8 +1,9 @@
-This mod and all it's features should work regardless if anyone else has it installed.
+This mod and almost all its features should work regardless of if you're Host, Client, and playing with people who don't have the mod.
+ 
+[GameplayQoL](https://thunderstore.io/package/Wolfo/WolfoQoL_Gameplay/) and [Server-Sided](https://thunderstore.io/package/Wolfo/WolfoQoL_OptionalExtras/) are split into their own mods.
 
-This includes stuff that other mods have as Server-Side (such as Item loss messages)
-
-Some features were cut when I made this mod ClientSide, [See here.](https://thunderstore.io/package/Wolfo/WolfoQoL_OptionalExtras/)
+This mod has a lot of sections, and a lot of stuff.
+Highly customizable so should be able to use 1 section, if only 1 section is desired.
 
 Everything configurable ingame via RiskOfOptions. 
 
@@ -11,16 +12,18 @@ If something isn't working, or something should be configuerable that isn't, tel
 # Visuals
 ## Skins
 Oni Mercenary will have a red sword.\
-Oni & Frail Mercenary will glow their respective color instead of blue.\
-Oni & Frail Mercenary will have colored attack effects.
+Oni, Frail & Murder Mercenary will glow their respective color instead of blue.\
+Oni, Frail & Murder Mercenary will have colored attack effects.
 
 Acrids using Blight will have different colored effects.\
 Includes acid pool in lobby.
 
 Engineer Skins will have skinned Harpoons.\
-Fixes Engineers Mastery & Colossus Skin Turrets looking worse than seemingly intended. (Glows more now)\
-REX's vines when sprinting now match his skin.\
-Loaders Alt skin will have matching Hook Hand.\
+Engineers Mastery & Colossus Skin Turrets will glow more, like Default/AC Skins.
+
+REX's vines when sprinting now match his skin.
+
+Loaders Alt skin will have matching Hook Hand.
 MulT shows off his primary skill in lobby.
 
 Elite Brass contraptions will have colored balls.
@@ -30,6 +33,8 @@ Implemented the unused Sulfur Pools Beetle skins.
 Twisted Elites are now Dark Blue instead of reusing Overloading colors.\
 Twisted Elites have a fire visual effect again. 
  
+![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
+
 
 ## Icons
 A Unique Ping Icon for the vast majority of Interactables.
@@ -48,7 +53,7 @@ Charge Indicator for Void Field Cells like other Holdout zones.
 
 DLC endings use their dlcs icon.
 
-Prestige turns Mountain Symbols pink like in Returns.
+*(Default off)* Prestige turns Mountain Symbols pink like in Returns.
 
 Item Stacks with temporary items turn light blue, similiar to Returns.
 
@@ -61,10 +66,9 @@ Sundered Groves pink mushrooms are visible at lower settings.
  
 Geysers in Sulfur Pools and Abyssal Depths have different fluid color to match their environment.
 
-Void Potentials & Aurelionite Fragments now have tiered particle effects.
 
+![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures1.png)
 
-![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
 
 ## Other
 
@@ -73,6 +77,7 @@ Readds the old chunky printer Model for Uncommon and Mili Tech Printers.
 Lunar/Elite/Constumed Equipment, Void White/Red/Boss, Lunar Coins now use their own color.\
 Adds colored highlights for Tiers that were lacking one and for Equipment.
 
+Void Potentials & Aurelionite Fragments now have tiered particle effects.
 
 Chef Oil will spawn a little effect when changing states.
 
@@ -100,6 +105,8 @@ Many more messages so you have another chance to see what happened, or to see wh
 - Recycling an item into another.
 - What Sale Star was used on.
 
+![Image of Messages](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqol_messages.png)
+
 ## Reminders
 
 
@@ -114,6 +121,7 @@ Objectives for the following:
 
 
 Conduit Canyon shows how many keys were installed.
+![Image of Objectives](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqol_objectives.png)
 
 ## General Tex Info
 
@@ -157,7 +165,7 @@ Updated Death Screen including.
 - - Players Equipment shown
 - - Drones that you had.
 - - Devoted Lemurians and their shared items.
-- - Killers name will use Elite type
+- - Killers name will include Elite type
 - - Killers items will be shown (if they had any).
 - - - (Scav, P4 Mithrix, etc)
 - - - Evolution/Simu/Void Fields/etc.
@@ -167,7 +175,6 @@ Updated Death Screen including.
 - - Stages you went through during the run.
 - - - Show off you beat all final bosses or just general routing for fun.
 ```
-##
 ![Image of Expanded Death Screen](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolDeath.png)
 
 ## Logbook
@@ -183,10 +190,16 @@ Logbook additions:
 - More stats for Monsters, Survivors
 - Geep, Gip, Malachite Urchin, Twisted Scavengers
 - Bosses sorted after enemies
-- Simulacrum Stages
+- *(Off)* Simulacrum Stages
 
-## Other Menus
+## Other Menus / UI
 Sprinting Crosshair is different to support charging attacks.
+
+Real-Time timer underneath Run timer, when Scoreboard is open.
+
+Operator Drone Indicator more visible.
+
+Teleporter Discovered different color from Completed.
 
 Tab Scoreboard now shows dead peoples inventory too.  
 
@@ -202,9 +215,6 @@ Chat box displays more messages and is wider.
 
 
 
- 
-
-![Image of various features](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures1.png)
  
  
 ## Miscellaneous
@@ -229,7 +239,7 @@ Lunar Seers replace the Blue Portal with a Green/Gold/Void when going to those p
 Sale Star effect does a little effect instead of vanishing.\
 False Sons Aurelionite Fragment now has Green or Red tiered visuals.
  
-
+Twisted Scavs get Beads of Fealty for decor.
 
 ##
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\

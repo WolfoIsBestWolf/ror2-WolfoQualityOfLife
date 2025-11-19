@@ -44,7 +44,7 @@ namespace WolfoQoL_Client
 
         private static void PlayerCharacterMasterController_SetBodyPrefabToPreference(On.RoR2.PlayerCharacterMasterController.orig_SetBodyPrefabToPreference orig, PlayerCharacterMasterController self)
         {
-            WQoLMain.log.LogMessage("PlayerCharacterMasterController_SetBodyPrefabToPreference");
+            //WQoLMain.log.LogMessage("PlayerCharacterMasterController_SetBodyPrefabToPreference");
             orig(self);
             if (self.TryGetComponent<ItemLossBase_ClientListener>(out var a))
             {

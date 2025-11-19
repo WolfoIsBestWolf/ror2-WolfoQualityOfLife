@@ -104,8 +104,8 @@ namespace WolfoQoL_Client.Skins
             Material matHuntressSwipe_Pink;
             Material matHuntressCharged_Pink;
 
-            matHuntressFlashBright_Pink.SetColor("_TintColor", new Color(1.3f, 0.6f, 1.3f, 1f));//0.0191 1.1386 1.2973 1 
-            matHuntressFlashExpanded_Pink.SetColor("_TintColor", new Color(0.58f, 0.2f, 0.58f, 1f));//0 0.4367 0.5809 1
+            matHuntressFlashBright_Pink.SetColor("_TintColor", new Color(1.3f, 0.6f, 1.3f * 0.9f, 1f));//0.0191 1.1386 1.2973 1 
+            matHuntressFlashExpanded_Pink.SetColor("_TintColor", new Color(0.58f, 0.2f, 0.58f * 0.9f, 1f));//0 0.4367 0.5809 1
 
             Texture2D texRampFallboots_Pink = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampFallbootsPink.png");
             Texture2D texRampMercDust_Pink = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampMercDustPink.png");
@@ -114,23 +114,23 @@ namespace WolfoQoL_Client.Skins
 
             matMercEvisTarget_Pink = GameObject.Instantiate(LegacyResourcesAPI.Load<Material>("Materials/matMercEvisTarget"));
             matMercEvisTarget_Pink.SetTexture("_RemapTex", texRampHuntressSoft_Pink);
-            matMercEvisTarget_Pink.SetColor("_TintColor", Color.magenta);
+            matMercEvisTarget_Pink.SetColor("_TintColor", new Color(1,0.5f,1f));
             //matMercEvisTarget_Pink.SetColor("_CutoffScroll", new Color(0f, 12f, 12f));
 
 
             ParticleSystemRenderer MercSwordSlash_PinkRenderer0 = MercSwordSlash_Pink.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
             matMercSwipe1_Pink = UnityEngine.Object.Instantiate(MercSwordSlash_PinkRenderer0.material);
             matMercSwipe1_Pink.SetTexture("_RemapTex", texRampFallboots_Pink);
-            matMercSwipe1_Pink.SetColor("_TintColor", new Color(0.5f, 0.314f, 0.5f, 1));        //Default Color : {r: 0, g: 0.314069, b: 1, a: 1}
+            matMercSwipe1_Pink.SetColor("_TintColor", new Color(0.5f, 0.314f, 0.5f * 0.9f, 1));        //Default Color : {r: 0, g: 0.314069, b: 1, a: 1}
             MercSwordSlash_PinkRenderer0.material = matMercSwipe1_Pink;
 
             //Child 0 has weird TracerBright
             ParticleSystem MercSwordFinisherSlash_PinkParticle0 = MercSwordFinisherSlash_Pink.transform.GetChild(0).GetComponent<ParticleSystem>();
-            MercSwordFinisherSlash_PinkParticle0.startColor = new Color(1, 0.2f, 1f, 1);
+            MercSwordFinisherSlash_PinkParticle0.startColor = new Color(1, 0.2f, 1f * 0.9f, 1);
             ParticleSystemRenderer MercSwordFinisherSlash_PinkRenderer1 = MercSwordFinisherSlash_Pink.transform.GetChild(1).GetComponent<ParticleSystemRenderer>();
             matMercSwipe2_Pink = UnityEngine.Object.Instantiate(MercSwordFinisherSlash_PinkRenderer1.material);
             matMercSwipe2_Pink.SetTexture("_RemapTex", texRampFallboots_Pink);
-            matMercSwipe2_Pink.SetColor("_TintColor", new Color(0.8f, 0.366f, 0.8f, 1));  //Default Color r: 0.3632075, g: 0.6593511, b: 1, a: 1
+            matMercSwipe2_Pink.SetColor("_TintColor", new Color(0.8f, 0.366f, 0.8f * 0.9f, 1));  //Default Color r: 0.3632075, g: 0.6593511, b: 1, a: 1
             MercSwordFinisherSlash_PinkRenderer1.material = matMercSwipe2_Pink;
 
             ParticleSystemRenderer MercSwordSlashWhirlwind_PinkRenderer0 = MercSwordSlashWhirlwind_Pink.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
@@ -163,13 +163,13 @@ namespace WolfoQoL_Client.Skins
             OmniImpactVFXSlashMerc_PinkOmniEffect.omniEffectGroups[6].omniEffectElements[0].particleSystemOverrideMaterial = matOmniHitspark2Merc_Pink;
 
             ParticleSystem OmniImpactVFXSlashMerc_PinkParticle1 = OmniImpactVFXSlashMerc_Pink.transform.GetChild(1).GetComponent<ParticleSystem>(); //matOmniHitspark3 (Instance)
-            OmniImpactVFXSlashMerc_PinkParticle1.startColor = new Color(0.7264f, 0.3f, 0.7264f, 1); //Default C0lor 0 0.7264 0.7039 1
+            OmniImpactVFXSlashMerc_PinkParticle1.startColor = new Color(0.7264f, 0.3f, 0.7264f * 0.9f, 1); //Default C0lor 0 0.7264 0.7039 1
 
             ParticleSystem OmniImpactVFXSlashMerc_PinkParticle2 = OmniImpactVFXSlashMerc_Pink.transform.GetChild(2).GetComponent<ParticleSystem>(); //matGenericFlash (Instance)
-            OmniImpactVFXSlashMerc_PinkParticle2.startColor = new Color(0.9333f, 0.2f, 0.9333f, 1); //0 0.4951 0.9333 1
+            OmniImpactVFXSlashMerc_PinkParticle2.startColor = new Color(0.9333f, 0.2f, 0.9333f * 0.9f, 1); //0 0.4951 0.9333 1
 
             ParticleSystem OmniImpactVFXSlashMerc_PinkParticle3 = OmniImpactVFXSlashMerc_Pink.transform.GetChild(3).GetComponent<ParticleSystem>(); //matTracerBright (Instance)
-            OmniImpactVFXSlashMerc_PinkParticle3.startColor = new Color(0.5f, 0.4245f, 0.5f, 1); //0.3854 0.4245 0.0501 1
+            OmniImpactVFXSlashMerc_PinkParticle3.startColor = new Color(0.5f, 0.4245f, 0.5f * 0.9f, 1); //0.3854 0.4245 0.0501 1
 
 
 
@@ -179,11 +179,11 @@ namespace WolfoQoL_Client.Skins
             ParticleSystemRenderer MercAssaulterEffect_PinkRenderer5 = MercAssaulterEffect_Pink.transform.GetChild(5).GetComponent<ParticleSystemRenderer>();
             matMercIgnition_Pink = UnityEngine.Object.Instantiate(MercAssaulterEffect_PinkRenderer5.material);
             matMercIgnition_Pink.SetTexture("_RemapTex", texRampHuntress_Pink);
-            matMercIgnition_Pink.SetColor("_TintColor", new Color(0.44f, 0.44f, 0.44f, 1)); //{r: 0, g: 0.1362783, b: 0.8867924, a: 1}
+            matMercIgnition_Pink.SetColor("_TintColor", new Color(0.44f, 0.44f, 0.44f * 0.9f, 1)); //{r: 0, g: 0.1362783, b: 0.8867924, a: 1}
             MercAssaulterEffect_PinkRenderer5.material = matMercIgnition_Pink;
 
-            MercAssaulterEffect_Pink.transform.GetChild(6).GetComponent<ParticleSystem>().startColor = new Color(0.71f, 0.3f, 0.71f, 1); //0 0.4409 0.9811 1
-            MercAssaulterEffect_Pink.transform.GetChild(8).GetComponent<Light>().color = new Color(0.68f, 0.3765f, 0.68f, 1); //0.3765 0.4868 0.9804 1
+            MercAssaulterEffect_Pink.transform.GetChild(6).GetComponent<ParticleSystem>().startColor = new Color(0.71f, 0.3f, 0.71f * 0.9f, 1); //0 0.4409 0.9811 1
+            MercAssaulterEffect_Pink.transform.GetChild(8).GetComponent<Light>().color = new Color(0.68f, 0.3765f, 0.68f * 0.9f, 1); //0.3765 0.4868 0.9804 1
             MercAssaulterEffect_Pink.transform.GetChild(9).GetComponent<TrailRenderer>().material = matMercSwipe1_Pink;
             MercAssaulterEffect_Pink.transform.GetChild(10).GetChild(2).GetComponent<TrailRenderer>().material = matMercIgnition_Pink;
             MercAssaulterEffect_Pink.transform.GetChild(10).GetChild(3).GetComponent<TrailRenderer>().material = matMercIgnition_Pink;
@@ -192,9 +192,9 @@ namespace WolfoQoL_Client.Skins
 
 
             ParticleSystem particleSystem = ImpactMercAssaulter_Pink.transform.GetChild(0).GetComponent<ParticleSystem>();
-            particleSystem.startColor = new Color(0.8f, 0.45f, 0.8f, 1f);//0.3538 0.6316 1 1
+            particleSystem.startColor = new Color(0.8f, 0.45f, 0.8f * 0.9f, 1f);//0.3538 0.6316 1 1
             particleSystem = ImpactMercAssaulter_Pink.transform.GetChild(1).GetComponent<ParticleSystem>();
-            particleSystem.startColor = new Color(0.72f, 0.522f, 0.72f, 1f);//0.467 0.7022 1 1
+            particleSystem.startColor = new Color(0.72f, 0.522f, 0.72f * 0.9f, 1f);//0.467 0.7022 1 1
 
             ParticleSystemRenderer particleSystemRenderer = ImpactMercAssaulter_Pink.transform.GetChild(2).GetComponent<ParticleSystemRenderer>();
             particleSystemRenderer.material = matMercSwipe1_Pink;
@@ -203,9 +203,9 @@ namespace WolfoQoL_Client.Skins
 
 
             particleSystem = ImpactMercFocusedAssault_Pink.transform.GetChild(0).GetComponent<ParticleSystem>();
-            particleSystem.startColor = new Color(0.8f, 0.4f, 0.8f, 0.2667f);//0.3538 0.6316 1 0.2667
+            particleSystem.startColor = new Color(0.8f, 0.4f, 0.8f * 0.9f, 0.2667f);//0.3538 0.6316 1 0.2667
             particleSystem = ImpactMercFocusedAssault_Pink.transform.GetChild(1).GetComponent<ParticleSystem>();
-            particleSystem.startColor = new Color(0.7f, 0.26f, 0.7f, 1f);//0.0925 0.4637 0.934 1
+            particleSystem.startColor = new Color(0.7f, 0.26f, 0.7f * 0.9f, 1f);//0.0925 0.4637 0.934 1
             particleSystemRenderer = ImpactMercFocusedAssault_Pink.transform.GetChild(2).GetComponent<ParticleSystemRenderer>();
             matMercSwipe3_Pink = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
             matMercSwipe3_Pink.SetTexture("_RemapTex", texRampMercDust_Pink);
@@ -242,14 +242,14 @@ namespace WolfoQoL_Client.Skins
 
             //HuntressBlinkEffect_Pink
             particleSystem = HuntressBlinkEffect_Pink.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>();
-            particleSystem.startColor = new Color(0.39f, 0.154f, 0.39f, 1f);//0.1534 0.1567 0.6324 1
+            particleSystem.startColor = new Color(0.39f, 0.154f, 0.39f * 0.9f, 1f);//0.1534 0.1567 0.6324 1
             //particleSystem.colorOverLifetime.SetPropertyValue<bool>("enabled", false);
             var stupid = particleSystem.colorOverLifetime;
             stupid.enabled = false;
             //particleSystem.SetPropertyValue("colorOverLifetime", stupid);
 
             Light light = HuntressBlinkEffect_Pink.transform.GetChild(0).GetChild(2).GetComponent<Light>();
-            light.color = new Color(1f, 0.6f, 1f, 1); //0.2721 0.9699 1 1
+            light.color = new Color(1f, 0.6f, 1f * 0.9f, 1); //0.2721 0.9699 1 1
 
             particleSystemRenderer = HuntressBlinkEffect_Pink.transform.GetChild(0).GetChild(4).GetComponent<ParticleSystemRenderer>();
             matHuntressSwipe_Pink = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
@@ -276,7 +276,7 @@ namespace WolfoQoL_Client.Skins
             particleSystemRenderer.material = matHuntressCharged_Pink;
 
             light = HuntressFireArrowRain_Pink.transform.GetChild(5).GetComponent<Light>();
-            light.color = new Color(0.87f, 0.5f, 0.87f, 1f); //0.3456 0.7563 1 1
+            light.color = new Color(0.87f, 0.5f, 0.87f * 0.9f, 1f); //0.3456 0.7563 1 1
 
 
             //
@@ -300,29 +300,29 @@ namespace WolfoQoL_Client.Skins
             particleSystemRenderer = OmniImpactVFXSlashMercEvis_Pink.transform.GetChild(7).GetComponent<ParticleSystemRenderer>();
             matMercHologram_Pink = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
             matMercHologram_Pink.SetTexture("_RemapTex", texRampFallboots_Pink);
-            matMercHologram_Pink.SetColor("_TintColor", new Color(1.12f, 0.3f, 1.12f, 1f));//0.2842 0.4328 1.826 1
+            matMercHologram_Pink.SetColor("_TintColor", new Color(1.12f, 0.3f, 1.12f * 0.9f, 1f));//0.2842 0.4328 1.826 1
             particleSystemRenderer.material = matMercHologram_Pink;
 
 
             EvisProjectileGhost_Pink.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercSwipe2_Pink;
             EvisProjectileGhost_Pink.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercSwipe1_Pink;
             EvisProjectileGhost_Pink.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().material = matMercIgnition_Pink;
-            EvisProjectileGhost_Pink.transform.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.63f, 0.23f, 0.71f, 1f); //0 0.5827 1 1
-            EvisProjectileGhost_Pink.transform.GetChild(5).GetComponent<Light>().color = new Color(0.59f, 0.25f, 0.65f, 1f); //0.1274 0.4704 1 1
+            EvisProjectileGhost_Pink.transform.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.63f, 0.23f, 0.71f * 0.9f, 1f); //0 0.5827 1 1
+            EvisProjectileGhost_Pink.transform.GetChild(5).GetComponent<Light>().color = new Color(0.59f, 0.25f, 0.65f * 0.9f, 1f); //0.1274 0.4704 1 1
 
 
             EvisOverlapProjectileGhost_Pink.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercSwipe2_Pink;
             EvisOverlapProjectileGhost_Pink.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = matOmniRadialSlash1Merc_Pink;
             EvisOverlapProjectileGhost_Pink.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().material = matOmniHitspark2Merc_Pink;
-            EvisOverlapProjectileGhost_Pink.transform.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.8f, 0.51f, 0.86f, 1f);//0.3066 0.7276 1 1
-            EvisOverlapProjectileGhost_Pink.transform.GetChild(4).GetComponent<Light>().color = new Color(0.627f, 0.2772f, 0.7f, 1f);//0.1274 0.4704 1 1
+            EvisOverlapProjectileGhost_Pink.transform.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.8f, 0.51f, 0.86f * 0.9f, 1f);//0.3066 0.7276 1 1
+            EvisOverlapProjectileGhost_Pink.transform.GetChild(4).GetComponent<Light>().color = new Color(0.627f, 0.2772f, 0.7f * 0.9f, 1f);//0.1274 0.4704 1 1
             EvisOverlapProjectileGhost_Pink.transform.GetChild(5).GetComponent<ParticleSystemRenderer>().material = matMercHologram_Pink;
             EvisOverlapProjectileGhost_Pink.transform.GetChild(6).GetComponent<ParticleSystemRenderer>().material = matMercHologram_Pink;
 
             ImpactMercEvis_Pink.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercHologram_Pink;
             ImpactMercEvis_Pink.transform.GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercSwipe1_Pink;
             ImpactMercEvis_Pink.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().material = matMercSwipe1_Pink;
-            ImpactMercEvis_Pink.transform.GetChild(3).GetComponent<Light>().color = new Color(0.92f, 0.425f, 0.92f, 1f);//0 0.8542 1 1
+            ImpactMercEvis_Pink.transform.GetChild(3).GetComponent<Light>().color = new Color(0.92f, 0.425f, 0.92f * 0.9f, 1f);//0 0.8542 1 1
 
 
 
@@ -332,7 +332,7 @@ namespace WolfoQoL_Client.Skins
             //matMercExposed = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
             matMercExposed_Pink = UnityEngine.Object.Instantiate(particleSystemRenderer.material);
             matMercExposed_Pink.SetTexture("_RemapTex", texRampHuntress_Pink);
-            matMercExposed_Pink.SetColor("_TintColor", new Color(0.25f, 0.25f, 0.25f, 1f));//r: 0, g: 0.1362783, b: 0.8867924, a: 1
+            matMercExposed_Pink.SetColor("_TintColor", new Color(0.25f, 0.25f, 0.25f * 0.9f, 1f));//r: 0, g: 0.1362783, b: 0.8867924, a: 1
             particleSystemRenderer.material = matMercExposed_Pink;
             particleSystemRenderer = MercExposeEffect_Pink.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>();
             particleSystemRenderer.material = matMercExposedBackdrop_Pink;
@@ -345,12 +345,12 @@ namespace WolfoQoL_Client.Skins
 
 
             MercExposeEffect_Pink.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercExposed_Pink;
-            MercExposeEffect_Pink.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().startColor = new Color(0.15f, 0.100f, 0.15f, 0.29f);//0.1335 0.1455 0.2264 0.3412
+            MercExposeEffect_Pink.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().startColor = new Color(0.15f, 0.100f, 0.15f * 0.9f, 0.29f);//0.1335 0.1455 0.2264 0.3412
             MercExposeEffect_Pink.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercExposedBackdrop_Pink;
 
             MercExposeConsumeEffect_Pink.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>().material = matMercExposed_Pink;
             MercExposeConsumeEffect_Pink.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matMercExposedBackdrop_Pink;
-            MercExposeConsumeEffect_Pink.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().startColor = new Color(0.3f, 0.11f, 0.3f, 0.175f); //0.1076 0.2301 0.3868 0.2745
+            MercExposeConsumeEffect_Pink.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().startColor = new Color(0.3f, 0.11f, 0.3f * 0.9f, 0.175f); //0.1076 0.2301 0.3868 0.2745
 
             MercExposeConsumeEffect_Pink.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>().material = matMercExposed_Pink;
 

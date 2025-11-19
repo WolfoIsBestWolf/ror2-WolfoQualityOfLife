@@ -86,7 +86,7 @@ namespace WolfoQoL_Client
             }
 
             PlayerPing.Hooks();
-            UI_Color.Start();
+   
         }
 
         private static PickupDef ItemDef_CreatePickupDef(On.RoR2.ItemDef.orig_CreatePickupDef orig, ItemDef self)

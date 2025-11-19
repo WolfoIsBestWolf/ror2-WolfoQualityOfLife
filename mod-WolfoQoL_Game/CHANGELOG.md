@@ -1,6 +1,6 @@
 #Changelog
 ```
-v1.2.0 
+v1.1.0 
 
 Dead Drones falling off or through the map now teleport up.
 

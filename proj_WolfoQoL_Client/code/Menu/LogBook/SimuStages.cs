@@ -4,6 +4,7 @@ using RoR2.Stats;
 using RoR2.UI.LogBook;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using WolfoFixes;
 using static WolfoQoL_Client.Help;
 
@@ -31,6 +32,7 @@ namespace WolfoQoL_Client
                 scene.stageOrder = 5130 + normalScene.stageOrder;
                 scene.shouldIncludeInLogbook = WConfig.SimuStagesInLog.Value;
                 scene.dioramaPrefab = mdlVoidWardCrab;
+                scene.dioramaPrefabAddress = new AssetReferenceGameObject("");
                 scene.previewTexture = normalScene.previewTexture;
                 scene.loreToken = string.Empty;
 
@@ -70,7 +72,7 @@ namespace WolfoQoL_Client
 
 
             itmoon.dioramaPrefab = ITMoonDiorama;
-
+            itmoon.dioramaPrefabAddress = new AssetReferenceGameObject("");
             Addressables.LoadAssetAsync<SceneDef>(key: "dda7dbdf013275747949dfc522842635").WaitForCompletion().previewTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SimuPreview/texGolemplainsPreview.png");
             Addressables.LoadAssetAsync<SceneDef>(key: "0a35bec906d067941a8a378b963e9e9d").WaitForCompletion().previewTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SimuPreview/texGoolakePreview.png");
             Addressables.LoadAssetAsync<SceneDef>(key: "568295b69af09c241968fa18ca37b56d").WaitForCompletion().previewTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SimuPreview/texAncientLoftPreview.png");
