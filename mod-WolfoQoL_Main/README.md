@@ -121,6 +121,7 @@ Objectives for the following:
 
 
 Conduit Canyon shows how many keys were installed.
+
 ![Image of Objectives](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqol_objectives.png)
 
 ## General Tex Info
@@ -240,6 +241,8 @@ Sale Star effect does a little effect instead of vanishing.\
 False Sons Aurelionite Fragment now has Green or Red tiered visuals.
  
 Twisted Scavs get Beads of Fealty for decor.
+
+Burrowed Scorch Worms trail particles even midair.
 
 ##
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\

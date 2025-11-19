@@ -146,9 +146,10 @@ namespace WolfoQoL_Client.DeathScreen
             verticalLayout.spacing = 12;
             //Fuck trying to do math
             if (scenes.Count >= 16) //16 & >
-            {
+            {         
                 verticalLayout.spacing = 0;
-                iconHeight = 48;
+                iconHeight = 48 - ((scenes.Count - 16) * 2.4f);
+                iconHeight = Mathf.Max(iconHeight, 36);
             }
             else if (scenes.Count >= 14) //14 & 15
             {

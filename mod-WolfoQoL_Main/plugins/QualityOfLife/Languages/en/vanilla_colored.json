@@ -1,3 +1,5 @@
+//Optional to translate
+//Just adds colors to objective nothing more
 {
 	"strings":
 	{
@@ -18,6 +20,26 @@
 			"OBJECTIVE_MERIDIAN_REACH_ARENA": "Ascend to the <style=cRebirth>Prime Meridian</color>",
 		
 	
-	 
+			"OBJECTIVE_SOLUSWING_ESCAPE": "Escape through the <color=#c6d5ff>Mainline Portal</color>!",
+			"//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILL": "<color=#c6d5ff>REJECT:</color> Extinguish \nSolus Heart.",
+			"//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILLOBJECTIVE_SOLUSHEART_SPARE": "<color=#F8B651>ACCEPT:</color> Decompile & evolve.",
+			
+			
+			"CONDUITCANYON_P1" : "Install <color=#F8B651>Sentry Keys</color> to hack the barrier",
+			"CONDUITCANYON_P2" : "Install <color=#F8B651>Sentry Keys</color> to reprogram encrypted teleporter",
+			"CONDUITCANYON_SKIP_BARRIER": "<style=cWorldEvent>Intrusion detected! Rerouting power to security team dispatch.</style>",
+        
+
+			"SPEX_COLOR": "<color=#c6d5ff></color>",
+			"SOLUSHEART_COLOR" : "<color=#F8B651></color>",
+			"VULTURE_FORMAT": "<color=#87E5C0><size=120%>Alloy Hunter: {0}</color></size>",
+
+			"VULTURE_KILLS_BOSS": "<color=#87E5C0><size=120%>Alloy Hunter: Chosen, there can be but one champion! I shall not yield!</color></size>",
+        
+			
+			"ACCESSCODES_PORTAL_WILL_OPEN": "<style=cWorldEvent>Access granted...</style>",
+			"ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>Collective enemy identified. Integrating analytics...</style>",
+
+			
 	}
 }

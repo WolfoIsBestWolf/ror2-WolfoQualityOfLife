@@ -2,11 +2,35 @@
 	"strings":
 	{
 	 
-			"PURCHASE_DRONE_2P": "You repaired {1}";
-				"PURCHASE_DRONE": "{0} repaired {1}";
-			"UPGRADE_DRONE_2P": "You upgraded/clone {1} to tier?";
-				"UPGRADE_DRONE": "{0} repaired {1}";
-			 
+			"REPAIR_DRONE_2P": "<style=cEvent>You repaired {1}{2}</color>",
+			   "REPAIR_DRONE": "<style=cEvent>{0} repaired {1}{2}</color>",
+			"PURCHASE_DRONE_2P": "<style=cEvent>You purchased {1}{2}</color>",
+			   "PURCHASE_DRONE": "<style=cEvent>{0} purchased {1}{2}</color>",
+			
+			"//COMBINE_DRONE_2P": "<style=cEvent>You combined drones for {1}</color>",
+				"//COMBINE_DRONE": "<style=cEvent>{0} combined drones for {1}</color>",
+				
+			"UPGRADE_DRONE_2P": "<style=cEvent>You upgraded {1} to Tier {2}</color>",
+				"UPGRADE_DRONE": "<style=cEvent>{0} upgraded {1} to Tier {2}</color>",
+			
+			"UPGRADE_DRONE_ITEM_2P": "<style=cEvent>You combined drones for {1}</color>",
+				"UPGRADE_DRONE_ITEM": "<style=cEvent>{0} combined drones for {1}</color>",
+			
+			"REMOTEOP_DRONE_2P": "<style=cEvent>You started a remote operation as {1}</color>",
+				"REMOTEOP_DRONE": "<style=cEvent>{0} started a remote operation as {1}</color>",
+			
+			"MEALPREP_COOKMEAL_2P": "<style=cEvent>You cooked {1}</color>",
+				"MEALPREP_COOKMEAL": "<style=cEvent>{0} cooked {1}</color>",
+			
+			
+			"EVOLUTION_ADD_ITEM": "<style=cWorldEvent>Monsters have evolved {0}</color>",
+			
+			"DRONE_COST_STAT": "\nBase Cost: <style=cEvent>{0}</color>",
+			"DRONE_DAMAGE_DEALT": "\nDamage Dealt: <style=cEvent>{0}</color>",
+			"DRONE_BEST_RUN": "Best Run: <style=cEvent>{0}</color>",
+ 
+ 
+ 
 			 
 			"DEVOTED_LEMURIAN_DEATH_2P": "<style=cDeath>You lost a devotee. Your pack loses {1}{2}</style>",
 			"DEVOTED_LEMURIAN_DEATH": "<style=cDeath>{0} lost a devotee. Their pack loses {1}{2}</style>",
@@ -34,7 +58,10 @@
 		
 
 			"ITEM_RECYCLED_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> was recycled into <color=#{2}>{1}</color></style>",
-
+			"ITEM_TINKER_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> was tinkered into <color=#{2}>{1}</color></style>",
+			"ITEM_TINKER_NONSPECIFIC": "<style=cEvent><color=#{2}>{0}</color> was tinkered with.</style>",
+	 
+			 
 			"ITEM_USED_STAR_2P": "<style=cEvent>You used <color=#77FF16>Sale Star</color> on: <style=cIsDamage>{1}</style>",			 
 			   "ITEM_USED_STAR": "<style=cEvent>{0} used <color=#77FF16>Sale Star</color> on: <style=cIsDamage>{1}</style>",
 					
@@ -63,13 +90,13 @@
 		 
 
 			"ITEM_USE_ELIXIR": "<style=cEvent>You drank a <color=#FFFFFF>Power Elixir</color></style>",
-			"ITEM_USE_ELIXIR_1P": "<style=cEvent>{0} drank a <color=#FFFFFF>Power Elixir</color></style>",
+			"ITEM_USE_ELIXIR_3P": "<style=cEvent>{0} drank a <color=#FFFFFF>Power Elixir</color></style>",
 			
 			"ITEM_USE_WATCH": "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>",
-			"ITEM_USE_WATCH_1P": "<style=cEvent>{0} broke their <color=#FFFFFF>Delicate Watches</color></style>",
+			"ITEM_USE_WATCH_3P": "<style=cEvent>{0} broke their <color=#FFFFFF>Delicate Watches</color></style>",
 			
 			"ITEM_USE_VV_VOIDWATCH": "<style=cEvent>{0} ran out of time...</style>",
-			"ITEM_USE_VV_VOIDWATCH_1P": "<style=cEvent>{1}'s {0} ran out of time...</style>",
+			"ITEM_USE_VV_VOIDWATCH_3P": "<style=cEvent>{1}'s {0} ran out of time...</style>",
 
 			"ITEM_TRANSFORM_EGO": "<style=cEvent><color=#458CFF>{0}</color> assimilated <color=#{1}>{2}</color></style>",
 			"ITEM_TRANSFORM_VOID": "<style=cEvent><style=cIsVoid>The Void</style> upgraded <color=#{0}>{1} into <color=#{2}>{3}</style>",

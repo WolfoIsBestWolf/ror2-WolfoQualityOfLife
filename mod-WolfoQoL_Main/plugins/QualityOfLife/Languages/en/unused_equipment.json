@@ -1,9 +1,8 @@
+//No need to translate
+//Just a for fun thing
 {
 	"strings":
 	{
-		    "NO_NEED_TO_TRANSLATE_THIS": "guh",    
-				 
-		
             "EQUIPMENT_LUNARPOTION_NAME": "Lunar Potion",
             "EQUIPMENT_LUNARPOTION_PICKUP": "Cannot activate this.",
             "EQUIPMENT_LUNARPOTION_DESC": "Cannot be used. <style=cIsHealing>100%</style> of <style=cIsHealing>healing</style> is stored in the potion and returned upon using it.",
@@ -33,14 +32,10 @@
             "EQUIPMENT_AFFIXECHO_NAME": "EliteEchoEquipment",
             "EQUIPMENT_AFFIXECHO_DESC": "Gain 2 <style=cIsDamage>Echoes</style> that will fight for you.",
 
-"EQUIPMENT_IRRADIATINGLASER_DESC" : "Fire a laser that irradiates targets for <style=cIsUtility>8</style> seconds, causing <style=cIsDamage>3x100%</style> damage to nearby enemies every <style=cIsDamage>8</style> seconds.",
-
-
-            "EQUIPMENT_SOULJAR_DESC": "Cannot be used. <style=cIsUtility>Duplicate</style> every enemy as a <style=cIsUtility>ghost</style> to fight on your side for <style=cIsUtility>15 seconds</style>.",
 
             "EQUIPMENT_GHOSTGUN_DESC": "Shoot nearby enemies for <style=cIsDamage>500% damage 6 times</style> . Shots have a proc coefficient of 0. Supposed to multiply damage based on kills but does not track kills.",
 
-            "EQUIPMENT_AFFIXGOLD_DESC": "Does nothing due to missing elite implementation.",
+			"EQUIPMENT_AFFIXGOLD_DESC": "Does nothing.",
 
 	}
 }

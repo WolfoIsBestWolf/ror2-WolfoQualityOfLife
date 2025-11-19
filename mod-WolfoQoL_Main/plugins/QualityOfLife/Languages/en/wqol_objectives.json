@@ -1,3 +1,7 @@
+//Spacing from \n mostly checked ingame to fit better
+//Might not be translateable 1 to 1 without double checking or can just be removed
+//Cyber: FF269C
+//Heart:
 {
 	"strings":
 	{
@@ -9,6 +13,10 @@
 			"REMINDER_PORTAL_NULL": "Proceed through the <style=cIsVoid>Null Portal</style>",
             "REMINDER_PORTAL_VOID": "Proceed through the <style=cIsVoid>Void Portal</style>",
             "REMINDER_PORTAL_GREEN": "Proceed through the <style=cRebirth>Green Portal</color>",
+			"REMINDER_PORTAL_AC": "Proceed through the <color=#c6d5ff>Encrypted Portal</color>",
+			"REMINDER_PORTAL_SOLUSWEB": "Proceed through the <color=#FF269C>Decrypted Portal</color>",
+			"REMINDER_PORTAL_MAIN": "Proceed through the {0}",
+			"REMINDER_PORTAL_EXIT": "Leave through the {0}",
 				 
 			  
 			
@@ -40,7 +48,9 @@
 			
 			"REMINDER_SECRET_GEODE": "Crack the <style=cGold>Aurelionite Geodes</color> ({0}/{1})",
            
-			"REMINDER_NEWT": "Find and activate a\n<style=cIsLunar>Newt Altar</style>",  
+			"REMINDER_NEWT": "Find and activate a\n<style=cIsLunar>Newt Altar <sprite name=\"LunarCoin\" tint=1></style>",  
+			"REMINDER_HALCYON": "Find and activate the\n<style=cGold>Halcyon Shrine</style>",  
+			"REMINDER_ACCESSNODE": "Find and activate the\n<style=cDeath>Access Node</style>",  
 		  
 	 
 	}
