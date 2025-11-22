@@ -1,0 +1,140 @@
+{
+	"strings":
+	{
+		"REPAIR_DRONE_2P": "<style=cEvent>You repaired {1}{2}</color>",
+		"REPAIR_DRONE": "<style=cEvent>{0} repaired {1}{2}</color>",
+		"PURCHASE_DRONE_2P": "<style=cEvent>You purchased {1}{2}</color>",
+		"PURCHASE_DRONE": "<style=cEvent>{0} purchased {1}{2}</color>",
+
+		"//COMBINE_DRONE_2P": "<style=cEvent>You combined drones for {1}</color>",
+		"//COMBINE_DRONE": "<style=cEvent>{0} combined drones for {1}</color>",
+
+		"UPGRADE_DRONE_2P": "<style=cEvent>你将 {1} 升级到 {2} 阶</color>",
+		"UPGRADE_DRONE": "<style=cEvent>{0} 将 {1} 升级到 {2} 阶</color>",
+
+		"UPGRADE_DRONE_ITEM_2P": "<style=cEvent>你合并无人机以获得 {1}</color>",
+		"UPGRADE_DRONE_ITEM": "<style=cEvent>{0} 合并无人机以获得 {1}</color>",
+
+		"REMOTEOP_DRONE_2P": "<style=cEvent>你以 {1} 的身份开始了一次远程行动</color>",
+		"REMOTEOP_DRONE": "<style=cEvent>{0} 以 {1} 的身份开始了一次远程行动</color>",
+
+		"MEALPREP_COOKMEAL_2P": "<style=cEvent>你烹饪了 {1}</color>",
+		"MEALPREP_COOKMEAL": "<style=cEvent>{0} 烹饪了 {1}</color>",
+
+
+		"EVOLUTION_ADD_ITEM": "<style=cWorldEvent>怪物进化出了 {0}</color>",
+
+		"DRONE_COST_STAT": "\nBase Cost: <style=cEvent>{0}</color>",
+		"DRONE_DAMAGE_DEALT": "\nDamage Dealt: <style=cEvent>{0}</color>",
+		"DRONE_BEST_RUN": "Best Run: <style=cEvent>{0}</color>",
+
+
+		"DEVOTED_LEMURIAN_DEATH_2P": "<style=cDeath>你失去了一名信徒。你的兽群失去了 {1}{2}</style>",
+		"DEVOTED_LEMURIAN_DEATH": "<style=cDeath>{0} 失去了一名信徒。他们的兽群失去了 {1}{2}</style>",
+
+		"ITEM_LOSS_EGG_2P": "<style=cEvent>你向你的信徒献上了 {1}</style>",
+		"ITEM_LOSS_EGG": "<style=cEvent>{0} 向他们的信徒献上了 {1}</style>",
+
+
+		"PLAYER_PING_PLAYER": "<style=cIsUtility>{0} 向 {1} 打了个招呼。</style>",
+
+
+		"SHRINE_REVIVE_USE_MESSAGE": "<style=cShrine>失去的生命将被重塑。</color>",
+
+		"SHRINE_REVIVE_MESSAGE_DEAD_YOUAND": "<style<style=cShrine>你{0}的身体被重塑。</color>",
+		"SHRINE_REVIVE_MESSAGE_DEAD_YOU": "<style=cShrine>你的身体被重塑。</color>",
+		"SHRINE_REVIVE_MESSAGE_DEAD": "<style=cShrine>{0} 的身体被重塑。</color>",
+
+		"ITEM_REVIVE_MESSAGE": "<style=cIsLunar>{0} 使用自己的 {1} 复活了。</color>",
+		"ITEM_REVIVE_MESSAGE_TEAM": "<style=cIsLunar>{0} 使用 {1} 复活了倒下的队友。</color>",
+		"ITEM_REVIVE_MESSAGE_ALL": "NOTIN <style=cIsLunar>{0} 使用 {1} 复活了自己和倒下的队友。</color>",
+
+
+
+		"ITEM_RECYCLED_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> 被回收为 <color=#{2}>{1}</color></style>",
+		"ITEM_TINKER_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> 被改造为 <color=#{2}>{1}</color></style>",
+		"ITEM_TINKER_NONSPECIFIC": "<style=cEvent><color=#{2}>{0}</color> 被鼓捣了一番。</style>",
+
+		"ITEM_USED_STAR_2P": "<style=cEvent>你将 <color=#77FF16>Sale Star</color> 用在：<style=cIsDamage>{1}</style>",
+		"ITEM_USED_STAR": "<style=cEvent>{0} 将 <color=#77FF16>Sale Star</color> 用在：<style=cIsDamage>{1}</style>",
+
+
+		"ITEM_LOSS_GENERIC_2P": "<style=cEvent>你丢弃了 {1}</style>",
+		"ITEM_LOSS_GENERIC": "<style=cEvent>{0} 丢弃了 {1}</style>",
+
+		"ITEM_LOSS_CAULDRON_2P": "<style=cEvent>你重铸了 {1}</style>",
+		"ITEM_LOSS_CAULDRON": "<style=cEvent>{0} 重铸了 {1}</style>",
+
+		"ITEM_LOSS_CLEANSING_2P": "<style=cShrine>你净化掉了身上的 {1}</style>",
+		"ITEM_LOSS_CLEANSING": "<style=cShrine>{0} 净化掉了身上的 {1}</style>",
+
+		"ITEM_LOSS_SCRAP_2P": "<style=cEvent>你拆解了 {1}</style>",
+		"ITEM_LOSS_SCRAP": "<style=cEvent>{0} 拆解了 {1}</style>",
+
+		"ITEM_LOSS_USED_2P": "<style=cEvent>你使用了 {1}</style>",
+		"ITEM_LOSS_USED": "<style=cEvent>{0} 使用了 {1}</style>",
+
+
+		"ITEM_LOSS_LOST_2P": "<style=cEvent>你失去了 {1}</style>",
+		"ITEM_LOSS_LOST": "<style=cEvent>{0} 失去了 {1}</style>",
+
+
+
+		"ITEM_USE_ELIXIR": "<style=cEvent>你喝下了一瓶 <color=#FFFFFF>Power Elixir</color></style>",
+		"ITEM_USE_ELIXIR_3P": "<style=cEvent>{0} 喝下了一瓶 <color=#FFFFFF>Power Elixir</color></style>",
+
+		"ITEM_USE_WATCH": "<style=cEvent>你打碎了你的 <color=#FFFFFF>Delicate Watches</color></style>",
+		"ITEM_USE_WATCH_3P": "<style=cEvent>{0} 打碎了自己的 <color=#FFFFFF>Delicate Watches</color></style>",
+
+		"ITEM_USE_VV_VOIDWATCH": "<style=cEvent>{0} 已经耗尽了时间……</style>",
+		"ITEM_USE_VV_VOIDWATCH_3P": "<style=cEvent>{1} 的 {0} 已经耗尽了时间……</style>",
+
+		"ITEM_TRANSFORM_EGO": "<style=cEvent><color=#458CFF>{0}</color> 同化了 <color=#{1}>{2}</color></style>",
+		"ITEM_TRANSFORM_VOID": "<style=cEvent><style=cIsVoid>The Void</style> 将 <color=#{0}>{1} 升级为 <color=#{2}>{3}</style>",
+
+
+		"DEATH_DOT_FRACTURE_2P": "你被 {1} 的坍缩杀死了。",
+		"DEATH_DOT_FRACTURE": "{0} 被 {1} 的坍缩杀死了。",
+
+		"DEATH_DOT_GENERIC_2P": "你慢慢死于 {1}。",
+		"DEATH_DOT_GENERIC": "{0} 慢慢死于 {1}。",
+
+		"DEATH_VOID_FOG_2P": "你溺毙于虚空。",
+		"DEATH_VOID_FOG": "{0} 溺毙于虚空。",
+
+		"DEATH_VOID_EXPLODE_2P": "你被 {1} 拘禁致死。",
+		"DEATH_VOID_EXPLODE": "{0} 被 {1} 拘禁致死。",
+
+		"DEATH_FALL_DAMAGE_2P": "你死于重力。",
+		"DEATH_FALL_DAMAGE": "{0} 死于重力。",
+
+		"DEATH_FRIENDLY_SUICIDE_2P": "你杀死了自己。",
+		"DEATH_FRIENDLY_SUICIDE": "{0} 杀死了自己。",
+
+		"DEATH_FRIENDLY_2P": "你被 {1} 背叛了。",
+		"DEATH_FRIENDLY": "{0} 被 {1} 背叛了。",
+
+		"DEATH_LAVA_2P": "你被熔化了。",
+		"DEATH_LAVA": "{0} 被熔化了。",
+
+		"DEATH_ECHO_2P": "{1} 的回响杀死了你。",
+		"DEATH_ECHO": "{1} 的回响杀死了 {0}。",
+
+		"DEATH_GLASS_2P": "你被 {1} 击得粉碎。",
+		"DEATH_GLASS": "{0} 被 {1} 击得粉碎。",
+
+		"DEATH_GENERIC_2P": "你被 {1} 杀死了。",
+		"DEATH_GENERIC": "{0} 被 {1} 杀死了。",
+
+		"DEATH_DAMAGE": "（承受了 {0} 点伤害）</style>",
+
+
+		"REBIRTH_ENDING_CHAT_ITEM_2P": "你将带着 {0} 重获新生。",
+
+		"WIN_FORMAT_WIN": "<style=cIsHealing><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+		"WIN_FORMAT_FAIL": "<style=cDeath><sprite name=\"Skull\" tint=1> {0} <sprite name=\"Skull\" tint=1></style>",
+		"WIN_FORMAT_MS": "<style=cLunarObjective><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+		"WIN_FORMAT_VOID": "<style=cIsVoid><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+		"WIN_FORMAT_REBIRTH": "<style=cRebirth><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>"
+	}
+}

@@ -1,0 +1,46 @@
+//Spacing from \n mostly checked ingame to fit better
+{
+  "strings": {
+    "REMINDER_PORTAL_LUNAR": "穿过 <style=cIsLunar>蓝色传送门</style>",
+    "REMINDER_PORTAL_GOLD": "穿过 <style=cGold>金色传送门</color>",
+    "REMINDER_PORTAL_MS": "穿过 <style=cMysterySpace>天体传送门</color>",
+    "REMINDER_PORTAL_ARTIFACT": "穿过 <style=cDeath>神器传送门</style>",
+
+    "REMINDER_PORTAL_NULL": "穿过 <style=cIsVoid>虚无传送门</style>",
+    "REMINDER_PORTAL_VOID": "穿过 <style=cIsVoid>虚空传送门</style>",
+    "REMINDER_PORTAL_GREEN": "穿过 <style=cRebirth>绿色传送门</color>",
+    "REMINDER_PORTAL_AC": "穿过 <color=#c6d5ff>加密传送门</color>",
+    "REMINDER_PORTAL_SOLUSWEB": "穿过 <color=#FF269C>解密传送门</color>",
+    "REMINDER_PORTAL_MAIN": "穿过 {0}",
+    "REMINDER_PORTAL_EXIT": "通过 {0} 离开",
+
+    "OBJECTIVE_CHARGE_HALCSHRINE": "为 <style=cGold>宁静神龛</color> 充能 ({0}%)",
+    "OBJECTIVE_KILL_HALCSHRINE": "击败 <style=cGold>守护者</color>",
+
+    "OBJECTIVE_ARTIFACT_TRIAL": "完成 \n<style=cArtifact>{0} 的试炼</style>",
+    "OBJECTIVE_GLASS_YOURSELF": "<style=cMysterySpace>将自己从存在中湮灭</color>",
+    "OBJECTIVE_DESERT_ELDERS": "探索隐藏的密室",
+
+    "REMINDER_COUNT": " ({0}/{1})",
+    "REMINDER_KEY": "开启 <style=cIsDamage>生锈的锁箱</style>",
+    "REMINDER_KEY_MANY": "开启 <style=cisDamage>生锈的锁箱</style> ({0}/{0})",
+
+    "REMINDER_KEYVOID": "开启 <color=#FF9EEC>结壳锁箱</color>",
+    "REMINDER_KEYVOID_MANY": "开启 <color=#FF9EEC>结壳锁箱</color> ({0}/{0})",
+
+    "REMINDER_FREECHEST": "领取免费的 <style=cIsHealing>货物</style>",
+    "REMINDER_FREECHEST_MANY": "领取免费的 <style=cIsHealing>货物</style> ({0}/{0})",
+
+    "REMINDER_SALESTAR": "善用 <style=cIsUtility>特卖之星</style>",
+
+    "REMINDER_REGENSCRAP": "善用 <style=cIsHealing>再生废料</style>",
+
+    "REMINDER_FREECHESTVOID": "找到并激活 <style=cIsVoid>失落电池</style>",
+
+    "REMINDER_SECRET_GEODE": "击碎 <style=cGold>奥雷利奥奈特晶石</color> ({0}/{1})",
+
+    "REMINDER_NEWT": "找到并激活一个\n<style=cIsLunar>蝾螈祭坛 <sprite name=\"LunarCoin\" tint=1></style>",
+    "REMINDER_HALCYON": "找到并激活\n<style=cGold>宁静神龛</style>",
+    "REMINDER_ACCESSNODE": "找到并激活\n<style=cDeath>接入节点</style>"
+  }
+}

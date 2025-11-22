@@ -1,0 +1,55 @@
+{
+	"strings":
+	{
+		"LOGBOOK_CATEGORY_DRONE" : "无人机与友军",
+	
+		"VagrantTrackingBomb":"漂泊者充能",
+		"ScorchlingBombProjectile":"灼焰炸弹",
+		"MiniGeodeBody":"隐匿晶洞",
+		"LunarWispTrackingBomb":"追踪炸弹",
+		"GravekeeperTrackingFireball":"易爆幽火灵",
+		"BeetleWard":"甲虫榨汁机",
+		"BeadProjectileTrackingBomb":"扭曲碎片",
+		"//AltarSkeletonBody":"N'kuhana 的信徒",
+
+		"SKILL_VOIDFIEND_CORRUPT_M1":"发射一束短距离光束，每秒造成<style=cisDamage>2000% 伤害。</style>",
+		"SKILL_VOIDFIEND_CORRUPT_M2":"发射一枚划弧等离子炸弹，造成<style=cisDamage>1100% 伤害。</style>",
+		"SKILL_VOIDFIEND_CORRUPT_M3":"<style=cIsUtility>消失</style>在虚空中，<style=cIsUtility>净化所有减益效果</style>，并以<style=cIsUtility>高速向前冲刺。</style>",
+		"SKILL_VOIDFIEND_CORRUPT_M4":"压碎<style=cIsHealth>25% 最大生命值</style>以获得<style=cIsVoid>25% 腐化。</style>",
+
+		"CHEF_BOOSTED_FORMAT": "强化的 {0}",
+		"VOIDFIEND_BOOSTED_FORMAT": "『Co??rupted】{0}",
+		"SKIN_CROCO_BLIGHT": "灾疫",
+
+		"PORTAL_DESTINATION_CONTEXT": "拒绝重获新生",
+		"ARTIFACT_COMMAND_CUBE_PINK_NAME": "粉色指令精华",
+
+		"MULTISHOP_LARGE_TERMINAL_NAME": "大型多重商店终端",
+		"//MULTISHOP_LARGE_TERMINAL_CONTEXT": "打开终端",
+		"MULTISHOP_EQUIPMENT_TERMINAL_NAME": "装备商店终端",
+		"//MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT": "打开终端",
+		"DUPLICATOR_LARGE_NAME": "大型 3D 打印机",
+		"DUPLICATOR_LARGE_CONTEXT": "使用大型 3D 打印机",
+
+		"FREECHEST_TERMINAL_NAME": "货运终端",
+		"FREECHEST_TERMINAL_CONTEXT": "接受投递。",
+
+		"GAME_RESULT_LIMBOWIN": "安息中..",
+		"GAME_RESULT_VOIDWIN": "更深，更深处..",
+		"GAME_RESULT_ESCAPEFAILED": "逃离失败..",
+
+		"ITEM_TREASURECACHECONSUMED_NAME": "锈蚀钥匙（已消耗）",
+		"ITEM_TREASURECACHECONSUMED_DESC": "一把已用尽的钥匙，纪念那件来之不易的战利品。",
+
+		"ITEM_TREASURECACHEVOIDCONSUMED_NAME": "结壳钥匙（已消耗）",
+		"ITEM_TREASURECACHEVOIDCONSUMED_DESC": "一把用尽的钥匙？用来纪念那件来之不易的战利品。",
+
+		"ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME": "念珠的祝福",
+		"ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "你的念珠庇佑了你的属性。（缺少叠加层）",
+		"ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC": "念珠庇佑了这具躯体。（缺少叠加层）",
+
+		"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "你的念珠赐予了你 +{0} 级",
+		"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC": "念珠庇佑了这具躯体，获得<style=cIsUtility>+{0} 级</style>，使<style=cIsHealing>最大生命值</style>提高<style=cIsHealing>{1}</style>，<style=cIsHealing>生命回复</style>提高<style=cIsHealing>{2} 点/秒</style>，<style=cIsDamage>伤害</style>提高<style=cIsDamage>{3}</style>。",
+		"OVERLAY_EXTRASTATSONLEVELUP_DESC": "你的念珠庇佑了你，获得<style=cIsUtility>+{0} 级</style>，使<style=cIsHealing>最大生命值</style>提高<style=cIsHealing>{1}</style>，<style=cIsHealing>生命回复</style>提高<style=cIsHealing>{2} 点/秒</style>，<style=cIsDamage>伤害</style>提高<style=cIsDamage>{3}</style>。"
+	}
+}
