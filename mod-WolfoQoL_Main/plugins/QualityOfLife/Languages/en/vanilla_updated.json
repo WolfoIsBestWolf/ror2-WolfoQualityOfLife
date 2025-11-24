@@ -1,4 +1,4 @@
-
+//Does not really need to be translated
 {
 	"strings":
 	{
@@ -17,10 +17,10 @@
  
 			"PRIMEMERIDIANHEAD_BODY_NAME": "Head of the Colossus",
 			"LUNAR_CHIMERA": "Lunar Chimera",
-			"LUNARGOLEM_BODY_NAME": "Lunar Chimera Golem",
-			"LUNARWISP_BODY_NAME": "Lunar Chimera Wisp",
-			"LUNAREXPLODER_BODY_NAME": "Lunar Chimera Exploder",
-			"ACIDLARVA_BODY_NAME": "Acid Larva",
+			"LUNARGOLEM_BODY_NAME_": "Lunar Chimera Golem",
+			"LUNARWISP_BODY_NAME_": "Lunar Chimera Wisp",
+			"LUNAREXPLODER_BODY_NAME_": "Lunar Chimera Exploder",
+			"ACIDLARVA_BODY_NAME_": "Acid Larva",
 			"UNLOCKABLE_LOG_LUNARWISP": "Monster Log: Lunar Chimera Golem",
 			"UNLOCKABLE_LOG_LUNARGOLEM": "Monster Log: Lunar Chimera Wisp",
 			"UNLOCKABLE_LOG_LUNAREXPLODER": "Monster Log: Lunar Chimera Exploder",

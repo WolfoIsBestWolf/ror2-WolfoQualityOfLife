@@ -41,13 +41,17 @@ namespace WolfoQoL_Client
                 VisualsMisc.Start();
 
                 HoldoutZoneFlowers.FlowersForOtherHoldoutZones();
-                ChefOil.Start();
-
+               
                 On.RoR2.Stage.PreStartClient += VisualStageChanges;
 
                 GameModeCatalog.availability.CallWhenAvailable(CallLate);
             }
- 
+            if (WConfig.module_audio.Value)
+            {
+                ChefOil.Start();
+
+                AudioStuff.Start();
+            }
         }
 
 

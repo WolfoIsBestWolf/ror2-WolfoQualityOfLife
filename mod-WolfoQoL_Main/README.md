@@ -60,6 +60,9 @@ Item Stacks with temporary items turn light blue, similiar to Returns.
 ![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)
 
 ## Stages
+Reformed Altar & Prime Meridian will have pink leaves during loops, to match Golden Dieback.\
+*(As they are directly connected to that stage)
+
 Helminth Hatcheries Lighting is now what was seemingly originally intended. [(Brighter, Warmer)](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/helminth.png?raw=true)\
 Sundered Groves, Abyssal Depths & Scorched Acres have slightly less dark shadows.\
 Sundered Groves pink mushrooms are visible at lower settings.
@@ -86,6 +89,8 @@ Chef Oil will spawn a little effect when changing states.
 Parrying now plays a more noticible sound.
 
 Igniting Oil will play a sound.
+
+Solutional Haunt's music will renable after the boss fight.
 
 # Text
 ## Chat Messages
@@ -254,6 +259,8 @@ A lot of things are configurable. If you feel something should be configurable y
 
 ### Translations
 Thank you for anyone who wishes to translate.
+
+Standard Chinese by [takaqiaoc](https://github.com/takaqiaoc) on GitHub
 
 Russian by [kreeperHLC](https://github.com/kreeperHLC) on GitHub
 

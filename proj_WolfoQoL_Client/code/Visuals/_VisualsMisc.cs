@@ -162,7 +162,10 @@ namespace WolfoQoL_Client
         private static void RestartMusicAfterSolusWing(On.EntityStates.SolusWing2.Mission5Death.orig_OnEnter orig, EntityStates.SolusWing2.Mission5Death self)
         {
             orig(self);
-            self.solutionalHauntReferences.PostFightMusic.AddComponent<DestroyOnTimer>().duration = 10;
+            if (WConfig.SH_Music_Restarter.Value)
+            {
+                self.solutionalHauntReferences.PostFightMusic.AddComponent<DestroyOnTimer>().duration = 10;
+            }
         }
 
 

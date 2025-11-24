@@ -1,3 +1,4 @@
+//
 {
 	"strings":
 	{
@@ -6,10 +7,7 @@
 			   "REPAIR_DRONE": "<style=cEvent>{0} repaired {1}{2}</color>",
 			"PURCHASE_DRONE_2P": "<style=cEvent>You purchased {1}{2}</color>",
 			   "PURCHASE_DRONE": "<style=cEvent>{0} purchased {1}{2}</color>",
-			
-			"//COMBINE_DRONE_2P": "<style=cEvent>You combined drones for {1}</color>",
-				"//COMBINE_DRONE": "<style=cEvent>{0} combined drones for {1}</color>",
-				
+	
 			"UPGRADE_DRONE_2P": "<style=cEvent>You upgraded {1} to Tier {2}</color>",
 				"UPGRADE_DRONE": "<style=cEvent>{0} upgraded {1} to Tier {2}</color>",
 			

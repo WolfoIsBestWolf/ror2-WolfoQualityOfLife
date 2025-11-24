@@ -52,8 +52,8 @@ namespace WolfoQoL_Client.Skins
 
             CharacterModel.LightInfo[] pink = new CharacterModel.LightInfo[2];
             System.Array.Copy(skinMercDefault_params.lightReplacements, pink, 2);
-            pink[0].defaultColor = new Color(1f, 0.609f, 1f, 1);
-            pink[1].defaultColor = new Color(1f, 0.609f, 1f, 1);
+            pink[0].defaultColor = new Color(1f, 0.609f, 0.9f, 1);
+            pink[1].defaultColor = new Color(1f, 0.609f, 0.9f, 1);
             skinMercAltVulture_params.lightReplacements = pink;
             #endregion
         }

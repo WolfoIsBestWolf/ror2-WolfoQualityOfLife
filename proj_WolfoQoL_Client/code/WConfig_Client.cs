@@ -13,6 +13,7 @@ namespace WolfoQoL_Client
 
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Client.cfg", true);
 
+        public static ConfigEntry<bool> SH_Music_Restarter;
         public static ConfigEntry<bool> OperatorDroneIndicator;
 
         public static ConfigEntry<bool> RealTimeTimer;
@@ -30,6 +31,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> module_visuals_skins;
         public static ConfigEntry<bool> module_visuals_icons;
         public static ConfigEntry<bool> module_visuals_other;
+        public static ConfigEntry<bool> module_audio;
 
         public static ConfigEntry<bool> module_menu_deathscreen;
         public static ConfigEntry<bool> module_menu_logbook;
@@ -273,19 +275,19 @@ namespace WolfoQoL_Client
                 "Modules",
                 "Death Screen",
                 true,
-                "Enable all Death Screen enhancements:\nMore Stats\nRun Recap\nKiller's Inventory\nDrone Collection\ntop right Win Message, bigger."
+                "Enable the remade Death Screen:\nMore Stats\nRun Recap\nKiller's Inventory\nDrone Collection\ntop right Win Message, bigger."
             );
             module_menu_logbook = ConfigFile_Client.Bind(
                 "Modules",
                 "Logbook",
                 true,
-                "Enable all Logbook Additions:\n\nDrones -> Drones & Allies\nItems entries show crafting recipes\nMonster & Survivor entries show more stats and subtitle\n"
+                "Enable Logbook Additions:\n\nDrones -> Drones & Allies\nItems entries show crafting recipes\nMonster & Survivor entries show more stats and subtitle\n"
             );
             module_menu_other = ConfigFile_Client.Bind(
                 "Modules",
                 "Menu & Hud Tweaks",
                 true,
-                "Enable all misc menu tweaks:\n\nMain Menu theme randomizer\nEclipse number in lobby\nSimu Completed border\nReal time timer"
+                "Enable menu & hud tweaks:\n\nMain Menu theme randomizer\nEclipse number in lobby\nSimu Completed border\nReal time timer"
             );
             module_visuals_skins = ConfigFile_Client.Bind(
                 "Modules",
@@ -304,6 +306,12 @@ namespace WolfoQoL_Client
                 "Visuals",
                 true,
                 "Enable all other visual tweaks:\n\nLarger Uncommon Printers\nSulfur & Magma Geysers\nDifferent colors for Lunar/Elite equips"
+            );
+            module_audio = ConfigFile_Client.Bind(
+                "Modules",
+                "Audio",
+                true,
+                "Parrying effect is more noticible\nSolutional Haunt Music track restarts after boss fight."
             );
 
             #endregion
@@ -874,7 +882,12 @@ namespace WolfoQoL_Client
                 true,
                 "Gives Twisted Elites a dark blue coloration instead of reusing Overloading."
             );
- 
+            SH_Music_Restarter = ConfigFile_Client.Bind(
+                           "Other",
+                           "Restart Solutional Haunt music",
+                           true,
+                           "Re-starts the Solutional Haunt music after the Solus Wing boss fight."
+                       );
             cfgPrimordialBlueText = ConfigFile_Client.Bind(
                 "Other",
                 "Primordial | Blue objective",

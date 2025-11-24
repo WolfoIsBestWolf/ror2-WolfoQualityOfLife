@@ -3,7 +3,7 @@
 	"strings":
 	{
 	  
-			"LOGBOOK_CATEGORY_DRONE" : "Drones & Allies",
+			"LOGBOOK_CATEGORY_DRONE_AND_ALLIES" : "Drones & Allies",
 	
 	 
 			"VagrantTrackingBomb":"Vagrant Charge",
@@ -13,8 +13,7 @@
 			"GravekeeperTrackingFireball":"Volatile Wispling",
 			"BeetleWard":"Beetle Juicer",
 			"BeadProjectileTrackingBomb":"Twisted Shard",
-			"//AltarSkeletonBody":"Follower of N'kuhana",
-
+			 
 			
 			"SKILL_VOIDFIEND_CORRUPT_M1":"Fire a short-range beam for <style=cisDamage>2000% damage per second.</style>",
 			"SKILL_VOIDFIEND_CORRUPT_M2":"Fire a an arcing plasma bomb for <style=cisDamage>1100% damage.</style>",
@@ -32,9 +31,7 @@
 		
 		
 			"MULTISHOP_LARGE_TERMINAL_NAME": "Large Multishop Terminal",
-            "//MULTISHOP_LARGE_TERMINAL_CONTEXT": "Open terminal",
             "MULTISHOP_EQUIPMENT_TERMINAL_NAME": "Equipment Shop Terminal",
-            "//MULTISHOP_EQUIPMENT_TERMINAL_CONTEXT": "Open terminal",
             "DUPLICATOR_LARGE_NAME": "Large 3D Printer",
             "DUPLICATOR_LARGE_CONTEXT": "Use Large 3D Printer",
 

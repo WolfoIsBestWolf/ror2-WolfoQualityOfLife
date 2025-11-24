@@ -1,5 +1,5 @@
 //Optional to translate
-//Just adds colors to objective nothing more
+//Just adds colors to objectives/chat lines nothing more
 {
 	"strings":
 	{
@@ -29,11 +29,7 @@
 			"CONDUITCANYON_P2" : "Install <color=#F8B651>Sentry Keys</color> to reprogram encrypted teleporter",
 			"CONDUITCANYON_SKIP_BARRIER": "<style=cWorldEvent>Intrusion detected! Rerouting power to security team dispatch.</style>",
         
-
-			"SPEX_COLOR": "<color=#c6d5ff></color>",
-			"SOLUSHEART_COLOR" : "<color=#F8B651></color>",
-			"VULTURE_FORMAT": "<color=#87E5C0><size=120%>Alloy Hunter: {0}</color></size>",
-
+ 
 			"VULTURE_KILLS_BOSS": "<color=#87E5C0><size=120%>Alloy Hunter: Chosen, there can be but one champion! I shall not yield!</color></size>",
         
 			
