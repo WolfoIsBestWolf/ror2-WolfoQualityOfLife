@@ -1,0 +1,56 @@
+//Drone Tier Info
+//Custom Ally Skill Info
+{
+  "strings":
+  {
+    "DRONE_HEALING_SKILL_DESCRIPTION": "释放一束治疗光束，在<style=cIsHealing>5s</style>内<style=cIsHealing>回复生命值</style>，总量等同于<style=cIsDamage>200% base damage</style>。",
+    "DRONE_HAULER_SKILL_DESCRIPTION": "<style=cIsUtility>眩晕</style>目标并将其举到空中，然后将其摔下，造成<style=cIsDamage>400% damage and increased fall damage</style>。",
+    "DRONE_JUNK_SKILL_DESCRIPTION": "每<style=cIsUtility>120s</style>发放<style=cIsTemporary>1 to 5 temporary items</style>。<style=cIsUtility>数量取决于 ambient level</style>。",
+    
+    "EMERGENCYDRONE_SKILL_DESCRIPTION": "释放至多<style=cIsHealing>8</style>束治疗光束，这些光束<style=cIsHealing>restore health</style>，总量等同于 style=cIsDamage>250% base damage</style>，持续<style=cIsHealing>5s</style>。",
+    "DRONE_CLEANUP_SKILL_DESCRIPTION": "在<style=cIsUtility>24m</style>半径内<style=cIsUtility>Slows</style>敌人<style=cIsUtility>50%</style>。被减速的怪物被击杀后会被回收为一个拾取物，该拾取物要么<style=cIsHealing>heals</style>你<style=cIsHealing>15%</style>的<style=cIsHealing>maximum health</style>，要么获得<style=cIsUtility>$12</style>。",
+    "DRONE_JAILER_SKILL_DESCRIPTION": "部署一个牢笼，使附近敌人<style=cIsUtility>roots</style>，持续<style=cIsUtility>5 seconds</style>。",
+    "DRONE_RECHARGE_SKILL_DESCRIPTION": "释放一束充能光束，在<style=cIsHealing>5s</style>内提供等同于<style=cIsDamage>800% base damage</style>的<style=cIsHealing>temporary barrier</style>。",
+    
+    "DRONE_BOMBARDMENT_SKILL_DESCRIPTION": "用闪电轰炸区域，在大范围内造成<style=cIsDamage>16x250% damage</style>并<Style=cIsUtility>shocking</style>目标<style=cIsUtility>2 seconds</style>。",
+    "DRONE_COPYCAT_SKILL_DESCRIPTION": "发射一个会追踪的冰盘，最多弹跳<style=cIsDamage>6</style>次，每次造成<style=cIsDamage>200% damage</style>并<style=cIsUtility>freezing</style>目标<style=cIsUtility>2s</style>。<style=cIsUtility>Frozen</style>的敌人若生命值低于<style=cIsHealth>30%</style>，会被<style=cIsHealth>instantly killed</style>。",
+    
+    "DRONE_BACKUP_SKILL_DESCRIPTION": "快速进行四连射，造成<style=cIsDamage>4x50% damage</style>。在25秒后<style=cIsHealth>Expires</style>。",
+    
+    
+    "DRONE_TIERINFO_GENERAL": "合并无人机会合并它们的<style=cIsHealth>health</style>和<style=cIsDamage>damage</style>，<style=cIsUtility>skill cooldown</style>减少<style=cIsUtility>20%</style>，并且每个阶级会增加一个<style=cIsUtility>additional effect</style>。",
+    "DRONE_GUNNER_TIERINFO": "每个阶级额外发射<style=cIsDamage>2</style>发子弹。",
+    "DRONE_HEALING_TIERINFO": "每个阶级使治疗光束持续时间延长<style=cIsHealing>50%</style>，总治疗量提高<style=cIsHealing>50%</style>。",
+    "DRONE_HAULER_TIERINFO": "每个阶级在抓取时提升<style=cIsUtility>movement speed</style><style=cIsUtility>60%</style>。",
+    "DRONE_JUNK_TIERINFO": "每个阶级额外掉落<style=cIsTemporary>2</style>个<style=cIsUtility>temporary items</style>，并额外<style=cIsUtility>reduce cooldown</style><style=cIsUtility>30%</style>。",
+    
+    
+    "DRONE_MISSILE_TIERINFO": "每个阶级额外发射<style=cIsDamage>2</style>枚导弹。",
+    "FLAMEDRONE_TIERINFO": "每个阶级使喷火器伤害提高<style=cIsDamage>1000%</style>。",
+    "EMERGENCYDRONE_TIERINFO": "每个阶级可额外部署<style=cIsHealing>+2</style>束治疗光束。治疗光束持续时间延长<style=cIsHealing>50%</style>，每秒治疗量提高<style=cIsHealing>50%</style>，均按阶级叠加。",
+    
+    "DRONE_CLEANUP_TIERINFO": "每个阶级使效果半径增加<style=cIsUtility>6m</style>，并额外生成<style=cIsUtility>+1</style>个拾取物。",
+    "DRONE_JAILER_TIERINFO": "每个阶级额外禁锢敌人<style=cIsUtility>+5</style>秒。",
+    "DRONE_RECHARGE_TIERINFO": "每个阶级使充能光束持续时间延长<style=cIsHealing>50%</style>，过量护盾总量提高<style=cIsHealing>50%</style>。",
+    
+    "DRONE_BOMBARDMENT_TIERINFO": "每个阶级额外触电<style=cIsDamage>8</style>次。",
+    "DRONE_COPYCAT_TIERINFO": "每个阶级使冰盘额外弹跳最多<style=cIsDamage>6</style>次，并将冻结时间延长<style=cIsDamage>+1</style>秒。",
+    "DRONE_MEGA_TIERINFO": "每个阶级使子弹弹幕额外发射<style=cIsDamage>+8</style>发重型子弹，并额外发射<style=cIsDamage>+1</style>对爆炸火箭。",
+    
+    
+    "SQUIDTURRET_SKILL_DESCRIPTION": "向附近敌人喷射墨汁，每<style=cIsDamage>0.75s</style>造成<style=cIsDamage>500%</style>伤害。",
+    "FRIENDUNIT_SKILL_DESCRIPTION": "撞向敌人，对轻型敌人造成<style=cIsDamage>400%</style>伤害，对重型敌人造成<style=cIsDamage>1000%</style>伤害。伤害随<style=cIsUtility>movement speed</style>提高而增加。",
+    
+    "BEETLEGUARDALLY_SKILL_DESCRIPTION": "猛击附近敌人，造成<style=cIsDamage>440%</style>damage。\n发射撕裂大地的冲击波，造成<style=cIsDamage>300%</style> damage。",
+    "ROBOBALLREDBUDDY_SKILL_DESCRIPTION": "发射一道光束，每秒造成<style=cIsDamage>100%</style>伤害。每有一名盟友或一层物品叠加，都会提高自身<style=cIsDamage>damage</style>。",
+    "ROBOBALLGREENBUDDY_SKILL_DESCRIPTION": "发射一道光束，每秒造成<style=cIsDamage>100%</style>伤害。每有一名盟友或一层物品叠加，都会提高自身<style=cIsDamage>damage</style>。",
+    "MINORCONSTRUCTONKILL_SKILL_DESCRIPTION": "发射会弹跳的抛射物，造成<style=cIsDamage>150%</style>伤害。脱离战斗时获得<style=cIsUtility>200</style>点护甲。若与召唤者距离超过100m，将在30秒后<style=cIsHealth>Expires</style>。",
+    
+    "NULLIFIERALLY_SKILL_DESCRIPTION": "发射<style=cIsUtility>nullifying</style>虚空泡泡，造成<style=cIsDamage>3x100%</style>伤害。\n<style=cIsHealth>on death</style>内爆，<style=cIsHealth>instantly</style>杀死所有被卷入的角色。",
+    "VOIDJAILERALLY_SKILL_DESCRIPTION": "发射一蓬<style=cIsUtility>slowing</style>虚空尖刺，造成<style=cIsDamage>12x200%</style>伤害。\n捕获附近敌人，将其<style=cIsUtility>nullifying</style> 2s。\n<style=cIsHealth>on death</style>时留下一个追踪的内爆体。",
+    "VOIDMEGACRABALLY_SKILL_DESCRIPTION": "发射一片白色炸弹，造成<style=cIsDamage>10x80%</style>伤害，随后释放反物质，造成<style=cIsDamage>600%</style>伤害。\n反物质会引爆白色炸弹，每枚额外造成<style=cIsDamage>600%</style>伤害。\n偶尔发射追踪虚空导弹，造成<style=cIsDamage>14x30%</style>伤害。\n<style=cIsHealth>on death</style>时留下大范围的连锁内爆。",
+    
+    "ENGITURRET_SKILL_DESCRIPTION": "高速射击子弹，每发造成<style=cIsDamage>70%</style>伤害，总计每秒造成200%伤害。",
+    "ENGIWALKERTURRET_SKILL_DESCRIPTION": "发射一道光束，极速造成<style=cIsDamage>40%</style>伤害，总计每秒造成<style=cIsDamage>200%</style>伤害。"
+  }
+}

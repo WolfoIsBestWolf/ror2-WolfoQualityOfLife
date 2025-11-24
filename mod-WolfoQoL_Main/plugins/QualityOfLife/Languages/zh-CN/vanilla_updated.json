@@ -1,0 +1,45 @@
+{
+	"strings":
+	{
+		"VOID_SUPPRESSOR_DESCRIPTION": "抹除所示物品的存在，使其在本局游戏中不再出现。已有的该物品会被立刻拆解。",
+
+		"BAZAAR_SEER_SNOWYFOREST": "<style=cWorldEvent>你梦见营火与寒冰。</style>",
+		"BAZAAR_SEER_SHIPGRAVEYARD": "<style=cWorldEvent>你梦见被误导的信号。</style>",
+		"BAZAAR_SEER_DAMPCAVESIMPLE": "<style=cWorldEvent>你梦见构造之火。</style>",
+
+		"MONSTER_PICKUP_2P": "<style=cWorldEvent>你翻找并获得了 {1}{2}</color>",
+		"PLAYER_DEATH_QUOTE_33_2P": "这次遭遇让你伤得不轻。",
+		"PLAYER_DEATH_QUOTE_33": "{0} 在这次遭遇中伤得不轻。",
+
+		"PRIMEMERIDIANHEAD_BODY_NAME": "巨像之首",
+		"LUNAR_CHIMERA": "月之奇美拉",
+		"LUNARGOLEM_BODY_NAME": "月之奇美拉魔像",
+		"LUNARWISP_BODY_NAME": "月之奇美拉幽火",
+		"LUNAREXPLODER_BODY_NAME": "月之奇美拉爆裂者",
+		"ACIDLARVA_BODY_NAME": "酸液幼虫",
+		"UNLOCKABLE_LOG_LUNARWISP": "怪物日志：月之奇美拉魔像",
+		"UNLOCKABLE_LOG_LUNARGOLEM": "怪物日志：月之奇美拉幽火",
+		"UNLOCKABLE_LOG_LUNAREXPLODER": "怪物日志：月之奇美拉爆裂者",
+		"UNLOCKABLE_LOG_ACIDLARVA": "怪物日志：酸液幼虫",
+		"UNLOCKABLE_LOG_GUP": "怪物日志：Gup、Geep、Gip",
+
+		"FAMILY_PARENT": "<style=cWorldEvent>[警告] 血脉纽带正遭到扰乱……</style>",
+
+		"LOCKEDTREEBOT_CONTEXT": "修复这名幸存者",
+		"LOCKEDMAGE_NAME": "被冰封的幸存者",
+		"ARTIFACT_COMMAND_CUBE_INTERACTION_PROMPT": "选择",
+		"DRONE_MEGA_CONTEXT": "修复 TC-280",
+
+		"MAP_GOLDSHORES_SUBTITLE": "灵魂牢笼",
+		"MAP_ARTIFACTWORLD_SUBTITLE": "创世之源",
+
+		"STATNAME_TOTALLUNARPURCHASES": "月亮币购买总数",
+		"STATNAME_HIGHESTLUNARPURCHASES": "单局最多月亮币购买数",
+		"STATNAME_HIGHESTBLOODPURCHASES": "单局最多鲜血祭献次数",
+
+		"FROG_NAME": "玻璃青蛙",
+		"FROG_CONTEXT": "抚摸玻璃青蛙",
+		"PET_FROG": "<style=cIsLunar>{0} 抚摸了玻璃青蛙。</style>",
+		"PET_FROG_2P": "<style=cIsLunar>你抚摸了玻璃青蛙。</style>"
+	}
+}

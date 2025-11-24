@@ -1,0 +1,41 @@
+{
+  "strings": {
+    "ITEM_SCRAPWHITE_PICKUP": "没有任何效果。与<color=#FAFAFA>3D 打印机</color>一起使用时会被优先消耗。",
+    "ITEM_SCRAPGREEN_PICKUP": "没有任何效果。与<style=cIsHealing>大型 3D 打印机</style>一起使用时会被优先消耗。",
+    "ITEM_SCRAPRED_PICKUP": "没有任何效果。与<style=cIsHealth>Mili-Tech 3D 打印机</style>一起使用时会被优先消耗。",
+    "ITEM_SCRAPYELLOW_PICKUP": "没有任何效果。与<style=cIsTierBoss>蔓生 3D 打印机</style>一起使用时会被优先消耗。",
+
+    "ITEM_SCRAPWHITE_DESC": "没有任何效果。与<color=#FAFAFA>3D 打印机</color>和坩埚一起使用时会被优先消耗。",
+    "ITEM_SCRAPGREEN_DESC": "没有任何效果。与<style=cIsHealing>大型 3D 打印机</style>和坩埚一起使用时会被优先消耗。",
+    "ITEM_SCRAPRED_DESC": "没有任何效果。与<style=cIsHealth>Mili-Tech 3D 打印机</style>和坩埚一起使用时会被优先消耗。",
+    "ITEM_SCRAPYELLOW_DESC": "没有任何效果。与<style=cIsTierBoss>蔓生 3D 打印机</style>一起使用时会被优先消耗。",
+
+    "ITEM_TONICAFFLICTION_DESC": "<color=#FF7F7F>使所有属性降低 5%</color><style=cStack>（每层 -5%）</style><color=#FF7F7F>，当未受到尖晶药剂效果影响时生效</color>。",
+
+    "EQUIPMENT_QUESTVOLATILEBATTERY_DESC": "当<style=cIsHealth>生命值低于 50%</style>时，会在大范围内爆炸，造成<style=cIsDamage>相当于携带者最大生命值 300% 的伤害</style>。使用后消耗。",
+
+    "EQUIPMENT_AFFIXRED_DESC": "攻击会<style=cIsDamage>点燃</style>敌人，在一段时间内总计造成<style=cIsDamage>50%</style>伤害。留下<style=cIsDamage>火焰轨迹</style>，接触时造成伤害。",
+
+    "EQUIPMENT_AFFIXBLUE_DESC": "所有攻击都会留下一个<style=cIsDamage>雷电球</style>，在<style=cIsUtility>1.5s</style>后爆炸，总计造成<style=cIsDamage>50%</style>伤害。将<style=cIsHealing>50%</style>的<style=cIsHealing>生命值</style>转化为<style=cIsHealing>护盾</style>。",
+
+    "EQUIPMENT_AFFIXWHITE_DESC": "<style=cIsUtility>减速</style>命中的敌人，使其<style=cIsUtility>移动速度 -80%</style>，持续<style=cIsUtility>1.5s</style>。<style=cDeath>死亡时</style>留下一次<style=cIsDamage>冰爆</style>，<style=cIsUtility>冰冻</style>敌人<style=cIsUtility>1.5s</style>。",
+
+    "EQUIPMENT_AFFIXPOISON_DESC": "被命中的敌人其<style=cIsHealing>治疗效果将被禁用</style>，持续<style=cIsUtility>8s</style>。周期性射出 3 个<style=cIsDamage>尖刺簇</style>，造成<style=cIsDamage>100%</style>基础伤害。<style=cDeath>死亡时</style>留下一个<style=cIsDamage>孔雀石海胆</style>，持续<style=cIsUtility>20s</style>。",
+
+    "EQUIPMENT_AFFIXHAUNTED_DESC": "命中敌人时<style=cIsUtility>减速</style>目标，使其<style=cIsUtility>移动速度 -80%</style>，持续<style=cIsUtility>3s</style>。在大范围内<style=cIsUtility>隐形</style>所有友方单位。",
+
+    "EQUIPMENT_AFFIXLUNAR_DESC": "使<style=cIsHealing>最大生命值</style>提高<style=cIsHealing>25%</style>，<style=cIsUtility>移动速度</style>提高<style=cIsUtility>30%</style>。\n将所有<style=cIsHealing>生命值</style>转化为<style=cIsHealing>自我回复的护盾</style>。\n命中敌人时施加<style=cIsDamage>重创</style>，持续<style=cIsUtility>4s</style>，使其<style=cIsUtility>移动速度</style>降低<style=cIsUtility>100%</style>并减少<style=cIsDamage>护甲</style><style=cIsDamage>20</style>。\n攻击时周期性发射 4 枚法球，每枚造成<style=cIsDamage>30%</style>基础伤害。",
+
+    "EQUIPMENT_AFFIXEARTH_DESC": "每秒为一名附近受伤的友军<style=cIsHealing>治疗</style><style=cIsHealing>120%</style>你的<style=cIsDamage>基础伤害</style>。<style=cDeath>死亡时</style>留下一个<style=cIsHealing>治疗核心</style>，在<style=cIsHealing>3s</style>后<style=cIsHealing>治疗</style>所有附近的单位。",
+
+    "EQUIPMENT_AFFIXVOID_NAME": "虚空衍生的好奇心",
+    "EQUIPMENT_AFFIXVOID_PICKUP": "被虚空侵染。",
+    "EQUIPMENT_AFFIXVOID_DESC": "使<style=cIsHealing>最大生命值</style>提高<style=cIsHealing>50%</style>\n使<style=cIsDamage>基础伤害</style>降低<style=cIsDamage>30%</style>。\n命中敌人时有<style=cIsDamage>100%</style>几率使其<style=cIsDamage>坍缩</style>。\n每<style=cIsUtility>15 秒</style>可<style=cIsHealing>格挡</style>一次受到的伤害。",
+
+    "EQUIPMENT_AFFIXAURELIONITE_DESC": "命中敌人时，它们会掉落价值<style=cIsUtility>$8</style>的<style=cIsUtility>金块</style>。<style=cIsUtility>效果会随时间增长。</style>在激活时或每<style=cIsDamage>12s</style>，释放一次<style=cIsDamage>喷发</style>，先造成<style=cIsDamage>15% 伤害</style>，随后造成<style=cIsDamage>150% 伤害。</style>",
+
+    "EQUIPMENT_AFFIXBEAD_DESC": "在<style=cIsHealing>35m</style>半径内强化<style=cIsHealing>5 名附近的友军</style>，使其<style=cIsHealing>护甲</style>提高<style=cIsHealing>300</style>。当被强化的友军累计受到<style=cIsHealing>10</style>次伤害后，发射一枚自动追踪的月之尖刺，造成<style=cIsDamage>100% 伤害</style>并施加<style=cIsDamage>月蚀毁灭</style>效果。冷却时间为 10s。",
+
+    "EQUIPMENT_AFFIXCOLLECTIVE_DESC": "获得一个半径为<style=cIsUtility>30m</style>的穹顶，可<style=cIsUtility>阻挡</style>所有来自外部的攻击，并使其中所有友军的<style=cIsUtility>技能冷却</style>缩短<style=cIsUtility>25%</style>。\n<style=cIsHealth>死亡时</style>爆炸，造成<style=cIsDamage>100%</style>伤害，并在<style=cIsDamage>2.5s</style>内禁用物品。"
+  }
+}

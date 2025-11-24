@@ -1,0 +1,44 @@
+//Optional to translate
+//Just adds colors to objective nothing more
+{
+	"strings":
+	{
+
+		"INFINITETOWER_SUDDEN_DEATH": "<style=cWorldEvent>[警告] 焦点开始动摇……</style>",
+		"INFINITETOWER_OBJECTIVE_AWAITINGACTIVATION": "激活<style=cIsVoid>焦点</style>",
+		"INFINITETOWER_OBJECTIVE_TRAVEL": "跟随<style=cIsVoid>焦点</style>",
+		"INFINITETOWER_OBJECTIVE_PORTAL": "穿过<style=cIsVoid>无限传送门</style>前进",
+ 
+ 
+		"OBJECTIVE_GOLDSHORES_ACTIVATE_BEACONS": "重建<style=cGold>哈尔西恩信标</color> ({0}/{1})",
+
+		"OBJECTIVE_CLEAR_ARENA": "启动全部<style=cIsVoid>细胞通风口</style> ({0}/{1})",
+		"OBJECTIVE_ARENA_CHARGE_CELL": "突破<style=cIsVoid>细胞</style> ({0}%)",
+ 
+		"OBJECTIVE_REBIRTH_OUTRO_SHRINE_1": "接近<style=cRebirth>神龛</color>",
+		"OBJECTIVE_REBIRTH_OUTRO_SHRINE_2": "选择<style=cRebirth>重获新生</color>，或继续停留",
+		"OBJECTIVE_MERIDIAN_REACH_ARENA": "登上<style=cRebirth>至高子午线</color>",
+	
+	
+		"OBJECTIVE_SOLUSWING_ESCAPE": "通过<color=#c6d5ff>主线传送门</color>逃离！",
+		"//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILL": "<color=#c6d5ff>拒绝：</color>熄灭 \nSolus 之心。",
+		"//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILLOBJECTIVE_SOLUSHEART_SPARE": "<color=#F8B651>接受：</color>反编译并进化。",
+		
+		
+		"CONDUITCANYON_P1" : "安装<color=#F8B651>哨兵密钥</color>以入侵屏障",
+		"CONDUITCANYON_P2" : "安装<color=#F8B651>哨兵密钥</color>以重新编程加密传送器",
+		"CONDUITCANYON_SKIP_BARRIER": "<style=cWorldEvent>检测到入侵！正在重定向能量以派遣安保小队。</style>",
+		
+
+		"SPEX_COLOR": "<color=#c6d5ff></color>",
+		"SOLUSHEART_COLOR" : "<color=#F8B651></color>",
+		"VULTURE_FORMAT": "<color=#87E5C0><size=120%>合金猎手：{0}</color></size>",
+
+		"VULTURE_KILLS_BOSS": "<color=#87E5C0><size=120%>合金猎手：被选中的人，冠军只能有一个！我绝不会退让！</color></size>",
+		
+		
+		"ACCESSCODES_PORTAL_WILL_OPEN": "<style=cWorldEvent>访问已授权……</style>",
+		"ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>已识别集群敌人。正在整合分析数据……</style>"
+
+	}
+}
