@@ -281,6 +281,7 @@ namespace WolfoQoL_Client.DeathScreen
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
             if (extras == null)
             {
+                
                 extras = self.gameObject.AddComponent<DeathScreenExpanded>();
 
                 extras.isLogRunReport = newDisplayData.runReport.FindFirstPlayerInfo().master == null;
@@ -299,7 +300,10 @@ namespace WolfoQoL_Client.DeathScreen
                     ExtraStats.ChangeStats(self, newDisplayData.runReport);
                 }
                 extras.ItemArea.GetChild(1).gameObject.AddComponent<InventoryDisplayFitter>();
-
+                if (Run.instance)
+                {
+                    extras.deathTimeStamp = Run.instance.fixedTime;
+                }
             }
 
 
@@ -325,7 +329,7 @@ namespace WolfoQoL_Client.DeathScreen
                         self.chatboxTransform.gameObject.SetActive(extras.chatActive);
                     }
                 }
-
+           
 
 
                 extras.oneTimeExtras = true;

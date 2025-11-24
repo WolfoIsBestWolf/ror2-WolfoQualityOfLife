@@ -1,7 +1,24 @@
 #Changelog
 ```
-v5.0.0 - Updated for Alloyed Collect - DLC3
+v5.0.2
 
+!Changed config category names to match module names
+!Moved around some config to match the module they'd get disabled with.
+!!This will mean some config was reset, just how it is.
+
+
+Brass Balls attack now matches Elite Colors of attacker. (Instead of being a spiky Elite Aspect)
+Titan Fist attack now matches Elite Colors of attacker.
+
+Readded "Lunar Chimera Name Change" config
+
+Fixed RealTime stat not being a time stamp of time of death.
+Fixed Drones&Allies category name not changing if config disabled.
+Fixed some recipes not showing.
+Fixed missing Saftey Checks to DroneCollection counting before final bosses.
+```
+```
+v5.0.1 - Updated for Alloyed Collect - DLC3
 
 Added 9 categorical config, to turn off major parts of the mod more easily.
 Split gameplay qol into it's own.

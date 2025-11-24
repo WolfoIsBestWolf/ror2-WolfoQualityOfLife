@@ -9,7 +9,7 @@ namespace WolfoQoL_Client.Skins
     public static class Merc_Pink
     {
 
-        public static Material matMercEnergized_Pink = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEnergized"));
+        public static Material matMercEnergized_Pink = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("Materials/matMercEnergized"));
         public static Material matMercEvisTarget_Pink = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matMercEvisTarget"));
 
         public static Material matHuntressFlashBright_Pink = UnityEngine.Object.Instantiate(LegacyResourcesAPI.Load<Material>("materials/matHuntressFlashBright"));

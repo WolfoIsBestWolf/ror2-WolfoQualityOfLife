@@ -294,7 +294,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             #region Override vanilla stats
             //SetupStat(self, "highestItemsCollected", "STATNAME_TOTALITEMSCOLLECTED", highestItemsCollected);
-            SetupTimerStat(self, "totalTimeAlive");
+            SetupTimerStat(self, "totalTimeAlive", extras.deathTimeStamp);
             if (!extras.isDevotionRun)
             {
                 SetupStat(self, "totalDronesPurchased", "STATNAME_TOTALDRONESPURCHASED", drones + turrets);
@@ -550,7 +550,7 @@ namespace WolfoQoL_Client.DeathScreen
             return stat;
         }
 
-        public static void SetupTimerStat(GameEndReportPanelController self, string lookingFor)
+        public static void SetupTimerStat(GameEndReportPanelController self, string lookingFor, float time)
         {
             Transform stat = FindStatStrip(self, lookingFor);
             if (!Run.instance)
@@ -558,13 +558,13 @@ namespace WolfoQoL_Client.DeathScreen
                 return;
             }
             //If more than 2 minutes spent in Hidden Realms, show total time(?)
-            ulong num = (ulong)Run.instance.fixedTime;
+            ulong num = (ulong)time;
             ulong num2 = num / 60UL;
             ulong num3 = num - num2 * 60UL;
   
  
             stat.GetChild(1).GetComponent<TextMeshProUGUI>().text = string.Format("{2}: <color=#FFFF7F>{0:00}:{1:00}</color>", num2, num3, Language.GetString("STAT_TOTAL"));
-            stat.GetChild(1).gameObject.SetActive(Run.instance.runStopwatch.offsetFromFixedTime < -120);
+            stat.GetChild(1).gameObject.SetActive(time - Run.instance.GetRunStopwatch() > 120);
         }
 
     }

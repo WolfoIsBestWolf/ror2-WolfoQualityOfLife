@@ -228,7 +228,7 @@ namespace WolfoQoL_Client
 
             //If Used to make
             bool used = self.name.StartsWith("U");
-
+            used = false;
 
             var distinct = newRecipeEntries.Distinct().ToList();
             var newList = new List<CraftableCatalog.RecipeEntry>();

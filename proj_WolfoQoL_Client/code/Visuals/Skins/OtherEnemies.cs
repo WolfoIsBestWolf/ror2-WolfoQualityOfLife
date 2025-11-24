@@ -9,72 +9,7 @@ using WolfoLibrary;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class CopyEliteShaderIndexOfOwner : MonoBehaviour
-    {
-        public void Start()
-        {
-            //Prepped Balls do not have owner
-            //We can still use this for the 2 projectiles but manual balls
-
-            //Fist is not a projec?
-            //Fist is explosionEffect so uhh idk about that
-
-
-            ProjectileController proj = GetComponent<ProjectileController>();
-            if (proj.ghost && proj.owner)
-            {
-                ModelLocator component = proj.owner.GetComponent<ModelLocator>();
-                if (component)
-                {
-                    Transform modelTransform = component.modelTransform;
-                    if (modelTransform)
-                    {
-                        CharacterModel component2 = modelTransform.GetComponent<CharacterModel>();
-                        if (component2)
-                        {
-                            proj.ghost.GetComponentInChildren<MeshRenderer>().material.SetFloat("_EliteIndex", component2.shaderEliteRampIndex + 1);
-                        }
-                    }
-                }
-
-            }
-
-        }
-    }
-    public class ProjImpactExplosion_CopyEliteShaderIndexOfOwner : MonoBehaviour
-    {
-        public void OnDisable()
-        {
-            //Prepped Balls do not have owner
-            //We can still use this for the 2 projectiles but manual balls
-
-            //Fist is not a projec?
-            //Fist is explosionEffect so uhh idk about that
-
-
-            ProjectileController proj = GetComponent<ProjectileController>();
-            if (proj.ghost && proj.owner)
-            {
-
-                ModelLocator component = proj.owner.GetComponent<ModelLocator>();
-                if (component)
-                {
-                    Transform modelTransform = component.modelTransform;
-                    if (modelTransform)
-                    {
-                        CharacterModel component2 = modelTransform.GetComponent<CharacterModel>();
-                        if (component2)
-                        {
-                            proj.ghost.GetComponentInChildren<MeshRenderer>().material.SetFloat("_EliteIndex", component2.shaderEliteRampIndex);
-                        }
-                    }
-                }
-
-            }
-
-        }
-    }
-
+   
     public class OtherEnemies
     {
 
@@ -118,12 +53,7 @@ namespace WolfoQoL_Client.Skins
                 EliteRamp.AddRamp(DLC2Content.Elites.Bead, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteBead.png"));
                 //IL.RoR2.CharacterModel.UpdateOverlays += CharacterModel_UpdateOverlays;
             }
-
-
-            if (WConfig.cfgOldSotsEliteIcons.Value)
-            {
-                UpdateSotsEliteIcon(null, null);
-            }
+ 
             Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion().shaderEliteRampIndex = 0;
 
 
@@ -202,19 +132,7 @@ namespace WolfoQoL_Client.Skins
 
         }
 
-        public static void UpdateSotsEliteIcon(object sender, System.EventArgs e)
-        {
-            if (WConfig.cfgOldSotsEliteIcons.Value)
-            {
-                DLC2Content.Buffs.EliteAurelionite.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteAurelionite/texBuffAffixAureleonite.png").WaitForCompletion();
-                DLC2Content.Buffs.EliteBead.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteBead/texBuffAffixBead.png").WaitForCompletion();
-            }
-            else
-            {
-                DLC2Content.Buffs.EliteAurelionite.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteAurelionite/texBuffEliteAurelioniteIcon.png").WaitForCompletion();
-                DLC2Content.Buffs.EliteBead.iconSprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC2/Elites/EliteBead/texBuffEliteBeadIcon.png").WaitForCompletion();
-            }
-        }
+         
 
 
 

@@ -16,6 +16,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> OperatorDroneIndicator;
 
         public static ConfigEntry<bool> RealTimeTimer;
+        public static ConfigEntry<bool> DC_RealTimeTimerStat;
 
         public static ConfigEntry<bool> cfgHelminthLightingFix;
         public static ConfigEntry<bool> cfgSofterShadows;
@@ -55,7 +56,7 @@ namespace WolfoQoL_Client
 
 
         public static ConfigEntry<bool> cfgSkipItemDisplays;
-        public static ConfigEntry<bool> cfgOldSotsEliteIcons;
+ 
         public static ConfigEntry<bool> cfgDarkTwisted;
         public static ConfigEntry<bool> cfgTwistedFire;
         public static ConfigEntry<bool> cfgTwistedSound;
@@ -76,8 +77,8 @@ namespace WolfoQoL_Client
        
 
         //OjbectiveStuff
-        public static ConfigEntry<float> cfgObjectiveHeight;
-        public static ConfigEntry<float> cfgObjectiveFontSize;
+        //public static ConfigEntry<float> cfgObjectiveHeight;
+        //public static ConfigEntry<float> cfgObjectiveFontSize;
 
         //MoreMessages
         public static ConfigEntry<bool> cfgMessageDeath;
@@ -96,9 +97,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMessageDevotion;
 
         //Reminders
-        public static ConfigEntry<bool> cfgRemindersGeneral;
-        public static ConfigEntry<bool> cfgMessagesGeneral;
-
+      
 
         public static ConfigEntry<bool> cfgReminder_Halcyon;
         public static ConfigEntry<bool> cfgReminder_AccessNode;
@@ -142,13 +141,13 @@ namespace WolfoQoL_Client
 
         //Text Changes
         public static ConfigEntry<bool> cfgTextOther;
+        public static ConfigEntry<bool> cfgAltBodyNames;
 
 
         public static ConfigEntry<bool> cfgPrimordialBlueText;
         public static ConfigEntry<bool> cfgPrimordialBlueIcon;
         public static ConfigEntry<bool> cfgPrimordialBlueHighlight;
-        public static ConfigEntry<bool> cfgPrismArtifacts;
-
+       
         public static ConfigEntry<bool> cfgLogbook_More;
         public static ConfigEntry<bool> cfgLogbook_EliteEquip;
         public static ConfigEntry<bool> cfgLogbook_EliteEquipEarlyViewable;
@@ -176,10 +175,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkinMercGreenGlow;
         public static ConfigEntry<bool> cfgSkinEngiHarpoons;
         public static ConfigEntry<bool> cfgSkinMisc;
-
-
-
-        public static ConfigEntry<bool> cfgLunarEliteDisplay;
+ 
         public static ConfigEntry<bool> OldModelDuplcators;
 
         //UI
@@ -238,14 +234,14 @@ namespace WolfoQoL_Client
             TestConfig();
 
 
-            cfgObjectiveHeight.SettingChanged += UpdateHuds;
-            cfgObjectiveFontSize.SettingChanged += UpdateHuds;
+            //cfgObjectiveHeight.SettingChanged += UpdateHuds;
+            //cfgObjectiveFontSize.SettingChanged += UpdateHuds;
         }
 
 
         public static void InitConfig()
         {
-            #region MAIN
+            #region MODULES
 
             //Ig it's fine to just be like this tbh
 
@@ -287,9 +283,9 @@ namespace WolfoQoL_Client
             );
             module_menu_other = ConfigFile_Client.Bind(
                 "Modules",
-                "Menu Tweaks",
+                "Menu & Hud Tweaks",
                 true,
-                "Enable all misc menu tweaks:\n\nMain Menu theme randomizer\nEclipse number in lobby\nSimu Completed border"
+                "Enable all misc menu tweaks:\n\nMain Menu theme randomizer\nEclipse number in lobby\nSimu Completed border\nReal time timer"
             );
             module_visuals_skins = ConfigFile_Client.Bind(
                 "Modules",
@@ -314,12 +310,7 @@ namespace WolfoQoL_Client
 
 
             #region Reminders
-            cfgRemindersGeneral = ConfigFile_Client.Bind(
-               "Reminders",
-               "Objective Reminders : General",
-               true,
-               "Turn off all extra objective reminders by the mod. Use individual config if you only want to turn off one part."
-            );
+          
             cfgRemindersKeys = ConfigFile_Client.Bind(
                 "Reminders",
                 "Rusted Keys",
@@ -490,67 +481,67 @@ namespace WolfoQoL_Client
             //UI -> Hud?
            
             RealTimeTimer = ConfigFile_Client.Bind(
-              "Hud",
+              "Menu & Hud",
               "Real Time Timer",
               true,
               "Adds a secondary timer, underneath the Run Timer / Wave Counter when Scoreboard is open.\n\nThis uses the full time of the run including time spent in Hidden Realms"
             );
            cfgNewSprintCrosshair = ConfigFile_Client.Bind(
-              "Hud",
+              "Menu & Hud",
               "Sprinting Crosshair Changes",
               true,
               "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
             );
             cfgMissionPointers = ConfigFile_Client.Bind(
-                 "Hud",
+                 "Icons",
                  "Mission Pointers",
                  true,
                  "Void Fields : Indicator where the next Cell is.\n\nCommencement : Lunar Pillar locations shown briefly after charging one.\n\nGilded Coast : Location of last 3 Halcyon Beacon"
              );
 
             cfgBuff_RepeatColors = ConfigFile_Client.Bind(
-                 "Hud",
+                 "Icons",
                  "Buff Recolors",
                  true,
                  "Most notable I guess Red Whip buff is now Orange instead of Blue, which is now only for the Invisibility speed buff"
              );
             cfgTpIconDiscoveredRed = ConfigFile_Client.Bind(
-              "Hud",
+              "Icons",
               "Teleporter Icon Discovered Color Red",
               true,
               "When you have the discover teleporter icon setting on. Makes the icon light red at first and only white when charged."
             );
             OperatorDroneIndicator = ConfigFile_Client.Bind(
-              "Hud",
+              "Icons",
               "Operator noticible Drone Indicator",
               true,
               "Operators `Jump to this drone` indicator for the default Utility will be more visible."
             );
 
             cfgPingIcons = ConfigFile_Client.Bind(
-               "Hud",
+               "Icons",
                "Enable new Ping Icons",
                true,
                "Enable new Ping Icons"
            );
             cfgIconsBodyIcons = ConfigFile_Client.Bind(
-                "Hud",
+                "Icons",
                 "More unique Body Icons",
                 true,
                 "Add new or updated Body Icons\n Engi Walker Turrets, Empathy Cores and blue outline Squid Turret & Devoted Lemurians"
             );
-            cfgObjectiveHeight = ConfigFile_Client.Bind(
-               "Hud",
+            /*cfgObjectiveHeight = ConfigFile_Client.Bind(
+               "Menu & Hud",
                "Hud Objective Spacing",
                32f,
                "Vanilla is 32. \nHow much space between objectives in the hud. Can look better or worse depending on language."
             );
             cfgObjectiveFontSize = ConfigFile_Client.Bind(
-               "Hud",
+               "Menu & Hud",
                "Hud Objective Font Size",
                12f,
                "Vanilla is 12. \nSize of letters for objectives in the hud. Can look better or worse depending on language."
-            );
+            );*/
             #endregion
 
             #region Visuals
@@ -569,28 +560,28 @@ namespace WolfoQoL_Client
            );
 
             cfgTempItemCyanStack = ConfigFile_Client.Bind(
-               "Visuals",
+               "Menu & Hud",
                "Blue Stack Number for Temps",
                true,
                "Item stacks that have temporary items in it, have their stack number slightly blue.\n\nCan't show temp items seperately like in returns."
            );
              PrestigeColors = ConfigFile_Client.Bind(
-               "Visuals",
+               "Icons",
                "Pink Prestige Mountain Shrines",
                false,
                "Makes Mountain Shrine icons pink, if Prestige is enabled, just like in RoR:Returns"
            );
             SulfurPoolsSkin = ConfigFile_Client.Bind(
-                "Visuals",
+                "Skins",
                 "Sulfur Pool Beetles Skin",
                 true,
                 "Implement the unused SotV Sulfur Pools skin for the Beetle family"
             );
             cfgSkinBellBalls = ConfigFile_Client.Bind(
-               "Visuals",
-               "Elite Brass Contraption Balls",
+               "Skins",
+               "Elite attack effects",
                true,
-               "Their balls use the elite aspects texture."
+               "Certain attacks will be elite colored to match effect.\n\nBrass Contraption balls\nTitan Fists"
              );
 
             cfgColorMain = ConfigFile_Client.Bind(
@@ -619,7 +610,7 @@ namespace WolfoQoL_Client
                "Change the model of Green and Red Printers to the bigger bulkier one used before 1.0.\nUncommon 3D printers are the only interactable that looks exactly the same as a different one."
            );
             cfgVoidAllyCyanEyes = ConfigFile_Client.Bind(
-                "Visuals",
+                "Skins",
                 "Void Ally Cyan Eyes",
                 true,
                 "Void Allies from Newly Hatched Zoea will have bright Cyan eyes for easier identification."
@@ -665,6 +656,12 @@ namespace WolfoQoL_Client
               "When pinging an item or something containing an item, the items name will use it's color."
           );
 
+            cfgAltBodyNames = ConfigFile_Client.Bind(
+                "Text",
+                "Lunar Chimera / Larva name change",
+                true,
+                "Adds Lunar Chimera type to Chimera names\n\nRenames Larva to Acid Larva due to their internal name."
+            );
             cfgTextOther = ConfigFile_Client.Bind(
                 "Text",
                 "Other Text Changes",
@@ -676,119 +673,119 @@ namespace WolfoQoL_Client
             #endregion
             #region Menus
             cfgUISimuBorder = ConfigFile_Client.Bind(
-               "Menu",
+               "Menu & Hud",
                "Simulacrum Completed Border",
                true,
                "During Simulacrum Lobbies, Characters you have beaten Wave 50 with will have a pink border around their icon."
            );
             cfgUIEclipseBorder = ConfigFile_Client.Bind(
-                "Menu",
+                "Menu & Hud",
                 "Eclipse Number",
                 true,
                 "During Eclipse Lobbies, Show what eclipse was beaten as number under each character."
             );
             cfgLogbook_More = ConfigFile_Client.Bind(
-                "Menu",
+                "Logbook",
                 "Log | More Entries",
                 true,
                 "Add some missing mobs and equipment to the log.\n\nTwisted Scav, Geep, Gip, Malachite Urchin, Fuel Array, Consumed Seed of Life, Consumed Tricorn"
             );
             SimuStagesInLog = ConfigFile_Client.Bind(
-                "Menu",
+                "Logbook",
                 "Log | Show Simu Stages",
                 false,
                 "Add Simulacrum stages to log. Unlocked if beaten once."
             );
             cfgLogbook_EliteEquip = ConfigFile_Client.Bind(
-                "Menu",
+                "Logbook",
                 "Log | Elite Aspects",
                 true,
                 "Add Elite Aspect Equipment to the logbook."
             );
             cfgLogbook_EliteEquipEarlyViewable = ConfigFile_Client.Bind(
-                "Menu",
+                "Logbook",
                 "Elite Aspect viewable without pickup",
                 true,
                 "Elite Aspects will be viewable without the need to be picked up first. Instead based on progression such as having Beaten the game on Monsoon."
             );
             cfgLogbook_AllyExpansion = ConfigFile_Client.Bind(
-                "Menu",
+                "Logbook",
                 "Drones & Allies",
                 true,
                 "Expand Drones category to Drones & Allies, giving info on items given by items."
             );
             cfgLogbook_Recipes = ConfigFile_Client.Bind(
-                "Menu",
+                "Logbook",
                 "Recipe Info",
                 true,
                 "For Alloyed Collective; Adds Recipes info to Item entries."
             );
             
             cfgLogbook_SortBosses = ConfigFile_Client.Bind(
-                "Menu",
+                "Logbook",
                 "Log | Sort Bosses",
                 true,
                 "Sort Bosses to the end of the Monster category"
             );
 
             DC_Loadout = ConfigFile_Client.Bind(
-               "Menu",
-               "Death Screen | Loadout",
+               "Death Screen",
+               "Skill Loadout",
                Position.Top,
                "Players skill loadouts will be shown, for sharing and inspecting."
            );
 
             DC_MoreStats = ConfigFile_Client.Bind(
-                "Menu",
-                "Death Screen | More Stats",
+                "Death Screen",
+                "More Stats",
                 true,
                 "Add various custom stats and make some more vanilla stats viewable."
             );
             DC_CompactStats = ConfigFile_Client.Bind(
-                "Menu",
-                "Death Screen | Compact Stats",
+                "Death Screen",
+                "Compact Stats",
                 true,
                 "Combine most stats into 2 per column and hide the score. Score per stat will be shown by hovering over it."
             );
             DC_KillerInventory = ConfigFile_Client.Bind(
-                "Menu",
-                "Death Screen | Killer Inventory",
+                "Death Screen",
+                "Killer Inventory",
                 true,
                 "Show the Killers Inventory, if he had any items.\nIf no killer was found, tries to display Items from Artifact of Evolution & Simulacrum"
             );
             DC_StageRecap = ConfigFile_Client.Bind(
-                "Menu",
-                "Death Screen | Stage Recap",
+                "Death Screen",
+                "Stage Recap",
                 true,
                 "Show stages traversed during run.\nUseful for sharing if you went through various alt paths or did optional things like Void Fields\n\nInspired by Spelunky 2"
             );
             DC_LatestWave = ConfigFile_Client.Bind(
-                "Menu",
-                "Death Screen | Latest Wave",
+                "Death Screen",
+                "Latest Wave",
                 true,
                 "Show latest Simu Wave"
             );
             DC_KillerInventory_EvenIfJustElite = ConfigFile_Client.Bind(
-                "Menu",
-                "Death Screen | Killer Elite Equip",
+                "Death Screen",
+                "Killer Elite Equip",
                 false,
                 "Show the killers inventory even if they only have a Elite Equipment and no items."
             );
 
             cfgMainMenuRandomizer = ConfigFile_Client.Bind(
-              "Menu",
+              "Menu & Hud",
               "Main Menu Colors",
               true,
               "Should the Main Menu change between themes.\nIf Starstorm is enabled, it's Storm Visuals are also sometimes disabled"
            );
             cfgMainMenuRandomizerSelector = ConfigFile_Client.Bind(
-               "Menu",
+               "Menu & Hud",
                "Main Menu Selector",
                0,
                "Specifically select a main menu color :\n0 : Default or Random depending on other config \n1 : Acres update\n2 : Sirens update\n3 : Void Fields update\n4 : Artifact update\n11, 12, 13, 14 : Same but force off SS2 Storm"
             );
             cfgMainMenuScav = ConfigFile_Client.Bind(
-                "Menu",
+                "Menu & Hud",
                 "Main Menu Scav",
                 true,
                 "Should a Scav be readded to the options screen like in a old version of the game, and a Gup added to the alternative game modes screen."
@@ -877,14 +874,7 @@ namespace WolfoQoL_Client
                 true,
                 "Gives Twisted Elites a dark blue coloration instead of reusing Overloading."
             );
-
-            cfgOldSotsEliteIcons = ConfigFile_Client.Bind(
-                "Hud",
-                "SotS Elite Icon change",
-                false,
-                "Change the Elite Icons of SotS elites to be more in line with the other elites.  These sprites are in the files. it is unknown why they were replaced."
-            );
-            cfgOldSotsEliteIcons.SettingChanged += Skins.OtherEnemies.UpdateSotsEliteIcon;
+ 
             cfgPrimordialBlueText = ConfigFile_Client.Bind(
                 "Other",
                 "Primordial | Blue objective",
@@ -950,10 +940,10 @@ namespace WolfoQoL_Client
             #endregion
         }
 
-        private static void UpdateHuds(object sender, System.EventArgs e)
+        /*private static void UpdateHuds(object sender, System.EventArgs e)
         {
             UIBorders.UpdateHuds();
-        }
+        }*/
 
         public static void RiskConfig()
         {

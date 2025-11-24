@@ -1,8 +1,10 @@
-﻿using RoR2.EntitlementManagement;
-using RoR2;
+﻿using RoR2;
+using RoR2.UI;
 using RoR2.ContentManagement;
+using RoR2.EntitlementManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Menu
@@ -27,6 +29,9 @@ namespace WolfoQoL_Client.Menu
                 UIBorders.Start();
                 UI_Stuff.Start();
                 UI_RealTimeTimer.Start();
+
+
+
                 UI_Color.Start();
 
             }

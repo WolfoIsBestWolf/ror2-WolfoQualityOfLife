@@ -9,7 +9,7 @@ namespace WolfoQoL_Client
 {
     public class UIBorders
     {
-        public static void UpdateHuds()
+        /*public static void UpdateHuds()
         {
             //So all this shit dont work
 
@@ -61,7 +61,7 @@ namespace WolfoQoL_Client
                 }
             }
 
-        }
+        }*/
 
 
 

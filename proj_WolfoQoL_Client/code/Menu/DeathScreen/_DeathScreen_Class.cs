@@ -51,6 +51,8 @@ namespace WolfoQoL_Client.DeathScreen
         public bool addedRunTrackedStats;
         public bool isLogRunReport;
 
+        public float deathTimeStamp;
+
         public GameEndReportPanelController GameEndReportPanel;
         public Transform ItemArea;
 

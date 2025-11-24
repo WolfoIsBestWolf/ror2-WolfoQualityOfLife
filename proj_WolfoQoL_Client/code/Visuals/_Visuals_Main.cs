@@ -21,6 +21,10 @@ namespace WolfoQoL_Client
                    
                 }
                 BuffIcons.Awake();
+                //Ig not text but it is a reminder?
+                Icon_Colors.Start();
+                MissionPointers.Start();
+
             }
             if (WConfig.module_visuals_skins.Value)
             {

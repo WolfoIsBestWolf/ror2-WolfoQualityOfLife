@@ -42,8 +42,12 @@ namespace WolfoQoL_Client
             {
                 return;
             }
-            
-           
+            if (Language.currentLanguage.TokenIsRegistered("LOGBOOK_CATEGORY_DRONE_AND_ALLIES"))
+            {
+                R2API.LanguageAPI.Add("LOGBOOK_CATEGORY_DRONE", Language.GetString("LOGBOOK_CATEGORY_DRONE_AND_ALLIES"));
+            }
+
+
             //SquidTurret
 
             //Oprhan Core

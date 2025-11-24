@@ -1,3 +1,4 @@
+using HG;
 using RoR2;
 using RoR2.UI;
 using System;
@@ -29,7 +30,11 @@ namespace WolfoQoL_Client.DeathScreen
                 RunExtraStatTracker.instance.alreadyCountedDronesForStage = true;
                 foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
                 {
-                    player.gameObject.GetComponent<DroneCollection>().CountDrones();
+                    if (player)
+                    {
+                        player.gameObject.EnsureComponent<DroneCollection>().CountDrones();
+                          
+                    }
                 }
             }
         }
@@ -300,48 +305,54 @@ namespace WolfoQoL_Client.DeathScreen
             //If Lem -> Stack
             //If EquipDrone -> Equip / Equip
             //If Drone, Can Upgrade -> Individual w Tier
-
-
-            CharacterMaster master = GetComponent<CharacterMaster>();
-            var owner = this.GetComponent<MinionOwnership.MinionGroup.MinionGroupDestroyer>();
-            if (owner == null)
+            try
             {
-                return;
-            }
-            if (owner.group == null)
-            {
-                return;
-            }
-            if (owner.group.memberCount == 0)
-            {
-                return;
-            }
-            noMinions = false;
-
-            droneList = new List<(BodyIndex, int)>();
-            droneDict = new Dictionary<(BodyIndex, int), int>();
-            equipmentDrones = new List<EquipmentDef>();
-
-            bodyDict_Devotion = new Dictionary<BodyIndex, int>();
-            itemDict_Devotion = new Dictionary<ItemDef, int>();
-            equipmentDict_Devotion = new Dictionary<EquipmentDef, int>();
-            for (int i = 0; i < owner.group.memberCount; i++)
-            {
-                AddToCollection(owner.group.members[i]);
-            }
-
-
-            foreach (var devotion in DevotionInventoryController.InstanceList)
-            {
-                if (devotion.SummonerMaster == master)
+                CharacterMaster master = GetComponent<CharacterMaster>();
+                var owner = this.GetComponent<MinionOwnership.MinionGroup.MinionGroupDestroyer>();
+                if (owner == null)
                 {
-                    hasDevotion = true;
-                    AddItemsFrom(devotion._devotionMinionInventory, true);
+                    return;
                 }
-            }
+                if (owner.group == null)
+                {
+                    return;
+                }
+                if (owner.group.memberCount == 0)
+                {
+                    return;
+                }
+                noMinions = false;
 
-            //hasDrones = droneList.Count > 0;
-            hasDrones = droneDict.Count > 0;
+                droneList = new List<(BodyIndex, int)>();
+                droneDict = new Dictionary<(BodyIndex, int), int>();
+                equipmentDrones = new List<EquipmentDef>();
+
+                bodyDict_Devotion = new Dictionary<BodyIndex, int>();
+                itemDict_Devotion = new Dictionary<ItemDef, int>();
+                equipmentDict_Devotion = new Dictionary<EquipmentDef, int>();
+                for (int i = 0; i < owner.group.memberCount; i++)
+                {
+                    AddToCollection(owner.group.members[i]);
+                }
+
+
+                foreach (var devotion in DevotionInventoryController.InstanceList)
+                {
+                    if (devotion.SummonerMaster == master)
+                    {
+                        hasDevotion = true;
+                        AddItemsFrom(devotion._devotionMinionInventory, true);
+                    }
+                }
+
+                //hasDrones = droneList.Count > 0;
+                hasDrones = droneDict.Count > 0;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("REPORT TO WOLFO");
+                WQoLMain.log.LogError(e);
+            }
         }
         public void Reset()
         {

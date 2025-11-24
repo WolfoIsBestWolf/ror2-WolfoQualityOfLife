@@ -157,13 +157,13 @@ namespace WolfoQoL_Client
 
         public static void AddClientListeners(On.RoR2.PlayerCharacterMasterController.orig_Start orig, PlayerCharacterMasterController self)
         {
-            orig(self);
+            orig(self); 
+            self.gameObject.AddComponent<DroneCollection>();
             if (!WQoLMain.HostHasMod)
             {
                 self.gameObject.AddComponent<KillerInfo_ClientListener>();
                 self.gameObject.AddComponent<PlayerItemLoss_ClientListener>();
             }
-            self.gameObject.AddComponent<DroneCollection>();
         }
 
         //If interactables used too fast together, the clients never actually get it set to true

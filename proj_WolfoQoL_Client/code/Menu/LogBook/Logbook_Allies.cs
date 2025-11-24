@@ -35,8 +35,8 @@ namespace WolfoQoL_Client
 
             GameObject BeetleGuard = Addressables.LoadAssetAsync<GameObject>(key: "e21e3b9cdc2802148986eda1c923c9a1").WaitForCompletion();
             stats = BeetleGuard.AddComponent<Logbook_AllyStatsMult>();
-            stats.healthMult = 4;
-            stats.damageMult = 2;
+            stats.healthMult = 2;
+            stats.damageMult = 4;
 
             GameObject DefenseNecleus = Addressables.LoadAssetAsync<GameObject>(key: "bf5b53aa9306bce4b910220a43b30062").WaitForCompletion();
             stats = DefenseNecleus.AddComponent<Logbook_AllyStatsMult>();

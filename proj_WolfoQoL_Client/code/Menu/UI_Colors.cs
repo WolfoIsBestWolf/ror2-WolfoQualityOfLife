@@ -15,13 +15,6 @@ namespace WolfoQoL_Client
         public static void Start()
         {
 
-
-            //Color not UI ig
-            if (WConfig.cfgTpIconDiscoveredRed.Value)
-            {
-                IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
-            }
-
             //Fix fukin Lunar Coin background being purple
             //Color lunarCoin = new Color(0.6784f, 0.7412f, 0.9804f, 0.1f);
             Color lunarCoin = new Color(0.52f, 0.584f, 0.66f, 0.1333f);
@@ -32,28 +25,14 @@ namespace WolfoQoL_Client
             GameObject AchievementNotificationPanel = Addressables.LoadAssetAsync<GameObject>(key: "a27b8dde5bc73be4fae7f40a46e3cdff").WaitForCompletion(); //0.6784 0.7412 0.9804 1
             AchievementNotificationPanel.GetComponent<AchievementNotificationPanel>().rewardArea.transform.GetChild(0).GetComponent<RawImage>().color = lunarCoin;//0.6288 0.4514 0.6509 0.1333
 
+
+
             if (WConfig.cfgTempItemCyanStack.Value)
             {
                 On.RoR2.UI.ItemIcon.SetItemIndex_ItemIndex_int_float += ShowTemporaryItemStacksDifferently;
 
             }
-            if (WConfig.OperatorDroneIndicator.Value)
-            {
-                GameObject DroneTrackingIndicator = Addressables.LoadAssetAsync<GameObject>(key: "54d961ee6ebdb68419804536906b4ab7").WaitForCompletion();
-                //0 0.2863 0.2902 0.5176
-                int i = 0;
-                foreach (SpriteRenderer sprite in DroneTrackingIndicator.GetComponentsInChildren<SpriteRenderer>())
-                {
-                    if (i == 0)
-                    {
-                        i++;
-                    }
-                    else
-                    {
-                        sprite.color = new Color(0.122f, 0.937f, 0.678f, 1);
-                    }
-                }
-            }
+         
         }
 
 
@@ -92,29 +71,7 @@ namespace WolfoQoL_Client
             input.image.color = new Color(0, 0, 0, 0);
         }
 
-        private static void TeleporterDiscoveredRed(MonoMod.Cil.ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-
-            c.TryGotoNext(MoveType.Before,
-            x => x.MatchLdfld("RoR2.UI.ChargeIndicatorController", "isDiscovered"));
-
-
-            if (c.TryGotoNext(MoveType.After,
-            x => x.MatchLdfld("RoR2.UI.ChargeIndicatorController", "spriteChargedColor")))
-            {
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<System.Func<Color, RoR2.UI.ChargeIndicatorController, Color>>((value, charg) =>
-                {
-                    return charg.spriteFlashColor;
-                });
-            }
-            else
-            {
-                WQoLMain.log.LogWarning("IL Failed: TP RED DISCOVER CHANGE");
-            }
-        }
-
+       
 
     }
 

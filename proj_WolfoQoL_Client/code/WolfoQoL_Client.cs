@@ -79,11 +79,11 @@ namespace WolfoQoL_Client
                 WQoLMain.log.LogWarning("Disabled Mod for Test");
                 return;
             }
-
+            ClientChecks.Start();
             MenuMain.Start();
             TextMain.Start();
             VisualsMain.Start();
-
+            
             //Generally Host send -> Host recieve always works fine for these messages
             //Just obviously a lot of this expects Host given info and will not work on Clients alone
             //So work arounds can be added
@@ -112,21 +112,12 @@ namespace WolfoQoL_Client
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(PerPlayer_ExtraStatTracker.SyncValues), 167);
             ChatMessageBase.chatMessageIndexToType[167] = typeof(PerPlayer_ExtraStatTracker.SyncValues);
 
-
-
-
-
-
+ 
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 
             BodyCatalog.availability.CallWhenAvailable(WStats.MakeStats);
-
-
-
-            ClientChecks.Start();
-
-
+ 
         }
 
         public void Start()

@@ -28,7 +28,8 @@ namespace WolfoQoL_Client.Skins
 
             Mercenary_Main.Start();
             Acrid_Main.Start();
-            EliteBell.Start();
+            //EliteBell.Start();
+            EliteEffects.Start();
 
         }
 

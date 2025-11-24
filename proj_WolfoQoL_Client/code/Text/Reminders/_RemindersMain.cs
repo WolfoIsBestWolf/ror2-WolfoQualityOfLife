@@ -11,7 +11,7 @@ namespace WolfoQoL_Client.Reminders
     {
         public static void Start()
         {
-            UIBorders.UpdateHuds();
+            //UIBorders.UpdateHuds();
 
             Reminders_Treasure.Start();
             Reminders_Portal.Start();
@@ -30,7 +30,7 @@ namespace WolfoQoL_Client.Reminders
 
             On.RoR2.SceneDirector.Start += AddReminders;
 
-            if (WConfig.cfgRemindersGeneral.Value)
+            if (WConfig.module_text_reminders.Value)
             {
                 On.RoR2.ScrapperController.BeginScrapping_UniquePickup += RemoveReminders_Scrapper;
 
@@ -45,9 +45,7 @@ namespace WolfoQoL_Client.Reminders
             }
             Run.onRunStartGlobal += Run_onRunStartGlobal;
 
-            //Ig not text but it is a reminder?
-            MissionPointers.Start();
-
+          
             Addressables.LoadAssetAsync<GameObject>(key: "f21b2c8a9cc028046935ea871dc4af54").WaitForCompletion().AddComponent<SpawnListener>().interactable = Interactable.greenPrinter;
             Addressables.LoadAssetAsync<GameObject>(key: "c10fd181efcffc24f8fed4c2f246fac8").WaitForCompletion().AddComponent<SpawnListener>().interactable = Interactable.halcyonShrine;
         }
@@ -56,7 +54,7 @@ namespace WolfoQoL_Client.Reminders
         public static void AddReminders(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
             orig(self);
-            if (WConfig.cfgRemindersGeneral.Value == true)
+            if (WConfig.module_text_reminders.Value == true)
             {
                 if (SceneInfo.instance.countsAsStage || SceneInfo.instance.sceneDef.allowItemsToSpawnObjects)
                 {
