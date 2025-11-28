@@ -5,6 +5,7 @@ using RoR2;
 using System;
 using System.Security;
 using System.Security.Permissions;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using WolfoQoL_Client.DeathScreen;
@@ -117,7 +118,7 @@ namespace WolfoQoL_Client
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 
             BodyCatalog.availability.CallWhenAvailable(WStats.MakeStats);
- 
+             
         }
 
         public void Start()

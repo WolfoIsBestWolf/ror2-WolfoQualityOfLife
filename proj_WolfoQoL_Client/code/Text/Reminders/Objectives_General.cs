@@ -103,10 +103,10 @@ namespace WolfoQoL_Client.Reminders
                     MSObelisk.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.QuestionMarkIcon;
                     GameObject MSObjective = new GameObject("MSObjective");
                     MSObjective.transform.SetParent(MSObelisk.transform);
-                    MSObjective.SetActive(false);
+                    //MSObjective.SetActive(false);
                     MSObjective.AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_GLASS_YOURSELF";
   
-                    MSObelisk.gameObject.GetComponentInChildren<OnPlayerEnterEvent>().action.m_PersistentCalls.AddListener(
+                    /*MSObelisk.gameObject.GetComponentInChildren<OnPlayerEnterEvent>().action.m_PersistentCalls.AddListener(
                     new PersistentCall
                     {
                         m_Target = MSObjective,
@@ -116,12 +116,8 @@ namespace WolfoQoL_Client.Reminders
                         {
                             boolArgument = true,
                         }
-                    });
+                    });*/
              
-                    break;
-                case "voidstage":
-                    GameObject MissionController = GameObject.Find("/MissionController");
-                    MissionController.GetComponent<VoidStageMissionController>().deepVoidPortalObjectiveProvider = null;
                     break;
                 case "conduitcanyon":
                     GameObject CC_StageEvents = GameObject.Find("/HOLDER: Stage Events");

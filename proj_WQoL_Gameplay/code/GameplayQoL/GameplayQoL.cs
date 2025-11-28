@@ -10,17 +10,32 @@ namespace WQoL_Gameplay
 {
     public class ItemOrbPhysicsChanger : MonoBehaviour
     {
+        public float forceTeleportY;
         public Rigidbody body;
         public void Awake()
         {
+            //Force teleport if lower than this Y coord ig
+            //But still use map bounds otherwise.
+            forceTeleportY = (transform.position.y-150);
             body = this.GetComponent<Rigidbody>();
+            if (body && body.velocity.y < -30)
+            {
+                body = null;
+                this.gameObject.layer = 8;
+            }
         }
         public void FixedUpdate()
         {
+
             if (body && body.velocity.y < -30)
             {
+                body = null;
                 this.gameObject.layer = 8;
-                Destroy(this);
+                //Destroy(this);
+            }
+            else if (forceTeleportY > transform.position.y)
+            {
+                GameplayQualityOfLife.TeleportItem(this.gameObject);
             }
         }
     }
@@ -65,8 +80,17 @@ namespace WQoL_Gameplay
                 IL.RoR2.CharacterBody.InflictLavaDamage += ConsistentLavaDamageForAllies;
             }
 
+            On.PowerOrbKeySpawner.SpawnKey += PowerOrbKeySpawner_SpawnKey;
         }
 
+        private static void PowerOrbKeySpawner_SpawnKey(On.PowerOrbKeySpawner.orig_SpawnKey orig, PowerOrbKeySpawner self, DamageReport damageReport)
+        {
+            if(damageReport.victimMaster && damageReport.victimMaster.killedByUnsafeArea)
+            {
+                return;
+            }
+            orig(self, damageReport);
+        }
 
         private static void ConsistentLavaDamageForAllies(ILContext il)
         {
@@ -130,6 +154,49 @@ namespace WQoL_Gameplay
             return false;
         }
 
+
+        public static void TeleportItem(GameObject item)
+        {
+            GameObject teleportEffectPrefab = Run.instance.GetTeleportEffectPrefab(item);
+            InfiniteTowerRun itRun = Run.instance.GetComponent<InfiniteTowerRun>();
+            if (itRun && itRun.safeWardController)
+            {
+                WGQoLMain.log.LogMessage("it tp item back");
+                TeleportHelper.TeleportGameObject(item, itRun.safeWardController.transform.position);
+                if (teleportEffectPrefab)
+                {
+                    EffectManager.SimpleEffect(teleportEffectPrefab, itRun.safeWardController.transform.position, Quaternion.identity, true);
+                }
+            }
+            else
+            {
+                SpawnCard spawnCard = ScriptableObject.CreateInstance<SpawnCard>();
+                spawnCard.hullSize = HullClassification.Human;
+                spawnCard.nodeGraphType = RoR2.Navigation.MapNodeGroup.GraphType.Ground;
+                spawnCard.prefab = LegacyResourcesAPI.Load<GameObject>("SpawnCards/HelperPrefab");
+
+                DirectorPlacementRule placementRule = new DirectorPlacementRule
+                {
+                    placementMode = DirectorPlacementRule.PlacementMode.NearestNode,
+                    position = item.transform.position
+                };
+
+                GameObject gameObject = DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(spawnCard, placementRule, RoR2Application.rng));
+                if (gameObject)
+                {
+                    //WolfoMain.log.LogMessage("tp item back");
+                    TeleportHelper.TeleportGameObject(item, gameObject.transform.position);
+                    if (teleportEffectPrefab)
+                    {
+                        EffectManager.SimpleEffect(teleportEffectPrefab, gameObject.transform.position, Quaternion.identity, true);
+                    }
+                    UnityEngine.Object.Destroy(gameObject);
+                }
+                UnityEngine.Object.Destroy(spawnCard);
+                GameObject.Destroy(item.GetComponent<ItemOrbPhysicsChanger>());
+            }
+        }
+
         public static void TeleportItems(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider collider)
         {
             orig(self, collider);
@@ -137,43 +204,7 @@ namespace WQoL_Gameplay
             {
                 if (IsItem(collider))
                 {
-                    GameObject teleportEffectPrefab = Run.instance.GetTeleportEffectPrefab(collider.gameObject);
-                    InfiniteTowerRun itRun = Run.instance.GetComponent<InfiniteTowerRun>();
-                    if (itRun && itRun.safeWardController)
-                    {
-                        WGQoLMain.log.LogMessage("it tp item back");
-                        TeleportHelper.TeleportGameObject(collider.gameObject, itRun.safeWardController.transform.position);
-                        if (teleportEffectPrefab)
-                        {
-                            EffectManager.SimpleEffect(teleportEffectPrefab, itRun.safeWardController.transform.position, Quaternion.identity, true);
-                        }
-                    }
-                    else
-                    {
-                        SpawnCard spawnCard = ScriptableObject.CreateInstance<SpawnCard>();
-                        spawnCard.hullSize = HullClassification.Human;
-                        spawnCard.nodeGraphType = RoR2.Navigation.MapNodeGroup.GraphType.Ground;
-                        spawnCard.prefab = LegacyResourcesAPI.Load<GameObject>("SpawnCards/HelperPrefab");
-
-                        DirectorPlacementRule placementRule = new DirectorPlacementRule
-                        {
-                            placementMode = DirectorPlacementRule.PlacementMode.NearestNode,
-                            position = collider.transform.position
-                        };
-
-                        GameObject gameObject = DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(spawnCard, placementRule, RoR2Application.rng));
-                        if (gameObject)
-                        {
-                            //WolfoMain.log.LogMessage("tp item back");
-                            TeleportHelper.TeleportGameObject(collider.gameObject, gameObject.transform.position);
-                            if (teleportEffectPrefab)
-                            {
-                                EffectManager.SimpleEffect(teleportEffectPrefab, gameObject.transform.position, Quaternion.identity, true);
-                            }
-                            UnityEngine.Object.Destroy(gameObject);
-                        }
-                        UnityEngine.Object.Destroy(spawnCard);
-                    }
+                    TeleportItem(collider.gameObject);
                 }
             }
         }

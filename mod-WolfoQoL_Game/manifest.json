@@ -1,6 +1,6 @@
 {
     "name": "WolfoQoL_Gameplay",
-    "version_number": "1.1.0",
+    "version_number": "1.1.1",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife",
     "description": "[Server-Side]: Non intrusive gameplay QoL. Items & Drones that fall of the map teleport back. Allows some Artifacts in Eclipse. And a couple random qol tidbits",
     "dependencies": [

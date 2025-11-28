@@ -1,0 +1,53 @@
+//Does not really need to be translated
+{
+    "strings":
+    {
+        "VOID_SUPPRESSOR_DESCRIPTION": "Erradica o item exibido da existência, impedindo que apareça novamente na corrida atual. Cópias já existentes do item serão imediatamente recicladas.",
+        
+
+        "BAZAAR_SEER_SNOWYFOREST": "<style=cWorldEvent>Você sonha com fogueiras e gelo.</style>",
+        "BAZAAR_SEER_SHIPGRAVEYARD": "<style=cWorldEvent>Você sonha com sinais desviados.</style>",
+        "BAZAAR_SEER_DAMPCAVESIMPLE": "<style=cWorldEvent>Você sonha com fogo tectônico.</style>",
+
+        "MONSTER_PICKUP_2P": "<style=cWorldEvent>Você vasculhou por {1}{2}</color>",
+        "PLAYER_DEATH_QUOTE_33_2P": "Você não está bem após este encontro.",
+        "PLAYER_DEATH_QUOTE_33": "{0} não está bem após este encontro.",
+
+
+        "PRIMEMERIDIANHEAD_BODY_NAME": "Cabeça do Colosso",
+        "LUNAR_CHIMERA": "Quimera Lunar",
+        "LUNARGOLEM_BODY_NAME_": "Quimera Lunar Golem",
+        "LUNARWISP_BODY_NAME_": "Quimera Lunar Áurea",
+        "LUNAREXPLODER_BODY_NAME_": "Quimera Lunar Explosora",
+        "ACIDLARVA_BODY_NAME_": "Larva Ácida",
+
+        "UNLOCKABLE_LOG_LUNARWISP": "Registro de Monstro: Quimera Lunar Áurea",
+        "UNLOCKABLE_LOG_LUNARGOLEM": "Registro de Monstro: Quimera Lunar Golem",
+        "UNLOCKABLE_LOG_LUNAREXPLODER": "Registro de Monstro: Quimera Lunar Explosora",
+        "UNLOCKABLE_LOG_ACIDLARVA": "Registro de Monstro: Larva Ácida",
+        "UNLOCKABLE_LOG_GUP": "Registro de Monstro: Gup, Geep, Gip",
+
+
+        "FAMILY_PARENT": "<style=cWorldEvent>[AVISO] Um vínculo familiar está sendo perturbado...</style>",
+
+        "LOCKEDTREEBOT_CONTEXT": "Reparar o sobrevivente",
+        "LOCKEDMAGE_NAME": "Sobrevivente Congelado",
+        "ARTIFACT_COMMAND_CUBE_INTERACTION_PROMPT": "Escolher",
+        "DRONE_MEGA_CONTEXT": "Reparar TC-280",
+
+
+        "MAP_GOLDSHORES_SUBTITLE": "Jaula da Alma",
+        "MAP_ARTIFACTWORLD_SUBTITLE": "Elementos da Criação",
+
+
+        "STATNAME_TOTALLUNARPURCHASES": "Compras Lunares",
+        "STATNAME_HIGHESTLUNARPURCHASES": "Mais Compras Lunares",
+        "STATNAME_HIGHESTBLOODPURCHASES": "Mais Compras de Sangue",
+
+
+        "FROG_NAME": "Sapo de Vidro",
+        "FROG_CONTEXT": "Acariciar o sapo de vidro",
+        "PET_FROG": "<style=cIsLunar>{0} acariciou o sapo de vidro.</style>",
+        "PET_FROG_2P": "<style=cIsLunar>Você acariciou o sapo de vidro.</style>"
+    }
+}

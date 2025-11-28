@@ -1,0 +1,38 @@
+//Optional to translate
+//Just adds colors to objectives/chat lines nothing more
+{
+    "strings":
+    {
+        "INFINITETOWER_SUDDEN_DEATH": "<style=cWorldEvent>[AVISO] O Foco começa a enfraquecer...</style>",
+        "INFINITETOWER_OBJECTIVE_AWAITINGACTIVATION": "Ative o <style=cIsVoid>Foco</style>",
+        "INFINITETOWER_OBJECTIVE_TRAVEL": "Siga o <style=cIsVoid>Foco</style>",
+        "INFINITETOWER_OBJECTIVE_PORTAL": "Avance via <style=cIsVoid>Portal Infinito</style>",
+
+
+        "OBJECTIVE_GOLDSHORES_ACTIVATE_BEACONS": "Reconstrua os <style=cGold>Faróis do Intocado</color> ({0}/{1})",
+
+        "OBJECTIVE_CLEAR_ARENA": "Ative todas as <style=cIsVoid>Saídas de Célula</style> ({0}/{1})",
+        "OBJECTIVE_ARENA_CHARGE_CELL": "Rompa a <style=cIsVoid>Célula</style> ({0}%)",
+
+        "OBJECTIVE_REBIRTH_OUTRO_SHRINE_1": "Aproxime-se do <style=cRebirth>Santuário</color>",
+        "OBJECTIVE_REBIRTH_OUTRO_SHRINE_2": "Seja <style=cRebirth>Renascido</color> ou Permaneça",
+        "OBJECTIVE_MERIDIAN_REACH_ARENA": "Suba até o <style=cRebirth>Meridiano Primordial</color>",
+
+
+        "OBJECTIVE_SOLUSWING_ESCAPE": "Escape via <color=#c6d5ff>Portal Principal</color>!",
+        "//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILL": "<color=#c6d5ff>REJEITAR:</color> Extinguir \nSolus Heart.",
+        "//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILLOBJECTIVE_SOLUSHEART_SPARE": "<color=#F8B651>ACEITAR:</color> Decompilar e evoluir.",
+
+
+        "CONDUITCANYON_P1": "Instale as <color=#F8B651>Chaves de Sentinela</color> para invadir a barreira",
+        "CONDUITCANYON_P2": "Instale as <color=#F8B651>Chaves de Sentinela</color> para reprogramar o teleportador criptografado",
+        "CONDUITCANYON_SKIP_BARRIER": "<style=cWorldEvent>Intruso detectado! Redirecionando energia para a equipe de segurança.</style>",
+
+
+        "VULTURE_KILLS_BOSS": "<color=#87E5C0><size=120%>Caçador de Liga: Escolhido, só pode haver um campeão! Eu não cederei!</color></size>",
+
+
+        "ACCESSCODES_PORTAL_WILL_OPEN": "<style=cWorldEvent>Acesso concedido...</style>",
+        "ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>Inimigo coletivo identificado. Integrando análises...</style>"
+    }
+}

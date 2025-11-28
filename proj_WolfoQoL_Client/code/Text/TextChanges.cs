@@ -73,6 +73,7 @@ namespace WolfoQoL_Client.Text
                     LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", Language.GetString("LUNAREXPLODER_BODY_NAME_"));
                     LanguageAPI.Add("ACIDLARVA_BODY_NAME", Language.GetString("ACIDLARVA_BODY_NAME_"));
 
+                    On.EntityStates.Missions.BrotherEncounter.Phase2.OnEnter += Phase2_OnEnter;
                 }
 
 
@@ -119,6 +120,20 @@ namespace WolfoQoL_Client.Text
             DLC1Content.Items.HealingPotionConsumed.descriptionToken = DLC1Content.Items.HealingPotionConsumed.pickupToken;
 
 
+
+        }
+
+        private static void Phase2_OnEnter(On.EntityStates.Missions.BrotherEncounter.Phase2.orig_OnEnter orig, EntityStates.Missions.BrotherEncounter.Phase2 self)
+        {
+            orig(self);
+            if (self.phaseBossGroup)
+            {
+                BossGroup boss = self.phaseBossGroup.GetComponent<BossGroup>();
+                boss.lastDisplayedPriority = 0;
+                boss.currentPriority = 0;
+                boss.bestObservedName = Language.GetString("LUNAR_CHIMERA");
+                boss.bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
+            }
         }
 
         public static void BoostedNameToken(SkillDef skill, string format)

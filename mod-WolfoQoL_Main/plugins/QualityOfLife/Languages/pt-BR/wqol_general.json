@@ -1,0 +1,64 @@
+// => Commented out / Not implemented or doesnt work
+{
+	"strings":
+	{
+	  
+			"LOGBOOK_CATEGORY_DRONE_AND_ALLIES" : "Drones e Aliados",
+	
+	 
+			"VagrantTrackingBomb":"Carga do Viajante",
+			"ScorchlingBombProjectile":"Bomba de Verme",
+			"MiniGeodeBody":"Geodo Falso",
+			"LunarWispTrackingBomb":"Bomba Rastreadora",
+			"GravekeeperTrackingFireball":"Wisp Volátil",
+			"BeetleWard":"Beetle Juicer",
+			"BeadProjectileTrackingBomb":"Fragmento Retorcido",
+			 
+			
+			"SKILL_VOIDFIEND_CORRUPT_M1":"Dispare um feixe de curto alcance causando <style=cisDamage>2000% de dano por segundo.</style>",
+			"SKILL_VOIDFIEND_CORRUPT_M2":"Dispare uma bomba de plasma em arco causando <style=cisDamage>1100% de dano.</style>",
+			"SKILL_VOIDFIEND_CORRUPT_M3":"<style=cIsUtility>Desapareça</style> no Vazio, <style=cIsUtility>removendo todos os efeitos negativos</style> enquanto se move em <style=cIsUtility>alta velocidade à frente.</style>",
+			"SKILL_VOIDFIEND_CORRUPT_M4":"Sacrifique <style=cIsHealth>25% da vida máxima</style> para ganhar <style=cIsVoid>25% de Corrupção.</style>",
+
+			"CHEF_BOOSTED_FORMAT": "{0} Impulsionado",
+			"VOIDFIEND_BOOSTED_FORMAT": "『Co??rrompido】{0}",
+			"SKIN_CROCO_BLIGHT": "Infectado",
+		
+		
+
+			"PORTAL_DESTINATION_CONTEXT": "Rejeitar o Renascimento",
+			"ARTIFACT_COMMAND_CUBE_PINK_NAME": "Essência de Comando Rosa",
+		
+		
+			"MULTISHOP_LARGE_TERMINAL_NAME": "Terminal de Multiloja Grande",
+            "MULTISHOP_EQUIPMENT_TERMINAL_NAME": "Terminal de Loja de Equipamentos",
+            "DUPLICATOR_LARGE_NAME": "Impressora 3D Grande",
+            "DUPLICATOR_LARGE_CONTEXT": "Usar Impressora 3D Grande",
+
+
+            "FREECHEST_TERMINAL_NAME": "Terminal de Entrega",
+            "FREECHEST_TERMINAL_CONTEXT": "Aceitar entrega.",
+		
+			"GAME_RESULT_LIMBOWIN": "Em Paz...",
+			"GAME_RESULT_VOIDWIN": "Mais fundo, e mais fundo...",
+			"GAME_RESULT_ESCAPEFAILED": "Fuga Falhou...",
+		
+	 
+			"ITEM_TREASURECACHECONSUMED_NAME": "Chave Enferrujada (Usada)",
+			"ITEM_TREASURECACHECONSUMED_DESC": "Uma chave gasta para lembrar um item conquistado.",
+			
+			"ITEM_TREASURECACHEVOIDCONSUMED_NAME": "Chave Encrustada (Usada)",
+			"ITEM_TREASURECACHEVOIDCONSUMED_DESC": "Uma chave gasta. Para lembrar um item conquistado.",
+			
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME": "Bênção do Rosário da Prece",
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Seus Rosários da Prece abençoaram seus atributos. (Overlay ausente)",
+			"ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Os Rosários da Prece abençoaram este corpo. (Overlay ausente)",
+			
+			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP": "Seus Rosários da Prece te abençoaram com +{0} níveis",
+			"OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_DESC": "Os Rosários da Prece abençoaram este corpo com <style=cIsUtility>+{0} níveis</style>, aumentando <style=cIsHealing>a vida máxima</style> em <style=cIsHealing>{1}</style>, <style=cIsHealing>regeneração</style> em <style=cIsHealing>{2} hp/s</style> e <style=cIsDamage>dano</style> em <style=cIsDamage>{3}</style>.",
+			"OVERLAY_EXTRASTATSONLEVELUP_DESC": "Seus Rosários da Prece te abençoaram com <style=cIsUtility>+{0} níveis</style>, aumentando <style=cIsHealing>a vida máxima</style> em <style=cIsHealing>{1}</style>, <style=cIsHealing>regeneração</style> em <style=cIsHealing>{2} hp/s</style> e <style=cIsDamage>dano</style> em <style=cIsDamage>{3}</style>.",
+			
+  
+	 
+	}
+}

@@ -1,23 +1,26 @@
 using R2API;
 using RoR2;
+using RoR2.ExpansionManagement;
 using RoR2.UI;
+using RoR2.UI.LogBook;
 //using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
 {
     public class ColorModule
     {
         //Adding missing Highlights
-        public static readonly GameObject HighlightOrangeItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipment", false);
-        public static readonly GameObject HighlightOrangeBossItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentBoss", false);
-        public static readonly GameObject HighlightOrangeLunarItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightEquipmentLunar", false);
+        public static GameObject HighlightOrangeItem;
+        public static GameObject HighlightOrangeBossItem;
+        public static GameObject HighlightOrangeLunarItem;
         public static bool HighlightEquipment = false;
 
-        public static readonly GameObject EquipmentBossOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/BossOrb"), "EquipmentBossOrb", false);
-        public static readonly GameObject EquipmentLunarOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/LunarOrb"), "EquipmentLunarOrb", false);
-        public static readonly GameObject NoTierOrb = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/Tier1Orb"), "NoTierOrb", false);
+        public static GameObject EquipmentBossOrb;
+        public static GameObject EquipmentLunarOrb;
+        public static GameObject NoTierOrb;
 
         public static Color NewSurvivorLogbookNameColor = new Color32(80, 130, 173, 255);
 
@@ -78,6 +81,8 @@ namespace WolfoQoL_Client
 
             if (WConfig.cfgColorMain.Value)
             {
+                On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += EquipmentAddBG;
+
                 EquipmentCatalog.availability.CallWhenAvailable(ColorModule_Sprites.NewColorOutlineIcons);
                 On.RoR2.PickupCatalog.Init += PickupCatalog_Init;
 
@@ -88,6 +93,34 @@ namespace WolfoQoL_Client
             PlayerPing.Hooks();
    
         }
+
+        public static Entry[] EquipmentAddBG(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
+        {
+            //Only run with color module.
+            Entry[] array = orig(expansionAvailability);
+            for (int i = 0; i < array.Length; i++)
+            {
+                PickupIndex tempind = PickupCatalog.FindPickupIndex(array[i].extraData.ToString());
+                PickupDef temppickdef = PickupCatalog.GetPickupDef(tempind);
+                if (temppickdef.equipmentIndex != EquipmentIndex.None)
+                {
+                    EquipmentDef tempeqdef = EquipmentCatalog.GetEquipmentDef(temppickdef.equipmentIndex);
+                    if (WConfig.cfgColorMain.Value)
+                    {
+                        if (tempeqdef.isBoss == true)
+                        {
+                            array[i].bgTexture = ColorModule.texEquipmentBossBG;
+                        }
+                        else if (tempeqdef.isLunar == true)
+                        {
+                            array[i].bgTexture = ColorModule.texEquipmentLunarBG;
+                        }
+                    }
+                }
+            }
+            return array;
+        }
+
 
         private static PickupDef ItemDef_CreatePickupDef(On.RoR2.ItemDef.orig_CreatePickupDef orig, ItemDef self)
         {
@@ -156,9 +189,13 @@ namespace WolfoQoL_Client
 
         public static void OrbMaker()
         {
+            GameObject EquipmentOrb = Addressables.LoadAssetAsync<GameObject>(key: "7c61d88eadef8a94ebf06138b6d2c2cb").WaitForCompletion();
 
+            
+            EquipmentBossOrb = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "47decc91b30009d41a6b60735cd38ed9").WaitForCompletion(), "EquipmentBossOrb", false); //boss orb base
+            EquipmentLunarOrb = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "69411ae2cb84bd744827d19b2042f749").WaitForCompletion(), "EquipmentLunarOrb", false); //lunar orb base
+            NoTierOrb = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "62b4a745e2a56ad4880ba1418a12ee85").WaitForCompletion(), "NoTierOrb", false); //tier 1 orb
 
-            GameObject EquipmentOrb = LegacyResourcesAPI.Load<GameObject>("Prefabs/itempickups/EquipmentOrb");
             Color reduction = new Color(0.2f, 0.2f, 0.2f, 0f);
             Color reduction2 = new Color(0.5f, 0.5f, 0.5f, 1f);
 
@@ -287,21 +324,27 @@ namespace WolfoQoL_Client
 
         public static void AddMissingItemHighlights()
         {
-            GameObject HighlightBlueItem = LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightLunarItem");
-            HighlightBlueItem.GetComponent<HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
+            GameObject Tier1 = Addressables.LoadAssetAsync<GameObject>(key: "0b8f01bd80fe0304a853cea91bdb3c6d").WaitForCompletion();
+            GameObject Tier2 = Addressables.LoadAssetAsync<GameObject>(key: "730ea84bde179504e985c5f3c66db36b").WaitForCompletion();
+            GameObject Tier3 = Addressables.LoadAssetAsync<GameObject>(key: "c3c94a80f68a8394f9e2da30dfa847d4").WaitForCompletion();
+            GameObject TierLunar = Addressables.LoadAssetAsync<GameObject>(key: "0cb44955b08ec6a4a9c3e04c5f73b815").WaitForCompletion();
+            TierLunar.GetComponent<HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
 
-            GameObject HighlightYellowItem = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightBossItem", false);
-            GameObject HighlightPinkT1Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier1Item"), "HighlightVoidT1Item", false);
-            GameObject HighlightPinkT2Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier2Item"), "HighlightVoidT2Item", false);
-            GameObject HighlightPinkT3Item = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/ui/HighlightTier3Item"), "HighlightVoidT3Item", false);
-
+            GameObject HighlightYellowItem = PrefabAPI.InstantiateClone(Tier3, "HighlightBossItem", false);
+            GameObject HighlightPinkT1Item = PrefabAPI.InstantiateClone(Tier1, "HighlightVoidT1Item", false);
+            GameObject HighlightPinkT2Item = PrefabAPI.InstantiateClone(Tier2, "HighlightVoidT2Item", false);
+            GameObject HighlightPinkT3Item = PrefabAPI.InstantiateClone(Tier3, "HighlightVoidT3Item", false);
+            HighlightOrangeItem = PrefabAPI.InstantiateClone(Tier2, "HighlightOrangeItem", false);
+            HighlightOrangeLunarItem = PrefabAPI.InstantiateClone(Tier2, "HighlightOrangeLunarItem", false);
+            HighlightOrangeBossItem = PrefabAPI.InstantiateClone(Tier3, "HighlightOrangeBossItem", false);
+           
             HighlightYellowItem.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.9373f, 0.2667f, 1);
             HighlightPinkT1Item.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.498f, 0.9059f, 1);
             HighlightPinkT2Item.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.498f, 0.9059f, 1);
             HighlightPinkT3Item.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.498f, 0.9059f, 1);
             HighlightOrangeItem.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.6f, 0.1f, 1);
-            HighlightOrangeBossItem.GetComponent<HighlightRect>().highlightColor = new Color(1, 0.75f, 0f, 1);
             HighlightOrangeLunarItem.GetComponent<HighlightRect>().highlightColor = ColorEquip_Lunar;
+            HighlightOrangeBossItem.GetComponent<HighlightRect>().highlightColor = new Color(1, 0.75f, 0f, 1);
 
 
             ItemTierCatalog.GetItemTierDef(ItemTier.Boss).highlightPrefab = HighlightYellowItem;

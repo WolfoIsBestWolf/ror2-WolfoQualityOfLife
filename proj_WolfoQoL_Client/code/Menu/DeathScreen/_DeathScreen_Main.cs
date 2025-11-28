@@ -156,9 +156,10 @@ namespace WolfoQoL_Client.DeathScreen
             var extras = self.GetComponent<DeathScreenExpanded>();
             try
             {
-                if (playerInfo.master)
+                if (playerInfo.master && playerInfo.master.inventory)
                 {
                     playerInfo.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);
+                    playerInfo.master.inventory.inventoryDisabled = false;
                     self.itemInventoryDisplay.SetSubscribedInventory(playerInfo.master.inventory);
                 }
                 else
@@ -334,6 +335,7 @@ namespace WolfoQoL_Client.DeathScreen
 
                 extras.oneTimeExtras = true;
                 ExtraStats.DifficultyTooltip(self);
+                ExtraStats.TotalRunTimer(self);
                 MakeChatToggleBotton(extras);
 
 

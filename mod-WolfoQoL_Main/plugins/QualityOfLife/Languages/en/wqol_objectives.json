@@ -5,22 +5,10 @@
 {
 	"strings":
 	{
-			"REMINDER_PORTAL_LUNAR": "Proceed through the <style=cIsLunar>Blue Portal</style>",    
-			"REMINDER_PORTAL_GOLD": "Proceed through the <style=cGold>Gold Portal</color>",
-            "REMINDER_PORTAL_MS": "Proceed through the <style=cMysterySpace>Celestial Portal</color>",
-			"REMINDER_PORTAL_ARTIFACT": "Proceed through the <style=cDeath>Artifact Portal</style>",
-                
-			"REMINDER_PORTAL_NULL": "Proceed through the <style=cIsVoid>Null Portal</style>",
-            "REMINDER_PORTAL_VOID": "Proceed through the <style=cIsVoid>Void Portal</style>",
-            "REMINDER_PORTAL_GREEN": "Proceed through the <style=cRebirth>Green Portal</color>",
-			"REMINDER_PORTAL_AC": "Proceed through the <color=#c6d5ff>Encrypted Portal</color>",
-			"REMINDER_PORTAL_SOLUSWEB": "Proceed through the <color=#FF269C>Decrypted Portal</color>",
 			"REMINDER_PORTAL_MAIN": "Proceed through the {0}",
 			"REMINDER_PORTAL_EXIT": "Leave through the {0}",
 				 
-			  
-			
-
+ 
 		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <style=cGold>Halcyon Shrine</color> ({0}%)",
             "OBJECTIVE_KILL_HALCSHRINE": "Defeat the <style=cGold>Guardian</color>",
 			

@@ -1,0 +1,69 @@
+{
+	"strings":
+	{
+	
+			"STAT_MOST_KILLED": "Monstro mais abatido: <color=#FFFF7F>{0}</color>",
+			"STAT_MOST_HURT": "Maior dano causado em: <color=#FFFF7F>{0}</color>",
+			"STAT_MOST_HURTBY": "Mais ferido por: <color=#FFFF7F>{0}</color>",
+			"//STAT_MOST_FOUNDITEM": "Item mais encontrado: <color=#FFFF7F>{0}</color>",
+			"//STAT_MOST_USEDEQUIP": "Equipamento mais usado: <color=#FFFF7F>{0}</color>",
+			"STAT_MOST_MVPDRONE": "Lacaio mais forte: <color=#FFFF7F>{0}</color>",
+
+
+			"STAT_AMOUNT_KILLED": "<color=#FFFF7F>{0} Mortos</color>",
+			"STAT_AMOUNT_HURTBY": "<color=#FFFF7F>{0} de dano recebido</color>",
+			"//STAT_AMOUNT_FOUNDITEM": "<color=#FFFF7F>{0}x</color>",
+			"//STAT_AMOUNT_USEDEQUIP": "<color=#FFFF7F>{0} ativações</color>",
+			"STAT_AMOUNT_MVPDRONE": "<color=#FFFF7F>{0} de dano causado</color>",
+
+			"STAT_DEVOTION_SUMMON": "Lemurianos Chocados",
+			"//STAT_DEVOTION_EVOLVES": "Evoluções de Lemurianos",
+			"STAT_DEVOTION_DEATHS": "Mortes de Lemurianos",
+			"STAT_DEVOTION_MISSED": "Ovos não chocados",
+	
+
+			"STAT_ENABLED_EXPANSIONS": "Expansões Habilitadas:",
+			 
+			"STAT_EXTRAHEADER": "Informações Adicionais",
+			"STAT_DETAILS": "Análise Detalhada",
+
+			"STAT_MINION_DAMAGETAKEN": "Dano recebido em lacaios",
+			"STAT_MINION_HEALTHHEALED": "Cura recebida por lacaios",
+			"STAT_MINION_DEATH": "Mortes de drones",
+
+			"STAT_SCRAPPED_ITEMS": "Itens reciclados",
+			"STAT_SCRAPPED_DRONES": "Drones reciclados",
+
+			"STAT_MISSED_CHEST": "Baús deixados para trás",
+			"STAT_MISSED_DRONE": "Drones deixados para trás",	
+			"STAT_MISSED_SHRINECHANCE": "Ofertas no Templo do Acaso",
+
+			"STAT_TIMESJUMPED": "Vezes que pulou",
+			"STAT_SPENT_LUNARCOIN": "Moedas Lunares gastas",
+			
+			
+			"//STAT_SPENT_VOIDTRANS": "Transformações do Vazio",
+			"//STAT_SPENT_VOIDCOIN": "Marcadores do Vazio gastos",
+			"//STAT_BUFFS_RECIEVED": "Buffs recebidos",
+			"//STAT_SKILLS_USED": "Habilidades ativadas",
+			
+			"STAT_DAMAGE_DOT": "Dano causado ao longo do tempo",
+			"STAT_DAMAGE_BLOCKED": "Dano bloqueado",
+			"//STAT_TELEPORTERTIME": "Tempo carregando zonas",
+	
+			"RUN_RECAP": "Resumo da Partida",
+			"LATEST_WAVE": "Última Onda: ",
+			"TOTALDAMAGE_PERCENTTIP": "<color=#FFFF7F>{0}%</color> do dano total causado.",
+	
+	
+			"INVENTORY_DEVOTION": "Coleção de Devoção",
+			"INVENTORY_DEVOTIONDRONE": "Coleção de Devoção e Drones",
+			"INVENTORY_DRONES": "Coleção de Drones",
+			
+			"INVENTORY_KILLER": "Itens dos Assassinos",
+			"INVENTORY_MONSTER": "Itens dos Monstros",
+			
+	 
+	 
+	}
+}

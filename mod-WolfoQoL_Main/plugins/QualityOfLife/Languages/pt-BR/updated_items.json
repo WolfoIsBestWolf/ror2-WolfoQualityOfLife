@@ -1,0 +1,48 @@
+//Void aspect given a name since it may show up under "Killer Items" on death screen.
+{
+	"strings":
+	{
+	 
+ 
+			"ITEM_SCRAPWHITE_PICKUP": "Não faz nada. Prioritário quando usado com <color=#FAFAFA>Impressoras 3D</color>.",
+            "ITEM_SCRAPGREEN_PICKUP": "Não faz nada. Prioritário quando usado com <style=cIsHealing>Impressoras 3D Grandes</style>.",
+            "ITEM_SCRAPRED_PICKUP": "Não faz nada. Prioritário quando usado com <style=cIsHealth>Impressoras 3D Mili-Tech</style>.",
+            "ITEM_SCRAPYELLOW_PICKUP": "Não faz nada. Prioritário quando usado com <style=cIsTierBoss>Impressoras 3D Exuberantes</style>.",
+
+            "ITEM_SCRAPWHITE_DESC": "Não faz nada. Prioritário quando usado com <color=#FAFAFA>Impressoras 3D</color> e Caldeirões.",
+            "ITEM_SCRAPGREEN_DESC": "Não faz nada. Prioritário quando usado com <style=cIsHealing>Impressoras 3D Grandes</style> e Caldeirões.",
+            "ITEM_SCRAPRED_DESC": "Não faz nada. Prioritário quando usado com <style=cIsHealth>Impressoras 3D Mili-Tech</style> e Caldeirões.",
+            "ITEM_SCRAPYELLOW_DESC": "Não faz nada. Prioritário quando usado com <style=cIsTierBoss>Impressoras 3D Exuberantes</style>.",
+
+
+            "ITEM_TONICAFFLICTION_DESC": "<color=#FF7F7F>Reduz TODOS os atributos em -5% </color><style=cStack>(-5% por acúmulo)</style><color=#FF7F7F> quando não estiver sob efeito do Tônico de Espinélia</color>.",
+            
+			"EQUIPMENT_QUESTVOLATILEBATTERY_DESC": "Cair abaixo de <style=cIsHealth>50% de vida</style> faz isso explodir em um grande raio, causando <style=cIsDamage>300% da vida máxima do portador como dano</style>. Consumido ao usar.",
+			
+            "EQUIPMENT_AFFIXRED_DESC": "Ataques <style=cIsDamage>incendeiam</style> inimigos, causando <style=cIsDamage>50%</style> de dano TOTAL ao longo do tempo. Deixa um <style=cIsDamage>rastro de fogo</style> que causa dano ao contato.",
+			
+            "EQUIPMENT_AFFIXBLUE_DESC": "Todos os ataques deixam um <style=cIsDamage>orbe elétrico</style> que explode após <style=cIsUtility>1.5s</style>, causando <style=cIsDamage>50%</style> de dano TOTAL. Converte <style=cIsHealing>50%</style> da sua <style=cIsHealing>vida</style> em <style=cIsHealing>escudos</style>.",
+			
+            "EQUIPMENT_AFFIXWHITE_DESC": "<style=cIsUtility>Retarda</style> inimigos ao atingir, reduzindo <style=cIsUtility>-80% da velocidade de movimento</style> por <style=cIsUtility>1.5s</style>. <style=cDeath>Ao morrer</style>, deixa uma <style=cIsDamage>explosão de gelo</style> que <style=cIsUtility>congela</style> inimigos por <style=cIsUtility>1.5s</style>.",
+			
+            "EQUIPMENT_AFFIXPOISON_DESC": "Inimigos atingidos terão <style=cIsHealing>a cura desabilitada</style> por <style=cIsUtility>8s</style>. Periodicamente dispara 3 <style=cIsDamage>aglomerados de espinhos</style> causando <style=cIsDamage>100%</style> de dano base. <style=cDeath>Ao morrer</style>, deixa um <style=cIsDamage>Ouriço Malaquita</style> que dura <style=cIsUtility>20s</style>.",
+			
+            "EQUIPMENT_AFFIXHAUNTED_DESC": "<style=cIsUtility>Retarda</style> inimigos ao atingir, reduzindo <style=cIsUtility>-80% da velocidade de movimento</style> por <style=cIsUtility>3s</style>. <style=cIsUtility>Oculta</style> todos os aliados em um grande raio.",
+			
+            "EQUIPMENT_AFFIXLUNAR_DESC": "Aumenta a <style=cIsHealing>vida máxima</style> em <style=cIsHealing>25%</style> e a <style=cIsUtility>velocidade de movimento</style> em <style=cIsUtility>30%</style>. \nConverte toda a <style=cIsHealing>vida</style> em <style=cIsHealing>escudos regenerativos</style>. \n<style=cIsDamage>Atrasa</style> inimigos ao atingir por <style=cIsUtility>4s</style>, reduzindo a <style=cIsUtility>velocidade de movimento</style> em <style=cIsUtility>100%</style> e a <style=cIsDamage>armadura</style> em <style=cIsDamage>20</style>. \nPeriodicamente dispara 4 orbes causando <style=cIsDamage>30%</style> de dano base ao atacar.",
+
+            "EQUIPMENT_AFFIXEARTH_DESC": "<style=cIsHealing>Cura</style> um aliado ferido próximo em <style=cIsHealing>120%</style> do seu <style=cIsDamage>dano base</style> por segundo. <style=cDeath>Ao morrer</style>, deixa um <style=cIsHealing>Núcleo Curativo</style> que <style=cIsHealing>cura</style> todas as criaturas próximas após <style=cIsHealing>3s</style>.",
+			
+			"EQUIPMENT_AFFIXVOID_NAME": "Curiosidade Nascida do Vazio",
+            "EQUIPMENT_AFFIXVOID_PICKUP": "Torne-se corrompido pelo vazio.",
+            "EQUIPMENT_AFFIXVOID_DESC": "Aumenta a <style=cIsHealing>vida máxima</style> em <style=cIsHealing>50%</style>.\nDiminui o <style=cIsDamage>dano base</style> em <style=cIsDamage>30%</style>.\n<style=cIsDamage>100%</style> de chance de <style=cIsDamage>Colapsar</style> inimigos ao atingir.\n<style=cIsHealing>Bloqueia</style> dano recebido uma vez a cada <style=cIsUtility>15 segundos</style>. ",
+			
+
+			"EQUIPMENT_AFFIXAURELIONITE_DESC": "Ao atingir, inimigos deixam cair <style=cIsUtility>pepitas</style> valendo <style=cIsUtility>$8</style>. <style=cIsUtility>Escala com o tempo.</style> Ao ativar ou a cada <style=cIsDamage>12s</style>, lança uma <style=cIsDamage>erupção</style> causando <style=cIsDamage>15% de dano</style> e depois <style=cIsDamage>150% de dano</style>.",
+			
+			"EQUIPMENT_AFFIXBEAD_DESC": "Fortalece <style=cIsHealing>5 aliados próximos</style> em um raio de <style=cIsHealing>35m</style>, aumentando sua <style=cIsHealing>armadura</style> em <style=cIsHealing>300</style>. Após aliados fortalecidos serem atingidos <style=cIsHealing>10</style> vezes, dispara um espinho lunar rastreador causando <style=cIsDamage>100% de dano</style> e aplicando <style=cIsDamage>Ruína Lunar</style>. Recarrega após 10s.", 
+			 
+			"EQUIPMENT_AFFIXCOLLECTIVE_DESC": "Concede uma cúpula de <style=cIsUtility>30m</style> que <style=cIsUtility>bloqueia</style> todos os ataques externos e reduz o <style=cIsUtility>tempo de recarga de habilidades</style> de todos os aliados dentro dela em <style=cIsUtility>25%</style>.\n<style=cIsHealth>Ao morrer</style>, explode causando <style=cIsDamage>100%</style> de dano e desabilita itens por <style=cIsDamage>2.5s</style>.",
+
+	}
+}

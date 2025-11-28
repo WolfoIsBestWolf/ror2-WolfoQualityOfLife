@@ -386,7 +386,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (newtShrineSpawned > 0 || WConfig.cfgRemindersNewt.Value == WConfig.ReminderChoice.Always)
                 {
-                    if (!TeleporterInteraction.instance || !TeleporterInteraction.instance.shouldAttemptToSpawnShopPortal)
+                    if (TeleporterInteraction.instance && !TeleporterInteraction.instance.shouldAttemptToSpawnShopPortal)
                     {
                         //WQoLMain.log.LogMessage("Newt Reminder");
                         string token = Language.GetString("REMINDER_NEWT");

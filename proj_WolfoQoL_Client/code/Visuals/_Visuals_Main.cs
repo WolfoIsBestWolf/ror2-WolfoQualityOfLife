@@ -1,4 +1,5 @@
 ﻿using RoR2;
+//using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using WolfoQoL_Client.Skins;
@@ -6,7 +7,7 @@ using WolfoQoL_Client.Skins;
 
 namespace WolfoQoL_Client
 {
-
+     
     public class VisualsMain
     {
         public static void Start()
@@ -18,7 +19,7 @@ namespace WolfoQoL_Client
                 {
                     PingIcons.Start();
                     PingIcons_Hooks.Start();
-                   
+
                 }
                 BuffIcons.Awake();
                 //Ig not text but it is a reminder?
@@ -41,7 +42,7 @@ namespace WolfoQoL_Client
                 VisualsMisc.Start();
 
                 HoldoutZoneFlowers.FlowersForOtherHoldoutZones();
-               
+
                 On.RoR2.Stage.PreStartClient += VisualStageChanges;
 
                 GameModeCatalog.availability.CallWhenAvailable(CallLate);
@@ -53,8 +54,7 @@ namespace WolfoQoL_Client
                 AudioStuff.Start();
             }
         }
-
-
+         
 
         public static void VisualStageChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
         {
@@ -180,13 +180,7 @@ namespace WolfoQoL_Client
                     }
                     break;
                 case "moon2":
-                    //Maybe this o
-                    GameObject Phase2 = GameObject.Find("/SceneInfo/BrotherMissionController/BrotherEncounter, Phase 2");
-                    if (Phase2)
-                    {
-                        Phase2.GetComponent<BossGroup>().bestObservedName = Language.GetString("LUNAR_CHIMERA");
-                        Phase2.GetComponent<BossGroup>().bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
-                    }
+
                     GameObject Elevators = GameObject.Find("/HOLDER: Elevators");
                     if (Elevators)
                     {

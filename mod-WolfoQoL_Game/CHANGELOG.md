@@ -1,5 +1,10 @@
 #Changelog
 ```
+v1.1.1
+Items that miss the map border or exit too horizontally now also get caught and teleported.
+
+Collective Elites falling out of the map no longer drop keys.
+
 v1.1.0 
 
 Dead Drones falling off or through the map now teleport up.

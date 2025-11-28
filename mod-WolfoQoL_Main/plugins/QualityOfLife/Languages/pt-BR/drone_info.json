@@ -1,0 +1,58 @@
+//Drone Tier Info
+//Custom Ally Skill Info
+{
+	"strings":
+	{
+			"DRONE_HEALING_SKILL_DESCRIPTION": "Libera um feixe de cura que <style=cIsHealing>restaura vida</style> igual a <style=cIsDamage>200% do dano base</style> ao longo de <style=cIsHealing>5s</style>.",
+			"DRONE_HAULER_SKILL_DESCRIPTION": "<style=cIsUtility>Atordoa</style> alvos e os ergue no ar, antes de soltá-los causando <style=cIsDamage>400% de dano e dano de queda aumentado</style>.",
+			"DRONE_JUNK_SKILL_DESCRIPTION": "Dispensa <style=cIsTemporary>1 a 5 itens temporários</style> a cada <style=cIsUtility>120s</style>. <style=cIsUtility>A quantidade depende do nível do ambiente</style>.",
+				
+			
+			"EMERGENCYDRONE_SKILL_DESCRIPTION": "Libera até <style=cIsHealing>8</style> feixes de cura que <style=cIsHealing>restauram vida</style> igual a <style=cIsDamage>250% do dano base</style> ao longo de <style=cIsHealing>5s</style>.",
+			"DRONE_CLEANUP_SKILL_DESCRIPTION": "<style=cIsUtility>Reduz</style> a velocidade dos inimigos em <style=cIsUtility>50%</style> num raio de <style=cIsUtility>24m</style>. Inimigos mortos enquanto estiverem lentos são reciclados em um coletável que <style=cIsHealing>cura</style> <style=cIsHealing>15%</style> da <style=cIsHealing>vida máxima</style> ou concede <style=cIsUtility>$12</style>.",
+			"DRONE_JAILER_SKILL_DESCRIPTION": "Libera uma jaula que <style=cIsUtility>enraíza</style> inimigos próximos por <style=cIsUtility>5 segundos</style>.",
+			"DRONE_RECHARGE_SKILL_DESCRIPTION": "Libera um feixe de recarga que concede uma <style=cIsHealing>barreira temporária</style> igual a <style=cIsDamage>800% do dano base</style> ao longo de <style=cIsHealing>5s</style>.",
+				 
+			"DRONE_BOMBARDMENT_SKILL_DESCRIPTION": "Bombardeia a área com relâmpagos, causando <style=cIsDamage>16x250% de dano</style> numa área ampla e <style=cIsUtility>chocando</style> os alvos por <style=cIsUtility>2 segundos</style>.",
+			"DRONE_COPYCAT_SKILL_DESCRIPTION": "Dispara um disco de gelo teleguiado que ricocheteia até <style=cIsDamage>6</style> vezes, causando <style=cIsDamage>200% de dano</style> e <style=cIsUtility>congelando</style> alvos por <style=cIsUtility>2s</style>. Inimigos <style=cIsUtility>congelados</style> são <style=cIsHealth>mortos instantaneamente</style> se estiverem abaixo de <style=cIsHealth>30%</style> de vida.",
+					 
+			"DRONE_BACKUP_SKILL_DESCRIPTION" : "Dispara rapidamente em rajadas de 4 tiros causando <style=cIsDamage>4x50% de dano</style>. <style=cIsHealth>Expira</style> após 25 segundos.",
+			
+		
+			"DRONE_TIERINFO_GENERAL": "Combinar Drones combina toda a <style=cIsHealth>vida</style> e <style=cIsDamage>dano</style>, reduz o <style=cIsUtility>tempo de recarga</style> em <style=cIsUtility>20%</style> e adiciona um <style=cIsUtility>efeito adicional</style> por nível.",
+			"DRONE_GUNNER_TIERINFO": "Dispara <style=cIsDamage>2</style> balas extras por nível.",
+			"DRONE_HEALING_TIERINFO": "Feixes de cura duram <style=cIsHealing>50%</style> mais, curando um total de <style=cIsHealing>50%</style> a mais por nível.",
+			"DRONE_HAULER_TIERINFO": "Aumenta a <style=cIsUtility>velocidade de movimento</style> enquanto carrega um inimigo em <style=cIsUtility>60%</style> por nível.",
+			"DRONE_JUNK_TIERINFO": "Derruba <style=cIsTemporary>2</style> <style=cIsUtility>itens temporários</style> adicionais e <style=cIsUtility>reduz a recarga</style> em <style=cIsUtility>30%</style> extras por nível.",
+				
+				
+			"DRONE_MISSILE_TIERINFO": "Dispara <style=cIsDamage>+2</style> mísseis extras por nível.",
+			"FLAMEDRONE_TIERINFO": "O lança-chamas causa <style=cIsDamage>+1000%</style> mais dano por nível.",
+			"EMERGENCYDRONE_TIERINFO": "Pode liberar <style=cIsHealing>+2</style> feixes de cura por nível. Feixes de cura duram <style=cIsHealing>+50%</style> mais e curam <style=cIsHealing>+50%</style> mais por segundo, por nível.",
+			
+			"DRONE_CLEANUP_TIERINFO": "Aumenta o raio do efeito em <style=cIsUtility>6m</style> e gera <style=cIsUtility>+1</style> coletável por nível.",
+			"DRONE_JAILER_TIERINFO": "Aprisiona inimigos por <style=cIsUtility>+5</style> segundos por nível.",
+			"DRONE_RECHARGE_TIERINFO": "Feixes de recarga duram <style=cIsHealing>+50%</style> mais, concedendo <style=cIsHealing>50%</style> mais de barreira total por nível.",
+			
+			"DRONE_BOMBARDMENT_TIERINFO": "Eletrocutar <style=cIsDamage>+8</style> vezes adicionais por nível.",
+			"DRONE_COPYCAT_TIERINFO": "O Disco de Gelo ricocheteia até <style=cIsDamage>+6</style> vezes adicionais e congela por <style=cIsDamage>+1</style> segundo por nível.",
+			"DRONE_MEGA_TIERINFO": "O Barrageiro de Balas dispara <style=cIsDamage>+8</style> balas pesadas por nível. Dispara <style=cIsDamage>+1</style> par de foguetes explosivos por nível.",
+			
+			
+ 
+			"SQUIDTURRET_SKILL_DESCRIPTION": "Dispara tinta contra inimigos próximos, causando <style=cIsDamage>500%</style> de dano a cada <style=cIsDamage>0.75s</style>.",
+			"FRIENDUNIT_SKILL_DESCRIPTION": "Arremessa-se contra inimigos, causando <style=cIsDamage>400%</style> de dano em inimigos leves e <style=cIsDamage>1000%</style> em inimigos pesados. O dano aumenta com a <style=cIsUtility>velocidade de movimento</style>.",
+			
+			"BEETLEGUARDALLY_SKILL_DESCRIPTION": "Esmaga inimigos próximos causando <style=cIsDamage>440%</style> de dano.\nDispara fendas terrestres causando <style=cIsDamage>300%</style> de dano.",
+			"ROBOBALLREDBUDDY_SKILL_DESCRIPTION": "Dispara um feixe causando <style=cIsDamage>100%</style> de dano por segundo. Ganha <style=cIsDamage>dano adicional</style> para cada aliado e acúmulo de item.",
+			"ROBOBALLGREENBUDDY_SKILL_DESCRIPTION": "Dispara um feixe causando <style=cIsDamage>100%</style> de dano por segundo. Ganha <style=cIsDamage>dano adicional</style> para cada aliado e acúmulo de item.",
+			"MINORCONSTRUCTONKILL_SKILL_DESCRIPTION": "Dispara projéteis ricocheteantes causando <style=cIsDamage>150%</style> de dano. Ganha <style=cIsUtility>200</style> de armadura enquanto fora de combate. <style=cIsHealth>Expira</style> após 30 segundos se o dono estiver a mais de 100m.",
+			
+			"NULLIFIERALLY_SKILL_DESCRIPTION": "Dispara bolhas do vazio <style=cIsUtility>anuladoras</style> causando <style=cIsDamage>3x100%</style> de dano.\nImplode <style=cIsHealth>ao morrer</style>, matando TODOS os personagens pegos <style=cIsHealth>instantaneamente</style>.",
+			"VOIDJAILERALLY_SKILL_DESCRIPTION": "Dispara uma rajada de espinhos do vazio <style=cIsUtility>lentificantes</style> causando <style=cIsDamage>12x200%</style> de dano.\nCaptura inimigos próximos, <style=cIsUtility>anulando</style>-os por 2s.\nDeixa uma implosão perseguidora <style=cIsHealth>ao morrer</style>.",
+			"VOIDMEGACRABALLY_SKILL_DESCRIPTION": "Dispara bombas brancas em espalhamento causando <style=cIsDamage>10x80%</style> de dano, seguidas de antimatéria causando <style=cIsDamage>600%</style> de dano.\nA antimatéria explode as bombas brancas por mais <style=cIsDamage>600%</style> de dano cada.\nOcasionalmente dispara mísseis do vazio teleguiados causando <style=cIsDamage>14x30%</style> de dano.\nDeixa uma enorme Implosão em cascata <style=cIsHealth>ao morrer</style>.",
+			
+			"ENGITURRET_SKILL_DESCRIPTION": "Dispara rapidamente balas causando <style=cIsDamage>70%</style> de dano, totalizando 200% de dano por segundo.",
+			"ENGIWALKERTURRET_SKILL_DESCRIPTION": "Dispara um feixe que causa rapidamente <style=cIsDamage>40%</style> de dano, totalizando <style=cIsDamage>200%</style> de dano por segundo."
+	}
+}

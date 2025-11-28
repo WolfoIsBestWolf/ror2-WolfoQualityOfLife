@@ -19,7 +19,7 @@ namespace WolfoQoL_Client
             On.RoR2.UI.LogBook.LogBookController.BuildMonsterEntries += AddMissingMonsters;
             On.RoR2.UI.LogBook.LogBookController.BuildMonsterEntries += SortBossMonster;
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += AddMissingEquipment;
-            On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += SortBossEquip_AddBG;
+            On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += SortBossEquip;
             On.RoR2.UI.LogBook.LogBookController.BuildSurvivorEntries += SurvivorEntryColor;
 
             On.RoR2.UI.LogBook.LogBookController.GetPickupStatus += EliteEquipmentViewable;
@@ -212,7 +212,7 @@ namespace WolfoQoL_Client
             return VALUES;
         }
 
-        public static Entry[] SortBossEquip_AddBG(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
+        public static Entry[] SortBossEquip(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
             Entry[] array = orig(expansionAvailability);
 
@@ -228,7 +228,7 @@ namespace WolfoQoL_Client
                     if (equipmentIndex != EquipmentIndex.None)
                     {
                         EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
-                        if (equipmentDef && equipmentDef.isBoss)
+                        if (equipmentDef && (equipmentDef.passiveBuffDef || equipmentDef.isBoss))
                         {
                             Entry entry = array[j];
                             list.Add(array[j]);
@@ -243,32 +243,10 @@ namespace WolfoQoL_Client
                 }
             }
             #endregion
-
-            #region ChangeBG
-            for (int i = 0; i < array.Length; i++)
-            {
-                PickupIndex tempind = PickupCatalog.FindPickupIndex(array[i].extraData.ToString());
-                PickupDef temppickdef = PickupCatalog.GetPickupDef(tempind);
-                if (temppickdef.equipmentIndex != EquipmentIndex.None)
-                {
-                    EquipmentDef tempeqdef = EquipmentCatalog.GetEquipmentDef(temppickdef.equipmentIndex);
-                    if (WConfig.cfgColorMain.Value)
-                    {
-                        if (tempeqdef.isBoss == true)
-                        {
-                            array[i].bgTexture = ColorModule.texEquipmentBossBG;
-                        }
-                        else if (tempeqdef.isLunar == true)
-                        {
-                            array[i].bgTexture = ColorModule.texEquipmentLunarBG;
-                        }
-                    }
-                }
-            }
-            #endregion
+ 
             return array;
         }
-
+      
         public static Entry[] SurvivorEntryColor(On.RoR2.UI.LogBook.LogBookController.orig_BuildSurvivorEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
             Entry[] array = orig(expansionAvailability);

@@ -155,6 +155,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgLogbook_EliteEquipEarlyViewable;
         public static ConfigEntry<bool> cfgLogbook_Recipes;
         public static ConfigEntry<bool> cfgLogbook_Subtitles;
+        public static ConfigEntry<bool> cfgLogbook_Drones_EngiTurret;
         public static ConfigEntry<bool> cfgLogbook_AllyExpansion;
         public static ConfigEntry<bool> cfgLogbook_SortBosses;
 
@@ -367,7 +368,7 @@ namespace WolfoQoL_Client
                 "Reminders",
                 "Charging Halcyon Shrines",
                 true,
-                "To match other waiting sections in the game."
+                "Shows percent. To match other waiting sections in the game."
             );
             cfgReminder_Halcyon = ConfigFile_Client.Bind(
              "Reminders",
@@ -720,7 +721,7 @@ namespace WolfoQoL_Client
                 "Logbook",
                 "Drones & Allies",
                 true,
-                "Expand Drones category to Drones & Allies, giving info on items given by items."
+                "Expand Drones category to Drones & Allies, giving info on allies given by items."
             );
             cfgLogbook_Recipes = ConfigFile_Client.Bind(
                 "Logbook",
@@ -754,6 +755,12 @@ namespace WolfoQoL_Client
                 "Compact Stats",
                 true,
                 "Combine most stats into 2 per column and hide the score. Score per stat will be shown by hovering over it."
+            );
+            DC_RealTimeTimerStat = ConfigFile_Client.Bind(
+                "Death Screen",
+                "Total Run Time",
+                true,
+                "Show the total time spent in a run in the top middle."
             );
             DC_KillerInventory = ConfigFile_Client.Bind(
                 "Death Screen",

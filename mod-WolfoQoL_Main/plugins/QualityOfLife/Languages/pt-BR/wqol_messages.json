@@ -1,0 +1,127 @@
+//
+{
+	"strings":
+	{
+		"REPAIR_DRONE_2P": "<style=cEvent>Você reparou {1}{2}</color>",
+		"REPAIR_DRONE": "<style=cEvent>{0} reparou {1}{2}</color>",
+
+		"PURCHASE_DRONE_2P": "<style=cEvent>Você comprou {1}{2}</color>",
+		"PURCHASE_DRONE": "<style=cEvent>{0} comprou {1}{2}</color>",
+
+		"UPGRADE_DRONE_2P": "<style=cEvent>Você aprimorou {1} para o Nível {2}</color>",
+		"UPGRADE_DRONE": "<style=cEvent>{0} aprimorou {1} para o Nível {2}</color>",
+
+		"UPGRADE_DRONE_ITEM_2P": "<style=cEvent>Você combinou drones para {1}</color>",
+		"UPGRADE_DRONE_ITEM": "<style=cEvent>{0} combinou drones para {1}</color>",
+
+		"REMOTEOP_DRONE_2P": "<style=cEvent>Você iniciou uma operação remota como {1}</color>",
+		"REMOTEOP_DRONE": "<style=cEvent>{0} iniciou uma operação remota como {1}</color>",
+
+		"MEALPREP_COOKMEAL_2P": "<style=cEvent>Você cozinhou {1}</color>",
+		"MEALPREP_COOKMEAL": "<style=cEvent>{0} cozinhou {1}</color>",
+
+		"EVOLUTION_ADD_ITEM": "<style=cWorldEvent>Os monstros evoluíram {0}</color>",
+
+		"DRONE_COST_STAT": "\nCusto Base: <style=cEvent>{0}</color>",
+		"DRONE_DAMAGE_DEALT": "\nDano Causado: <style=cEvent>{0}</color>",
+		"DRONE_BEST_RUN": "Melhor Partida: <style=cEvent>{0}</color>",
+
+		"DEVOTED_LEMURIAN_DEATH_2P": "<style=cDeath>Você perdeu um devoto. Seu bando perde {1}{2}</style>",
+		"DEVOTED_LEMURIAN_DEATH": "<style=cDeath>{0} perdeu um devoto. Seu bando perde {1}{2}</style>",
+
+		"ITEM_LOSS_EGG_2P": "<style=cEvent>Você ofereceu aos seus devotos {1}</style>",
+		"ITEM_LOSS_EGG": "<style=cEvent>{0} ofereceu aos seus devotos {1}</style>",
+
+		"PLAYER_PING_PLAYER": "<style=cIsUtility>{0} cumprimenta: {1}.</style>",
+
+		"SHRINE_REVIVE_USE_MESSAGE": "<style=cShrine>A vida perdida será remodelada.</color>",
+
+		"SHRINE_REVIVE_MESSAGE_DEAD_YOUAND": "<style=cShrine>Vocês{0} tiveram seus corpos remodelados.</color>",
+		"SHRINE_REVIVE_MESSAGE_DEAD_YOU": "<style=cShrine>Seu corpo foi remodelado.</color>",
+		"SHRINE_REVIVE_MESSAGE_DEAD": "<style=cShrine>{0} teve seu corpo remodelado.</color>",
+
+		"ITEM_REVIVE_MESSAGE": "<style=cIsLunar>{0} reviveu usando seu {1}</color>",
+		"ITEM_REVIVE_MESSAGE_TEAM": "<style=cIsLunar>{0} reviveu aliados caídos usando {1}</color>",
+		"ITEM_REVIVE_MESSAGE_ALL": "NOTIN <style=cIsLunar>{0} reviveu a si mesmo e aliados caídos usando {1}</color>",
+
+		"ITEM_RECYCLED_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> foi reciclado em <color=#{2}>{1}</color></style>",
+		"ITEM_TINKER_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> foi ajustado em <color=#{2}>{1}</color></style>",
+		"ITEM_TINKER_NONSPECIFIC": "<style=cEvent><color=#{2}>{0}</color> foi ajustado.</style>",
+
+		"ITEM_USED_STAR_2P": "<style=cEvent>Você usou <color=#77FF16>Estrela Promocional</color> em: <style=cIsDamage>{1}</style>",
+		"ITEM_USED_STAR": "<style=cEvent>{0} usou <color=#77FF16>Estrela Promocional</color> em: <style=cIsDamage>{1}</style>",
+
+		"ITEM_LOSS_GENERIC_2P": "<style=cEvent>Você se livrou de {1}</style>",
+		"ITEM_LOSS_GENERIC": "<style=cEvent>{0} se livrou de {1}</style>",
+
+		"ITEM_LOSS_CAULDRON_2P": "<style=cEvent>Você refundiu {1}</style>",
+		"ITEM_LOSS_CAULDRON": "<style=cEvent>{0} refundiu {1}</style>",
+
+		"ITEM_LOSS_CLEANSING_2P": "<style=cShrine>Você se purificou de {1}</style>",
+		"ITEM_LOSS_CLEANSING": "<style=cShrine>{0} se purificou de {1}</style>",
+
+		"ITEM_LOSS_SCRAP_2P": "<style=cEvent>Você sucateou {1}</style>",
+		"ITEM_LOSS_SCRAP": "<style=cEvent>{0} sucateou {1}</style>",
+
+		"ITEM_LOSS_USED_2P": "<style=cEvent>Você usou {1}</style>",
+		"ITEM_LOSS_USED": "<style=cEvent>{0} usou {1}</style>",
+
+		"ITEM_LOSS_LOST_2P": "<style=cEvent>Você perdeu {1}</style>",
+		"ITEM_LOSS_LOST": "<style=cEvent>{0} perdeu {1}</style>",
+
+		"ITEM_USE_ELIXIR": "<style=cEvent>Você bebeu um <color=#FFFFFF>Elixir de Poder</color></style>",
+		"ITEM_USE_ELIXIR_3P": "<style=cEvent>{0} bebeu um <color=#FFFFFF>Elixir de Poder</color></style>",
+
+		"ITEM_USE_WATCH": "<style=cEvent>Você quebrou seus <color=#FFFFFF>Relógios Delicados</color></style>",
+		"ITEM_USE_WATCH_3P": "<style=cEvent>{0} quebrou seus <color=#FFFFFF>Relógios Delicados</color></style>",
+
+		"ITEM_USE_VV_VOIDWATCH": "<style=cEvent>{0} ficou sem tempo...</style>",
+		"ITEM_USE_VV_VOIDWATCH_3P": "<style=cEvent>O {0} de {1} ficou sem tempo...</style>",
+
+		"ITEM_TRANSFORM_EGO": "<style=cEvent><color=#458CFF>{0}</color> assimilou <color=#{1}>{2}</color></style>",
+		"ITEM_TRANSFORM_VOID": "<style=cEvent><style=cIsVoid>O Vazio</style> aprimorou <color=#{0}>{1}</color> em <color=#{2}>{3}</color></style>",
+
+		"DEATH_DOT_FRACTURE_2P": "Você foi colapsado por {1}.",
+		"DEATH_DOT_FRACTURE": "{0} foi colapsado por {1}.",
+
+		"DEATH_DOT_GENERIC_2P": "Você morreu lentamente para {1}.",
+		"DEATH_DOT_GENERIC": "{0} morreu lentamente para {1}.",
+
+		"DEATH_VOID_FOG_2P": "Você se afogou no Vazio.",
+		"DEATH_VOID_FOG": "{0} se afogou no Vazio.",
+
+		"DEATH_VOID_EXPLODE_2P": "Você foi detido por {1}.",
+		"DEATH_VOID_EXPLODE": "{0} foi detido por {1}.",
+
+		"DEATH_FALL_DAMAGE_2P": "Você sucumbiu à gravidade.",
+		"DEATH_FALL_DAMAGE": "{0} sucumbiu à gravidade.",
+
+		"DEATH_FRIENDLY_SUICIDE_2P": "Você se matou.",
+		"DEATH_FRIENDLY_SUICIDE": "{0} se matou.",
+
+		"DEATH_FRIENDLY_2P": "Você foi traído por {1}.",
+		"DEATH_FRIENDLY": "{0} foi traído por {1}.",
+
+		"DEATH_LAVA_2P": "Você foi derretido.",
+		"DEATH_LAVA": "{0} foi derretido.",
+
+		"DEATH_ECHO_2P": "Ecos de {1} mataram você.",
+		"DEATH_ECHO": "Ecos de {1} mataram {0}.",
+
+		"DEATH_GLASS_2P": "Você foi estilhaçado por {1}.",
+		"DEATH_GLASS": "{0} foi estilhaçado por {1}.",
+
+		"DEATH_GENERIC_2P": "Você foi morto por {1}.",
+		"DEATH_GENERIC": "{0} foi morto por {1}.",
+
+		"DEATH_DAMAGE": " ({0} de dano recebido)</style>",
+
+		"REBIRTH_ENDING_CHAT_ITEM_2P": "Você renascerá com {0}.",
+
+		"WIN_FORMAT_WIN": "<style=cIsHealing><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+		"WIN_FORMAT_FAIL": "<style=cDeath><sprite name=\"Skull\" tint=1> {0} <sprite name=\"Skull\" tint=1></style>",
+		"WIN_FORMAT_MS": "<style=cLunarObjective><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+		"WIN_FORMAT_VOID": "<style=cIsVoid><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>",
+		"WIN_FORMAT_REBIRTH": "<style=cRebirth><sprite name=\"CloudLeft\" tint=1> {0} <sprite name=\"CloudRight\" tint=1></color>"
+	}
+}

@@ -1,0 +1,57 @@
+//Spacing from \n mostly checked ingame to fit better
+//Probably dont keep in translation
+//Cyber: FF269C
+//Heart: C6D5FF
+{
+	"strings":
+	{
+			"REMINDER_PORTAL_LUNAR": "Prossiga via <style=cIsLunar>Portal Azul</style>", 
+			"REMINDER_PORTAL_GOLD": "Prossiga via <style=cGold>Portal Dourado</color>",
+            "REMINDER_PORTAL_MS": "Prossiga via <style=cMysterySpace>Portal Celestial</color>",
+			"REMINDER_PORTAL_ARTIFACT": "Prossiga via <style=cDeath>Portal dos Artefatos</style>",
+                
+			"REMINDER_PORTAL_NULL": "Prossiga via <style=cIsVoid>Portal Nulo</style>",
+            "REMINDER_PORTAL_VOID": "Prossiga via <style=cIsVoid>Portal do Vazio</style>",
+            "REMINDER_PORTAL_GREEN": "Prossiga via <style=cRebirth>Portal Verde</color>",
+			"REMINDER_PORTAL_AC": "Prossiga via <color=#c6d5ff>Portal Criptografado</color>",
+			"REMINDER_PORTAL_SOLUSWEB": "Prossiga via <color=#FF269C>Portal Descriptografado</color>",
+			"REMINDER_PORTAL_MAIN": "Prossiga via {0}",
+			"REMINDER_PORTAL_EXIT": "Saia via {0}",
+				 
+			  
+			
+
+		    "OBJECTIVE_CHARGE_HALCSHRINE": "Carregue o <style=cGold>Templo do Intocado</color> ({0}%)",
+            "OBJECTIVE_KILL_HALCSHRINE": "Derrote o <style=cGold>Guardião</color>",
+			
+			"OBJECTIVE_ARTIFACT_TRIAL": "Complete a \n<style=cArtifact>Provação de {0}</style>",
+			"OBJECTIVE_GLASS_YOURSELF": "<style=cMysterySpace>Aniquile</color> sua própria existência",
+			"OBJECTIVE_DESERT_ELDERS": "Explore a câmara oculta",
+		
+		
+ 
+			"REMINDER_COUNT": " ({0}/{1})",
+            "REMINDER_KEY": "Destrave a <style=cIsDamage>Caixa Enferrujada</style>",
+            "REMINDER_KEY_MANY": "Destrave as <style=cisDamage>Caixas Enferrujadas</style> ({0}/{0})",
+
+            "REMINDER_KEYVOID": "Destrave a <color=#FF9EEC>Caixa Encrustada</color>",
+            "REMINDER_KEYVOID_MANY": "Destrave as <color=#FF9EEC>Caixas Encrustadas</color> ({0}/{0})",
+
+            "REMINDER_FREECHEST": "Pegue a <style=cIsHealing>entrega gratuita</style>",
+            "REMINDER_FREECHEST_MANY": "Pegue as <style=cIsHealing>entregas gratuitas</style> ({0}/{0})",
+
+            "REMINDER_SALESTAR": "Use a <style=cIsUtility>Estrela Promocional</style>",
+			
+			"REMINDER_REGENSCRAP": "Use a <style=cIsHealing>Sucata Regeneradora</style>", 
+			
+            "REMINDER_FREECHESTVOID": "Encontre e ative a <style=cIsVoid>Bateria Perdida</style>",
+			
+			"REMINDER_SECRET_GEODE": "Quebre os <style=cGold>Geodos de Aurelionita</color> ({0}/{1})",
+           
+			"REMINDER_NEWT": "Encontre e ative um <style=cIsLunar>Altar da Salamandra <sprite name=\"LunarCoin\" tint=1></style>",  
+			"REMINDER_HALCYON": "Encontre e ative o <style=cGold>Templo do Intocado</style>",  
+			"REMINDER_ACCESSNODE": "Encontre e ative o <style=cDeath>Nó de Acesso</style>",  
+		  
+	 
+	}
+}

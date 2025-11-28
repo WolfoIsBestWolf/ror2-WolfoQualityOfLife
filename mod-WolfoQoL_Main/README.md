@@ -119,7 +119,7 @@ Objectives for the following:
 - Reminders to make full use of your items. 
 - - (Rusted Keys, Sale Star, Regen Scrap, Shipping Form)
 - Leave through Portals
-- Halcyonite Shrine Charing & Killing the guy
+- Halcyonite Shrine Charge Percentage & Killing.
 - Getting the extra Halcyonite Fragment on Prime Meridian
 - (Off by default)
 - - Find Newt Shrine, Halcyon Shrine, Access Node
@@ -177,6 +177,7 @@ Updated Death Screen including.
 - - - Evolution/Simu/Void Fields/etc.
 
 - Victory / Vanish Quote top right
+- Full time spent during a run.
 - Run Stage Recap
 - - Stages you went through during the run.
 - - - Show off you beat all final bosses or just general routing for fun.
@@ -260,8 +261,10 @@ A lot of things are configurable. If you feel something should be configurable y
 ### Translations
 Thank you for anyone who wishes to translate.
 
-Standard Chinese by [takaqiaoc](https://github.com/takaqiaoc) on GitHub
+- Chinese (Standard)  by [takaqiaoc](https://github.com/takaqiaoc) on GitHub
 
-Russian by [kreeperHLC](https://github.com/kreeperHLC) on GitHub
+- Portuguese (Brazil) by snake_snr
+
+- Russian by [kreeperHLC](https://github.com/kreeperHLC) on GitHub
 
 

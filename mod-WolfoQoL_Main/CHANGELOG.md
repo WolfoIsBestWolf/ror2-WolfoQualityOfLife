@@ -1,5 +1,19 @@
 #Changelog
 ```
+v5.0.3
+
+Added Portuguese (Brazil) translation thanks to Snakeman (on Discord)
+
+Displayed full run time in the death screen header now.
+
+Fixed inventory being empty if died while item disabled.
+Fixed a strange incompatibility with IntroSkip mods and certain config combinations.
+Fixed elite equipment not being sorted to the end with some config combinations.
+Fixed Lunar & Boss Equipment BG being messed up with some config combinations.
+Fixed Mithrix Phase 2 not saying "Lunar Chimera" anymore.
+Fixed Minion Healing and Damage stat above int limit on the death screen.
+```
+```
 v5.0.2
 
 !Changed config category names to match module names
@@ -10,8 +24,9 @@ v5.0.2
 Brass Balls attack now matches Elite Colors of attacker. (Instead of being a spiky Elite Aspect)
 Titan Fist attack now matches Elite Colors of attacker.
 
-Readded "Lunar Chimera Name Change" config
+Added Chinese Translation thanks to takaqiao (on Github).
 
+Readded "Lunar Chimera Name Change" config
 Fixed RealTime stat not being a time stamp of time of death.
 Fixed Drones&Allies category name not changing if config disabled.
 Fixed some recipes not showing.

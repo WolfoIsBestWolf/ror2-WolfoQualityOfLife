@@ -139,6 +139,55 @@ namespace WolfoQoL_Client.DeathScreen
 
         }
 
+        public static void TotalRunTimer(GameEndReportPanelController self)
+        {
+           if (Run.instance == null)
+            {
+                return;
+            }
+            if (WConfig.DC_RealTimeTimerStat.Value == false)
+            {
+                return;
+            }
+            DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
+            if (extras == null)
+            {
+                return;
+            }
+            Transform HeaderArea = self.GetComponent<ChildLocator>().FindChild("HeaderArea");
+            //Transform ResultLabel = HeaderArea.Find("ResultArea").GetChild(0);
+            Transform DeathFlavorText = HeaderArea.Find("DeathFlavorText");
+
+            GameObject TotalRunTimer = GameObject.Instantiate(DeathFlavorText.gameObject, HeaderArea);
+            TotalRunTimer.name = "TotalRunTimer";
+            var Text = TotalRunTimer.GetComponent<TextMeshProUGUI>();
+
+            Text.fontStyle = FontStyles.Normal;
+            Text.horizontalAlignment = HorizontalAlignmentOptions.Center;
+            Text.fontSizeMax = 24;
+            Text.fontSize = 24;
+            //Text.color = new Color(1f, 1f, 1f, 0.3f);
+            Text.color = new Color(0.75f, 0.75f, 0.8f, 1f);
+            TotalRunTimer.transform.localPosition = new Vector3(0, -50, 0);
+
+            ulong num = (ulong)extras.deathTimeStamp;
+            ulong num2 = num / 60UL;
+            ulong num3 = num - num2 * 60UL;
+
+
+            TotalRunTimer.GetComponent<TextMeshProUGUI>().text = string.Format("{2} {0:00}:{1:00}", num2, num3, Language.GetString("STAT_TOTAL_RUN_TIME"));
+            //TotalRunTimer.GetComponent<TextMeshProUGUI>().text = string.Format("<style=cEvent>{2} {0:00}:{1:00}</color>", num2, num3, Language.GetString("STAT_TOTAL_RUN_TIME"));
+
+            //bool show = Run.instance.GetRunStopwatch() > 600 || extras.deathTimeStamp > 600; //Don't bother showing if run is very short
+            //show = show && extras.deathTimeStamp - Run.instance.GetRunStopwatch() > 120;
+
+            TotalRunTimer.gameObject.SetActive(true);
+
+
+        }
+
+
+
         public static void ChangeStats(GameEndReportPanelController self, RunReport runReport)
         {
             bool IsSimu = runReport.gameMode is InfiniteTowerRun;
@@ -294,7 +343,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             #region Override vanilla stats
             //SetupStat(self, "highestItemsCollected", "STATNAME_TOTALITEMSCOLLECTED", highestItemsCollected);
-            SetupTimerStat(self, "totalTimeAlive", extras.deathTimeStamp);
+            //SetupTimerStat(self, "totalTimeAlive", extras.deathTimeStamp);
             if (!extras.isDevotionRun)
             {
                 SetupStat(self, "totalDronesPurchased", "STATNAME_TOTALDRONESPURCHASED", drones + turrets);
@@ -381,8 +430,8 @@ namespace WolfoQoL_Client.DeathScreen
 
 
 
-            SetupStat(self, "custom_MinionDamageTaken", "STAT_MINION_DAMAGETAKEN", (int)playerTracker.minionDamageTaken);
-            SetupStat(self, "custom_MinionHealthHealed", "STAT_MINION_HEALTHHEALED", (int)playerTracker.minionHealing);
+            SetupStat(self, "custom_MinionDamageTaken", "STAT_MINION_DAMAGETAKEN", playerTracker.minionDamageTaken);
+            SetupStat(self, "custom_MinionHealthHealed", "STAT_MINION_HEALTHHEALED", playerTracker.minionHealing);
 
             SetupStat(self, "custom_ItemsScrapped", "STAT_SCRAPPED_ITEMS", playerTracker.scrappedItems);
             if (extras.isDevotionRun)
@@ -518,7 +567,7 @@ namespace WolfoQoL_Client.DeathScreen
             return string.Format(Language.GetString("STAT_NAME_VALUE_FORMAT"), Language.GetString(displayToken), value);
         }
 
-        public static Transform SetupStat(GameEndReportPanelController self, string lookingFor, string displayToken, int value, bool disableIfNeg = false)
+        public static Transform SetupStat(GameEndReportPanelController self, string lookingFor, string displayToken, float value, bool disableIfNeg = false)
         {
             Transform stat = FindStatStrip(self, lookingFor);
             if (!stat)
