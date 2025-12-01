@@ -61,7 +61,7 @@ namespace WolfoQoL_Client.Reminders
                     TreasureReminder.SetupRemindersStatic();
                 }
             }
-            WQoLMain.log.LogMessage("WolfoQoL-" + SceneInfo.instance.sceneDef.baseSceneName);
+            WQoLMain.log.LogMessage("CurrentStage"+SceneInfo.instance.sceneDef.baseSceneName);
 
         }
 
@@ -327,6 +327,11 @@ namespace WolfoQoL_Client.Reminders
             localHasSaleStar = false;
             localHasRegenScrap = false;
 
+            bool isSimu = Run.instance is InfiniteTowerRun;
+            if (isSimu && WConfig.cfgRemindersNOTINSIMU.Value)
+            {
+                return;
+            }
 
             int maximumKeys = 0;
             int maximumKeysVoid = 0;
@@ -364,7 +369,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 lockboxVoidCount = maximumKeysVoid;
             }
-            if (!Run.instance.GetComponent<InfiniteTowerRun>())
+            if (!isSimu)
             {
                 if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder > 5)
                 {
@@ -373,7 +378,7 @@ namespace WolfoQoL_Client.Reminders
                 }
             }
 
-            if (WConfig.cfgReminder_AccessNode.Value && AccessCodesMissionController.instance)
+            if (!isSimu && WConfig.cfgReminder_AccessNode.Value && AccessCodesMissionController.instance)
             {
                 bool flag = AccessCodesMissionController.instance.ignoreSolusWingDeath || !Run.instance.GetEventFlag("SolusWingBeaten");
                 if (AccessCodesMissionController.instance.RunHasRequiredExpansion() && flag)
@@ -382,7 +387,7 @@ namespace WolfoQoL_Client.Reminders
                     Objective_AccessNode.objectiveToken = Language.GetString("REMINDER_ACCESSNODE");
                 }
             }
-            if (WConfig.cfgRemindersNewt.Value != WConfig.ReminderChoice.Off)
+            if (!isSimu && WConfig.cfgRemindersNewt.Value != WConfig.ReminderChoice.Off)
             {
                 if (newtShrineSpawned > 0 || WConfig.cfgRemindersNewt.Value == WConfig.ReminderChoice.Always)
                 {
@@ -395,7 +400,7 @@ namespace WolfoQoL_Client.Reminders
                     }
                 }
             }
-            if (WConfig.cfgReminder_Halcyon.Value && halcyonSpawned)
+            if (!isSimu && WConfig.cfgReminder_Halcyon.Value && halcyonSpawned)
             {
                 string token = Language.GetString("REMINDER_HALCYON");
                 Objective_Halcyon = SceneInfo.instance.gameObject.AddComponent<GenericObjectiveProvider>();
@@ -420,7 +425,7 @@ namespace WolfoQoL_Client.Reminders
                 }
                 if (lockboxCount > 0)
                 {
-                    WQoLMain.log.LogMessage("TreasureCacheCount " + lockboxCount);
+                    //WQoLMain.log.LogMessage("TreasureCacheCount " + lockboxCount);
                     string token = string.Empty;
                     if (lockboxCount > 1)
                     {
@@ -462,7 +467,7 @@ namespace WolfoQoL_Client.Reminders
                     Objective_FreeChestVVVoid.objectiveToken = token;
                 }
             }
-            if (WConfig.cfgRemindersRegenScrap.Value != WConfig.ReminderChoice.Off)
+            if (!isSimu && WConfig.cfgRemindersRegenScrap.Value != WConfig.ReminderChoice.Off)
             {
                 if (greenPrinterSpawned || WConfig.cfgRemindersRegenScrap.Value == WConfig.ReminderChoice.Always)
                 {
@@ -509,7 +514,7 @@ namespace WolfoQoL_Client.Reminders
                     //maximumKeysVoid += enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid);
                 }
             }
-            WQoLMain.log.LogMessage("Check if voided Lockbox reminder : " + maximumKeys);
+            //WQoLMain.log.LogMessage("Check if voided Lockbox reminder : " + maximumKeys);
             ShouldRemoveKeyObjective(maximumKeys);
         }
 
@@ -545,7 +550,7 @@ namespace WolfoQoL_Client.Reminders
                 return;
             }
 
-            WQoLMain.log.LogMessage("TreasureCacheCount " + lockboxCount);
+            //WQoLMain.log.LogMessage("TreasureCacheCount " + lockboxCount);
             if (lockboxCount > 0)
             {
                 string old = "(" + lockboxCount + "/";
@@ -566,7 +571,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 return;
             }
-            WQoLMain.log.LogMessage("TreasureCacheVoidCount " + lockboxVoidCount);
+            //WQoLMain.log.LogMessage("TreasureCacheVoidCount " + lockboxVoidCount);
             if (lockboxVoidCount > 0)
             {
                 string old = "(" + lockboxVoidCount + "/";
@@ -587,7 +592,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 return;
             }
-            WQoLMain.log.LogMessage("FreeChestCount " + freeChestCount);
+            //WQoLMain.log.LogMessage("FreeChestCount " + freeChestCount);
             if (freeChestCount > 0)
             {
                 string old = "(" + freeChestCount + "/";

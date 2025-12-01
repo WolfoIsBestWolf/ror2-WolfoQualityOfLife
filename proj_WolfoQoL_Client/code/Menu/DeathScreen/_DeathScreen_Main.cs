@@ -26,6 +26,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             RunRecap.Start();
             ExtraStatsTracking.Start();
+            ExtraStatsTracking.Start_Missed();
             On.RoR2.UI.ItemInventoryDisplay.AllocateIcons += EquipOnDeathInventory.AddEquipmentIcons;
 
             On.RoR2.UI.GameEndReportPanelController.AssignStatToStrip += ExtraStats.PointsToolTip;

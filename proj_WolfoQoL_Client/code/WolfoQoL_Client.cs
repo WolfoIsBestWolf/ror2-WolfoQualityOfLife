@@ -21,7 +21,7 @@ namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("com.Wolfo.WolfoLibrary")]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.0.0")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.0.4")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WQoLMain : BaseUnityPlugin
     {

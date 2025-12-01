@@ -143,8 +143,7 @@ namespace WolfoQoL_Client
             Pings_Shrines();
             Pings_Drones();
             Pings_Printer();
-            Pings_Objectives();
-            //Pings_Portal();
+ 
         }
 
 
@@ -172,7 +171,7 @@ namespace WolfoQoL_Client
             pingIconDict.Add("FW_HumanFan", ExclamationIcon);
             pingIconDict.Add("TimedChest", Load("ChestTimedIcon"));
             //pingIconDict.Add("TreebotUnlockInteractable", QuestionMarkIcon);
-            //pingIconDict.Add("PortalDialer", Load(""));
+            pingIconDict.Add("PortalDialer", QuestionMarkIcon); //Shows up as Chest
             //pingIconDict.Add("ChefWok", Load(""));
             pingIconDict.Add("NullSafeZone", Load("Void_Cell"));
 
@@ -356,38 +355,7 @@ namespace WolfoQoL_Client
             SetAllIcons("205b0f1b9c2a8de47945946eca80e564", "LunarCauldron");
 
         }
-
-        public static void Pings_Objectives()
-        {
-
-        }
-        public static void Pings_Portal()
-        {
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArtifactworld").AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalArena").AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalGoldshores").AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalShop").AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/PortalMS").AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/PortalVoid/PortalVoid.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidOutroPortal/VoidOutroPortal.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortal/DeepVoidPortal.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/PortalInfiniteTower.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = PortalIcon;
-
-            //ALL PORTALS SEEM TO HAVE PortalCenter as their 1 child
-
-            //HardwareProgPortal
-            //EyePortal
-            //CompExchangePortal
-            //SolusWebPortal
-
-        }
-
-
-
+   
         public static void Pings_Other()
         {
             NullVentIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/Void_Cell.png");

@@ -17,7 +17,7 @@ namespace WolfoQoL_Client.DeathScreen
         public GameObject latestWaveUiPrefab;
         public int missedChests = 0;
         public int missedShrineChanceItems = 0;
-        public int missedItems;
+        //public int missedItems;
         public int missedDrones;
         public int missedLemurians;
         public bool expectingLoop = false;
@@ -41,10 +41,10 @@ namespace WolfoQoL_Client.DeathScreen
         {
             instance = null;
             SceneCatalog.onMostRecentSceneDefChanged -= this.HandleMostRecentSceneDefChanged;
-            foreach (SceneDef sceneDef in visitedScenes)
+            /*foreach (SceneDef sceneDef in visitedScenes)
             {
                 WQoLMain.log.LogMessage(visitedScenes);
-            }
+            }*/
         }
 
         public void TestUnlocks(int amount = 5)
@@ -162,106 +162,7 @@ namespace WolfoQoL_Client.DeathScreen
             visitedScenes.Add(newSceneDef);
         }
 
-        public static void OnPurchaseDestroyed(OnDestroyCallback self)
-        {
-            if (!instance)
-            {
-                return;
-            }
-            PurchaseInteraction purchase = self.GetComponent<PurchaseInteraction>();
-            if (purchase.available)
-            {
-                bool realChest = false;
-                if (self.TryGetComponent<ChestBehavior>(out var chest))
-                {
-                    //Filter out frozenwall fan because hopoo james
-                    if (chest.dropTable)
-                    {
-                        realChest = true;
-                    }
-                    if (SceneCatalog.mostRecentSceneDef.isFinalStage)
-                    {
-                        realChest = purchase.costType == CostTypeIndex.TreasureCacheItem;
-                    }
-                }
-                if (realChest
-                 || self.GetComponent<OptionChestBehavior>()
-                 || self.GetComponent<RouletteChestController>())
-                {
-                    if (purchase.costType != CostTypeIndex.LunarCoin)
-                    {
-                        instance.missedChests++;
-                    }
-                    string display = purchase.GetDisplayName();
-                    if (instance.dic_missedChests.ContainsKey(display))
-                    {
-                        instance.dic_missedChests[display]++;
-                    }
-                    else
-                    {
-                        instance.dic_missedChests.Add(display, 1);
-                    }
-                }
-                if (self.TryGetComponent<ShrineChanceBehavior>(out var chance))
-                {
-                    instance.missedShrineChanceItems += chance.maxPurchaseCount - chance.successfulPurchaseCount;
-                }
-                if (self.GetComponent<SummonMasterBehavior>())
-                {
-                    instance.missedDrones++;
-                    string display = purchase.GetDisplayName();
-                    if (instance.dic_missedDrones.ContainsKey(display))
-                    {
-                        instance.dic_missedDrones[display]++;
-                    }
-                    else
-                    {
-                        instance.dic_missedDrones.Add(display, 1);
-                    }
-                }
-            }
-        }
-        public static void OnMultiShopDestroyed(OnDestroyCallback self)
-        {
-            if (!instance)
-            {
-                return;
-            }
-
-            if (self.TryGetComponent<MultiShopController>(out var multi))
-            {
-                if (multi.available)
-                {
-                    instance.missedChests++;
-                    string display = multi.terminalPrefab.GetComponent<PurchaseInteraction>().GetDisplayName();
-                    if (instance.dic_missedChests.ContainsKey(display))
-                    {
-                        instance.dic_missedChests[display]++;
-                    }
-                    else
-                    {
-                        instance.dic_missedChests.Add(display, 1);
-                    }
-                }
-            }
-            else if (self.TryGetComponent<DroneVendorMultiShopController>(out var multiD))
-            {
-                if (multiD.available)
-                {
-                    instance.missedDrones++;
-                    string display = multiD.terminalPrefab.GetComponent<PurchaseInteraction>().GetDisplayName();
-                    if (instance.dic_missedDrones.ContainsKey(display))
-                    {
-                        instance.dic_missedDrones[display]++;
-                    }
-                    else
-                    {
-                        instance.dic_missedDrones.Add(display, 1);
-                    }
-                }
-            }
-        }
-
+         
     }
 
     public class PerPlayer_ExtraStatTracker : MonoBehaviour

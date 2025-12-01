@@ -80,7 +80,7 @@ namespace WolfoQoL_Client.DeathScreen
             Transform stat = statContentArea.Find(name);
             if (stat == null)
             {
-                WQoLMain.log.LogMessage(name + " does not exist");
+                //WQoLMain.log.LogMessage(name + " does not exist");
                 return;
             }
             int childIndex = stat.GetSiblingIndex();
@@ -185,8 +185,7 @@ namespace WolfoQoL_Client.DeathScreen
 
 
         }
-
-
+ 
 
         public static void ChangeStats(GameEndReportPanelController self, RunReport runReport)
         {
@@ -234,11 +233,11 @@ namespace WolfoQoL_Client.DeathScreen
                             "totalDeaths",
                             IsSimu ? "null" : "custom_DroneDeaths",
 
-                            IsSimu ? "null" : "custom_ChestsMissed",
-                            IsSimu ? "null" : "custom_DronesMissed",
-
                             "totalPurchases",
                             "totalGoldCollected",
+
+                            IsSimu ? "null" : "custom_ChestsMissed",
+                            IsSimu ? "null" : "custom_DronesMissed",
 
                             isLog ? "totalLunarPurchases" : "custom_LunarCoinsSpent",
                             //DLC1 && !isLog ? "custom_ItemsVoided" : "totalBloodPurchases",
@@ -276,7 +275,7 @@ namespace WolfoQoL_Client.DeathScreen
                     }
                     else
                     {
-                        WQoLMain.log.LogMessage(statName + " Stat does not exist.");
+                        //WQoLMain.log.LogMessage(statName + " Stat does not exist.");
                         return null;
                     }
                 }
@@ -572,7 +571,7 @@ namespace WolfoQoL_Client.DeathScreen
             Transform stat = FindStatStrip(self, lookingFor);
             if (!stat)
             {
-                WQoLMain.log.LogMessage(displayToken + " does not exist");
+                //WQoLMain.log.LogMessage(displayToken + " does not exist");
                 return null;
             }
             TooltipProvider tool = stat.gameObject.GetComponent<TooltipProvider>();

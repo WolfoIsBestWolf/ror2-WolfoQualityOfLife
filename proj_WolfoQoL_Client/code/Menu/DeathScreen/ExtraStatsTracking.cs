@@ -4,12 +4,12 @@ using RoR2;
 using RoR2.CharacterAI;
 using RoR2.Stats;
 using UnityEngine;
-using static UnityEngine.Rendering.PostProcessing.SubpixelMorphologicalAntialiasing;
-
+using UnityEngine.AddressableAssets;
+ 
 namespace WolfoQoL_Client.DeathScreen
 {
 
-    public class ExtraStatsTracking
+    public partial class ExtraStatsTracking
     {
 
         public static void Start()
@@ -17,11 +17,6 @@ namespace WolfoQoL_Client.DeathScreen
             On.RoR2.NetworkUser.RpcDeductLunarCoins += LunarCoinSpentTracking;
 
             //Done in Start to track Stage-Specific interactables too
-            On.RoR2.PurchaseInteraction.Start += MissedCallback_Most;
-            On.RoR2.MultiShopController.Start += MissedCallback_Shop;
-            On.RoR2.DroneVendorMultiShopController.Start += MissedCallback_DroneShop;
-            On.RoR2.CharacterAI.LemurianEggController.OnDestroy += LemurianEggController_OnDestroy;
-
             On.RoR2.MinionOwnership.OnStartClient += Add_MinionDamageTracker;
             Run.onClientGameOverGlobal += SendSyncMessages;
 
@@ -30,10 +25,11 @@ namespace WolfoQoL_Client.DeathScreen
 
            // IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
 
-            On.RoR2.Inventory.RemoveItemPermanent_ItemIndex_int += Inventory_RemoveItemPermanent_ItemIndex_int;
+            On.RoR2.Inventory.RemoveItemPermanent_ItemIndex_int += REMOVINGITEMDEDUCTSFROMSTAT;
+ 
         }
-
-        private static void Inventory_RemoveItemPermanent_ItemIndex_int(On.RoR2.Inventory.orig_RemoveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+ 
+        private static void REMOVINGITEMDEDUCTSFROMSTAT(On.RoR2.Inventory.orig_RemoveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             orig(self, itemIndex, count);   
             StatManager.itemCollectedEvents.Enqueue(new StatManager.ItemCollectedEvent
@@ -44,39 +40,7 @@ namespace WolfoQoL_Client.DeathScreen
                 newCount = 0
             });
         }
-
-        private static void LemurianEggController_OnDestroy(On.RoR2.CharacterAI.LemurianEggController.orig_OnDestroy orig, LemurianEggController self)
-        {
-            orig(self);
-            if (self.GetComponent<PickupPickerController>().available)
-            {
-                if (RunExtraStatTracker.instance)
-                {
-                    RunExtraStatTracker.instance.missedLemurians++;
-                }
-
-            }
-        }
-
-        private static void MissedCallback_DroneShop(On.RoR2.DroneVendorMultiShopController.orig_Start orig, DroneVendorMultiShopController self)
-        {
-            orig(self);
-            if (self.gameObject.activeInHierarchy)
-            {
-                OnDestroyCallback.AddCallback(self.gameObject, new System.Action<OnDestroyCallback>(RunExtraStatTracker.OnMultiShopDestroyed));
-            }
-        }
-
-        private static void MissedCallback_Shop(On.RoR2.MultiShopController.orig_Start orig, MultiShopController self)
-        {
-            orig(self);
-            if (self.gameObject.activeInHierarchy)
-            {
-                OnDestroyCallback.AddCallback(self.gameObject, new System.Action<OnDestroyCallback>(RunExtraStatTracker.OnMultiShopDestroyed));
-            }
-        }
-
-
+  
 
         private static void Track_DoTDamage_MinionHurt(ILContext il)
         {
@@ -232,17 +196,7 @@ namespace WolfoQoL_Client.DeathScreen
                 WQoLMain.log.LogMessage(pickup.pickupIndex);
             }
         }
-
-        private static void MissedCallback_Most(On.RoR2.PurchaseInteraction.orig_Start orig, PurchaseInteraction self)
-        {
-            orig(self);
-            if (self.gameObject.activeInHierarchy)
-            {
-                OnDestroyCallback.AddCallback(self.gameObject, new System.Action<OnDestroyCallback>(RunExtraStatTracker.OnPurchaseDestroyed));
-            }
-        }
-
-
+ 
         private static void LunarCoinSpentTracking(On.RoR2.NetworkUser.orig_RpcDeductLunarCoins orig, NetworkUser self, uint count)
         {
             //WolfoMain.log.LogMessage("RpcDeductLunarCoins "+ self+self.master + " | "+count);
@@ -254,7 +208,5 @@ namespace WolfoQoL_Client.DeathScreen
         }
 
     }
-
-
-
+ 
 }

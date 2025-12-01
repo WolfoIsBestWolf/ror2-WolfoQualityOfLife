@@ -148,37 +148,61 @@ namespace WolfoQoL_Client.Text
                 c.Emit(OpCodes.Ldarg_1);
                 c.EmitDelegate<Func<CostTypeDef.PayCostResults, PurchaseInteraction, Interactor, CostTypeDef.PayCostResults>>((payResults, purchase, interactor) =>
                 {
+                   
+                    //These 3 should also say used I guess?
                     if (payResults.itemStacksTaken.Count > 0 || payResults.equipmentTaken.Count > 0)
                     {
                         string token = "";
-                        bool onlyScrap = false;
+                        bool usedMessage = false;
                         //string user = interactor.GetComponent<CharacterBody>().GetUserName();
-
+                        if (purchase.costType == CostTypeIndex.TreasureCacheItem ||
+                       purchase.costType == CostTypeIndex.TreasureCacheVoidItem ||
+                       purchase.costType == CostTypeIndex.ArtifactShellKillerItem)
+                        {
+                            usedMessage = true;
+                        }
 
                         var LossMessage = new ItemLossMessage
                         {
                             subjectAsCharacterBody = interactor.gameObject.GetComponent<CharacterBody>(),
                         };
-
-                        int[] itemStacks = null;
+ 
                         if (payResults.equipmentTaken.Count > 0)
                         {
                             LossMessage.pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(payResults.equipmentTaken[0]);
                         }
                         else if (payResults.itemStacksTaken.Count == 1)
                         {
-                            ItemDef tempDef = ItemCatalog.GetItemDef(payResults.itemsTaken[0]);
-                            onlyScrap = tempDef.ContainsTag(ItemTag.Scrap);
-                            LossMessage.pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(payResults.itemsTaken[0]);
+                            ItemDef tempDef = ItemCatalog.GetItemDef(payResults.itemStacksTaken[0].itemIndex);
+                            if (payResults.itemStacksTaken[0].stackValues.permanentStacks > 0)
+                            {
+
+                            }
+                            else if (payResults.itemStacksTaken[0].stackValues.temporaryStacksValue > 0)
+                            {
+                                LossMessage.hasTempItems = true; 
+                            }
+                            usedMessage = usedMessage || tempDef.ContainsTag(ItemTag.Scrap) || tempDef.ContainsTag(ItemTag.PriorityScrap);
+                            LossMessage.pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(tempDef.itemIndex);
                         }
                         else if (payResults.itemStacksTaken.Count > 1)
                         {
-                            itemStacks = ItemCatalog.RequestItemStackArray();
-                            for (int i = 0; i < payResults.itemsTaken.Count; i++)
+                            //No purchase interaction that asks for "x of Tier" allows temp items so probably fine if we just skipped it tbh.
+
+                            LossMessage.itemStacks = ItemCatalog.RequestItemStackArray();
+                            //LossMessage.tempItemStacks = ItemCatalog.RequestItemStackArray();
+                            foreach (var taken in payResults.itemStacksTaken)
                             {
-                                itemStacks[(int)payResults.itemsTaken[i]]++;
+                                if (taken.stackValues.permanentStacks > 0)
+                                {
+                                    LossMessage.itemStacks[(int)taken.itemIndex] = taken.stackValues.permanentStacks;
+                                }
+                                /*else if (taken.stackValues.temporaryStacksValue > 0)
+                                {
+                                    LossMessage.hasTempItems = true;
+                                    LossMessage.tempItemStacks[(int)taken.itemIndex] = taken.stackValues.permanentStacks;
+                                }*/
                             }
-                            LossMessage.itemStacks = itemStacks;
                         }
 
                         if (purchase.gameObject.name.StartsWith("LunarCauldron"))
@@ -191,7 +215,7 @@ namespace WolfoQoL_Client.Text
                             LossMessage.source = ItemLossMessage.Source.CleansingPool;
                             token = "ITEM_LOSS_CLEANSING";
                         }
-                        else if (onlyScrap)
+                        else if (usedMessage)
                         {
                             token = "ITEM_LOSS_USED";
                         }
@@ -290,7 +314,7 @@ namespace WolfoQoL_Client.Text
                 }
                 else
                 {
-                    itemsLost += Help.GetColoredName(pickupIndexOnlyOneItem);
+                    itemsLost += Help.GetColoredName(pickupIndexOnlyOneItem, 0, hasTempItems);
                     if (itemCount > 1)
                     {
                         itemsLost += "(" + this.itemCount + ")";
@@ -300,6 +324,43 @@ namespace WolfoQoL_Client.Text
             else
             {
                 bool addedItem = false;
+                if (hasTempItems)
+                {
+                    for (int i = 0; i < tempItemStacks.Length; i++)
+                    {
+                        if (tempItemStacks[i] > 0)
+                        {
+                            bool scrap = ItemCatalog.GetItemDef((ItemIndex)i).ContainsTag(ItemTag.Scrap);
+                            if (scrap)
+                            {
+                                if (addedItem == true)
+                                {
+                                    itemsLost = ", " + itemsLost;
+                                }
+                                addedItem = true;
+                                if (tempItemStacks[i] > 1)
+                                {
+                                    itemsLost = tempItemStacks[i].ToString() + "x " + itemsLost;
+                                }
+                                itemsLost = Help.GetColoredName((ItemIndex)i, true) + itemsLost;
+                            }
+                            else
+                            {
+                                if (addedItem == true)
+                                {
+                                    itemsLost += ", ";
+                                }
+                                addedItem = true;
+                                if (tempItemStacks[i] > 1)
+                                {
+                                    itemsLost += tempItemStacks[i].ToString() + "x ";
+                                }
+                                itemsLost += Help.GetColoredName((ItemIndex)i, true);
+                            }
+
+                        }
+                    }
+                }
                 for (int i = 0; i < itemStacks.Length; i++)
                 {
                     if (itemStacks[i] > 0)
@@ -341,9 +402,14 @@ namespace WolfoQoL_Client.Text
 
 
         public int itemCount;
+        public bool hasTempItems;
         public PickupIndex pickupIndexOnlyOneItem = PickupIndex.none;
         public PickupIndex pickupIndex2Cook = PickupIndex.none;
+
+
+        //Could redo this like how other things do dynamic list length
         public int[] itemStacks = ItemCatalog.RequestItemStackArray();
+        public int[] tempItemStacks = ItemCatalog.RequestItemStackArray();
 
         public override void Serialize(NetworkWriter writer)
         {
@@ -352,9 +418,14 @@ namespace WolfoQoL_Client.Text
             writer.Write(pickupIndexOnlyOneItem);
             writer.Write(pickupIndex2Cook);
             writer.Write((int)source);
+            writer.Write(hasTempItems);
             if (pickupIndexOnlyOneItem == PickupIndex.none)
             {
                 writer.WriteItemStacks(itemStacks);
+                if (hasTempItems)
+                {
+                    writer.WriteItemStacks(tempItemStacks);
+                }
             }
 
         }
@@ -370,9 +441,14 @@ namespace WolfoQoL_Client.Text
             pickupIndexOnlyOneItem = reader.ReadPickupIndex();
             pickupIndex2Cook = reader.ReadPickupIndex();
             source = (Source)reader.ReadInt32();
+            hasTempItems = reader.ReadBoolean();
             if (pickupIndexOnlyOneItem == PickupIndex.none)
             {
                 reader.ReadItemStacks(itemStacks);
+                if (hasTempItems)
+                {
+                    reader.ReadItemStacks(tempItemStacks);
+                }
             }
             //WolfoMain.log.LogWarning("Deserialize " + reader);
         }

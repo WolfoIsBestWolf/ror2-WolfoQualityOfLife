@@ -209,10 +209,10 @@ namespace WolfoQoL_Client.Text
             string survToken_WIN = "GENERIC_OUTRO_FLAVOR";
             string survToken_VANISH = "GENERIC_MAIN_ENDING_ESCAPE_FAILURE_FLAVOR";
 
-            WQoLMain.log.LogMessage(playerInfo.bodyIndex);
-            WQoLMain.log.LogMessage(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
+            //WQoLMain.log.LogMessage(playerInfo.bodyIndex);
+            //WQoLMain.log.LogMessage(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
             SurvivorDef survivorDef = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.GetSurvivorIndexFromBodyIndex(playerInfo.bodyIndex));
-            WQoLMain.log.LogMessage(survivorDef);
+            //WQoLMain.log.LogMessage(survivorDef);
 
             if (survivorDef)
             {

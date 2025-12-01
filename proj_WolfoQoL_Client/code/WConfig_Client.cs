@@ -104,6 +104,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgReminder_Halcyon;
         public static ConfigEntry<bool> cfgReminder_AccessNode;
 
+        public static ConfigEntry<bool> cfgRemindersNOTINSIMU;
         public static ConfigEntry<bool> cfgRemindersKeys;
         public static ConfigEntry<bool> cfgRemindersFreechest;
         public static ConfigEntry<bool> cfgRemindersFreechestVV;
@@ -320,7 +321,13 @@ namespace WolfoQoL_Client
 
             #region Reminders
           
-            cfgRemindersKeys = ConfigFile_Client.Bind(
+            cfgRemindersNOTINSIMU = ConfigFile_Client.Bind(
+                "Reminders",
+                "Disable reminders in Simulacrum",
+                true,
+                "Disable all reminders in Simulacrum.\n\nSale Star and Regen Scrap will always be disabled."
+            );
+             cfgRemindersKeys = ConfigFile_Client.Bind(
                 "Reminders",
                 "Rusted Keys",
                 true,
@@ -981,7 +988,7 @@ namespace WolfoQoL_Client
                  module_visuals_icons,
                  module_visuals_other,
                  module_visuals_skins,
-
+                 cfgMessagesVoidQuantity,
                 SulfurPoolsSkin,
                 cfgRemindersPortal,
                 cfgChargeHalcyShrine,
@@ -1007,8 +1014,8 @@ namespace WolfoQoL_Client
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();
-            WQoLMain.log.LogMessage("Config Values Total : " + entries.Length);
-            WQoLMain.log.LogMessage("Config Values Reset : " + (resetB.Count));
+            //WQoLMain.log.LogMessage("Config Values Total : " + entries.Length);
+            //WQoLMain.log.LogMessage("Config Values Reset : " + (resetB.Count));
             foreach (ConfigEntryBase entry in entries)
             {
                 if (entry.SettingType == typeof(bool))

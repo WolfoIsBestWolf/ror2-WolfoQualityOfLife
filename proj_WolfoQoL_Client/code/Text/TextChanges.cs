@@ -42,7 +42,12 @@ namespace WolfoQoL_Client.Text
 
             On.RoR2.TeleporterInteraction.Start += BlueTeleporterObjective;
 
-            On.RoR2.GenericPickupController.HandlePickupMessage += AddVoidQuantity;
+            //On.RoR2.Chat.PlayerPickupChatMessage.ConstructChatString += AddDuplicatorQuantity;
+            if (WConfig.cfgMessagesVoidQuantity.Value)
+            {
+                On.RoR2.Chat.PlayerPickupChatMessage.ConstructChatString += AddVoidQuantity;
+            }
+            //On.RoR2.GenericPickupController.HandlePickupMessage += AddVoidQuantity_;
             IL.RoR2.GenericPickupController.HandlePickupMessage += IL_PICKUP;
 
             OptionPickup_Visuals.Start();
@@ -53,12 +58,86 @@ namespace WolfoQoL_Client.Text
             //On.RoR2.CombatDirector.CombatShrineActivation += Stupid;
         }
 
-        private static void Stupid(On.RoR2.CombatDirector.orig_CombatShrineActivation orig, CombatDirector self, Interactor interactor, float monsterCredit, DirectorCard chosenDirectorCard)
+        private static string AddVoidQuantity(On.RoR2.Chat.PlayerPickupChatMessage.orig_ConstructChatString orig, Chat.PlayerPickupChatMessage self)
         {
-            //Only runs on server anyways
-            //Fucking thing fucking client cant know elite type anyways
-            orig(self, interactor, monsterCredit, chosenDirectorCard);
+            if (!self.subjectAsCharacterBody)
+            {
+                return orig(self);
+            }
+            if (!self.subjectAsCharacterBody.inventory)
+            {
+                return orig(self);
+            }
+            PickupDef pickupDef = PickupCatalog.GetPickupDef(GenericPickupController.pickupMessageInstance.pickupState.pickupIndex);
+            ItemDef itemDef = ItemCatalog.GetItemDef((pickupDef != null) ? pickupDef.itemIndex : ItemIndex.None);
+            if (itemDef && itemDef.hidden == false)
+            {
+                int newPickupCount = (int)self.pickupQuantity;
+                int VoidQuantity = newPickupCount;
+
+
+                //If Is Void, 
+                if (itemDef.tier >= ItemTier.VoidTier1 && itemDef.tier <= ItemTier.VoidBoss)
+                {
+                    //If is Void, shouldn't we only bother checking the first time?
+                    if (self.subjectAsCharacterBody.inventory.GetItemCountPermanent(itemDef) <= 1)
+                    {
+                        foreach (ContagiousItemManager.TransformationInfo transformationInfo in ContagiousItemManager._transformationInfos)
+                        {
+                            if (itemDef.itemIndex == transformationInfo.transformedItem)
+                            {
+                                int original = self.subjectAsCharacterBody.inventory.GetItemCountEffective(transformationInfo.originalItem);
+                                if (original > 0)
+                                {
+                                    VoidQuantity += original;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ItemIndex voidIndex = ContagiousItemManager.GetTransformedItemIndex(itemDef.itemIndex);
+                    if (voidIndex != ItemIndex.None)
+                    {
+                        //If Is Normal but you got Void
+                        //If items are picked up too fast it doesn't count properly for items Voids that eat multiple
+                        int voidCount = self.subjectAsCharacterBody.inventory.GetItemCountEffective(voidIndex);
+                        if (voidCount > 0)
+                        {
+                            VoidQuantity += voidCount;
+                        }
+                    }
+                }
+                if (VoidQuantity > newPickupCount)
+                {
+                    self.pickupQuantity = 1;
+                    return orig(self) + "<style=cIsVoid>(" + VoidQuantity + ")</style>";
+                }
+
+            }
+
+            return orig(self);
         }
+
+        private static string AddDuplicatorQuantity(On.RoR2.Chat.PlayerPickupChatMessage.orig_ConstructChatString orig, Chat.PlayerPickupChatMessage self)
+        {
+            //Meh?
+            bool dup = self.subjectAsCharacterBody.inventory.GetItemCountEffective(DLC3Content.Items.Duplicator) > 0;
+            if (dup)
+            {
+                self.pickupQuantity--;
+            }
+            string msg = orig(self);
+            if (dup)
+            {
+                msg += "<style=cIsTemporary>(+1)</style>";
+            }
+
+            return msg;
+        }
+
+         
 
 
 
@@ -287,7 +366,7 @@ namespace WolfoQoL_Client.Text
             }
         }
 
-        private static void AddVoidQuantity(On.RoR2.GenericPickupController.orig_HandlePickupMessage orig, UnityEngine.Networking.NetworkMessage netMsg)
+        private static void AddVoidQuantity_OLD(On.RoR2.GenericPickupController.orig_HandlePickupMessage orig, UnityEngine.Networking.NetworkMessage netMsg)
         {
             orig(netMsg);
             if (WConfig.cfgMessagesVoidQuantity.Value)
@@ -312,9 +391,8 @@ namespace WolfoQoL_Client.Text
                     int VoidQuantity = newPickupCount;
 
 
-                    ItemIndex voidIndex = ContagiousItemManager.GetTransformedItemIndex(itemDef.itemIndex);
-                    //If Is Void, 
-                    if (itemDef.tier == ItemTier.VoidTier1 || itemDef.tier == ItemTier.VoidTier2 || itemDef.tier == ItemTier.VoidTier3 || itemDef.tier == ItemTier.VoidBoss)
+                   //If Is Void, 
+                    if (itemDef.tier >= ItemTier.VoidTier1 && itemDef.tier <= ItemTier.VoidBoss)
                     {
                         //If is Void, shouldn't we only bother checking the first time?
                         int voidCount = inventory.GetItemCount(itemDef);
@@ -342,7 +420,9 @@ namespace WolfoQoL_Client.Text
                             }
                         }
                     }
-                    else if (voidIndex != ItemIndex.None)
+                    else {
+                        ItemIndex voidIndex = ContagiousItemManager.GetTransformedItemIndex(itemDef.itemIndex);
+                        if (voidIndex != ItemIndex.None)
                     {
                         //If Is Normal but you got Void
                         //If items are picked up too fast it doesn't count properly for items Voids that eat multiple
@@ -359,6 +439,7 @@ namespace WolfoQoL_Client.Text
                             }
                             VoidQuantity += voidCount;
                         }
+                        }
                     }
                     if (VoidQuantity > newPickupCount)
                     {
@@ -370,7 +451,7 @@ namespace WolfoQoL_Client.Text
                     }
 
                 }
-                WQoLMain.log.LogMessage(Chat.log[Chat.log.Count - 1]);
+                //WQoLMain.log.LogMessage(Chat.log[Chat.log.Count - 1]);
             }
         }
 

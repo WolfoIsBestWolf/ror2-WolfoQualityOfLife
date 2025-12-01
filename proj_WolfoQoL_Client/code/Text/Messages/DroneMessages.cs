@@ -216,67 +216,7 @@ namespace WolfoQoL_Client.Text
                 pickupQuantity = quantity
             });
         }
-
-
-
-        private static void CharacterMasterNotificationQueue_PushDroneNotification(On.RoR2.CharacterMasterNotificationQueue.orig_PushDroneNotification orig, CharacterMaster characterMaster, DroneIndex droneIndex, int upgradeCount)
-        {
-            orig(characterMaster, droneIndex, upgradeCount);
-
-            int quantity = 0;
-            MinionOwnership.MinionGroup minionGroup = MinionOwnership.MinionGroup.FindGroup(characterMaster.netId);
-            if (minionGroup != null)
-            {
-                foreach (MinionOwnership minionOwnership in minionGroup.members)
-                {
-                    if (minionOwnership)
-                    {
-                        CharacterMaster droneMaster = minionOwnership.GetComponent<CharacterMaster>();
-                        if (droneMaster)
-                        {
-                            Debug.Log(droneMaster);
-                            CharacterBody body = droneMaster.GetBody();
-                            if (body && droneMaster.inventory)
-                            {
-                                if (droneIndex == DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex))
-                                {
-                                    quantity += DroneUpgradeUtils.GetDroneCountFromUpgradeCount(droneMaster.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            Debug.Log(quantity);
-            Chat.SendBroadcastChat(new DroneChatMessage
-            {
-                baseToken = "PURCHASE_DRONE",
-                DroneTier = upgradeCount,
-                _DroneIndex = droneIndex,
-                subjectAsNetworkUser = characterMaster.playerCharacterMasterController.networkUser,
-                pickupQuantity = quantity
-            });
-
-
-        }
-
-        private static void DroneMessage_Upgrading_Old(On.EntityStates.DroneCombiner.DroneCombinerCombining.orig_UpgradeAndEjectDrone orig, EntityStates.DroneCombiner.DroneCombinerCombining self, CharacterBody drone)
-        {
-            orig(self, drone);
-            var owner = drone.GetOwnerBody();
-            if (owner)
-            {
-                Chat.SendBroadcastChat(new DroneChatMessage
-                {
-                    baseToken = "UPGRADE_DRONE",
-                    DroneTier = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
-                    _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(drone.bodyIndex),
-                    subjectAsCharacterBody = owner,
-                });
-            }
-
-        }
+ 
 
     }
 

@@ -1,10 +1,16 @@
-#Changelog
+```
+v5.0.4
+
+Fixed mod breaking item costs that allow temp items to be taken (ie rusted key).
+Cleaned up OnDestroy callback.
+Disabled all reminders in Simulacrum.
+```
 ```
 v5.0.3
 
 Added Portuguese (Brazil) translation thanks to Snakeman (on Discord)
 
-Displayed full run time in the death screen header now.
+Displays full run time in the death screen header now.
 
 Fixed inventory being empty if died while item disabled.
 Fixed a strange incompatibility with IntroSkip mods and certain config combinations.
@@ -12,6 +18,8 @@ Fixed elite equipment not being sorted to the end with some config combinations.
 Fixed Lunar & Boss Equipment BG being messed up with some config combinations.
 Fixed Mithrix Phase 2 not saying "Lunar Chimera" anymore.
 Fixed Minion Healing and Damage stat above int limit on the death screen.
+Fixed some typos.
+Cleaned up dependencies.
 ```
 ```
 v5.0.2

@@ -76,9 +76,9 @@ namespace WolfoQoL_Client
 
         }
 
-        public static string GetColoredName(ItemIndex index)
+        public static string GetColoredName(ItemIndex index, bool temp = false)
         {
-            return GetColoredName(PickupCatalog.FindPickupIndex(index));
+            return GetColoredName(PickupCatalog.FindPickupIndex(index), 0, temp);
         }
         public static string GetColoredName(EquipmentIndex index)
         {
@@ -88,7 +88,7 @@ namespace WolfoQoL_Client
         {
             return GetColoredName(PickupCatalog.FindPickupIndex(index), tier);
         }
-        public static string GetColoredName(PickupIndex index, int tier = 0)
+        public static string GetColoredName(PickupIndex index, int tier = 0, bool isTemporary = false)
         {
             PickupDef def = PickupCatalog.GetPickupDef(index);
             if (def == null)
@@ -97,6 +97,13 @@ namespace WolfoQoL_Client
             }
             string name = ColorUtility.ToHtmlStringRGB(def.baseColor);
             name = "<color=#" + name + ">" + Language.GetString(def.nameToken);
+            if (isTemporary)
+            {
+                name = Language.GetStringFormatted("ITEM_MODIFIER_TEMP", new object[]
+                {
+                        name
+                });
+            }
             if (tier > 0)
             {
                 name = Language.GetStringFormatted("DRONE_TIER_SUFFIX", new object[]
