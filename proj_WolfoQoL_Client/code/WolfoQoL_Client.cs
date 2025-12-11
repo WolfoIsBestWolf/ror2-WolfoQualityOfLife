@@ -10,6 +10,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using WolfoQoL_Client.DeathScreen;
 using WolfoQoL_Client.Menu;
+using WolfoQoL_Client.ProperSaveSupport;
 using WolfoQoL_Client.Text;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -29,6 +30,7 @@ namespace WolfoQoL_Client
         public static readonly System.Random random = new System.Random();
 
         public static bool ServerModInstalled = false;
+        public static bool ProperSaveInstalled = false;
 
         public static bool NoHostInfo
         {
@@ -80,6 +82,7 @@ namespace WolfoQoL_Client
                 WQoLMain.log.LogWarning("Disabled Mod for Test");
                 return;
             }
+          
             ClientChecks.Start();
             MenuMain.Start();
             TextMain.Start();
@@ -88,7 +91,7 @@ namespace WolfoQoL_Client
             //Generally Host send -> Host recieve always works fine for these messages
             //Just obviously a lot of this expects Host given info and will not work on Clients alone
             //So work arounds can be added
-
+             
             ChatMessageBase.chatMessageIndexToType.AddRange(new Type[160]);
 
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(ItemLossMessage), 160);
@@ -124,7 +127,14 @@ namespace WolfoQoL_Client
         public void Start()
         {
             ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
+            ProperSaveInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
             WQoLMain.log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
+            WQoLMain.log.LogMessage("ProperSaveInstalled installed? : " + ProperSaveInstalled);
+
+            if (ProperSaveInstalled)
+            {
+                AddProperSaveSupport.Start();
+            }
         }
 
 

@@ -365,12 +365,13 @@ namespace WolfoQoL_Client
             LunarIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/LunarIcon.png");
 
             Sprite VoidDeepSymbol = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/DeepVoidPortalBattery/texDeepVoidPortalBatteryIcon.png").WaitForCompletion();
+            Sprite texBarrelIcon = Addressables.LoadAssetAsync<Sprite>(key: "ccf87dcf9daaa0645a94a7e14fa5749a").WaitForCompletion();
             Sprite ShipPodIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texRescueshipIcon");
             Sprite VoidCrab = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/ITAssets/texInfiniteTowerSafeWardIcon.png").WaitForCompletion();
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").AddComponent<BlockScanner>();
 
-
+           
 
             SetAllIcons("06d0621d2cadf98439f357fe148e7791", VoidDeepSymbol); //VoidSuppressor
             SetAllIcons("8a6a0189c5090eb4bab48bd10e3074ea", "Void_Cell");
@@ -392,6 +393,10 @@ namespace WolfoQoL_Client
 
             SetAllIcons("ac7f5a5e3c6a70a4f88a2615b30653d1", "DLC1/VendingMachine");
 
+            SetAllIcons("452b7f73a60721b4eb546e2efe29d6d2", "LemurianEgg");
+
+            Addressables.LoadAssetAsync<GameObject>(key: "be6e220724818e54493d5447cc8caa4e").WaitForCompletion().GetComponent<SpecialObjectAttributes>().portraitIcon = texBarrelIcon.texture;
+            SetAllIcons("3a7dc0d37d5875c4a9eafc8d7097c000", "DLC1/VoidStalk");
 
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/QuestVolatileBatteryWorldPickup").AddComponent<PingInfoProvider>().pingIconOverride = ShipPodIcon;

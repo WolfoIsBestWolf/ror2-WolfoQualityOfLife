@@ -13,11 +13,7 @@ namespace WolfoQoL_Client
     public class ColorModule
     {
         //Adding missing Highlights
-        public static GameObject HighlightOrangeItem;
-        public static GameObject HighlightOrangeBossItem;
-        public static GameObject HighlightOrangeLunarItem;
-        public static bool HighlightEquipment = false;
-
+ 
         public static GameObject EquipmentBossOrb;
         public static GameObject EquipmentLunarOrb;
         public static GameObject NoTierOrb;
@@ -324,91 +320,23 @@ namespace WolfoQoL_Client
 
         public static void AddMissingItemHighlights()
         {
-            GameObject Tier1 = Addressables.LoadAssetAsync<GameObject>(key: "0b8f01bd80fe0304a853cea91bdb3c6d").WaitForCompletion();
             GameObject Tier2 = Addressables.LoadAssetAsync<GameObject>(key: "730ea84bde179504e985c5f3c66db36b").WaitForCompletion();
-            GameObject Tier3 = Addressables.LoadAssetAsync<GameObject>(key: "c3c94a80f68a8394f9e2da30dfa847d4").WaitForCompletion();
-            GameObject TierLunar = Addressables.LoadAssetAsync<GameObject>(key: "0cb44955b08ec6a4a9c3e04c5f73b815").WaitForCompletion();
-            TierLunar.GetComponent<HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
+            Sprite texUICornerTier3 = Addressables.LoadAssetAsync<Sprite>(key: "43a45be290137ab439552af4ff6eb6c4").WaitForCompletion();
+            
+      
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightLunarItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightVoidBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
+       
+            GameObject HighlightEquipmentLunar = PrefabAPI.InstantiateClone(Tier2, "HighlightEquipmentLunar", false);
+            GameObject HighlightEquipmentBoss = PrefabAPI.InstantiateClone(Tier2, "HighlightEquipmentBoss", false);
 
-            GameObject HighlightYellowItem = PrefabAPI.InstantiateClone(Tier3, "HighlightBossItem", false);
-            GameObject HighlightPinkT1Item = PrefabAPI.InstantiateClone(Tier1, "HighlightVoidT1Item", false);
-            GameObject HighlightPinkT2Item = PrefabAPI.InstantiateClone(Tier2, "HighlightVoidT2Item", false);
-            GameObject HighlightPinkT3Item = PrefabAPI.InstantiateClone(Tier3, "HighlightVoidT3Item", false);
-            HighlightOrangeItem = PrefabAPI.InstantiateClone(Tier2, "HighlightOrangeItem", false);
-            HighlightOrangeLunarItem = PrefabAPI.InstantiateClone(Tier2, "HighlightOrangeLunarItem", false);
-            HighlightOrangeBossItem = PrefabAPI.InstantiateClone(Tier3, "HighlightOrangeBossItem", false);
-           
-            HighlightYellowItem.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.9373f, 0.2667f, 1);
-            HighlightPinkT1Item.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.498f, 0.9059f, 1);
-            HighlightPinkT2Item.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.498f, 0.9059f, 1);
-            HighlightPinkT3Item.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.498f, 0.9059f, 1);
-            HighlightOrangeItem.GetComponent<HighlightRect>().highlightColor = new Color(1f, 0.6f, 0.1f, 1);
-            HighlightOrangeLunarItem.GetComponent<HighlightRect>().highlightColor = ColorEquip_Lunar;
-            HighlightOrangeBossItem.GetComponent<HighlightRect>().highlightColor = new Color(1, 0.75f, 0f, 1);
-
-
-            ItemTierCatalog.GetItemTierDef(ItemTier.Boss).highlightPrefab = HighlightYellowItem;
-            ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1).highlightPrefab = HighlightPinkT1Item;
-            ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier2).highlightPrefab = HighlightPinkT2Item;
-            ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3).highlightPrefab = HighlightPinkT3Item;
-            ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss).highlightPrefab = HighlightPinkT3Item;
-            ItemTierCatalog.GetItemTierDef(ItemTier.FoodTier).highlightPrefab = HighlightOrangeItem;
-
-
-            On.RoR2.EquipmentDef.AttemptGrant += EquipmentDef_AttemptGrant;
-            On.RoR2.CharacterModel.SetEquipmentDisplay += EquipmentHighlighter;
-
-        }
-
-
-        private static void EquipmentDef_AttemptGrant(On.RoR2.EquipmentDef.orig_AttemptGrant orig, ref PickupDef.GrantContext context)
-        {
-            if (context.body.hasAuthority)
-            {
-                HighlightEquipment = true;
-            }
-            orig(ref context);
-        }
-
-        public static void EquipmentHighlighter(On.RoR2.CharacterModel.orig_SetEquipmentDisplay orig, global::RoR2.CharacterModel self, EquipmentIndex newEquipmentIndex)
-        {
-            orig(self, newEquipmentIndex);
-            if (!HighlightEquipment)
-            {
-                return;
-            }
-            if (newEquipmentIndex != EquipmentIndex.None)
-            {
-                HighlightEquipment = false;
-                GameObject Highlight = HighlightOrangeItem;
-                EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(newEquipmentIndex);
-                if (equipmentDef.isLunar == true)
-                {
-                    Highlight = HighlightOrangeLunarItem;
-                }
-                else if (equipmentDef.isBoss == true)
-                {
-                    Highlight = HighlightOrangeBossItem;
-                }
-                List<GameObject> tempList = self.GetEquipmentDisplayObjects(newEquipmentIndex);
-                for (int i = 0; i < tempList.Count; i++)
-                {
-                    Renderer renderer = tempList[i].GetComponentInChildren<Renderer>();
-                    if (!renderer)
-                    {
-                        ItemFollower follower = tempList[i].GetComponent<ItemFollower>();
-                        if (follower && follower.followerInstance)
-                        {
-                            renderer = follower.followerInstance.GetComponentInChildren<Renderer>();
-                        }
-                    }
-                    if (renderer)
-                    {
-                        HighlightRect.CreateHighlight(self.body.gameObject, renderer, Highlight, -1, false);
-                    }
-                }
-                ;
-            }
+            HighlightEquipmentLunar.GetComponent<HighlightRect>().highlightColor = ColorEquip_Lunar;
+            HighlightEquipmentBoss.GetComponent<HighlightRect>().highlightColor = new Color(1, 0.75f, 0f, 1);
+            HighlightEquipmentBoss.GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
+ 
+            EquipmentCatalog.lunarEquipmentHighlightPrefab = HighlightEquipmentLunar;
+            EquipmentCatalog.bossEquipmentHighlightPrefab = HighlightEquipmentBoss;
 
         }
 

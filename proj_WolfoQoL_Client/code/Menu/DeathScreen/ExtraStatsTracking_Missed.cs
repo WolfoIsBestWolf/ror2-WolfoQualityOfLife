@@ -136,7 +136,8 @@ namespace WolfoQoL_Client.DeathScreen
                             RunExtraStatTracker.instance.missedDrones++;
                             break;
                         case Cases.ShrineChance:
-                            RunExtraStatTracker.instance.missedShrineChanceItems++;
+                            ShrineChanceBehavior shrine = GetComponent<ShrineChanceBehavior>();
+                            RunExtraStatTracker.instance.missedShrineChanceItems += (shrine.maxPurchaseCount - shrine.successfulPurchaseCount);
                             break;
                     }
                 }

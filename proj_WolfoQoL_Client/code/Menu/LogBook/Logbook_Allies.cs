@@ -63,11 +63,13 @@ namespace WolfoQoL_Client
 
 
             BodyCatalog.availability.CallWhenAvailable(AllyCatalog.Make);
+        
             LogBookController.availability.CallWhenAvailable(SetDroneIcon);
         }
-
+ 
         public static void SetDroneIcon()
         {
+            LogBookController.CommonAssets.droneEntryIcon = DroneIcon;
             LogBookController.categories[4].iconPrefab = DroneIcon;
         }
 

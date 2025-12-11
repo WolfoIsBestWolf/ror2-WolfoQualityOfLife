@@ -61,7 +61,7 @@ namespace WolfoQoL_Client.Reminders
                     TreasureReminder.SetupRemindersStatic();
                 }
             }
-            WQoLMain.log.LogMessage("CurrentStage"+SceneInfo.instance.sceneDef.baseSceneName);
+            WQoLMain.log.LogMessage("CurrentStage: "+SceneInfo.instance.sceneDef.baseSceneName);
 
         }
 
@@ -369,13 +369,11 @@ namespace WolfoQoL_Client.Reminders
             {
                 lockboxVoidCount = maximumKeysVoid;
             }
-            if (!isSimu)
+
+            if (!isSimu && SceneCatalog.mostRecentSceneDef.stageOrder > 5)
             {
-                if (SceneInfo.instance && SceneInfo.instance.sceneDef.stageOrder > 5)
-                {
-                    localHasSaleStar = false;
-                    localHasRegenScrap = false;
-                }
+                localHasSaleStar = false;
+                localHasRegenScrap = false;
             }
 
             if (!isSimu && WConfig.cfgReminder_AccessNode.Value && AccessCodesMissionController.instance)

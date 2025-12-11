@@ -154,13 +154,18 @@ namespace WolfoQoL_Client.Text
 
                     On.EntityStates.Missions.BrotherEncounter.Phase2.OnEnter += Phase2_OnEnter;
                 }
-
-
             }
             if (!WConfig.cfgTextOther.Value)
             {
                 return;
             }
+            #region Speech Colors
+
+            LanguageAPI.Add("PROPER_SAVE_CHAT_SAVE", "<style=cEvent>" + Language.GetString("PROPER_SAVE_CHAT_SAVE").Replace("<b>","") +"</style>");
+           LanguageAPI.Add("VULTUREHUNTER_DIALOGUE_FORMAT", Language.GetString("VULTUREHUNTER_DIALOGUE_FORMAT").Replace("c6d5ff", "87E5C0"));
+            //LanguageAPI.Add("FALSESONBOSS_DIALOGUE_FORMAT", Language.GetString("FALSESONBOSS_DIALOGUE_FORMAT").Replace("c6d5ff", "FFA288"));
+            #endregion
+
             #region Boosted Skill Titles
             SkillDef skill = null;
             skill = Addressables.LoadAssetAsync<SkillDef>(key: "RoR2/DLC1/VoidSurvivor/FireCorruptBeam.asset").WaitForCompletion();
@@ -411,7 +416,7 @@ namespace WolfoQoL_Client.Text
                                             if (masterGameObject.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
                                             {
                                                 //This doesn't have the item amount, how fix?
-                                                Stats.itemsVoided += original;
+                                                //Stats.itemsVoided += original;
                                             }
                                         }
 
@@ -434,7 +439,7 @@ namespace WolfoQoL_Client.Text
                                 if (masterGameObject.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
                                 {
                                     //This doesn't have the item amount, how fix?
-                                    Stats.itemsVoided++;
+                                    //Stats.itemsVoided++;
                                 }
                             }
                             VoidQuantity += voidCount;

@@ -15,13 +15,14 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> SH_Music_Restarter;
         public static ConfigEntry<bool> OperatorDroneIndicator;
+        public static ConfigEntry<bool> cfgChefMenuTweak;
 
         public static ConfigEntry<bool> RealTimeTimer;
         public static ConfigEntry<bool> DC_RealTimeTimerStat;
 
         public static ConfigEntry<bool> cfgHelminthLightingFix;
         public static ConfigEntry<bool> cfgSofterShadows;
-        public static ConfigEntry<bool> PrestigeColors;
+ 
         public static ConfigEntry<bool> DroneMessage_Repair;
         public static ConfigEntry<bool> DroneMessage_Combine;
         public static ConfigEntry<bool> MealprepMessage;
@@ -508,6 +509,12 @@ namespace WolfoQoL_Client
               true,
               "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
             );
+            cfgChefMenuTweak = ConfigFile_Client.Bind(
+              "Menu & Hud",
+              "Bigger Crafting Menu",
+              true,
+              "Make the Chef crafting menu quite a bit wider and have more columns."
+            );
             cfgMissionPointers = ConfigFile_Client.Bind(
                  "Icons",
                  "Mission Pointers",
@@ -581,12 +588,7 @@ namespace WolfoQoL_Client
                true,
                "Item stacks that have temporary items in it, have their stack number slightly blue.\n\nCan't show temp items seperately like in returns."
            );
-             PrestigeColors = ConfigFile_Client.Bind(
-               "Icons",
-               "Pink Prestige Mountain Shrines",
-               false,
-               "Makes Mountain Shrine icons pink, if Prestige is enabled, just like in RoR:Returns"
-           );
+ 
             SulfurPoolsSkin = ConfigFile_Client.Bind(
                 "Skins",
                 "Sulfur Pool Beetles Skin",
@@ -1011,6 +1013,7 @@ namespace WolfoQoL_Client
                 cfgSmoothCaptain,
                 cfgDarkTwisted,
                 cfgTwistedFire,
+                cfgChefMenuTweak,
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();

@@ -52,9 +52,7 @@ Recolors some buffs to differentiate them.
 Charge Indicator for Void Field Cells like other Holdout zones.
 
 DLC endings use their dlcs icon.
-
-*(Default off)* Prestige turns Mountain Symbols pink like in Returns.
-
+ 
 Item Stacks with temporary items turn light blue, similiar to Returns.
 
 ![Image of Ping Icons](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolPingIcons.png)
@@ -70,19 +68,19 @@ Sundered Groves pink mushrooms are visible at lower settings.
 Geysers in Sulfur Pools and Abyssal Depths have different fluid color to match their environment.
 
 
-![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures1.png)
+![Image of LT PM Fall](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/loopVariantsColossusExtras.png)
 
 
 ## Other
 
 Readds the old chunky printer Model for Uncommon and Mili Tech Printers.
 
-Lunar/Elite/Constumed Equipment, Void White/Red/Boss, Lunar Coins now use their own color.\
-Adds colored highlights for Tiers that were lacking one and for Equipment.
-
+Lunar/Elite/Constumed Equipment, Void White/Red/Boss, Lunar Coins now use their own color.
+ 
 Void Potentials & Aurelionite Fragments now have tiered particle effects.
 
 Chef Oil will spawn a little effect when changing states.
+![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures1.png)
 
 
 ## Audio
@@ -129,7 +127,7 @@ Conduit Canyon shows how many keys were installed.
 
 ![Image of Objectives](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqol_objectives.png)
 
-## General Tex Info
+## General Text Info
 
 
 Picking up a void will show how many it corrupted on pickup.\
@@ -168,6 +166,8 @@ Updated Death Screen including.
 - - Button to open/close chat
 - - Last Simu Wave
 - Inventory Side : 
+- - Temp Stacks still show duration.
+- - Shown if died while Item Disabled
 - - Players Equipment shown
 - - Drones that you had.
 - - Devoted Lemurians and their shared items.
@@ -218,7 +218,7 @@ Main Menu theme now changes randomly.
 Lobby and run Chat can be scrolled.\
 Chat box displays more messages and is wider.
 
- 
+Crafting Menu is wider to fit more items more easily.
 
 
 

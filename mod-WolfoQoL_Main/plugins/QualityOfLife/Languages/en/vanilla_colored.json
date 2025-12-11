@@ -27,11 +27,7 @@
 			
 			"CONDUITCANYON_P1" : "Install <color=#F8B651>Sentry Keys</color> to hack the barrier",
 			"CONDUITCANYON_P2" : "Install <color=#F8B651>Sentry Keys</color> to reprogram encrypted teleporter",
-			"CONDUITCANYON_SKIP_BARRIER": "<style=cWorldEvent>Intrusion detected! Rerouting power to security team dispatch.</style>",
-        
- 
-			"VULTURE_KILLS_BOSS": "<color=#87E5C0><size=120%>Alloy Hunter: Chosen, there can be but one champion! I shall not yield!</color></size>",
-        
+			 
 			
 			"ACCESSCODES_PORTAL_WILL_OPEN": "<style=cWorldEvent>Access granted...</style>",
 			"ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>Collective enemy identified. Integrating analytics...</style>",

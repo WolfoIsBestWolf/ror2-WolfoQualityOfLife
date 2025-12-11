@@ -1,4 +1,18 @@
 ```
+v5.1.0
+Updated for AC 1.4.1
+ 
+Proper Save Support.
+DeathScreen-Inventory will now appear as disabled if died while disabled.
+Made CHEF Crafting menu wider to fit more items at once.
+ 
+Fixed Drone Collection rarely showing without drones.
+Fixed nullref for Clients and items that drop "as recycled" (Zet Toss Artifact)
+
+Removed Prestige Icon Purple config  as it was added officially.
+Removed more item highlights as it was added officially.
+```
+```
 v5.0.4
 
 Fixed mod breaking item costs that allow temp items to be taken (ie rusted key).

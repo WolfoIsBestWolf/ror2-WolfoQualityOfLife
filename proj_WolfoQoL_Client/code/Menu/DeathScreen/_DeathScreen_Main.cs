@@ -6,6 +6,7 @@ using RoR2.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using WolfoQoL_Client.ProperSaveSupport;
 
 namespace WolfoQoL_Client.DeathScreen
 {
@@ -37,6 +38,20 @@ namespace WolfoQoL_Client.DeathScreen
             Inventory_Minions.Hooks();
 
             IL.RoR2.UI.GameEndReportPanelController.SetPlayerInfo += GameEndReportPanelController_SetPlayerInfo;
+
+            Run.onClientGameOverGlobal += Run_onClientGameOverGlobal;
+        }
+
+        private static void Run_onClientGameOverGlobal(Run arg1, RunReport arg2)
+        {
+            //Set temp duration to inf so they dont decay on the death screen.
+            foreach (var player in PlayerCharacterMasterController.instances)
+            {
+                if (player.master && player.master.inventory)
+                {
+                    player.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);
+                }
+            }
         }
 
         private static void GameEndReportPanelController_SetPlayerInfo(MonoMod.Cil.ILContext il)
@@ -138,11 +153,16 @@ namespace WolfoQoL_Client.DeathScreen
                 unlockArea.GetComponent<LayoutElement>().flexibleHeight = Mathf.Min(0.11f * Mathf.Pow(2, self.unlockStrips.Count), 1);
             }
 
+
+
         }
 
 
         private static void AddManyExtras(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
         {
+
+  
+
             EquipOnDeathInventory.DeathEquip_Enemy1 = EquipmentIndex.None;
             if (playerInfo == null)
             {
@@ -157,16 +177,7 @@ namespace WolfoQoL_Client.DeathScreen
             var extras = self.GetComponent<DeathScreenExpanded>();
             try
             {
-                if (playerInfo.master && playerInfo.master.inventory)
-                {
-                    playerInfo.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);
-                    playerInfo.master.inventory.inventoryDisabled = false;
-                    self.itemInventoryDisplay.SetSubscribedInventory(playerInfo.master.inventory);
-                }
-                else
-                {
-                    self.itemInventoryDisplay.SetSubscribedInventory(null);
-                }
+              
 
                 GeneralQuality(self, playerInfo, extras.isLogRunReport);
                 LoadoutStat.Add_Loadout(self, playerInfo);
@@ -187,6 +198,25 @@ namespace WolfoQoL_Client.DeathScreen
                     extras.bonusInventoyHolder.SetActive(eitherActive);
                 }
 
+                if (playerInfo.master && playerInfo.master.inventory)
+                {
+                    var playerTrack = playerInfo.master.GetComponent<PerPlayer_ExtraStatTracker>();
+                    playerTrack.gameOverWithDisabled = playerTrack.gameOverWithDisabled || playerInfo.master.inventory.inventoryDisabled;
+                    playerInfo.master.inventory.inventoryDisabled = false;
+
+                    playerInfo.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);
+
+                    self.itemInventoryDisplay.SetSubscribedInventory(playerInfo.master.inventory);
+                    extras.hideInventory.SetActive(playerTrack.gameOverWithDisabled);
+                    //extras.hideInventory.GetComponent<Image>().pixelsPerUnitMultiplier = 500f / self.itemInventoryDisplay.transform.parent.GetComponent<RectTransform>().rect.height;
+                    extras.hideInventory.GetComponent<Image>().pixelsPerUnitMultiplier = extras.bonusInventoyHolder.activeSelf ? 1.32f : 0.8f; //What, ever
+                    
+                }
+                else
+                {
+                    extras.hideInventory.SetActive(false);
+                    self.itemInventoryDisplay.SetSubscribedInventory(null);
+                }
             }
             catch (System.Exception ex)
             {
@@ -205,7 +235,7 @@ namespace WolfoQoL_Client.DeathScreen
             DeathScreenExpanded.RightAreaPrefab = game.transform.GetChild(0).GetChild(1).GetChild(1).gameObject;
             DeathScreenExpanded.unlockAreaPrefab = game.unlockContentArea.parent.parent.parent.gameObject;
             DeathScreenExpanded.itemAreaPrefab = DeathScreenExpanded.unlockAreaPrefab.transform.parent.GetChild(2).gameObject;
-            DeathScreenExpanded.scrollBoxPrefab = DeathScreenExpanded.unlockAreaPrefab.transform.GetChild(1).gameObject;
+            //DeathScreenExpanded.scrollBoxPrefab = DeathScreenExpanded.unlockAreaPrefab.transform.GetChild(1).gameObject;
             #region MutliStat Holder
             GameObject statHolder = new GameObject("StatHolder");
             statHolder.AddComponent<RectTransform>();
@@ -213,47 +243,7 @@ namespace WolfoQoL_Client.DeathScreen
             statHolder.AddComponent<HorizontalLayoutGroup>();
             DeathScreenExpanded.statHolderPrefab = PrefabAPI.InstantiateClone(statHolder, "StatHolder", false);
             #endregion
-
-            #region WaveStrip Strip
-            GameObject waveStrip = PrefabAPI.InstantiateClone(DeathScreenExpanded.difficulty_stat, "latestWaveStrip", false);
-            DeathScreenExpanded.waveStripPrefab = waveStrip;
-
-            waveStrip.GetComponent<HorizontalLayoutGroup>().padding = new RectOffset(32, 32, 0, 0);
-
-            Object.Destroy(waveStrip.GetComponent<HGButton>());
-            Object.Destroy(waveStrip.GetComponent<MPEventSystemLocator>());
-            waveStrip.GetComponent<Image>().sprite = game.unlockStripPrefab.GetComponent<Image>().sprite;
-            waveStrip.GetComponent<Image>().color = game.unlockStripPrefab.GetComponent<Image>().color;
-
-            //Stat
-            waveStrip.transform.GetChild(0).name = "WaveStat";
-            waveStrip.transform.GetChild(2).name = "WaveNamr";
-            waveStrip.transform.GetChild(3).name = "WaveIcon";
-            waveStrip.transform.GetChild(0).GetComponent<LanguageTextMeshController>().token = "LATEST_WAVE";
-            waveStrip.transform.GetChild(0).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 24;
-            waveStrip.transform.GetChild(2).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 24;
-
-            LayoutElement icon = waveStrip.transform.GetChild(3).GetComponent<LayoutElement>();
-            icon.preferredHeight = 54;
-            icon.preferredWidth = 54;
-            #endregion
-
-            #region Stage Strip
-            GameObject areaStrip = PrefabAPI.InstantiateClone(game.unlockStripPrefab, "stageStripPrefab", false);
-            DeathScreenExpanded.stageStripPrefab = areaStrip;
-
-            HorizontalLayoutGroup layout = areaStrip.GetComponent<HorizontalLayoutGroup>();
-            layout.spacing = 8;
-            layout.childAlignment = TextAnchor.MiddleCenter;
-            layout.padding = new RectOffset(16, 16, 0, 0);
-            layout.childForceExpandWidth = true;
-            areaStrip.SetActive(true);
-
-            GameObject.Destroy(areaStrip.transform.GetChild(1).gameObject);
-            GameObject.Destroy(areaStrip.transform.GetChild(0).gameObject);
-            GameObject.Destroy(areaStrip.GetComponent<TooltipProvider>());
-            #endregion
-
+ 
             #region Stage Icon
             DeathScreenExpanded.stageIconPrefab = PrefabAPI.InstantiateClone(game.unlockStripPrefab.transform.GetChild(0).gameObject, "stageIcon", false);
 
@@ -306,6 +296,18 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     extras.deathTimeStamp = Run.instance.fixedTime;
                 }
+
+                GameObject scoreboardStrip = Addressables.LoadAssetAsync<GameObject>(key: "d79990e6848003d438cabcf79e7e5bf7").WaitForCompletion();
+
+                GameObject HideInv = scoreboardStrip.GetComponent<HUD>().itemInventoryDisplay.hideInventoryImage;
+                GameObject copyHideInv = GameObject.Instantiate(HideInv, self.itemInventoryDisplay.gameObject.transform.parent);
+                extras.hideInventory = copyHideInv;
+
+                //copyHideInv.GetComponent<Image>().pixelsPerUnitMultiplier = 500f / copyHideInv.GetComponent<RectTransform>().rect.height;
+                copyHideInv.GetComponent<Image>().raycastTarget = false;
+                copyHideInv.transform.GetChild(0).gameObject.SetActive(false);
+                copyHideInv.transform.GetChild(1).GetComponent<RawImage>().raycastTarget = false;
+                Color disable = new Color(0.9683f, 0.8443f, 1f, 0.3922f);
             }
 
 
@@ -396,7 +398,6 @@ namespace WolfoQoL_Client.DeathScreen
                 //Chat closing button?
                 //PageIndicator
                 //Stat footer?
-
 
             }
             catch (System.Exception e)

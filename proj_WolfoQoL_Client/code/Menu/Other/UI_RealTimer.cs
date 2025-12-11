@@ -97,6 +97,9 @@ namespace WolfoQoL_Client
         public static TimerStringFormatter format;
         public static GameObject instance;
         public Transform realTimer;
+        public float runStartingOffset;
+
+        //We could time stamp on run start and use that
 
         public void OnEnable()
         {
@@ -125,7 +128,7 @@ namespace WolfoQoL_Client
         {
             if (this.runStopwatchTimerTextController)
             {
-                this.runStopwatchTimerTextController.seconds = (double)(Run.instance ? Run.instance.fixedTime : 0f);
+                this.runStopwatchTimerTextController.seconds = (double)(Run.instance ? Run.instance.fixedTime-0.2f : 0f);
             }
         }
         public TimerText runStopwatchTimerTextController;

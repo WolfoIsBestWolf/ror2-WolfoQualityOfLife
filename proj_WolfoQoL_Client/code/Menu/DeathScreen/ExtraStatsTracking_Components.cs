@@ -11,8 +11,8 @@ namespace WolfoQoL_Client.DeathScreen
         public static RunExtraStatTracker instance;
         public bool alreadyCountedDronesForStage = false;
 
-        public Dictionary<string, int> dic_missedChests;
-        public Dictionary<string, int> dic_missedDrones;
+        //public Dictionary<string, int> dic_missedChests;
+        //public Dictionary<string, int> dic_missedDrones;
 
         public GameObject latestWaveUiPrefab;
         public int missedChests = 0;
@@ -28,14 +28,14 @@ namespace WolfoQoL_Client.DeathScreen
         public void OnEnable()
         {
             instance = this;
-            dic_missedChests = new Dictionary<string, int>();
-            dic_missedDrones = new Dictionary<string, int>();
+            //dic_missedChests = new Dictionary<string, int>();
+            //dic_missedDrones = new Dictionary<string, int>();
             visitedScenes = new List<SceneDef>();
             //visitedScenesTOTAL = new List<List<SceneDef>>();
             //visitedScenesTOTAL.Add(visitedScenes);
             SceneCatalog.onMostRecentSceneDefChanged += this.HandleMostRecentSceneDefChanged;
 
-            isSaveAndContinuedRun = this.GetComponent<Run>().stageClearCount != 0;
+          isSaveAndContinuedRun = this.GetComponent<Run>().stageClearCount != 0;
         }
         public void OnDisable()
         {
@@ -167,6 +167,9 @@ namespace WolfoQoL_Client.DeathScreen
 
     public class PerPlayer_ExtraStatTracker : MonoBehaviour
     {
+        public bool gameOverWithDisabled = false;
+
+
         //Unused
         /*public int totalBuffsGotten;
         public float timeSpentInChargeZone;
@@ -174,11 +177,10 @@ namespace WolfoQoL_Client.DeathScreen
         */
 
         public float[] perMinionDamage;
-        public BodyIndex strongestMinion = (BodyIndex)(-2);
-        public float strongestMinionDamage;
+        public BodyIndex strongestMinion = (BodyIndex)(-2); //DeathScreenOnly
+        public float strongestMinionDamage;//DeathScreenOnly
 
-        //public Dictionary<ItemIndex, int> scrappedItemTotal;
-
+ 
         public int timesJumped; //Client-Only
         public float minionDamageTaken;
         public float minionHealing;
@@ -186,7 +188,7 @@ namespace WolfoQoL_Client.DeathScreen
         //public int minionDeathsSuicide;
 
         public int spentLunarCoins; //Works
-        public int itemsVoided;
+        //public int itemsVoided;
 
         public int scrappedItems; //Works
         public int scrappedDrones; //DLC3?
@@ -221,6 +223,8 @@ namespace WolfoQoL_Client.DeathScreen
                 damageBlocked = -1;
             }
 
+            //itemAq if perm add
+            //itemAq if scrapped uh????
         }
         public void OnDisable()
         {
@@ -228,8 +232,10 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 master.onBodyStart -= Master_onBodyStart;
             }
-
+            AddAllMinionDamageToStats();
         }
+        //public readonly List<ItemIndex> itemAcquisitionOrder = new List<ItemIndex>();
+
         public void EvaluateStrongestMinion()
         {
             float val = 0f;
@@ -287,7 +293,7 @@ namespace WolfoQoL_Client.DeathScreen
                 var tracker = masterObject.GetComponent<PerPlayer_ExtraStatTracker>();
                 tracker.timesJumped = Mathf.Max(tracker.timesJumped, timesJumped);
                 tracker.damageBlocked = Mathf.Max(tracker.damageBlocked, damageBlocked);
-                tracker.itemsVoided = Mathf.Max(tracker.itemsVoided, itemsVoided);
+                //tracker.itemsVoided = Mathf.Max(tracker.itemsVoided, itemsVoided);
 
 
                 return null;

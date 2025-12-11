@@ -36,6 +36,8 @@ namespace WolfoQoL_Client.DeathScreen
     }
     public class DeathScreenExpanded : MonoBehaviour
     {
+        public GameObject hideInventory;
+
         public GameObject lastSimuWaveStat;
         public GameObject stageRecap;
         public GameObject stageRecapArea;
@@ -77,21 +79,13 @@ namespace WolfoQoL_Client.DeathScreen
         public bool madeStats = false;
 
         public bool addedStageRecap;
-        //public List<GameObject> stageStrips; //OLD
+ 
         public static GameObject stageIconPrefab;
-        public static GameObject stageStripPrefab;
-        public static GameObject waveStripPrefab;
-        public static GameObject bodyIconPrefab;
-
-        public static GameObject scrollBoxPrefab;
-
-
+      
 
         public GameObject chatToggleButton;
         public bool chatActive;
-        public GameObject continueToggleBotton;
-        public bool continueActive;
-
+  
         public GameObject MakeInventory()
         {
             if (!bonusInventoyHolder)
@@ -133,13 +127,7 @@ namespace WolfoQoL_Client.DeathScreen
             chatActive = !chatActive;
             GameEndReportPanel.chatboxTransform.gameObject.SetActive(chatActive);
         }
-        public void ToggleContinue()
-        {
-            Util.PlaySound("Play_UI_menuClick", this.gameObject);
-            chatToggleButton.transform.localScale = new Vector3(0.5f, -chatToggleButton.transform.localScale.y, 0.5f);
-            continueActive = !continueActive;
-            GameEndReportPanel.acceptButtonArea.gameObject.SetActive(continueActive);
-        }
+  
     }
 
 }

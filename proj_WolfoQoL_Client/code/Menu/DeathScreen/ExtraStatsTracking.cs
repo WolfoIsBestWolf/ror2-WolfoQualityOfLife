@@ -23,12 +23,22 @@ namespace WolfoQoL_Client.DeathScreen
             IL.RoR2.HealthComponent.HandleDamageDealt += Track_DoTDamage_MinionHurt;
             IL.RoR2.HealthComponent.HandleHeal += Track_MinionHealing;
 
-           // IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
+            // IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
 
+            On.RoR2.Stats.StatManager.OnServerItemGiven += StatManager_OnServerItemGiven;
             On.RoR2.Inventory.RemoveItemPermanent_ItemIndex_int += REMOVINGITEMDEDUCTSFROMSTAT;
  
         }
- 
+
+        private static void StatManager_OnServerItemGiven(On.RoR2.Stats.StatManager.orig_OnServerItemGiven orig, Inventory inventory, ItemIndex itemIndex, int quantity)
+        {
+            if (ItemCatalog.GetItemDef(itemIndex).hidden)
+            {
+                return;
+            }
+            orig(inventory,itemIndex, quantity);
+        }
+
         private static void REMOVINGITEMDEDUCTSFROMSTAT(On.RoR2.Inventory.orig_RemoveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
             orig(self, itemIndex, count);   
@@ -93,7 +103,7 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     if (inventory.TryGetComponent<PerPlayer_ExtraStatTracker>(out var a))
                     {
-                        a.itemsVoided += count;
+                        //a.itemsVoided += count;
                     }
                     return count;
                 });
@@ -137,7 +147,7 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     masterObject = player.gameObject,
                     timesJumped = tracker.timesJumped,
-                    itemsVoided = tracker.itemsVoided,
+                    //itemsVoided = tracker.itemsVoided,
                     damageBlocked = tracker.damageBlocked,
 
                 });

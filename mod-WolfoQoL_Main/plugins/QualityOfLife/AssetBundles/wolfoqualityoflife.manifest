@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 866087353
+CRC: 3360657898
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f61053a119d7131922384ab5c57d518d
+    Hash: 506fb1c1985193fe0f4c54674041de0c
   TypeTreeHash:
     serializedVersion: 2
     Hash: 299d7093a10754f7aaab607a8b58134c
@@ -35,7 +35,6 @@ Assets:
 - Assets/WQoL/Items/Modded/AffixVarietyBanner.png
 - Assets/WQoL/General/texGameResult_AC.png
 - Assets/WQoL/General/animDuplicatorOld.controller
-- Assets/WQoL/PingIcons/Old/MultiShop2_Shrunk.png
 - Assets/WQoL/General/texEquipmentLunarBG.png
 - Assets/WQoL/SkinRamps/texRampMercDustPink.png
 - Assets/WQoL/Items/Beta/betaCorpse.png
@@ -68,7 +67,6 @@ Assets:
 - Assets/WQoL/LemurianTemple/texHalcyoniteShrineFlow.png
 - Assets/WQoL/Items/ElitePoison.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseBlight.png
-- Assets/WQoL/PingIcons/Old/MultiShop1.png
 - Assets/WQoL/Items/Modded/AffixLostTransitFrenzied.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkLessDarkOLD.png
 - Assets/WQoL/Buffs/texBuffTincture.png
@@ -91,18 +89,17 @@ Assets:
 - Assets/WQoL/Items/conversion_stuff.txt
 - Assets/WQoL/PingIcons/Modded/SpStShrineCloaked .png
 - Assets/WQoL/SkinScalable/texCrocoEmissionAlt.png
-- Assets/WQoL/PingIcons/Old/MultiShop2.png
 - Assets/WQoL/PingIcons/PrinterMili_V2.png
 - Assets/WQoL/Items/Modded/texAffixCloakIcon.png
 - Assets/WQoL/SkinRamps/texRampFallbootsPink.png
-- Assets/WQoL/Buffs/texBuffTeleportOnLowHealthCooldown.png
+- Assets/WQoL/Body/ClayDunestrider_Alt - Copy.png
 - Assets/WQoL/PingIcons/Modded/SpStShrineAegis.png
+- Assets/WQoL/Buffs/texBuffTeleportOnLowHealthCooldown.png
 - Assets/WQoL/General/texGameResult_SotS.png
 - Assets/WQoL/Buffs/texBuffTeleportOnLowHealthIcon.png
 - Assets/WQoL/icon.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkDark.png
 - Assets/WQoL/Body/texBodyRoboBallBuddyRed.png
-- Assets/WQoL/PingIcons/Old/MultiShop1_Shrunk.png
 - Assets/WQoL/SkinRamps/texRampHuntressSoftRed.png
 - Assets/WQoL/General/texUIHighlightBoxOutline.png
 - Assets/WQoL/PingIcons/ChestLunarIcon.png
@@ -191,7 +188,6 @@ Assets:
 - Assets/WQoL/Body/texBodyWispSoul.png
 - Assets/WQoL/PingIcons/LunarSeer.png
 - Assets/WQoL/PingIcons/TrippleShop_Equipment.png
-- Assets/WQoL/PingIcons/Old/MultiShopE.png
 - Assets/WQoL/SimuPreview/texGoolakePreview.png
 - Assets/WQoL/PingIcons/DLC1/VendingMachine.png
 - Assets/WQoL/Body/Destructible_ClayPot.png
@@ -209,9 +205,9 @@ Assets:
 - Assets/WQoL/PingIcons/ChestCategoryHealing.png
 - Assets/WQoL/Items/Modded/AffixVarietyImp.png
 - Assets/WQoL/Body/Destructible_SulfurPod.png
+- Assets/WQoL/PingIcons/DLC1/VoidStalk.png
 - Assets/WQoL/SimuPreview/texGolemplainsPreview.png
 - Assets/WQoL/SkinRamps/texRampHuntressRed.png
-- Assets/WQoL/PingIcons/Old/MultiShop3_Shrunk.png
 - Assets/WQoL/PingIcons/CleanseIcon.png
 - Assets/WQoL/PingIcons/DLC3/Power_Pyramid.png
 - Assets/WQoL/PingIcons/ShrineHealIcon.png
@@ -230,7 +226,6 @@ Assets:
 - Assets/WQoL/PingIcons/ExclamationIcon.png
 - Assets/WQoL/SkinRamps/texRampBeetleBreathBlight.png
 - Assets/WQoL/PingIcons/LockedIcon.png
-- Assets/WQoL/PingIcons/Old/MultiShopE_Shrunk.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkLessDark.png
 - Assets/WQoL/Items/LunarPotion.png
 - Assets/WQoL/SkinRamps/texRampHuntress.png
@@ -241,7 +236,6 @@ Assets:
 - Assets/WQoL/Buffs/texBuffLunarShellIcon.png
 - Assets/WQoL/Buffs/texBuffBodyArmor.png
 - Assets/WQoL/PingIcons/DroneTurretIcon.png
-- Assets/WQoL/PingIcons/Old/MultiShop3.png
 - Assets/WQoL/PingIcons/ShrineGoldIcon.png
 - Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png
 - Assets/WQoL/PingIcons/Equip.png

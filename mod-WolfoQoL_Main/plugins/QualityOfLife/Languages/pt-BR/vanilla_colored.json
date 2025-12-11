@@ -28,9 +28,7 @@
         "CONDUITCANYON_P2": "Instale as <color=#F8B651>Chaves de Sentinela</color> para reprogramar o teleportador criptografado",
         "CONDUITCANYON_SKIP_BARRIER": "<style=cWorldEvent>Intruso detectado! Redirecionando energia para a equipe de segurança.</style>",
 
-
-        "VULTURE_KILLS_BOSS": "<color=#87E5C0><size=120%>Caçador de Liga: Escolhido, só pode haver um campeão! Eu não cederei!</color></size>",
-
+ 
 
         "ACCESSCODES_PORTAL_WILL_OPEN": "<style=cWorldEvent>Acesso concedido...</style>",
         "ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>Inimigo coletivo identificado. Integrando análises...</style>"

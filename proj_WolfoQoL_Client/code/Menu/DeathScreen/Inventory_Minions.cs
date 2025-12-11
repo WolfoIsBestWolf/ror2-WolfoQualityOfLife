@@ -130,6 +130,7 @@ namespace WolfoQoL_Client.DeathScreen
                 root.SetActive(false);
                 return;
             }
+            
             root.SetActive(true);
             root.transform.parent.gameObject.SetActive(true);
             itemDisplay = GetComponent<ItemInventoryDisplay>();
@@ -321,7 +322,7 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     return;
                 }
-                noMinions = false;
+                //noMinions = false;
 
                 droneList = new List<(BodyIndex, int)>();
                 droneDict = new Dictionary<(BodyIndex, int), int>();
@@ -347,6 +348,8 @@ namespace WolfoQoL_Client.DeathScreen
 
                 //hasDrones = droneList.Count > 0;
                 hasDrones = droneDict.Count > 0;
+
+                noMinions = !(hasDrones || hasDevotion);
             }
             catch (System.Exception e)
             {

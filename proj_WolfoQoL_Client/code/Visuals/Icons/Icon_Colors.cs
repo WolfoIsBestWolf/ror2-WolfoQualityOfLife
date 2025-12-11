@@ -38,50 +38,10 @@ namespace WolfoQoL_Client
                     }
                 }
             }
-
-            Material matShrineBossSymbol = Addressables.LoadAssetAsync<Material>(key: "b53bfabbc2667b74280f87d939f640c5").WaitForCompletion();
-            matShrineBossSymbolPrestige = Object.Instantiate(matShrineBossSymbol);
-            matShrineBossSymbolPrestige.name = "matShrineBossSymbolPrestige";
-            matShrineBossSymbolPrestige.SetTexture("_RemapTex", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/rampPrestige.png"));
-            matShrineBossSymbolPrestige.SetColor("_TintColor", new Color(0.7f, 0.5f, 0.7f, 1f)); //0.2406 0.8645 1 1
-
-
-            On.RoR2.ShrineBossBehavior.Start += ShrineBossBehavior_Start;
-            On.RoR2.BossShrineCounter.RebuildIndicators += BossShrineCounter_RebuildIndicators;
-       
+ 
         }
-        
-        public static Material matShrineBossSymbolPrestige;
-
-        private static void BossShrineCounter_RebuildIndicators(On.RoR2.BossShrineCounter.orig_RebuildIndicators orig, BossShrineCounter self)
-        {
-            orig(self);
-            if (WConfig.PrestigeColors.Value)
-            {
-                if (RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(DLC3Content.Artifacts.Prestige))
-                {
-                    for (int i = 0; i < self.targetTransform.childCount; i++)
-                    {
-                        self.targetTransform.GetChild(i).GetChild(0).GetComponent<MeshRenderer>().material = matShrineBossSymbolPrestige;
-                    }
-                }
-            }
-
-        }
-
-        private static void ShrineBossBehavior_Start(On.RoR2.ShrineBossBehavior.orig_Start orig, ShrineBossBehavior self)
-        {
-            orig(self);
-            if (WConfig.PrestigeColors.Value)
-            {
-                if (RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(DLC3Content.Artifacts.Prestige))
-                {
-                    self.symbolTransform.GetComponent<MeshRenderer>().material = matShrineBossSymbolPrestige;
-                }
-            }
-
-        }
-
+ 
+      
         private static void TeleporterDiscoveredRed(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);

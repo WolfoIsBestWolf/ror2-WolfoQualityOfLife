@@ -167,7 +167,7 @@ namespace WolfoQoL_Client.DeathScreen
             Text.fontSizeMax = 24;
             Text.fontSize = 24;
             //Text.color = new Color(1f, 1f, 1f, 0.3f);
-            Text.color = new Color(0.75f, 0.75f, 0.8f, 1f);
+            Text.color = new Color(0.7f, 0.75f, 0.8f, 1f);
             TotalRunTimer.transform.localPosition = new Vector3(0, -50, 0);
 
             ulong num = (ulong)extras.deathTimeStamp;
@@ -405,10 +405,10 @@ namespace WolfoQoL_Client.DeathScreen
                 toolTip.titleColor = waveColor;
                 toolTip.bodyToken = waveUIRoot.GetChild(1).GetChild(1).GetComponent<LanguageTextMeshController>().token;
             }
-            if (extras.isSaveAndContinuedRun)
+            /*if (extras.isSaveAndContinuedRun)
             {
                 return;
-            }
+            }*/
             var playerTracker = playerInfo.master.GetComponent<PerPlayer_ExtraStatTracker>();
 
             if (playerTracker.latestDetailedDeathMessage != string.Empty)
@@ -473,12 +473,12 @@ namespace WolfoQoL_Client.DeathScreen
                 if (ChestsMissed)
                 {
                     TooltipProvider toolTip;
-                    toolTip = AddDetailedTooltip(ChestsMissed, runTracker.dic_missedChests);
+                    toolTip = AddDetailedTooltip(ChestsMissed, null);
                     if (runTracker.missedShrineChanceItems > 0)
                     {
                         toolTip.bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
                     }
-                    AddDetailedTooltip(DronesMissed, runTracker.dic_missedDrones);
+                    AddDetailedTooltip(DronesMissed, null);
                 }
             }
         }
@@ -501,6 +501,10 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }
+            if (TotalDamage == 0)
+            {
+                return;
+            }
             TooltipProvider tool = stat.GetComponent<TooltipProvider>();
             if (tool == null)
             {
@@ -517,11 +521,11 @@ namespace WolfoQoL_Client.DeathScreen
             tip.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
             tip.titleToken = "STAT_DETAILS";
             string bodyToken = string.Empty;
-            for (int i = 0; data.Count > i; i++)
+            /*for (int i = 0; data.Count > i; i++)
             {
                 var pair = data.ElementAt(i);
                 bodyToken += GetStatFormatted(pair.Key, pair.Value) + "\n";
-            }
+            }*/
             tip.bodyToken = bodyToken;
             return tip;
         }

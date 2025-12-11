@@ -33,9 +33,7 @@
 		"SPEX_COLOR": "<color=#c6d5ff></color>",
 		"SOLUSHEART_COLOR" : "<color=#F8B651></color>",
 		"VULTURE_FORMAT": "<color=#87E5C0><size=120%>合金猎手：{0}</color></size>",
-
-		"VULTURE_KILLS_BOSS": "<color=#87E5C0><size=120%>合金猎手：被选中的人，冠军只能有一个！我绝不会退让！</color></size>",
-		
+ 
 		
 		"ACCESSCODES_PORTAL_WILL_OPEN": "<style=cWorldEvent>访问已授权……</style>",
 		"ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>已识别集群敌人。正在整合分析数据……</style>"

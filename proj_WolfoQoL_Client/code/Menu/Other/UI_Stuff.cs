@@ -45,9 +45,31 @@ namespace WolfoQoL_Client
             IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
 
             //On.RoR2.SubjectChatMessage.GetSubjectName += IncludeEliteTypeInSubjectName;
-
+            MealMenu();
         }
 
+        public static void MealMenu()
+        {
+            if (!WConfig.cfgChefMenuTweak.Value)
+            {
+                return;
+            }
+
+            GameObject MealPrepPickerPanel = Addressables.LoadAssetAsync<GameObject>(key: "f503de92590d0ee40bae54e7a7d969c8").WaitForCompletion();
+
+            MealPrepPickerPanel.GetComponent<PickupPickerPanel>().maxColumnCount = 11;
+
+            Transform BGContainer = MealPrepPickerPanel.transform.Find("MainPanel/Juice/BGContainer/");
+
+            BGContainer.GetChild(0).localScale = new Vector3(1.2f, 0.95f, 0.9f);
+            BGContainer.GetChild(0).localPosition = new Vector3(0f, -12f, 0f);
+
+            (BGContainer.GetChild(2) as RectTransform).offsetMax += new Vector2(100f, 0);
+            (BGContainer.GetChild(2) as RectTransform).offsetMin -= new Vector2(100f, 50f);
+
+            BGContainer.GetChild(3).localPosition += new Vector3(0f,-50f,0f);   
+
+        }
 
         private static string IncludeEliteTypeInSubjectName(On.RoR2.SubjectChatMessage.orig_GetSubjectName orig, SubjectChatMessage self)
         {

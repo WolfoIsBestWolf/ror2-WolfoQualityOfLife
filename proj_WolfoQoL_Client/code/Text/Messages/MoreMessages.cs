@@ -30,7 +30,7 @@ namespace WolfoQoL_Client.Text
             DevotionLoss.Start();
             DroneMessages.Start();
 
-            RoR2.Run.onClientGameOverGlobal += WinMessage_Client;
+            Run.onClientGameOverGlobal += WinMessage_Client;
 
 
             On.RoR2.CharacterMasterNotificationQueue.PushItemTransformNotification += TransformItem_Messages;
@@ -46,6 +46,8 @@ namespace WolfoQoL_Client.Text
 
             On.RoR2.MealPrepController.BeginCookingServer += MealPrepController_BeginCookingServer;
             On.EntityStates.MealPrep.WaitToBeginCooking.OnEnter += WaitToBeginCooking_OnEnter;
+
+
         }
 
         private static void WaitToBeginCooking_OnEnter(On.EntityStates.MealPrep.WaitToBeginCooking.orig_OnEnter orig, EntityStates.MealPrep.WaitToBeginCooking self)
@@ -89,6 +91,11 @@ namespace WolfoQoL_Client.Text
             orig(self, reader, initialState);
             //WolfoMain.log.LogMessage(pre + " | "+self.NetworkpickupIndex + " | "+self.Recycled);
 
+            if (pre != PickupIndex.none)
+            {
+
+            }
+
             bool newPickup = pre != PickupIndex.none && pre != self.pickup.pickupIndex;
             bool justRecyled = preRecycle == false && self.Recycled == true;
             if (justRecyled && newPickup)
@@ -110,11 +117,16 @@ namespace WolfoQoL_Client.Text
             }
             else if (justRecyled)
             {
-                Chat.AddMessage(new RecycleMessage
+                var has = self.gameObject.GetComponent<StoreLatestPickupindex>();
+                if (has && has.previousIndex != PickupIndex.none)
                 {
-                    oldPickup = self.gameObject.GetComponent<StoreLatestPickupindex>().previousIndex,
-                    newPickup = self.Network_pickupState.pickupIndex
-                });
+                    Chat.AddMessage(new RecycleMessage
+                    {
+                        oldPickup = has.previousIndex,
+                        newPickup = self.Network_pickupState.pickupIndex
+                    });
+                }
+               
             }
 
         }
