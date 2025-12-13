@@ -1,4 +1,9 @@
 ```
+v5.1.1
+Fixed ItemCollected stat sometimes rolling over to infinity.
+Disabled Drone & Ally log with RealerCheats due to incompatibility.
+Time Alive now accounts for full time, and run time displayed seperately instead.
+
 v5.1.0
 Updated for AC 1.4.1
  

@@ -25,7 +25,7 @@ namespace WolfoQoL_Client.Reminders
                 portal = Addressables.LoadAssetAsync<GameObject>(key: "eadfcaf9ea3275e49858ed19f874db5a").WaitForCompletion().AddComponent<PortalObjective>();
                 portal.style = "<style=cMysterySpace>";
                 portal.blacklistedScene = SceneList.MysterySpace;
-                  portal.exit = true;
+                portal.exit = true;
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalShop/PortalShop.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cIsLunar>";
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalArena/PortalArena.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cIsVoid>";
 
@@ -121,6 +121,11 @@ namespace WolfoQoL_Client.Reminders
                 }
             }
             string nameToken = this.GetComponent<GenericDisplayNameProvider>().displayToken;
+            if (Language.currentLanguage == null)
+            {
+                //????
+                return;
+            }
             if (Language.currentLanguage.TokenIsRegistered(baseToken))
             {
                 objectiveToken = Language.GetStringFormatted(baseToken, style+ Language.GetString(nameToken)+"</color>");

@@ -32,13 +32,15 @@ namespace WolfoQoL_Client
             DLC3Content.DroneDefs.DTHealDrone.colorOverride = ColorCatalog.ColorIndex.LunarCoin;
             DLC3Content.DroneDefs.DTHaulerDrone.colorOverride = ColorCatalog.ColorIndex.LunarCoin;
 
+            bool RealerCheatsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("prodzpod.RealerCheatUnlocks");
+
             if (AllyDefs != null)
             {
                 return;
             }
             AllyDefs = new Dictionary<BodyIndex, AllyDef>();
 
-            if (!WConfig.cfgLogbook_AllyExpansion.Value)
+            if (!WConfig.cfgLogbook_AllyExpansion.Value || RealerCheatsInstalled)
             {
                 return;
             }

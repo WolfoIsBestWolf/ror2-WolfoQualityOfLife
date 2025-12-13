@@ -128,6 +128,7 @@ namespace WolfoQoL_Client
         {
             ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
             ProperSaveInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
+         
             WQoLMain.log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
             WQoLMain.log.LogMessage("ProperSaveInstalled installed? : " + ProperSaveInstalled);
 

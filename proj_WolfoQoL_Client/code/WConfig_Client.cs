@@ -14,7 +14,7 @@ namespace WolfoQoL_Client
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Client.cfg", true);
 
         public static ConfigEntry<bool> SH_Music_Restarter;
-        public static ConfigEntry<bool> OperatorDroneIndicator;
+        //public static ConfigEntry<bool> OperatorDroneIndicator;
         public static ConfigEntry<bool> cfgChefMenuTweak;
 
         public static ConfigEntry<bool> RealTimeTimer;
@@ -534,12 +534,12 @@ namespace WolfoQoL_Client
               true,
               "When you have the discover teleporter icon setting on. Makes the icon light red at first and only white when charged."
             );
-            OperatorDroneIndicator = ConfigFile_Client.Bind(
+            /*OperatorDroneIndicator = ConfigFile_Client.Bind(
               "Icons",
               "Operator noticible Drone Indicator",
               true,
               "Operators `Jump to this drone` indicator for the default Utility will be more visible."
-            );
+            );*/
 
             cfgPingIcons = ConfigFile_Client.Bind(
                "Icons",
@@ -645,7 +645,7 @@ namespace WolfoQoL_Client
             );
             cfgEquipmentDroneName = ConfigFile_Client.Bind(
                "Text",
-               "Equipment Name Equipment Drone",
+               "Equipment Name     Equipment Drone",
                ColorOrNot.White,
                "Show the equipment a Equipment Drone is holding in its name."
             );
@@ -1034,45 +1034,9 @@ namespace WolfoQoL_Client
                 {
                     ModSettingsManager.AddOption(new FloatFieldOption((ConfigEntry<float>)entry, false));
                 }
-                else if (entry.SettingType == typeof(MessageWho))
+                else if (entry.SettingType.IsEnum)
                 {
-                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<MessageWho>)entry, false));
-                }
-                else if (entry.SettingType == typeof(ReminderChoice))
-                {
-                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<ReminderChoice>)entry, false));
-                }
-                else if (entry.SettingType == typeof(Position))
-                {
-                    if (entry == DC_Loadout)
-                    {
-                        ModSettingsManager.AddOption(new ChoiceOption(DC_Loadout, new ChoiceConfig
-                        {
-                            name = "Death Screen |\nLoadout",
-                            restartRequired = false,
-                        }));
-                    }
-                    else
-                    {
-                        ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<Position>)entry, false));
-                    }
-
-                }
-                else if (entry.SettingType == typeof(ColorOrNot))
-                {
-                    if (entry == cfgEquipmentDroneName)
-                    {
-                        ModSettingsManager.AddOption(new ChoiceOption(cfgEquipmentDroneName, new ChoiceConfig
-                        {
-                            name = "Equipment Drone\nEquipment Name",
-                            restartRequired = false,
-                        }));
-                    }
-                    else
-                    {
-                        ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<ColorOrNot>)entry, false));
-                    }
-
+                    ModSettingsManager.AddOption(new ChoiceOption(entry, false));
                 }
                 else
                 {

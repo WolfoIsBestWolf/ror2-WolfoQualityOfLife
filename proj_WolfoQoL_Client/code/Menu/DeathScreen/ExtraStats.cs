@@ -55,7 +55,7 @@ namespace WolfoQoL_Client.DeathScreen
                 extras.compactedStats = true;
                 RectTransform statContentArea = self.statContentArea;
 
-                MakeCombinedStat(statContentArea, "totalTimeAlive"); //+Stages / Waves
+                MakeCombinedStat(statContentArea, "totalTimeAlive", 3); //+Stages / Waves
                 MakeCombinedStat(statContentArea, "totalItemsCollected");
                 //MakeCombinedStat(statContentArea, "highestItemsCollected");
                 MakeCombinedStat(statContentArea, "totalDronesPurchased", 2);
@@ -175,7 +175,7 @@ namespace WolfoQoL_Client.DeathScreen
             ulong num3 = num - num2 * 60UL;
 
 
-            TotalRunTimer.GetComponent<TextMeshProUGUI>().text = string.Format("{2} {0:00}:{1:00}", num2, num3, Language.GetString("STAT_TOTAL_RUN_TIME"));
+            TotalRunTimer.GetComponent<TextMeshProUGUI>().text = string.Format("{2}: {0:00}:{1:00}", num2, num3, Language.GetString("STAT_TOTAL_RUN_TIME"));
             //TotalRunTimer.GetComponent<TextMeshProUGUI>().text = string.Format("<style=cEvent>{2} {0:00}:{1:00}</color>", num2, num3, Language.GetString("STAT_TOTAL_RUN_TIME"));
 
             //bool show = Run.instance.GetRunStopwatch() > 600 || extras.deathTimeStamp > 600; //Don't bother showing if run is very short
@@ -208,6 +208,7 @@ namespace WolfoQoL_Client.DeathScreen
                             IsSimu ? "custom_lastSimuWave" : "",
 
                             "totalTimeAlive",
+                            IsSimu ? "": "runTime",
                             IsSimu ? "highestInfiniteTowerWaveReached" : "totalStagesCompleted",
 
                             "totalItemsCollected",
@@ -342,7 +343,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             #region Override vanilla stats
             //SetupStat(self, "highestItemsCollected", "STATNAME_TOTALITEMSCOLLECTED", highestItemsCollected);
-            //SetupTimerStat(self, "totalTimeAlive", extras.deathTimeStamp);
+           
             if (!extras.isDevotionRun)
             {
                 SetupStat(self, "totalDronesPurchased", "STATNAME_TOTALDRONESPURCHASED", drones + turrets);
@@ -416,6 +417,8 @@ namespace WolfoQoL_Client.DeathScreen
                 string newFinal = self.finalMessageLabel.text + "\n" + playerTracker.latestDetailedDeathMessage;
                 self.finalMessageLabel.SetText(newFinal, true);
             }
+            SetupTimerStat(self, "totalTimeAlive", "PERBODYSTATNAME_TOTALTIMEALIVE", playerTracker.timeAliveReal);
+            SetupTimerStat(self, "runTime", "STAT_RUN_TIME", Run.instance.GetRunStopwatch());
 
 
             if (playerTracker.strongestMinion == (BodyIndex)(-2))
@@ -602,10 +605,14 @@ namespace WolfoQoL_Client.DeathScreen
             return stat;
         }
 
-        public static void SetupTimerStat(GameEndReportPanelController self, string lookingFor, float time)
+        public static void SetupTimerStat(GameEndReportPanelController self, string lookingFor, string statStr, float time)
         {
             Transform stat = FindStatStrip(self, lookingFor);
             if (!Run.instance)
+            {
+                return;
+            }
+            if (!stat)
             {
                 return;
             }
@@ -613,10 +620,9 @@ namespace WolfoQoL_Client.DeathScreen
             ulong num = (ulong)time;
             ulong num2 = num / 60UL;
             ulong num3 = num - num2 * 60UL;
-  
- 
-            stat.GetChild(1).GetComponent<TextMeshProUGUI>().text = string.Format("{2}: <color=#FFFF7F>{0:00}:{1:00}</color>", num2, num3, Language.GetString("STAT_TOTAL"));
-            stat.GetChild(1).gameObject.SetActive(time - Run.instance.GetRunStopwatch() > 120);
+            stat.gameObject.SetActive(true);
+            stat.GetChild(0).GetComponent<TextMeshProUGUI>().text = string.Format("{2}: <color=#FFFF7F>{0:00}:{1:00}</color>", num2, num3, Language.GetString(statStr));
+        
         }
 
     }

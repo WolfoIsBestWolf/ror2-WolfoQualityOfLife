@@ -1,5 +1,8 @@
+using HG;
 using RoR2;
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -169,6 +172,7 @@ namespace WolfoQoL_Client.DeathScreen
     {
         public bool gameOverWithDisabled = false;
 
+        public float timeAliveReal;
 
         //Unused
         /*public int totalBuffsGotten;
@@ -207,12 +211,18 @@ namespace WolfoQoL_Client.DeathScreen
             perMinionDamage = new float[BodyCatalog.bodyCount];
             master = this.GetComponent<CharacterMaster>();
             master.onBodyStart += Master_onBodyStart;
-            if (!NetworkServer.active)
-            {
-
-            }
-            //scrappedItemTotal = new Dictionary<ItemIndex, int>();
+ 
         }
+ 
+        public void FixedUpdate()
+        {
+            if (this.master.hasBody)
+            {
+                timeAliveReal += Time.fixedDeltaTime;
+            }
+        }
+     
+
         public void Start()
         {
             //WolfoMain.log.LogMessage(master.hasAuthority);
@@ -232,10 +242,10 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 master.onBodyStart -= Master_onBodyStart;
             }
-            AddAllMinionDamageToStats();
+            //This shit would need to be per profile somehow ig.
+            //AddAllMinionDamageToStats();
         }
-        //public readonly List<ItemIndex> itemAcquisitionOrder = new List<ItemIndex>();
-
+        
         public void EvaluateStrongestMinion()
         {
             float val = 0f;
@@ -263,6 +273,7 @@ namespace WolfoQoL_Client.DeathScreen
         }
         private void Master_onBodyStart(CharacterBody body)
         {
+    
             latestDetailedDeathMessage = string.Empty;
             if (master.hasEffectiveAuthority)
             {
@@ -280,31 +291,21 @@ namespace WolfoQoL_Client.DeathScreen
         public class SyncValues : ChatMessageBase
         {
             public GameObject masterObject;
-            public int timesJumped;
-            public int itemsVoided;
-            public float damageBlocked;
+ 
             public override string ConstructChatString()
             {
-                if (masterObject == null)
-                {
-                    WQoLMain.log.LogWarning("No Master");
-                    return null;
-                }
-                var tracker = masterObject.GetComponent<PerPlayer_ExtraStatTracker>();
-                tracker.timesJumped = Mathf.Max(tracker.timesJumped, timesJumped);
-                tracker.damageBlocked = Mathf.Max(tracker.damageBlocked, damageBlocked);
-                //tracker.itemsVoided = Mathf.Max(tracker.itemsVoided, itemsVoided);
-
-
                 return null;
             }
             public override void Serialize(NetworkWriter writer)
             {
                 base.Serialize(writer);
                 writer.Write(masterObject);
-                writer.Write(timesJumped);
-                writer.Write(damageBlocked);
-                writer.Write(itemsVoided);
+
+                var tracker = masterObject.EnsureComponent<PerPlayer_ExtraStatTracker>();
+
+                writer.Write(tracker.timesJumped);
+                writer.Write(tracker.damageBlocked);
+      
             }
             public override void Deserialize(NetworkReader reader)
             {
@@ -314,9 +315,14 @@ namespace WolfoQoL_Client.DeathScreen
                 }
                 base.Deserialize(reader);
                 masterObject = reader.ReadGameObject();
-                timesJumped = reader.ReadInt32();
-                damageBlocked = (float)reader.ReadSingle();
-                itemsVoided = reader.ReadInt32();
+                if (masterObject == null)
+                {
+                    WQoLMain.log.LogWarning("No Master");
+                }
+                var tracker = masterObject.EnsureComponent<PerPlayer_ExtraStatTracker>();
+ 
+                tracker.timesJumped = Mathf.Max(tracker.timesJumped, reader.ReadInt32());
+                tracker.damageBlocked = Mathf.Max(tracker.damageBlocked, (float)reader.ReadSingle());
 
             }
         }

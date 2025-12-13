@@ -26,27 +26,48 @@ namespace WolfoQoL_Client.DeathScreen
             // IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
 
             On.RoR2.Stats.StatManager.OnServerItemGiven += StatManager_OnServerItemGiven;
-            On.RoR2.Inventory.RemoveItemPermanent_ItemIndex_int += REMOVINGITEMDEDUCTSFROMSTAT;
+            On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += Inventory_GiveItemPermanent_ItemIndex_int;
  
+        }
+
+        private static void Inventory_GiveItemPermanent_ItemIndex_int(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
+        {
+            if (countToAdd < 0)
+            {
+                int itemCountBefore = self.GetItemCountPermanent(itemIndex);
+                orig(self, itemIndex, countToAdd);
+                int itemCountAfter = self.GetItemCountPermanent(itemIndex);
+                StatManager.itemCollectedEvents.Enqueue(new StatManager.ItemCollectedEvent
+                {
+                    inventory = self,
+                    itemIndex = itemIndex,
+                    quantity = (itemCountAfter - itemCountBefore),
+                    newCount = 0
+                });
+                return;
+            }
+            orig(self,itemIndex, countToAdd);
         }
 
         private static void StatManager_OnServerItemGiven(On.RoR2.Stats.StatManager.orig_OnServerItemGiven orig, Inventory inventory, ItemIndex itemIndex, int quantity)
         {
-            if (ItemCatalog.GetItemDef(itemIndex).hidden)
-            {
-                return;
-            }
             orig(inventory,itemIndex, quantity);
         }
 
         private static void REMOVINGITEMDEDUCTSFROMSTAT(On.RoR2.Inventory.orig_RemoveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
         {
-            orig(self, itemIndex, count);   
+            int itemCountBefore = self.GetItemCountPermanent(itemIndex);
+            orig(self, itemIndex, count);
+            if (ItemCatalog.GetItemDef(itemIndex).hidden)
+            {
+                return;
+            }
+            int itemCountAfter = self.GetItemCountPermanent(itemIndex);
             StatManager.itemCollectedEvents.Enqueue(new StatManager.ItemCollectedEvent
             {
                 inventory = self,
                 itemIndex = itemIndex,
-                quantity = -count,
+                quantity = (itemCountAfter - itemCountBefore),
                 newCount = 0
             });
         }
@@ -146,10 +167,6 @@ namespace WolfoQoL_Client.DeathScreen
                 Chat.SendBroadcastChat(new PerPlayer_ExtraStatTracker.SyncValues
                 {
                     masterObject = player.gameObject,
-                    timesJumped = tracker.timesJumped,
-                    //itemsVoided = tracker.itemsVoided,
-                    damageBlocked = tracker.damageBlocked,
-
                 });
             }
 

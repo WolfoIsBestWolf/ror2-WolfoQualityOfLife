@@ -103,6 +103,7 @@ namespace WolfoQoL_Client
 
         public void OnEnable()
         {
+            runStartingOffset = 0.2f;
             realTimer.localPosition += new Vector3(0,2,0);
         }
         public void OnDisable()
@@ -128,7 +129,7 @@ namespace WolfoQoL_Client
         {
             if (this.runStopwatchTimerTextController)
             {
-                this.runStopwatchTimerTextController.seconds = (double)(Run.instance ? Run.instance.fixedTime-0.2f : 0f);
+                this.runStopwatchTimerTextController.seconds = (double)(Run.instance ? Run.instance.fixedTime-runStartingOffset : 0f);
             }
         }
         public TimerText runStopwatchTimerTextController;

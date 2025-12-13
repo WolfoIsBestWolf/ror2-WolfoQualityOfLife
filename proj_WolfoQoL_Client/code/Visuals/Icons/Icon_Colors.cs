@@ -21,7 +21,7 @@ namespace WolfoQoL_Client
                 IL.RoR2.UI.ChargeIndicatorController.Update += TeleporterDiscoveredRed;
             }
 
-            if (WConfig.OperatorDroneIndicator.Value)
+            /*if (WConfig.OperatorDroneIndicator.Value)
             {
                 GameObject DroneTrackingIndicator = Addressables.LoadAssetAsync<GameObject>(key: "54d961ee6ebdb68419804536906b4ab7").WaitForCompletion();
                 //0 0.2863 0.2902 0.5176
@@ -37,7 +37,7 @@ namespace WolfoQoL_Client
                         sprite.color = new Color(0.122f, 0.937f, 0.678f, 1);
                     }
                 }
-            }
+            }*/
  
         }
  

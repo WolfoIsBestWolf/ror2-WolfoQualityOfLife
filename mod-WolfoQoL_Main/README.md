@@ -203,9 +203,7 @@ Logbook additions:
 Sprinting Crosshair is different to support charging attacks.
 
 Real-Time timer underneath Run timer, when Scoreboard is open.
-
-Operator Drone Indicator more visible.
-
+ 
 Teleporter Discovered different color from Completed.
 
 Tab Scoreboard now shows dead peoples inventory too.  

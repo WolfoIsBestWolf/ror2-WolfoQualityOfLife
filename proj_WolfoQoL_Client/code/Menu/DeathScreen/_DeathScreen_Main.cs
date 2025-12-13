@@ -333,12 +333,10 @@ namespace WolfoQoL_Client.DeathScreen
                         self.chatboxTransform.gameObject.SetActive(extras.chatActive);
                     }
                 }
-           
-
-
+ 
                 extras.oneTimeExtras = true;
                 ExtraStats.DifficultyTooltip(self);
-                ExtraStats.TotalRunTimer(self);
+                //ExtraStats.TotalRunTimer(self);
                 MakeChatToggleBotton(extras);
 
 

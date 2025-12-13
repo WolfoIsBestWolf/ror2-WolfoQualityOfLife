@@ -55,13 +55,7 @@ namespace WolfoQoL_Client
             IL.RoR2.UI.LogBook.PageBuilder.AddBodyStatsPanel += FixNegativeRegenStatNotShowingInLog;
             IL.RoR2.UI.LogBook.PageBuilder.DroneBody += AddOperatorCommand;
 
-            DroneIcon = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/UI/Logbook/MonsterEntryIcon"), "DroneIcon", false);
-            DroneIcon.transform.localScale = new Vector3(0.95f, 0.95f, 0.95f);
-            DroneIcon.transform.GetChild(0).GetComponent<RawImage>().color = new Color(0.667f, 0.74f, 0.8f, 1f);
-            DroneIcon.transform.GetChild(0).GetComponent<RawImage>().uvRect = new Rect(-0.01f, -0.01f, 1.02f, 1.02f);
-            DroneIcon.transform.GetChild(0).GetComponent<RawImage>().uvRect = new Rect(-0.01f, -0.015f, 1.025f, 1.0325f);
-
-
+           
             BodyCatalog.availability.CallWhenAvailable(AllyCatalog.Make);
         
             LogBookController.availability.CallWhenAvailable(SetDroneIcon);
@@ -69,8 +63,7 @@ namespace WolfoQoL_Client
  
         public static void SetDroneIcon()
         {
-            LogBookController.CommonAssets.droneEntryIcon = DroneIcon;
-            LogBookController.categories[4].iconPrefab = DroneIcon;
+            LogBookController.CommonAssets.droneEntryIcon.transform.GetChild(0).GetComponent<RawImage>().color = new Color(0.6588f, 0.708f, 0.741f, 1); //0.6588 0.6588 0.6588 1
         }
 
         private static void FixNegativeRegenStatNotShowingInLog(ILContext il)
@@ -148,9 +141,7 @@ namespace WolfoQoL_Client
                 WQoLMain.log.LogWarning("IL Failed: AddOperatorCommand");
             }
         }
-
-        public static GameObject DroneIcon;
-
+ 
         private static void PageBuilder_AddDronePanel(On.RoR2.UI.LogBook.PageBuilder.orig_AddDronePanel orig, PageBuilder self, CharacterBody bodyPrefabComponent)
         {
             orig(self, bodyPrefabComponent);
