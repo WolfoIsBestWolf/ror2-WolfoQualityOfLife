@@ -1,9 +1,15 @@
 #Changelog
 ```
 v1.1.1
+Moved ContentSourceLimit removal here.
+-Removes the limit of 2 dlcs per stage for general interactables like chests/drones.
+-Seperate config for "dlc" heavy interactables.
+ 
+
 Items that miss the map border or exit too horizontally now also get caught and teleported.
 
 Collective Elites falling out of the map no longer drop keys.
+
 
 v1.1.0 
 

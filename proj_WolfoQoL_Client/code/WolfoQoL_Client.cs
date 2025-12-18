@@ -121,7 +121,18 @@ namespace WolfoQoL_Client
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 
             BodyCatalog.availability.CallWhenAvailable(WStats.MakeStats);
-             
+
+            PreGameController.cvSvAllowMultiplayerPause.defaultValue = "1";
+
+            On.RoR2.UI.PauseScreenController.InstantiateMinimalPauseScreen += PauseScreenController_InstantiateMinimalPauseScreen;
+        }
+
+        private GameObject PauseScreenController_InstantiateMinimalPauseScreen(On.RoR2.UI.PauseScreenController.orig_InstantiateMinimalPauseScreen orig)
+        {
+            var temp = orig();
+            temp.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+
+            return temp;
         }
 
         public void Start()

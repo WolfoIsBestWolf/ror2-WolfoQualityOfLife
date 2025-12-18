@@ -1,9 +1,17 @@
 ```
 v5.1.1
-Fixed ItemCollected stat sometimes rolling over to infinity.
-Disabled Drone & Ally log with RealerCheats due to incompatibility.
-Time Alive now accounts for full time, and run time displayed seperately instead.
+Time Alive now accounts for time alive in hidden realms.
+Regular Run Timer displayed seperately instead.
 
+Resurect message for when Equipment Drone uses Seed of Life on you.
+Fixed ItemCollected stat sometimes rolling over to infinity. (Usually on Drifter)
+Fixed visual issue when Tinkering Aurelionite Fragment.
+Fixed Game-End screen not display names since the redesign.
+Fixed GameEnd chatbox opened/closed state not being kept.
+Disabled Drone & Ally logbook with RealerCheats due to incompatibility.
+Removed Operator Drone Locator icon visibility change as it was added officially.
+```
+```
 v5.1.0
 Updated for AC 1.4.1
  

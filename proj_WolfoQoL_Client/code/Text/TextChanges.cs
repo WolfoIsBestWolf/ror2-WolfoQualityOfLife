@@ -70,16 +70,16 @@ namespace WolfoQoL_Client.Text
             }
             PickupDef pickupDef = PickupCatalog.GetPickupDef(GenericPickupController.pickupMessageInstance.pickupState.pickupIndex);
             ItemDef itemDef = ItemCatalog.GetItemDef((pickupDef != null) ? pickupDef.itemIndex : ItemIndex.None);
-            if (itemDef && itemDef.hidden == false)
+            if (itemDef)
             {
                 int newPickupCount = (int)self.pickupQuantity;
                 int VoidQuantity = newPickupCount;
-
-
+ 
                 //If Is Void, 
                 if (itemDef.tier >= ItemTier.VoidTier1 && itemDef.tier <= ItemTier.VoidBoss)
                 {
                     //If is Void, shouldn't we only bother checking the first time?
+                    //Check for permament to be sure, instead of using existing quantity ig
                     if (self.subjectAsCharacterBody.inventory.GetItemCountPermanent(itemDef) <= 1)
                     {
                         foreach (ContagiousItemManager.TransformationInfo transformationInfo in ContagiousItemManager._transformationInfos)

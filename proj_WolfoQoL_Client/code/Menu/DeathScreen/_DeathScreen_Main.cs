@@ -177,8 +177,7 @@ namespace WolfoQoL_Client.DeathScreen
             var extras = self.GetComponent<DeathScreenExpanded>();
             try
             {
-              
-
+               
                 GeneralQuality(self, playerInfo, extras.isLogRunReport);
                 LoadoutStat.Add_Loadout(self, playerInfo);
                 RunRecap.AddRunRecapV2(self, playerInfo);
@@ -229,6 +228,11 @@ namespace WolfoQoL_Client.DeathScreen
         {
             GameObject GameEndReportPanel = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/GameEndReportPanel.prefab").WaitForCompletion();
             GameEndReportPanelController game = GameEndReportPanel.GetComponent<GameEndReportPanelController>();
+
+            game.statContentArea.GetChild(0).GetChild(0).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 21;
+            game.statContentArea.GetChild(0).GetChild(2).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 21;
+            game.statContentArea.GetChild(1).GetChild(0).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 21;
+            game.statStripPrefab.transform.GetChild(0).GetComponent<HGTextMeshProUGUI>().fontSizeMax = 21;
 
             DeathScreenExpanded.difficulty_stat = game.statContentArea.GetChild(0).gameObject;
 
@@ -312,6 +316,18 @@ namespace WolfoQoL_Client.DeathScreen
 
 
             orig(self, newDisplayData);
+
+            if (self.chatboxTransform)
+            {
+                if (extras.oneTimeExtras == false)
+                {
+                    extras.chatActive = self.chatboxTransform.gameObject.activeSelf;
+                }
+                else
+                {
+                    self.chatboxTransform.gameObject.SetActive(extras.chatActive);
+                }
+            }
             try
             {
                 if (extras.oneTimeExtras)
@@ -322,18 +338,6 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     return;
                 }
-                if (self.chatboxTransform)
-                {
-                    if (extras.oneTimeExtras == false)
-                    {
-                        extras.chatActive = self.chatboxTransform.gameObject.activeSelf;
-                    }
-                    else
-                    {
-                        self.chatboxTransform.gameObject.SetActive(extras.chatActive);
-                    }
-                }
- 
                 extras.oneTimeExtras = true;
                 ExtraStats.DifficultyTooltip(self);
                 //ExtraStats.TotalRunTimer(self);
@@ -376,6 +380,10 @@ namespace WolfoQoL_Client.DeathScreen
                 LayoutElement statInfo = extras.childLocator.FindChild("StatsContainer").GetChild(2).GetComponent<LayoutElement>();
                 statInfo.preferredHeight = 48;
 
+                RectTransform nameLabel = (self.playerUsernameLabel.transform.parent as RectTransform);
+                nameLabel.offsetMax = new Vector2(-32f, -8f);
+                nameLabel.offsetMin = new Vector2(32f, 8f);
+
                 //Make Left even to Right
                 bodyArea.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(0, -28);
 
@@ -386,8 +394,10 @@ namespace WolfoQoL_Client.DeathScreen
 
                 Transform InfoBody = extras.childLocator.FindChild("InfoArea").GetChild(3);
                 VerticalLayoutGroup vert = InfoBody.GetComponent<VerticalLayoutGroup>();
-                vert.spacing = 8;
+                vert.spacing = 12;
                 vert.padding = new RectOffset(8, 8, 8, 8);
+
+                InfoBody.GetChild(0).GetComponent<LayoutElement>().preferredHeight += 4;
                 InfoBody.GetChild(0).GetComponent<HorizontalLayoutGroup>().padding.left = 24;
                 InfoBody.GetChild(1).GetComponent<HorizontalLayoutGroup>().padding.right = 24;
 
@@ -420,6 +430,7 @@ namespace WolfoQoL_Client.DeathScreen
             A.aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
 
             L.ignoreLayout = false;
+            L.preferredWidth = 0;
 
             I.sprite = Addressables.LoadAssetAsync<Sprite>(key: "040ee8a9d9afe894088ab8a0875b1925").WaitForCompletion();
             I.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
@@ -432,7 +443,13 @@ namespace WolfoQoL_Client.DeathScreen
 
             int mult = extras.chatActive ? 1 : -1;
 
-            toggleChatButton.transform.SetParent(extras.childLocator.FindChild("StatsContainer").Find("Stats Footer"), false);
+            Transform statsFooter = extras.childLocator.FindChild("StatsContainer").Find("Stats Footer");
+
+            //statsFooter.GetChild(0).gameObject.AddComponent<LayoutElement>().preferredWidth = 0;
+            //statsFooter.GetChild(1).gameObject.AddComponent<LayoutElement>().preferredWidth = 200;
+            //statsFooter.GetChild(1).gameObject.GetComponent<HGTextMeshProUGUI>().alignment = TMPro.TextAlignmentOptions.Left;
+
+            toggleChatButton.transform.SetParent(statsFooter, false);
             toggleChatButton.transform.SetSiblingIndex(0);
             toggleChatButton.transform.localScale = new Vector3(0.5f, 0.5f * mult, 0.5f);
             toggleChatButton.transform.localEulerAngles = Vector3.zero;

@@ -1,5 +1,7 @@
 ﻿using MonoMod.Cil;
 using RoR2;
+using RoR2.CharacterAI;
+using RoR2.Networking;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -386,11 +388,17 @@ namespace WolfoQoL_Client.Text
                   transformationType);*/
 
             orig(characterMaster, oldIndex, newIndex, transformationType);
-            if (!characterMaster.playerCharacterMasterController)
+            Debug.Log(characterMaster);
+            /*if (!characterMaster.playerCharacterMasterController)
+            {
+                return;
+            }*/
+            //Any player message here OR equipment drone
+            bool equipmentDrone = characterMaster.GetComponent<AIFireEquipmentOnOwnerDeath>();
+            if (!(characterMaster.playerCharacterMasterController || equipmentDrone))
             {
                 return;
             }
-            //Any player message here
             if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
                 if (WConfig.cfgMessagesRevive.Value)
@@ -398,7 +406,7 @@ namespace WolfoQoL_Client.Text
                     if (newIndex == DLC2Content.Equipment.HealAndReviveConsumed.equipmentIndex)
                     {
                         string player = Util.GetBestMasterName(characterMaster);
-                        if (characterMaster.lostBodyToDeath)
+                        if (characterMaster.lostBodyToDeath && !equipmentDrone)
                         {
                             Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString("EQUIPMENT_HEALANDREVIVE_NAME")));
                         }

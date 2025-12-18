@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using HG;
+using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -99,8 +100,7 @@ namespace WolfoQoL_Client
             bool isVoid = self.name.StartsWith("Option");
             bool isFragment = self.name.StartsWith("Fragment");
             if (isFragment)
-            {
-                Highlight original = self.GetComponent<Highlight>();
+            {             
                 if (MeridianEventTriggerInteraction.instance)
                 {
                     if (index.NetworkpickupState.pickupIndex == PickupCatalog.itemTierToPickupIndex[ItemTier.Tier1])
@@ -121,25 +121,38 @@ namespace WolfoQoL_Client
                 }
                 if (WConfig.cfgFragmentColor.Value)
                 {
+                    Highlight original = self.GetComponent<Highlight>();
+                    Transform cloneMesh = original.targetRenderer.transform.Find("CloneMeshForOutline");
+                    if (cloneMesh == null)
+                    {
+                        original.enabled = false;
+                        cloneMesh = GameObject.Instantiate(original.targetRenderer.gameObject, original.targetRenderer.transform).transform;
+                        cloneMesh.name = "CloneMeshForOutline";
+                        cloneMesh.transform.localScale = new Vector3(1.12f, 1.12f, 1.12f);
+                        cloneMesh.transform.GetChild(0).gameObject.SetActive(false);
+                        cloneMesh.transform.GetChild(1).gameObject.SetActive(false);
 
-                    GameObject newMesh = GameObject.Instantiate(original.targetRenderer.gameObject, original.targetRenderer.transform);
-                    newMesh.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
-                    newMesh.transform.GetChild(0).gameObject.SetActive(false);
-                    newMesh.transform.GetChild(1).gameObject.SetActive(false);
+                        original.highlightColor = Highlight.HighlightColor.custom;
+                        original.CustomColor = new Color(0.933f, 0.791f, 0.505f, 1);
 
-                    Highlight newLine = newMesh.AddComponent<Highlight>();
-                    newLine.highlightColor = Highlight.HighlightColor.custom;
-                    //newLine.CustomColor = new Color(0.9f, 0.8f, 0.4f, 1);
-                    //newLine.CustomColor = new Color(0.918f, 0.761f, 0.564f, 1);
-                    //newLine.CustomColor = new Color(0.933f, 0.741f, 0.545f, 1);
-                    newLine.CustomColor = new Color(0.933f, 0.791f, 0.505f, 1);
-                    //newLine.CustomColor = new Color(1f, 0.766f, 0.5f, 1);
-                    newLine.targetRenderer = original.targetRenderer;
-                    newLine.isOn = true;
-                    original.targetRenderer = newMesh.GetComponent<MeshRenderer>();
-                    original.targetRenderer.enabled = false;
-                    // new Color(0.9f, 0.8f, 0.4f);
-                    //More accurate but worse color ; 0.933 0.741 0.545 1
+ 
+                        Highlight newLine = cloneMesh.gameObject.AddComponent<Highlight>();
+                        newLine.pickupState = original.pickupState;
+                        newLine.isOn = original.isOn;
+                        newLine.highlightColor = Highlight.HighlightColor.pickup;
+                        newLine.targetRenderer = cloneMesh.GetComponent<Renderer>();
+                        newLine.targetRenderer.enabled = false;
+
+
+                        original.enabled = true;
+                    }
+                    else if (cloneMesh)
+                    {
+                        Highlight newLine = cloneMesh.gameObject.GetComponent<Highlight>();
+                        newLine.pickupState = original.pickupState;
+                        newLine.isOn = original.isOn;
+  
+                    }
                 }
             }
             if (isVoid || isFragment)
