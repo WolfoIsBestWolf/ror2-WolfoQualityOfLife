@@ -7,7 +7,7 @@ using TMPro;
 namespace WolfoQoL_Client
 {
 
-    public class Logbook_MoreStats
+    public static class Logbook_MoreStats
     {
 
         public static void MoreStats()

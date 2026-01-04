@@ -114,7 +114,7 @@ namespace WolfoQoL_Client.Skins
 
             matMercEvisTarget_Pink = GameObject.Instantiate(LegacyResourcesAPI.Load<Material>("Materials/matMercEvisTarget"));
             matMercEvisTarget_Pink.SetTexture("_RemapTex", texRampHuntressSoft_Pink);
-            matMercEvisTarget_Pink.SetColor("_TintColor", new Color(1,0.5f,1f));
+            matMercEvisTarget_Pink.SetColor("_TintColor", new Color(1, 0.5f, 1f));
             //matMercEvisTarget_Pink.SetColor("_CutoffScroll", new Color(0f, 12f, 12f));
 
 

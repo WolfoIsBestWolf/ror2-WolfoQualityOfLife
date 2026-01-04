@@ -1,9 +1,7 @@
 using RoR2;
 using RoR2.Stats;
 using RoR2.UI;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +9,7 @@ using UnityEngine.UI;
 namespace WolfoQoL_Client.DeathScreen
 {
 
-    public class ExtraStats
+    public static class ExtraStats
     {
         public static void PointsToolTip(On.RoR2.UI.GameEndReportPanelController.orig_AssignStatToStrip orig, GameEndReportPanelController self, StatSheet srcStatSheet, StatDef statDef, GameObject destStatStrip)
         {
@@ -141,7 +139,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void TotalRunTimer(GameEndReportPanelController self)
         {
-           if (Run.instance == null)
+            if (Run.instance == null)
             {
                 return;
             }
@@ -185,7 +183,7 @@ namespace WolfoQoL_Client.DeathScreen
 
 
         }
- 
+
 
         public static void ChangeStats(GameEndReportPanelController self, RunReport runReport)
         {
@@ -343,7 +341,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             #region Override vanilla stats
             //SetupStat(self, "highestItemsCollected", "STATNAME_TOTALITEMSCOLLECTED", highestItemsCollected);
-           
+
             if (!extras.isDevotionRun)
             {
                 SetupStat(self, "totalDronesPurchased", "STATNAME_TOTALDRONESPURCHASED", drones + turrets);
@@ -622,7 +620,7 @@ namespace WolfoQoL_Client.DeathScreen
             ulong num3 = num - num2 * 60UL;
             stat.gameObject.SetActive(true);
             stat.GetChild(0).GetComponent<TextMeshProUGUI>().text = string.Format("{2}: <color=#FFFF7F>{0:00}:{1:00}</color>", num2, num3, Language.GetString(statStr));
-        
+
         }
 
     }

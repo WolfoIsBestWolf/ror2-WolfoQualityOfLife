@@ -2,7 +2,7 @@
 
 namespace WolfoQoL_Client.Reminders
 {
-    public class Reminders_Newt
+    public static class Reminders_Newt
     {
         public static void Start()
         {

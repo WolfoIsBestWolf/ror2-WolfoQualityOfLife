@@ -5,7 +5,7 @@ using RoR2.UI;
 namespace WolfoQoL_Client.Text
 {
 
-    public class PrayerBeads
+    public static class PrayerBeads
     {
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Pickup;
         public static LanguageAPI.LanguageOverlay BeadsOverlay_Desc;

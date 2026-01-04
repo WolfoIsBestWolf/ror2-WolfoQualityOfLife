@@ -4,7 +4,6 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using WQoL_Gameplay;
 
 namespace WQoL_Gameplay
 {
@@ -16,7 +15,7 @@ namespace WQoL_Gameplay
         {
             //Force teleport if lower than this Y coord ig
             //But still use map bounds otherwise.
-            forceTeleportY = (transform.position.y-150);
+            forceTeleportY = (transform.position.y - 150);
             body = this.GetComponent<Rigidbody>();
             if (body && body.velocity.y < -30)
             {
@@ -85,7 +84,7 @@ namespace WQoL_Gameplay
 
         private static void PowerOrbKeySpawner_SpawnKey(On.PowerOrbKeySpawner.orig_SpawnKey orig, PowerOrbKeySpawner self, DamageReport damageReport)
         {
-            if(damageReport.victimMaster && damageReport.victimMaster.killedByUnsafeArea)
+            if (damageReport.victimMaster && damageReport.victimMaster.killedByUnsafeArea)
             {
                 return;
             }

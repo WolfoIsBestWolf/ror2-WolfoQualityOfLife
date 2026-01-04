@@ -7,8 +7,8 @@ using WolfoQoL_Client.Skins;
 
 namespace WolfoQoL_Client
 {
-     
-    public class VisualsMain
+
+    public static class VisualsMain
     {
         public static void Start()
         {
@@ -54,7 +54,7 @@ namespace WolfoQoL_Client
                 AudioStuff.Start();
             }
         }
-         
+
 
         public static void VisualStageChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
         {
@@ -224,7 +224,7 @@ namespace WolfoQoL_Client
                     {
                         VisibleHabitatFall.PrimeMeridian();
                     }
-             
+
                     GameObject MeridianEventTriggerCore = GameObject.Find("/HOLDER: Design/MeridianEventTriggerCore/");
                     MeridianEventTriggerCore.GetComponent<NetworkIdentity>().isPingable = false;
 

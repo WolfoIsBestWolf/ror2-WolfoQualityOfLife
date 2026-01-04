@@ -6,7 +6,7 @@ using UnityEngine;
 namespace WolfoQoL_Client
 {
 
-    public class PingIcons_Hooks
+    public static class PingIcons_Hooks
     {
 
         public static GameObject NullTempPosIndicator = null;
@@ -25,6 +25,9 @@ namespace WolfoQoL_Client
 
             //On.RoR2.UI.ChargeIndicatorController.Awake += PingIconsShareColor;
             On.RoR2.PortalStatueBehavior.PreStartClient += NewtPingIcon;
+            On.RoR2.GeodeController.PreStartClient += GeodePingIcon;
+
+
             On.RoR2.SceneExitController.OnEnable += SetPortalIcon;
 
             On.RoR2.PurchaseInteraction.OnInteractionBegin += RemoveScannerIcon_General;
@@ -40,6 +43,13 @@ namespace WolfoQoL_Client
             //On.RoR2.DroneVendorTerminalBehavior.UpdatePickupDisplayAndAnimations += DroneShop_IconFromDrone;
 
             On.RoR2.Stage.PreStartClient += PingIconsOnStage;
+        }
+
+
+        private static void GeodePingIcon(On.RoR2.GeodeController.orig_PreStartClient orig, GeodeController self)
+        {
+            orig(self);
+            self.gameObject.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/DLC2/Geode.png");
         }
 
         public static void PingIconsOnStage(On.RoR2.Stage.orig_PreStartClient orig, Stage self)

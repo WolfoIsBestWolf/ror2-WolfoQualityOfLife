@@ -4,7 +4,7 @@ using RoR2;
 
 namespace WolfoQoL_Client
 {
-    public class WStats
+    public static class WStats
     {
 
         public static ConfigFile StatsFile = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_StatStorage.cfg", true);

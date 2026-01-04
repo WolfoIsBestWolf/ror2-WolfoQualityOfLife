@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Mercenary_Main
+    public static class Mercenary_Main
     {
         public static void Start()
         {

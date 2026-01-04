@@ -1,5 +1,4 @@
-﻿using HG;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -7,7 +6,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQoL_Client
 {
 
-    public class OptionPickup_Visuals
+    public static class OptionPickup_Visuals
     {
         public static void Start()
         {
@@ -100,7 +99,7 @@ namespace WolfoQoL_Client
             bool isVoid = self.name.StartsWith("Option");
             bool isFragment = self.name.StartsWith("Fragment");
             if (isFragment)
-            {             
+            {
                 if (MeridianEventTriggerInteraction.instance)
                 {
                     if (index.NetworkpickupState.pickupIndex == PickupCatalog.itemTierToPickupIndex[ItemTier.Tier1])
@@ -135,7 +134,7 @@ namespace WolfoQoL_Client
                         original.highlightColor = Highlight.HighlightColor.custom;
                         original.CustomColor = new Color(0.933f, 0.791f, 0.505f, 1);
 
- 
+
                         Highlight newLine = cloneMesh.gameObject.AddComponent<Highlight>();
                         newLine.pickupState = original.pickupState;
                         newLine.isOn = original.isOn;
@@ -151,7 +150,7 @@ namespace WolfoQoL_Client
                         Highlight newLine = cloneMesh.gameObject.GetComponent<Highlight>();
                         newLine.pickupState = original.pickupState;
                         newLine.isOn = original.isOn;
-  
+
                     }
                 }
             }
@@ -166,7 +165,7 @@ namespace WolfoQoL_Client
 
                 if (index.pickupState.pickupIndex != PickupIndex.none)
                 {
-                   
+
                     switch (index.pickupState.pickupIndex.pickupDef.itemTier)
                     {
                         case ItemTier.Tier1:

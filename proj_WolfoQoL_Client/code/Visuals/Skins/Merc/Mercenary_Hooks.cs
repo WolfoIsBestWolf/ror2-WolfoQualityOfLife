@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Mercenary_Hooks
+    public static class Mercenary_Hooks
     {
 
         //Since R2API added a skin dependent effects replacer, maybe we should just go with that nowadays

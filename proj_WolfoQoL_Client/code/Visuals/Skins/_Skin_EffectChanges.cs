@@ -12,7 +12,7 @@ namespace WolfoQoL_Client.Skins
     //So if we want to we'd need to do it the previous method of :
     //Check every entity state for if the Merc is Red/Green
 
-    public class SkinChanges
+    public static class SkinChanges
     {
         public enum Case
         {

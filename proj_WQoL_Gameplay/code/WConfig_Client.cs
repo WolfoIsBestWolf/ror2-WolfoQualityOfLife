@@ -67,12 +67,12 @@ namespace WQoL_Gameplay
                 EclipseArtifact.VanillaWhitelist,
                 "Allows some artifacts to be voted for in Eclipse.\nJust ones that are purely challenge or variety. (And are compatible with the mode).\n\nOption to enable most artifacts if desired."
             );
-                cfgPrismatic = ConfigFile_Client.Bind(
-                "Game",
-                "Prismatic Trials",
-               true,
-                "Allow Prismatic Trials during modded"
-            );
+            cfgPrismatic = ConfigFile_Client.Bind(
+            "Game",
+            "Prismatic Trials",
+           true,
+            "Allow Prismatic Trials during modded"
+        );
             cfgLava = ConfigFile_Client.Bind(
                 "Main",
                 "Lava Consistency",
@@ -93,7 +93,7 @@ namespace WQoL_Gameplay
 
         public static void RiskConfig()
         {
-            ModSettingsManager.SetModIcon( Addressables.LoadAssetAsync<Sprite>(key: "0630116480f210e489cde8f7e69e28a9").WaitForCompletion());
+            ModSettingsManager.SetModIcon(Addressables.LoadAssetAsync<Sprite>(key: "0630116480f210e489cde8f7e69e28a9").WaitForCompletion());
             ModSettingsManager.SetModDescription("Random assortment of gameplay quality of life.");
 
             List<ConfigEntry<bool>> noReset = new List<ConfigEntry<bool>>()

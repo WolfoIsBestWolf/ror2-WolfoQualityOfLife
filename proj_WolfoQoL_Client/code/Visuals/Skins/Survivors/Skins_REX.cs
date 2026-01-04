@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Skins_REX
+    public static class Skins_REX
     {
 
         public static void Start()
@@ -30,7 +30,7 @@ namespace WolfoQoL_Client.Skins
 
             //MatTreebot_VineAC.SetFloat("_DstBlend", 4f);
             MatTreebot_VineAC.SetColor("_TintColor", new Color(0.1804f, 0.1804f, 0.1804f, 1f));
-             MatTreebot_VineAC.SetColor("_VertColor", new Color(0.8784f, 0.3176f, 0.4084f, 1f));
+            MatTreebot_VineAC.SetColor("_VertColor", new Color(0.8784f, 0.3176f, 0.4084f, 1f));
             MatTreebot_VineAC.SetFloat("_GradientWidth", 144f);
             //MatTreebot_VineAC.SetFloat("_WireframeThickness", 0.1f);
             MatTreebot_VineAC.SetFloat("_EmBoost", 0.1f);
@@ -83,146 +83,146 @@ namespace WolfoQoL_Client.Skins
         public static Material REXFlowerTempMat = null;
         */
 
-            /*
-      public static void REXSkinnedAttacks()
+        /*
+  public static void REXSkinnedAttacks()
+  {
+      On.RoR2.Orbs.OrbEffect.Start += (orig, self) =>
       {
-          On.RoR2.Orbs.OrbEffect.Start += (orig, self) =>
+          //WolfoMain.log.LogWarning(self);
+          orig(self);
+          if (self.name.StartsWith("EntangleOrbEffect(Clone)"))
           {
-              //WolfoMain.log.LogWarning(self);
-              orig(self);
-              if (self.name.StartsWith("EntangleOrbEffect(Clone)"))
+              if (self.gameObject.transform.childCount > 0)
               {
-                  if (self.gameObject.transform.childCount > 0)
-                  {
-                      self.gameObject.transform.GetChild(0).GetComponent<LineRenderer>().materials[0].SetTexture("_RemapTex", REXFlowerTempMat.mainTexture);
-                      self.gameObject.transform.GetChild(0).GetComponent<LineRenderer>().materials[1].SetTexture("_RemapTex", REXFlowerTempMat.mainTexture);
-                      self.gameObject.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>().material = REXFlowerTempMat;
-                  }
+                  self.gameObject.transform.GetChild(0).GetComponent<LineRenderer>().materials[0].SetTexture("_RemapTex", REXFlowerTempMat.mainTexture);
+                  self.gameObject.transform.GetChild(0).GetComponent<LineRenderer>().materials[1].SetTexture("_RemapTex", REXFlowerTempMat.mainTexture);
+                  self.gameObject.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystemRenderer>().material = REXFlowerTempMat;
               }
-          };
+          }
+      };
 
-          On.EntityStates.FireFlower2.OnEnter += (orig, self) =>
+      On.EntityStates.FireFlower2.OnEnter += (orig, self) =>
+      {
+          //self.outer
+          //WolfoMain.log.LogWarning("FireFlower2.OnEnter "+EntityStates.FireFlower2.projectilePrefab);
+          if (self.outer.commonComponents.characterBody.skinIndex != REXSkinFlowerP)
           {
-              //self.outer
-              //WolfoMain.log.LogWarning("FireFlower2.OnEnter "+EntityStates.FireFlower2.projectilePrefab);
-              if (self.outer.commonComponents.characterBody.skinIndex != REXSkinFlowerP)
+              REXSkinFlowerP = self.outer.commonComponents.characterBody.skinIndex;
+
+              Material temp = self.outer.commonComponents.modelLocator.modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
+              EntityStates.FireFlower2.projectilePrefab.GetComponent<RoR2.Projectile.ProjectileImpactExplosion>().impactEffect.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
+              EntityStates.FireFlower2.projectilePrefab.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab.transform.GetChild(1).GetComponent<MeshRenderer>().material = temp;
+          }
+          orig(self);
+      };
+
+      On.EntityStates.Treebot.TreebotFlower.SpawnState.OnEnter += (orig, self) =>
+      {
+          //WolfoMain.log.LogWarning("SpawnState.OnEnter " + self.outer.gameObject);
+          orig(self);
+          Material temp = self.outer.commonComponents.projectileController.owner.GetComponent<ModelLocator>().modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
+
+          //self.outer.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Light>().color = new Color(0.6991f, 1f, 0.0627f, 1f);
+          self.outer.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Light>().color = new Color(0.6991f, 0.3627f, 0.8f, 1f);
+
+          self.outer.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetComponent<SkinnedMeshRenderer>().material = temp;
+      };
+
+      On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.OnEnter += (orig, self) =>
+      {
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
+          //WolfoMain.log.LogWarning(self.outer.gameObject);
+
+          uint utemp = self.outer.commonComponents.projectileController.owner.GetComponent<CharacterBody>().skinIndex;
+          if (utemp != REXSkinFlowerEnter)
+          {
+              REXSkinFlowerEnter = utemp;
+              Transform tempt = self.outer.commonComponents.projectileController.owner.GetComponent<ModelLocator>().modelTransform;
+
+
+              GameObject tempobj = EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab;
+
+              Material temp = tempt.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
+              Material tempL = tempt.GetChild(3).GetComponent<SkinnedMeshRenderer>().material;
+              REXFlowerTempMat = temp;
+              tempobj.transform.GetChild(7).GetComponent<ParticleSystemRenderer>().material = tempL;
+              tempobj.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
+          }
+
+          orig(self);
+      };
+
+      On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.OnExit += (orig, self) =>
+      {
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
+          //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
+          GameObject tempowner = self.outer.commonComponents.projectileController.owner;
+          if (tempowner)
+          {
+              uint utemp = tempowner.GetComponent<CharacterBody>().skinIndex;
+              if (utemp != REXSkinFlowerExit)
               {
-                  REXSkinFlowerP = self.outer.commonComponents.characterBody.skinIndex;
-
-                  Material temp = self.outer.commonComponents.modelLocator.modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
-                  EntityStates.FireFlower2.projectilePrefab.GetComponent<RoR2.Projectile.ProjectileImpactExplosion>().impactEffect.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
-                  EntityStates.FireFlower2.projectilePrefab.GetComponent<RoR2.Projectile.ProjectileController>().ghostPrefab.transform.GetChild(1).GetComponent<MeshRenderer>().material = temp;
-              }
-              orig(self);
-          };
-
-          On.EntityStates.Treebot.TreebotFlower.SpawnState.OnEnter += (orig, self) =>
-          {
-              //WolfoMain.log.LogWarning("SpawnState.OnEnter " + self.outer.gameObject);
-              orig(self);
-              Material temp = self.outer.commonComponents.projectileController.owner.GetComponent<ModelLocator>().modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
-
-              //self.outer.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Light>().color = new Color(0.6991f, 1f, 0.0627f, 1f);
-              self.outer.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Light>().color = new Color(0.6991f, 0.3627f, 0.8f, 1f);
-
-              self.outer.gameObject.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetComponent<SkinnedMeshRenderer>().material = temp;
-          };
-
-          On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.OnEnter += (orig, self) =>
-          {
-              //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
-              //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnEnter " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
-              //WolfoMain.log.LogWarning(self.outer.gameObject);
-
-              uint utemp = self.outer.commonComponents.projectileController.owner.GetComponent<CharacterBody>().skinIndex;
-              if (utemp != REXSkinFlowerEnter)
-              {
-                  REXSkinFlowerEnter = utemp;
+                  REXSkinFlowerExit = utemp;
                   Transform tempt = self.outer.commonComponents.projectileController.owner.GetComponent<ModelLocator>().modelTransform;
-
 
                   GameObject tempobj = EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab;
 
                   Material temp = tempt.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
                   Material tempL = tempt.GetChild(3).GetComponent<SkinnedMeshRenderer>().material;
-                  REXFlowerTempMat = temp;
                   tempobj.transform.GetChild(7).GetComponent<ParticleSystemRenderer>().material = tempL;
                   tempobj.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
               }
+          }
 
-              orig(self);
-          };
+          orig(self);
+      };
 
-          On.EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.OnExit += (orig, self) =>
+      On.EntityStates.Treebot.Weapon.FirePlantSonicBoom.OnEnter += (orig, self) =>
+      {
+          if (self.outer.commonComponents.characterBody.skinIndex != REXSkinShock)
           {
-              //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab);
-              //WolfoMain.log.LogWarning("TreebotFlower2Projectile.OnExit " + EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.exitEffectPrefab);
-              GameObject tempowner = self.outer.commonComponents.projectileController.owner;
-              if (tempowner)
-              {
-                  uint utemp = tempowner.GetComponent<CharacterBody>().skinIndex;
-                  if (utemp != REXSkinFlowerExit)
-                  {
-                      REXSkinFlowerExit = utemp;
-                      Transform tempt = self.outer.commonComponents.projectileController.owner.GetComponent<ModelLocator>().modelTransform;
+              REXSkinFlowerP = self.outer.commonComponents.characterBody.skinIndex;
 
-                      GameObject tempobj = EntityStates.Treebot.TreebotFlower.TreebotFlower2Projectile.enterEffectPrefab;
+              Material temp = self.outer.commonComponents.modelLocator.modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
+              Material tempL = self.outer.commonComponents.modelLocator.modelTransform.GetChild(3).GetComponent<SkinnedMeshRenderer>().material;
+              self.fireEffectPrefab.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().material = temp;
+              self.fireEffectPrefab.transform.GetChild(11).GetComponent<ParticleSystemRenderer>().material = tempL;
+              self.fireEffectPrefab.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material.SetTexture("_RemapTex", temp.mainTexture);
 
-                      Material temp = tempt.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
-                      Material tempL = tempt.GetChild(3).GetComponent<SkinnedMeshRenderer>().material;
-                      tempobj.transform.GetChild(7).GetComponent<ParticleSystemRenderer>().material = tempL;
-                      tempobj.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
-                  }
-              }
+              EntityStates.Treebot.Weapon.FirePlantSonicBoom.hitEffectPrefab.transform.GetChild(7).GetComponent<ParticleSystemRenderer>().material = tempL;
+              EntityStates.Treebot.Weapon.FirePlantSonicBoom.hitEffectPrefab.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
+          }
+          orig(self);
+      };
 
-              orig(self);
-          };
-
-          On.EntityStates.Treebot.Weapon.FirePlantSonicBoom.OnEnter += (orig, self) =>
+      On.EntityStates.Treebot.Weapon.AimMortar2.OnEnter += (orig, self) =>
+      {
+          if (self.projectilePrefab.name.StartsWith("TreebotMortar2"))
           {
-              if (self.outer.commonComponents.characterBody.skinIndex != REXSkinShock)
+              if (self.outer.commonComponents.characterBody.skinIndex != REXSkinMortar)
               {
                   REXSkinFlowerP = self.outer.commonComponents.characterBody.skinIndex;
+                  GameObject tempobj = self.projectilePrefab.GetComponent<RoR2.Projectile.ProjectileImpactExplosion>().impactEffect;
 
                   Material temp = self.outer.commonComponents.modelLocator.modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
                   Material tempL = self.outer.commonComponents.modelLocator.modelTransform.GetChild(3).GetComponent<SkinnedMeshRenderer>().material;
-                  self.fireEffectPrefab.transform.GetChild(10).GetComponent<ParticleSystemRenderer>().material = temp;
-                  self.fireEffectPrefab.transform.GetChild(11).GetComponent<ParticleSystemRenderer>().material = tempL;
-                  self.fireEffectPrefab.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material.SetTexture("_RemapTex", temp.mainTexture);
-
-                  EntityStates.Treebot.Weapon.FirePlantSonicBoom.hitEffectPrefab.transform.GetChild(7).GetComponent<ParticleSystemRenderer>().material = tempL;
-                  EntityStates.Treebot.Weapon.FirePlantSonicBoom.hitEffectPrefab.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
+                  tempobj.transform.GetChild(7).GetComponent<ParticleSystemRenderer>().material = tempL;
+                  tempobj.transform.GetChild(11).GetComponent<Light>().color = new Color(0.8817f, 0f, 0.9922f, 1f);
+                  tempobj.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
+                  tempobj.transform.GetChild(14).GetComponent<ParticleSystemRenderer>().material = tempL;
               }
-              orig(self);
-          };
 
-          On.EntityStates.Treebot.Weapon.AimMortar2.OnEnter += (orig, self) =>
-          {
-              if (self.projectilePrefab.name.StartsWith("TreebotMortar2"))
-              {
-                  if (self.outer.commonComponents.characterBody.skinIndex != REXSkinMortar)
-                  {
-                      REXSkinFlowerP = self.outer.commonComponents.characterBody.skinIndex;
-                      GameObject tempobj = self.projectilePrefab.GetComponent<RoR2.Projectile.ProjectileImpactExplosion>().impactEffect;
-
-                      Material temp = self.outer.commonComponents.modelLocator.modelTransform.GetChild(2).GetComponent<SkinnedMeshRenderer>().material;
-                      Material tempL = self.outer.commonComponents.modelLocator.modelTransform.GetChild(3).GetComponent<SkinnedMeshRenderer>().material;
-                      tempobj.transform.GetChild(7).GetComponent<ParticleSystemRenderer>().material = tempL;
-                      tempobj.transform.GetChild(11).GetComponent<Light>().color = new Color(0.8817f, 0f, 0.9922f, 1f);
-                      tempobj.transform.GetChild(12).GetComponent<ParticleSystemRenderer>().material = temp;
-                      tempobj.transform.GetChild(14).GetComponent<ParticleSystemRenderer>().material = tempL;
-                  }
-
-              }
-              //WolfoMain.log.LogWarning("AimMortar2 " + self.projectilePrefab);
-              orig(self);
-          };
+          }
+          //WolfoMain.log.LogWarning("AimMortar2 " + self.projectilePrefab);
+          orig(self);
+      };
 
 
-      }
-      */
-#endregion
-
-        }
+  }
+  */
+        #endregion
 
     }
+
+}

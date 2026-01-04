@@ -1,21 +1,14 @@
-﻿using BepInEx;
-using HG;
+﻿using HG;
 using ProperSave;
-using ProperSave.SaveData;
-using Rewired.Data;
 using RoR2;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using WolfoQoL_Client.DeathScreen;
- 
-namespace WolfoQoL_Client.ProperSaveSupport
+
+namespace WolfoQoL_Client.ModSupport
 {
-    public class AddProperSaveSupport
+    public static class AddProperSaveSupport
     {
         //Taken / Learnt from CommandQueue+ProperSave mod
 
@@ -24,7 +17,7 @@ namespace WolfoQoL_Client.ProperSaveSupport
 
         public static string ReturnPath(string profile, string type)
         {
-            return System.IO.Path.Combine(Application.persistentDataPath, "ProperSave", "Saves") + "\\" + "WQoL_"+ type+ profile + ".csv";
+            return System.IO.Path.Combine(Application.persistentDataPath, "ProperSave", "Saves") + "\\" + "WQoL_" + type + profile + ".csv";
         }
         public static void Start()
         {
@@ -37,20 +30,26 @@ namespace WolfoQoL_Client.ProperSaveSupport
         {
             string a = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "R_");
             string b = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "P_");
- 
+
             RunTrackerData.Save(a);
             PlayerTrackerData.Save(b);
+
+            if (WolfoLibrary.WConfig.cfgTestMultiplayer.Value)
+            {
+                Debug.Log(a);
+            }
+
         }
 
         private static void Loading_OnLoadingEnded(SaveFile _)
         {
             string a = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "R_");
             string b = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "P_");
- 
+
             if (File.Exists(a) && File.Exists(b))
             {
                 RunTrackerData.Load(a);
-                PlayerTrackerData.Load(b); 
+                PlayerTrackerData.Load(b);
                 WQoLMain.log.LogMessage("Loading WQoL save data");
             }
             else
@@ -60,7 +59,7 @@ namespace WolfoQoL_Client.ProperSaveSupport
         }
     }
 
-    public class RunTrackerData
+    public static class RunTrackerData
     {
         public static void Load(string path)
         {
@@ -97,12 +96,12 @@ namespace WolfoQoL_Client.ProperSaveSupport
             for (int i = 0; i < ii; i++)
             {
                 textToWrite += (int)Run.visitedScenes[i].sceneDefIndex;
-                if (i < ii-1)
+                if (i < ii - 1)
                 {
                     textToWrite += ",";
                 }
             }
-          
+
             textToWrite += "\n";
             textToWrite += Run.missedChests + "\n";
             textToWrite += Run.missedDrones + "\n";
@@ -112,7 +111,7 @@ namespace WolfoQoL_Client.ProperSaveSupport
             File.WriteAllText(path, textToWrite);
         }
     }
-    public class PlayerTrackerData
+    public static class PlayerTrackerData
     {
         public static void Load(string path)
         {
@@ -160,7 +159,8 @@ namespace WolfoQoL_Client.ProperSaveSupport
                 {
                     stats.perMinionDamage[i] = float.Parse(minionDamages[i]);
                 }
-                
+                stats.timeAliveReal = float.Parse(splitData[12]);
+
             }
 
         }
@@ -182,7 +182,7 @@ namespace WolfoQoL_Client.ProperSaveSupport
                     return;
                 }
                 string PlayerData = string.Empty;
-                PlayerData +=  player.networkUser.id.steamId.ID + sperator;     //0
+                PlayerData += player.networkUser.id.steamId.ID + sperator;     //0
                 PlayerData += stats.scrappedItems + sperator;       //1
                 PlayerData += stats.scrappedDrones + sperator;      //2
                 PlayerData += stats.minionDamageTaken + sperator;   //3
@@ -196,12 +196,14 @@ namespace WolfoQoL_Client.ProperSaveSupport
                 for (int i = 0; i < stats.perMinionDamage.Length; i++)
                 {
                     PlayerData += stats.perMinionDamage[i];
-                    if (i < stats.perMinionDamage.Length-1)
+                    if (i < stats.perMinionDamage.Length - 1)
                     {
                         PlayerData += ",";
                     }
                 }
-             
+                PlayerData += sperator;
+                PlayerData += stats.timeAliveReal + sperator;
+
                 PlayerData += "\n";
                 textToWrite += PlayerData;
             }

@@ -1,7 +1,7 @@
 ﻿using RoR2;
 using RoR2.CharacterAI;
 using UnityEngine.Networking;
-using WolfoQoL_Client.DeathScreen;
+using WolfoLibrary;
 
 namespace WolfoQoL_Client.Text
 {
@@ -14,19 +14,13 @@ namespace WolfoQoL_Client.Text
             {
                 return null;
             }
-            if (subjectAsNetworkUser && subjectAsNetworkUser.master)
-            {
-                subjectAsNetworkUser.master.GetComponent<PerPlayer_ExtraStatTracker>().lemuriansHatched++;
-            }
-            if (WConfig.cfgMessageDevotion.Value)
+            if (!WConfig.cfgMessageDevotion.Value)
             {
                 return null;
             }
             return base.ConstructChatString();
         }
     }
-
-
 
     public static class DevotionLoss
     {
@@ -54,7 +48,7 @@ namespace WolfoQoL_Client.Text
         {
             orig(self, itedmIndex, count);
             PickupDef def = PickupCatalog.FindPickupIndex(itedmIndex).pickupDef;
-            Chat.SendBroadcastChat(new Chat.PlayerPickupChatMessage
+            Networker.SendWQoLMessage(new DevotionDeathMessage
             {
                 subjectAsNetworkUser = self.SummonerMaster.playerCharacterMasterController.networkUser,
                 baseToken = "DEVOTED_LEMURIAN_DEATH",
@@ -105,7 +99,7 @@ namespace WolfoQoL_Client.Text
         private static void Host_EggMessage(On.DevotedLemurianController.orig_InitializeDevotedLemurian orig, DevotedLemurianController self, ItemIndex itemIndex, DevotionInventoryController devotionInventoryController)
         {
             orig(self, itemIndex, devotionInventoryController);
-            Chat.SendBroadcastChat(new ItemLossMessage
+            Networker.SendWQoLMessage(new ItemLossMessage
             {
                 baseToken = "ITEM_LOSS_EGG",
                 itemCount = 1,

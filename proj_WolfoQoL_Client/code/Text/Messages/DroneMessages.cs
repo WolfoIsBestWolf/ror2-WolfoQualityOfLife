@@ -1,27 +1,29 @@
 ﻿using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
+using WolfoLibrary;
 using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Text
 {
-    public class DroneMessages
+    public static class DroneMessages
     {
 
         public static void Start()
         {
             On.EntityStates.DroneCombiner.DroneCombinerCombining.StartDroneCombineSequence += CombinerMessage_ClientHost;
-            On.RoR2.MinionOwnership.MinionGroup.AddMinion += DroneMessage_ClientHost;
+            On.RoR2.MinionOwnership.MinionGroup.AddMinion += DroneMessage_ClientOnly;
             On.RoR2.CharacterMaster.SpawnRemoteOperationDrone += RemoteOP_Host;
             //RemoteOP Client handled by KillerInv listener
 
-            On.RoR2.SummonMasterBehavior.NotifySummonerInternal += DroneMessage_Repair1;
-            On.RoR2.DroneVendorTerminalBehavior.NotifySummonerInternal += DroneMessage_Repair2;
+            On.RoR2.SummonMasterBehavior.NotifySummonerInternal += DroneMessage_RepairHost;
+            On.RoR2.DroneVendorTerminalBehavior.NotifySummonerInternal += DroneMessage_RepairHostShop;
+            //On.RoR2.CharacterMasterNotificationQueue.PushDroneNotification //Technically better but LookingGlass used this without purchasing a drone so uhh
         }
 
 
 
-        public static void DroneMessage_ClientHost(On.RoR2.MinionOwnership.MinionGroup.orig_AddMinion orig, NetworkInstanceId ownerId, MinionOwnership minion)
+        public static void DroneMessage_ClientOnly(On.RoR2.MinionOwnership.MinionGroup.orig_AddMinion orig, NetworkInstanceId ownerId, MinionOwnership minion)
         {
             //PURCHASE_DRONE
             orig(ownerId, minion);
@@ -79,7 +81,7 @@ namespace WolfoQoL_Client.Text
                 };
                 if (self.vehicleSeat.netId.Value == 0)
                 {
-                    Chat.SendBroadcastChat(newMsg);
+                    Networker.SendWQoLMessage(newMsg);
                 }
                 else
                 {
@@ -88,13 +90,13 @@ namespace WolfoQoL_Client.Text
             }
         }
 
-        private static void DroneMessage_Repair2(On.RoR2.DroneVendorTerminalBehavior.orig_NotifySummonerInternal orig, DroneVendorTerminalBehavior self, GameObject summonerBodyObject, GameObject minionBodyObject)
+        private static void DroneMessage_RepairHostShop(On.RoR2.DroneVendorTerminalBehavior.orig_NotifySummonerInternal orig, DroneVendorTerminalBehavior self, GameObject summonerBodyObject, GameObject minionBodyObject)
         {
             orig(self, summonerBodyObject, minionBodyObject);
             DroneMessage(summonerBodyObject, minionBodyObject, self._cachedPickup.upgradeValue, "PURCHASE_DRONE");
         }
 
-        private static void DroneMessage_Repair1(On.RoR2.SummonMasterBehavior.orig_NotifySummonerInternal orig, SummonMasterBehavior self, GameObject summonerBodyObject, GameObject minionBodyObject)
+        private static void DroneMessage_RepairHost(On.RoR2.SummonMasterBehavior.orig_NotifySummonerInternal orig, SummonMasterBehavior self, GameObject summonerBodyObject, GameObject minionBodyObject)
         {
             orig(self, summonerBodyObject, minionBodyObject);
             DroneMessage(summonerBodyObject, minionBodyObject, self.droneUpgradeCount, "REPAIR_DRONE");
@@ -106,7 +108,7 @@ namespace WolfoQoL_Client.Text
             var owner = drone.GetOwnerBody();
             if (owner)
             {
-                Chat.SendBroadcastChat(new DroneChatMessage
+                Networker.SendWQoLMessage(new DroneChatMessage
                 {
                     baseToken = "UPGRADE_DRONE",
                     DroneTier = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
@@ -123,7 +125,7 @@ namespace WolfoQoL_Client.Text
             orig(self, droneBodyToSpawn, moneyToUse);
             if (!string.IsNullOrEmpty(droneBodyToSpawn))
             {
-                Chat.SendBroadcastChat(new DroneChatMessage
+                Networker.SendWQoLMessage(new DroneChatMessage
                 {
                     baseToken = "REMOTEOP_DRONE",
                     _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(BodyCatalog.FindBodyIndexCaseInsensitive(droneBodyToSpawn)),
@@ -134,7 +136,11 @@ namespace WolfoQoL_Client.Text
 
         public static void DroneMessage(GameObject summonerBodyObject, GameObject minionBodyObject, int upgradeCount, string token)
         {
-
+            if (!NetworkServer.active)
+            {
+                //Just in case
+                return;
+            }
             CharacterBody characterBody = (summonerBodyObject != null) ? summonerBodyObject.GetComponent<CharacterBody>() : null;
             if (characterBody && characterBody.master)
             {
@@ -167,7 +173,7 @@ namespace WolfoQoL_Client.Text
                     }
 
                     //Debug.Log(quantity);
-                    Chat.SendBroadcastChat(new DroneChatMessage
+                    Networker.SendWQoLMessage(new DroneChatMessage
                     {
                         baseToken = token,
                         DroneTier = upgradeCount,
@@ -216,7 +222,7 @@ namespace WolfoQoL_Client.Text
                 pickupQuantity = quantity
             });
         }
- 
+
 
     }
 

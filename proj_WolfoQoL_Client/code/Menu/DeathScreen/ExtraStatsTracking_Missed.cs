@@ -1,15 +1,12 @@
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using RoR2;
 using RoR2.CharacterAI;
-using RoR2.Stats;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
- 
+
 namespace WolfoQoL_Client.DeathScreen
 {
 
-    public partial class ExtraStatsTracking
+    public static partial class ExtraStatsTracking
     {
 
         public static void Start_Missed()
@@ -18,14 +15,14 @@ namespace WolfoQoL_Client.DeathScreen
             On.RoR2.MultiShopController.Start += MissedCallback_Shop;
             On.RoR2.DroneVendorMultiShopController.Start += MissedCallback_DroneShop;
             On.RoR2.CharacterAI.LemurianEggController.OnDestroy += LemurianEggController_OnDestroy;
-             
+
 
             //Manually add so we dont have to check
             //Adaptive Chest
             Addressables.LoadAssetAsync<GameObject>(key: "fd68bfe758b25714288565a552d40d83").WaitForCompletion().AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.Chest;
             //TempShop
             Addressables.LoadAssetAsync<GameObject>(key: "d31df5066858329458b33f21b3b22d2e").WaitForCompletion().AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.Chest;
-             
+
         }
         private static void MissedCallback_Most(On.RoR2.PurchaseInteraction.orig_Start orig, PurchaseInteraction self)
         {
@@ -99,8 +96,8 @@ namespace WolfoQoL_Client.DeathScreen
                 self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.MultiShop;
             }
         }
- 
-    
+
+
     }
 
     public class OnDestroyMissedInteractable : MonoBehaviour
@@ -109,13 +106,13 @@ namespace WolfoQoL_Client.DeathScreen
         {
             Chest,
             Drone,
-            ShrineChance, 
+            ShrineChance,
             LemEgg,
             MultiShop,
             DroneShop,
         }
         public Cases type;
-    
+
         public void OnDestroy()
         {
             //Debug.Log(this);

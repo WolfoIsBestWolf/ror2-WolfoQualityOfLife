@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 namespace WolfoQoL_Client.Text
 {
 
-    /*public class CookMessage : RoR2.SubjectChatMessage
+    /*public static class CookMessage : RoR2.SubjectChatMessage
     {
         public override string ConstructChatString()
         {

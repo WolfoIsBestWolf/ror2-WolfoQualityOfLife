@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
 {
-    public class BodyIcons
+    public static class BodyIcons
     {
         public static void Start()
         {

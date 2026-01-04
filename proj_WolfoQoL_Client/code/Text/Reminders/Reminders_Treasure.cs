@@ -1,10 +1,11 @@
 using RoR2;
-using UnityEngine;
-
+using WolfoLibrary;
+using WolfoQoL_Client.Text;
+using static WolfoQoL_Client.ModSupport.QualitySupport;
 
 namespace WolfoQoL_Client.Reminders
 {
-    public class Reminders_Treasure
+    public static class Reminders_Treasure
     {
         public static void Start()
         {
@@ -32,22 +33,29 @@ namespace WolfoQoL_Client.Reminders
             */
             if (!characterMaster.hasAuthority)
             {
-                Debug.LogError("Not clearing reminders for " + Util.GetBestMasterName(characterMaster) + " because they aren't local.");
+                //Debug.LogError("Not clearing reminders for " + Util.GetBestMasterName(characterMaster) + " because they aren't local.");
                 return;
             }
             if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
-                if (newIndex == DLC1Content.Items.RegeneratingScrapConsumed.itemIndex)
+
+                if (PreBaseItemIndex(newIndex, DLC1Content.Items.RegeneratingScrapConsumed))
                 {
                     if (TreasureReminder.instance)
                     {
                         Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_RegenScrap);
                     }
                 }
+                else if (newIndex == MoreMessages.VanillaVoids_WatchBrokeItem)
+                {
+                    TreasureReminder.CheckKeysVoided();
+                    TreasureReminder.CheckItemsDestroyed();
+                }
             }
             else if (transformationType == CharacterMasterNotificationQueue.TransformationType.SaleStarRegen)
             {
-                if (newIndex == DLC2Content.Items.LowerPricedChestsConsumed.itemIndex)
+                //if (newIndex == DLC2Content.Items.LowerPricedChestsConsumed.itemIndex)
+                if (PreBaseItemIndex(newIndex, DLC2Content.Items.LowerPricedChestsConsumed))
                 {
                     if (TreasureReminder.instance)
                     {
@@ -55,10 +63,16 @@ namespace WolfoQoL_Client.Reminders
                     }
                 }
             }
+            else if (transformationType == CharacterMasterNotificationQueue.TransformationType.LunarSun)
+            {
+                TreasureReminder.CheckKeysVoided();
+                TreasureReminder.CheckItemsDestroyed();
+            }
             else if (transformationType == CharacterMasterNotificationQueue.TransformationType.ContagiousVoid && oldIndex == RoR2Content.Items.TreasureCache.itemIndex)
             {
                 TreasureReminder.CheckKeysVoided();
             }
+
         }
 
 
@@ -82,7 +96,7 @@ namespace WolfoQoL_Client.Reminders
             orig(self, activator);
             if (hadSale > 0 && self.saleStarCompatible)
             {
-                Chat.SendBroadcastChat(new Text.InteractableMessage
+                Networker.SendWQoLMessage(new Text.InteractableMessage
                 {
                     interactableToken = self.displayNameToken,
                     subjectAsCharacterBody = body,

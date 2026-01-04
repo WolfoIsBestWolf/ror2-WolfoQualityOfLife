@@ -11,7 +11,7 @@ using WolfoQoL_Client.Text;
 
 namespace WolfoQoL_Client
 {
-    public class ClientChecks
+    public static class ClientChecks
     {
         public static void Start()
         {
@@ -157,7 +157,7 @@ namespace WolfoQoL_Client
 
         public static void AddClientListeners(On.RoR2.PlayerCharacterMasterController.orig_Start orig, PlayerCharacterMasterController self)
         {
-            orig(self); 
+            orig(self);
             self.gameObject.AddComponent<DroneCollection>();
             if (!WQoLMain.HostHasMod)
             {

@@ -10,10 +10,10 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
 {
-    public class ColorModule
+    public static class ColorModule
     {
         //Adding missing Highlights
- 
+
         public static GameObject EquipmentBossOrb;
         public static GameObject EquipmentLunarOrb;
         public static GameObject NoTierOrb;
@@ -87,7 +87,7 @@ namespace WolfoQoL_Client
             }
 
             PlayerPing.Hooks();
-   
+
         }
 
         public static Entry[] EquipmentAddBG(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
@@ -187,7 +187,7 @@ namespace WolfoQoL_Client
         {
             GameObject EquipmentOrb = Addressables.LoadAssetAsync<GameObject>(key: "7c61d88eadef8a94ebf06138b6d2c2cb").WaitForCompletion();
 
-            
+
             EquipmentBossOrb = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "47decc91b30009d41a6b60735cd38ed9").WaitForCompletion(), "EquipmentBossOrb", false); //boss orb base
             EquipmentLunarOrb = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "69411ae2cb84bd744827d19b2042f749").WaitForCompletion(), "EquipmentLunarOrb", false); //lunar orb base
             NoTierOrb = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "62b4a745e2a56ad4880ba1418a12ee85").WaitForCompletion(), "NoTierOrb", false); //tier 1 orb
@@ -322,19 +322,19 @@ namespace WolfoQoL_Client
         {
             GameObject Tier2 = Addressables.LoadAssetAsync<GameObject>(key: "730ea84bde179504e985c5f3c66db36b").WaitForCompletion();
             Sprite texUICornerTier3 = Addressables.LoadAssetAsync<Sprite>(key: "43a45be290137ab439552af4ff6eb6c4").WaitForCompletion();
-            
-      
+
+
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightLunarItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightVoidBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
-       
+
             GameObject HighlightEquipmentLunar = PrefabAPI.InstantiateClone(Tier2, "HighlightEquipmentLunar", false);
             GameObject HighlightEquipmentBoss = PrefabAPI.InstantiateClone(Tier2, "HighlightEquipmentBoss", false);
 
             HighlightEquipmentLunar.GetComponent<HighlightRect>().highlightColor = ColorEquip_Lunar;
             HighlightEquipmentBoss.GetComponent<HighlightRect>().highlightColor = new Color(1, 0.75f, 0f, 1);
             HighlightEquipmentBoss.GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
- 
+
             EquipmentCatalog.lunarEquipmentHighlightPrefab = HighlightEquipmentLunar;
             EquipmentCatalog.bossEquipmentHighlightPrefab = HighlightEquipmentBoss;
 

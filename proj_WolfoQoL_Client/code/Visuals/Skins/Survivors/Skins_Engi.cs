@@ -7,7 +7,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Skins_Engi
+    public static class Skins_Engi
     {
         public static Material matEngiTurretAlt;
         public static Material matEngiTurretColossus;

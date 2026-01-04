@@ -1,10 +1,9 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using RoR2;
 using R2API.Utils;
+using RoR2;
 using System.Security;
 using System.Security.Permissions;
-using WQoL_Gameplay;
 
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -26,7 +25,7 @@ namespace WQoL_Gameplay
             log = Logger;
 
             WConfig.Start();
-           
+
 
             GameplayQualityOfLife.Start();
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client
 {
-    public class DuplicatorModel
+    public static class DuplicatorModel
     {
         public static RuntimeAnimatorController oldAnimationControllerNOT;
         public static void DuplicatorModelChanger()

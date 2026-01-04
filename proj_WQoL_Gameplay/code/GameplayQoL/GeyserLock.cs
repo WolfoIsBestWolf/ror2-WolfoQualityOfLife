@@ -1,6 +1,5 @@
 ﻿using MonoMod.Cil;
 using RoR2;
-using WQoL_Gameplay;
 
 namespace WQoL_Gameplay
 {

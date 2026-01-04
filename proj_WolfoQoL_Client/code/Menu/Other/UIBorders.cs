@@ -2,12 +2,11 @@
 using RoR2.Stats;
 using RoR2.UI;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 namespace WolfoQoL_Client
 {
-    public class UIBorders
+    public static class UIBorders
     {
         /*public static void UpdateHuds()
         {

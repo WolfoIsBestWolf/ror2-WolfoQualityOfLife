@@ -1,11 +1,11 @@
 ﻿using MonoMod.Cil;
 using RoR2;
 using RoR2.CharacterAI;
-using RoR2.Networking;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
 using WolfoLibrary;
+using static WolfoQoL_Client.ModSupport.QualitySupport;
 
 namespace WolfoQoL_Client.Text
 {
@@ -14,7 +14,7 @@ namespace WolfoQoL_Client.Text
         public PickupIndex previousIndex;
     }
 
-    public class MoreMessages
+    public static class MoreMessages
     {
 
         public static void Start()
@@ -26,14 +26,11 @@ namespace WolfoQoL_Client.Text
                 return;
             }
             On.RoR2.GlobalEventManager.OnPlayerCharacterDeath += DeathMessage.OnDeathMessage;
-        
-            LunarSeer.Start();
-            EquipmentDrone.Start();
+
             DevotionLoss.Start();
             DroneMessages.Start();
 
             Run.onClientGameOverGlobal += WinMessage_Client;
-
 
             On.RoR2.CharacterMasterNotificationQueue.PushItemTransformNotification += TransformItem_Messages;
             On.RoR2.CharacterMasterNotificationQueue.PushEquipmentTransformNotification += TransformEquipment_Messages;
@@ -49,15 +46,17 @@ namespace WolfoQoL_Client.Text
             On.RoR2.MealPrepController.BeginCookingServer += MealPrepController_BeginCookingServer;
             On.EntityStates.MealPrep.WaitToBeginCooking.OnEnter += WaitToBeginCooking_OnEnter;
 
-
         }
 
         private static void WaitToBeginCooking_OnEnter(On.EntityStates.MealPrep.WaitToBeginCooking.orig_OnEnter orig, EntityStates.MealPrep.WaitToBeginCooking self)
         {
             orig(self);
-            PlayerItemLoss_ClientListener.token = "MEALPREP_COOKMEAL";
-            PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.MealStation;
-            PlayerItemLoss_ClientListener.TryMessage();
+            if (!WQoLMain.HostHasMod)
+            {
+                PlayerItemLoss_ClientListener.token = "MEALPREP_COOKMEAL";
+                PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.MealStation;
+                PlayerItemLoss_ClientListener.TryMessage();
+            }
         }
 
         private static void MealPrepController_BeginCookingServer(On.RoR2.MealPrepController.orig_BeginCookingServer orig, MealPrepController self, Interactor activator, PickupIndex[] itemsToTake, PickupIndex reward, int count)
@@ -65,7 +64,7 @@ namespace WolfoQoL_Client.Text
             orig(self, activator, itemsToTake, reward, count);
 
 
-            Chat.SendBroadcastChat(new ItemLossMessage
+            Networker.SendWQoLMessage(new ItemLossMessage
             {
                 baseToken = "MEALPREP_COOKMEAL",
                 pickupIndexOnlyOneItem = itemsToTake[0],
@@ -92,11 +91,6 @@ namespace WolfoQoL_Client.Text
             PickupIndex pre = self.pickup.pickupIndex;
             orig(self, reader, initialState);
             //WolfoMain.log.LogMessage(pre + " | "+self.NetworkpickupIndex + " | "+self.Recycled);
-
-            if (pre != PickupIndex.none)
-            {
-
-            }
 
             bool newPickup = pre != PickupIndex.none && pre != self.pickup.pickupIndex;
             bool justRecyled = preRecycle == false && self.Recycled == true;
@@ -128,7 +122,7 @@ namespace WolfoQoL_Client.Text
                         newPickup = self.Network_pickupState.pickupIndex
                     });
                 }
-               
+
             }
 
         }
@@ -310,42 +304,37 @@ namespace WolfoQoL_Client.Text
             {
                 if (WConfig.cfgMessagesRevive.Value)
                 {
-                    if (newIndex == RoR2Content.Items.ExtraLifeConsumed.itemIndex)
+                    if (PreBaseItemIndex(newIndex, RoR2Content.Items.ExtraLifeConsumed))
                     {
-                        Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString("ITEM_EXTRALIFE_NAME")));
+                        Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken)));
                     }
-                    else if (newIndex == DLC1Content.Items.ExtraLifeVoidConsumed.itemIndex)
+                    else if (PreBaseItemIndex(newIndex, DLC1Content.Items.ExtraLifeVoidConsumed))
                     {
-                        Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString("ITEM_EXTRALIFEVOID_NAME")));
+                        Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken)));
                     }
 
                 }
-                if (WConfig.cfgMessageElixir.Value != WConfig.MessageWho.Off)
+                if (WConfig.cfgMessageElixirWatch.Value == WConfig.MessageWho.Anybody || WConfig.cfgMessageElixirWatch.Value == WConfig.MessageWho.Your && characterMaster.hasAuthority)
                 {
-                    if (characterMaster.hasAuthority == false && WConfig.cfgMessageElixir.Value != WConfig.MessageWho.Anybody)
-                    {
-                        return;
-                    }
                     string authString = characterMaster.hasAuthority ? "" : "_3P";
-
-                    if (newIndex == DLC1Content.Items.HealingPotionConsumed.itemIndex)
+                    if (PreBaseItemIndex(newIndex, DLC1Content.Items.HealingPotionConsumed))
                     {
                         Chat.AddMessage(Language.GetStringFormatted("ITEM_USE_ELIXIR" + authString, player));
                     }
-                    else if (newIndex == DLC1Content.Items.FragileDamageBonusConsumed.itemIndex)
+                    else if (PreBaseItemIndex(newIndex, DLC1Content.Items.FragileDamageBonusConsumed))
                     {
                         Chat.AddMessage(Language.GetStringFormatted("ITEM_USE_WATCH" + authString, player));
                     }
                     else if (newIndex == VanillaVoids_WatchBrokeItem)
                     {
-                        string result = string.Format(Language.GetStringFormatted("ITEM_USE_VV_VOIDWATCH" + authString, player), Help.GetColoredName(oldIndex));
+                        string result = Language.GetStringFormatted("ITEM_USE_VV_VOIDWATCH" + authString, Help.GetColoredName(oldIndex), player);
                         Chat.AddMessage(result);
                     }
                 }
             }
             else if (transformationType == CharacterMasterNotificationQueue.TransformationType.LunarSun)
             {
-                if (WConfig.cfgMessageVoidTransform.Value)
+                if (WConfig.cfgMessageVoidTransform.Value && characterMaster.hasAuthority)
                 {
                     string hex = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(oldIndex).pickupDef.baseColor);
                     string name = Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken);
@@ -357,7 +346,7 @@ namespace WolfoQoL_Client.Text
             }
             else if (transformationType == CharacterMasterNotificationQueue.TransformationType.CloverVoid)
             {
-                if (WConfig.cfgMessageVoidTransform.Value)
+                if (WConfig.cfgMessageVoidTransform.Value && characterMaster.hasAuthority)
                 {
                     if (newDef.tier == ItemTier.NoTier)
                     {
@@ -388,11 +377,8 @@ namespace WolfoQoL_Client.Text
                   transformationType);*/
 
             orig(characterMaster, oldIndex, newIndex, transformationType);
-            Debug.Log(characterMaster);
-            /*if (!characterMaster.playerCharacterMasterController)
-            {
-                return;
-            }*/
+            //Debug.Log(characterMaster);
+
             //Any player message here OR equipment drone
             bool equipmentDrone = characterMaster.GetComponent<AIFireEquipmentOnOwnerDeath>();
             if (!(characterMaster.playerCharacterMasterController || equipmentDrone))

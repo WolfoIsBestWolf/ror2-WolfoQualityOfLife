@@ -21,7 +21,7 @@ namespace WolfoQoL_Client
         public ExpansionDef requiredExpansion;
 
     }
-    public class AllyCatalog
+    public static class AllyCatalog
     {
         public static Dictionary<BodyIndex, AllyDef> AllyDefs;
         public static void Make()

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client
 {
-    public class PlayerPing
+    public static class PlayerPing
     {
         public static void Hooks()
         {

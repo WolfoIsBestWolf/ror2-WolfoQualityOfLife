@@ -4,18 +4,14 @@ using RoR2.Stats;
 using RoR2.UI.LogBook;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.SceneManagement;
-using WolfoFixes;
 using static WolfoQoL_Client.Help;
+using WolfoLibrary;
 
 namespace WolfoQoL_Client
 {
 
-    public class LogSimuStages
+    public static class LogSimuStages
     {
-
-
-
         public static void Add()
         {
 
@@ -33,7 +29,6 @@ namespace WolfoQoL_Client
                 scene.shouldIncludeInLogbook = WConfig.SimuStagesInLog.Value;
                 scene.dioramaPrefab = mdlVoidWardCrab;
                 scene.dioramaPrefabAddress = new AssetReferenceGameObject("");
-                scene.previewTexture = normalScene.previewTexture;
                 scene.loreToken = string.Empty;
 
                 string newNameToken = string.Format("MAP_{0}_NAME", scene.cachedName);

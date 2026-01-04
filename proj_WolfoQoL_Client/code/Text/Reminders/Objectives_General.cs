@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace WolfoQoL_Client.Reminders
 {
-    public class Objectives_General
+    public static class Objectives_General
     {
 
         public static void Start()
@@ -105,7 +105,7 @@ namespace WolfoQoL_Client.Reminders
                     MSObjective.transform.SetParent(MSObelisk.transform);
                     //MSObjective.SetActive(false);
                     MSObjective.AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_GLASS_YOURSELF";
-  
+
                     /*MSObelisk.gameObject.GetComponentInChildren<OnPlayerEnterEvent>().action.m_PersistentCalls.AddListener(
                     new PersistentCall
                     {
@@ -117,7 +117,7 @@ namespace WolfoQoL_Client.Reminders
                             boolArgument = true,
                         }
                     });*/
-             
+
                     break;
                 case "conduitcanyon":
                     GameObject CC_StageEvents = GameObject.Find("/HOLDER: Stage Events");

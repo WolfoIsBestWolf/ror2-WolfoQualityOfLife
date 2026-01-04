@@ -79,13 +79,13 @@ namespace WolfoQoL_Client.DeathScreen
         public bool madeStats = false;
 
         public bool addedStageRecap;
- 
+
         public static GameObject stageIconPrefab;
-      
+
 
         public GameObject chatToggleButton;
         public bool chatActive;
-  
+
         public GameObject MakeInventory()
         {
             if (!bonusInventoyHolder)
@@ -126,8 +126,9 @@ namespace WolfoQoL_Client.DeathScreen
             chatToggleButton.transform.localScale = new Vector3(0.5f, -chatToggleButton.transform.localScale.y, 0.5f);
             chatActive = !chatActive;
             GameEndReportPanel.chatboxTransform.gameObject.SetActive(chatActive);
+            GameEndReportPanel.chatboxTransform.transform.GetChild(0).GetComponent<ChatBox>().OnEnable();
         }
-  
+
     }
 
 }

@@ -1,15 +1,13 @@
 ﻿using RoR2;
-using RoR2.UI;
 using RoR2.ContentManagement;
 using RoR2.EntitlementManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.UI;
 using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Menu
 {
-    public class MenuMain
+    public static class MenuMain
     {
 
         public static void Start()
@@ -53,9 +51,9 @@ namespace WolfoQoL_Client.Menu
                 Object.Destroy(ScavHolder.transform.GetChild(0).gameObject);
                 ScavHolder.SetActive(true);
 
-                if(EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(WolfoLibrary.DLCS.entitlementDLC1))
-                 {
- 
+                if (EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(WolfoLibrary.DLCS.entitlementDLC1))
+                {
+
                     GameObject gupBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion();
                     GameObject mdlGup = Object.Instantiate(gupBody.transform.GetChild(0).GetChild(0).gameObject);
 

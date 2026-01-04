@@ -9,7 +9,7 @@ using UnityEngine;
 namespace WolfoQoL_Client.DeathScreen
 {
 
-    public class EquipOnDeathInventory
+    public static class EquipOnDeathInventory
     {
         public static EquipmentIndex[] DeathEquips_Player = Array.Empty<EquipmentIndex>();
         public static EquipmentIndex DeathEquip_Enemy1 = EquipmentIndex.None;

@@ -6,12 +6,11 @@ using RoR2.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
-using WolfoQoL_Client.ProperSaveSupport;
 
 namespace WolfoQoL_Client.DeathScreen
 {
 
-    public class DeathScreen_Main
+    public static class DeathScreen_Main
     {
 
         public static bool otherMod = false;
@@ -66,7 +65,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: MinionDamageTakenStat");
+                WQoLMain.log.LogWarning("IL Failed: GameEndReportPanelController_SetPlayerInfo");
             }
         }
 
@@ -161,7 +160,7 @@ namespace WolfoQoL_Client.DeathScreen
         private static void AddManyExtras(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
         {
 
-  
+
 
             EquipOnDeathInventory.DeathEquip_Enemy1 = EquipmentIndex.None;
             if (playerInfo == null)
@@ -177,7 +176,7 @@ namespace WolfoQoL_Client.DeathScreen
             var extras = self.GetComponent<DeathScreenExpanded>();
             try
             {
-               
+
                 GeneralQuality(self, playerInfo, extras.isLogRunReport);
                 LoadoutStat.Add_Loadout(self, playerInfo);
                 RunRecap.AddRunRecapV2(self, playerInfo);
@@ -209,7 +208,7 @@ namespace WolfoQoL_Client.DeathScreen
                     extras.hideInventory.SetActive(playerTrack.gameOverWithDisabled);
                     //extras.hideInventory.GetComponent<Image>().pixelsPerUnitMultiplier = 500f / self.itemInventoryDisplay.transform.parent.GetComponent<RectTransform>().rect.height;
                     extras.hideInventory.GetComponent<Image>().pixelsPerUnitMultiplier = extras.bonusInventoyHolder.activeSelf ? 1.32f : 0.8f; //What, ever
-                    
+
                 }
                 else
                 {
@@ -247,7 +246,7 @@ namespace WolfoQoL_Client.DeathScreen
             statHolder.AddComponent<HorizontalLayoutGroup>();
             DeathScreenExpanded.statHolderPrefab = PrefabAPI.InstantiateClone(statHolder, "StatHolder", false);
             #endregion
- 
+
             #region Stage Icon
             DeathScreenExpanded.stageIconPrefab = PrefabAPI.InstantiateClone(game.unlockStripPrefab.transform.GetChild(0).gameObject, "stageIcon", false);
 
@@ -277,7 +276,7 @@ namespace WolfoQoL_Client.DeathScreen
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
             if (extras == null)
             {
-                
+
                 extras = self.gameObject.AddComponent<DeathScreenExpanded>();
 
                 extras.isLogRunReport = newDisplayData.runReport.FindFirstPlayerInfo().master == null;
@@ -326,6 +325,7 @@ namespace WolfoQoL_Client.DeathScreen
                 else
                 {
                     self.chatboxTransform.gameObject.SetActive(extras.chatActive);
+                    self.chatboxTransform.transform.GetChild(0).GetComponent<ChatBox>().OnEnable();
                 }
             }
             try
@@ -415,7 +415,6 @@ namespace WolfoQoL_Client.DeathScreen
 
 
         }
-
 
 
         public static void MakeChatToggleBotton(DeathScreenExpanded extras)

@@ -23,8 +23,12 @@ Engineers Mastery & Colossus Skin Turrets will glow more, like Default/AC Skins.
 
 REX's vines when sprinting now match his skin.
 
+Operator's Mastery skin will have recolored CHIRP.
+
 Loaders Alt skin will have matching Hook Hand.
-MulT shows off his primary skill in lobby.
+
+MUL-T Power Mode casings now match the skin.\
+MUL-T shows off his primary skill in lobby.
 
 Elite Brass contraptions will have colored balls.
 
@@ -42,8 +46,7 @@ A Unique Ping Icon for the vast majority of Interactables.
 Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Devoted Lemurians.\
 Updated Body Icon for Squid Polyp, Ally Aurelionite, Mushroom.
 
-
-
+ 
 Gives Unstable Transmitter-Active an icon.\
 Jailer Drone debuff now has a unique icon.\
 Twisted Armor buff made visible\
@@ -200,6 +203,8 @@ Logbook additions:
 - *(Off)* Simulacrum Stages
 
 ## Other Menus / UI
+Adds an inventory display during Devotion for Devoted Lemurians, in the scoreboard.
+
 Sprinting Crosshair is different to support charging attacks.
 
 Real-Time timer underneath Run timer, when Scoreboard is open.
@@ -218,9 +223,9 @@ Chat box displays more messages and is wider.
 
 Crafting Menu is wider to fit more items more easily.
 
-
-
  
+![Devotion Inventory](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/main/modPageImages/devotedInventory) 
+
  
 ## Miscellaneous
 Pillar and Void holdout zones get flowers if you have Lepton Daisy.\
@@ -255,14 +260,14 @@ If you're reporting a bug that isn't something obvious include the log file.
 A lot of things are configurable. If you feel something should be configurable yet it isn't you can suggest it to me.
 
 
-
-### Translations
+#
 Thank you for anyone who wishes to translate.
-
-- Chinese (Standard)  by [takaqiaoc](https://github.com/takaqiaoc) on GitHub
+### Translations
+- Chinese (Standard) by [takaqiaoc](https://github.com/takaqiaoc) on GitHub
 
 - Portuguese (Brazil) by snake_snr
 
 - Russian by [kreeperHLC](https://github.com/kreeperHLC) on GitHub
 
-
+### Special Thanks
+- Nuxlar for making the original DevotionInventory mod.

@@ -5,13 +5,12 @@ using RoR2.UI.LogBook;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using WolfoFixes;
-
+using WolfoLibrary;
 
 namespace WolfoQoL_Client
 {
 
-    public class LogbookStuff
+    public static class LogbookStuff
     {
 
         public static void Start()
@@ -243,10 +242,10 @@ namespace WolfoQoL_Client
                 }
             }
             #endregion
- 
+
             return array;
         }
-      
+
         public static Entry[] SurvivorEntryColor(On.RoR2.UI.LogBook.LogBookController.orig_BuildSurvivorEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
             Entry[] array = orig(expansionAvailability);

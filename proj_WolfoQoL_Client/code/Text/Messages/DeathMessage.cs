@@ -2,17 +2,19 @@
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using WolfoLibrary;
 using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Text
 {
 
-    public class DeathMessage
+    public static class DeathMessage
     {
         public static void OnDeathMessage(On.RoR2.GlobalEventManager.orig_OnPlayerCharacterDeath orig, GlobalEventManager self, DamageReport damageReport, NetworkUser victimNetworkUser)
         {
             try
             {
+                orig(self, damageReport, victimNetworkUser);
                 DetailedDeathMessages(damageReport);
             }
             catch (Exception e)
@@ -21,7 +23,7 @@ namespace WolfoQoL_Client.Text
                 orig(self, damageReport, victimNetworkUser);
                 return;
             }
-            orig(self, damageReport, victimNetworkUser);
+
         }
 
         public static void DetailedDeathMessages(DamageReport damageReport)
@@ -157,10 +159,10 @@ namespace WolfoQoL_Client.Text
             WQoLMain.log.LogMessage(VictimName + " killed by " + KillerName + " | Networked? " + sendOverNetwork);
             if (sendOverNetwork)
             {
-                Chat.SendBroadcastChat(deathMessage);
+                Networker.SendWQoLMessage(deathMessage);
                 if (victimBody.master.IsDeadAndOutOfLivesServer())
                 {
-                    Chat.SendBroadcastChat(killerInventoryMessage);
+                    Networker.SendWQoLMessage(killerInventoryMessage);
                 }
             }
             else

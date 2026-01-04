@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace WolfoQoL_Client.DeathScreen
 {
-    public class LoadoutStat
+    public static class LoadoutStat
     {
 
 

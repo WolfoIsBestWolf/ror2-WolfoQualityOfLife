@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client.Reminders
 {
-    public class Objective_Halcyonite
+    public static class Objective_Halcyonite
     {
 
         public static void Start()
@@ -81,10 +81,10 @@ namespace WolfoQoL_Client.Reminders
         private static void Update_Objective(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            c.TryGotoNext(MoveType.After,
+            bool a = c.TryGotoNext(MoveType.After,
             x => x.MatchCall("UnityEngine.Networking.NetworkServer", "get_active"));
 
-            if (c.TryGotoPrev(MoveType.After,
+            if (a && c.TryGotoPrev(MoveType.After,
                x => x.MatchLdfld("RoR2.HealthComponent", "body")
                ))
             {
@@ -129,44 +129,7 @@ namespace WolfoQoL_Client.Reminders
         {
             instance = this;
         }
-
-        public static void GoldDiffStatic(CharacterMaster master)
-        {
-            if (instance && instance.doGoldDiff)
-            {
-                instance.TryGetGoldDiff(master);
-            }
-        }
-        public void TryGetGoldDiff(CharacterMaster master)
-        {
-
-            if (targetGoldDiff == master)
-            {
-                if (master.money >= moneyPre)
-                {
-                    WQoLMain.log.LogMessage("No money was actually drained." + deducedGoldDrain);
-                    return;
-                }
-                //Then second time he gets pre-drained, check money lost
-                doGoldDiff = false;
-                deducedGoldDrain = (int)(moneyPre - master.money);
-                sucker.goldDrainValue = deducedGoldDrain;
-
-                goldDrained += deducedGoldDrain * missedGoldDrains;
-
-                WQoLMain.log.LogMessage("Gold Drain Deduced is " + deducedGoldDrain);
-                WQoLMain.log.LogMessage("Expected Gold Drain was " + Halc.goldDrainValue);
-                WQoLMain.log.LogMessage("Adding Missing Drains x" + missedGoldDrains);
-            }
-            else
-            {
-                //First set target
-                targetGoldDiff = master;
-                moneyPre = master.money;
-            }
-        }
-
-
+ 
         public void StoreGold()
         {
             //goldDrained += deducedGoldDrain;

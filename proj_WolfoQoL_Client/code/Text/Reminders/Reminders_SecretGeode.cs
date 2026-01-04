@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client.Reminders
 {
-    public class Reminders_SecretGeode
+    public static class Reminders_SecretGeode
     {
         private static GeodeSecretMissionController geodeInstance;
 

@@ -2,7 +2,6 @@ using MonoMod.Cil;
 using RoR2;
 using RoR2.Hologram;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -37,7 +36,7 @@ namespace WolfoQoL_Client
     }
 
 
-    public class InteractableVisuals
+    public static class InteractableVisuals
     {
         public static void Start()
         {
@@ -54,7 +53,7 @@ namespace WolfoQoL_Client
             //Then just do it here ig
             try
             {
-                ShrineShapingExtras();
+                ShrineShapingExtra_VISUALS();
             }
             catch (Exception e)
             {
@@ -154,11 +153,8 @@ namespace WolfoQoL_Client
         }
 
 
-        public static void ShrineShapingExtras()
+        public static void ShrineShapingExtra_VISUALS()
         {
-            List<string> deadPeopleNames = new List<string>();
-            int deadPeople = 0;
-            bool youAreDead = false;
 
             foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
             {
@@ -194,59 +190,9 @@ namespace WolfoQoL_Client
                     master.onBodyStart += SpawnEffectsOnRevive;
                 }
 
-                if (player.master.lostBodyToDeath || body == null)
-                {
-                    if (master.hasAuthority)
-                    {
-                        youAreDead = true;
-                    }
-                    else
-                    {
-                        deadPeopleNames.Add(Util.EscapeRichTextForTextMeshPro(player.networkUser.userName));
-                    }
-                    deadPeople++;
-                }
+
             }
-            if (deadPeople > 0)
-            {
-                string token = "";
-                string deadNames = "";
-                for (int i = 0; i < deadPeopleNames.Count; i++)
-                {
-                    if (i == 0 && !youAreDead)
-                    {
-                        //If first, just name
-                        //If you, then skip
-                        deadNames += deadPeopleNames[i];
-                    }
-                    else if (i + 1 == deadPeopleNames.Count)
-                    {
-                        //If is last && not first
-                        deadNames += " & " + deadPeopleNames[i];
-                    }
-                    else
-                    {
-                        //If middle
-                        deadNames += ", " + deadPeopleNames[i];
-                    }
-                }
-                if (deadPeople == 1 && youAreDead)
-                {
-                    token = "SHRINE_REVIVE_MESSAGE_DEAD_YOU";
-                    token = Language.GetString(token);
-                }
-                else if (youAreDead)
-                {
-                    token = "SHRINE_REVIVE_MESSAGE_DEAD_YOUAND";
-                    token = string.Format(Language.GetString(token), deadNames);
-                }
-                else
-                {
-                    token = "SHRINE_REVIVE_MESSAGE_DEAD";
-                    token = string.Format(Language.GetString(token), deadNames);
-                }
-                Chat.AddMessage(token);
-            }
+
         }
 
         private static void ShrineShapingExtras_Client(On.RoR2.ShrineColossusAccessBehavior.orig_RpcUpdateInteractionClients orig, ShrineColossusAccessBehavior self)
@@ -255,7 +201,7 @@ namespace WolfoQoL_Client
             if (!NetworkServer.active)
             {
                 //This does also run on Host, we just need to do it before revives take place.
-                ShrineShapingExtras();
+                ShrineShapingExtra_VISUALS();
             }
         }
 
@@ -288,7 +234,7 @@ namespace WolfoQoL_Client
 
 
     /*
-    public class ShrineBoss_IconStack : MonoBehaviour
+    public static class ShrineBoss_IconStack : MonoBehaviour
     {
         public int shrineStacks;
 

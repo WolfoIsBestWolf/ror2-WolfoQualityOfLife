@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Skins_Merc
+    public static class Skins_Merc
     {
         //public static Material MatOniSword;
 

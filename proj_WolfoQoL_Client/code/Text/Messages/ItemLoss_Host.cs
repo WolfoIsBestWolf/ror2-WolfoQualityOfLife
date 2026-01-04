@@ -3,11 +3,12 @@ using MonoMod.Cil;
 using RoR2;
 using System;
 using UnityEngine.Networking;
+using WolfoLibrary;
 using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Text
 {
-    public class ItemLoss_Host
+    public static class ItemLoss_Host
     {
 
         public static void Start()
@@ -21,7 +22,7 @@ namespace WolfoQoL_Client.Text
                 return;
             }
             IL.RoR2.PurchaseInteraction.OnInteractionBegin += ItemGiveUpMessages;
-            
+
             //On.RoR2.ScrapperController.BeginScrapping += Old_ScrappingMessage;
 
             //On.EntityStates.QuestVolatileBattery.CountDown.OnExit += CountDown_OnExit;
@@ -35,7 +36,7 @@ namespace WolfoQoL_Client.Text
                 CharacterBody component = self.interactor.GetComponent<CharacterBody>();
                 if (component && component.inventory)
                 {
-                    Chat.SendBroadcastChat(new ItemLossMessage
+                    Networker.SendWQoLMessage(new ItemLossMessage
                     {
                         source = ItemLossMessage.Source.DroneScrapper,
                         baseToken = "ITEM_LOSS_SCRAP",
@@ -58,7 +59,7 @@ namespace WolfoQoL_Client.Text
                 {
                     if (self.attachedHealthComponent.body.master.playerCharacterMasterController)
                     {
-                        Chat.SendBroadcastChat(new ItemLossMessage
+                        Networker.SendWQoLMessage(new ItemLossMessage
                         {
                             baseToken = "ITEM_LOSS_LOST",
                             pickupIndexOnlyOneItem = new PickupIndex(RoR2Content.Equipment.QuestVolatileBattery.equipmentIndex),
@@ -88,7 +89,7 @@ namespace WolfoQoL_Client.Text
                         CharacterBody component = self.interactor.GetComponent<CharacterBody>();
                         if (component && component.inventory)
                         {
-                            Chat.SendBroadcastChat(new ItemLossMessage
+                            Networker.SendWQoLMessage(new ItemLossMessage
                             {
                                 source = ItemLossMessage.Source.Scrapper,
                                 baseToken = "ITEM_LOSS_SCRAP",
@@ -121,7 +122,7 @@ namespace WolfoQoL_Client.Text
                 PickupDef pickupDef = PickupCatalog.GetPickupDef(new PickupIndex(intPickupIndex));
                 if (component && component.inventory && pickupDef != null)
                 {
-                    Chat.SendBroadcastChat(new ItemLossMessage
+                    Networking.SendWQoLMessage(new ItemLossMessage
                     {
                         baseToken = "ITEM_LOSS_SCRAP",
                         //itemCount = self.itemsEaten,
@@ -148,7 +149,7 @@ namespace WolfoQoL_Client.Text
                 c.Emit(OpCodes.Ldarg_1);
                 c.EmitDelegate<Func<CostTypeDef.PayCostResults, PurchaseInteraction, Interactor, CostTypeDef.PayCostResults>>((payResults, purchase, interactor) =>
                 {
-                   
+
                     //These 3 should also say used I guess?
                     if (payResults.itemStacksTaken.Count > 0 || payResults.equipmentTaken.Count > 0)
                     {
@@ -166,7 +167,7 @@ namespace WolfoQoL_Client.Text
                         {
                             subjectAsCharacterBody = interactor.gameObject.GetComponent<CharacterBody>(),
                         };
- 
+
                         if (payResults.equipmentTaken.Count > 0)
                         {
                             LossMessage.pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(payResults.equipmentTaken[0]);
@@ -180,7 +181,7 @@ namespace WolfoQoL_Client.Text
                             }
                             else if (payResults.itemStacksTaken[0].stackValues.temporaryStacksValue > 0)
                             {
-                                LossMessage.hasTempItems = true; 
+                                LossMessage.hasTempItems = true;
                             }
                             usedMessage = usedMessage || tempDef.ContainsTag(ItemTag.Scrap) || tempDef.ContainsTag(ItemTag.PriorityScrap);
                             LossMessage.pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(tempDef.itemIndex);
@@ -224,7 +225,7 @@ namespace WolfoQoL_Client.Text
                             token = "ITEM_LOSS_GENERIC";
                         }
                         LossMessage.baseToken = token;
-                        Chat.SendBroadcastChat(LossMessage);
+                        Networker.SendWQoLMessage(LossMessage);
                     }
                     return payResults;
                 });

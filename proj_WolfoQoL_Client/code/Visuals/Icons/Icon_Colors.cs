@@ -1,18 +1,12 @@
 using MonoMod.Cil;
-using Mono.Cecil.Cil;
-using RoR2;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using static WolfoQoL_Client.Assets;
 
 namespace WolfoQoL_Client
 {
 
     public static class Icon_Colors
     {
- 
+
         public static void Start()
         {
             //Color not UI ig
@@ -38,23 +32,23 @@ namespace WolfoQoL_Client
                     }
                 }
             }*/
- 
+
         }
- 
-      
+
+
         private static void TeleporterDiscoveredRed(MonoMod.Cil.ILContext il)
         {
             ILCursor c = new ILCursor(il);
 
-            c.TryGotoNext(MoveType.Before,
+            bool a = c.TryGotoNext(MoveType.Before,
             x => x.MatchLdfld("RoR2.UI.ChargeIndicatorController", "isDiscovered"));
 
 
-            if (c.TryGotoNext(MoveType.After,
+            if (a && c.TryGotoNext(MoveType.Before,
             x => x.MatchLdfld("RoR2.UI.ChargeIndicatorController", "spriteChargedColor")))
             {
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<System.Func<Color, RoR2.UI.ChargeIndicatorController, Color>>((value, charg) =>
+                c.Remove();
+                c.EmitDelegate<System.Func<RoR2.UI.ChargeIndicatorController, Color>>((charg) =>
                 {
                     return charg.spriteFlashColor;
                 });

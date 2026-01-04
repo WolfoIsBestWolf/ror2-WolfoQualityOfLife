@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 namespace WolfoQoL_Client
 {
 
-    public class BuffIcons
+    public static class BuffIcons
     {
 
         public static void BuffColorChanger()

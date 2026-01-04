@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using WolfoLibrary;
-using static WolfoQoL_Client.Reminders.SpawnListener;
+using WolfoQoL_Client.ModSupport;
 
 namespace WolfoQoL_Client.Reminders
 {
-    public class Reminders_Main
+    public static class Reminders_Main
     {
         public static void Start()
         {
@@ -28,13 +28,13 @@ namespace WolfoQoL_Client.Reminders
             //How would I check this in multiplayer I guess?
 
 
-            On.RoR2.SceneDirector.Start += AddReminders;
-
+            //On.RoR2.SceneDirector.Start += AddReminders;
+            Stage.onStageStartGlobal += Stage_onStageStartGlobal;
+            On.RoR2.Stage.OnDisable += Stage_OnDisable;
             if (WConfig.module_text_reminders.Value)
             {
                 On.RoR2.ScrapperController.BeginScrapping_UniquePickup += RemoveReminders_Scrapper;
 
-                On.RoR2.HoldoutZoneController.PreStartClient += CheckForFreeChestVoid;
                 On.RoR2.HoldoutZoneController.OnEnable += IsFreeVoidChest_ClearNewt;
 
                 ExtraActions.onMithrixPhase1 += FailAllReminders;
@@ -45,9 +45,34 @@ namespace WolfoQoL_Client.Reminders
             }
             Run.onRunStartGlobal += Run_onRunStartGlobal;
 
-          
-            Addressables.LoadAssetAsync<GameObject>(key: "f21b2c8a9cc028046935ea871dc4af54").WaitForCompletion().AddComponent<SpawnListener>().interactable = Interactable.greenPrinter;
-            Addressables.LoadAssetAsync<GameObject>(key: "c10fd181efcffc24f8fed4c2f246fac8").WaitForCompletion().AddComponent<SpawnListener>().interactable = Interactable.halcyonShrine;
+
+            Addressables.LoadAssetAsync<GameObject>(key: "e97c0cb6c5d2e3f4fb7a64cb62fe971f").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.lockbox;
+            Addressables.LoadAssetAsync<GameObject>(key: "7cf417baadd2e8948a9645da22a57b3c").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.lockboxVoid;
+            Addressables.LoadAssetAsync<GameObject>(key: "357435043113a944c9a477d63dc9a893").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.freeChest;
+
+            Addressables.LoadAssetAsync<GameObject>(key: "f21b2c8a9cc028046935ea871dc4af54").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.greenPrinter;
+            Addressables.LoadAssetAsync<GameObject>(key: "c10fd181efcffc24f8fed4c2f246fac8").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.halcyonShrine;
+
+        }
+
+        private static void Stage_OnDisable(On.RoR2.Stage.orig_OnDisable orig, Stage self)
+        {
+            orig(self);
+            if (TreasureReminder.instance)
+            {
+                TreasureReminder.instance.Reset();
+            }
+        }
+
+        private static void Stage_onStageStartGlobal(Stage obj)
+        {
+            if (WConfig.module_text_reminders.Value == true)
+            {
+                if (SceneInfo.instance.countsAsStage || SceneInfo.instance.sceneDef.allowItemsToSpawnObjects)
+                {
+                    TreasureReminder.SetupRemindersStatic();
+                }
+            }
         }
 
 
@@ -61,10 +86,9 @@ namespace WolfoQoL_Client.Reminders
                     TreasureReminder.SetupRemindersStatic();
                 }
             }
-            WQoLMain.log.LogMessage("CurrentStage: "+SceneInfo.instance.sceneDef.baseSceneName);
+            WQoLMain.log.LogMessage("CurrentStage: " + SceneInfo.instance.sceneDef.baseSceneName);
 
         }
-
 
         private static void RemoveReminders_Scrapper(On.RoR2.ScrapperController.orig_BeginScrapping_UniquePickup orig, ScrapperController self, UniquePickup pickupToTake)
         {
@@ -95,7 +119,6 @@ namespace WolfoQoL_Client.Reminders
         {
             obj.gameObject.AddComponent<TreasureReminder>();
         }
-
 
         private static void IsFreeVoidChest_ClearNewt(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
         {
@@ -230,18 +253,30 @@ namespace WolfoQoL_Client.Reminders
         public enum Interactable
         {
             None,
-            greenPrinter,
+            lockbox,
+            lockboxVoid,
+            freeChest,
             vvVoidFreeChest,
+            greenPrinter,
+            greenPrinterQuality,
             newtAltar,
             halcyonShrine
         }
 
         public void OnEnable()
         {
+            if (!TreasureReminder.instance)
+            {
+                enabled = false;
+                return;
+            }
             switch (interactable)
             {
                 case Interactable.greenPrinter:
                     TreasureReminder.instance.greenPrinterSpawned = true;
+                    break;
+                case Interactable.greenPrinterQuality:
+                    TreasureReminder.instance.greenQualityPrinterSpawned = true;
                     break;
                 case Interactable.vvVoidFreeChest:
                     TreasureReminder.instance.voidFreeChestSpawned = true;
@@ -251,6 +286,15 @@ namespace WolfoQoL_Client.Reminders
                     break;
                 case Interactable.halcyonShrine:
                     TreasureReminder.instance.halcyonSpawned = true;
+                    break;
+                case Interactable.lockbox:
+                    TreasureReminder.instance.lockboxCount++;
+                    break;
+                case Interactable.lockboxVoid:
+                    TreasureReminder.instance.lockboxVoidCount++;
+                    break;
+                case Interactable.freeChest:
+                    TreasureReminder.instance.freeChestCount++;
                     break;
             }
 
@@ -277,13 +321,14 @@ namespace WolfoQoL_Client.Reminders
         public bool freeChestVoidBool = false;
         public bool localHasSaleStar = false;
         public bool localHasRegenScrap = false;
+        public bool localHasRegenScrapQuality = false;
 
         public bool halcyonSpawned = false;
         public bool greenPrinterSpawned = false;
+        public bool greenQualityPrinterSpawned = false;
         public bool voidFreeChestSpawned = false;
         //public bool accessNodeSpawned = false;
         public int newtShrineSpawned = 0;
-
 
         public GenericObjectiveProvider Objective_Lockbox;
         public GenericObjectiveProvider Objective_LockboxVoid;
@@ -320,13 +365,6 @@ namespace WolfoQoL_Client.Reminders
 
         public void SetupReminders()
         {
-            lockboxCount = 0;
-            lockboxVoidCount = 0;
-            freeChestCount = 0;
-            freeChestVoidBool = false;
-            localHasSaleStar = false;
-            localHasRegenScrap = false;
-
             bool isSimu = Run.instance is InfiniteTowerRun;
             if (isSimu && WConfig.cfgRemindersNOTINSIMU.Value)
             {
@@ -335,30 +373,33 @@ namespace WolfoQoL_Client.Reminders
 
             int maximumKeys = 0;
             int maximumKeysVoid = 0;
-            using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
+
+            if (QualitySupport.QualityModInstalled)
             {
-                while (enumerator.MoveNext())
+                localHasSaleStar = QualitySupport.QualiyItemCountPermanent(DLC2Content.Items.LowerPricedChests, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory) > 0;
+                localHasRegenScrap = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory) > 0;
+                using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
                 {
-                    if (enumerator.Current.networkUser && enumerator.Current.networkUser.isLocalPlayer)
+                    while (enumerator.MoveNext())
                     {
-                        if (enumerator.Current.master.inventory.GetItemCountPermanent(DLC2Content.Items.LowerPricedChests) > 0) { localHasSaleStar = true; }
-                        if (enumerator.Current.master.inventory.GetItemCountPermanent(DLC2Content.Items.LowerPricedChestsConsumed) > 0) { localHasSaleStar = true; }
-                        if (enumerator.Current.master.inventory.GetItemCountPermanent(DLC1Content.Items.RegeneratingScrap) > 0) { localHasRegenScrap = true; }
-                        if (enumerator.Current.master.inventory.GetItemCountPermanent(DLC1Content.Items.RegeneratingScrapConsumed) > 0) { localHasRegenScrap = true; }
+                        maximumKeys += QualitySupport.QualiyItemCountPermanent(RoR2Content.Items.TreasureCache, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory);
+                        maximumKeysVoid += QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.TreasureCacheVoid, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory);
                     }
-                    maximumKeys += enumerator.Current.master.inventory.GetItemCountPermanent(RoR2Content.Items.TreasureCache);
-                    maximumKeysVoid += enumerator.Current.master.inventory.GetItemCountPermanent(DLC1Content.Items.TreasureCacheVoid);
                 }
             }
-
-            using (IEnumerator<CharacterMaster> enumerator = CharacterMaster.readOnlyInstancesList.GetEnumerator())
+            else
             {
-                while (enumerator.MoveNext())
+                localHasSaleStar = LocalUserManager.GetFirstLocalUser().cachedMaster.inventory.GetItemCountPermanent(DLC2Content.Items.LowerPricedChests) > 0;
+                localHasRegenScrap = LocalUserManager.GetFirstLocalUser().cachedMaster.inventory.GetItemCountPermanent(DLC1Content.Items.RegeneratingScrap) > 0;
+                using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
                 {
-                    if (enumerator.Current.inventory.GetItemCountPermanent(RoR2Content.Items.TreasureCache) > 0) { lockboxCount++; }
-                    if (enumerator.Current.inventory.GetItemCountPermanent(DLC1Content.Items.TreasureCacheVoid) > 0) { lockboxVoidCount++; }
-                    if (enumerator.Current.inventory.GetItemCountPermanent(DLC1Content.Items.FreeChest) > 0) { freeChestCount++; }
+                    while (enumerator.MoveNext())
+                    {
+                        maximumKeys += enumerator.Current.master.inventory.GetItemCountPermanent(RoR2Content.Items.TreasureCache);
+                        maximumKeysVoid += enumerator.Current.master.inventory.GetItemCountPermanent(DLC1Content.Items.TreasureCacheVoid);
+                    }
                 }
+
             }
 
             if (lockboxCount > maximumKeys)
@@ -490,43 +531,85 @@ namespace WolfoQoL_Client.Reminders
             }
 
 
+
+        }
+
+        public void Reset()
+        {
+
+            lockboxCount = 0;
+            lockboxVoidCount = 0;
+            freeChestCount = 0;
+            freeChestVoidBool = false;
             voidFreeChestSpawned = false;
+            localHasSaleStar = false;
+            localHasRegenScrap = false;
+
             greenPrinterSpawned = false;
             //accessNodeSpawned = false;
             halcyonSpawned = false;
             newtShrineSpawned = 0;
         }
 
-
-
         public static void CheckKeysVoided()
         {
-            int maximumKeys = 0;
-            //int maximumKeysVoid = 0;
+            int keys = 0;
+            int keysVoid = 0;
 
             using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
             {
                 while (enumerator.MoveNext())
                 {
-                    maximumKeys += enumerator.Current.master.inventory.GetItemCount(RoR2Content.Items.TreasureCache);
-                    //maximumKeysVoid += enumerator.Current.master.inventory.GetItemCount(DLC1Content.Items.TreasureCacheVoid);
+                    keys += enumerator.Current.master.inventory.GetItemCountPermanent(RoR2Content.Items.TreasureCache);
+                    keysVoid += enumerator.Current.master.inventory.GetItemCountPermanent(DLC1Content.Items.TreasureCacheVoid);
                 }
             }
             //WQoLMain.log.LogMessage("Check if voided Lockbox reminder : " + maximumKeys);
-            ShouldRemoveKeyObjective(maximumKeys);
+            ShouldRemoveKeyObjective(keys, keysVoid);
         }
 
 
-        public static void ShouldRemoveKeyObjective(int keys)
+        public static void CheckItemsDestroyed()
+        {
+            if (!instance)
+            {
+                return;
+            }
+
+            bool HasSaleStar = false;
+            bool HasRegenScrap = false;
+
+            if (QualitySupport.QualityModInstalled)
+            {
+                HasSaleStar = QualitySupport.QualiyItemCountPermanent(DLC2Content.Items.LowerPricedChests, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory) > 0;
+                HasRegenScrap = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory) > 0;
+            }
+            else
+            {
+                HasSaleStar = LocalUserManager.GetFirstLocalUser().cachedMaster.inventory.GetItemCountPermanent(DLC2Content.Items.LowerPricedChests) > 0;
+                HasRegenScrap = LocalUserManager.GetFirstLocalUser().cachedMaster.inventory.GetItemCountPermanent(DLC1Content.Items.RegeneratingScrap) > 0;
+            }
+            if (instance.localHasSaleStar && !HasSaleStar)
+            {
+                Reminders_Main.FailObjective(instance.Objective_SaleStar);
+            }
+            if (instance.localHasRegenScrap && !HasRegenScrap)
+            {
+                Reminders_Main.FailObjective(instance.Objective_RegenScrap);
+            }
+        }
+
+
+        public static void ShouldRemoveKeyObjective(int keys, int voidKeys)
         {
             if (instance == null)
             {
                 return;
             }
-            if (!instance.Objective_Lockbox)
+            /*if (!instance.Objective_Lockbox)
             {
                 return;
-            }
+            }*/
             if (keys == 0)
             {
                 Reminders_Main.FailObjective(instance.Objective_Lockbox);
@@ -536,6 +619,17 @@ namespace WolfoQoL_Client.Reminders
                 for (int i = instance.lockboxCount; i > keys; i--)
                 {
                     instance.DeductLockboxCount();
+                }
+            }
+            if (voidKeys == 0)
+            {
+                Reminders_Main.FailObjective(instance.Objective_LockboxVoid);
+            }
+            else if (instance.lockboxVoidCount > voidKeys)
+            {
+                for (int i = instance.lockboxVoidCount; i > keys; i--)
+                {
+                    instance.DeductLockboxVoidCount();
                 }
             }
 

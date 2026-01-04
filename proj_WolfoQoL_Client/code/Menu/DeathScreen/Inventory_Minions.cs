@@ -10,7 +10,7 @@ using static WolfoLibrary.ExtraActions;
 
 namespace WolfoQoL_Client.DeathScreen
 {
-    public class Inventory_Minions
+    public static class Inventory_Minions
     {
         public static void Hooks()
         {
@@ -33,7 +33,7 @@ namespace WolfoQoL_Client.DeathScreen
                     if (player)
                     {
                         player.gameObject.EnsureComponent<DroneCollection>().CountDrones();
-                          
+
                     }
                 }
             }
@@ -130,7 +130,7 @@ namespace WolfoQoL_Client.DeathScreen
                 root.SetActive(false);
                 return;
             }
-            
+
             root.SetActive(true);
             root.transform.parent.gameObject.SetActive(true);
             itemDisplay = GetComponent<ItemInventoryDisplay>();

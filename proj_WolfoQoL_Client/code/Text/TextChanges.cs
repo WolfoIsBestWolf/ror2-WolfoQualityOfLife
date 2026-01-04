@@ -22,7 +22,7 @@ namespace WolfoQoL_Client.Text
     }
 
 
-    public class TextChanges
+    public static class TextChanges
     {
         public static R2API.LanguageAPI.LanguageOverlay TPLunar1;
         public static R2API.LanguageAPI.LanguageOverlay TPLunar2;
@@ -74,7 +74,7 @@ namespace WolfoQoL_Client.Text
             {
                 int newPickupCount = (int)self.pickupQuantity;
                 int VoidQuantity = newPickupCount;
- 
+
                 //If Is Void, 
                 if (itemDef.tier >= ItemTier.VoidTier1 && itemDef.tier <= ItemTier.VoidBoss)
                 {
@@ -137,7 +137,7 @@ namespace WolfoQoL_Client.Text
             return msg;
         }
 
-         
+
 
 
 
@@ -161,8 +161,8 @@ namespace WolfoQoL_Client.Text
             }
             #region Speech Colors
 
-            LanguageAPI.Add("PROPER_SAVE_CHAT_SAVE", "<style=cEvent>" + Language.GetString("PROPER_SAVE_CHAT_SAVE").Replace("<b>","") +"</style>");
-           LanguageAPI.Add("VULTUREHUNTER_DIALOGUE_FORMAT", Language.GetString("VULTUREHUNTER_DIALOGUE_FORMAT").Replace("c6d5ff", "87E5C0"));
+            LanguageAPI.Add("PROPER_SAVE_CHAT_SAVE", "<style=cEvent>" + Language.GetString("PROPER_SAVE_CHAT_SAVE").Replace("<b>", "") + "</style>");
+            LanguageAPI.Add("VULTUREHUNTER_DIALOGUE_FORMAT", Language.GetString("VULTUREHUNTER_DIALOGUE_FORMAT").Replace("c6d5ff", "87E5C0"));
             //LanguageAPI.Add("FALSESONBOSS_DIALOGUE_FORMAT", Language.GetString("FALSESONBOSS_DIALOGUE_FORMAT").Replace("c6d5ff", "FFA288"));
             #endregion
 
@@ -396,7 +396,7 @@ namespace WolfoQoL_Client.Text
                     int VoidQuantity = newPickupCount;
 
 
-                   //If Is Void, 
+                    //If Is Void, 
                     if (itemDef.tier >= ItemTier.VoidTier1 && itemDef.tier <= ItemTier.VoidBoss)
                     {
                         //If is Void, shouldn't we only bother checking the first time?
@@ -425,25 +425,26 @@ namespace WolfoQoL_Client.Text
                             }
                         }
                     }
-                    else {
+                    else
+                    {
                         ItemIndex voidIndex = ContagiousItemManager.GetTransformedItemIndex(itemDef.itemIndex);
                         if (voidIndex != ItemIndex.None)
-                    {
-                        //If Is Normal but you got Void
-                        //If items are picked up too fast it doesn't count properly for items Voids that eat multiple
-                        int voidCount = inventory.GetItemCount(voidIndex);
-                        if (voidCount > 0)
                         {
-                            if (!NetworkServer.active)
+                            //If Is Normal but you got Void
+                            //If items are picked up too fast it doesn't count properly for items Voids that eat multiple
+                            int voidCount = inventory.GetItemCount(voidIndex);
+                            if (voidCount > 0)
                             {
-                                if (masterGameObject.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
+                                if (!NetworkServer.active)
                                 {
-                                    //This doesn't have the item amount, how fix?
-                                    //Stats.itemsVoided++;
+                                    if (masterGameObject.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
+                                    {
+                                        //This doesn't have the item amount, how fix?
+                                        //Stats.itemsVoided++;
+                                    }
                                 }
+                                VoidQuantity += voidCount;
                             }
-                            VoidQuantity += voidCount;
-                        }
                         }
                     }
                     if (VoidQuantity > newPickupCount)

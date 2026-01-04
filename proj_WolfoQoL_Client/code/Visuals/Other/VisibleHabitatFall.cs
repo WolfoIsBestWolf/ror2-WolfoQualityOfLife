@@ -25,7 +25,7 @@ namespace WolfoQoL_Client
             //Color LeafColor = new Color(1.8f, 0.8f, 2.3f, 2f) * 0.9f;
             Color LeafColor = new Color(0.6604f, 0.3208f, 0.529f, 1) * 1.1f;
 
- 
+
             Material matBHFallEnvfxLeaves = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "58c26464c97ed5247914273e05f683c5").WaitForCompletion());
             Material matBHDistantTree_Billboard = Addressables.LoadAssetAsync<Material>(key: "75319e5dc7ca5ee47ae5608402e9e977").WaitForCompletion();
             Material matBHDistantTree = Addressables.LoadAssetAsync<Material>(key: "c631f00ba144f1648911a6d238b200df").WaitForCompletion();

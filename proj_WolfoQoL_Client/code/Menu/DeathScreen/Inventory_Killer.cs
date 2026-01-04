@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 
 namespace WolfoQoL_Client.DeathScreen
 {
-    public class Inventory_Killer
+    public static class Inventory_Killer
     {
         public static void AddKillerInventory(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
         {

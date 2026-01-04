@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3360657898
+CRC: 4022745329
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 506fb1c1985193fe0f4c54674041de0c
+    Hash: baf63a0d01d85eee728a4409963beecd
   TypeTreeHash:
     serializedVersion: 2
     Hash: 299d7093a10754f7aaab607a8b58134c
@@ -29,6 +29,7 @@ Assets:
 - Assets/WQoL/Items/EliteLightning.png
 - Assets/WQoL/General/FoodBGIcon.png
 - Assets/WQoL/PingIcons/ScrapperIcon_V3.png
+- Assets/WQoL/Items/LunarMeteor.png
 - Assets/WQoL/Items/Modded/AffixLostTransitVolatile.png
 - Assets/WQoL/SimuPreview/texDampcavePreview.png
 - Assets/WQoL/Items/Modded/texAffixPlatedIcon.png
@@ -67,11 +68,12 @@ Assets:
 - Assets/WQoL/LemurianTemple/texHalcyoniteShrineFlow.png
 - Assets/WQoL/Items/ElitePoison.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseBlight.png
+- Assets/WQoL/PingIcons/Quality/Quality_Equip.png
 - Assets/WQoL/Items/Modded/AffixLostTransitFrenzied.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkLessDarkOLD.png
 - Assets/WQoL/Buffs/texBuffTincture.png
 - Assets/WQoL/PingIcons/ChestCategory2Damage.png
-- Assets/WQoL/PingIcons/SS2/SS2_DroneDuplicate.png
+- Assets/WQoL/PingIcons/SS2/DroneDuplicator.png
 - Assets/WQoL/Body/SPEX.png
 - Assets/WQoL/Items/Modded/AffixLostTransitLeech.png
 - Assets/WQoL/PingIcons/DLC3/Drone_Junk.png
@@ -89,7 +91,7 @@ Assets:
 - Assets/WQoL/Items/conversion_stuff.txt
 - Assets/WQoL/PingIcons/Modded/SpStShrineCloaked .png
 - Assets/WQoL/SkinScalable/texCrocoEmissionAlt.png
-- Assets/WQoL/PingIcons/PrinterMili_V2.png
+- Assets/WQoL/PingIcons/Old/PrinterMili_V2.png
 - Assets/WQoL/Items/Modded/texAffixCloakIcon.png
 - Assets/WQoL/SkinRamps/texRampFallbootsPink.png
 - Assets/WQoL/Body/ClayDunestrider_Alt - Copy.png
@@ -100,6 +102,7 @@ Assets:
 - Assets/WQoL/icon.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkDark.png
 - Assets/WQoL/Body/texBodyRoboBallBuddyRed.png
+- Assets/WQoL/PingIcons/Quality/Quality_Chest2.png
 - Assets/WQoL/SkinRamps/texRampHuntressSoftRed.png
 - Assets/WQoL/General/texUIHighlightBoxOutline.png
 - Assets/WQoL/PingIcons/ChestLunarIcon.png
@@ -107,9 +110,10 @@ Assets:
 - Assets/WQoL/Body/texBodyClayMan.png
 - Assets/WQoL/PingIcons/DLC3/Drone_Cleanup.png
 - Assets/WQoL/SkinScalable/texCrocoDiffuseBlight.png
-- Assets/WQoL/Items/EliteVoid.png
+- Assets/WQoL/PingIcons/Quality/Quality_PrinterWild.png
 - Assets/WQoL/PingIcons/TrippleShop_Large.png
 - Assets/WQoL/Items/Modded/texAffixGravityIcon.png
+- Assets/WQoL/Items/EliteVoid.png
 - Assets/WQoL/Items/EliteHaunted.png
 - Assets/WQoL/PingIcons/DLC3/Drone__Shop.png
 - Assets/WQoL/SkinRamps/texRampEngiColossus.png
@@ -117,8 +121,9 @@ Assets:
 - Assets/WQoL/General/OldDuplicatorCook.anim
 - Assets/WQoL/PingIcons/DLC3/Drone__Scrapper.png
 - Assets/WQoL/PingIcons/ShrineMountainIcon.png
-- Assets/WQoL/Items/EliteIce.png
+- Assets/WQoL/PingIcons/Quality/Quality_Printer.png
 - Assets/WQoL/SkinRamps/RampEliteBead.png
+- Assets/WQoL/Items/EliteIce.png
 - Assets/WQoL/Body/MiniMushroom.png
 - Assets/WQoL/Body/texBodyBrother.png
 - Assets/WQoL/PingIcons/DLC3/Drone_Barrier.png
@@ -151,6 +156,7 @@ Assets:
 - Assets/WQoL/SkinRamps/texRampHuntressSoftGreen.png
 - Assets/WQoL/PingIcons/VoidIcon.png
 - Assets/WQoL/SkinRamps/texRampMercDustRed.png
+- Assets/WQoL/PingIcons/PrimordialTeleporterIcon - Copy.png
 - Assets/WQoL/Items/Beta/betaTempest.png
 - Assets/WQoL/SkinScalable/texCrocoPoisonMaskBlight.png
 - Assets/WQoL/Body/DevotedElder.png
@@ -163,12 +169,15 @@ Assets:
 - Assets/WQoL/PingIcons/ChestLargeIcon.png
 - Assets/WQoL/General/rampPrestige.png
 - Assets/WQoL/Items/Modded/AffixVarietySandstorm.png
-- Assets/WQoL/PingIcons/ScrapperIcon.png
+- Assets/WQoL/PingIcons/Quality/Quality_PrinterLarge.png
 - Assets/WQoL/Items/LunarHelfire.png
 - Assets/WQoL/Buffs/texBuffHeadStompOn.png
-- Assets/WQoL/LemurianTemple/BHDistantTreeP_Atlas.png
+- Assets/WQoL/PingIcons/ScrapperIcon.png
+- Assets/WQoL/PingIcons/EnemyReturn/Drone_Spider2.png
 - Assets/WQoL/PingIcons/DroneEmergencyIcon.png
-- Assets/WQoL/PingIcons/SS2/SS2_DroneScrapper.png
+- Assets/WQoL/PingIcons/PrimordialTeleporterChargedIcon - Copy.png
+- Assets/WQoL/PingIcons/SS2/DroneTable.png
+- Assets/WQoL/LemurianTemple/BHDistantTreeP_Atlas.png
 - Assets/WQoL/LemurianTemple/LTFallenLeaf_Atlas.png
 - Assets/WQoL/General/texUICorner5.png
 - Assets/WQoL/PingIcons/ChestCategory2Utility.png
@@ -177,6 +186,7 @@ Assets:
 - Assets/WQoL/PingIcons/Lunar_Recycler.png
 - Assets/WQoL/PingIcons/LemurianEgg_Old.png
 - Assets/WQoL/Body/texBodySquidTurret.png
+- Assets/WQoL/PingIcons/EnemyReturn/ShrineLynx.png
 - Assets/WQoL/Items/LunarPortal.png
 - Assets/WQoL/Items/Beta/betaWicked.png
 - Assets/WQoL/PingIcons/DLC3/Drone_Transport.png
@@ -196,7 +206,6 @@ Assets:
 - Assets/WQoL/Items/Modded/EliteBlight.png
 - Assets/WQoL/PingIcons/ScrapperIcon_V2.png
 - Assets/WQoL/SkinRamps/texCrocoSkinFlow.png
-- Assets/WQoL/PingIcons/PrimordialTeleporterIcon.png
 - Assets/WQoL/PingIcons/PrinterLarge.png
 - Assets/WQoL/Items/Beta/betaPauldron.png
 - Assets/WQoL/PingIcons/Printer.png
@@ -210,17 +219,18 @@ Assets:
 - Assets/WQoL/SkinRamps/texRampHuntressRed.png
 - Assets/WQoL/PingIcons/CleanseIcon.png
 - Assets/WQoL/PingIcons/DLC3/Power_Pyramid.png
-- Assets/WQoL/PingIcons/ShrineHealIcon.png
 - Assets/WQoL/PingIcons/Old/LunarIcon.png
+- Assets/WQoL/PingIcons/ShrineHealIcon.png
 - Assets/WQoL/General/OldDuplicatorIdle.anim
 - Assets/WQoL/Items/EliteAurelionite.png
 - Assets/WQoL/Buffs/texBuffBrokenCube.png
 - Assets/WQoL/SkinRamps/texRampEngiAlt.png
-- Assets/WQoL/PingIcons/SS2/SS2_DroneShock.png
+- Assets/WQoL/PingIcons/SS2/DroneShock.png
 - Assets/WQoL/PingIcons/ChestVoid.png
 - Assets/WQoL/PingIcons/DroneMissileIcon.png
 - Assets/WQoL/Body/texBodyEngiWalkerTurret.png
 - Assets/WQoL/PingIcons/ChestTimedIcon.png
+- Assets/WQoL/PingIcons/Quality/Quality_Chest.png
 - Assets/WQoL/PingIcons/ShrineOrderIcon.png
 - Assets/WQoL/Body/MiniMushroom_V2.png
 - Assets/WQoL/PingIcons/ExclamationIcon.png
@@ -236,6 +246,7 @@ Assets:
 - Assets/WQoL/Buffs/texBuffLunarShellIcon.png
 - Assets/WQoL/Buffs/texBuffBodyArmor.png
 - Assets/WQoL/PingIcons/DroneTurretIcon.png
+- Assets/WQoL/PingIcons/SS2/Shrine_Ethereal.png
 - Assets/WQoL/PingIcons/ShrineGoldIcon.png
 - Assets/WQoL/SkinScalable/texEngiTurretDiffuseAlt.png
 - Assets/WQoL/PingIcons/Equip.png
@@ -251,18 +262,19 @@ Assets:
 - Assets/WQoL/PingIcons/LunarCauldron.png
 - Assets/WQoL/Buffs/texBuffRaincoat.png
 - Assets/WQoL/PingIcons/ChestInvisibleIcon.png
-- Assets/WQoL/PingIcons/PrimordialTeleporterChargedIcon.png
 - Assets/WQoL/Body/texBodyTitanGoldAlly.png
-- Assets/WQoL/Buffs/texBuffShuriken.png
 - Assets/WQoL/PingIcons/LockedIconAlt.png
+- Assets/WQoL/Buffs/texBuffShuriken.png
+- Assets/WQoL/Items/EliteSecret.png
 - Assets/WQoL/General/texEquipmentBossBG.png
 - Assets/WQoL/PingIcons/ChestCasinoIcon.png
-- Assets/WQoL/Items/EliteSecret.png
-- Assets/WQoL/Items/LunarMeteor.png
+- Assets/WQoL/PingIcons/Quality/Quality_PrinterMili.png
 - Assets/WQoL/PingIcons/DLC3/Drone__Combiner.png
 - Assets/WQoL/PingIcons/ChestCategoryDamage.png
 - Assets/WQoL/SkinScalable/texOniMercSwordDiffuse.png
-- Assets/WQoL/Buffs/texBuffDisableAllSkillsIcon.png
+- Assets/WQoL/PingIcons/EnemyReturn/Drone_Spider.png
+- Assets/WQoL/PingIcons/EnemyReturn/ShrineLynx2.png
 - Assets/WQoL/Buffs/texBuffJailed.png
+- Assets/WQoL/Buffs/texBuffDisableAllSkillsIcon.png
 - Assets/WQoL/SkinRamps/texRampFallbootsGreen.png
 Dependencies: []

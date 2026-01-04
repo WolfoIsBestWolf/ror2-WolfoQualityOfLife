@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client
 {
-    public class HoldoutZoneFlowers
+    public static class HoldoutZoneFlowers
     {
         public static GameObject LeptonDaisyTeleporterDecoration = null;
         public static GameObject GlowFlowerForPillar = null;

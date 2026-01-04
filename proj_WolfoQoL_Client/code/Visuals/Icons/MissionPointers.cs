@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace WolfoQoL_Client
 {
-    internal class MissionPointers
+    public static class MissionPointers
     {
         //Show Halcyonite Beacons after buying 5
         //Show next Void Cell
@@ -72,7 +72,6 @@ namespace WolfoQoL_Client
 
 
         }
-
 
         private static void GildedCoast_Client(On.EntityStates.Interactables.GoldBeacon.NotReady.orig_OnEnter orig, EntityStates.Interactables.GoldBeacon.NotReady self)
         {

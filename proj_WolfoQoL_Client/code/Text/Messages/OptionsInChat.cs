@@ -5,7 +5,7 @@ using UnityEngine;
 namespace WolfoQoL_Client.Text
 {
 
-    public class OptionsInChat
+    public static class OptionsInChat
     {
         public static void Start()
         {

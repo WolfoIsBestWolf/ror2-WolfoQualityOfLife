@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace WolfoQoL_Client
 {
-    public class UI_Stuff
+    public static class UI_Stuff
     {
 
         public static GameObject DifficultyStat;
@@ -43,11 +43,51 @@ namespace WolfoQoL_Client
 
 
             IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
-
+ 
+            On.RoR2.UI.ScoreboardController.Rebuild += AddDevotedLemurians;
             //On.RoR2.SubjectChatMessage.GetSubjectName += IncludeEliteTypeInSubjectName;
             MealMenu();
         }
-
+ 
+        private static void AddDevotedLemurians(On.RoR2.UI.ScoreboardController.orig_Rebuild orig, ScoreboardController self)
+        {
+            orig(self);
+            if (WConfig.cfgDevotedInventory.Value == WConfig.MessageWho.Off)
+            {
+                return;
+            }
+            if (DevotionInventoryController.InstanceList.Count == 0)
+            {
+                return;
+            } 
+            foreach (PlayerCharacterMasterController playerCharacterMasterController in PlayerCharacterMasterController.instances)
+            {
+                if (playerCharacterMasterController.isLocalPlayer || WConfig.cfgDevotedInventory.Value == WConfig.MessageWho.Anybody)
+                {
+                    if (playerCharacterMasterController.isConnected)
+                    {
+                        CharacterMaster summonerMaster = playerCharacterMasterController.master;
+                        MinionOwnership.MinionGroup minionGroup = MinionOwnership.MinionGroup.FindGroup(summonerMaster.netId);
+                        if (minionGroup != null)
+                        {
+                            foreach (MinionOwnership minionOwnership in minionGroup.members)
+                            {
+                                if (minionOwnership && minionOwnership.GetComponent<DevotedLemurianController>())
+                                {
+                                    int count = self.stripAllocator.elements.Count;
+                                    self.stripAllocator.AllocateElements(count + 1);
+                                    self.stripAllocator.elements[count].SetMaster(minionOwnership.GetComponent<CharacterMaster>());
+                                    self.stripAllocator.elements[count].nameLabel.text = string.Format("{0}'s {1}s", Util.GetBestMasterName(summonerMaster), Language.GetString("LEMURIAN_BODY_NAME"));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+ 
         public static void MealMenu()
         {
             if (!WConfig.cfgChefMenuTweak.Value)
@@ -57,7 +97,7 @@ namespace WolfoQoL_Client
 
             GameObject MealPrepPickerPanel = Addressables.LoadAssetAsync<GameObject>(key: "f503de92590d0ee40bae54e7a7d969c8").WaitForCompletion();
 
-            MealPrepPickerPanel.GetComponent<PickupPickerPanel>().maxColumnCount = 11;
+            MealPrepPickerPanel.GetComponent<PickupPickerPanel>().maxColumnCount = 10;
 
             Transform BGContainer = MealPrepPickerPanel.transform.Find("MainPanel/Juice/BGContainer/");
 
@@ -67,7 +107,7 @@ namespace WolfoQoL_Client
             (BGContainer.GetChild(2) as RectTransform).offsetMax += new Vector2(100f, 0);
             (BGContainer.GetChild(2) as RectTransform).offsetMin -= new Vector2(100f, 50f);
 
-            BGContainer.GetChild(3).localPosition += new Vector3(0f,-50f,0f);   
+            BGContainer.GetChild(3).localPosition += new Vector3(0f, -50f, 0f);
 
         }
 
@@ -142,8 +182,9 @@ namespace WolfoQoL_Client
                 }
                 else
                 {
+                    tempRectTransform.offsetMax = new Vector2(120, -24); // 0, 0
                     tempRectTransform.offsetMax = new Vector2(120, -6);
-                    tempRectTransform.offsetMin = new Vector2(-10, 0);
+                    tempRectTransform.offsetMin = new Vector2(-10, 0); //0 49
                 }
             }
             else if (self.name.EndsWith("ChatBox")) //GameEndPannel

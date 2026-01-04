@@ -6,11 +6,11 @@ using UnityEngine.UI;
 namespace WolfoQoL_Client.Text
 {
 
-    public class EquipmentDrone
+    public static class EquipmentDrone
     {
         public static void Start()
         {
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EquipmentDroneMaster").AddComponent<EquipmentDroneNameComponent>(); ;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EquipmentDroneMaster").AddComponent<EquipmentDroneNameComponent>();
             On.RoR2.UI.AllyCardController.UpdateInfo += AllyCardController_UpdateInfo;
         }
 
@@ -24,6 +24,7 @@ namespace WolfoQoL_Client.Text
                 {
                     //self.GetComponent<LayoutElement>().preferredWidth += 12;
                     self.transform.GetChild(1).GetComponent<VerticalLayoutGroup>().spacing = 0;
+                    //self.nameLabel.text
                 }
             }
         }

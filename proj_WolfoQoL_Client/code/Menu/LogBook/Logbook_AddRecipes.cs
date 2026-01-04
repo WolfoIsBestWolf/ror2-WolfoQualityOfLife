@@ -14,7 +14,7 @@ using UnityEngine.UI;
 namespace WolfoQoL_Client
 {
 
-    public class Logbook_AddRecipes
+    public static class Logbook_AddRecipes
     {
 
         public static void Add()

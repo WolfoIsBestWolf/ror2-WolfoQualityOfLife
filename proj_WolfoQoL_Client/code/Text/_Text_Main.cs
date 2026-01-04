@@ -1,11 +1,12 @@
 using RoR2;
+using RoR2.Networking;
 //using System;
 using UnityEngine;
 using WolfoQoL_Client.Reminders;
 
 namespace WolfoQoL_Client.Text
 {
-    public class TextMain
+    public static class TextMain
     {
         public static void Start()
         {
@@ -19,6 +20,8 @@ namespace WolfoQoL_Client.Text
             }
             if (WConfig.module_text_general.Value)
             {
+                LunarSeer.Start();
+                EquipmentDrone.Start();
                 OptionsInChat.Start();
                 ShrineShapingMessage.Start();
                 TextChanges.Main();
@@ -31,6 +34,14 @@ namespace WolfoQoL_Client.Text
 
         public static void CallLate()
         {
+            Debug.Log(NetworkMessageHandlerAttribute.clientMessageHandlers.Count);
+            Debug.Log(NetworkMessageHandlerAttribute.serverMessageHandlers.Count);
+
+            foreach (var handler in NetworkMessageHandlerAttribute.clientMessageHandlers)
+            {
+                Debug.Log(handler.target);
+            }
+
             MoreMessages.VanillaVoids_WatchBrokeItem = ItemCatalog.FindItemIndex("VV_ITEM_BROKEN_MESS");
             PrayerBeads.moffeine = ItemCatalog.FindItemIndex("MoffeinBeadStatItem");
             PrayerBeads.usedBeads = ItemCatalog.FindItemIndex("ExtraStatsOnLevelUpConsumed");

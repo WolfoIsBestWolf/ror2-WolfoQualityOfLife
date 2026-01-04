@@ -1,8 +1,6 @@
 using HG;
 using RoR2;
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -38,7 +36,7 @@ namespace WolfoQoL_Client.DeathScreen
             //visitedScenesTOTAL.Add(visitedScenes);
             SceneCatalog.onMostRecentSceneDefChanged += this.HandleMostRecentSceneDefChanged;
 
-          isSaveAndContinuedRun = this.GetComponent<Run>().stageClearCount != 0;
+            isSaveAndContinuedRun = this.GetComponent<Run>().stageClearCount != 0;
         }
         public void OnDisable()
         {
@@ -165,7 +163,7 @@ namespace WolfoQoL_Client.DeathScreen
             visitedScenes.Add(newSceneDef);
         }
 
-         
+
     }
 
     public class PerPlayer_ExtraStatTracker : MonoBehaviour
@@ -184,7 +182,7 @@ namespace WolfoQoL_Client.DeathScreen
         public BodyIndex strongestMinion = (BodyIndex)(-2); //DeathScreenOnly
         public float strongestMinionDamage;//DeathScreenOnly
 
- 
+
         public int timesJumped; //Client-Only
         public float minionDamageTaken;
         public float minionHealing;
@@ -211,9 +209,10 @@ namespace WolfoQoL_Client.DeathScreen
             perMinionDamage = new float[BodyCatalog.bodyCount];
             master = this.GetComponent<CharacterMaster>();
             master.onBodyStart += Master_onBodyStart;
- 
+
         }
- 
+
+        //Cannot alter vanilla one because vanilla tracking all server side.
         public void FixedUpdate()
         {
             if (this.master.hasBody)
@@ -221,7 +220,7 @@ namespace WolfoQoL_Client.DeathScreen
                 timeAliveReal += Time.fixedDeltaTime;
             }
         }
-     
+
 
         public void Start()
         {
@@ -245,7 +244,7 @@ namespace WolfoQoL_Client.DeathScreen
             //This shit would need to be per profile somehow ig.
             //AddAllMinionDamageToStats();
         }
-        
+
         public void EvaluateStrongestMinion()
         {
             float val = 0f;
@@ -273,7 +272,7 @@ namespace WolfoQoL_Client.DeathScreen
         }
         private void Master_onBodyStart(CharacterBody body)
         {
-    
+
             latestDetailedDeathMessage = string.Empty;
             if (master.hasEffectiveAuthority)
             {
@@ -291,7 +290,7 @@ namespace WolfoQoL_Client.DeathScreen
         public class SyncValues : ChatMessageBase
         {
             public GameObject masterObject;
- 
+
             public override string ConstructChatString()
             {
                 return null;
@@ -305,7 +304,7 @@ namespace WolfoQoL_Client.DeathScreen
 
                 writer.Write(tracker.timesJumped);
                 writer.Write(tracker.damageBlocked);
-      
+
             }
             public override void Deserialize(NetworkReader reader)
             {
@@ -318,9 +317,10 @@ namespace WolfoQoL_Client.DeathScreen
                 if (masterObject == null)
                 {
                     WQoLMain.log.LogWarning("No Master");
+                    return;
                 }
                 var tracker = masterObject.EnsureComponent<PerPlayer_ExtraStatTracker>();
- 
+
                 tracker.timesJumped = Mathf.Max(tracker.timesJumped, reader.ReadInt32());
                 tracker.damageBlocked = Mathf.Max(tracker.damageBlocked, (float)reader.ReadSingle());
 
@@ -407,7 +407,7 @@ namespace WolfoQoL_Client.DeathScreen
                     //Chat.AddMessage(this.gameObject.name + " died");
                     tracker.minionDeaths++;
                 }
- 
+
 
             }
 

@@ -1,15 +1,15 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
-using RoR2.CharacterAI;
 using RoR2.Stats;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
- 
+using WolfoLibrary;
+
 namespace WolfoQoL_Client.DeathScreen
 {
 
-    public partial class ExtraStatsTracking
+    public static partial class ExtraStatsTracking
     {
 
         public static void Start()
@@ -27,8 +27,10 @@ namespace WolfoQoL_Client.DeathScreen
 
             On.RoR2.Stats.StatManager.OnServerItemGiven += StatManager_OnServerItemGiven;
             On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += Inventory_GiveItemPermanent_ItemIndex_int;
- 
+
         }
+
+        public static Dictionary<GameObject, MinionMasterStatTracker> a;
 
         private static void Inventory_GiveItemPermanent_ItemIndex_int(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
         {
@@ -46,12 +48,12 @@ namespace WolfoQoL_Client.DeathScreen
                 });
                 return;
             }
-            orig(self,itemIndex, countToAdd);
+            orig(self, itemIndex, countToAdd);
         }
 
         private static void StatManager_OnServerItemGiven(On.RoR2.Stats.StatManager.orig_OnServerItemGiven orig, Inventory inventory, ItemIndex itemIndex, int quantity)
         {
-            orig(inventory,itemIndex, quantity);
+            orig(inventory, itemIndex, quantity);
         }
 
         private static void REMOVINGITEMDEDUCTSFROMSTAT(On.RoR2.Inventory.orig_RemoveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
@@ -71,12 +73,13 @@ namespace WolfoQoL_Client.DeathScreen
                 newCount = 0
             });
         }
-  
+
 
         private static void Track_DoTDamage_MinionHurt(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.Before,
+
                 x => x.MatchStloc(1)
                 ))
             {
@@ -86,7 +89,7 @@ namespace WolfoQoL_Client.DeathScreen
                     //This is past checking for minion
                     if (damageEvent.attacker)
                     {
-                        if (damageEvent.attacker.TryGetComponent<MinionBody_StatLocator>(out MinionBody_StatLocator attacker))
+                        if (damageEvent.attacker.TryGetComponent(out MinionBody_StatLocator attacker))
                         {
                             attacker.tracker.perMinionDamage[attacker.bodyIndex] += damageEvent.damage;
                         }
@@ -163,8 +166,8 @@ namespace WolfoQoL_Client.DeathScreen
         {
             foreach (var player in PlayerCharacterMasterController.instances)
             {
-                var tracker = player.GetComponent<PerPlayer_ExtraStatTracker>();
-                Chat.SendBroadcastChat(new PerPlayer_ExtraStatTracker.SyncValues
+
+                Networker.SendWQoLMessage(new PerPlayer_ExtraStatTracker.SyncValues
                 {
                     masterObject = player.gameObject,
                 });
@@ -183,47 +186,6 @@ namespace WolfoQoL_Client.DeathScreen
             }
         }
 
-        private static void MinionDamageTakenStat(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchLdfld("RoR2.Stats.StatManager/DamageEvent", "damageDealt")
-                ))
-            {
-                c.EmitDelegate<System.Func<StatManager.DamageEvent, StatManager.DamageEvent>>((damageEvent) =>
-                {
-                    if (damageEvent.victimMaster)
-                    {
-                        if (damageEvent.victimMaster.minionOwnership && damageEvent.victimMaster.minionOwnership.ownerMaster)
-                        {
-                            var a = damageEvent.victimMaster.minionOwnership.ownerMaster.GetComponent<PerPlayer_ExtraStatTracker>();
-                            if (a)
-                            {
-                                a.minionDamageTaken += damageEvent.damageDealt;
-                            }
-                        }
-                    }
-                    return damageEvent;
-                });
-            }
-            else
-            {
-                WQoLMain.log.LogWarning("IL Failed: MinionDamageTakenStat");
-            }
-        }
-
-        private static void Stage_OnDisable(On.RoR2.Stage.orig_OnDisable orig, Stage self)
-        {
-            orig(self);
-            GenericPickupController[] pickups = Object.FindObjectsOfType<GenericPickupController>();
-            WQoLMain.log.LogMessage(pickups.Length);
-            foreach (var pickup in pickups)
-            {
-                WQoLMain.log.LogMessage(pickup.pickupIndex);
-            }
-        }
- 
         private static void LunarCoinSpentTracking(On.RoR2.NetworkUser.orig_RpcDeductLunarCoins orig, NetworkUser self, uint count)
         {
             //WolfoMain.log.LogMessage("RpcDeductLunarCoins "+ self+self.master + " | "+count);
@@ -235,5 +197,5 @@ namespace WolfoQoL_Client.DeathScreen
         }
 
     }
- 
+
 }

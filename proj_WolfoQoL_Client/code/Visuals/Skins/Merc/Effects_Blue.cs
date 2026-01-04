@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Merc_Blue
+    public static class Merc_Blue
     {
         //Library of Effects if needed
         public static GameObject MercExposeEffect = LegacyResourcesAPI.Load<GameObject>("Prefabs/temporaryvisualeffects/MercExposeEffect");

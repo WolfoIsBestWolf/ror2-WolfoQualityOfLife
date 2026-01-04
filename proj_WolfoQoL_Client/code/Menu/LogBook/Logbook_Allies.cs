@@ -1,6 +1,5 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using R2API;
 using RoR2;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;
@@ -55,12 +54,12 @@ namespace WolfoQoL_Client
             IL.RoR2.UI.LogBook.PageBuilder.AddBodyStatsPanel += FixNegativeRegenStatNotShowingInLog;
             IL.RoR2.UI.LogBook.PageBuilder.DroneBody += AddOperatorCommand;
 
-           
+
             BodyCatalog.availability.CallWhenAvailable(AllyCatalog.Make);
-        
+
             LogBookController.availability.CallWhenAvailable(SetDroneIcon);
         }
- 
+
         public static void SetDroneIcon()
         {
             LogBookController.CommonAssets.droneEntryIcon.transform.GetChild(0).GetComponent<RawImage>().color = new Color(0.6588f, 0.708f, 0.741f, 1); //0.6588 0.6588 0.6588 1
@@ -141,7 +140,7 @@ namespace WolfoQoL_Client
                 WQoLMain.log.LogWarning("IL Failed: AddOperatorCommand");
             }
         }
- 
+
         private static void PageBuilder_AddDronePanel(On.RoR2.UI.LogBook.PageBuilder.orig_AddDronePanel orig, PageBuilder self, CharacterBody bodyPrefabComponent)
         {
             orig(self, bodyPrefabComponent);

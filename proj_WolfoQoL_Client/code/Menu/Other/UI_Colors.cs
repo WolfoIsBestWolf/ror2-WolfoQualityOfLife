@@ -1,6 +1,4 @@
-﻿using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using RoR2;
+﻿using RoR2;
 using RoR2.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -8,7 +6,7 @@ using UnityEngine.UI;
 
 namespace WolfoQoL_Client
 {
-    public class UI_Color
+    public static class UI_Color
     {
 
 
@@ -32,7 +30,7 @@ namespace WolfoQoL_Client
                 On.RoR2.UI.ItemIcon.SetItemIndex_ItemIndex_int_float += ShowTemporaryItemStacksDifferently;
 
             }
-         
+
         }
 
 
@@ -71,7 +69,7 @@ namespace WolfoQoL_Client
             input.image.color = new Color(0, 0, 0, 0);
         }
 
-       
+
 
     }
 

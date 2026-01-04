@@ -52,14 +52,15 @@ namespace WolfoQoL_Client.Text
 
         public static void ShrineShaping_Message()
         {
+            if (!WConfig.cfgMessagesShrineRevive.Value)
+            {
+                return;
+            }
+            Chat.AddMessage(Language.GetString("SHRINE_REVIVE_USE_MESSAGE"));
             List<string> deadPeopleNames = new List<string>();
             int deadPeople = 0;
             bool youAreDead = false;
 
-            if (WConfig.cfgMessagesShrineRevive.Value)
-            {
-                Chat.AddMessage(Language.GetString("SHRINE_REVIVE_USE_MESSAGE"));
-            }
             foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
             {
                 if (!player.isConnected)

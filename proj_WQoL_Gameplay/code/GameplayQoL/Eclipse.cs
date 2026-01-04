@@ -2,7 +2,6 @@
 using RoR2;
 using System;
 using UnityEngine;
-using WQoL_Gameplay;
 
 namespace WQoL_Gameplay
 {

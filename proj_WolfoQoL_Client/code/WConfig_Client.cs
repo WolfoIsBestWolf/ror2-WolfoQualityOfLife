@@ -1,17 +1,18 @@
 using BepInEx;
 using BepInEx.Configuration;
 using RiskOfOptions;
-using RiskOfOptions.OptionConfigs;
 using RiskOfOptions.Options;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace WolfoQoL_Client
 {
-    public class WConfig
+    public static class WConfig
     {
 
         public static ConfigFile ConfigFile_Client = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Client.cfg", true);
+
+        public static ConfigEntry<MessageWho> cfgDevotedInventory;
 
         public static ConfigEntry<bool> SH_Music_Restarter;
         //public static ConfigEntry<bool> OperatorDroneIndicator;
@@ -22,7 +23,7 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> cfgHelminthLightingFix;
         public static ConfigEntry<bool> cfgSofterShadows;
- 
+
         public static ConfigEntry<bool> DroneMessage_Repair;
         public static ConfigEntry<bool> DroneMessage_Combine;
         public static ConfigEntry<bool> MealprepMessage;
@@ -59,7 +60,7 @@ namespace WolfoQoL_Client
 
 
         public static ConfigEntry<bool> cfgSkipItemDisplays;
- 
+
         public static ConfigEntry<bool> cfgDarkTwisted;
         public static ConfigEntry<bool> cfgTwistedFire;
         public static ConfigEntry<bool> cfgTwistedSound;
@@ -77,7 +78,9 @@ namespace WolfoQoL_Client
 
         //public static ConfigEntry<bool> cfgSkinMakeOniBackup;
         public static ConfigEntry<bool> cfgSkinMakeBlightedAcrid;
-       
+
+        public static ConfigEntry<bool> cfgSkinOperatorAltChirp;
+
 
         //OjbectiveStuff
         //public static ConfigEntry<float> cfgObjectiveHeight;
@@ -90,7 +93,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMessageDroneScrap;
         public static ConfigEntry<bool> cfgMessageVictory;
         public static ConfigEntry<bool> cfgMessageVoidTransform;
-        public static ConfigEntry<MessageWho> cfgMessageElixir;
+        public static ConfigEntry<MessageWho> cfgMessageElixirWatch;
         public static ConfigEntry<bool> cfgMessagesColoredItemPings;
         public static ConfigEntry<bool> cfgMessagesVoidQuantity;
         public static ConfigEntry<bool> cfgMessagesShrineRevive;
@@ -100,7 +103,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMessageDevotion;
 
         //Reminders
-      
+
 
         public static ConfigEntry<bool> cfgReminder_Halcyon;
         public static ConfigEntry<bool> cfgReminder_AccessNode;
@@ -125,7 +128,7 @@ namespace WolfoQoL_Client
         public enum MessageWho
         {
             Off,
-            You,
+            Your,
             Anybody
         }
         public enum Position
@@ -151,7 +154,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgPrimordialBlueText;
         public static ConfigEntry<bool> cfgPrimordialBlueIcon;
         public static ConfigEntry<bool> cfgPrimordialBlueHighlight;
-       
+
         public static ConfigEntry<bool> cfgLogbook_More;
         public static ConfigEntry<bool> cfgLogbook_EliteEquip;
         public static ConfigEntry<bool> cfgLogbook_EliteEquipEarlyViewable;
@@ -169,7 +172,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMainMenuRandomizer;
         public static ConfigEntry<int> cfgMainMenuRandomizerSelector;
         public static ConfigEntry<bool> cfgMainMenuScav;
-         
+
         public static ConfigEntry<bool> cfgUISimuBorder;
         public static ConfigEntry<bool> cfgUIEclipseBorder;
 
@@ -180,7 +183,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkinMercGreenGlow;
         public static ConfigEntry<bool> cfgSkinEngiHarpoons;
         public static ConfigEntry<bool> cfgSkinMisc;
- 
+
         public static ConfigEntry<bool> OldModelDuplcators;
 
         //UI
@@ -321,19 +324,19 @@ namespace WolfoQoL_Client
 
 
             #region Reminders
-          
+
             cfgRemindersNOTINSIMU = ConfigFile_Client.Bind(
                 "Reminders",
                 "Disable reminders in Simulacrum",
                 true,
                 "Disable all reminders in Simulacrum.\n\nSale Star and Regen Scrap will always be disabled."
             );
-             cfgRemindersKeys = ConfigFile_Client.Bind(
-                "Reminders",
-                "Rusted Keys",
-                true,
-                "Reminder to open your Rusted & Encrusted Key lockboxes on stages where they spawn."
-            );
+            cfgRemindersKeys = ConfigFile_Client.Bind(
+               "Reminders",
+               "Rusted Keys",
+               true,
+               "Reminder to open your Rusted & Encrusted Key lockboxes on stages where they spawn."
+           );
             cfgRemindersFreechest = ConfigFile_Client.Bind(
                 "Reminders",
                 "Shipping Request",
@@ -404,7 +407,7 @@ namespace WolfoQoL_Client
               "VanillaVoids Shipping Request; Reminder to complete the Void Holdout Zone event that spawns from this item."
             );
 
-           
+
             #endregion
             #region More Messages -> Specially when we add chat messages
             cfgMessageDeath = ConfigFile_Client.Bind(
@@ -449,7 +452,7 @@ namespace WolfoQoL_Client
                  true,
                  "Message to show when and on what someone used their Sale Stars on."
               );
-            cfgMessageElixir = ConfigFile_Client.Bind(
+            cfgMessageElixirWatch = ConfigFile_Client.Bind(
                 "Chat Messages",
                 "Elixir & Watch lost",
                 MessageWho.Anybody,
@@ -490,25 +493,31 @@ namespace WolfoQoL_Client
                 "Chat Messages",
                 "Shaping Activated",
                 true,
-                "Chat message for when Shrine of Shaping is activated."
+                "Chat message for when Shrine of Shaping is activated and who it is reviving."
             );
 
             #endregion
             #region Hud - MidRun
             //UI -> Hud?
-           
+
             RealTimeTimer = ConfigFile_Client.Bind(
               "Menu & Hud",
               "Real Time Timer",
               true,
               "Adds a secondary timer, underneath the Run Timer / Wave Counter when Scoreboard is open.\n\nThis uses the full time of the run including time spent in Hidden Realms"
             );
-           cfgNewSprintCrosshair = ConfigFile_Client.Bind(
-              "Menu & Hud",
-              "Sprinting Crosshair Changes",
-              true,
-              "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
-            );
+            cfgNewSprintCrosshair = ConfigFile_Client.Bind(
+               "Menu & Hud",
+               "Sprinting Crosshair Changes",
+               true,
+               "Should this mod replace the Sprint crosshair with a different one that works with charging abilities."
+             );
+            cfgDevotedInventory = ConfigFile_Client.Bind(
+             "Menu & Hud",
+             "Devoted Lemurian Inventory",
+             MessageWho.Anybody,
+             "Show the inventories of Devoted Lemurians per player."
+           );
             cfgChefMenuTweak = ConfigFile_Client.Bind(
               "Menu & Hud",
               "Bigger Crafting Menu",
@@ -588,7 +597,7 @@ namespace WolfoQoL_Client
                true,
                "Item stacks that have temporary items in it, have their stack number slightly blue.\n\nCan't show temp items seperately like in returns."
            );
- 
+
             SulfurPoolsSkin = ConfigFile_Client.Bind(
                 "Skins",
                 "Sulfur Pool Beetles Skin",
@@ -738,7 +747,7 @@ namespace WolfoQoL_Client
                 true,
                 "For Alloyed Collective; Adds Recipes info to Item entries."
             );
-            
+
             cfgLogbook_SortBosses = ConfigFile_Client.Bind(
                 "Logbook",
                 "Log | Sort Bosses",
@@ -859,6 +868,12 @@ namespace WolfoQoL_Client
                 "Default Acrid Blight Recolor",
                 false,
                 "Simple recolor where instead of green it's more yellow-orange"
+            );
+            cfgSkinOperatorAltChirp = ConfigFile_Client.Bind(
+                "Skins",
+                "Operator Mastery Recolor Chirp",
+                true,
+                "Recolors Chirp to match the colors of the mastery skin."
             );
             cfgSkinEngiHarpoons = ConfigFile_Client.Bind(
                "Skins",
@@ -1014,6 +1029,7 @@ namespace WolfoQoL_Client
                 cfgDarkTwisted,
                 cfgTwistedFire,
                 cfgChefMenuTweak,
+                cfgSkinOperatorAltChirp,
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();

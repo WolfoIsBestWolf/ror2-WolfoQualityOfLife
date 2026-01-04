@@ -1,8 +1,38 @@
 ```
+v5.1.2
+
+Changed networking for hopefully better to support with moddedHost -> Vanilla.
+
+Operator Mastery skin will now recolor CHIRP with matching colors.
+Moved Artifact of Devotion inventory display here.
+Reminders/Chat messages check for QualityMod versions of items.
+Ping Icons for QualityMod interactables.
+Ping Icons for 2 EnemiesReturns interactables and 1 SS2 beta interactable.
+Egocentrism and VV_Clockwork Mechanism eating items now removes reminders associated with that item.
+
+
+Mod Death Messages now after vanilla due to networking reasons.
+Fixed differently tracked time alive not saving in Proper Save.
+Fixed some Shrine of Shaping lines playing twice.
+Fixed DeathScreen chatbox scrolling to the top when switching tabs.
+Fixed Vending Machine icon being set on the wrong object.
+Fixed issues regarding Devotion Death message
+Fixed reminder error on late joining.
+Fixed Ego & Void messages showing up for all players instead of just you.
+Fixed Clockwork Mechanism message saying your name instead of the item that broke.
+Fixed Lunar Seer, Equipment Drone, text stuff being blocked by "ChatMessage" module instead of "TextAdditions"
+Fixed Acrid Blight Lobby splash not being glowy enough.
+Halcyon Objective should work on clients even if they disabled fixes in WFix.
+Made sure StatBooster items are hidden, since they appear in enemy inventories frequently.
+Reduced max columns of crafting menu by 1 to fit better with CookbookMod (Great mod btw)
+
+```
+```
 v5.1.1
 Time Alive now accounts for time alive in hidden realms.
 Regular Run Timer displayed seperately instead.
 
+Increased font size and spacing on game end screen a small bit.
 Resurect message for when Equipment Drone uses Seed of Life on you.
 Fixed ItemCollected stat sometimes rolling over to infinity. (Usually on Drifter)
 Fixed visual issue when Tinkering Aurelionite Fragment.

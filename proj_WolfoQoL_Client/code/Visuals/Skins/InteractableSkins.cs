@@ -1,10 +1,9 @@
-﻿using RoR2;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class InteractableSkins
+    public static class InteractableSkins
     {
 
         public static void Start()
@@ -29,7 +28,7 @@ namespace WolfoQoL_Client.Skins
         }
     }
 
-    /*public class MegaDroneSkinner : MonoBehaviour
+    /*public static class MegaDroneSkinner : MonoBehaviour
     {
         public static Material mat;
         public void Start()

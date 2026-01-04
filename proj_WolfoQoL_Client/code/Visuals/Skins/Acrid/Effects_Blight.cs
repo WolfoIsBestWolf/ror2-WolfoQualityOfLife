@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Effects_Blight
+    public static class Effects_Blight
     {
         //Fucking Croco Blight
 
@@ -283,10 +283,7 @@ namespace WolfoQoL_Client.Skins
             //matCrocoGooDecalBlight.color = new Color(1, 1f, 1);
             //matCrocoGooDecalBlight.SetTexture("_RemapTex", texRampCrocoDiseaseBlightAlt);
             //
-
-
-
-
+ 
             //Slash Blight
 
             Material matCrocoSlashDiseasedBlight = UnityEngine.Object.Instantiate(CrocoSlashBlight.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial);
@@ -297,17 +294,13 @@ namespace WolfoQoL_Client.Skins
             matCrocoSlashDiseasedBrightBlight.SetTexture("_RemapTex", texRampCrocoDiseaseBlight);
             matCrocoSlashDiseasedBrightBlight.SetColor("_TintColor", new Color(0.85f, 0.8f, 0.21f, 1));
             CrocoComboFinisherSlashBlight.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoSlashDiseasedBrightBlight;
-
-
-
-
             //
 
 
             //Bite Blight
             CrocoBiteEffectBlight.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoBiteDiseasedBlight;
             CrocoBiteEffectBlight.transform.GetChild(2).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoGooLargeBlight;
-            CrocoBiteEffectBlight.transform.GetChild(3).GetComponent<UnityEngine.ParticleSystem>().startColor = TracerColor;
+            CrocoBiteEffectBlight.transform.GetChild(3).GetComponent<ParticleSystem>().startColor = TracerColor;
             //
             //Disease Ghost Blight
             CrocoDiseaseGhostBlight.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial = matCrocoDiseaseSporeBlight;
@@ -373,7 +366,7 @@ namespace WolfoQoL_Client.Skins
             CrocoDisplay.AddComponent<CharacterSelectSurvivorPreviewDisplayController>();
             GameObject puddle = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDisplaySpawnEffect.prefab").WaitForCompletion();
 
-            lobbyPool = PrefabAPI.InstantiateClone(puddle, "SpawnBlight", false);
+            lobbyPool = PrefabAPI.InstantiateClone(puddle, "CrocoDisplaySpawnEffect_Blight", false);
             lobbyPool.transform.GetChild(0).GetChild(0).GetComponent<ThreeEyedGames.Decal>().Material = matCrocoGooDecalBlight;
             lobbyPool.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matCrocoDiseaseSporeBlight;
             lobbyPool.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystemRenderer>().material = matCrocoDiseaseDrippingsBlight;
@@ -381,7 +374,7 @@ namespace WolfoQoL_Client.Skins
             lobbyPool.transform.GetChild(1).GetChild(3).GetChild(0).GetComponent<ParticleSystemRenderer>().material = matCrocoGooSmallBlightD;
             lobbyPool.transform.GetChild(1).GetChild(3).GetChild(1).GetComponent<ParticleSystemRenderer>().material = matCrocoGooLargeBlight;
             lobbyPool.transform.GetChild(1).GetChild(3).GetChild(2).GetComponent<ParticleSystemRenderer>().material = matCrocoDiseaseSporeBlight;
-            lobbyPool.transform.GetChild(1).GetChild(3).GetChild(3).GetComponent<Light>().color = new Color32(100, 75, 50, 255);
+            lobbyPool.transform.GetChild(1).GetChild(3).GetChild(3).GetComponent<Light>().color = new Color32(255, 177, 110, 200);
             lobbyPool.SetActive(false);
 
 

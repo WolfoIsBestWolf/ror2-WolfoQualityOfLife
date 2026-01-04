@@ -6,7 +6,7 @@ using WolfoLibrary;
 
 namespace WolfoQoL_Client.Reminders
 {
-    public class Reminders_Portal
+    public static class Reminders_Portal
     {
         public static void Start()
         {
@@ -17,7 +17,7 @@ namespace WolfoQoL_Client.Reminders
             if (WConfig.cfgRemindersPortal.Value)
             {
 
-           
+
                 PortalObjective portal;
 
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cDeath>";
@@ -37,7 +37,7 @@ namespace WolfoQoL_Client.Reminders
 
 
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cRebirth>";
-            
+
                 portal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<PortalObjective>();
                 portal.style = "<style=cRebirth>";
                 portal.onlyEclipse = true;
@@ -47,7 +47,7 @@ namespace WolfoQoL_Client.Reminders
                 //SolusWing portal has reminder
                 //CE Virtual portal is just to leave no reminder
                 Addressables.LoadAssetAsync<GameObject>(key: "9592265fcd09fc643b2495b5e4ebac8f").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#FF269C>";
-                }
+            }
         }
 
         private static void MissionCompleted_OnEnter(On.RoR2.ArenaMissionController.MissionCompleted.orig_OnEnter orig, ArenaMissionController.MissionCompleted self)
@@ -128,11 +128,11 @@ namespace WolfoQoL_Client.Reminders
             }
             if (Language.currentLanguage.TokenIsRegistered(baseToken))
             {
-                objectiveToken = Language.GetStringFormatted(baseToken, style+ Language.GetString(nameToken)+"</color>");
+                objectiveToken = Language.GetStringFormatted(baseToken, style + Language.GetString(nameToken) + "</color>");
             }
             else
             {
-                objectiveToken = Language.GetStringFormatted(baseToken, style + Language.english.GetLocalizedStringByToken(nameToken)+ "</color>");
+                objectiveToken = Language.GetStringFormatted(baseToken, style + Language.english.GetLocalizedStringByToken(nameToken) + "</color>");
             }
         }
     }

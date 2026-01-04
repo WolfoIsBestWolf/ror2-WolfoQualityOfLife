@@ -1,6 +1,5 @@
 ﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using R2API;
 using RoR2;
 using RoR2.Projectile;
 using System;
@@ -9,7 +8,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class EliteEffects
+    public static class EliteEffects
     {
         public class CopyEliteShaderToGhost : MonoBehaviour
         {
@@ -114,7 +113,7 @@ namespace WolfoQoL_Client.Skins
                     //Instance of Object not base Object
                     if (entityState.characterBody.isElite)
                     {
-                        ballPrep.transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_EliteIndex", entityState.GetModelTransform().GetComponent<CharacterModel>().shaderEliteRampIndex+1);
+                        ballPrep.transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_EliteIndex", entityState.GetModelTransform().GetComponent<CharacterModel>().shaderEliteRampIndex + 1);
                         //Debug.Log(ballPrep.transform.GetChild(0).GetComponent<Renderer>().material.GetFloat("_EliteIndex"));
                     }
                     return ballPrep;

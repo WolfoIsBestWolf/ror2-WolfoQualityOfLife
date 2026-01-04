@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class EliteBell
+    public static class EliteBell
     {
 
 

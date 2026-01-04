@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace WolfoQoL_Client.DeathScreen
 {
-    public class RunRecap
+    public static class RunRecap
     {
 
 
@@ -142,7 +142,7 @@ namespace WolfoQoL_Client.DeathScreen
             verticalLayout.spacing = 12;
             //Fuck trying to do math
             if (scenes.Count >= 16) //16 & >
-            {         
+            {
                 verticalLayout.spacing = 0;
                 iconHeight = 48 - ((scenes.Count - 16) * 2.4f);
                 iconHeight = Mathf.Max(iconHeight, 36);
@@ -197,7 +197,7 @@ namespace WolfoQoL_Client.DeathScreen
         }
 
 
-         
+
 
 
     }

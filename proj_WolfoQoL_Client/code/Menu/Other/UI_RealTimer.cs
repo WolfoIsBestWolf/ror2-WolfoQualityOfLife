@@ -1,18 +1,14 @@
-﻿using MonoMod.Cil;
-using RoR2;
+﻿using RoR2;
 using RoR2.UI;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.UI;
 
 namespace WolfoQoL_Client
 {
-    public class UI_RealTimeTimer
+    public static class UI_RealTimeTimer
     {
         public static bool scoreboardOpen = false;
-      
+
         public static void Start()
         {
             On.RoR2.UI.ScoreboardController.OnEnable += ScoreboardController_OnEnable;
@@ -45,7 +41,7 @@ namespace WolfoQoL_Client
                     }
                 }
             };
-            
+
             GameObject Timer = Addressables.LoadAssetAsync<GameObject>(key: "23b0bcee7bc7a0c4d91d884c778cc70a").WaitForCompletion().transform.GetChild(0).GetChild(1).gameObject;
 
 
@@ -76,7 +72,7 @@ namespace WolfoQoL_Client
             {
                 RealTimerUIController.instance.SetActive(false);
             }
-           
+
         }
 
         private static void ScoreboardController_OnEnable(On.RoR2.UI.ScoreboardController.orig_OnEnable orig, ScoreboardController self)
@@ -87,9 +83,9 @@ namespace WolfoQoL_Client
                 if (WConfig.RealTimeTimer.Value)
                 {
                     RealTimerUIController.instance.SetActive(true);
-                } 
+                }
             }
-            
+
         }
     }
     public class RealTimerUIController : MonoBehaviour
@@ -104,14 +100,14 @@ namespace WolfoQoL_Client
         public void OnEnable()
         {
             runStartingOffset = 0.2f;
-            realTimer.localPosition += new Vector3(0,2,0);
+            realTimer.localPosition += new Vector3(0, 2, 0);
         }
         public void OnDisable()
         {
             realTimer.localPosition -= new Vector3(0, 2, 0);
         }
 
-       
+
 
         public void Setup()
         {
@@ -129,7 +125,7 @@ namespace WolfoQoL_Client
         {
             if (this.runStopwatchTimerTextController)
             {
-                this.runStopwatchTimerTextController.seconds = (double)(Run.instance ? Run.instance.fixedTime-runStartingOffset : 0f);
+                this.runStopwatchTimerTextController.seconds = (double)(Run.instance ? Run.instance.fixedTime - runStartingOffset : 0f);
             }
         }
         public TimerText runStopwatchTimerTextController;

@@ -1,8 +1,8 @@
 {
     "name": "WolfoQualityOfLife",
-    "version_number": "5.1.1",
+    "version_number": "5.1.2",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife",
-    "description": "[Client-Side]: Adds colored effects to Mercenary Skins and Blight Acrid, Unique ping icons for everything, Reminders to do stuff, Informational chat messages (death, losing items), expanded Death Screen, and like a lot of things.",
+    "description": "[Client-Side]: Adds colored effects to Mercenary Skins and Blight Acrid, Unique ping icons for everything, Reminders to do stuff, Informational chat messages (death, losing items), expanded Death Screen, Devotion Inventory,and like a lot of things.",
     "dependencies": [
 		"Wolfo-WolfFixes-1.2.0",
         "Rune580-Risk_Of_Options-2.8.2",
@@ -12,6 +12,7 @@
 		"RiskofThunder-R2API_Colors-1.0.3",
 		"RiskofThunder-R2API_Elites-1.0.3",
 		"RiskofThunder-R2API_Items-1.0.3",
+		"RiskofThunder-R2API_Skins-1.4.0",
 		"RiskofThunder-HookGenPatcher-1.2.9"
     ]
 }

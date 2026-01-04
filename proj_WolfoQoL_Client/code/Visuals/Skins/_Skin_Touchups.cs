@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class SkinTouchups
+    public static class SkinTouchups
     {
 
 
@@ -19,6 +19,7 @@ namespace WolfoQoL_Client.Skins
             Skins_REX.Start();
             Skins_Loader();
             Skins_Toolbot();
+            Skins_Operator();
             OtherEnemies.Start();
             InteractableSkins.Start();
 
@@ -61,6 +62,31 @@ namespace WolfoQoL_Client.Skins
             };
 
         }
+        public static void Skins_Operator()
+        {
+            if (!WConfig.cfgSkinOperatorAltChirp.Value)
+            {
+                return;
+            }
+            SkinDef DTHaulerMastery = ScriptableObject.Instantiate(Addressables.LoadAssetAsync<SkinDef>(key: "a725c698056caf04790c1f808f62d948").WaitForCompletion());
+            SkinDefParams DTHaulerMasteryP = ScriptableObject.Instantiate(Addressables.LoadAssetAsync<SkinDefParams>(key: "e2f9475836a89c5499ecf3e6934fea49").WaitForCompletion());
+            Material matDroneNew = Material.Instantiate(Addressables.LoadAssetAsync<Material>(key: "448eba93c01ca6046970593a3cc2d234").WaitForCompletion());
+            matDroneNew.mainTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texDTHauler_Mastery.png");
+            matDroneNew.SetTexture("_EmTex", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinScalable/texDTHauler_MasteryEM.png"));
+            matDroneNew.SetColor("_EmColor", new Color(1f, 0.3377f, 0.3377f, 1f)); //1f, 0.3377f, 0.3377f, 1f
+
+            DTHaulerMastery.nameToken = "RAPIDEMANDSTHIS";
+            DTHaulerMastery.skinDefParams = DTHaulerMasteryP;
+            DTHaulerMastery.skinDefParamsAddress = new AssetReferenceT<SkinDefParams>("");
+            DTHaulerMasteryP.rendererInfos[0].defaultMaterial = matDroneNew;
+            DTHaulerMasteryP.rendererInfos[0].defaultMaterialAddress = null;
+
+            R2API.Skins.AddSkinToCharacter(DTHaulerMastery.rootObject.transform.root.gameObject, DTHaulerMastery);
+            SkinDefParams skinDroneTechDefAlt_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "4c92b69e995926b46876ed3c644a2e81").WaitForCompletion();
+            skinDroneTechDefAlt_params.minionSkinReplacements[2].minionSkin = DTHaulerMastery;
+        }
+
+
 
         public static void Skins_Loader()
         {
@@ -76,14 +102,6 @@ namespace WolfoQoL_Client.Skins
                 orig(self, hook);
             };
 
-            /*On.EntityStates.Loader.ThrowPylon.OnEnter += (orig, self) =>
-            {
-                //orig(self);
-                SkinnedMeshRenderer temprender = EntityStates.Loader.ThrowPylon.projectilePrefab.transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
-                temprender.materials[1].mainTexture = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial.mainTexture;
-                //WolfoMain.log.LogWarning("CHANGE LOADER PYLON");
-                orig(self);
-            };*/
         }
 
 
@@ -224,11 +242,7 @@ namespace WolfoQoL_Client.Skins
                 }
 
             }
-
         }
-
-
-
     }
 
     public class MulTLobbySkill : MonoBehaviour

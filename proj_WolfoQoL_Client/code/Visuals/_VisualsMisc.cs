@@ -8,7 +8,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 namespace WolfoQoL_Client
 {
-    public class VisualsMisc
+    public static class VisualsMisc
     {
 
         public static void Start()
@@ -118,7 +118,7 @@ namespace WolfoQoL_Client
 
 
 
-            
+
 
 
             On.EntityStates.SolusWing2.Mission5Death.OnEnter += RestartMusicAfterSolusWing;

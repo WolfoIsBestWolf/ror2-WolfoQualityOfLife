@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Acrid_Main
+    public static class Acrid_Main
     {
         public static void Start()
         {
@@ -54,7 +54,7 @@ namespace WolfoQoL_Client.Skins
                     justSpawned = false;
 
                     Transform poison = self.transform.GetChild(0).Find("CrocoDisplaySpawnEffect(Clone)");
-                    Transform blight = self.transform.GetChild(0).Find("SpawnBlight");
+                    Transform blight = self.transform.GetChild(0).Find("SpawnEffect_Blight");
 
                     poison.gameObject.SetActive(!isBlight);
                     blight.gameObject.SetActive(isBlight);
@@ -76,7 +76,7 @@ namespace WolfoQoL_Client.Skins
                 /*GameObject spawnPoison = self.transform.GetChild(0).GetChild(3).gameObject;
                 spawnPoison.name = "SpawnPoison";*/
                 GameObject blightpuddle = UnityEngine.Object.Instantiate(Effects_Blight.lobbyPool, self.transform.GetChild(0));
-                blightpuddle.name = "SpawnBlight";
+                blightpuddle.name = "SpawnEffect_Blight";
             }
         }
 

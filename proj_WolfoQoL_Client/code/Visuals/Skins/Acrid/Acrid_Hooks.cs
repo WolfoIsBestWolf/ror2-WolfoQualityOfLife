@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
 {
-    public class Acrid_Hooks
+    public static class Acrid_Hooks
     {
         public static GameObject CrocoDiseaseOrbEffect = LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/orbeffects/CrocoDiseaseOrbEffect"); //CrocoDiseaseOrbEffect 
         public static GameObject CrocoDiseaseImpactEffect = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoDiseaseImpactEffect.prefab").WaitForCompletion(); //CrocoDiseaseOrbEffect 

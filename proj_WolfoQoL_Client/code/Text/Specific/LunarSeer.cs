@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 namespace WolfoQoL_Client.Text
 {
 
-    public class LunarSeer
+    public static class LunarSeer
     {
         public static void Start()
         {

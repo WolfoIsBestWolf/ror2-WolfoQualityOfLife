@@ -1,7 +1,6 @@
 ﻿using MonoMod.Cil;
 using R2API;
 using RoR2;
-using RoR2.Projectile;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -9,8 +8,8 @@ using WolfoLibrary;
 
 namespace WolfoQoL_Client.Skins
 {
-   
-    public class OtherEnemies
+
+    public static class OtherEnemies
     {
 
         public static void Start()
@@ -53,11 +52,11 @@ namespace WolfoQoL_Client.Skins
                 EliteRamp.AddRamp(DLC2Content.Elites.Bead, Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/RampEliteBead.png"));
                 //IL.RoR2.CharacterModel.UpdateOverlays += CharacterModel_UpdateOverlays;
             }
- 
+
             Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion().shaderEliteRampIndex = 0;
 
 
-         
+
             if (WConfig.cfgTwistedFire.Value)
             {
                 IL.RoR2.AffixBeadBehavior.Update += TwistedFire;
@@ -73,7 +72,7 @@ namespace WolfoQoL_Client.Skins
             HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "Boss_FalseSon");
             orig(self);
         }
-       
+
 
         private static void TwistedFire(ILContext il)
         {
@@ -131,12 +130,8 @@ namespace WolfoQoL_Client.Skins
             }
 
         }
-
-         
-
-
-
     }
+
     public class ChangeSkinOnStage : MonoBehaviour
     {
         public SceneDef sceneDef;

@@ -4,7 +4,7 @@ using WolfoLibrary;
 
 namespace WolfoQoL_Client
 {
-    public class ColorModule_Sprites
+    public static class ColorModule_Sprites
     {
 
 
