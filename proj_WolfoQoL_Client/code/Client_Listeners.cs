@@ -44,7 +44,7 @@ namespace WolfoQoL_Client
 
         private static void PlayerCharacterMasterController_SetBodyPrefabToPreference(On.RoR2.PlayerCharacterMasterController.orig_SetBodyPrefabToPreference orig, PlayerCharacterMasterController self)
         {
-            //WQoLMain.log.LogMessage("PlayerCharacterMasterController_SetBodyPrefabToPreference");
+            //Log.LogMessage("PlayerCharacterMasterController_SetBodyPrefabToPreference");
             orig(self);
             if (self.TryGetComponent<ItemLossBase_ClientListener>(out var a))
             {
@@ -90,7 +90,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed : PurchaseInteraction_OnDeserialize");
+                Log.LogWarning("IL Failed : PurchaseInteraction_OnDeserialize");
             }
         }
 
@@ -115,7 +115,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed : Inventory_OnDeserialize 1");
+                Log.LogWarning("IL Failed : Inventory_OnDeserialize 1");
             }
             c.TryGotoNext(MoveType.Before,
              x => x.MatchStfld("RoR2.Inventory", "equipmentDisabled"));
@@ -138,7 +138,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed : Inventory_OnDeserialize 2");
+                Log.LogWarning("IL Failed : Inventory_OnDeserialize 2");
             }
         }
 
@@ -257,7 +257,7 @@ namespace WolfoQoL_Client
         {
             if (WQoLMain.HostHasMod)
             {
-                WQoLMain.log.LogMessage("Host has mod, removing Client Workaround : KillerInfo_ClientListener");
+                Log.LogMessage("Host has mod, removing Client Workaround : KillerInfo_ClientListener");
                 Destroy(this);
                 return;
             }
@@ -295,11 +295,11 @@ namespace WolfoQoL_Client
             }
             if (charBody.healthComponent.alive)
             {
-                WQoLMain.log.LogMessage("KillerInfo_ClientListener | Sending message but is Alive?" + charBody);
+                Log.LogMessage("KillerInfo_ClientListener | Sending message but is Alive?" + charBody);
             }
             if (killed)
             {
-                WQoLMain.log.LogMessage("KillerInfo_ClientListener | Already sent message, how are they dying again?" + charBody);
+                Log.LogMessage("KillerInfo_ClientListener | Already sent message, how are they dying again?" + charBody);
                 return; //Prevents multiple messages rarely
             }
             killed = true;
@@ -335,6 +335,10 @@ namespace WolfoQoL_Client
 
             if (obj.isRemoteOp)
             {
+                if (!WConfig.DroneMessage_RemoteOp.Value)
+                {
+                    return;
+                }
                 Chat.AddMessage(new DroneChatMessage
                 {
                     baseToken = "REMOTEOP_DRONE",
@@ -380,7 +384,7 @@ namespace WolfoQoL_Client
         {
             if (WQoLMain.HostHasMod)
             {
-                WQoLMain.log.LogMessage("Host has mod, removing Client Workaround : ItemLoss_ClientListener");
+                Log.LogMessage("Host has mod, removing Client Workaround : ItemLoss_ClientListener");
                 Destroy(this);
                 return;
             }
@@ -423,7 +427,7 @@ namespace WolfoQoL_Client
             var a = GetComponent<DevotionInventoryController>().SummonerMaster;
             if (a == null)
             {
-                WQoLMain.log.LogWarning("DevotionItemLoss Client Listener null Summoner Master");
+                Log.LogWarning("DevotionItemLoss Client Listener null Summoner Master");
             }
             subjectAsNetworkUser = a.playerCharacterMasterController.networkUser;
         }
@@ -452,7 +456,7 @@ namespace WolfoQoL_Client
             if (send)
             {
                 PickupDef def = PickupCatalog.FindPickupIndex((ItemIndex)item).pickupDef;
-                WQoLMain.log.LogMessage(def.internalName);
+                Log.LogMessage(def.internalName);
                 Chat.AddMessage(new DevotionDeathMessage
                 {
                     //subjectAsNetworkUser = self._devotionInventoryController.SummonerMaster.playerCharacterMasterController.networkUserObject.GetComponent<NetworkUser>(),
@@ -548,7 +552,7 @@ namespace WolfoQoL_Client
                 int index = (int)DLC2Content.Items.LowerPricedChests.itemIndex;
                 int salePre = latest.prevItems[index];
                 int salePost = latest.inventory.GetItemCountEffective((ItemIndex)index);
-                WQoLMain.log.LogMessage("SaleStar " + salePre + " " + salePost);
+                Log.LogMessage("SaleStar " + salePre + " " + salePost);
 
                 if (salePre > 0 && salePost == 0)
                 {
@@ -701,7 +705,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("EquipmentMessage but without Equipment?");
+                Log.LogWarning("EquipmentMessage but without Equipment?");
             }
             prevEquip = inventory.currentEquipmentIndex;
             return succeeded;

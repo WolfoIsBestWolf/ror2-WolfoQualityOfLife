@@ -47,6 +47,10 @@ namespace WolfoQoL_Client
             GameObject recipeDisplay = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC3/UI/RecipeDisplayUpdated.prefab").WaitForCompletion();
             recipeDisplay.GetComponentInChildren<RecipeDisplay>().recipeStripPrefab.GetChild(1).GetChild(0).localPosition = new Vector3(-20, 0, 0);
 
+            foreach (var img in recipeDisplay.GetComponentsInChildren<CyclingImage>())
+            {
+                img.beatBetweenSwaps = 0.8f;
+            }
 
 
             //For some fucking reason, it just refuses to update the spacing sometimes
@@ -257,7 +261,10 @@ namespace WolfoQoL_Client
 
                 }
             }
-
+            if (newList.Count > 1)
+            {
+                newList.Sort((x, y) => x.RecipeComparer(y));
+            }
 
             orig(self, newList);
             if (self.container)
@@ -281,6 +288,72 @@ namespace WolfoQoL_Client
             RecipeDisplay.GetComponent<Image>().sprite = Addressables.LoadAssetAsync<Sprite>("03f90788916529e459ba4d7f40bb32ee").WaitForCompletion();
             RecipeDisplay.SetActive(CraftableCatalog.resultToRecipeSearchTable.ContainsKey(pickupIndex) || CraftableCatalog.pickupToIngredientSearchTable.ContainsKey(pickupIndex));
 
+        }
+
+        public static int RecipeComparer(this CraftableCatalog.RecipeEntry first, in CraftableCatalog.RecipeEntry other)
+        {
+            PickupDef def1 = null;
+            PickupDef def2 = null;
+
+            if (first.result != other.result)
+            {
+                def1 = PickupCatalog.GetPickupDef(first.result);
+                def2 = PickupCatalog.GetPickupDef(other.result);
+            }
+            else if (first.possibleIngredients[0].pickups[0] != other.possibleIngredients[0].pickups[0])
+            {
+                def1 = PickupCatalog.GetPickupDef(first.possibleIngredients[0].pickups[0]);
+                def2 = PickupCatalog.GetPickupDef(other.possibleIngredients[0].pickups[0]);
+            }
+            else if (first.possibleIngredients[1].pickups[0] != other.possibleIngredients[1].pickups[0])
+            {
+                def1 = PickupCatalog.GetPickupDef(first.possibleIngredients[1].pickups[0]);
+                def2 = PickupCatalog.GetPickupDef(other.possibleIngredients[1].pickups[0]);
+            }
+            if (def1 == null)
+            {
+                return 0;
+            }
+
+            //If both are items, compare ItemTier
+            if (def1.itemIndex != ItemIndex.None && def2.itemIndex != ItemIndex.None)
+            {
+                int compareTier = def2.itemTier.CompareTo(def1.itemTier);
+                if (compareTier == 0)
+                {
+                    //If both are the same tier, compare internalName
+                    return def1.internalName.CompareTo(def2.internalName);
+                }
+                return compareTier;
+            }
+            else if (def1.equipmentIndex != EquipmentIndex.None && def2.equipmentIndex != EquipmentIndex.None)
+            {
+                if (def1.isBoss && !def2.isBoss)
+                {
+                    return -1;
+                }
+                else if (def1.isLunar && !def2.isLunar)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return def1.internalName.CompareTo(def2.internalName);
+                }
+            }
+            else
+            {
+                //Just sort by PickupIndex, which is item first equipment second anyhow.
+                if (first.result < other.result)
+                {
+                    return -1;
+                }
+                if (first.result > other.result)
+                {
+                    return 1;
+                }
+            }
+            return 0;
         }
 
     }

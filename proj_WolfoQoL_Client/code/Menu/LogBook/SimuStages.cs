@@ -4,8 +4,8 @@ using RoR2.Stats;
 using RoR2.UI.LogBook;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using static WolfoQoL_Client.Help;
 using WolfoLibrary;
+using static WolfoQoL_Client.Help;
 
 namespace WolfoQoL_Client
 {

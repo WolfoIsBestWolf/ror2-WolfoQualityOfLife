@@ -70,7 +70,7 @@ namespace WolfoQoL_Client
         }
         internal static string GetPathToFile(string folderName, string fileName)
         {
-            return Path.Combine(assemblyDir, folderName, fileName);
+            return Path.Combine(GetPathToFile(folderName), fileName);
         }
     }
 }

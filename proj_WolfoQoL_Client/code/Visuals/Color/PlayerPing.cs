@@ -61,7 +61,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: PlayerPingsIL");
+                Log.LogWarning("IL Failed: PlayerPingsIL");
             }
 
             if (c.TryGotoNext(MoveType.Before,
@@ -77,7 +77,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: PlayerPingsILPart2");
+                Log.LogWarning("IL Failed: PlayerPingsILPart2");
             }
 
 

@@ -50,11 +50,11 @@ namespace WolfoQoL_Client.ModSupport
             {
                 RunTrackerData.Load(a);
                 PlayerTrackerData.Load(b);
-                WQoLMain.log.LogMessage("Loading WQoL save data");
+                Log.LogMessage("Loading WQoL save data");
             }
             else
             {
-                WQoLMain.log.LogMessage("No WQOL Proper Save Data for this profile.");
+                Log.LogMessage("No WQOL Proper Save Data for this profile.");
             }
         }
     }

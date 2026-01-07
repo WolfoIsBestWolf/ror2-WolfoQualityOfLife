@@ -28,7 +28,10 @@ namespace WolfoQoL_Client.Text
             //PURCHASE_DRONE
             orig(ownerId, minion);
             //Owned by Player
-
+            if (!WConfig.DroneMessage_Repair.Value)
+            {
+                return;
+            }
             if (minion.ownerMaster && minion.ownerMaster.playerCharacterMasterController)
             {
                 //Too soon in the spawn cycle to determine is Goobo or Permament of sorts
@@ -56,10 +59,12 @@ namespace WolfoQoL_Client.Text
         private static void CombinerMessage_ClientHost(On.EntityStates.DroneCombiner.DroneCombinerCombining.orig_StartDroneCombineSequence orig, EntityStates.DroneCombiner.DroneCombinerCombining self)
         {
             orig(self);
+            if (!WConfig.DroneMessage_Combine.Value)
+            {
+                return;
+            }
 
-
-            //This shit does not work client side because of some dumb fuck error on GBX end
-
+            //This shit does not work client side because of some dumb error
             var drone = self.toUpgrade;
             if (!drone)
             {
@@ -123,6 +128,10 @@ namespace WolfoQoL_Client.Text
         private static void RemoteOP_Host(On.RoR2.CharacterMaster.orig_SpawnRemoteOperationDrone orig, CharacterMaster self, string droneBodyToSpawn, uint moneyToUse)
         {
             orig(self, droneBodyToSpawn, moneyToUse);
+            if (!WConfig.DroneMessage_RemoteOp.Value)
+            {
+                return;
+            }
             if (!string.IsNullOrEmpty(droneBodyToSpawn))
             {
                 Networker.SendWQoLMessage(new DroneChatMessage
@@ -136,6 +145,10 @@ namespace WolfoQoL_Client.Text
 
         public static void DroneMessage(GameObject summonerBodyObject, GameObject minionBodyObject, int upgradeCount, string token)
         {
+            if (!WConfig.DroneMessage_Repair.Value)
+            {
+                return;
+            }
             if (!NetworkServer.active)
             {
                 //Just in case

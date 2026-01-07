@@ -85,7 +85,7 @@ namespace WolfoQoL_Client.Reminders
                             if (spltis.Length > 0)
                             {
                                 artifactname = spltis[spltis.Length - 1];
-                                WQoLMain.log.LogMessage(artifactname);
+                                Log.LogMessage(artifactname);
                             }
                         }
                         if (WConfig.ArtifactOutline.Value == true)

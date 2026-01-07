@@ -51,23 +51,25 @@ namespace WolfoQoL_Client.Skins
 
         public static int DetectCaseMerc(GameObject owner)
         {
-            if (owner.GetComponent<MakeThisMercRed>())
+            //I wonder if shouldn't do it like this...
+            if (owner.TryGetComponent<ColorThisMerc>(out var merc))
             {
-                return 1;
-            }
-            if (owner.GetComponent<MakeThisMercGreen>())
-            {
-                return 2;
-            }
-            if (owner.GetComponent<MakeThisMercPink>())
-            {
-                return 3;
+                return merc.ThisColor;
             }
             return 0;
         }
+        public static MercColors DetectCaseMercEnum(GameObject owner)
+        {
+            //I wonder if shouldn't do it like this...
+            if (owner.TryGetComponent<ColorThisMerc>(out var merc))
+            {
+                return merc.ThisColorEnum;
+            }
+            return MercColors.Blue;
+        }
         public static int DetectCaseAcrid(GameObject owner)
         {
-            if (owner.GetComponent<MakeThisAcridBlight>())
+            if (owner.GetComponent<ColorThisAcrid>())
             {
                 return 1;
             }
@@ -77,7 +79,7 @@ namespace WolfoQoL_Client.Skins
     }
 
 
-    public class PrefabReplacer : MonoBehaviour
+    /*public class PrefabReplacer : MonoBehaviour
     {
         public GameObject Prefab_1;
         public GameObject Prefab_2;
@@ -99,7 +101,7 @@ namespace WolfoQoL_Client.Skins
             }
             return gameObject;
         }
-    }
+    }*/
 
 
     public class ProjectileGhostReplacer : MonoBehaviour
@@ -162,7 +164,7 @@ namespace WolfoQoL_Client.Skins
                     EffectReplacer.ActivateAcrid(pjC.GetComponent<ProjectileImpactExplosion>().impactEffect, pjC.owner);
 
                 }
-                if (pjC.owner.GetComponent<MakeThisAcridBlight>())
+                if (pjC.owner.GetComponent<ColorThisAcrid>())
                 {
                     return ghostPrefab_1;
                 }
@@ -244,26 +246,11 @@ namespace WolfoQoL_Client.Skins
 
         public static void ActivateMerc(GameObject prefab, GameObject owner)
         {
-            if (owner.GetComponent<MakeThisMercRed>())
-            {
-                Activate(prefab, 1);
-            }
-            else if (owner.GetComponent<MakeThisMercGreen>())
-            {
-                Activate(prefab, 2);
-            }
-            else if (owner.GetComponent<MakeThisMercPink>())
-            {
-                Activate(prefab, 3);
-            }
-            else
-            {
-                Activate(prefab, 0);
-            }
+            Activate(prefab, SkinChanges.DetectCaseMerc(owner));
         }
         public static void ActivateAcrid(GameObject prefab, GameObject owner)
         {
-            if (owner.GetComponent<MakeThisAcridBlight>())
+            if (owner.GetComponent<ColorThisAcrid>())
             {
                 Activate(prefab, 1);
             }
@@ -276,8 +263,7 @@ namespace WolfoQoL_Client.Skins
         {
             //IF any saftey checks needed, we can all uniformly put them here.
             //WolfoMain.log.LogMessage(prefab + " | " + i);
-            EffectReplacer effectReplacer;
-            if (prefab.TryGetComponent(out effectReplacer))
+            if (prefab.TryGetComponent<EffectReplacer>(out EffectReplacer effectReplacer))
             {
                 effectReplacer.SetReplacement(i);
             }
@@ -309,16 +295,25 @@ namespace WolfoQoL_Client.Skins
         }
     }
 
-    public class MakeThisMercRed : MonoBehaviour
+    public enum MercColors
     {
-    }
-    public class MakeThisMercGreen : MonoBehaviour
+        Blue = 0,
+        Red = 1,
+        Green = 2,
+        Pink = 3,
+    } //Doubtful that i'd make Yellow/Orange unless someone really requested it or dlc colored that way.
+    public enum AcridDamageTypes
     {
-    }
-    public class MakeThisMercPink : MonoBehaviour
+        Poison,
+        Blgith,
+    }//Mod support for this would be a bitch and a half I imagine.
+    public class ColorThisMerc : MonoBehaviour
     {
+        public int ThisColor;
+        public MercColors ThisColorEnum;
     }
-    public class MakeThisAcridBlight : MonoBehaviour
+
+    public class ColorThisAcrid : MonoBehaviour
     {
         public void Start()
         {

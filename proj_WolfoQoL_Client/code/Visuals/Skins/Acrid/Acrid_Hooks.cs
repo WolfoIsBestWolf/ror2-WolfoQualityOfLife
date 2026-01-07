@@ -63,7 +63,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Blight: IL.RoR2.Orbs.LightningOrb.Begin");
+                Log.LogWarning("IL Failed: Blight: IL.RoR2.Orbs.LightningOrb.Begin");
             }
         }
 
@@ -74,7 +74,7 @@ namespace WolfoQoL_Client.Skins
         {
             if (self is Leap)
             {
-                if (self.outer.GetComponent<MakeThisAcridBlight>())
+                if (self.outer.GetComponent<ColorThisAcrid>())
                 {
                     self.fistEffectPrefab = Effects_Blight.CrocoFistEffectBlight;
                 }
@@ -91,7 +91,7 @@ namespace WolfoQoL_Client.Skins
 
         private static void AcridBlight_M2Alt(On.EntityStates.Croco.Bite.orig_BeginMeleeAttackEffect orig, Bite self)
         {
-            if (self.outer.GetComponent<MakeThisAcridBlight>())
+            if (self.outer.GetComponent<ColorThisAcrid>())
             {
                 self.swingEffectPrefab = Effects_Blight.CrocoBiteEffectBlight;
             }
@@ -107,7 +107,7 @@ namespace WolfoQoL_Client.Skins
 
         private static void AcridBlight_M1(On.EntityStates.Croco.Slash.orig_BeginMeleeAttackEffect orig, Slash self)
         {
-            if (self.outer.GetComponent<MakeThisAcridBlight>())
+            if (self.outer.GetComponent<ColorThisAcrid>())
             {
                 if (self.isComboFinisher)
                 {

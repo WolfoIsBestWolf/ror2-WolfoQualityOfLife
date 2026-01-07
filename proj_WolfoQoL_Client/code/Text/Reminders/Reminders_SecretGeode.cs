@@ -34,7 +34,7 @@ namespace WolfoQoL_Client.Reminders
             //Does not run on client for whatever reason
             //Collider event just happens on network ig?
             orig(self);
-            WQoLMain.log.LogWarning("Secret Geode Reward");
+            Log.LogWarning("Secret Geode Reward");
             Object.Destroy(self.gameObject.GetComponent<GenericObjectiveProvider>());
         }
 
@@ -44,7 +44,7 @@ namespace WolfoQoL_Client.Reminders
             geodeInstance = self.geodeSecretMissionController;
             if (WConfig.cfgRemindersSecretGeode.Value)
             {
-                WQoLMain.log.LogWarning("Secret Geode Start");
+                Log.LogWarning("Secret Geode Start");
                 if (geodeInstance.geodeInteractionsTracker == 0)
                 {
                     string text = string.Format(Language.GetString("REMINDER_SECRET_GEODE"), 0, self.geodeSecretMissionController.numberOfGeodesNecessary);
@@ -57,7 +57,7 @@ namespace WolfoQoL_Client.Reminders
         private static void GeodeObjective_Update(On.RoR2.GeodeSecretMissionController.orig_AdvanceGeodeSecretMission orig, GeodeSecretMissionController self)
         {
             orig(self);
-            WQoLMain.log.LogWarning("Secret Geode Advance");
+            Log.LogWarning("Secret Geode Advance");
             GenericObjectiveProvider Objective = self.gameObject.GetComponent<GenericObjectiveProvider>();
             if (Objective)
             {
@@ -65,7 +65,7 @@ namespace WolfoQoL_Client.Reminders
                 Objective.objectiveToken = text;
                 if (self.numberOfGeodesNecessary <= self.geodeInteractionsTracker)
                 {
-                    WQoLMain.log.LogWarning("Secret Geode Complete");
+                    Log.LogWarning("Secret Geode Complete");
                     Object.Destroy(Objective);
                 }
             }
@@ -82,7 +82,7 @@ namespace WolfoQoL_Client.Reminders
                     Reminders_Main.CompleteObjective(objective);
                     Object.Destroy(objective);
                 }
-                WQoLMain.log.LogMessage("Secret Geode End");
+                Log.LogMessage("Secret Geode End");
             }
         }
 

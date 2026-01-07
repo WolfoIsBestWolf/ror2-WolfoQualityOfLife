@@ -16,7 +16,7 @@ namespace WolfoQoL_Client.Skins
                 //We can just skip
                 return;
             }
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoBody.prefab").WaitForCompletion().AddComponent<MakeThisAcridBlight>();
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoBody.prefab").WaitForCompletion().AddComponent<ColorThisAcrid>();
 
             Effects_Blight.Start();
             Acrid_Hooks.Start();

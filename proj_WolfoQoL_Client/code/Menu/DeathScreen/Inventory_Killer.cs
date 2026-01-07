@@ -29,20 +29,20 @@ namespace WolfoQoL_Client.DeathScreen
             if (playerInfo.networkUser == null)
             {
                 extras.killerInventory.SetActive(false);
-                WQoLMain.log.LogWarning("Killer Inventory : No NetworkUser");
+                Log.LogWarning("Killer Inventory : No NetworkUser");
                 return;
             }
 
             KillerInventoryInfoStorage helper = playerInfo.master.GetComponent<KillerInventoryInfoStorage>();
             if (helper == null)
             {
-                WQoLMain.log.LogMessage("No GameEndInventoryHelper Found, Making One");
+                Log.LogMessage("No GameEndInventoryHelper Found, Making One");
                 helper = playerInfo.master.gameObject.AddComponent<KillerInventoryInfoStorage>();
                 helper.victimMaster = playerInfo.master.gameObject;
 
             }
 
-            WQoLMain.log.LogMessage("Applying Killer Inventory Screen");
+            Log.LogMessage("Applying Killer Inventory Screen");
 
             #region Detailed Killer Name
             if (helper.killerName != "")
@@ -72,7 +72,7 @@ namespace WolfoQoL_Client.DeathScreen
             //If no Killer, try to find static sources of items.
             if (helper.itemAcquisitionOrder.Count == 0 && !HasViewableEquipment)
             {
-                WQoLMain.log.LogMessage("Could not find Killer Inventory or Inventory empty");
+                Log.LogMessage("Could not find Killer Inventory or Inventory empty");
                 if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.monsterTeamGainsItemsArtifactDef))
                 {
                     NoKillerButWithEvo = true;
@@ -211,10 +211,10 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void SetupFromData(string killerName, GameObject killerObject, GameObject victimMaster, ItemCollection itemStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment, bool killerNoMaster)
         {
-            WQoLMain.log.LogMessage("GameEndInventoryHelp : SetupFromData");
+            Log.LogMessage("GameEndInventoryHelp : SetupFromData");
             if (victimMaster == null)
             {
-                WQoLMain.log.LogWarning("GameEndInventoryHelper : Victim Object is null");
+                Log.LogWarning("GameEndInventoryHelper : Victim Object is null");
                 return;
             }
 

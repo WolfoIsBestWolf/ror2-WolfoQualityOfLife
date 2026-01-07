@@ -23,20 +23,20 @@ namespace WolfoQoL_Client.DeathScreen
             }
             if (playerInfo.master == null)
             {
-                WQoLMain.log.LogWarning("Loadout Inventory : Null Master");
+                Log.LogWarning("Loadout Inventory : Null Master");
                 return;
             }
             if (playerInfo.master.loadout == null)
             {
-                WQoLMain.log.LogWarning("Loadout Inventory : Null Loadout");
+                Log.LogWarning("Loadout Inventory : Null Loadout");
                 return;
             }
             if (playerInfo.master.loadout.bodyLoadoutManager == null)
             {
-                WQoLMain.log.LogWarning("Loadout Inventory : Null BodyLoadoutManager");
+                Log.LogWarning("Loadout Inventory : Null BodyLoadoutManager");
                 return;
             }
-            WQoLMain.log.LogMessage("Add Loadout to run death screen");
+            Log.LogMessage("Add Loadout to run death screen");
             Loadout.BodyLoadoutManager.BodyLoadout loadout = playerInfo.master.loadout.bodyLoadoutManager.GetOrCreateModifiedBodyLoadout(playerInfo.bodyIndex);
 
             GameEndLoadoutAsStat storage = self.gameObject.GetComponent<GameEndLoadoutAsStat>();
@@ -147,7 +147,7 @@ namespace WolfoQoL_Client.DeathScreen
             GameObject bodyPrefab = BodyCatalog.GetBodyPrefab(loadout.bodyIndex);
             if (!bodyPrefab)
             {
-                WQoLMain.log.LogWarning("Null BodyPrefab");
+                Log.LogWarning("Null BodyPrefab");
                 return;
             }
             var body = bodyPrefab.GetComponent<CharacterBody>();

@@ -282,11 +282,11 @@ namespace WolfoQoL_Client
 
 
 
-                //WQoLMain.log.LogMessage("IL Found: Sale Star Range");
+                //Log.LogMessage("IL Found: Sale Star Range");
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Sale Star Range");
+                Log.LogWarning("IL Failed: Sale Star Range");
             }
         }
 

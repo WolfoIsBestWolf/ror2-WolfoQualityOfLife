@@ -84,7 +84,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void MakeEquipmentIcon(ItemIcon equipmentIcon, EquipmentDef equipmentDef, int stack)
         {
-            WQoLMain.log.LogMessage("Making EquipmentIcon");
+            Log.LogMessage("Making EquipmentIcon");
             equipmentIcon.GetComponent<ItemIcon>().SetItemIndex(ItemIndex.Count, stack, 0);
 
             //equipmentIcon.GetComponent<UnityEngine.UI.RawImage>().texture = equipmentDef.pickupIconTexture;

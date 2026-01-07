@@ -65,7 +65,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: GameEndReportPanelController_SetPlayerInfo");
+                Log.LogWarning("IL Failed: GameEndReportPanelController_SetPlayerInfo");
             }
         }
 
@@ -410,7 +410,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             catch (System.Exception e)
             {
-                WQoLMain.log.LogError(e);
+                Log.LogError(e);
             }
 
 

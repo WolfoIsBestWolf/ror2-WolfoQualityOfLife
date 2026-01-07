@@ -17,8 +17,8 @@ namespace WolfoQoL_Client
                 BodyIcons.Start();
                 if (WConfig.cfgPingIcons.Value)
                 {
-                    PingIcons.Start();
-                    PingIcons_Hooks.Start();
+                    PingIcons.AddIcons();
+                    PingIcons.AddHooks();
 
                 }
                 BuffIcons.Awake();
@@ -65,7 +65,7 @@ namespace WolfoQoL_Client
                     GameObjectUnlockableFilter[] dummylist = Object.FindObjectsOfType(typeof(RoR2.GameObjectUnlockableFilter)) as RoR2.GameObjectUnlockableFilter[];
                     for (var i = 0; i < dummylist.Length; i++)
                     {
-                        WQoLMain.log.LogMessage(dummylist[i]);
+                        Log.LogMessage(dummylist[i]);
                         Object.Destroy(dummylist[i]);
                     }
                     break;

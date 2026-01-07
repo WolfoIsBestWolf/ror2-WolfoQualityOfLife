@@ -101,7 +101,7 @@ namespace WolfoQoL_Client.Reminders
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Update_Objective");
+                Log.LogWarning("IL Failed: Update_Objective");
             }
 
         }
@@ -117,19 +117,12 @@ namespace WolfoQoL_Client.Reminders
         public int goldDrained;
         public int fraction;
         public int maxGoldCost = 300;
-        public int deducedGoldDrain = 1;
-
-        public int missedGoldDrains = 0;
-
-        public bool doGoldDiff = false;
-        public uint moneyPre = 0;
-        public CharacterMaster targetGoldDiff = null;
 
         public void Awake()
         {
             instance = this;
         }
- 
+
         public void StoreGold()
         {
             //goldDrained += deducedGoldDrain;

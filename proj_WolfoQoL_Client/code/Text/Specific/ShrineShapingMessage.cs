@@ -74,7 +74,7 @@ namespace WolfoQoL_Client.Text
                 }
                 var body = master.GetBodyObject();
 
-                WQoLMain.log.LogMessage(master.lostBodyToDeath + " " + body);
+                Log.LogMessage(master.lostBodyToDeath + " " + body);
 
 
                 if (player.master.lostBodyToDeath || body == null)

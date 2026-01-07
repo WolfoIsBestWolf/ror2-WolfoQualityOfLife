@@ -15,6 +15,7 @@ Oni Mercenary will have a red sword.\
 Oni, Frail & Murder Mercenary will glow their respective color instead of blue.\
 Oni, Frail & Murder Mercenary will have colored attack effects.
 
+
 Acrids using Blight will have different colored effects.\
 Includes acid pool in lobby.
 
@@ -25,7 +26,7 @@ REX's vines when sprinting now match his skin.
 
 Operator's Mastery skin will have recolored CHIRP.
 
-Loaders Alt skin will have matching Hook Hand.
+Loaders Alt skins will have matching Hook Hand. (Other than Colossus)
 
 MUL-T Power Mode casings now match the skin.\
 MUL-T shows off his primary skill in lobby.
@@ -41,7 +42,8 @@ Twisted Elites have a fire visual effect again.
 
 
 ## Icons
-A Unique Ping Icon for the vast majority of Interactables.
+A Unique Ping Icon for the vast majority of Interactables.\
+(Supports some mods too)
 
 Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Devoted Lemurians.\
 Updated Body Icon for Squid Polyp, Ally Aurelionite, Mushroom.

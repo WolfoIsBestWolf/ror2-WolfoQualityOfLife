@@ -1,36 +1,24 @@
 using HG;
 using RoR2;
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using WolfoQoL_Client.ModSupport;
-using WolfoQoL_Client.Reminders;
-using WolfoQoL_Client.Skins;
 using static WolfoQoL_Client.Assets;
 
 namespace WolfoQoL_Client
 {
 
-    public static class PingIcons
+    public static partial class PingIcons
     {
-        public static Sprite LunarIcon;
-        //public static Sprite Chest_Large;
-        //public static Sprite LunarCauldron;
-        //public static Sprite LunarSeer;
+        public static Sprite LunarIcon; //Newt
         public static Sprite ExclamationIcon;
-        //public static Sprite Chest_Legendary;
-        //public static Sprite Chest_Lunar;
         public static Sprite NullVentIcon;
-        //public static Sprite TimedChestIcon;
+
         public static Sprite PortalIcon;
-        public static Sprite PrimordialTeleporterIcon;
-        public static Sprite PrimordialTeleporterChargedIcon;
-        public static Sprite CubeIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texLunarPillarIcon");
-        //public static Sprite DroneIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texDroneIconOutlined");
-        public static Sprite Chest_Small = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texInventoryIconOutlined");
+        public static Sprite PrimordialTeleporterChargedIcon = LegacyResourcesAPI.Load<Sprite>("Textures/MiscIcons/texTeleporterIcon");
+
         public static Sprite QuestionMarkIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texMysteryIcon");
 
         public static bool otherPingIconMods = false;
@@ -94,18 +82,16 @@ namespace WolfoQoL_Client
         {
             if (!sprite)
             {
-                WQoLMain.log.LogError($"{obj} trying to set NULL SPRITE");
+                Log.LogError($"{obj} trying to set NULL SPRITE");
+                return;
+            }
+            if (!obj)
+            {
+                Log.LogError($"{sprite} trying to set NULL OBJECT");
                 return;
             }
 
-            if (obj.TryGetComponent<PingInfoProvider>(out var ping))
-            {
-                ping.pingIconOverride = sprite;
-            }
-            else
-            {
-                obj.AddComponent<PingInfoProvider>().pingIconOverride = sprite;
-            }
+            obj.EnsureComponent<PingInfoProvider>().pingIconOverride = sprite;
             if (obj.TryGetComponent<SpecialObjectAttributes>(out var special))
             {
                 special.portraitIcon = sprite.texture;
@@ -114,7 +100,10 @@ namespace WolfoQoL_Client
             {
                 if (obj.TryGetComponent<GenericInspectInfoProvider>(out var inspect))
                 {
-                    inspect.InspectInfo.Info.Visual = sprite;
+                    if (inspect.InspectInfo)
+                    {
+                        inspect.InspectInfo.Info.Visual = sprite;
+                    }
                 }
                 else if (obj.TryGetComponent<SummonMasterBehavior>(out var drone))
                 {
@@ -133,7 +122,7 @@ namespace WolfoQoL_Client
             }
         }
 
-        public static void Start()
+        public static void AddIcons()
         {
             otherPingIconMods = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("NotAJunkie.PingIconsOverhaul");
 
@@ -158,6 +147,7 @@ namespace WolfoQoL_Client
 
         public static void Pings_Dictionary()
         {
+
             ////Annoying naming conventions for these:
             //Do Portals through Hooks
             //Do Newt Shrineks through Hooks
@@ -196,6 +186,7 @@ namespace WolfoQoL_Client
             pingIconDict.Add("SeerStation", Load("LunarSeer"));
             //pingIconDict.Add("LockedMage", Load(""));
 
+            Sprite CubeIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texLunarPillarIcon");
             pingIconDict.Add("MoonBatteryMass", CubeIcon);
             pingIconDict.Add("MoonBatteryBlood", CubeIcon);
             pingIconDict.Add("MoonBatterySoul", CubeIcon);
@@ -244,7 +235,7 @@ namespace WolfoQoL_Client
 
         public static void Pings_Chests()
         {
-            SetAllIcons("19deacd9e155c044595f2c344e110dde", Chest_Small); //Chest1
+            SetAllIcons("19deacd9e155c044595f2c344e110dde", LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texInventoryIconOutlined")); //Chest1
             SetAllIcons("f460ead3fd64fe0408ec760850cf3301", "ChestLargeIcon"); //Chest2
             SetAllIcons("e4f9d194b928e2943962a39ad25cc9b7", "ChestLegendaryIcon"); //GoldChest
 
@@ -369,7 +360,7 @@ namespace WolfoQoL_Client
         {
             NullVentIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/Void_Cell.png");
             //LunarSeer = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/LunarSeer.png");
-            PrimordialTeleporterIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/PrimordialTeleporterIcon.png");
+
             PrimordialTeleporterChargedIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/PrimordialTeleporterChargedIcon.png");
             LunarIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/LunarIcon.png");
 
@@ -391,6 +382,7 @@ namespace WolfoQoL_Client
 
             SetAllIcons("aa803cc8277f3b54fafd988a6fbabe64", "LunarSeer");
 
+            Sprite CubeIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texLunarPillarIcon");
             SetAllIcons("b790659c0441e464e8921a2b0c536acb", CubeIcon); //Pillars
             SetAllIcons("aa2c395b0fc2d3b4e8102691b5da81af", CubeIcon);
             SetAllIcons("34a1c551103d9214aab8ded73405b0d3", CubeIcon);
@@ -412,7 +404,7 @@ namespace WolfoQoL_Client
 
 
 
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporter Variant").AddComponent<PingInfoProvider>().pingIconOverride = PrimordialTeleporterIcon;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporter Variant").AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/PrimordialTeleporterIcon.png");
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/teleporters/LunarTeleporterProngs").AddComponent<PingInfoProvider>().pingIconOverride = PrimordialTeleporterChargedIcon;
 
 
@@ -428,84 +420,6 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/captainsupplydrops/CaptainSupplyDrop, Hacking").AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
 
         }
-
-        public static void ModSupport()
-        {    //This is stupidd idk how else to find stuff like Broken Han-d
-            Debug.LogWarning(Merc_Red.MercSwordSlash_Red.transform.parent);
-
-
-            Transform rapiRoot = Merc_Red.MercSwordSlash_Red.transform.parent;
-            /*Transform hand = rapiRoot.Find("BrokenJanitorInteractable");
-            if (hand)
-            {
-                hand.gameObject.AddComponent<PingInfoProvider>().pingIconOverride = QuestionMarkIcon;
-            }*/
-
-            if (QualitySupport.QualityModInstalled)
-            {
-                ModPing_Quality();
-            }
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TeamMoonstorm"))
-            {
-                ModPing_SS2();
-            }
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Zenithrium.vanillaVoid"))
-            {
-                ModPing_VV();
-            }
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Viliger.EnemiesReturns"))
-            {
-                ModPing_EnemyReturns();
-            }
-        }
-
-
-        public static void ModPing_EnemyReturns()
-        {
-            Debug.Log(EnemiesReturns.Enemies.MechanicalSpider.MechanicalSpiderStuff.SpawnCards.iscMechanicalSpiderBroken);
-            Debug.Log(EnemiesReturns.Enemies.MechanicalSpider.MechanicalSpiderStuff.InteractablePrefab);
-            Debug.Log(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine1);
-            Debug.Log(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine2);
-            Debug.Log(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine3);
-
-            SetAllIcons(EnemiesReturns.Enemies.MechanicalSpider.MechanicalSpiderStuff.InteractablePrefab, "EnemyReturn/Drone_Spider");
-            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine1, "EnemyReturn/ShrineLynx");
-            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine2, "EnemyReturn/ShrineLynx");
-            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine3, "EnemyReturn/ShrineLynx");
-
-            EnemiesReturns.Enemies.Judgement.SetupJudgementPath.PileOfDirt.GetComponent<GenericInteraction>().shouldShowOnScanner = true;
-            EnemiesReturns.Enemies.Judgement.SetupJudgementPath.PileOfDirt.EnsureComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
-        }
-        public static void ModPing_SS2()
-        {
-            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acShockDrone", SS2.SS2Bundle.Interactables).interactablePrefab, "SS2/DroneShock");
-            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acCloneDrone", SS2.SS2Bundle.Interactables).interactablePrefab, "SS2/DroneDuplicator");
-            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acDroneTable", SS2.SS2Bundle.Interactables).interactablePrefab, "SS2/DroneTable");
-            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acLunarGambler", SS2.SS2Bundle.Interactables).interactablePrefab, ExclamationIcon);
-            SetAllIcons(SS2.EtherealBehavior.shrinePrefab, "SS2/Shrine_Ethereal");
-
-            SS2.Components.VoidBehavior.rockPrefab.EnsureComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
-        }
-        public static void ModPing_VV()
-        {
-            //Shattered Monolith isn't in ModdedPrefabs so fuck it keep it like this
-            SetAllIcons(vanillaVoid.Interactables.ShatteredMonolith.InteractableBodyModelPrefab, "PingIconVoidEradicator");
-            SetAllIcons(vanillaVoid.Items.VoidShell.PortalBattery, Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/DeepVoidPortalBattery/texDeepVoidPortalBatteryIcon.png").WaitForCompletion());
-            vanillaVoid.Items.VoidShell.PortalBattery.AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.vvVoidFreeChest;
-        }
-        public static void ModPing_Quality()
-        {
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityChest1.prefab, "Quality/Quality_Chest");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityChest2.prefab, "Quality/Quality_Chest2");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityEquipmentBarrel.prefab, "Quality/Quality_Equip");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicator.prefab, "Quality/Quality_Printer");
-            ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorLarge.prefab.AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.greenPrinterQuality;
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorLarge.prefab, "Quality/Quality_PrinterLarge");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorMilitary.prefab, "Quality/Quality_PrinterMili");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorWild.prefab, "Quality/Quality_PrinterWild");
-
-        }
-
 
     }
 

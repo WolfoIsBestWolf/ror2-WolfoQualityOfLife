@@ -77,7 +77,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: FixNegativeRegenStatNotShowingInLog");
+                Log.LogWarning("IL Failed: FixNegativeRegenStatNotShowingInLog");
             }
         }
 
@@ -137,7 +137,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: AddOperatorCommand");
+                Log.LogWarning("IL Failed: AddOperatorCommand");
             }
         }
 

@@ -43,12 +43,12 @@ namespace WolfoQoL_Client
 
 
             IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
- 
+
             On.RoR2.UI.ScoreboardController.Rebuild += AddDevotedLemurians;
             //On.RoR2.SubjectChatMessage.GetSubjectName += IncludeEliteTypeInSubjectName;
             MealMenu();
         }
- 
+
         private static void AddDevotedLemurians(On.RoR2.UI.ScoreboardController.orig_Rebuild orig, ScoreboardController self)
         {
             orig(self);
@@ -59,7 +59,7 @@ namespace WolfoQoL_Client
             if (DevotionInventoryController.InstanceList.Count == 0)
             {
                 return;
-            } 
+            }
             foreach (PlayerCharacterMasterController playerCharacterMasterController in PlayerCharacterMasterController.instances)
             {
                 if (playerCharacterMasterController.isLocalPlayer || WConfig.cfgDevotedInventory.Value == WConfig.MessageWho.Anybody)
@@ -84,10 +84,10 @@ namespace WolfoQoL_Client
                         }
                     }
                 }
-                
+
             }
         }
- 
+
         public static void MealMenu()
         {
             if (!WConfig.cfgChefMenuTweak.Value)
@@ -136,7 +136,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: ScoreboardForDeadPeopleToo");
+                Log.LogWarning("IL Failed: ScoreboardForDeadPeopleToo");
             }
 
         }

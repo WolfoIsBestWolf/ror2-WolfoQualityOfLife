@@ -105,7 +105,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed : bro they forgot to make a rez effect2");
+                Log.LogWarning("IL Failed : bro they forgot to make a rez effect2");
             }
         }
 
@@ -169,7 +169,7 @@ namespace WolfoQoL_Client
                 }
                 var body = master.GetBodyObject();
 
-                WQoLMain.log.LogMessage(master.lostBodyToDeath + " " + body);
+                Log.LogMessage(master.lostBodyToDeath + " " + body);
 
 
                 //Extra SFX & VFX

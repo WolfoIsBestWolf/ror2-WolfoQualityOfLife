@@ -6,16 +6,16 @@ using UnityEngine;
 namespace WolfoQoL_Client
 {
 
-    public static class PingIcons_Hooks
+    public static partial class PingIcons
     {
 
         public static GameObject NullTempPosIndicator = null;
         public static Color VoidDefault = new Color(0.8211f, 0.5f, 1, 1);
         public static Color VoidFocused = new Color(0f, 3.9411764f, 5f, 1f);
 
-        public static void Start()
+        public static void AddHooks()
         {
-            if (PingIcons.otherPingIconMods)
+            if (otherPingIconMods)
             {
                 return;
             }
@@ -238,7 +238,7 @@ namespace WolfoQoL_Client
         private static void VoidCell_DestroyIndicator(On.EntityStates.Missions.Arena.NullWard.Complete.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.Complete self)
         {
             orig(self);
-            WQoLMain.log.LogMessage("Destroy NullCell Indicator");
+            Log.LogMessage("Destroy NullCell Indicator");
             Object.Destroy(NullTempPosIndicator);
             self.outer.gameObject.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_TintColor", VoidDefault);
 

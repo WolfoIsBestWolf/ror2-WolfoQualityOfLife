@@ -78,7 +78,7 @@ namespace WolfoQoL_Client.DeathScreen
             Transform stat = statContentArea.Find(name);
             if (stat == null)
             {
-                //WQoLMain.log.LogMessage(name + " does not exist");
+                //Log.LogMessage(name + " does not exist");
                 return;
             }
             int childIndex = stat.GetSiblingIndex();
@@ -274,7 +274,7 @@ namespace WolfoQoL_Client.DeathScreen
                     }
                     else
                     {
-                        //WQoLMain.log.LogMessage(statName + " Stat does not exist.");
+                        //Log.LogMessage(statName + " Stat does not exist.");
                         return null;
                     }
                 }
@@ -284,7 +284,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void AddCustomStats(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
         {
-            WQoLMain.log.LogMessage("ExtraStats");
+            Log.LogMessage("ExtraStats");
 
             Transform lastSimuWave = self.statContentArea.Find("custom_lastSimuWave");
             //Transform mostDamage = self.statContentArea.Find("custom_MostDamagedEnemy");
@@ -395,7 +395,7 @@ namespace WolfoQoL_Client.DeathScreen
                 }
                 catch (System.Exception e)
                 {
-                    WQoLMain.log.LogError(e);
+                    Log.LogError(e);
                 }
 
 
@@ -451,7 +451,7 @@ namespace WolfoQoL_Client.DeathScreen
             SetupStat(self, "custom_LunarCoinsSpent", "STAT_SPENT_LUNARCOIN", playerTracker.spentLunarCoins);
             //SetupStat(self, "custom_ItemsVoided", "STAT_SPENT_VOIDSTUFF", playerTracker.itemsVoided);
 
-            SetupStat(self, "custom_DotDamage", "STAT_DAMAGE_DOT", (int)playerTracker.dotDamageDone);
+            SetupStat(self, "custom_DotDamage", "STAT_DAMAGE_DOT", playerTracker.dotDamageDone);
             Transform damageBlocked = SetupStat(self, "custom_DamageBlocked", "STAT_DAMAGE_BLOCKED", (int)playerTracker.damageBlocked, true);
             if (playerTracker.damageBlocked == -1)
             {
@@ -576,7 +576,7 @@ namespace WolfoQoL_Client.DeathScreen
             Transform stat = FindStatStrip(self, lookingFor);
             if (!stat)
             {
-                //WQoLMain.log.LogMessage(displayToken + " does not exist");
+                //Log.LogMessage(displayToken + " does not exist");
                 return null;
             }
             TooltipProvider tool = stat.gameObject.GetComponent<TooltipProvider>();

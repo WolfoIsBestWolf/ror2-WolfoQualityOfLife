@@ -14,7 +14,7 @@ namespace WolfoQoL_Client
 
             float spacing = WConfig.cfgObjectiveHeight.Value; //Default 32
             float fonzSize = WConfig.cfgObjectiveFontSize.Value; //Default 12
-            WQoLMain.log.LogMessage("Updating Hud spacing" + WConfig.cfgObjectiveHeight.Value + " / font" + WConfig.cfgObjectiveFontSize.Value);
+            Log.LogMessage("Updating Hud spacing" + WConfig.cfgObjectiveHeight.Value + " / font" + WConfig.cfgObjectiveFontSize.Value);
 
             HGTextMeshProUGUI text;
             Transform ObjectivePannelRoot;

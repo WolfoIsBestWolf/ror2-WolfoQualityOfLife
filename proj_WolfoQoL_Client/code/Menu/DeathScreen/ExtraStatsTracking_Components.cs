@@ -44,7 +44,7 @@ namespace WolfoQoL_Client.DeathScreen
             SceneCatalog.onMostRecentSceneDefChanged -= this.HandleMostRecentSceneDefChanged;
             /*foreach (SceneDef sceneDef in visitedScenes)
             {
-                WQoLMain.log.LogMessage(visitedScenes);
+                Log.LogMessage(visitedScenes);
             }*/
         }
 
@@ -316,7 +316,7 @@ namespace WolfoQoL_Client.DeathScreen
                 masterObject = reader.ReadGameObject();
                 if (masterObject == null)
                 {
-                    WQoLMain.log.LogWarning("No Master");
+                    Log.LogWarning("No Master");
                     return;
                 }
                 var tracker = masterObject.EnsureComponent<PerPlayer_ExtraStatTracker>();
@@ -403,7 +403,7 @@ namespace WolfoQoL_Client.DeathScreen
                 //Only count deaths that matter
                 if (DroneCollection.isPermamentMinion(this.gameObject))
                 {
-                    WQoLMain.log.LogMessage(this.gameObject.name + " died");
+                    Log.LogMessage(this.gameObject.name + " died");
                     //Chat.AddMessage(this.gameObject.name + " died");
                     tracker.minionDeaths++;
                 }

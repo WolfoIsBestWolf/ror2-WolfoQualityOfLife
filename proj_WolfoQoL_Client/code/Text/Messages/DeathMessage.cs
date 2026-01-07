@@ -156,7 +156,7 @@ namespace WolfoQoL_Client.Text
             }
 
             //In actual round this should only run for the Host, or for clients if the Host doesn't have it
-            WQoLMain.log.LogMessage(VictimName + " killed by " + KillerName + " | Networked? " + sendOverNetwork);
+            Log.LogMessage(VictimName + " killed by " + KillerName + " | Networked? " + sendOverNetwork);
             if (sendOverNetwork)
             {
                 Networker.SendWQoLMessage(deathMessage);

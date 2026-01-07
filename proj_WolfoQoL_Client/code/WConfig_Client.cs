@@ -26,7 +26,8 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> DroneMessage_Repair;
         public static ConfigEntry<bool> DroneMessage_Combine;
-        public static ConfigEntry<bool> MealprepMessage;
+        public static ConfigEntry<bool> DroneMessage_RemoteOp;
+
         public static ConfigEntry<bool> cfgTempItemCyanStack;
         public static ConfigEntry<bool> cfgRecipesInLog;
 
@@ -73,6 +74,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkinMercRed;
         public static ConfigEntry<bool> cfgSkinMercGreen;
         public static ConfigEntry<bool> cfgSkinMercPink;
+        public static ConfigEntry<bool> cfgSkinMercSS2;
         public static ConfigEntry<bool> cfgSkinMercDisableCompletely;
         public static ConfigEntry<bool> cfgSkinBellBalls;
 
@@ -233,10 +235,11 @@ namespace WolfoQoL_Client
             Always,
         }
 
+        public const string RestartNotif = "\n\n(Requires a restart)";
 
         public static void Start()
         {
-            WQoLMain.log.LogMessage("WQoL InitConfig");
+            Log.LogMessage("WQoL InitConfig");
 
             InitConfig();
             TestConfig();
@@ -263,61 +266,61 @@ namespace WolfoQoL_Client
                 "Modules",
                 "Chat Messages",
                 true,
-                "Enable all new chat messages."
+                "Enable all new chat messages." + RestartNotif
             );
             module_text_reminders = ConfigFile_Client.Bind(
                 "Modules",
                 "Reminders",
                 true,
-                "Enable all new objectives and reminders."
+                "Enable all new objectives and reminders." + RestartNotif
             );
             module_text_general = ConfigFile_Client.Bind(
                 "Modules",
                 "Text Additions",
                 true,
-                "Enable all misc text changes.\n(ie Lunar Seer, Equipment Drone Equipment, New interactable names)"
+                "Enable all misc text changes.\n(ie Lunar Seer, Equipment Drone Equipment, New interactable names)" + RestartNotif
             );
             module_menu_deathscreen = ConfigFile_Client.Bind(
                 "Modules",
                 "Death Screen",
                 true,
-                "Enable the remade Death Screen:\nMore Stats\nRun Recap\nKiller's Inventory\nDrone Collection\ntop right Win Message, bigger."
+                "Enable the remade Death Screen:\nMore Stats\nRun Recap\nKiller's Inventory\nDrone Collection\ntop right Win Message, bigger." + RestartNotif
             );
             module_menu_logbook = ConfigFile_Client.Bind(
                 "Modules",
                 "Logbook",
                 true,
-                "Enable Logbook Additions:\n\nDrones -> Drones & Allies\nItems entries show crafting recipes\nMonster & Survivor entries show more stats and subtitle\n"
+                "Enable Logbook Additions:\n\nDrones -> Drones & Allies\nItems entries show crafting recipes\nMonster & Survivor entries show more stats and subtitle\n" + RestartNotif
             );
             module_menu_other = ConfigFile_Client.Bind(
                 "Modules",
                 "Menu & Hud Tweaks",
                 true,
-                "Enable menu & hud tweaks:\n\nMain Menu theme randomizer\nEclipse number in lobby\nSimu Completed border\nReal time timer"
+                "Enable menu & hud tweaks:\n\nMain Menu theme randomizer\nEclipse number in lobby\nSimu Completed border\nReal time timer" + RestartNotif
             );
             module_visuals_skins = ConfigFile_Client.Bind(
                 "Modules",
                 "Skin & Skill Visuals",
                 true,
-                "Enable all skin & skill visual upgrades:\nRed Oni Merc\nGreen Frail Merc\nPurple/Yellow Blight Acrid\n"
+                "Enable all skin & skill visual upgrades:\nRed Oni Merc\nGreen Frail Merc\nPurple/Yellow Blight Acrid\n" + RestartNotif
             );
             module_visuals_icons = ConfigFile_Client.Bind(
                 "Modules",
                 "Icons",
                 true,
-                "Enable all updated icons:\n\nUnique Ping Icons\nUpdated Body Icons"
+                "Enable all updated icons:\n\nUnique Ping Icons\nUpdated Body Icons" + RestartNotif
             );
             module_visuals_other = ConfigFile_Client.Bind(
                 "Modules",
                 "Visuals",
                 true,
-                "Enable all other visual tweaks:\n\nLarger Uncommon Printers\nSulfur & Magma Geysers\nDifferent colors for Lunar/Elite equips"
+                "Enable all other visual tweaks:\n\nLarger Uncommon Printers\nSulfur & Magma Geysers\nDifferent colors for Lunar/Elite equips" + RestartNotif
             );
             module_audio = ConfigFile_Client.Bind(
                 "Modules",
                 "Audio",
                 true,
-                "Parrying effect is more noticible\nSolutional Haunt Music track restarts after boss fight."
+                "Parrying effect is more noticible\nSolutional Haunt Music track restarts after boss fight." + RestartNotif
             );
 
             #endregion
@@ -356,24 +359,19 @@ namespace WolfoQoL_Client
                 true,
                 "Reminder, that you have Sale Star, so you hopefully do not waste it."
             );
-            cfgRemindersSaleStar = ConfigFile_Client.Bind(
-               "Reminders",
-               "Sale Star",
-               true,
-               "Reminder, that you have Sale Star, so you hopefully do not waste it."
-           );
+
             cfgRemindersPortal = ConfigFile_Client.Bind(
                "Reminders",
                "Portals",
                true,
-               "Reminder for open portals in case you forget and to match the leave through teleporter message. Like Blue/Gold/Green."
+               "Reminder for open portals, in case you forget one is opened and just default to the teleporter.\n\nAlso to match the leave through teleporter message."
            );
 
             cfgRemindersSecretGeode = ConfigFile_Client.Bind(
                 "Reminders",
                 "Meridian Geode Secret",
                 true,
-                "Cracking the 6 Aurelionite Geodes while climbing Prime Meridian gives an extra reward. This is to remind you to do that."
+                "Cracking the 6 Aurelionite Geodes while climbing Prime Meridian gives an extra reward.\nThis is to remind you to do that."
             );
             cfgChargeHalcyShrine = ConfigFile_Client.Bind(
                 "Reminders",
@@ -385,7 +383,7 @@ namespace WolfoQoL_Client
              "Reminders",
              "Find Halcyon Shrine",
              false,
-             "Reminder to find the Halcyon Shrine if one spawned."
+             "Reminder to find the Halcyon Shrine, if one spawned."
            );
 
             cfgRemindersNewt = ConfigFile_Client.Bind(
@@ -404,7 +402,7 @@ namespace WolfoQoL_Client
               "Reminders",
               "VV Ceaseless Cornucopia",
               false,
-              "VanillaVoids Shipping Request; Reminder to complete the Void Holdout Zone event that spawns from this item."
+              "Reminder to complete the Void Holdout Zone event that spawns from (VanillaVoids) Ceaseless Cornucopia (Void Shipping Request)"
             );
 
 
@@ -438,7 +436,7 @@ namespace WolfoQoL_Client
                 "Chat Messages",
                 "Benthic & Ego Transform",
                 true,
-                "Chat message when Egocentrism, Benthic Bloom or VanillaVoids Enhancement Vials upgrades a item."
+                "Chat message for when;\nEgocentrism eats an item\nBenthic Bloom upgrades an item.\n(VanillaVoids) Enhancement Vials corrupts an item."
             );
             cfgMessagesRevive = ConfigFile_Client.Bind(
                  "Chat Messages",
@@ -456,7 +454,7 @@ namespace WolfoQoL_Client
                 "Chat Messages",
                 "Elixir & Watch lost",
                 MessageWho.Anybody,
-                "Chat message for when you use Elixir, lose Watches, lose random item with VanillaVoids Clockwork Mechanism"
+                "Chat message for when;\nAn Elixir is used\nDelicate Watches are broken\nA random item is eaten by (VanillaVoids) Clockwork Mechanism"
             );
             cfgMessagesRecycler = ConfigFile_Client.Bind(
                  "Chat Messages",
@@ -468,26 +466,32 @@ namespace WolfoQoL_Client
                  "Chat Messages",
                  "Drone Repair Message",
                  true,
-                 "Message for repairing Drones and purchasing them from a multi shops."
+                 "Message for repairing drones and purchasing them from a Drone Triple Shop."
               );
             DroneMessage_Combine = ConfigFile_Client.Bind(
                 "Chat Messages",
                 "Drone Combiner Message",
                 true,
-                "Message for combining/upgrading drones at the Combiner."
+                "Message for combining/upgrading drones at the Drone CombinerStation."
+             );
+            DroneMessage_RemoteOp = ConfigFile_Client.Bind(
+                "Chat Messages",
+                "Drone RemoteOp Message",
+                true,
+                "Message for starting a remote operation / respawning as a drone."
              );
             cfgMessageDevotion = ConfigFile_Client.Bind(
-                           "Chat Messages",
-                           "Devotion Message",
-                           true,
-                           "Message for recruiting and losing Devoted Lemurians."
-                        );
+                "Chat Messages",
+                "Devotion Message",
+                true,
+                "Message for recruiting and losing Devoted Lemurians."
+            );
 
             cfgMessagesVoidQuantity = ConfigFile_Client.Bind(
                 "Chat Messages",
                 "Void Quantity",
                 true,
-                "When picking up a item or void, it will add up the quantities of the normal and void together in the message.\nie if you pickup a Bear with Safer Spaces itll show Tougher Times(2) in a void color"
+                "When picking up a item or void, it will add up the quantities of the normal and void together in the message.\n\nie if you pickup a Bear with Safer Spaces itll show Tougher Times(2) in a void color"
             );
             cfgMessagesShrineRevive = ConfigFile_Client.Bind(
                 "Chat Messages",
@@ -745,7 +749,7 @@ namespace WolfoQoL_Client
                 "Logbook",
                 "Recipe Info",
                 true,
-                "For Alloyed Collective; Adds Recipes info to Item entries."
+                "For Alloyed Collective; Adds Recipes info to Item entries." + RestartNotif
             );
 
             cfgLogbook_SortBosses = ConfigFile_Client.Bind(
@@ -851,12 +855,13 @@ namespace WolfoQoL_Client
                 true,
                 "Replace blue effects with pink effects for Murder Merc / Vulture Skin"
                 );
-            /*cfgSkinMakeOniBackup = ConfigFile_Client.Bind(
-               "Skins",
-               "Oni Blue Sword Backup",
-               false,
-               "Make a backup of the Oni Skin, with blue sword skin so you can have both a Red and a Blue"
-           );*/
+
+            cfgSkinMercSS2 = ConfigFile_Client.Bind(
+                "Skins",
+                "Murder Merc | Pink effects",
+                true,
+                "Replace blue effects with red effects for this modded skin."
+                );
             cfgSkinAcridBlight = ConfigFile_Client.Bind(
                 "Skins",
                 "Blight Acrid effects",
@@ -1033,8 +1038,8 @@ namespace WolfoQoL_Client
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();
-            //WQoLMain.log.LogMessage("Config Values Total : " + entries.Length);
-            //WQoLMain.log.LogMessage("Config Values Reset : " + (resetB.Count));
+            //Log.LogMessage("Config Values Total : " + entries.Length);
+            //Log.LogMessage("Config Values Reset : " + (resetB.Count));
             foreach (ConfigEntryBase entry in entries)
             {
                 if (entry.SettingType == typeof(bool))
@@ -1056,7 +1061,7 @@ namespace WolfoQoL_Client
                 }
                 else
                 {
-                    WQoLMain.log.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
+                    Log.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
                 }
             }
 

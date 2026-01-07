@@ -110,7 +110,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Track_DoTDamage_MinionHurt");
+                Log.LogWarning("IL Failed: Track_DoTDamage_MinionHurt");
             }
         }
 
@@ -134,7 +134,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Host_TrackVoidedItems");
+                Log.LogWarning("IL Failed: Host_TrackVoidedItems");
             }
         }
 
@@ -158,7 +158,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: HealthComponent_HandleHeal");
+                Log.LogWarning("IL Failed: HealthComponent_HandleHeal");
             }
         }
 

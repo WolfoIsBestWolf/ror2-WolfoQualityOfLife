@@ -122,7 +122,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: IL.EntityStates.Bell.BellWeapon.ChargeTrioBomb.FixedUpdate");
+                Log.LogWarning("IL Failed: IL.EntityStates.Bell.BellWeapon.ChargeTrioBomb.FixedUpdate");
             }
         }
 

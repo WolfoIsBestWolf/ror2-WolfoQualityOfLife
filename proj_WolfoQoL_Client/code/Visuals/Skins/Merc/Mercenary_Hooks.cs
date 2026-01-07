@@ -66,7 +66,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
+                Log.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
             }
         }
 
@@ -132,24 +132,24 @@ namespace WolfoQoL_Client.Skins
 
         private static void Assaulter2_OnEnter_On(On.EntityStates.Merc.Assaulter2.orig_OnEnter orig, EntityStates.Merc.Assaulter2 self)
         {
-            if (self.gameObject.GetComponent<MakeThisMercRed>())
+            int i = SkinChanges.DetectCaseMerc(self.gameObject);
+            switch (i)
             {
-                EffectReplacer.Activate(self.hitEffectPrefab, 1);
-                self.swingEffectPrefab = Merc_Red.MercAssaulterEffect_Red;
-            }
-            else if (self.gameObject.GetComponent<MakeThisMercGreen>())
-            {
-                EffectReplacer.Activate(self.hitEffectPrefab, 2);
-                self.swingEffectPrefab = Merc_Green.MercAssaulterEffect_Green;
-            }
-            else if (self.gameObject.GetComponent<MakeThisMercPink>())
-            {
-                EffectReplacer.Activate(self.hitEffectPrefab, 3);
-                self.swingEffectPrefab = Merc_Pink.MercAssaulterEffect_Pink;
-            }
-            else
-            {
-                EffectReplacer.Activate(self.hitEffectPrefab, 0);
+                case 0:
+                    EffectReplacer.Activate(self.hitEffectPrefab, 0);
+                    break;
+                case 1:
+                    EffectReplacer.Activate(self.hitEffectPrefab, 1);
+                    self.swingEffectPrefab = Merc_Red.MercAssaulterEffect_Red;
+                    break;
+                case 2:
+                    EffectReplacer.Activate(self.hitEffectPrefab, 2);
+                    self.swingEffectPrefab = Merc_Green.MercAssaulterEffect_Green;
+                    break;
+                case 3:
+                    EffectReplacer.Activate(self.hitEffectPrefab, 3);
+                    self.swingEffectPrefab = Merc_Pink.MercAssaulterEffect_Pink;
+                    break;
             }
             orig(self);
         }
@@ -190,17 +190,15 @@ namespace WolfoQoL_Client.Skins
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EvisDash, Material>>((material, entityState) =>
                 {
-                    if (entityState.gameObject.GetComponent<MakeThisMercRed>())
+                    MercColors i = SkinChanges.DetectCaseMercEnum(entityState.gameObject);
+                    switch (i)
                     {
-                        return Merc_Red.matHuntressFlashExpanded_Red;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
-                    {
-                        return Merc_Green.matHuntressFlashExpanded_Green;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercPink>())
-                    {
-                        return Merc_Pink.matHuntressFlashExpanded_Pink;
+                        case MercColors.Red:
+                            return Merc_Red.matHuntressFlashExpanded_Red;
+                        case MercColors.Green:
+                            return Merc_Green.matHuntressFlashExpanded_Green;
+                        case MercColors.Pink:
+                            return Merc_Pink.matHuntressFlashExpanded_Pink;
                     }
                     return material;
                 });
@@ -208,7 +206,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: IL.EntityStates.Merc.Evis.OnExit");
+                Log.LogWarning("IL Failed: Red Merc: IL.EntityStates.Merc.Evis.OnExit");
             }
         }
 
@@ -238,11 +236,11 @@ namespace WolfoQoL_Client.Skins
                     }
                     return target;
                 });
-                //WQoLMain.log.LogMessage("IL Found: Red Merc: GroundLight2_OnEnter");
+                //Log.LogMessage("IL Found: Red Merc: GroundLight2_OnEnter");
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: GroundLight2_OnEnter");
+                Log.LogWarning("IL Failed: Red Merc: GroundLight2_OnEnter");
             }
         }
 
@@ -258,11 +256,11 @@ namespace WolfoQoL_Client.Skins
                     EffectReplacer.ActivateMerc(target, entityState.outer.gameObject);
                     return target;
                 });
-                //WQoLMain.log.LogMessage("IL Found: Red Merc: WhirlwindBase_FixedUpdate");
+                //Log.LogMessage("IL Found: Red Merc: WhirlwindBase_FixedUpdate");
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: WhirlwindBase_FixedUpdate");
+                Log.LogWarning("IL Failed: Red Merc: WhirlwindBase_FixedUpdate");
             }
         }
 
@@ -282,7 +280,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: WhirlwindBase_OnEnter");
+                Log.LogWarning("IL Failed: Red Merc: WhirlwindBase_OnEnter");
             }
         }
 
@@ -302,7 +300,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Uppercut_FixedUpdate");
+                Log.LogWarning("IL Failed: Red Merc: Uppercut_FixedUpdate");
             }
         }
 
@@ -321,7 +319,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Uppercut_OnEnter");
+                Log.LogWarning("IL Failed: Red Merc: Uppercut_OnEnter");
             }
         }
 
@@ -335,24 +333,22 @@ namespace WolfoQoL_Client.Skins
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EntityStates.Merc.EvisDash, Material>>((material, entityState) =>
                 {
-                    if (entityState.gameObject.GetComponent<MakeThisMercRed>())
+                    MercColors i = SkinChanges.DetectCaseMercEnum(entityState.gameObject);
+                    switch (i)
                     {
-                        return Merc_Red.matMercEnergized_Red;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
-                    {
-                        return Merc_Green.matMercEnergized_Green;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercPink>())
-                    {
-                        return Merc_Pink.matMercEnergized_Pink;
+                        case MercColors.Red:
+                            return Merc_Red.matMercEnergized_Red;
+                        case MercColors.Green:
+                            return Merc_Green.matMercEnergized_Green;
+                        case MercColors.Pink:
+                            return Merc_Pink.matMercEnergized_Pink;
                     }
                     return material;
                 });
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Assaulter2_OnEnter");
+                Log.LogWarning("IL Failed: Red Merc: Assaulter2_OnEnter");
             }
         }
 
@@ -372,7 +368,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
+                Log.LogWarning("IL Failed: Red Merc: Evis.CreateBlinkEffect");
             }
         }
 
@@ -392,7 +388,7 @@ namespace WolfoQoL_Client.Skins
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
+                Log.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
             }
 
             if (c.TryGotoNext(MoveType.Before,
@@ -401,24 +397,22 @@ namespace WolfoQoL_Client.Skins
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, Evis, Material>>((material, entityState) =>
                 {
-                    if (entityState.gameObject.GetComponent<MakeThisMercRed>())
+                    MercColors i = SkinChanges.DetectCaseMercEnum(entityState.gameObject);
+                    switch (i)
                     {
-                        return Merc_Red.matMercEvisTarget_Red;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
-                    {
-                        return Merc_Green.matMercEvisTarget_Green;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercPink>())
-                    {
-                        return Merc_Pink.matMercEvisTarget_Pink;
+                        case MercColors.Red:
+                            return Merc_Red.matMercEvisTarget_Red;
+                        case MercColors.Green:
+                            return Merc_Green.matMercEvisTarget_Green;
+                        case MercColors.Pink:
+                            return Merc_Pink.matMercEvisTarget_Pink;
                     }
                     return material;
                 });
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
+                Log.LogWarning("IL Failed: Red Merc: Evis_FixedUpdate");
             }
         }
 
@@ -432,17 +426,15 @@ namespace WolfoQoL_Client.Skins
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EvisDash, Material>>((material, entityState) =>
                 {
-                    if (entityState.gameObject.GetComponent<MakeThisMercRed>())
+                    MercColors i = SkinChanges.DetectCaseMercEnum(entityState.gameObject);
+                    switch (i)
                     {
-                        return Merc_Red.matHuntressFlashBright_Red;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
-                    {
-                        return Merc_Green.matHuntressFlashBright_Green;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercPink>())
-                    {
-                        return Merc_Pink.matHuntressFlashBright_Pink;
+                        case MercColors.Red:
+                            return Merc_Red.matHuntressFlashBright_Red;
+                        case MercColors.Green:
+                            return Merc_Green.matHuntressFlashBright_Green;
+                        case MercColors.Pink:
+                            return Merc_Pink.matHuntressFlashBright_Pink;
                     }
                     return material;
                 });
@@ -452,24 +444,22 @@ namespace WolfoQoL_Client.Skins
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<Material, EvisDash, Material>>((material, entityState) =>
                 {
-                    if (entityState.gameObject.GetComponent<MakeThisMercRed>())
+                    MercColors i = SkinChanges.DetectCaseMercEnum(entityState.gameObject);
+                    switch (i)
                     {
-                        return Merc_Red.matHuntressFlashExpanded_Red;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercGreen>())
-                    {
-                        return Merc_Green.matHuntressFlashExpanded_Green;
-                    }
-                    else if (entityState.gameObject.GetComponent<MakeThisMercPink>())
-                    {
-                        return Merc_Pink.matHuntressFlashExpanded_Pink;
+                        case MercColors.Red:
+                            return Merc_Red.matHuntressFlashExpanded_Red;
+                        case MercColors.Green:
+                            return Merc_Green.matHuntressFlashExpanded_Green;
+                        case MercColors.Pink:
+                            return Merc_Pink.matHuntressFlashExpanded_Pink;
                     }
                     return material;
                 });
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: Red Merc: Merc.EvisDash.FixedUpdate");
+                Log.LogWarning("IL Failed: Red Merc: Merc.EvisDash.FixedUpdate");
             }
         }
 

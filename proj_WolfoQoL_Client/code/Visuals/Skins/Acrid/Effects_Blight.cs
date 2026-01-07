@@ -283,7 +283,7 @@ namespace WolfoQoL_Client.Skins
             //matCrocoGooDecalBlight.color = new Color(1, 1f, 1);
             //matCrocoGooDecalBlight.SetTexture("_RemapTex", texRampCrocoDiseaseBlightAlt);
             //
- 
+
             //Slash Blight
 
             Material matCrocoSlashDiseasedBlight = UnityEngine.Object.Instantiate(CrocoSlashBlight.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().sharedMaterial);

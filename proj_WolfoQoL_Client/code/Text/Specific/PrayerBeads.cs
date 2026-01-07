@@ -130,7 +130,7 @@ namespace WolfoQoL_Client.Text
         {
             if (body == null)
             {
-                WQoLMain.log.LogMessage("PrayerBeads_Ovelay NullBody");
+                Log.LogMessage("PrayerBeads_Ovelay NullBody");
                 return;
             }
             if (!master.hasAuthority)

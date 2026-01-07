@@ -1,5 +1,4 @@
 ﻿using BepInEx;
-using BepInEx.Logging;
 using HG.Reflection;
 using R2API.Utils;
 using RoR2;
@@ -24,7 +23,7 @@ namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("com.Wolfo.WolfoLibrary", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.1.2")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.1.3")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WQoLMain : BaseUnityPlugin
     {
@@ -61,12 +60,10 @@ namespace WolfoQoL_Client
                 HostHasMod_ = value;
             }
         }
-        public static ManualLogSource log;
-
 
         public void Awake()
         {
-            log = base.Logger;
+            Log.log = base.Logger;
 
             WConfig.Start();
             Assets.Init(Info);
@@ -81,7 +78,7 @@ namespace WolfoQoL_Client
 
             if (WConfig.cfgTestDisableMod.Value || WConfig.cfgTestDisableMod2.Value)
             {
-                WQoLMain.log.LogWarning("Disabled Mod for Test");
+                Log.LogWarning("Disabled Mod for Test");
                 return;
             }
 
@@ -147,9 +144,9 @@ namespace WolfoQoL_Client
             QualitySupport.QualityModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Gorakh.ItemQualities");
 
 
-            WQoLMain.log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
-            WQoLMain.log.LogMessage("ProperSaveInstalled installed? : " + ProperSaveInstalled);
-            WQoLMain.log.LogMessage("Qualtiy installed? : " + QualitySupport.QualityModInstalled);
+            Log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
+            Log.LogMessage("ProperSaveInstalled installed? : " + ProperSaveInstalled);
+            Log.LogMessage("Qualtiy installed? : " + QualitySupport.QualityModInstalled);
 
             if (ProperSaveInstalled)
             {
@@ -179,7 +176,7 @@ namespace WolfoQoL_Client
                 HostHasMod = true;
                 if (!NetworkServer.active)
                 {
-                    WQoLMain.log.LogMessage("Host has WolfoQoL_Client: " + HostHasMod_);
+                    Log.LogMessage("Host has WolfoQoL_Client: " + HostHasMod_);
                 }
 
                 //Hard to account for, when does PlayerMaster get made

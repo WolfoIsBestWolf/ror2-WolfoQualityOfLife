@@ -55,7 +55,7 @@ namespace WolfoQoL_Client
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: TP RED DISCOVER CHANGE");
+                Log.LogWarning("IL Failed: TP RED DISCOVER CHANGE");
             }
         }
 

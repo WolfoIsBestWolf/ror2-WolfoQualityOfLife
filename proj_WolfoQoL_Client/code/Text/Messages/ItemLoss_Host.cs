@@ -107,7 +107,7 @@ namespace WolfoQoL_Client.Text
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: IL.ScrappingMessage");
+                Log.LogWarning("IL Failed: IL.ScrappingMessage");
             }
         }
 
@@ -232,7 +232,7 @@ namespace WolfoQoL_Client.Text
             }
             else
             {
-                WQoLMain.log.LogWarning("IL Failed: IL.PurchaseInteraction.OnInteractionBegin");
+                Log.LogWarning("IL Failed: IL.PurchaseInteraction.OnInteractionBegin");
             }
         }
 

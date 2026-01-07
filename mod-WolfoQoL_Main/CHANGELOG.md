@@ -1,4 +1,19 @@
 ```
+v5.1.3
+
+Added Orange Lights & Red Effects to SS2 Red/Orange merc skin.
+Loader FistHook now changes colors with all non-colossus skins again. (Colossus texture does not fit the model).
+Recipes will are now sorted, primarily by tier/internal name of result, secondarily by ingredients.
+
+Added Drone RemoteOp message config.
+Fixed Drone Repair and Combiner message config not actually being implemented.
+Fixed DoT damage stat being int limited
+Fixed startup error with VanillaVoid if you had Shattered Obelisk disabled.
+Fixed some Merc Skin touchups being locked behind the wrong config.
+Fixed PrimordialTP icons being gone.
+
+```
+```
 v5.1.2
 
 Changed networking for hopefully better to support with moddedHost -> Vanilla.

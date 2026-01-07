@@ -132,7 +132,7 @@ namespace WolfoQoL_Client.DeathScreen
             verticalLayout.padding = new RectOffset(0, 0, 12, 0);
 
             #region //Populate Icons
-            WQoLMain.log.LogMessage("Stage Recap");
+            Log.LogMessage("Stage Recap");
 
             var scenes = RunExtraStatTracker.instance.visitedScenes;
 

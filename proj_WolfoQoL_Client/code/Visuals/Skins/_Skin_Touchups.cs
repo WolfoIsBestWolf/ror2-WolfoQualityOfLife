@@ -11,13 +11,13 @@ namespace WolfoQoL_Client.Skins
 
         public static void Start()
         {
-            On.RoR2.SkinDef.ApplyAsync += SkinDef_ApplyAsync;
+
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += SkinTouchUpsLobby;
 
             Skins_Merc.Start();
             Skins_Engi.Start();
             Skins_REX.Start();
-            Skins_Loader();
+            GameModeCatalog.availability.CallWhenAvailable(Skins_Loader.Start);
             Skins_Toolbot();
             Skins_Operator();
             OtherEnemies.Start();
@@ -88,100 +88,6 @@ namespace WolfoQoL_Client.Skins
 
 
 
-        public static void Skins_Loader()
-        {
-            //Loader correct Hand/Pylon color, seems whatever at this point
-            //Not compatible with Colossus so whatevs
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Loader/LoaderHookGhost.prefab").WaitForCompletion().AddComponent<VFXAttributes>().DoNotPool = true;
-            On.EntityStates.Loader.FireHook.SetHookReference += (orig, self, hook) =>
-            {
-                if (self.characterBody.skinIndex == 1)
-                {
-                    hook.transform.GetChild(0).GetComponent<MeshRenderer>().material = self.modelLocator.modelTransform.GetComponent<CharacterModel>().baseRendererInfos[0].defaultMaterial;
-                }
-                orig(self, hook);
-            };
-
-        }
-
-
-        private static System.Collections.IEnumerator SkinDef_ApplyAsync(On.RoR2.SkinDef.orig_ApplyAsync orig, SkinDef self, GameObject modelObject, System.Collections.Generic.List<AssetReferenceT<Material>> loadedMaterials, System.Collections.Generic.List<AssetReferenceT<Mesh>> loadedMeshes, RoR2.ContentManagement.AsyncReferenceHandleUnloadType unloadType)
-        {
-            if (modelObject == null)
-            {
-                return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
-            }
-            CharacterModel characterModel = modelObject.GetComponent<RoR2.CharacterModel>();
-            if (modelObject.name == "mdlMerc")
-            {
-                bool red = self.name.EndsWith("Alt") && WConfig.cfgSkinMercRed.Value || self.name.EndsWith("Red");
-                bool green = self.name.EndsWith("Colossus") && WConfig.cfgSkinMercGreen.Value || self.name.EndsWith("Green");
-                bool pink = self.name.EndsWith("Vulture") && WConfig.cfgSkinMercPink.Value;
-                if (characterModel.body)
-                {
-                    Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercRed>());
-                    Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercGreen>());
-                    Object.Destroy(characterModel.body.gameObject.GetComponent<MakeThisMercPink>());
-                    if (red)
-                    {
-                        characterModel.body.gameObject.AddComponent<MakeThisMercRed>();
-                    }
-                    else if (green)
-                    {
-                        characterModel.body.gameObject.AddComponent<MakeThisMercGreen>();
-                    }
-                    else if (pink)
-                    {
-                        characterModel.body.gameObject.AddComponent<MakeThisMercPink>();
-                    }
-                }
-
-                ChildLocator childLocator = modelObject.GetComponent<ChildLocator>();
-                if (childLocator == null)
-                {
-                    WQoLMain.log.LogWarning("mdlMerc without childLocator");
-                    return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
-                }
-                Transform PreDashEffect = childLocator.FindChild("PreDashEffect");
-                if (PreDashEffect == null)
-                {
-                    WQoLMain.log.LogMessage("mdlMerc without PreDashEffect");
-                    return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
-                }
-
-                if (red)
-                {
-                    PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1); //0.5613 0.6875 1 1 
-                    PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(1f, 0.2f, 0.2f, 1); //0.2028 0.6199 1 1
-                    PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1
-                    PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(1f, 0.5613f, 0.6875f, 1);  //0.5613 0.6875 1 1 
-                    PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
-                    PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Red.matMercIgnition_Red; //matMercIgnition (Instance)
-                }
-                else if (green)
-                {
-                    PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1); //0.5613 0.6875 1 1 
-                    PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.2f, 1f, 0.2f, 1); //0.2028 0.6199 1 1
-                    PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1
-                    PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.6875f, 1f, 0.5613f, 1);  //0.5613 0.6875 1 1 
-                    PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
-                    PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Green.matMercIgnition_Green; //matMercIgnition (Instance)
-                }
-                else if (pink)
-                {
-                    //0.627 0.2772 0.7 0.7
-                    PreDashEffect.GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.844f, 0.561f, 0.844f, 1); //0.5613 0.6875 1 1 
-                    PreDashEffect.GetChild(1).GetComponent<Light>().color = new Color(0.72f, 0.3f, 0.81f, 1); //0.203 0.62 1 1
-                    PreDashEffect.GetChild(2).GetComponent<ParticleSystem>().startColor = new Color(0.844f, 0.561f, 0.844f, 1);  //0.5613 0.6875 1 1
-                    PreDashEffect.GetChild(3).GetComponent<ParticleSystem>().startColor = new Color(0.844f, 0.561f, 0.844f, 1);  //0.5613 0.6875 1 1 
-                    PreDashEffect.GetChild(2).GetComponent<ParticleSystemRenderer>().material = Merc_Pink.matMercIgnition_Pink; //matMercIgnition (Instance)
-                    PreDashEffect.GetChild(3).GetComponent<ParticleSystemRenderer>().material = Merc_Pink.matMercIgnition_Pink; //matMercIgnition (Instance)
-                }
-
-            }
-            return orig(self, modelObject, loadedMaterials, loadedMeshes, unloadType);
-        }
-
         private static void SkinTouchUpsLobby(On.RoR2.CharacterSelectSurvivorPreviewDisplayController.orig_OnLoadoutChangedGlobal orig, CharacterSelectSurvivorPreviewDisplayController self, NetworkUser changedNetworkUser)
         {
             orig(self, changedNetworkUser);
@@ -191,7 +97,7 @@ namespace WolfoQoL_Client.Skins
             {
                 return;
             }
-            WQoLMain.log.LogMessage(self + " User: " + changedNetworkUser.id.value);
+            Log.LogMessage(self + " User: " + changedNetworkUser.id.value);
 
             if (self.name.StartsWith("EngiDisplay"))
             {
@@ -225,7 +131,7 @@ namespace WolfoQoL_Client.Skins
                     var BodyLoadout = temploadout.bodyLoadoutManager.GetReadOnlyBodyLoadout(Toolbot);
                     SkillFamily family = BodyLoadout.GetSkillFamily(0);
                     ToolbotWeaponSkillDef toolBotSkill = (ToolbotWeaponSkillDef)family.variants[skill].skillDef;
-                    WQoLMain.log.LogMessage(toolBotSkill);
+                    Log.LogMessage(toolBotSkill);
 
                     Transform mdlToolbot = self.transform.GetChild(0).transform.GetChild(0);
                     Transform toolbase = mdlToolbot.Find("ToolbotArmature/ROOT/base/stomach/chest/upper_arm.l/lower_arm.l/toolbase");

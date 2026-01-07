@@ -138,7 +138,7 @@ namespace WolfoQoL_Client.DeathScreen
             int count = droneCollection.droneDict.Count + droneCollection.bodyDict_Devotion.Count;
             count += droneCollection.itemDict_Devotion.Count;
             count += droneCollection.equipmentDrones.Count + droneCollection.equipmentDict_Devotion.Count;
-            WQoLMain.log.LogMessage("Drone Display " + count);
+            Log.LogMessage("Drone Display " + count);
 
             icon = 0;
             itemDisplay.AllocateIcons(count);
@@ -354,7 +354,7 @@ namespace WolfoQoL_Client.DeathScreen
             catch (System.Exception e)
             {
                 Debug.LogError("REPORT TO WOLFO");
-                WQoLMain.log.LogError(e);
+                Log.LogError(e);
             }
         }
         public void Reset()
