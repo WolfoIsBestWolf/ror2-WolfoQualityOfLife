@@ -12,8 +12,8 @@ ReDid MainMenu config to use named Enum.
 Drones & Allies Logbook setting default now off.
 No longer including Severed Probes & Malachite Urchin in log by default.
 
-Added missing confi for; Meridian/Reformed loop leaves.
-Added missing confi for; Cell Vent charge indicator.
+Added missing config for; Meridian/Reformed loop leaves.
+Added missing config for; Cell Vent charge indicator.
 Recipe sorting now sorts Void tiers within the uncorrupted tier.
 
 
