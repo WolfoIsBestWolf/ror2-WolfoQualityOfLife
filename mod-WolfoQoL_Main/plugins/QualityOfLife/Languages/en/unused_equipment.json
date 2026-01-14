@@ -24,12 +24,12 @@
             "EQUIPMENT_ENIGMA_PICKUP": "Cannot activate this.",
             "EQUIPMENT_ENIGMA_DESC": "Previously used for Artifact of Enigma before they decided to use regular equipment that reroll instead of a single equipment activating random ones.",
 
-            "EQUIPMENT_AFFIXUNFINISHED_PICKUP": "Become an Aspect of unknown intentions",
+           
+            "EQUIPMENT_AFFIXYELLOW_NAME": "Aspect of Yellow",
+			"EQUIPMENT_AFFIXYELLOW__PICKUP": "Become an aspect of yellow.",
+			"EQUIPMENT_AFFIXYELLOW_DESC": "Increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>50% </style> and <style=cIsUtility>base movement speed</style> by <style=cIsUtility>2</style>.",
 
-            "EQUIPMENT_AFFIXYELLOW_NAME": "EliteYellowEquipment",
-            "EQUIPMENT_AFFIXYELLOW_DESC": "Increases <style=cIsDamage>attack speed</style> by <style=cIsDamage>50% </style> and <style=cIsUtility>movement speed</style> by <style=cIsUtility>25%</style>.",
-
-            "EQUIPMENT_AFFIXECHO_NAME": "EliteEchoEquipment",
+            "EQUIPMENT_AFFIXECHO_NAME": "Aspect of Echo",
             "EQUIPMENT_AFFIXECHO_DESC": "Gain 2 <style=cIsDamage>Echoes</style> that will fight for you.",
 
 

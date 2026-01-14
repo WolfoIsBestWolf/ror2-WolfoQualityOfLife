@@ -44,7 +44,7 @@
 			
 			"REMINDER_REGENSCRAP": "Use a <style=cIsHealing>Sucata Regeneradora</style>", 
 			
-            "REMINDER_FREECHESTVOID": "Encontre e ative a <style=cIsVoid>Bateria Perdida</style>",
+            "REMINDER_VV_FREECHESTVOID": "Encontre e ative a <style=cIsVoid>Bateria Perdida</style>",
 			
 			"REMINDER_SECRET_GEODE": "Quebre os <style=cGold>Geodos de Aurelionita</color> ({0}/{1})",
            

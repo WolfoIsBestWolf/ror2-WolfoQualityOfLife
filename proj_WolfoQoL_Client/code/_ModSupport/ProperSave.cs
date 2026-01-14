@@ -137,27 +137,27 @@ namespace WolfoQoL_Client.ModSupport
                 {
                     continue;
                 }
-                var stats = player.EnsureComponent<PerPlayer_ExtraStatTracker>();
+                var stats = player.EnsureComponent<PlayerMaster_ExtraStatTracker>();
 
                 //Debug.Log("FOUND PLAYER");
                 //Debug.Log(playerString);
 
                 stats.scrappedItems = int.Parse(splitData[1]);
                 stats.scrappedDrones = int.Parse(splitData[2]);
-                stats.minionDamageTaken = float.Parse(splitData[3]);
-                stats.minionHealing = float.Parse(splitData[4]);
+                stats.minionDamageTaken = ulong.Parse(splitData[3]);
+                stats.minionHealing = ulong.Parse(splitData[4]);
                 stats.minionDeaths = int.Parse(splitData[5]);
                 stats.spentLunarCoins = int.Parse(splitData[6]);
                 stats.timesJumped = int.Parse(splitData[7]);
                 stats.lemuriansHatched = int.Parse(splitData[8]);
-                stats.dotDamageDone = float.Parse(splitData[9]);
-                stats.damageBlocked = float.Parse(splitData[10]);
+                stats.dotDamageDone = ulong.Parse(splitData[9]);
+                stats.damageBlocked = ulong.Parse(splitData[10]);
 
                 string preSplitMinionDamage = splitData[11];
                 string[] minionDamages = preSplitMinionDamage.Split(',');
                 for (int i = 0; i < minionDamages.Length; i++)
                 {
-                    stats.perMinionDamage[i] = float.Parse(minionDamages[i]);
+                    stats.perMinionDamage[i] = ulong.Parse(minionDamages[i]);
                 }
                 stats.timeAliveReal = float.Parse(splitData[12]);
 
@@ -175,7 +175,7 @@ namespace WolfoQoL_Client.ModSupport
                 {
                     continue;
                 }
-                var stats = player.GetComponent<PerPlayer_ExtraStatTracker>();
+                var stats = player.GetComponent<PlayerMaster_ExtraStatTracker>();
                 if (!stats)
                 {
                     File.Delete(path);

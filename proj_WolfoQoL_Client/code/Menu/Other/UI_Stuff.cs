@@ -196,7 +196,8 @@ namespace WolfoQoL_Client
 
         private static void CrosshairManager_OnEnable(On.RoR2.UI.CrosshairManager.orig_OnEnable orig, RoR2.UI.CrosshairManager self)
         {
-            //WolfoMain.log.LogMessage(" On.RoR2.UI.CrosshairManager.OnEnable " + self);
+            //Consider, idk like fukin unique sprint Crosshairs for Bandit/Arti
+            //Or disabling this one for Drifter or smth cuz they dont have charge attacks
             orig(self);
             if (WConfig.cfgNewSprintCrosshair.Value == false)
             {

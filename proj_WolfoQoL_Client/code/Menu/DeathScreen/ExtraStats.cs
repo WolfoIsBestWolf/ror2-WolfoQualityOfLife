@@ -306,8 +306,8 @@ namespace WolfoQoL_Client.DeathScreen
 
 
                 //mostKilled = MakeBigStat(baseLongStat, mostKilled);
-                mostHurtby = MakeBigStat(baseLongStat, mostHurtby);
-                mvpMinion = MakeBigStat(baseLongStat, mvpMinion);
+                mostHurtby = MakeBigStat(self, baseLongStat, mostHurtby);
+                mvpMinion = MakeBigStat(self, baseLongStat, mvpMinion);
                 //mostDamage = MakeBigStat(baseLongStat, mostDamage);
 
 
@@ -335,9 +335,9 @@ namespace WolfoQoL_Client.DeathScreen
             float minionDamage = playerInfo.statSheet.GetStatValueULong(StatDef.totalMinionDamageDealt);
             float TotalDamage = damageDealt + minionDamage;
 
-            DamagePercentTooltip(self, "totalDamageDealt", TotalDamage, damageDealt);
-            DamagePercentTooltip(self, "totalMinionDamageDealt", TotalDamage, minionDamage);
-            DamagePercentTooltip(self, "highestDamageDealt", TotalDamage, playerInfo.statSheet.GetStatValueULong(StatDef.highestDamageDealt));
+            DamagePercentTooltip(FindStatStrip(self, "totalDamageDealt"), TotalDamage, damageDealt);
+            DamagePercentTooltip(FindStatStrip(self, "totalMinionDamageDealt"), TotalDamage, minionDamage);
+            DamagePercentTooltip(FindStatStrip(self, "highestDamageDealt"), TotalDamage, playerInfo.statSheet.GetStatValueULong(StatDef.highestDamageDealt));
 
             #region Override vanilla stats
             //SetupStat(self, "highestItemsCollected", "STATNAME_TOTALITEMSCOLLECTED", highestItemsCollected);
@@ -355,8 +355,6 @@ namespace WolfoQoL_Client.DeathScreen
             }
             if (lastSimuWave && !extras.lastWaveStat && RunExtraStatTracker.instance.latestWaveUiPrefab)
             {
-
-
                 GameObject waveUI = RunExtraStatTracker.instance.latestWaveUiPrefab;
                 GameObject lastWaveStat = GameObject.Instantiate(DeathScreenExpanded.difficulty_stat, lastSimuWave.parent);
                 lastWaveStat.name = "lastSimulacrumWave";
@@ -408,7 +406,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }*/
-            var playerTracker = playerInfo.master.GetComponent<PerPlayer_ExtraStatTracker>();
+            var playerTracker = playerInfo.master.GetComponent<PlayerMaster_ExtraStatTracker>();
 
             if (playerTracker.latestDetailedDeathMessage != string.Empty)
             {
@@ -419,10 +417,7 @@ namespace WolfoQoL_Client.DeathScreen
             SetupTimerStat(self, "runTime", "STAT_RUN_TIME", Run.instance.GetRunStopwatch());
 
 
-            if (playerTracker.strongestMinion == (BodyIndex)(-2))
-            {
-                playerTracker.EvaluateStrongestMinion();
-            }
+            
             if (playerTracker.strongestMinion != BodyIndex.None)
             {
                 SetupBodyStat(mvpMinion, playerTracker.strongestMinionDamage, playerTracker.strongestMinion, "STAT_MOST_MVPDRONE", "STAT_AMOUNT_MVPDRONE");
@@ -447,21 +442,22 @@ namespace WolfoQoL_Client.DeathScreen
 
 
 
-            SetupStat(self, "custom_TimesJumped", "STAT_TIMESJUMPED", playerTracker.timesJumped, true);
+            Transform timesJumped = SetupStat(self, "custom_TimesJumped", "STAT_TIMESJUMPED", playerTracker.timesJumped, true);
             SetupStat(self, "custom_LunarCoinsSpent", "STAT_SPENT_LUNARCOIN", playerTracker.spentLunarCoins);
             //SetupStat(self, "custom_ItemsVoided", "STAT_SPENT_VOIDSTUFF", playerTracker.itemsVoided);
 
             SetupStat(self, "custom_DotDamage", "STAT_DAMAGE_DOT", playerTracker.dotDamageDone);
             Transform damageBlocked = SetupStat(self, "custom_DamageBlocked", "STAT_DAMAGE_BLOCKED", (int)playerTracker.damageBlocked, true);
-            if (playerTracker.damageBlocked == -1)
+            if (playerTracker.timesJumped == -1)
             {
+                timesJumped.gameObject.SetActive(false);
                 damageBlocked.gameObject.SetActive(false);
             }
 
 
             //Custom damage Done
-            DamagePercentTooltip(self, "custom_DotDamage", TotalDamage, playerTracker.dotDamageDone);
-            DamagePercentTooltip(self, "custom_StrongestMinion", TotalDamage, playerTracker.strongestMinionDamage);
+            DamagePercentTooltip(FindStatStrip(self, "custom_DotDamage"), TotalDamage, playerTracker.dotDamageDone);
+            DamagePercentTooltip(mvpMinion, TotalDamage, playerTracker.strongestMinionDamage);
 
             //Per Run Stats / Only do once ?
             if (!extras.addedRunTrackedStats)
@@ -484,20 +480,21 @@ namespace WolfoQoL_Client.DeathScreen
             }
         }
 
-        public static Transform MakeBigStat(GameObject toInstantiate, Transform location)
+        public static Transform MakeBigStat(GameEndReportPanelController panel, GameObject toInstantiate, Transform location)
         {
-            GameObject newMostHurtby = GameObject.Instantiate(toInstantiate, location.parent);
-            newMostHurtby.SetActive(true);
-            newMostHurtby.transform.SetSiblingIndex(location.GetSiblingIndex());
-            newMostHurtby.name = location.name;
+            GameObject newFatStat = GameObject.Instantiate(toInstantiate, location.parent);
+            newFatStat.SetActive(true);
+            newFatStat.transform.SetSiblingIndex(location.GetSiblingIndex());
+            newFatStat.name = location.name;
 
+            panel.statStrips.Add(newFatStat);
+            panel.statStrips.Remove(location.gameObject);
             GameObject.Destroy(location.gameObject);
-            return newMostHurtby.transform;
+            return newFatStat.transform;
         }
 
-        public static void DamagePercentTooltip(GameEndReportPanelController self, string lookingFor, float TotalDamage, float thisDamage)
+        public static void DamagePercentTooltip(Transform stat, float TotalDamage, float thisDamage)
         {
-            Transform stat = FindStatStrip(self, lookingFor);
             if (!stat)
             {
                 return;

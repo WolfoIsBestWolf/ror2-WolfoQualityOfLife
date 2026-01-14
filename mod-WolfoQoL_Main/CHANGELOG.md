@@ -1,4 +1,38 @@
 ```
+v5.1.4
+
+ItemAcquisitionOrder no longer gets jumbled up by Mithrix Phase 4. (Host-Determined)
+Added Ping Icons for; Temp Items, Potentials, AurFragments, Quest items, Coins, Elite Aspects.
+(QualityMod) Added reminder and icon for Quality Collectors Compulsion barrel.
+(QualityMod) Quality Regen Scrap now has a reminder if just Quality Green Printer spawned.
+
+ 
+ReAdded config to shrink space between objectives to make it more compact. (Default -2)
+ReDid MainMenu config to use named Enum.
+Drones & Allies Logbook setting default now off.
+No longer including Severed Probes & Malachite Urchin in log by default.
+
+Added missing confi for; Meridian/Reformed loop leaves.
+Added missing confi for; Cell Vent charge indicator.
+Recipe sorting now sorts Void tiers within the uncorrupted tier.
+
+
+Fixed KillerInventory showing untiered helper items (For real this time)
+Fixed PrimordialTP icons being gone. (For real this time)
+Fixed part of recipe sorting only accounting for result.
+Fixed Shipping Terminal Bagged-Icon not being set.
+Fixed Conduit Canyon Equipment Multishop Bagged-Icon not being set.
+Fixed renamed interactables Bagged-Name not being set.
+(QualityMod) Fixed Key reminder sometimes not appearing for multiplayer with Quality Mod
+Fixed Equipment Command Cubes not showing Equip Icon. (or new ones)
+Fixed 2 skin configs not working.
+Fixed % damage tooltip not working for MvP Minion stat.
+Internally changed aspect sorting to fix three-way incompats between WQoL-Quality-and some modded item tiers.
+Internally changed bodyToStatTracker from TryGetComponent to Dictionary.
+Internally changed stats from float to ulong, to match what game does.
+
+```
+```
 v5.1.3
 
 Added Orange Lights & Red Effects to SS2 Red/Orange merc skin.
@@ -10,7 +44,6 @@ Fixed Drone Repair and Combiner message config not actually being implemented.
 Fixed DoT damage stat being int limited
 Fixed startup error with VanillaVoid if you had Shattered Obelisk disabled.
 Fixed some Merc Skin touchups being locked behind the wrong config.
-Fixed PrimordialTP icons being gone.
 
 ```
 ```

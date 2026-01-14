@@ -16,9 +16,12 @@ namespace WolfoQoL_Client.Skins
 
             Skins_Merc.Start();
             Skins_Engi.Start();
-            Skins_REX.Start();
-            GameModeCatalog.availability.CallWhenAvailable(Skins_Loader.Start);
-            Skins_Toolbot();
+            if (WConfig.cfgSkinMisc.Value)
+            {
+                Skins_REX.Start();
+                GameModeCatalog.availability.CallWhenAvailable(Skins_Loader.Start);
+                Skins_Toolbot();
+            }
             Skins_Operator();
             OtherEnemies.Start();
             InteractableSkins.Start();

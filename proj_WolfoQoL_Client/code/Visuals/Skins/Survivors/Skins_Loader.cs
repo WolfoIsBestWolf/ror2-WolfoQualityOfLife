@@ -10,7 +10,6 @@ namespace WolfoQoL_Client.Skins
         {
             SkinDef[] loaderSkins = SkinCatalog.FindSkinsForBody(RoR2Content.BodyPrefabs.LoaderBody.bodyIndex);
             LoaderFistAllowed = new bool[loaderSkins.Length];
-            Debug.Log(LoaderFistAllowed[0]);
             LoaderFistAllowed[0] = false;
             for (int i = 1; i < loaderSkins.Length; i++)
             {

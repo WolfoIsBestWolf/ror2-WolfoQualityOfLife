@@ -1,11 +1,13 @@
 ﻿using HG;
+using MonoMod.Cil;
 using RoR2;
 using RoR2.ExpansionManagement;
 using RoR2.UI.LogBook;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using WolfoLibrary;
 
 namespace WolfoQoL_Client
 {
@@ -18,7 +20,7 @@ namespace WolfoQoL_Client
             On.RoR2.UI.LogBook.LogBookController.BuildMonsterEntries += AddMissingMonsters;
             On.RoR2.UI.LogBook.LogBookController.BuildMonsterEntries += SortBossMonster;
             On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += AddMissingEquipment;
-            On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += SortBossEquip;
+            IL.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += SortBossEquip2;
             On.RoR2.UI.LogBook.LogBookController.BuildSurvivorEntries += SurvivorEntryColor;
 
             On.RoR2.UI.LogBook.LogBookController.GetPickupStatus += EliteEquipmentViewable;
@@ -44,6 +46,26 @@ namespace WolfoQoL_Client
             Addressables.LoadAssetAsync<SceneDef>(key: "5272c5e76a99aa046b72ad8fb941974c").WaitForCompletion().stageOrder = 97; //AC3
 
             #endregion
+        }
+
+        private static void SortBossEquip2(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchStloc(1)))
+            {
+                c.EmitDelegate<Func<IEnumerable<Entry>, IEnumerable<Entry>>>((entries) =>
+                {
+                    return from entry in entries
+                           orderby EquipmentCatalog.GetEquipmentDef(PickupCatalog.GetPickupDef((PickupIndex)entry.extraData).equipmentIndex).isBoss
+                           select entry;
+                });
+
+            }
+            else
+            {
+                Log.LogWarning("IL Failed: SortBossEquip2");
+            }
         }
 
         private static EntryStatus EliteEquipmentViewable(On.RoR2.UI.LogBook.LogBookController.orig_GetPickupStatus orig, ref Entry entry, UserProfile viewerProfile)
@@ -105,16 +127,13 @@ namespace WolfoQoL_Client
 
         private static Entry[] SortBossMonster(On.RoR2.UI.LogBook.LogBookController.orig_BuildMonsterEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
-            if (!WConfig.cfgLogbook_SortBosses.Value)
+            if (!WConfig.Logbook_SortBosses.Value)
             {
                 return orig(expansionAvailability);
             }
             Entry[] entries = orig(expansionAvailability);
-
-            //Config val for this
             List<Entry> NotBosses = new List<Entry>();
             List<Entry> Bosses = new List<Entry>();
-
             for (int i = 0; i < entries.Length; i++)
             {
                 if ((entries[i].extraData as CharacterBody).isChampion)
@@ -132,31 +151,34 @@ namespace WolfoQoL_Client
 
         public static Entry[] AddMissingMonsters(On.RoR2.UI.LogBook.LogBookController.orig_BuildMonsterEntries orig, Dictionary<RoR2.ExpansionManagement.ExpansionDef, bool> expansionAvailability)
         {
-            if (WConfig.cfgLogbook_More.Value == false)
+            if (WConfig.Logbook_More.Value)
             {
-                return orig(expansionAvailability);
+                //Guys that spawn a lot or are cool
+                UnlockableDef Log_Gup = DLC1Content.BodyPrefabs.GupBody.GetComponent<DeathRewards>().logUnlockableDef;
+                DLC1Content.BodyPrefabs.GeepBody.GetComponent<DeathRewards>().logUnlockableDef = Log_Gup;
+                DLC1Content.BodyPrefabs.GipBody.GetComponent<DeathRewards>().logUnlockableDef = Log_Gup;
+
+                UnlockableDef Log_MinePod = DLC3Content.BodyPrefabs.MinePodBody.GetComponent<DeathRewards>().logUnlockableDef;
+                DLC3Content.BodyPrefabs.SolusMineBody.GetComponent<DeathRewards>().logUnlockableDef = Log_MinePod;
+
+                RoR2Content.BodyPrefabs.ScavLunar1Body.baseNameToken = "SCAVLUNAR_BODY_SUBTITLE";
+                RoR2Content.BodyPrefabs.ScavLunar1Body.GetComponent<DeathRewards>().logUnlockableDef = LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.limbo"); ;
+
+            }
+            if (WConfig.Logbook_WeirdoEnemies.Value)
+            {
+                //Weirder creatures
+                UnlockableDef Log_SolusAmalgam = DLC3Content.BodyPrefabs.SolusAmalgamatorBody.GetComponent<DeathRewards>().logUnlockableDef;
+                DLC3Content.BodyPrefabs.SolusAmalgamatorFlamethrowerCannonBody.GetComponent<DeathRewards>().logUnlockableDef = Log_SolusAmalgam;
+                DLC3Content.BodyPrefabs.SolusAmalgamatorMissilePodBody.GetComponent<DeathRewards>().logUnlockableDef = Log_SolusAmalgam;
+                DLC3Content.BodyPrefabs.SolusAmalgamatorThrusterBody.GetComponent<DeathRewards>().logUnlockableDef = Log_SolusAmalgam;
+
+                UnlockableDef Unlock_Loop = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Items.Clover");
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/UrchinTurretBody").EnsureComponent<DeathRewards>().logUnlockableDef = Unlock_Loop;
+
             }
 
-            UnlockableDef Log_Gup = DLC1Content.BodyPrefabs.GupBody.GetComponent<DeathRewards>().logUnlockableDef;
-            DLC1Content.BodyPrefabs.GeepBody.GetComponent<DeathRewards>().logUnlockableDef = Log_Gup;
-            DLC1Content.BodyPrefabs.GipBody.GetComponent<DeathRewards>().logUnlockableDef = Log_Gup;
-
-            UnlockableDef Log_SolusAmalgam = DLC3Content.BodyPrefabs.SolusAmalgamatorBody.GetComponent<DeathRewards>().logUnlockableDef;
-            DLC3Content.BodyPrefabs.SolusAmalgamatorFlamethrowerCannonBody.GetComponent<DeathRewards>().logUnlockableDef = Log_SolusAmalgam;
-            DLC3Content.BodyPrefabs.SolusAmalgamatorMissilePodBody.GetComponent<DeathRewards>().logUnlockableDef = Log_SolusAmalgam;
-            DLC3Content.BodyPrefabs.SolusAmalgamatorThrusterBody.GetComponent<DeathRewards>().logUnlockableDef = Log_SolusAmalgam;
-
-            UnlockableDef Log_MinePod = DLC3Content.BodyPrefabs.MinePodBody.GetComponent<DeathRewards>().logUnlockableDef;
-            DLC3Content.BodyPrefabs.SolusMineBody.GetComponent<DeathRewards>().logUnlockableDef = Log_MinePod;
-
-
-            RoR2Content.BodyPrefabs.ScavLunar1Body.baseNameToken = "SCAVLUNAR_BODY_SUBTITLE";
-            RoR2Content.BodyPrefabs.ScavLunar1Body.GetComponent<DeathRewards>().logUnlockableDef = LegacyResourcesAPI.Load<UnlockableDef>("UnlockableDefs/Logs.Stages.limbo"); ;
-
-            UnlockableDef Unlock_Loop = LegacyResourcesAPI.Load<UnlockableDef>("unlockabledefs/Items.Clover");
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/UrchinTurretBody").EnsureComponent<DeathRewards>().logUnlockableDef = Unlock_Loop;
-
-            GameObject newtBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody");
+            /*GameObject newtBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ShopkeeperBody");
             Transform mdlNewt = newtBody.transform.GetChild(0).GetChild(0);
             ModelPanelParameters Newt = mdlNewt.gameObject.EnsureComponent<ModelPanelParameters>();
             var AAAA = mdlNewt.gameObject.EnsureComponent<InstantiateModelParams>();
@@ -164,9 +186,7 @@ namespace WolfoQoL_Client
             Newt.maxDistance = 15;
             AAAA.CameraPosition = new Vector3(-1.5f, 4f, 3f);
             AAAA.FocusPosition = new Vector3(0f, 3f, 0f);
-
-
-            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").dioramaPrefab = mdlNewt.gameObject;
+            LegacyResourcesAPI.Load<SceneDef>("SceneDefs/bazaar").dioramaPrefab = mdlNewt.gameObject;*/
 
             Entry[] entries_TEMP = orig(expansionAvailability);
             RoR2Content.BodyPrefabs.ScavLunar1Body.baseNameToken = "SCAVLUNAR1_BODY_NAME";
@@ -177,7 +197,7 @@ namespace WolfoQoL_Client
         {
             JunkContent.Equipment.EliteGoldEquipment.dropOnDeathChance = 0;
             List<EquipmentDef> equipmentChanged = new List<EquipmentDef>();
-            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects") && WConfig.cfgLogbook_EliteEquip.Value)
+            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects") && WConfig.Logbook_EliteEquip.Value)
             {
                 for (var i = 0; i < EliteCatalog.eliteDefs.Length; i++)
                 {
@@ -188,7 +208,7 @@ namespace WolfoQoL_Client
                     }
                 }
             }
-            if (WConfig.cfgLogbook_More.Value)
+            if (WConfig.Logbook_More.Value)
             {
                 equipmentChanged.Add(RoR2Content.Equipment.QuestVolatileBattery);
                 equipmentChanged.Add(DLC1Content.Equipment.BossHunterConsumed);
@@ -198,52 +218,13 @@ namespace WolfoQoL_Client
             {
                 equipmentChanged[i].canDrop = true;
             }
-            RoR2Content.Equipment.AffixLunar.isLunar = false;
 
-            var VALUES = orig(expansionAvailability);
-
+            var tempValeus = orig(expansionAvailability);
             for (var i = 0; i < equipmentChanged.Count; i++)
             {
                 equipmentChanged[i].canDrop = false;
             }
-            RoR2Content.Equipment.AffixLunar.isLunar = true;
-
-            return VALUES;
-        }
-
-        public static Entry[] SortBossEquip(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
-        {
-            Entry[] array = orig(expansionAvailability);
-
-            #region Sort Boss Equipment
-            int num = -1;
-            List<Entry> list = new List<Entry>();
-            for (int j = 0; j < array.Length; j++)
-            {
-                if (!list.Contains(array[j]))
-                {
-                    PickupDef pickupDef2 = ((PickupIndex)array[j].extraData).pickupDef;
-                    EquipmentIndex equipmentIndex = pickupDef2.equipmentIndex;
-                    if (equipmentIndex != EquipmentIndex.None)
-                    {
-                        EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
-                        if (equipmentDef && (equipmentDef.passiveBuffDef || equipmentDef.isBoss))
-                        {
-                            Entry entry = array[j];
-                            list.Add(array[j]);
-
-                            HG.ArrayUtils.ArrayRemoveAtAndResize<RoR2.UI.LogBook.Entry>(ref array, j, 1);
-                            num = array.Length;
-                            j--;
-                            HG.ArrayUtils.ArrayInsert<RoR2.UI.LogBook.Entry>(ref array, num, entry);
-                            num++;
-                        }
-                    }
-                }
-            }
-            #endregion
-
-            return array;
+            return tempValeus;
         }
 
         public static Entry[] SurvivorEntryColor(On.RoR2.UI.LogBook.LogBookController.orig_BuildSurvivorEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)

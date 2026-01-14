@@ -16,38 +16,24 @@ namespace WolfoQoL_Client.Reminders
 
 
             //On.EntityStates.Missions.AccessCodes.Node.NodesOnAndReady.OnEnter += AccessCode_AddReminder;
-            On.EntityStates.Missions.AccessCodes.Node.NodeActive.OnEnter += AccessCode_CompleteReminder;
-            On.EntityStates.Missions.AccessCodes.Node.Off.OnEnter += AccessCode_FailReminder;
+            On.EntityStates.Missions.AccessCodes.Node.AccessNodesBaseState.OnEnter += UpdateAccessCodeReminder;
         }
 
-        private static void AccessCode_FailReminder(On.EntityStates.Missions.AccessCodes.Node.Off.orig_OnEnter orig, EntityStates.Missions.AccessCodes.Node.Off self)
+        private static void UpdateAccessCodeReminder(On.EntityStates.Missions.AccessCodes.Node.AccessNodesBaseState.orig_OnEnter orig, EntityStates.Missions.AccessCodes.Node.AccessNodesBaseState self)
         {
             orig(self);
-            if (WConfig.cfgReminder_AccessNode.Value)
+            if (WConfig.cfgReminder_AccessNode.Value && TreasureReminder.instance && TreasureReminder.instance.Objective_AccessNode)
             {
-                Reminders_Main.FailObjective(TreasureReminder.instance.Objective_AccessNode);
+                if (self is EntityStates.Missions.AccessCodes.Node.NodeActive) //Completed
+                {
+                    TreasureReminder.instance.Objective_AccessNode.enabled = false;
+                }
+                else if (self is EntityStates.Missions.AccessCodes.Node.Off) //Failed
+                {
+                    Reminders_Main.FailObjective(TreasureReminder.instance.Objective_AccessNode);
+                }
             }
 
-        }
-
-        private static void AccessCode_AddReminder(On.EntityStates.Missions.AccessCodes.Node.NodesOnAndReady.orig_OnEnter orig, EntityStates.Missions.AccessCodes.Node.NodesOnAndReady self)
-        {
-            orig(self);
-            //TreasureReminder.accessNodeSpawned = true;
-            if (WConfig.cfgReminder_AccessNode.Value)
-            {
-                TreasureReminder.instance.Objective_AccessNode.enabled = true;
-            }
-        }
-
-        private static void AccessCode_CompleteReminder(On.EntityStates.Missions.AccessCodes.Node.NodeActive.orig_OnEnter orig, EntityStates.Missions.AccessCodes.Node.NodeActive self)
-        {
-            orig(self);
-            if (WConfig.cfgReminder_AccessNode.Value)
-            {
-                TreasureReminder.instance.Objective_AccessNode.enabled = false;
-                //self.gameObject.GetComponent<GenericObjectiveProvider>().enabled = false;
-            }
         }
 
         private static void NewtClear_OnClient(On.RoR2.TeleporterInteraction.orig_OnSyncShouldAttemptToSpawnShopPortal orig, TeleporterInteraction self, bool newValue)

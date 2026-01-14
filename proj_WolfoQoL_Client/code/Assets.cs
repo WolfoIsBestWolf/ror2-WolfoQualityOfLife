@@ -37,6 +37,7 @@ namespace WolfoQoL_Client
             if (Directory.Exists(GetPathToFile(Folder + "AssetBundles")))
             {
                 Bundle = AssetBundle.LoadFromFile(GetPathToFile(Folder + "AssetBundles", "wolfoqualityoflife"));
+                Bundle.LoadAllAssets();
             }
             else
             {

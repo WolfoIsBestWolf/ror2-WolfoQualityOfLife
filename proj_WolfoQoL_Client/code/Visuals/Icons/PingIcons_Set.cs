@@ -13,6 +13,8 @@ namespace WolfoQoL_Client
     public static partial class PingIcons
     {
         public static Sprite LunarIcon; //Newt
+        public static Sprite VoidIcon;
+
         public static Sprite ExclamationIcon;
         public static Sprite NullVentIcon;
 
@@ -33,7 +35,6 @@ namespace WolfoQoL_Client
             //Chests are checked double because pickupController, but that is needed to be checked for so uhhh
 
             Type[] array = ChestRevealer.typesToCheck;
-
 
             for (int i = 0; i < array.Length; i++)
             {
@@ -173,7 +174,7 @@ namespace WolfoQoL_Client
             pingIconDict.Add("PortalDialer", QuestionMarkIcon); //Shows up as Chest
             //pingIconDict.Add("ChefWok", Load(""));
             pingIconDict.Add("NullSafeZone", Load("Void_Cell"));
-
+            pingIconDict.Add("TripleShopEquipment", Load("TrippleShop_Equipment"));
             //pingIconDict.Add("MSObelisk", Load("")); //QuestionMark
             pingIconDict.Add("ShrineRebirth", Load("SotsIcon3_Shrunk"));
             //Geodes dont use spaces so would need to be found differently ig
@@ -210,7 +211,7 @@ namespace WolfoQoL_Client
             pingIconDict.Add("DroneScrapper", Load("DLC3/Drone__Scrapper"));
             pingIconDict.Add("MealPrep", Load("DLC3/Meal_Station"));
             pingIconDict.Add("VendingMachine", Load("DLC1/VendingMachine"));
-            pingIconDict.Add("SolusVendorShrine2", QuestionMarkIcon);
+            pingIconDict.Add("SolusVendorShrine2", Load("DLC3/Power_Orb3"));
             pingIconDict.Add("Duplicator", Load("Printer"));
             pingIconDict.Add("DuplicatorLarge", Load("PrinterLarge"));
             pingIconDict.Add("DuplicatorMilitary", Load("PrinterMili"));
@@ -252,13 +253,14 @@ namespace WolfoQoL_Client
             SetAllIcons("fd68bfe758b25714288565a552d40d83", "ChestCasinoIcon");
             SetAllIcons("7d97551ee4c1e904b9a225abc63c3f0d", "ChestInvisibleIcon");
 
-            SetAllIcons("e82b1a3fea19dfd439109683ce4a14b7", "ChestVoid");
-            SetAllIcons("341c368b343432b4dbe8ff30752fbbb4", "ChestVoidPotential");
+            SetAllIcons("e82b1a3fea19dfd439109683ce4a14b7", "DLC1/ChestVoid");
+            SetAllIcons("341c368b343432b4dbe8ff30752fbbb4", "DLC1/ChestVoidPotential");
 
             SetAllIcons("RoR2/Base/TreasureCache/Lockbox.prefab", "LockedIcon");
             SetAllIcons("RoR2/DLC1/TreasureCacheVoid/LockboxVoid.prefab", "LockedIconAlt");
 
             //SetAllIcons("RoR2/DLC1/FreeChestMultiShop/FreeChestMultiShop.prefab", "PingIconShippingDrone");
+            SetAllIcons("RoR2/DLC1/FreeChestMultiShop/FreeChestMultiShop.prefab", "PingIconShippingDrone");
             SetAllIcons("RoR2/DLC1/FreeChestTerminalShippingDrone/FreeChestTerminalShippingDrone.prefab", "PingIconShippingDrone");
 
             SetAllIcons("e6f68d343e0ec6645986c7af57417bee", "ScavBagIcon");
@@ -304,9 +306,9 @@ namespace WolfoQoL_Client
             SetAllIcons("52e1e53e0ae52184897f5b940b270326", "CleanseIcon");
             SetAllIcons("7a4808b55ec828748bd6f8820c5b9faf", "CleanseIcon");
 
-            SetAllIcons("50f9b823c49c5a8468dadcd770415e2f", "ShrineShaping");
-            SetAllIcons("c10fd181efcffc24f8fed4c2f246fac8", "SotsIcon3_Shrunk");
-            SetAllIcons("59244efe276f7bb47ae34fbbb0095b5f", "SotsIcon3_Shrunk"); //Rebirth
+            SetAllIcons("50f9b823c49c5a8468dadcd770415e2f", "DLC2/ShrineShaping");
+            SetAllIcons("c10fd181efcffc24f8fed4c2f246fac8", "DLC2/SotsIcon3_Shrunk");
+            SetAllIcons("59244efe276f7bb47ae34fbbb0095b5f", "DLC2/SotsIcon3_Shrunk"); //Rebirth
 
 
         }
@@ -364,18 +366,17 @@ namespace WolfoQoL_Client
             PrimordialTeleporterChargedIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/PrimordialTeleporterChargedIcon.png");
             LunarIcon = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/LunarIcon.png");
 
-            Sprite VoidDeepSymbol = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/DeepVoidPortalBattery/texDeepVoidPortalBatteryIcon.png").WaitForCompletion();
+            VoidIcon = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/DeepVoidPortalBattery/texDeepVoidPortalBatteryIcon.png").WaitForCompletion();
             Sprite texBarrelIcon = Addressables.LoadAssetAsync<Sprite>(key: "ccf87dcf9daaa0645a94a7e14fa5749a").WaitForCompletion();
             Sprite ShipPodIcon = LegacyResourcesAPI.Load<Sprite>("textures/miscicons/texRescueshipIcon");
             Sprite VoidCrab = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/ITAssets/texInfiniteTowerSafeWardIcon.png").WaitForCompletion();
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").AddComponent<BlockScanner>();
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ArtifactShellBody").AddComponent<PingInfoProvider>().pingIconOverride = QuestionMarkIcon;
 
-
-
-            SetAllIcons("06d0621d2cadf98439f357fe148e7791", VoidDeepSymbol); //VoidSuppressor
+            SetAllIcons("06d0621d2cadf98439f357fe148e7791", VoidIcon); //VoidSuppressor
             SetAllIcons("8a6a0189c5090eb4bab48bd10e3074ea", "Void_Cell");
-            SetAllIcons("09ebe2eaaf93ad640a8d505eb6d7f5b6", VoidDeepSymbol);//DeepVoidPortalBattery
+            SetAllIcons("09ebe2eaaf93ad640a8d505eb6d7f5b6", VoidIcon);//DeepVoidPortalBattery
             SetAllIcons("e515327d3d5e0144488357748ce1e899", "VoidIcon");//VoidCamp
             SetAllIcons("ba70f68b08210a84f86ff7a12a324263", VoidCrab);
             SetAllIcons("9ff23f803358e9d42a7d7c4c1200b6f7", VoidCrab);
@@ -412,13 +413,17 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/HumanFan").AddComponent<BlockScanner>();
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/GoldshoresBeacon").GetComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Geode.prefab").WaitForCompletion().AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/captainsupplydrops/CaptainSupplyDrop, Healing").AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/captainsupplydrops/CaptainSupplyDrop, Shocking").AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/captainsupplydrops/CaptainSupplyDrop, EquipmentRestock").AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/captainsupplydrops/CaptainSupplyDrop, Hacking").AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
 
+
+            Addressables.LoadAssetAsync<GameObject>(key: "0db1724ef7010364b87726287e1c2088").WaitForCompletion().AddComponent<PingInfoProvider>(); //GenericPickup
+            Addressables.LoadAssetAsync<GameObject>(key: "d9c642aeefb6c974da664933489071d4").WaitForCompletion().AddComponent<PingInfoProvider>(); //GenericPickup
+            SetAllIcons("f8e3413a378bd7c44aa09bed0020eaf5", "DLC1/Loot_Potential");
+            SetAllIcons("cda6217a2c0775c42a3f456b3bb5e073", "DLC2/Loot_Fragment");
         }
 
     }

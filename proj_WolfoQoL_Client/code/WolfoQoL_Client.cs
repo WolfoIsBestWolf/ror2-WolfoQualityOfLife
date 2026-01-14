@@ -23,7 +23,7 @@ namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("com.Wolfo.WolfoLibrary", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.1.3")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.1.4")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WQoLMain : BaseUnityPlugin
     {
@@ -32,6 +32,7 @@ namespace WolfoQoL_Client
 
         public static bool ServerModInstalled = false;
         public static bool ProperSaveInstalled = false;
+        public static bool NoMoreMathMod = false;
 
         public static bool NoHostInfo
         {
@@ -76,7 +77,7 @@ namespace WolfoQoL_Client
             TMPStyles.styles.Add(new TMPro.TMP_Style("cMysterySpace", "<color=#89F1E8>", "</color>"));
             TMPStyles.styles.Add(new TMPro.TMP_Style("cAlly", "<color=#A3C3EF>", "</color>"));
 
-            if (WConfig.cfgTestDisableMod.Value || WConfig.cfgTestDisableMod2.Value)
+            if (WConfig.cfgTestDisableMod.Value)
             {
                 Log.LogWarning("Disabled Mod for Test");
                 return;
@@ -106,8 +107,8 @@ namespace WolfoQoL_Client
             Networker.message_to_index.Add(typeof(HostPingAllClients), wqolByte);
             Networker.index_to_message.Add(wqolByte, typeof(HostPingAllClients));
             wqolByte++;
-            Networker.message_to_index.Add(typeof(PerPlayer_ExtraStatTracker.SyncValues), wqolByte);
-            Networker.index_to_message.Add(wqolByte, typeof(PerPlayer_ExtraStatTracker.SyncValues));
+            Networker.message_to_index.Add(typeof(PlayerMaster_ExtraStatTracker.SyncValues), wqolByte);
+            Networker.index_to_message.Add(wqolByte, typeof(PlayerMaster_ExtraStatTracker.SyncValues));
             wqolByte++;
             Networker.message_to_index.Add(typeof(DevotionDeathMessage), wqolByte);
             Networker.index_to_message.Add(wqolByte, typeof(DevotionDeathMessage));
@@ -141,18 +142,17 @@ namespace WolfoQoL_Client
         {
             ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
             ProperSaveInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
+            NoMoreMathMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
             QualitySupport.QualityModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Gorakh.ItemQualities");
 
-
-            Log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
-            Log.LogMessage("ProperSaveInstalled installed? : " + ProperSaveInstalled);
-            Log.LogMessage("Qualtiy installed? : " + QualitySupport.QualityModInstalled);
+            //Log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
+            //Log.LogMessage("ProperSaveInstalled installed? : " + ProperSaveInstalled);
+            //Log.LogMessage("Qualtiy installed? : " + QualitySupport.QualityModInstalled);
 
             if (ProperSaveInstalled)
             {
                 AddProperSaveSupport.Start();
             }
-
 
         }
 

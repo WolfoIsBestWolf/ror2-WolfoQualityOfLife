@@ -29,7 +29,7 @@ namespace WolfoQoL_Client
             //TODO HIDE CYCLE IMAGES OF ITEMS OF UNOWNED DLCS
             //Decided against ^
 
-            if (!WConfig.cfgLogbook_Recipes.Value)
+            if (!WConfig.Logbook_Recipes.Value)
             {
                 return;
             }
@@ -40,7 +40,6 @@ namespace WolfoQoL_Client
             On.RoR2.UI.RecipeInfoContainer.PopulateRecipes += RemoveUnneededCycleImages;
             On.RoR2.UI.RecipeDisplay.PopulateImages += RemoveDuplicateRecipes;
             On.RoR2.UI.RecipeStrip.PopulateImages += RecipeStrip_PopulateImages;
-
             //RecipeInfoContainer TopDog
             //RecipeDisplay MiddleDog
             //RecipeStrip BottomDog
@@ -318,7 +317,7 @@ namespace WolfoQoL_Client
             //If both are items, compare ItemTier
             if (def1.itemIndex != ItemIndex.None && def2.itemIndex != ItemIndex.None)
             {
-                int compareTier = def2.itemTier.CompareTo(def1.itemTier);
+                int compareTier = TierToSorting(def2.itemTier).CompareTo(TierToSorting(def1.itemTier));
                 if (compareTier == 0)
                 {
                     //If both are the same tier, compare internalName
@@ -344,11 +343,11 @@ namespace WolfoQoL_Client
             else
             {
                 //Just sort by PickupIndex, which is item first equipment second anyhow.
-                if (first.result < other.result)
+                if (def1.pickupIndex < def2.pickupIndex)
                 {
                     return -1;
                 }
-                if (first.result > other.result)
+                if (def1.pickupIndex > def2.pickupIndex)
                 {
                     return 1;
                 }
@@ -356,6 +355,25 @@ namespace WolfoQoL_Client
             return 0;
         }
 
+
+        public static int TierToSorting(ItemTier itemTier)
+        {
+
+
+            switch (itemTier)
+            {
+                case ItemTier.VoidTier1:
+                case ItemTier.VoidTier2:
+                case ItemTier.VoidTier3:
+                    return (int)itemTier - 6;
+                case ItemTier.VoidBoss:
+                    return 4;
+                case ItemTier.FoodTier:
+                    return 10000;
+                default:
+                    return (int)itemTier;
+            }
+        }
     }
 
 }

@@ -25,16 +25,20 @@ namespace WolfoQoL_Client.ModSupport
         }
 
 
-        public static int QualiyItemCountPermanent(ItemDef itemDef, Inventory inv)
+        public static int QualiyItemCountPermanent(ItemDef itemDef, Inventory inv, bool justQuality = false)
         {
-
             var qualityIndex = ItemQualities.QualityCatalog.FindItemQualityGroupIndex(itemDef.itemIndex);
             if (qualityIndex != ItemQualities.ItemQualityGroupIndex.Invalid)
             {
+                if (justQuality)
+                {
+                    return ItemQualities.QualityCatalog.GetItemQualityGroup(qualityIndex).GetItemCountsPermanent(inv).TotalQualityCount;
+                }
                 return ItemQualities.QualityCatalog.GetItemQualityGroup(qualityIndex).GetItemCountsPermanent(inv).TotalCount;
             }
             return 0;
         }
+
         public static int QualiyItemCountEffective(ItemDef itemDef, Inventory inv)
         {
 

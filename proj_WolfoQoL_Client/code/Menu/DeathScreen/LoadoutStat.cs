@@ -17,7 +17,7 @@ namespace WolfoQoL_Client.DeathScreen
         {
 
 
-            if (WConfig.DC_Loadout.Value == WConfig.Position.Off)
+            if (WConfig.DC_Loadout.Value == false)
             {
                 return;
             }
@@ -113,10 +113,7 @@ namespace WolfoQoL_Client.DeathScreen
                 image.sprite = Addressables.LoadAssetAsync<Sprite>(key: "RoR2/Base/UI/texUIHighlightBoxOutline.png").WaitForCompletion();
                 image.type = Image.Type.Sliced;
                 image.color = new Color(1f, 1f, 1f, 0.7f);
-                if (WConfig.DC_Loadout.Value == WConfig.Position.Top)
-                {
-                    rootObject.transform.SetSiblingIndex(1);
-                }
+                rootObject.transform.SetSiblingIndex(1);
             }
             setup = true;
             scaleBig = scale * 1.25f;

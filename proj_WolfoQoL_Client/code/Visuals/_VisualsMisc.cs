@@ -116,12 +116,6 @@ namespace WolfoQoL_Client
             (ppLocalMeteorStorm.settings[1] as ColorGrading).postExposure.value = 0.2f;
             //ppLocalMeteorStorm.settings[2].active = false; //Vignette
 
-
-
-
-
-
-            On.EntityStates.SolusWing2.Mission5Death.OnEnter += RestartMusicAfterSolusWing;
             DifficultyColors();
 
             //Parry Success play sound again(?)
@@ -159,24 +153,15 @@ namespace WolfoQoL_Client
             DifficultyCatalog.difficultyDefs[9].serverTag = "e7";
             DifficultyCatalog.difficultyDefs[10].serverTag = "e8";
         }
-        private static void RestartMusicAfterSolusWing(On.EntityStates.SolusWing2.Mission5Death.orig_OnEnter orig, EntityStates.SolusWing2.Mission5Death self)
-        {
-            orig(self);
-            if (WConfig.SH_Music_Restarter.Value)
-            {
-                self.solutionalHauntReferences.PostFightMusic.AddComponent<DestroyOnTimer>().duration = 10;
-            }
-        }
-
 
 
         private static void BiggerSaleStarRange(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            c.TryGotoNext(MoveType.After,
+            bool a = c.TryGotoNext(MoveType.After,
             x => x.MatchLdsfld("RoR2.DLC2Content/Items", "LowerPricedChests"));
 
-            if (c.TryGotoPrev(MoveType.After,
+            if (a && c.TryGotoPrev(MoveType.After,
                 x => x.MatchLdfld("RoR2.InteractionDriver", "currentInteractable")))
             {
 

@@ -32,7 +32,9 @@
 			
 			"REMINDER_REGENSCRAP": "Make use of <style=cIsHealing>Regenerating Scrap</style>", 
 			
-            "REMINDER_FREECHESTVOID": "Find and activate the <style=cIsVoid>Lost Battery</style>",
+			"REMINDER_VV_FREECHESTVOID": "Find and activate the <style=cIsVoid>Lost Battery</style>",
+			"REMINDER_QUALITY_COOLBARREL": "Find the <style=cGold>Collector's Barrel</style>",
+			"REMINDER_QUALITY_COOLBARREL2": "Find the <style=cGold>Collector's Barrels</style> ({0}/{0})",
 			
 			"REMINDER_SECRET_GEODE": "Crack the <style=cGold>Aurelionite Geodes</color> ({0}/{1})",
            

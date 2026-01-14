@@ -11,6 +11,10 @@ namespace WolfoQoL_Client
     {
         public static bool Should()
         {
+            if (!WConfig.cfgLoopPM_LemurianTemple.Value)
+            {
+               return false;
+            }
             var a = new SceneExitController();
             if (a.GetLoopedStageOrDefault(SceneList.Habitat) == SceneList.Habitat)
             {

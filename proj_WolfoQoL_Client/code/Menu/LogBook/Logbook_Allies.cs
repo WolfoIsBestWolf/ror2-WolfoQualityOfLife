@@ -113,7 +113,6 @@ namespace WolfoQoL_Client
                             textMesh.text += "\n" + Language.GetString(tierToken);
                         }
 
-
                         //SHOULD CHECK IF DLC3 IS LIKE IDK UNLOCKED
                         if (body.TryGetComponent<DroneCommandReceiver>(out var commandReceiver))
                         {
@@ -268,7 +267,7 @@ namespace WolfoQoL_Client
                 if (statsMult.healthDecay > 0)
                 {
                     bodyNew.baseRegen = -body.baseMaxHealth / statsMult.healthDecay;
-                    bodyNew.levelRegen = -body.levelMaxHealth / statsMult.healthDecay;
+                    bodyNew.levelRegen = float.Parse((-body.levelMaxHealth / statsMult.healthDecay).ToString("0.00"));
                 }
                 orig(self, bodyNew);
                 GameObject.Destroy(body);

@@ -185,7 +185,7 @@ namespace WolfoQoL_Client
             {
                 if (TreasureReminder.instance.Objective_FreeChest)
                 {
-                    TreasureReminder.instance.DeductFreeChestCount();
+                    TreasureReminder.Deduct(TreasureReminder.instance.Objective_FreeChest, ref TreasureReminder.instance.freeChestCount);
                 }
             }
             else
@@ -226,13 +226,13 @@ namespace WolfoQoL_Client
                     case CostTypeIndex.TreasureCacheItem:
                         if (TreasureReminder.instance)
                         {
-                            TreasureReminder.instance.DeductLockboxCount();
+                            TreasureReminder.Deduct(TreasureReminder.instance.Objective_Lockbox, ref TreasureReminder.instance.lockboxCount);
                         }
                         break;
                     case CostTypeIndex.TreasureCacheVoidItem:
                         if (TreasureReminder.instance)
                         {
-                            TreasureReminder.instance.DeductLockboxVoidCount();
+                            TreasureReminder.Deduct(TreasureReminder.instance.Objective_LockboxVoid, ref TreasureReminder.instance.lockboxVoidCount);
                         }
                         break;
                     case CostTypeIndex.None:

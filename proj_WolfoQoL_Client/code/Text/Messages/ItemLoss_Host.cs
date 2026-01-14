@@ -257,7 +257,7 @@ namespace WolfoQoL_Client.Text
         public Source source;
         public override string ConstructChatString()
         {
-            var Tracker = subjectAsNetworkUser.master.GetComponent<PerPlayer_ExtraStatTracker>();
+            var Tracker = subjectAsNetworkUser.master.GetComponent<PlayerMaster_ExtraStatTracker>();
 
             if (source == Source.Scrapper)
             {

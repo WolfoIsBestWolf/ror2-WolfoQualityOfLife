@@ -40,7 +40,7 @@ namespace WolfoQoL_Client
             }
             AllyDefs = new Dictionary<BodyIndex, AllyDef>();
 
-            if (!WConfig.cfgLogbook_AllyExpansion.Value || RealerCheatsInstalled)
+            if (!WConfig.Logbook_AllyExpansion.Value || RealerCheatsInstalled)
             {
                 return;
             }

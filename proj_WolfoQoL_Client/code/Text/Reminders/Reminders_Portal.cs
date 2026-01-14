@@ -16,8 +16,6 @@ namespace WolfoQoL_Client.Reminders
 
             if (WConfig.cfgRemindersPortal.Value)
             {
-
-
                 PortalObjective portal;
 
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cDeath>";

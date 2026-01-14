@@ -198,7 +198,7 @@ namespace WolfoQoL_Client.DeathScreen
 
                 if (playerInfo.master && playerInfo.master.inventory)
                 {
-                    var playerTrack = playerInfo.master.GetComponent<PerPlayer_ExtraStatTracker>();
+                    var playerTrack = playerInfo.master.GetComponent<PlayerMaster_ExtraStatTracker>();
                     playerTrack.gameOverWithDisabled = playerTrack.gameOverWithDisabled || playerInfo.master.inventory.inventoryDisabled;
                     playerInfo.master.inventory.inventoryDisabled = false;
 
@@ -288,7 +288,7 @@ namespace WolfoQoL_Client.DeathScreen
                 extras.GameEndReportPanel = self;
                 extras.ItemArea = self.itemInventoryDisplay.transform.parent.parent.parent;
 
-                extras.isDevotionRun = newDisplayData.runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Artifacts.Devotion")).localIndex == 0;
+                extras.isDevotionRun = newDisplayData.runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Artifacts.Devotion")).localIndex == 0 || (RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(CU8Content.Artifacts.Devotion));
 
                 if (WConfig.DC_MoreStats.Value)
                 {

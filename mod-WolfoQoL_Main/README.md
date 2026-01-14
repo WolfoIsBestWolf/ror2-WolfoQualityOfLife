@@ -14,7 +14,7 @@ If something isn't working, or something should be configuerable that isn't, tel
 Oni Mercenary will have a red sword.\
 Oni, Frail & Murder Mercenary will glow their respective color instead of blue.\
 Oni, Frail & Murder Mercenary will have colored attack effects.
-
+(SS2) Heel Merc will have orange glows and red effects.
 
 Acrids using Blight will have different colored effects.\
 Includes acid pool in lobby.
@@ -169,10 +169,11 @@ Updated Death Screen including.
 - - More Stats Shown
 - - - Some vanilla tracked, some custom tracked
 - - Button to open/close chat
-- - Last Simu Wave
+- - Last Simu Wave encountered.
 - Inventory Side : 
-- - Temp Stacks still show duration.
-- - Shown if died while Item Disabled
+- - Temp Items still show up as Temp.
+- - Item Order should no longer get jumbled up by Mithrix P4.
+- - Shows if died while Item Disabled
 - - Players Equipment shown
 - - Drones that you had.
 - - Devoted Lemurians and their shared items.
@@ -195,14 +196,15 @@ Logbook additions:
 - Elite Aspects
 - Fuel Array, Consumed Equipment
 - Item Recipes
-- Drone section shows other allies too.
+- *(Default Off)* Drone section expanded to show all allies.
 - Drone Tiering Info
 - Drone Operator Info
-- Subtitles for Monsters, Survivors, Stages.
-- More stats for Monsters, Survivors
-- Geep, Gip, Malachite Urchin, Twisted Scavengers
+- Subtitles of Monsters, Survivors, Stages.
+- More vanilla stats shown on Monsters, Survivors
 - Bosses sorted after enemies
-- *(Off)* Simulacrum Stages
+- Geep, Gip, Solus Mine, Twisted Scavengers
+- *(Default Off)* Malachite Urchin, Severed Solus.
+- *(Default Off)* Simulacrum Stages
 
 ## Other Menus / UI
 Adds an inventory display during Devotion for Devoted Lemurians, in the scoreboard.

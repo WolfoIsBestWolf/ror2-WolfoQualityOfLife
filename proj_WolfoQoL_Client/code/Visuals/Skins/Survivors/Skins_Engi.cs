@@ -16,9 +16,15 @@ namespace WolfoQoL_Client.Skins
 
         public static void Start()
         {
-            Skins_Engi.FixedTurret();
-            Skins_Engi.Harpoons();
-            Skins_Engi.AltTrail();
+            if (WConfig.cfgSkinMisc.Value)
+            {
+                Skins_Engi.FixedTurret();
+                Skins_Engi.AltTrail();
+            }
+            if (WConfig.cfgSkinEngiHarpoons.Value)
+            {
+                Skins_Engi.Harpoons();
+            }
         }
 
         public static void AltTrail()
@@ -51,10 +57,7 @@ namespace WolfoQoL_Client.Skins
 
         public static void Harpoons()
         {
-            if (!WConfig.cfgSkinEngiHarpoons.Value)
-            {
-                return;
-            }
+
 
             Material matEngiTrail_Sots = GameObject.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Engi/matEngiTrail.mat").WaitForCompletion());
 

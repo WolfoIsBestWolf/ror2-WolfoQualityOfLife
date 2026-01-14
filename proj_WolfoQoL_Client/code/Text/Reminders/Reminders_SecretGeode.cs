@@ -29,14 +29,6 @@ namespace WolfoQoL_Client.Reminders
             }
         }
 
-        private static void GeodeObjective_Clear(On.EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionRewardState.orig_OnEnter orig, EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionRewardState self)
-        {
-            //Does not run on client for whatever reason
-            //Collider event just happens on network ig?
-            orig(self);
-            Log.LogWarning("Secret Geode Reward");
-            Object.Destroy(self.gameObject.GetComponent<GenericObjectiveProvider>());
-        }
 
         private static void GeodeObjective_Add(On.EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionEntityStates.orig_OnEnter orig, EntityStates.Missions.GeodeSecretMission.GeodeSecretMissionEntityStates self)
         {
@@ -71,20 +63,7 @@ namespace WolfoQoL_Client.Reminders
             }
         }
 
-        private static void GeodeSecretMissionController_CheckIfRewardShouldBeGranted(On.RoR2.GeodeSecretMissionController.orig_CheckIfRewardShouldBeGranted orig, GeodeSecretMissionController self)
-        {
-            orig(self);
-            if (self.numberOfGeodesNecessary <= self.geodeInteractionsTracker)
-            {
-                var objective = self.gameObject.GetComponent<GenericObjectiveProvider>();
-                if (objective)
-                {
-                    Reminders_Main.CompleteObjective(objective);
-                    Object.Destroy(objective);
-                }
-                Log.LogMessage("Secret Geode End");
-            }
-        }
+
 
 
 

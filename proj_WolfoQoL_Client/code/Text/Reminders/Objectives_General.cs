@@ -11,27 +11,6 @@ namespace WolfoQoL_Client.Reminders
         public static void Start()
         {
             On.RoR2.Stage.PreStartClient += ObjectivesOnStage;
-            On.EntityStates.Interactables.MSObelisk.ReadyToEndGame.OnEnter += ReadyToEndGame_OnEnter;
-        }
-
-        private static void ReadyToEndGame_OnEnter(On.EntityStates.Interactables.MSObelisk.ReadyToEndGame.orig_OnEnter orig, EntityStates.Interactables.MSObelisk.ReadyToEndGame self)
-        {
-            orig(self);
-            /*var objective = self.gameObject.GetComponent<GenericObjectiveProvider>();
-            self.gameObject.GetComponentInChildren<OnPlayerEnterEvent>().action.m_PersistentCalls.AddListener(
-            new PersistentCall
-            {
-                m_Target = objective,
-                m_MethodName = "SetActive",
-                m_Mode = PersistentListenerMode.Object,
-                m_Arguments = new ArgumentCache
-                {
-                    boolArgument = true,
-                }
-            });*/
-
-
-
         }
 
         public static void ObjectivesOnStage(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
@@ -103,9 +82,8 @@ namespace WolfoQoL_Client.Reminders
                     MSObelisk.AddComponent<PingInfoProvider>().pingIconOverride = PingIcons.QuestionMarkIcon;
                     GameObject MSObjective = new GameObject("MSObjective");
                     MSObjective.transform.SetParent(MSObelisk.transform);
-                    //MSObjective.SetActive(false);
                     MSObjective.AddComponent<GenericObjectiveProvider>().objectiveToken = "OBJECTIVE_GLASS_YOURSELF";
-
+                    //MSObjective.SetActive(false);
                     /*MSObelisk.gameObject.GetComponentInChildren<OnPlayerEnterEvent>().action.m_PersistentCalls.AddListener(
                     new PersistentCall
                     {
@@ -120,11 +98,12 @@ namespace WolfoQoL_Client.Reminders
 
                     break;
                 case "conduitcanyon":
+                    //Show key amount in objectives
                     GameObject CC_StageEvents = GameObject.Find("/HOLDER: Stage Events");
-
                     CC_StageEvents.transform.GetChild(3).gameObject.AddComponent<ConduitCanyonKeysInstalledTracker>().pedestals = CC_StageEvents.transform.GetChild(1).GetChild(3).GetComponent<PowerPedestalObserver>();
                     CC_StageEvents.transform.GetChild(4).gameObject.AddComponent<ConduitCanyonKeysInstalledTracker>().pedestals = CC_StageEvents.transform.GetChild(2).GetChild(0).GetComponent<PowerPedestalObserver>();
 
+                    //GameObject TripleShopEquipment = GameObject.Find("/HOLDER: Stage Events/GROUP: Secrets/UESLootContainer1 (1)/GROUP: Loot/TripleShopEquipment (1)");
                     break;
             }
         }

@@ -35,7 +35,7 @@
 
     "REMINDER_REGENSCRAP": "善用 <style=cIsHealing>再生废料</style>",
 
-    "REMINDER_FREECHESTVOID": "找到并激活 <style=cIsVoid>失落电池</style>",
+    "REMINDER_VV_FREECHESTVOID": "找到并激活 <style=cIsVoid>失落电池</style>",
 
     "REMINDER_SECRET_GEODE": "击碎 <style=cGold>奥雷利奥奈特晶石</color> ({0}/{1})",
 

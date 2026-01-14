@@ -8,76 +8,27 @@ namespace WolfoQoL_Client
 {
     public static class ItemFilters
     {
-        /*
-        public static readonly Func<ItemIndex, bool> Tier1DeathItemFilterDelegate = new Func<ItemIndex, bool>(Tier1DeathItemCopyFilter);
-        public static readonly Func<ItemIndex, bool> Tier2DeathItemFilterDelegate = new Func<ItemIndex, bool>(Tier2DeathItemCopyFilter);
-        public static readonly Func<ItemIndex, bool> Tier3DeathItemFilterDelegate = new Func<ItemIndex, bool>(Tier3DeathItemCopyFilter);
-        public static readonly Func<ItemIndex, bool> BossDeathItemFilterDelegate = new Func<ItemIndex, bool>(BossDeathItemCopyFilter);
-        public static readonly Func<ItemIndex, bool> LunarDeathItemFilterDelegate = new Func<ItemIndex, bool>(LunarDeathItemCopyFilter);
-        public static readonly Func<ItemIndex, bool> Void1DeathItemFilterDelegate = new Func<ItemIndex, bool>(Void1DeathItemCopyFilter);
-        
-       
-
-     
-        public static bool Tier1DeathItemCopyFilter(ItemIndex itemIndex)
-        {
-            ItemDef tempdef = ItemCatalog.GetItemDef(itemIndex);
-            if (tempdef.tier != ItemTier.Tier1) { return false; }
-            return true;
-        }
-        public static bool Tier2DeathItemCopyFilter(ItemIndex itemIndex)
-        {
-            ItemDef tempdef = ItemCatalog.GetItemDef(itemIndex);
-            if (tempdef.tier != ItemTier.Tier2) { return false; }
-            return true;
-        }
-        public static bool Tier3DeathItemCopyFilter(ItemIndex itemIndex)
-        {
-            ItemDef tempdef = ItemCatalog.GetItemDef(itemIndex);
-            if (tempdef.tier != ItemTier.Tier3) { return false; }
-            return true;
-        }
-        public static bool LunarDeathItemCopyFilter(ItemIndex itemIndex)
-        {
-            ItemDef tempdef = ItemCatalog.GetItemDef(itemIndex);
-            if (tempdef.tier != ItemTier.Lunar) { return false; }
-            return true;
-        }
-        public static bool BossDeathItemCopyFilter(ItemIndex itemIndex)
-        {
-            ItemDef tempdef = ItemCatalog.GetItemDef(itemIndex);
-            if (tempdef.tier != ItemTier.Boss) { return false; }
-            return true;
-        }
-
-        public static bool Void1DeathItemCopyFilter(ItemIndex itemIndex)
-        {
-            ItemDef tempdef = ItemCatalog.GetItemDef(itemIndex);
-            if (tempdef.tier == ItemTier.VoidTier1 |
-                tempdef.tier == ItemTier.VoidTier2 |
-                tempdef.tier == ItemTier.VoidTier3 |
-                tempdef.tier == ItemTier.VoidBoss) { return true; }
-            return false;
-        }
-         */
-
         public static readonly Func<ItemIndex, bool> NoTierDeathItemFilterDelegate = new Func<ItemIndex, bool>(NoTierDeathItemCopyFilter);
         public static readonly Func<ItemIndex, bool> AllowAllItemFilterDelegate = new Func<ItemIndex, bool>(AllowAllItemFilter);
 
         public static bool NoTierDeathItemCopyFilter(ItemIndex itemIndex)
         {
             ItemDef tempdef = ItemCatalog.GetItemDef(itemIndex);
-            if (tempdef.tier != ItemTier.NoTier)
-            {
-                return true;
-            }
             if (tempdef.hidden)
             {
                 return false;
             }
-            if (tempdef.isConsumed) //Not No Tier, or consumed
+            if (tempdef.tier != ItemTier.NoTier)
             {
                 return true;
+            }
+            if (tempdef.isConsumed) //If untiered, but marked as consumed, show it.
+            {
+                return true;
+            }
+            if (!tempdef.pickupIconSprite || tempdef.pickupIconSprite.name == "texNullIcon")
+            {
+                return false;
             }
             return true;
         }

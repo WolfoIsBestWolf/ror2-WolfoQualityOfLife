@@ -11,10 +11,11 @@ namespace WolfoQoL_Client
 
     public static partial class PingIcons
     {
+        private static Transform r2apiRoot;
         public static void ModSupport()
         {
-            //Idk why where not just allowed to get the path directly.    
-            Transform rapiRoot = Merc_Red.MercSwordSlash_Red.transform.parent;
+            //Idk why were not just allowed to get the path directly.    
+            r2apiRoot = Merc_Red.MercSwordSlash_Red.transform.parent;
             /*Transform hand = rapiRoot.Find("BrokenJanitorInteractable");
             if (hand)
             {
@@ -42,21 +43,21 @@ namespace WolfoQoL_Client
 
         public static void ModPing_EnemyReturns()
         {
-            SetAllIcons(EnemiesReturns.Enemies.MechanicalSpider.MechanicalSpiderStuff.InteractablePrefab, "EnemyReturn/Drone_Spider");
-            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine1, "EnemyReturn/ShrineLynx");
-            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine2, "EnemyReturn/ShrineLynx");
-            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine3, "EnemyReturn/ShrineLynx");
+            SetAllIcons(EnemiesReturns.Enemies.MechanicalSpider.MechanicalSpiderStuff.InteractablePrefab, "Mod/EnemyReturn/Drone_Spider");
+            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine1, "Mod/EnemyReturn/ShrineLynx");
+            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine2, "Mod/EnemyReturn/ShrineLynx");
+            SetAllIcons(EnemiesReturns.Enemies.LynxTribe.LynxTribeStuff.LynxShrine3, "Mod/EnemyReturn/ShrineLynx");
 
             EnemiesReturns.Enemies.Judgement.SetupJudgementPath.PileOfDirt.GetComponent<GenericInteraction>().shouldShowOnScanner = true;
             EnemiesReturns.Enemies.Judgement.SetupJudgementPath.PileOfDirt.EnsureComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
         }
         public static void ModPing_SS2()
         {
-            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acShockDrone", SS2.SS2Bundle.Interactables).interactablePrefab, "SS2/DroneShock");
-            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acCloneDrone", SS2.SS2Bundle.Interactables).interactablePrefab, "SS2/DroneDuplicator");
-            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acDroneTable", SS2.SS2Bundle.Interactables).interactablePrefab, "SS2/DroneTable");
+            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acShockDrone", SS2.SS2Bundle.Interactables).interactablePrefab, "Mod/SS2/DroneShock");
+            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acCloneDrone", SS2.SS2Bundle.Interactables).interactablePrefab, "Mod/SS2/DroneDuplicator");
+            SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acDroneTable", SS2.SS2Bundle.Interactables).interactablePrefab, "Mod/SS2/DroneTable");
             SetAllIcons(SS2.SS2Assets.LoadAsset<SS2.InteractableAssetCollection>("acLunarGambler", SS2.SS2Bundle.Interactables).interactablePrefab, ExclamationIcon);
-            SetAllIcons(SS2.EtherealBehavior.shrinePrefab, "SS2/Shrine_Ethereal");
+            SetAllIcons(SS2.EtherealBehavior.shrinePrefab, "Mod/SS2/Shrine_Ethereal");
 
             SS2.Components.VoidBehavior.rockPrefab.EnsureComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
         }
@@ -77,14 +78,23 @@ namespace WolfoQoL_Client
         }
         public static void ModPing_Quality()
         {
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityChest1.prefab, "Quality/Quality_Chest");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityChest2.prefab, "Quality/Quality_Chest2");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityEquipmentBarrel.prefab, "Quality/Quality_Equip");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicator.prefab, "Quality/Quality_Printer");
+            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityChest1.prefab, "Mod/Quality/Quality_Chest");
+            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityChest2.prefab, "Mod/Quality/Quality_Chest2");
+            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityEquipmentBarrel.prefab, "Mod/Quality/Quality_Equip");
+            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicator.prefab, "Mod/Quality/Quality_Printer");
             ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorLarge.prefab.AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.greenPrinterQuality;
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorLarge.prefab, "Quality/Quality_PrinterLarge");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorMilitary.prefab, "Quality/Quality_PrinterMili");
-            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorWild.prefab, "Quality/Quality_PrinterWild");
+            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorLarge.prefab, "Mod/Quality/Quality_PrinterLarge");
+            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorMilitary.prefab, "Mod/Quality/Quality_PrinterMili");
+            SetAllIcons(ItemQualities.ItemQualitiesContent.SpawnCards.QualityDuplicatorWild.prefab, "Mod/Quality/Quality_PrinterWild");
+
+
+            Transform speedBarrel = r2apiRoot.Find("SpeedOnPickupBarrel");
+            if (speedBarrel)
+            {
+                SetAllIcons(speedBarrel.gameObject, "Mod/Quality/Cool_Barrel");
+                speedBarrel.gameObject.AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.QualityCollectorsBarrel;
+
+            }
 
         }
 

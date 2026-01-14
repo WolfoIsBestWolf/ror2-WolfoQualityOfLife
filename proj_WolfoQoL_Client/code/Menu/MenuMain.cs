@@ -1,8 +1,10 @@
 ﻿using RoR2;
 using RoR2.ContentManagement;
 using RoR2.EntitlementManagement;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.Menu
@@ -28,16 +30,53 @@ namespace WolfoQoL_Client.Menu
                 UI_Stuff.Start();
                 UI_RealTimeTimer.Start();
 
-
-
                 UI_Color.Start();
-
             }
 
-
+            GameModeCatalog.availability.CallWhenAvailable(CallLate);
         }
 
+        private static void CallLate()
+        {
+            ObjectiveHudSpacing_SettingChanged(null, null);
+            On.RoR2.UI.ObjectivePanelController.StripExitAnimation.ctor += StripExitAnimation_ctor;
+            On.RoR2.UI.ObjectivePanelController.StripExitAnimation.SetPercentComplete += StripExitAnimation_SetPercentComplete;
+        }
 
+        private static void StripExitAnimation_ctor(On.RoR2.UI.ObjectivePanelController.StripExitAnimation.orig_ctor orig, RoR2.UI.ObjectivePanelController.StripExitAnimation self, RoR2.UI.ObjectivePanelController.ObjectiveTracker objectiveTracker)
+        {
+            orig(self, objectiveTracker);
+            if (objectiveTracker.stripObject)
+            {
+                self.originalHeight += WConfig.ObjectiveHudSpacing.Value;
+            }
+        }
+
+        private static void StripExitAnimation_SetPercentComplete(On.RoR2.UI.ObjectivePanelController.StripExitAnimation.orig_SetPercentComplete orig, RoR2.UI.ObjectivePanelController.StripExitAnimation self, float newPercentComplete)
+        {
+            orig(self, newPercentComplete);
+            if (self.objectiveTracker.stripObject)
+            {
+                self.layoutElement.preferredHeight -= WConfig.ObjectiveHudSpacing.Value;
+            }
+        }
+
+        public static void ObjectiveHudSpacing_SettingChanged(object sender, System.EventArgs e)
+        {
+            //Debug.Log($"Setting UISpacing to {ObjectiveHudSpacing.Value}");
+            Run classic = GameModeCatalog.FindGameModePrefabComponent("ClassicRun");
+            Run simulac = GameModeCatalog.FindGameModePrefabComponent("InfiniteTowerRun");
+ 
+            classic.uiPrefab.transform.Find("RightInfoBar/ObjectivePanel/StripContainer").GetComponent<VerticalLayoutGroup>().spacing = WConfig.ObjectiveHudSpacing.Value;
+            simulac.uiPrefab.transform.Find("RightInfoBar/ObjectivePanel/StripContainer").GetComponent<VerticalLayoutGroup>().spacing = WConfig.ObjectiveHudSpacing.Value;
+            if (Run.instance)
+            {
+                Run.instance.uiInstances[0].transform.Find("RightInfoBar/ObjectivePanel/StripContainer").GetComponent<VerticalLayoutGroup>().spacing = WConfig.ObjectiveHudSpacing.Value;
+            }
+            
+        }
+
+        private static int themeStatic = -1;
         public static void MainMenuExtras(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
         {
             orig(self);
@@ -89,78 +128,69 @@ namespace WolfoQoL_Client.Menu
                 temp.localEulerAngles = new Vector3(5.2085f, 38.4904f, 0);
             }
 
-            int selector = WConfig.cfgMainMenuRandomizerSelector.Value;
-            if (selector != 0)
+            WConfig.MainMenuTheme selector = WConfig.cfgMainMenuRandomizer.Value;
+            if (selector >= WConfig.MainMenuTheme.Acres)
             {
-                if (selector == 1 || selector == 11)
+                GameObject theme = null;
+                if (selector == WConfig.MainMenuTheme.Acres)
                 {
-                    GameObject CU2 = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU1 Props.prefab").WaitForCompletion());
-                    CU2.SetActive(true);
+                    theme = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU1 Props.prefab").WaitForCompletion());
                 }
-                else if (selector == 2 || selector == 12)
+                else if (selector == WConfig.MainMenuTheme.Sirens)
                 {
-                    GameObject CU2 = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU2 Props.prefab").WaitForCompletion());
-                    CU2.SetActive(true);
+                    theme = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU2 Props.prefab").WaitForCompletion());
                 }
-                else if (selector == 3 || selector == 13)
+                else if (selector == WConfig.MainMenuTheme.Realms)
                 {
-                    GameObject CU2 = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU3 Props.prefab").WaitForCompletion());
-                    CU2.SetActive(true);
+                    theme = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU3 Props.prefab").WaitForCompletion());
                 }
-                else if (selector == 4 || selector == 14)
+                else if (selector == WConfig.MainMenuTheme.Artifact)
                 {
-                    GameObject CU2 = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU4 Props.prefab").WaitForCompletion());
-                    CU2.SetActive(true);
+                    theme = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU4 Props.prefab").WaitForCompletion());
                 }
-                if (selector > 9)
+                if (theme)
                 {
-                    GameObject StarStorm2 = GameObject.Find("/StormMainMenuEffect(Clone)");
-                    if (StarStorm2)
-                    {
-                        StarStorm2.SetActive(false);
-                    }
+                    theme.SetActive(true);
                 }
             }
-            else if (WConfig.cfgMainMenuRandomizer.Value)
+            else if (selector >= WConfig.MainMenuTheme.Random)
             {
                 GameObject StarStorm2 = GameObject.Find("/StormMainMenuEffect(Clone)");
                 GameObject CU1 = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU1 Props.prefab").WaitForCompletion());
                 GameObject CU2 = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/title/CU2 Props.prefab").WaitForCompletion());
 
                 int randomMenu = WQoLMain.random.Next(6);
+                if (selector == WConfig.MainMenuTheme.RandomStatic)
+                {
+                    if (themeStatic == -1)
+                    {
+                        themeStatic = randomMenu;
+                    }
+                    randomMenu = themeStatic;
+                }
                 switch (randomMenu)
                 {
                     case 0:
                         //Default
                         break;
                     case 1:
+                    case 3:
                         CU1.SetActive(true); //Orange
                         break;
                     case 2:
+                    case 4:
                         CU2.SetActive(true); //Green
                         break;
-                    case 3:
-                        if (StarStorm2)
-                        {
-                            StarStorm2.SetActive(false);
-                        }
-                        break;
-                    case 4:
-                        if (StarStorm2)
-                        {
-                            StarStorm2.SetActive(false);
-                        }
-                        CU1.SetActive(true);
-                        break;
-                    case 5:
-                        if (StarStorm2)
-                        {
-                            StarStorm2.SetActive(false);
-                        }
-                        CU2.SetActive(true);
-                        break;
+                }
+                if (randomMenu >= 3)
+                {
+                    if (StarStorm2)
+                    {
+                        StarStorm2.SetActive(false);
+                    }
                 }
             }
+
         }
 
 

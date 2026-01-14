@@ -26,7 +26,7 @@ namespace WolfoQoL_Client
                 SceneDef scene = sgInfiniteTowerStageX.sceneEntries[i].sceneDef;
                 SceneDef normalScene = ITtoNormal(scene);
                 scene.stageOrder = 5130 + normalScene.stageOrder;
-                scene.shouldIncludeInLogbook = WConfig.SimuStagesInLog.Value;
+                scene.shouldIncludeInLogbook = WConfig.LogbookSimuStages.Value;
                 scene.dioramaPrefab = mdlVoidWardCrab;
                 scene.dioramaPrefabAddress = new AssetReferenceGameObject("");
                 scene.loreToken = string.Empty;

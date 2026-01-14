@@ -1,6 +1,7 @@
 using HG;
 using RoR2;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -166,8 +167,10 @@ namespace WolfoQoL_Client.DeathScreen
 
     }
 
-    public class PerPlayer_ExtraStatTracker : MonoBehaviour
+    public class PlayerMaster_ExtraStatTracker : MonoBehaviour
     {
+        public static Dictionary<GameObject, PlayerMaster_ExtraStatTracker> playerBodyToTracker = new Dictionary<GameObject, PlayerMaster_ExtraStatTracker>();
+
         public bool gameOverWithDisabled = false;
 
         public float timeAliveReal;
@@ -178,35 +181,30 @@ namespace WolfoQoL_Client.DeathScreen
         public int skillActivations;
         */
 
-        public float[] perMinionDamage;
+        public ulong[] perMinionDamage;
         public BodyIndex strongestMinion = (BodyIndex)(-2); //DeathScreenOnly
-        public float strongestMinionDamage;//DeathScreenOnly
-
-
+        public ulong strongestMinionDamage; //DeathScreenOnly
+ 
         public int timesJumped; //Client-Only
-        public float minionDamageTaken;
-        public float minionHealing;
-        public int minionDeaths; //Important for like, how many drones did bro rebuy i guess?
-        //public int minionDeathsSuicide;
+        public ulong minionDamageTaken;
+        public ulong minionHealing;
+        public int minionDeaths;
 
-        public int spentLunarCoins; //Works
-        //public int itemsVoided;
+        public int spentLunarCoins;
 
-        public int scrappedItems; //Works
-        public int scrappedDrones; //DLC3?
-
+        public int scrappedItems;
+        public int scrappedDrones;
         public int lemuriansHatched;
 
-
-        public float dotDamageDone; //Can be client??
-        public float damageBlocked; //Definitely Server Only
+        public ulong dotDamageDone; //Can be client??
+        public ulong damageBlocked; //Definitely Server Only
 
         public string latestDetailedDeathMessage;
 
         public CharacterMaster master;
         public void OnEnable()
         {
-            perMinionDamage = new float[BodyCatalog.bodyCount];
+            perMinionDamage = new ulong[BodyCatalog.bodyCount];
             master = this.GetComponent<CharacterMaster>();
             master.onBodyStart += Master_onBodyStart;
 
@@ -224,17 +222,13 @@ namespace WolfoQoL_Client.DeathScreen
 
         public void Start()
         {
-            //WolfoMain.log.LogMessage(master.hasAuthority);
-            //WolfoMain.log.LogMessage(master.hasEffectiveAuthority);
             if (!master.hasEffectiveAuthority)
             {
                 timesJumped = -1;
-                damageBlocked = -1;
+                damageBlocked = 0;
             }
-
-            //itemAq if perm add
-            //itemAq if scrapped uh????
         }
+
         public void OnDisable()
         {
             if (master)
@@ -247,7 +241,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         public void EvaluateStrongestMinion()
         {
-            float val = 0f;
+            ulong val = 0;
             int chosen = -1;
             for (int i = 0; i < perMinionDamage.Length; i++)
             {
@@ -270,16 +264,33 @@ namespace WolfoQoL_Client.DeathScreen
                 }
             }
         }
+
+        private GameObject lastSeenBody;
         private void Master_onBodyStart(CharacterBody body)
         {
-
             latestDetailedDeathMessage = string.Empty;
             if (master.hasEffectiveAuthority)
             {
                 body.onJump += OnJump;
             }
-            body.gameObject.AddComponent<PlayerDamageBlockedTracker>().tracker = this;
+            body.gameObject.AddComponent<PlayerBody_DamageBlockedTracker>().tracker = this;
 
+            if (lastSeenBody)
+            {
+                playerBodyToTracker.Remove(lastSeenBody);
+            }
+            else
+            {
+                foreach (var key in playerBodyToTracker.Keys.ToArray())
+                {
+                    if (key == null)
+                    {
+                        playerBodyToTracker.Remove(key);
+                    }
+                }
+            }
+            lastSeenBody = body.gameObject;
+            playerBodyToTracker.Add(body.gameObject, this);
         }
 
         public void OnJump()
@@ -300,7 +311,7 @@ namespace WolfoQoL_Client.DeathScreen
                 base.Serialize(writer);
                 writer.Write(masterObject);
 
-                var tracker = masterObject.EnsureComponent<PerPlayer_ExtraStatTracker>();
+                var tracker = masterObject.EnsureComponent<PlayerMaster_ExtraStatTracker>();
 
                 writer.Write(tracker.timesJumped);
                 writer.Write(tracker.damageBlocked);
@@ -319,19 +330,19 @@ namespace WolfoQoL_Client.DeathScreen
                     Log.LogWarning("No Master");
                     return;
                 }
-                var tracker = masterObject.EnsureComponent<PerPlayer_ExtraStatTracker>();
+                var tracker = masterObject.EnsureComponent<PlayerMaster_ExtraStatTracker>();
 
                 tracker.timesJumped = Mathf.Max(tracker.timesJumped, reader.ReadInt32());
-                tracker.damageBlocked = Mathf.Max(tracker.damageBlocked, (float)reader.ReadSingle());
+                tracker.damageBlocked = System.Math.Max(tracker.damageBlocked, reader.ReadUInt64());
 
             }
         }
 
     }
 
-    public class PlayerDamageBlockedTracker : MonoBehaviour, IOnTakeDamageServerReceiver, IOnIncomingDamageServerReceiver
+    public class PlayerBody_DamageBlockedTracker : MonoBehaviour, IOnTakeDamageServerReceiver, IOnIncomingDamageServerReceiver
     {
-        public PerPlayer_ExtraStatTracker tracker;
+        public PlayerMaster_ExtraStatTracker tracker;
         public void OnEnable()
         {
             GetComponent<HealthComponent>().onIncomingDamageReceivers = this.GetComponents<IOnIncomingDamageServerReceiver>();
@@ -340,38 +351,37 @@ namespace WolfoQoL_Client.DeathScreen
 
         public void OnIncomingDamageServer(DamageInfo damageInfo)
         {
-            //Does either of these like account for OSP and OSP timer?
-            /* WolfoMain.log.LogMessage("Damage: " + damageInfo.damage);
-             WolfoMain.log.LogMessage("Blocked?: " + damageInfo.rejected);*/
+            //Damage reduced by block
             if (damageInfo.rejected)
             {
-                tracker.damageBlocked += damageInfo.damage;
+                tracker.damageBlocked += (ulong)damageInfo.damage;
             }
         }
         public void OnTakeDamageServer(DamageReport damageReport)
         {
-            /*WolfoMain.log.LogMessage("DamagePre: "+damageReport.damageInfo.damage);
-            WolfoMain.log.LogMessage("DamagePost: " + damageReport.damageDealt);*/
+            //Damage reduced by armor / rap etc
             if (damageReport.damageInfo.damage != damageReport.damageDealt)
             {
-                tracker.damageBlocked += (damageReport.damageInfo.damage - damageReport.damageDealt);
+                tracker.damageBlocked += (ulong)(damageReport.damageInfo.damage - damageReport.damageDealt);
             }
-
         }
     }
 
-    public class MinionMasterStatTracker : MonoBehaviour
+    public class MinionMaster_ExtraStatsTracker : MonoBehaviour
     {
-        public PerPlayer_ExtraStatTracker tracker;
+        public static Dictionary<GameObject, MinionMaster_ExtraStatsTracker> minionBodyToTracker = new Dictionary<GameObject, MinionMaster_ExtraStatsTracker>();
+
+        public PlayerMaster_ExtraStatTracker tracker;
         public CharacterMaster master;
         public GameObject bodyObject;
-        public HealthComponent body;
-        public UnityAction deathEvent;
+        //public HealthComponent body;
+        //public UnityAction deathEvent;
+        public int bodyIndex = -1;
 
         public void OnEnable()
         {
             master = this.GetComponent<CharacterMaster>();
-            tracker = master.minionOwnership.ownerMaster.GetComponent<PerPlayer_ExtraStatTracker>();
+            tracker = master.minionOwnership.ownerMaster.GetComponent<PlayerMaster_ExtraStatTracker>();
 
             master.onBodyStart += OnBodyStart;
             master.onBodyDeath.AddListener(new UnityAction(this.OnBodyDeath));
@@ -385,42 +395,47 @@ namespace WolfoQoL_Client.DeathScreen
         }
         private void OnBodyStart(CharacterBody newBody)
         {
+            if (bodyObject)
+            {
+                minionBodyToTracker.Remove(bodyObject);
+            }
+            else
+            {
+                foreach (var key in minionBodyToTracker.Keys.ToArray())
+                {
+                    if (key == null)
+                    {
+                        minionBodyToTracker.Remove(key);
+                    }
+                }
+            }
             bodyObject = newBody.gameObject;
-            body = newBody.healthComponent;
-            var subTracker = newBody.gameObject.AddComponent<MinionBody_StatLocator>();
-            subTracker.tracker = tracker;
-            subTracker.bodyIndex = (int)newBody.bodyIndex;
+            bodyIndex = (int)newBody.bodyIndex;
+            minionBodyToTracker.Add(bodyObject, this);
+
 
         }
+
         public void OnBodyDeath()
         {
-            //Suicide Checker
-            //If wasn't hit in the last short while
-            //But still died
-            //Then probably was due to Suicide or Negative Regen
-            if (body)
+            if (bodyObject)
             {
-                //Only count deaths that matter
                 if (DroneCollection.isPermamentMinion(this.gameObject))
                 {
                     Log.LogMessage(this.gameObject.name + " died");
-                    //Chat.AddMessage(this.gameObject.name + " died");
                     tracker.minionDeaths++;
                 }
-
-
             }
-
         }
 
 
     }
 
-    public class MinionBody_StatLocator : MonoBehaviour
+    /*public class MinionBody_StatLocator : MonoBehaviour
     {
         public int bodyIndex;
-        public PerPlayer_ExtraStatTracker tracker;
-    }
+        public PerPlayerMaster_ExtraStatTracker tracker;
+    }*/
 
 
 }

@@ -19,8 +19,9 @@ namespace WolfoQoL_Client
                 {
                     PingIcons.AddIcons();
                     PingIcons.AddHooks();
-
                 }
+                PingIcons.MiscIcons();
+
                 BuffIcons.Awake();
                 //Ig not text but it is a reminder?
                 Icon_Colors.Start();
@@ -164,7 +165,6 @@ namespace WolfoQoL_Client
                     }
                     break;
                 case "skymeadow":
-
                     GameObject.Find("/HOLDER: Zones/OOB Zone").GetComponent<MapZone>().zoneType = MapZone.ZoneType.OutOfBounds;
                     Material CorrectGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser (2)/mdlGeyser").GetComponent<MeshRenderer>().material;
                     Transform WrongGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser").transform;

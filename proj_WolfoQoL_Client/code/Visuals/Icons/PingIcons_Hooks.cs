@@ -1,32 +1,20 @@
 using RoR2;
-//using System;
 using UnityEngine;
-
 
 namespace WolfoQoL_Client
 {
-
     public static partial class PingIcons
     {
-
-        public static GameObject NullTempPosIndicator = null;
-        public static Color VoidDefault = new Color(0.8211f, 0.5f, 1, 1);
-        public static Color VoidFocused = new Color(0f, 3.9411764f, 5f, 1f);
-
         public static void AddHooks()
         {
             if (otherPingIconMods)
             {
                 return;
             }
-            On.EntityStates.Missions.Arena.NullWard.Active.OnEnter += VoidCell_Inidicator;
-            On.EntityStates.Missions.Arena.NullWard.Complete.OnEnter += VoidCell_DestroyIndicator;
-            On.RoR2.TeleporterInteraction.Start += TeleporterInteraction_Start;
+            On.RoR2.TeleporterInteraction.Start += PrimordialTPIcon;
 
-            //On.RoR2.UI.ChargeIndicatorController.Awake += PingIconsShareColor;
             On.RoR2.PortalStatueBehavior.PreStartClient += NewtPingIcon;
             On.RoR2.GeodeController.PreStartClient += GeodePingIcon;
-
 
             On.RoR2.SceneExitController.OnEnable += SetPortalIcon;
 
@@ -36,11 +24,6 @@ namespace WolfoQoL_Client
 
             On.RoR2.PurchaseInteraction.ShouldShowOnScanner += BlockScanner_Purchase;
             On.RoR2.GenericInteraction.ShouldShowOnScanner += BlockScanner_Generic;
-            On.RoR2.ChestRevealer.RevealedObject.OnEnable += ScannerOverrideIcon;
-
-            On.RoR2.GenericPickupController.SyncPickupState += EquipmentPingIcon;
-
-            //On.RoR2.DroneVendorTerminalBehavior.UpdatePickupDisplayAndAnimations += DroneShop_IconFromDrone;
 
             On.RoR2.Stage.PreStartClient += PingIconsOnStage;
         }
@@ -48,6 +31,7 @@ namespace WolfoQoL_Client
 
         private static void GeodePingIcon(On.RoR2.GeodeController.orig_PreStartClient orig, GeodeController self)
         {
+            //Name differs heavily so cant really use the dict
             orig(self);
             self.gameObject.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/DLC2/Geode.png");
         }
@@ -74,47 +58,6 @@ namespace WolfoQoL_Client
                 }
             }
         }
-        /*private static void DroneShop_IconFromDrone(On.RoR2.DroneVendorTerminalBehavior.orig_UpdatePickupDisplayAndAnimations orig, DroneVendorTerminalBehavior self)
-        {
-            orig(self);
-            PingInfoProvider pingInfoProvider = self.GetComponent<PingInfoProvider>();
-            if (self.CurrentPickupIndex != PickupIndex.none)
-            {
-                DroneIndex droneIndex = self.CurrentPickupIndex.pickupDef.droneIndex;
-                if (droneIndex != DroneIndex.None)
-                {
-                    DroneDef droneDef = DroneCatalog.GetDroneDef(droneIndex);
-                    if (droneDef && droneDef.droneBrokenSpawnCard)
-                    {
-                        PingInfoProvider pingInfoProviderDrone =  droneDef.droneBrokenSpawnCard.prefab.GetComponent<PingInfoProvider>();
-                        if (pingInfoProviderDrone)
-                        {
-                            pingInfoProvider.pingIconOverride = pingInfoProviderDrone.pingIconOverride;
-                        }
-                        else
-                        {
-                            pingInfoProvider.pingIconOverride = PingIcons.DroneIcon;
-                        }
-                    }
-
-                }
-            }
-
-        }
-*/
-        private static void EquipmentPingIcon(On.RoR2.GenericPickupController.orig_SyncPickupState orig, GenericPickupController self, UniquePickup newPickupState)
-        {
-            orig(self, newPickupState);
-            if (!self.TryGetComponent<PingInfoProvider>(out _))
-            {
-                if (newPickupState.pickupIndex.equipmentIndex != EquipmentIndex.None)
-                {
-                    self.gameObject.AddComponent<PingInfoProvider>().pingIconOverride = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/PingIcons/Equip.png");
-                }
-            }
-        }
-
-
 
         private static void RemoveScannerIcon_Barrel(On.RoR2.BarrelInteraction.orig_OnInteractionBegin orig, BarrelInteraction self, Interactor activator)
         {
@@ -156,10 +99,7 @@ namespace WolfoQoL_Client
             //self.playerPingColor = self.spriteFlashColor;
         }
 
-
-        public static Color lunarHighlight = new Color(0.5223f, 0.8071f, 0.9151f, 1);
-
-        private static void TeleporterInteraction_Start(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
+        private static void PrimordialTPIcon(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
         {
             orig(self);
             if (self.name.StartsWith("LunarT"))
@@ -197,23 +137,9 @@ namespace WolfoQoL_Client
                     if (WConfig.cfgPingIcons.Value)
                     {
                         self.teleporterChargeIndicatorController.iconSprites[0].sprite = PingIcons.PrimordialTeleporterChargedIcon;
-                        //self.teleporterChargeIndicatorController.playerPingColor = self.teleporterChargeIndicatorController.spriteFlashColor;
                     }
                 }
             }
-        }
-
-        private static void ScannerOverrideIcon(On.RoR2.ChestRevealer.RevealedObject.orig_OnEnable orig, ChestRevealer.RevealedObject self)
-        {
-            orig(self);
-            if (self.TryGetComponent<DifferentIconScanner>(out var icon))
-            {
-                if (icon.scannerIconOverride)
-                {
-                    self.positionIndicator.insideViewObject.GetComponent<SpriteRenderer>().sprite = icon.scannerIconOverride;
-                }
-            }
-
         }
 
         private static bool BlockScanner_Generic(On.RoR2.GenericInteraction.orig_ShouldShowOnScanner orig, GenericInteraction self)
@@ -235,46 +161,6 @@ namespace WolfoQoL_Client
             return orig(self);
         }
 
-        private static void VoidCell_DestroyIndicator(On.EntityStates.Missions.Arena.NullWard.Complete.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.Complete self)
-        {
-            orig(self);
-            Log.LogMessage("Destroy NullCell Indicator");
-            Object.Destroy(NullTempPosIndicator);
-            self.outer.gameObject.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_TintColor", VoidDefault);
-
-        }
-
-        private static void VoidCell_Inidicator(On.EntityStates.Missions.Arena.NullWard.Active.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.Active self)
-        {
-            orig(self);
-            //if (NetworkServer.active)
-
-            NullTempPosIndicator = UnityEngine.Object.Instantiate<GameObject>(LegacyResourcesAPI.Load<GameObject>("Prefabs/PositionIndicators/PillarChargingPositionIndicator"));
-            NullTempPosIndicator.name = "NullCellPositionIndicator";
-
-            NullTempPosIndicator.GetComponent<PositionIndicator>().targetTransform = self.outer.transform;
-            //RoR2.UI.ChargeIndicatorController NullCell = NullTempPosIndicator.GetComponent<PositionIndicator>().GetComponent<RoR2.UI.ChargeIndicatorController>();
-            RoR2.UI.ChargeIndicatorController NullCell = NullTempPosIndicator.GetComponent<RoR2.UI.ChargeIndicatorController>();
-            NullCell.holdoutZoneController = self.outer.GetComponent<HoldoutZoneController>();
-            NullCell.spriteBaseColor = new Color(0.915f, 0.807f, 0.915f);
-            NullCell.spriteChargedColor = new Color(0.977f, 0.877f, 0.977f);
-            NullCell.spriteChargingColor = new Color(0.943f, 0.621f, 0.943f);
-            NullCell.spriteFlashColor = new Color(0.92f, 0.411f, 0.92f);
-            NullCell.textBaseColor = new Color(0.858f, 0.714f, 0.858f);
-            NullCell.textChargingColor = new Color(1f, 1f, 1f);
-            if (NullCell.iconSprites.Length > 0)
-            {
-                NullCell.iconSprites[0].sprite = PingIcons.NullVentIcon;
-            }
-
-            if (Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.FocusConvergence.itemIndex, true, false) > 0)
-            {
-                self.outer.gameObject.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().materials[0].SetColor("_TintColor", VoidFocused);
-                self.outer.gameObject.transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().materials[1].SetColor("_TintColor", VoidFocused);
-            }
-        }
-
-
     }
 
 
@@ -283,9 +169,6 @@ namespace WolfoQoL_Client
     {
 
     }
-    public class DifferentIconScanner : PingInfoProvider
-    {
-        public Sprite scannerIconOverride;
-    }
+
 
 }

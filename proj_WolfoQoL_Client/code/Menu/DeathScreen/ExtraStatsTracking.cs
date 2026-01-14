@@ -1,9 +1,10 @@
+using HG;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using RoR2.Stats;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using WolfoLibrary;
 
 namespace WolfoQoL_Client.DeathScreen
@@ -20,19 +21,77 @@ namespace WolfoQoL_Client.DeathScreen
             On.RoR2.MinionOwnership.OnStartClient += Add_MinionDamageTracker;
             Run.onClientGameOverGlobal += SendSyncMessages;
 
+            //GlobalEventManager.onClientDamageNotified += GlobalEventManager_onClientDamageNotified;
             IL.RoR2.HealthComponent.HandleDamageDealt += Track_DoTDamage_MinionHurt;
             IL.RoR2.HealthComponent.HandleHeal += Track_MinionHealing;
 
-            // IL.RoR2.Items.ContagiousItemManager.StepInventoryInfection += Host_TrackVoidedItems;
 
-            On.RoR2.Stats.StatManager.OnServerItemGiven += StatManager_OnServerItemGiven;
-            On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += Inventory_GiveItemPermanent_ItemIndex_int;
+            //Host only stat adjustments
+            On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += RemovingItemDeductFromItemsCollectedStats;
+            On.EntityStates.BrotherMonster.SpellChannelEnterState.OnEnter += StoreItemAcqOrderOnMithrixP4;
+            On.EntityStates.BrotherMonster.TrueDeathState.OnEnter += ReturnItemAcqOrderAfterMithrixP4;
+
+            Run.onClientGameOverGlobal += Run_onClientGameOverGlobal;
+        }
+
+        private static void Run_onClientGameOverGlobal(Run arg1, RunReport arg2)
+        {
+            foreach (var player in PlayerCharacterMasterController.instances)
+            {
+                var playerTracker = player.GetComponent<PlayerMaster_ExtraStatTracker>();
+                if (playerTracker)
+                {
+                    playerTracker.EvaluateStrongestMinion();
+                }
+            }
+            MinionMaster_ExtraStatsTracker.minionBodyToTracker.Clear();
+
 
         }
 
-        public static Dictionary<GameObject, MinionMasterStatTracker> a;
+        private static void GlobalEventManager_onClientDamageNotified(DamageDealtMessage obj)
+        {
+            Debug.Log(obj.victim);
+            if (obj.attacker)
+            {
+                if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(obj.attacker, out var attackerM))
+                {
+                    if (attackerM.bodyIndex != -1)
+                    {
+                        attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)obj.damage;
+                    }
+                }
+            }
+           
+        }
 
-        private static void Inventory_GiveItemPermanent_ItemIndex_int(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
+        private static void ReturnItemAcqOrderAfterMithrixP4(On.EntityStates.BrotherMonster.TrueDeathState.orig_OnEnter orig, EntityStates.BrotherMonster.TrueDeathState self)
+        {
+            orig(self);
+            if (!NetworkServer.active)
+            {
+                return;
+            }
+            foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
+            {
+                player.gameObject.GetComponent<ItemAquisitionStorer>()?.Return();
+            }
+        }
+
+        private static void StoreItemAcqOrderOnMithrixP4(On.EntityStates.BrotherMonster.SpellChannelEnterState.orig_OnEnter orig, EntityStates.BrotherMonster.SpellChannelEnterState self)
+        {
+            orig(self);
+            if (!NetworkServer.active)
+            {
+                return;
+            }
+            foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
+            {
+                player.gameObject.EnsureComponent<ItemAquisitionStorer>().Store();
+            }
+        }
+
+        private static void RemovingItemDeductFromItemsCollectedStats(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
         {
             if (countToAdd < 0)
             {
@@ -51,29 +110,6 @@ namespace WolfoQoL_Client.DeathScreen
             orig(self, itemIndex, countToAdd);
         }
 
-        private static void StatManager_OnServerItemGiven(On.RoR2.Stats.StatManager.orig_OnServerItemGiven orig, Inventory inventory, ItemIndex itemIndex, int quantity)
-        {
-            orig(inventory, itemIndex, quantity);
-        }
-
-        private static void REMOVINGITEMDEDUCTSFROMSTAT(On.RoR2.Inventory.orig_RemoveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
-        {
-            int itemCountBefore = self.GetItemCountPermanent(itemIndex);
-            orig(self, itemIndex, count);
-            if (ItemCatalog.GetItemDef(itemIndex).hidden)
-            {
-                return;
-            }
-            int itemCountAfter = self.GetItemCountPermanent(itemIndex);
-            StatManager.itemCollectedEvents.Enqueue(new StatManager.ItemCollectedEvent
-            {
-                inventory = self,
-                itemIndex = itemIndex,
-                quantity = (itemCountAfter - itemCountBefore),
-                newCount = 0
-            });
-        }
-
 
         private static void Track_DoTDamage_MinionHurt(ILContext il)
         {
@@ -86,24 +122,27 @@ namespace WolfoQoL_Client.DeathScreen
                 c.Emit(OpCodes.Ldloc_0);
                 c.EmitDelegate<System.Func<HealthComponent, DamageDealtMessage, HealthComponent>>((self, damageEvent) =>
                 {
-                    //This is past checking for minion
+                    //This is past nullCheck of victim
                     if (damageEvent.attacker)
                     {
-                        if (damageEvent.attacker.TryGetComponent(out MinionBody_StatLocator attacker))
+                        if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerM))
                         {
-                            attacker.tracker.perMinionDamage[attacker.bodyIndex] += damageEvent.damage;
-                        }
-                        if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && damageEvent.attacker.TryGetComponent<PlayerDamageBlockedTracker>(out var tracker))
+                            if (attackerM.bodyIndex != -1)
+                            {
+                                attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)damageEvent.damage;
+                            }
+                        }   
+                        if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && PlayerMaster_ExtraStatTracker.playerBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerP))
                         {
                             if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
                             {
-                                tracker.tracker.dotDamageDone += damageEvent.damage;
+                                attackerP.dotDamageDone += (ulong)damageEvent.damage;
                             }
                         }
                     }
-                    if (damageEvent.victim.TryGetComponent<MinionBody_StatLocator>(out var a))
+                    if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(damageEvent.victim, out var victim))
                     {
-                        a.tracker.minionDamageTaken += damageEvent.damage;
+                        victim.tracker.minionDamageTaken += (ulong)damageEvent.damage;
                     }
                     return self;
                 });
@@ -114,6 +153,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
         }
 
+        /*
         private static void Host_TrackVoidedItems(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -125,7 +165,7 @@ namespace WolfoQoL_Client.DeathScreen
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<System.Func<int, Inventory, int>>((count, inventory) =>
                 {
-                    if (inventory.TryGetComponent<PerPlayer_ExtraStatTracker>(out var a))
+                    if (inventory.TryGetComponent<PerPlayerMaster_ExtraStatTracker>(out var a))
                     {
                         //a.itemsVoided += count;
                     }
@@ -137,7 +177,7 @@ namespace WolfoQoL_Client.DeathScreen
                 Log.LogWarning("IL Failed: Host_TrackVoidedItems");
             }
         }
-
+       */
 
 
         private static void Track_MinionHealing(ILContext il)
@@ -149,9 +189,9 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 c.EmitDelegate<System.Func<HealthComponent.HealMessage, HealthComponent.HealMessage>>((healEvent) =>
                 {
-                    if (healEvent.target && healEvent.target.TryGetComponent<MinionBody_StatLocator>(out var a))
+                    if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(healEvent.target, out var a))
                     {
-                        a.tracker.minionHealing += healEvent.amount;
+                        a.tracker.minionHealing += (ulong)healEvent.amount;
                     }
                     return healEvent;
                 });
@@ -166,8 +206,7 @@ namespace WolfoQoL_Client.DeathScreen
         {
             foreach (var player in PlayerCharacterMasterController.instances)
             {
-
-                Networker.SendWQoLMessage(new PerPlayer_ExtraStatTracker.SyncValues
+                Networker.SendWQoLMessage(new PlayerMaster_ExtraStatTracker.SyncValues
                 {
                     masterObject = player.gameObject,
                 });
@@ -179,9 +218,9 @@ namespace WolfoQoL_Client.DeathScreen
             orig(self);
             if (self.ownerMaster && self.ownerMaster.playerCharacterMasterController != null)
             {
-                if (self.GetComponent<MinionMasterStatTracker>() == null)
+                if (self.GetComponent<MinionMaster_ExtraStatsTracker>() == null)
                 {
-                    self.gameObject.AddComponent<MinionMasterStatTracker>();
+                    self.gameObject.AddComponent<MinionMaster_ExtraStatsTracker>();
                 }
             }
         }
@@ -192,7 +231,7 @@ namespace WolfoQoL_Client.DeathScreen
             orig(self, count);
             if (self.master)
             {
-                self.master.GetComponent<PerPlayer_ExtraStatTracker>().spentLunarCoins += (int)count;
+                self.master.GetComponent<PlayerMaster_ExtraStatTracker>().spentLunarCoins += (int)count;
             }
         }
 

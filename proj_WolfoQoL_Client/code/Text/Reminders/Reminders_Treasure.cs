@@ -15,10 +15,23 @@ namespace WolfoQoL_Client.Reminders
             //Free Chest
             On.RoR2.MultiShopController.OnPurchase += FreeChestReminderUpdater_Host;
 
-
             //RegenScrap and SaleStar
             On.RoR2.CharacterMasterNotificationQueue.PushItemTransformNotification += Clear_Star_Regen;
 
+            //Quality Mod Quality Barrel
+            On.EntityStates.Barrel.Opening.OnEnter += Quality_Barrel;
+        }
+
+        private static void Quality_Barrel(On.EntityStates.Barrel.Opening.orig_OnEnter orig, EntityStates.Barrel.Opening self)
+        {
+            orig(self);
+            if (self.gameObject.name.StartsWith("SpeedOnPickup"))
+            {
+                if (TreasureReminder.instance)
+                {
+                    TreasureReminder.Deduct(TreasureReminder.instance.Objective_Quality_Collectors, ref TreasureReminder.instance.qualityCollectors);
+                }
+            }
         }
 
         private static void Clear_Star_Regen(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
@@ -84,7 +97,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (TreasureReminder.instance)
                 {
-                    TreasureReminder.instance.DeductFreeChestCount();
+                    TreasureReminder.Deduct(TreasureReminder.instance.Objective_FreeChest, ref TreasureReminder.instance.freeChestCount);
                 }
             }
         }
@@ -106,14 +119,14 @@ namespace WolfoQoL_Client.Reminders
             {
                 if (TreasureReminder.instance)
                 {
-                    TreasureReminder.instance.DeductLockboxCount();
+                    TreasureReminder.Deduct(TreasureReminder.instance.Objective_Lockbox, ref TreasureReminder.instance.lockboxCount);
                 }
             }
             else if (self.costType == CostTypeIndex.TreasureCacheVoidItem)
             {
                 if (TreasureReminder.instance)
                 {
-                    TreasureReminder.instance.DeductLockboxVoidCount();
+                    TreasureReminder.Deduct(TreasureReminder.instance.Objective_LockboxVoid, ref TreasureReminder.instance.lockboxVoidCount);
                 }
             }
         }
