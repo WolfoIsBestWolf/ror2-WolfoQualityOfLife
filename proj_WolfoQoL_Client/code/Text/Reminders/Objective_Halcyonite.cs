@@ -12,7 +12,7 @@ namespace WolfoQoL_Client.Reminders
         {
             On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteBaseState.OnEnter += HalcyoniteObjectives;
 
-            if (WConfig.cfgChargeHalcyShrine.Value)
+            if (WConfig.cfgChargeHalcyShrine.Value && !WQoLMain.NoMoreMathMod)
             {
                 IL.RoR2.GoldSiphonNearbyBodyController.DrainGold += Update_Objective;
             }
@@ -141,7 +141,7 @@ namespace WolfoQoL_Client.Reminders
                     if (body)
                     {
                         //HalcyoniteShrineObjective.GoldDiffStatic(body.master);
-                        self.parentShrineReference.GetComponent<HalcyoniteShrineObjective>().StoreGold();
+                        self.parentShrineReference.GetComponent<HalcyoniteShrineObjective>()?.StoreGold();
                     }
                     return body;
                 });

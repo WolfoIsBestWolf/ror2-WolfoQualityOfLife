@@ -54,6 +54,7 @@ namespace WolfoQoL_Client
 
                 AudioStuff.Start();
             }
+            SceneCatalog.availability.CallWhenAvailable(ColorModule.MissingSceneColors);
         }
 
 
@@ -285,7 +286,7 @@ namespace WolfoQoL_Client
 
             if (WConfig.cfgColorMain.Value)
             {
-                ColorModule_Sprites.ModSupport();
+                ColorModule.ModSupport();
             }
             if (WConfig.cfgPingIcons.Value)
             {
@@ -296,7 +297,7 @@ namespace WolfoQoL_Client
                 ColorModule.AddMissingItemHighlights();
                 ColorModule.ChangeColorsPost();
             }
-
+             
             DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
             //DLC2Content.Buffs.ExtraLifeBuff.iconSprite = DLC2Content.Buffs.HealAndReviveRegenBuff.iconSprite;
 

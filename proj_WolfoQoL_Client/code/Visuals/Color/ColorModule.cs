@@ -10,7 +10,7 @@ using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client
 {
-    public static class ColorModule
+    public static partial class ColorModule
     {
         //Adding missing Highlights
 
@@ -23,18 +23,11 @@ namespace WolfoQoL_Client
         public static Color ColorEquip_Lunar;
         public static Color ColorEquip_Boss;
         public static Color ColorEquip_Consumed;
-        //public static Color ColorEquip_Dark;
-        //public static Color ColorEquip_LunarDark;
-        //public static Color ColorEquip_BossDark;
+  
+        public static Color Color_Quest;
+        public static Color Color_QuestDark; 
 
-        public static Color ColorVoid1;
-        public static Color ColorVoid3;
-        public static Color ColorVoid4;
-        public static Color Color_Food;
-
-        //public static Color ColorVoid1Dark;
-        //public static Color ColorVoid3Dark;
-        //public static Color ColorVoid4Dark;
+      
 
         public static Texture2D texEquipmentBossBG = new Texture2D(512, 512, TextureFormat.DXT5, false);
         public static Texture2D texEquipmentLunarBG = new Texture2D(512, 512, TextureFormat.DXT5, false);
@@ -48,17 +41,19 @@ namespace WolfoQoL_Client
         public static ColorCatalog.ColorIndex index_Void4 = ColorCatalog.ColorIndex.VoidItem;
 
         public static ColorCatalog.ColorIndex index_Food = ColorCatalog.ColorIndex.Equipment;
+        public static ColorCatalog.ColorIndex index_Quest = ColorCatalog.ColorIndex.BossItem;
+        public static ColorCatalog.ColorIndex index_QuestDark = ColorCatalog.ColorIndex.BossItemDark;
 
         public static void Main()
         {
             ColorUtility.TryParseHtmlString("#78AFFF", out ColorEquip_Lunar);
             ColorUtility.TryParseHtmlString("#FFC211", out ColorEquip_Boss);
             ColorUtility.TryParseHtmlString("#C9731D", out ColorEquip_Consumed);
-            ColorUtility.TryParseHtmlString("#FF9EEC", out ColorVoid1);
+            ColorUtility.TryParseHtmlString("#FF9EEC", out var ColorVoid1);
             //Void Green stays the default
-            ColorUtility.TryParseHtmlString("#FF73BF", out ColorVoid3); //1 0.45 0.75 1
-            ColorUtility.TryParseHtmlString("#E658A6", out ColorVoid4);
-            ColorUtility.TryParseHtmlString("#FF994B", out Color_Food);
+            ColorUtility.TryParseHtmlString("#FF73BF", out var ColorVoid3); //1 0.45 0.75 1
+            ColorUtility.TryParseHtmlString("#E658A6", out var ColorVoid4);
+            ColorUtility.TryParseHtmlString("#FF994B", out var Color_Food);
 
             OrbMaker();
 
@@ -71,6 +66,12 @@ namespace WolfoQoL_Client
             index_Void4 = ColorsAPI.RegisterColor(ColorVoid4);
             index_Food = ColorsAPI.RegisterColor(Color_Food);
 
+            Color_Quest = new Color(0.9216f, 1f, 0.0157f, 1);
+            Color_QuestDark = new Color(0.7059f, 0.7412f, 0.2353f, 1);
+
+            index_Quest = ColorsAPI.RegisterColor(Color_Quest);
+            index_QuestDark = ColorsAPI.RegisterColor(Color_QuestDark);
+
 
             texEquipmentBossBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentBossBG.png");
             texEquipmentLunarBG = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/texEquipmentLunarBG.png");
@@ -79,7 +80,7 @@ namespace WolfoQoL_Client
             {
                 On.RoR2.UI.LogBook.LogBookController.BuildPickupEntries += EquipmentAddBG;
 
-                EquipmentCatalog.availability.CallWhenAvailable(ColorModule_Sprites.NewColorOutlineIcons);
+                EquipmentCatalog.availability.CallWhenAvailable(NewColorOutlineIcons);
                 On.RoR2.PickupCatalog.Init += PickupCatalog_Init;
 
                 On.RoR2.ItemDef.CreatePickupDef += ItemDef_CreatePickupDef;
@@ -276,12 +277,16 @@ namespace WolfoQoL_Client
 
         public static void ChangeColorsViaIndex()
         {
-            ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1).colorIndex = index_Void1;
-            ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3).colorIndex = index_Void3;
-            ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss).colorIndex = index_Void4;
+            if (WConfig.cfgColorVoids.Value)
+            {
+                ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1).colorIndex = index_Void1;
+                ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3).colorIndex = index_Void3;
+                ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss).colorIndex = index_Void4;
+            }
+          
             ItemTierCatalog.GetItemTierDef(ItemTier.FoodTier).colorIndex = index_Food;
             ItemTierCatalog.GetItemTierDef(ItemTier.FoodTier).bgIconTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/FoodBGIcon.png");
-
+ 
             for (int i = 0; EquipmentCatalog.equipmentDefs.Length > i; i++)
             {
                 EquipmentDef def = EquipmentCatalog.equipmentDefs[i];
@@ -302,20 +307,18 @@ namespace WolfoQoL_Client
                     def.colorIndex = index_EquipConsumed;
                 }
             }
-            //JunkContent.Equipment.EliteGoldEquipment.isBoss = true;
-            //JunkContent.Equipment.EliteYellowEquipment.isBoss = true;
+ 
         }
 
         public static void ChangeColorsPost()
         {
-            MissingSceneColors();
+   
             //Void Coins already use their own color
             PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex("LunarCoin.Coin0")).baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.LunarCoin);
             PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex("LunarCoin.Coin0")).darkColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.LunarCoin);
-
-            Color YellowGreen = new Color(0.9f, 1f, 0.1f, 1);
-            PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.DrizzlePlayerHelper.itemIndex)).baseColor = YellowGreen;
-            PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.DrizzlePlayerHelper.itemIndex)).darkColor = YellowGreen;
+ 
+            PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.DrizzlePlayerHelper.itemIndex)).baseColor = Color_Quest;
+            PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.DrizzlePlayerHelper.itemIndex)).darkColor = Color_QuestDark;
         }
 
         public static void AddMissingItemHighlights()

@@ -224,6 +224,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgVoidFieldsChargeIndicator;
 
         public static ConfigEntry<bool> cfgColorMain;
+        public static ConfigEntry<bool> cfgColorVoids;
 
         public static ConfigEntry<bool> ArtifactOutline;
         public static ConfigEntry<bool> cfgBuff_RepeatColors;
@@ -399,7 +400,7 @@ namespace WolfoQoL_Client
                 "Reminders",
                 "Charging Halcyon Shrines",
                 true,
-                "Shows percent. To match other waiting sections in the game."
+                "Shows percent. To match other waiting sections in the game." + RestartNotif
             );
             cfgReminder_Halcyon = ConfigFile_Client.Bind(
              "Reminders",
@@ -512,7 +513,7 @@ namespace WolfoQoL_Client
                 "Chat Messages",
                 "Devotion Message",
                 true,
-                "Message for recruiting and losing Devoted Lemurians."
+                "Message for recruiting and losing Devoted Lemurians, and what item was used/lost."
             );
 
             cfgMessagesVoidQuantity = ConfigFile_Client.Bind(
@@ -574,7 +575,7 @@ namespace WolfoQoL_Client
               "Menu & Hud",
               "Bigger Crafting Menu",
               true,
-              "Make the Chef crafting menu quite a bit wider and have more columns."
+              "Make the Chef crafting menu quite a bit wider and have more columns." + RestartNotif
             );
             cfgTempItemCyanStack = ConfigFile_Client.Bind(
                "Menu & Hud",
@@ -616,7 +617,7 @@ namespace WolfoQoL_Client
               "Icons",
               "Teleporter Icon Discovered Color Red",
               true,
-              "When you have the discover teleporter icon setting on. Makes the icon light red at first and only white when charged."
+              "When you have the discover teleporter icon setting on. Makes the icon light red at first and only white when charged." + RestartNotif
             );
 
             cfgPingIcons = ConfigFile_Client.Bind(
@@ -666,7 +667,13 @@ namespace WolfoQoL_Client
                 "Visuals",
                 "Item & Equipment Outline Color Changes",
                 true,
-                "Change the colors of Lunar/Elite equipment to a different blue/yellow\nLunar Coins will use the Lunar Coin color instead of Lunar Item\nVoid White will be slightly lighter\nVoid Red slightly more saturated."
+                "Change the colors of some pickup classes to not different.\n\nLunar Equipment: Light-Blue\nElite Equipment to Orange-Yellow\nConsumed Equipment: Gray-Orange\nLunar Coin: Lunar Coin Color\nMeal: Slightly different orange.\n" + RestartNotif
+            );
+            cfgColorVoids = ConfigFile_Client.Bind(
+                "Visuals",
+                "Void Outline Color Tiered",
+                true,
+                "Needs the main Outline Color Change config.\n\nEach void item tier will have a slightly different shade of pink\n\nVoid 1: Slightly lighter\nVoid 2: Vanilla\nVoid 3: More saturated\nVoid Boss: Darker" + RestartNotif
             );
             cfgFragmentColor = ConfigFile_Client.Bind(
                "Visuals",
@@ -691,7 +698,7 @@ namespace WolfoQoL_Client
                "Visuals",
                "Large and Mili Printer Old Model",
                true,
-               "Change the model of Green and Red Printers to the bigger bulkier one used before 1.0.\nUncommon 3D printers are the only interactable that looks exactly the same as a different one."
+               "Change the model of Green and Red Printers to the bigger bulkier one used before 1.0.\n\nUncommon 3D printers are the only interactable that looks exactly the same as a different one." + RestartNotif
            );
  
             #endregion
@@ -893,25 +900,25 @@ namespace WolfoQoL_Client
                 "Skins",
                 "Blight Acrid effects",
                 true,
-                "Attacks that apply blight are colored Purple/Orange instead of Green/Yellow. Includes a variant of the default skin."
+                "Attacks that apply blight are colored Purple/Orange instead of Green/Yellow. Includes a variant of the default skin." + RestartNotif
              );
             cfgSkinMakeBlightedAcrid = ConfigFile_Client.Bind(
                 "Skins",
                 "Default Acrid Blight Recolor",
                 false,
-                "Simple recolor where instead of green it's more yellow-orange\n\nThis is a seperate skin as of now."
+                "Simple recolor where instead of green it's more yellow-orange\n\nThis is a seperate skin as of now." + RestartNotif
             );
             cfgSkinOperatorAltChirp = ConfigFile_Client.Bind(
                 "Skins",
                 "Operator Mastery Recolor Chirp",
                 true,
-                "Recolors Chirp to match the colors of the mastery skin."
+                "Recolors Chirp to match the colors of the mastery skin." + RestartNotif
             );
             cfgSkinEngiHarpoons = ConfigFile_Client.Bind(
                "Skins",
                "Skinned Engi Harpoons",
                true,
-               "His other projectiles are skinned but not harpoons."
+               "His other projectiles are skinned but not harpoons." + RestartNotif
            );
             cfgSkinMisc = ConfigFile_Client.Bind(
                 "Skins",
@@ -935,7 +942,7 @@ namespace WolfoQoL_Client
                 "Skins",
                 "Void Ally Cyan Eyes",
                 true,
-                "Void Allies from Newly Hatched Zoea will have bright Cyan eyes for easier identification."
+                "Void Allies from Newly Hatched Zoea will have bright Cyan eyes for easier identification." + RestartNotif
             );
             #endregion
 
@@ -950,19 +957,19 @@ namespace WolfoQoL_Client
                 "Skins",
                 "Colossus Captain Smooth",
                 false,
-                "Makes the armor on the skin smooth instead of battered"
+                "Makes the armor on the skin smooth instead of battered" + RestartNotif
             );
             cfgTwistedFire = ConfigFile_Client.Bind(
                 "Visuals",
                 "Fire Twisted Elites",
                 true,
-                "Readds the lunar fire visual effect that twisted elites once had."
+                "Readds the lunar fire visual effect that twisted elites once had." + RestartNotif
             );
             cfgDarkTwisted = ConfigFile_Client.Bind(
                 "Visuals",
                 "Dark Twisted Elites",
                 true,
-                "Gives Twisted Elites a dark blue coloration instead of reusing Overloading."
+                "Gives Twisted Elites a dark blue coloration instead of reusing Overloading." + RestartNotif
             );
             SH_Music_Restarter = ConfigFile_Client.Bind(
                            "Other",
@@ -1068,7 +1075,8 @@ namespace WolfoQoL_Client
                 cfgVoidAllyCyanEyes,
                 OldModelDuplcators,
 
-                cfgColorMain,
+                cfgColorMain, 
+                cfgColorVoids,
  
                 cfgSmoothCaptain,
                 cfgDarkTwisted,

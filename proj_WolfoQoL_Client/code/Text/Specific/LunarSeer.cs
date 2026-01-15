@@ -1,3 +1,4 @@
+using HG;
 using RoR2;
 
 using UnityEngine;
@@ -107,11 +108,8 @@ namespace WolfoQoL_Client.Text
         //Client sided not whatever weird
         public static void SeerName(GameObject self, SceneIndex index)
         {
-            PurchaseTokenOverwrite overwrite = self.GetComponent<PurchaseTokenOverwrite>();
-            if (overwrite == null)
-            {
-                overwrite = self.AddComponent<PurchaseTokenOverwrite>();
-            }
+            PurchaseTokenOverwrite overwrite = self.EnsureComponent<PurchaseTokenOverwrite>();
+            overwrite.checkForLang = false;
 
             string temp = Language.GetString(SceneCatalog.GetSceneDef(index).nameToken);
             temp = temp.Replace("Hidden Realm: ", "");

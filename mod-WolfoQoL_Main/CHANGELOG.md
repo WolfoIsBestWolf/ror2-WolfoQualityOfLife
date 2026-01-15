@@ -1,4 +1,8 @@
 ```
+v5.1.5
+Fixed HalcyonShrine error when run with NoMoreMath. (Issue from latest patch)
+Fixed LunarSeerStageInName not working, from change in last patch.
+
 v5.1.4
 
 ItemAcquisitionOrder no longer gets jumbled up by Mithrix Phase 4. (Host-Determined)

@@ -4,10 +4,9 @@ using WolfoLibrary;
 
 namespace WolfoQoL_Client
 {
-    public static class ColorModule_Sprites
+    public static partial class ColorModule
     {
-
-
+ 
         public static void NewColorOutlineIcons()
         {
             RoR2Content.Equipment.AffixRed.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteFire.png");

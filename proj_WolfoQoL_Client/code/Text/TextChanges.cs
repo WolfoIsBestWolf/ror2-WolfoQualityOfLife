@@ -16,10 +16,10 @@ namespace WolfoQoL_Client.Text
         //So we can't really set them for Clients who don't have it
         public string displayNameToken;
         public string contextToken;
-
+        public bool checkForLang = true;
         public void OnEnable()
         {
-            if (!Language.currentLanguage.TokenIsRegistered(displayNameToken))
+            if (checkForLang && !Language.currentLanguage.TokenIsRegistered(displayNameToken))
             {
                 Destroy(this);
                 return;

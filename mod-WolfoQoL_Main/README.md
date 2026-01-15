@@ -48,13 +48,13 @@ A Unique Ping Icon for the vast majority of Interactables.\
 Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Devoted Lemurians.\
 Updated Body Icon for Squid Polyp, Ally Aurelionite, Mushroom.
 
- 
-Gives Unstable Transmitter-Active an icon.\
-Jailer Drone debuff now has a unique icon.\
-Twisted Armor buff made visible\
-Recolors some buffs to differentiate them.
+Buff related : 
+- Gives Unstable Transmitter-Active an icon.
+- Jailer Drone debuff now has a unique icon.
+- Twisted Armor buff made visible
+- Recolors 3 buffs so that they dont use the same color&icon as other ones.
 
-Charge Indicator for Void Field Cells like other Holdout zones.
+Charge Indicator for Void Field Cell Vents like other Holdout zones.
 
 DLC endings use their dlcs icon.
  
