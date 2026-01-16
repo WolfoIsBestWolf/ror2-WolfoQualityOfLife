@@ -21,12 +21,10 @@ namespace WolfoQoL_Client
                     PingIcons.AddHooks();
                 }
                 PingIcons.MiscIcons();
-
                 BuffIcons.Awake();
-                //Ig not text but it is a reminder?
+
                 Icon_Colors.Start();
                 MissionPointers.Start();
-
             }
             if (WConfig.module_visuals_skins.Value)
             {
@@ -279,11 +277,7 @@ namespace WolfoQoL_Client
         public static void CallLate()
         {
             OtherEnemies.CallLate();
-
-            RoR2Content.Items.AdaptiveArmor.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
-            RoR2Content.Items.BoostEquipmentRecharge.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
-            JunkContent.Equipment.Enigma.pickupIconSprite = JunkContent.Items.AACannon.pickupIconSprite;
-
+ 
             if (WConfig.cfgColorMain.Value)
             {
                 ColorModule.ModSupport();

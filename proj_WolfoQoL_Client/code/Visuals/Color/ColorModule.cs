@@ -26,6 +26,7 @@ namespace WolfoQoL_Client
   
         public static Color Color_Quest;
         public static Color Color_QuestDark; 
+        public static Color Color_Temp; 
 
       
 
@@ -49,6 +50,8 @@ namespace WolfoQoL_Client
             ColorUtility.TryParseHtmlString("#78AFFF", out ColorEquip_Lunar);
             ColorUtility.TryParseHtmlString("#FFC211", out ColorEquip_Boss);
             ColorUtility.TryParseHtmlString("#C9731D", out ColorEquip_Consumed);
+            ColorUtility.TryParseHtmlString("#8bc7d5", out Color_Temp);
+
             ColorUtility.TryParseHtmlString("#FF9EEC", out var ColorVoid1);
             //Void Green stays the default
             ColorUtility.TryParseHtmlString("#FF73BF", out var ColorVoid3); //1 0.45 0.75 1
@@ -89,7 +92,29 @@ namespace WolfoQoL_Client
 
             PlayerPing.Hooks();
 
+           
+            //On.RoR2.Highlight.ResetHighlight += Highlight_ResetHighlight;
         }
+
+        /*private static void Highlight_ResetHighlight(On.RoR2.Highlight.orig_ResetHighlight orig, Highlight self)
+        {
+            orig(self);
+            if (self.pickupState.isTempItem)
+            {
+                PickupDef pickupDef = PickupCatalog.GetPickupDef(self.pickupState.pickupIndex);
+                if (pickupDef != null)
+                {
+                    float m1 = 0.6f;
+                    float multT = 0.4f;
+                    Color og = pickupDef.baseColor;
+                    self.highlightColor = Highlight.HighlightColor.custom;
+                    self.CustomColor = new Color(og.r * m1 + Color_Temp.r * multT, og.g * m1 + Color_Temp.g * multT, og.b *m1 + Color_Temp.b * multT);
+                }
+      
+            }
+        }*/
+    
+
 
         public static Entry[] EquipmentAddBG(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
@@ -247,23 +272,8 @@ namespace WolfoQoL_Client
             Object.Instantiate(EquipmentOrb.transform.GetChild(0).GetChild(2).gameObject, EquipmentBossOrb.transform.GetChild(0));
             Object.Instantiate(EquipmentOrb.transform.GetChild(0).GetChild(2).gameObject, EquipmentLunarOrb.transform.GetChild(0));
             #endregion
-
-
-            GradientColorKey[] colorKeysN = new GradientColorKey[]
-             {
-                new GradientColorKey
-                {
-                    color = ColorEquip_Lunar,
-                    time = 0f,
-                },
-                new GradientColorKey
-                {
-                     color = ColorEquip_Lunar,
-                     time = 1
-                }
-             };
-
-            NoTierOrb.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+ 
+            NoTierOrb.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().startColor = new Color(0.1f, 0.1f, 0.1f, 1f);
             NoTierOrb.transform.GetChild(0).GetComponent<TrailRenderer>().startColor = new Color(0f, 0f, 0f, 0f);
             NoTierOrb.transform.GetChild(0).GetComponent<TrailRenderer>().endColor = new Color(0.5f, 0.5f, 0.5f, 1);
 
@@ -312,13 +322,17 @@ namespace WolfoQoL_Client
 
         public static void ChangeColorsPost()
         {
-   
             //Void Coins already use their own color
             PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex("LunarCoin.Coin0")).baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.LunarCoin);
             PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex("LunarCoin.Coin0")).darkColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.LunarCoin);
  
-            PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.DrizzlePlayerHelper.itemIndex)).baseColor = Color_Quest;
-            PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.DrizzlePlayerHelper.itemIndex)).darkColor = Color_QuestDark;
+            if (RoR2Content.Items.LevelBonus.tier == ItemTier.NoTier)
+            {
+                ColorUtility.TryParseHtmlString("#ECFC80", out var HumanObjective);
+                PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.UseAmbientLevel.itemIndex)).baseColor = HumanObjective;
+                PickupCatalog.GetPickupDef(PickupCatalog.FindPickupIndex(RoR2Content.Items.LevelBonus.itemIndex)).baseColor = Color_Quest;
+            }
+ 
         }
 
         public static void AddMissingItemHighlights()

@@ -1,4 +1,9 @@
 ```
+v5.1.6
+Fixed missing null check related to ItemPingIcons leading to Solus Extractors and other things malfunctioning.
+Changed Equipment Ping Icon to Gear as per request.
+(ZetAspect) Items will now use the Aspect icon as well.
+
 v5.1.5
 Fixed HalcyonShrine error when run with NoMoreMath. (Issue from latest patch)
 Fixed LunarSeerStageInName not working, from change in last patch.

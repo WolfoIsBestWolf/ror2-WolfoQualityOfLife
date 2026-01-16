@@ -53,6 +53,9 @@
     <Reference Include="WolfoFixes">
       <HintPath>..\..\ror2-WolfFixes\proj_WolfoFixes\obj\Debug\netstandard2.1\WolfoFixes.dll</HintPath>
     </Reference>
+    <Reference Include="ZetAspects">
+      <HintPath>..\..\..\..\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\dontdelete\BepInEx\plugins\William758-ZetAspects\ZetAspects\ZetAspects.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

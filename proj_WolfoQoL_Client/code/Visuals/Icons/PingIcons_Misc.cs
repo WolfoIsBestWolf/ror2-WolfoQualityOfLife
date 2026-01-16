@@ -1,3 +1,4 @@
+using HG;
 using RoR2;
 using RoR2.Skills;
 using RoR2.UI;
@@ -11,23 +12,25 @@ namespace WolfoQoL_Client
     public static partial class PingIcons
     {
         public static void MiscIcons()
-        {
-            
+        {      
             On.EntityStates.Missions.Arena.NullWard.Active.OnEnter += VoidCell_Inidicator;
             On.EntityStates.Missions.Arena.NullWard.Complete.OnEnter += VoidCell_DestroyIndicator;
 
+            //Add providers to loot
+            Addressables.LoadAssetAsync<GameObject>(key: "0db1724ef7010364b87726287e1c2088").WaitForCompletion().AddComponent<PingInfoProvider>(); //GenericPickup
+            Addressables.LoadAssetAsync<GameObject>(key: "d9c642aeefb6c974da664933489071d4").WaitForCompletion().AddComponent<PingInfoProvider>(); //GenericPickup
             if (WConfig.cfgLootIcons.Value)
             {
+                PickupCatalog.availability.CallWhenAvailable(MakePickupSpriteDict);
                 On.RoR2.GenericPickupController.SyncPickupState += PingIconsForItems;
                 On.RoR2.PickupIndexNetworker.SyncPickupState += PingIconsForCommandCubes;
-                PickupCatalog.availability.CallWhenAvailable(MakePickupSpriteDict);
             }
 
             //Addressables.LoadAssetAsync<SkillDef>(key: "7a8a37bdc572a7c40847661a5820ea39").WaitForCompletion().icon = Bundle.LoadAsset<Sprite>($"Assets/WQoL/SkillIcons/texDTGunnerIcon.png");
             //Addressables.LoadAssetAsync<SkillDef>(key: "366c4e73cd50a4a42ae7ec8d1d698f2c").WaitForCompletion().icon = Bundle.LoadAsset<Sprite>($"Assets/WQoL/SkillIcons/texDTHealingDroneIcon.png");
             //Addressables.LoadAssetAsync<SkillDef>(key: "684a9c8e7ddd0cf4fb10e40aedfa2561").WaitForCompletion().icon = Bundle.LoadAsset<Sprite>($"Assets/WQoL/SkillIcons/texDTHaulerDroneIcon.png");
-
         }
+
         private static void MakePickupSpriteDict()
         {
             pickupToPingIcon = new Dictionary<PickupIndex, Sprite>();
@@ -46,6 +49,7 @@ namespace WolfoQoL_Client
         private static void PingIconsForCommandCubes(On.RoR2.PickupIndexNetworker.orig_SyncPickupState orig, PickupIndexNetworker self, UniquePickup newPickupState)
         {
             orig(self, newPickupState);
+            //Null Check icon to not override Geode/Potential
             if (self.TryGetComponent<PingInfoProvider>(out var ping) && ping.pingIconOverride == null)
             {
                 ping.pingIconOverride = PingIconFromPickupIndex(newPickupState);
@@ -74,25 +78,32 @@ namespace WolfoQoL_Client
             if (def.equipmentIndex != EquipmentIndex.None)
             {
                 EquipmentDef equipDef = EquipmentCatalog.GetEquipmentDef(def.equipmentIndex);
-                if (equipDef.passiveBuffDef && equipDef.passiveBuffDef.eliteDef)
+                if (equipDef && equipDef.passiveBuffDef && equipDef.passiveBuffDef.eliteDef)
                 {
                     return Load("Loot_Aspect");
                 }
                 //Aspect?
                 return Load("Loot_Equipment");
             }
-            /*else if (def.itemIndex != ItemIndex.None)
+            else if (def.itemIndex != ItemIndex.None)
             {
                 ItemDef itemDef = ItemCatalog.GetItemDef(def.itemIndex);
-                if (itemDef.tier == ItemTier.Lunar)
+                if (itemDef)
                 {
-                    return Load("Loot_ItemLunar");
+                    if (WQoLMain.ZetAspects)
+                    {
+                        if (ModPing_ZetAspects(itemDef))
+                        {
+                            return Load("Loot_Aspect");
+                        }                    
+                    }
+                    /*ItemTierDef itemTierDef = ItemTierCatalog.GetItemTierDef(itemDef.tier);
+                    if (itemTierDef && (itemTierDef.pickupRules != ItemTierDef.PickupRules.Default))
+                    {
+                        return Load("Loot_AltTier");
+                    }*/
                 }
-                if (itemDef.tier >= ItemTier.VoidTier1 && itemDef.tier <= ItemTier.VoidBoss)
-                {
-                    return Load("Loot_ItemVoid");
-                }
-            }*/
+            }   
             else if (def.droneIndex != DroneIndex.None)
             {
                 //Does anyone even use this.
@@ -116,7 +127,10 @@ namespace WolfoQoL_Client
         private static void PingIconsForItems(On.RoR2.GenericPickupController.orig_SyncPickupState orig, GenericPickupController self, UniquePickup newPickupState)
         {
             orig(self, newPickupState);
-            self.GetComponent<PingInfoProvider>().pingIconOverride = PingIconFromPickupIndex(newPickupState);
+            if (self.TryGetComponent<PingInfoProvider>(out var ping))
+            {
+                ping.pingIconOverride = PingIconFromPickupIndex(newPickupState);
+            }
         }
 
 

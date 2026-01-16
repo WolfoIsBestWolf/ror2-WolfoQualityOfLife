@@ -197,7 +197,7 @@ namespace WolfoQoL_Client
         {
             JunkContent.Equipment.EliteGoldEquipment.dropOnDeathChance = 0;
             List<EquipmentDef> equipmentChanged = new List<EquipmentDef>();
-            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects") && WConfig.Logbook_EliteEquip.Value)
+            if (!WQoLMain.ZetAspects && WConfig.Logbook_EliteEquip.Value)
             {
                 for (var i = 0; i < EliteCatalog.eliteDefs.Length; i++)
                 {

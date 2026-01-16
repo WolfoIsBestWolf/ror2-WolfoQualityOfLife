@@ -142,9 +142,14 @@ namespace WolfoQoL_Client
             Pings_Shrines();
             Pings_Drones();
             Pings_Printer();
-
+            Pings_Loot();
         }
 
+        public static void Pings_Loot()
+        {
+            SetAllIcons("f8e3413a378bd7c44aa09bed0020eaf5", "DLC1/Loot_Potential");
+            SetAllIcons("cda6217a2c0775c42a3f456b3bb5e073", "DLC2/Loot_Fragment");
+        }
 
         public static void Pings_Dictionary()
         {
@@ -419,11 +424,6 @@ namespace WolfoQoL_Client
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/captainsupplydrops/CaptainSupplyDrop, EquipmentRestock").AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/captainsupplydrops/CaptainSupplyDrop, Hacking").AddComponent<PingInfoProvider>().pingIconOverride = ExclamationIcon;
 
-
-            Addressables.LoadAssetAsync<GameObject>(key: "0db1724ef7010364b87726287e1c2088").WaitForCompletion().AddComponent<PingInfoProvider>(); //GenericPickup
-            Addressables.LoadAssetAsync<GameObject>(key: "d9c642aeefb6c974da664933489071d4").WaitForCompletion().AddComponent<PingInfoProvider>(); //GenericPickup
-            SetAllIcons("f8e3413a378bd7c44aa09bed0020eaf5", "DLC1/Loot_Potential");
-            SetAllIcons("cda6217a2c0775c42a3f456b3bb5e073", "DLC2/Loot_Fragment");
         }
 
     }

@@ -273,6 +273,10 @@ namespace WolfoQoL_Client.DeathScreen
                 return false;
             }
             Inventory inv = minion.GetComponent<Inventory>();
+            if (!inv)
+            {
+                return false;
+            }
             if (inv.GetItemCountPermanent(RoR2Content.Items.HealthDecay) > 0)
             {
                 return false;

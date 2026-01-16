@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1744447803
+CRC: 2750920784
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 011fcb0232f74a0bc3931d9c830aa15a
+    Hash: e29bda94a50c569c442d6ada44a562e1
   TypeTreeHash:
     serializedVersion: 2
     Hash: 299d7093a10754f7aaab607a8b58134c
@@ -37,6 +37,7 @@ Assets:
 - Assets/WQoL/Items/Modded/AffixVarietyBanner.png
 - Assets/WQoL/General/texGameResult_AC.png
 - Assets/WQoL/General/animDuplicatorOld.controller
+- Assets/WQoL/PingIcons/PingIconShippingDrone 1.png
 - Assets/WQoL/General/texEquipmentLunarBG.png
 - Assets/WQoL/SkinRamps/texRampMercDustPink.png
 - Assets/WQoL/Items/Beta/betaCorpse.png
@@ -65,6 +66,7 @@ Assets:
 - Assets/WQoL/General/texGameResultRebirth_SotV.png
 - Assets/WQoL/PingIcons/DLC2/ShrineShaping.png
 - Assets/WQoL/PingIcons/DLC1/ChestVoidPotential.png
+- Assets/WQoL/PingIcons/Loot_Equipment2.png
 - Assets/WQoL/LemurianTemple/texHalcyoniteShrineFlow.png
 - Assets/WQoL/Items/ElitePoison.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseBlight.png
@@ -105,7 +107,7 @@ Assets:
 - Assets/WQoL/PingIcons/Mod/SpikeStrip/SpStShrineAegis.png
 - Assets/WQoL/General/texGameResult_SotS.png
 - Assets/WQoL/Buffs/texBuffTeleportOnLowHealthCooldown.png
-- Assets/WQoL/PingIcons/Loot_ItemImportant.png
+- Assets/WQoL/PingIcons/Loot_AltTier.png
 - Assets/WQoL/icon.png
 - Assets/WQoL/SkinRamps/texRampCrocoDiseaseDarkDark.png
 - Assets/WQoL/Body/texBodyRoboBallBuddyRed.png
@@ -134,6 +136,7 @@ Assets:
 - Assets/WQoL/PingIcons/Mod/Quality/Quality_Printer.png
 - Assets/WQoL/SkinRamps/RampEliteBead.png
 - Assets/WQoL/PingIcons/Loot_TempItem.png
+- Assets/WQoL/PingIcons/Loot_Equipment3.png
 - Assets/WQoL/Body/MiniMushroom.png
 - Assets/WQoL/Body/texBodyBrother.png
 - Assets/WQoL/PingIcons/DLC3/Drone_Barrier.png
@@ -242,6 +245,7 @@ Assets:
 - Assets/WQoL/Items/EliteAurelionite.png
 - Assets/WQoL/Buffs/texBuffBrokenCube.png
 - Assets/WQoL/SkinRamps/texRampEngiAlt.png
+- Assets/WQoL/General/BGIcon_Quest.png
 - Assets/WQoL/PingIcons/Mod/SS2/DroneShock.png
 - Assets/WQoL/PingIcons/DLC1/ChestVoid.png
 - Assets/WQoL/PingIcons/DroneMissileIcon.png
@@ -264,6 +268,7 @@ Assets:
 - Assets/WQoL/Buffs/texBuffLunarShellIcon.png
 - Assets/WQoL/Buffs/texBuffBodyArmor.png
 - Assets/WQoL/PingIcons/DroneTurretIcon.png
+- Assets/WQoL/PingIcons/PingIconShippingDrone2.png
 - Assets/WQoL/PingIcons/Loot_ItemVoid.png
 - Assets/WQoL/PingIcons/DLC3/Power_Pyramid4.png
 - Assets/WQoL/PingIcons/Mod/SS2/Shrine_Ethereal.png

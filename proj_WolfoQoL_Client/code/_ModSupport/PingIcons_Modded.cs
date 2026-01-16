@@ -22,6 +22,7 @@ namespace WolfoQoL_Client
                 hand.gameObject.AddComponent<PingInfoProvider>().pingIconOverride = QuestionMarkIcon;
             }*/
 
+            //Already in a call late to ensure mods do their thing
             if (QualitySupport.QualityModInstalled)
             {
                 ModPing_Quality();
@@ -41,6 +42,10 @@ namespace WolfoQoL_Client
         }
 
 
+        public static bool ModPing_ZetAspects(ItemDef def)
+        {
+            return TPDespair.ZetAspects.ZetAspectsContent.itemDefs.Contains(def);
+        }
         public static void ModPing_EnemyReturns()
         {
             SetAllIcons(EnemiesReturns.Enemies.MechanicalSpider.MechanicalSpiderStuff.InteractablePrefab, "Mod/EnemyReturn/Drone_Spider");

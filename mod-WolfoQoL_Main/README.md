@@ -43,6 +43,7 @@ Twisted Elites have a fire visual effect again.
 
 ## Icons
 A Unique Ping Icon for the vast majority of Interactables.\
+Different Icons for different loot types. (Equipment/Temp Items)
 (Supports some mods too)
 
 Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Devoted Lemurians.\

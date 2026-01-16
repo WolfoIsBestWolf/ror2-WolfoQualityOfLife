@@ -22,8 +22,21 @@ using WolfoQoL_Client.Text;
 namespace WolfoQoL_Client
 {
     [BepInDependency("com.bepis.r2api")]
+    [BepInDependency("com.bepis.r2api.colors", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.bepis.r2api.elites", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("com.bepis.r2api.content_management", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.Wolfo.WolfoLibrary", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.1.4")]
+
+    //Supported Mods
+    [BepInDependency("com.TeamMoonstorm", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.Zenithrium.vanillaVoid", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.Viliger.EnemiesReturns", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.Gorakh.ItemQualities", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.TPDespair.ZetAspects", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.KingEnderBrine.ProperSave", BepInDependency.DependencyFlags.SoftDependency)]
+
+
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.1.6")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WQoLMain : BaseUnityPlugin
     {
@@ -33,6 +46,7 @@ namespace WolfoQoL_Client
         public static bool ServerModInstalled = false;
         public static bool ProperSaveInstalled = false;
         public static bool NoMoreMathMod = false;
+        public static bool ZetAspects = false;
 
         public static bool NoHostInfo
         {
@@ -118,8 +132,7 @@ namespace WolfoQoL_Client
             TextMain.Start();
             VisualsMain.Start();
 
-
-
+ 
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
 
@@ -143,12 +156,9 @@ namespace WolfoQoL_Client
             ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
             ProperSaveInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
             NoMoreMathMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
+            ZetAspects = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects");
             QualitySupport.QualityModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Gorakh.ItemQualities");
-
-            //Log.LogMessage("WolfoQoL_Extras installed? : " + ServerModInstalled);
-            //Log.LogMessage("ProperSaveInstalled installed? : " + ProperSaveInstalled);
-            //Log.LogMessage("Qualtiy installed? : " + QualitySupport.QualityModInstalled);
-
+ 
             if (ProperSaveInstalled)
             {
                 AddProperSaveSupport.Start();
