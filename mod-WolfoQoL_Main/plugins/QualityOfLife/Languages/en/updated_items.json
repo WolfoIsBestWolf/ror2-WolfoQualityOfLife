@@ -43,7 +43,7 @@
 			"EQUIPMENT_AFFIXBEAD_DESC": "Buff <style=cIsHealing>5 nearby allies</style> in a <style=cIsHealing>35m</style> radius, increasing their <style=cIsHealing>armor</style> by <style=cIsHealing>300</style>. After buffed allies are hurt <style=cIsHealing>10</style> times, fire a homing lunar spike dealing <style=cIsDamage>100% damage</style> and inflicting <style=cIsDamage>Lunar Ruin</style>. Recharges after 10s.", 
 			 
 
-			"EQUIPMENT_AFFIXCOLLECTIVE_DESC": "Gain a <style=cIsUtility>30m</style> dome that <style=cIsUtility>blocks</style> all outside attacks and reduces <style=cIsUtility>skill cooldowns</style> of all allies within by <style=cIsUtility>25%</style>.\n<style=cIsHealth>On Death</style>, explode for <style=cIsDamage>100%</style> damage and disable items for <style=cIsDamage>2.5s</style>.",
+			"EQUIPMENT_AFFIXCOLLECTIVE_DESC": "Gain a <style=cIsUtility>30m</style> dome that <style=cIsUtility>blocks</style> all outside attacks and reduces <style=cIsUtility>skill cooldowns</style> of all allies within by <style=cIsUtility>25%</style>.\nGetting hit by a survivors skill, disables the dome for 8 seconds.\n<style=cIsHealth>On Death</style>, explode for <style=cIsDamage>100%</style> damage and disable items for <style=cIsDamage>2.5s</style>.",
 
 	}
 }

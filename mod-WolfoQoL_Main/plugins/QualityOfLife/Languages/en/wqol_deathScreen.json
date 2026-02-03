@@ -37,7 +37,8 @@
 
 			"STAT_SCRAPPED_ITEMS": "Items Scrapped",
 			"STAT_SCRAPPED_DRONES": "Drones Scrapped",
-
+			"STAT_SCRAPPED_BOTH": "Items & Drones Scrapped",
+			
 			"STAT_MISSED_CHEST": "Chests Left Behind",
 			"STAT_MISSED_DRONE": "Drones Left Behind",	
 			"STAT_MISSED_SHRINECHANCE": "Shrine of Chance Drops",
@@ -45,15 +46,16 @@
 			"STAT_TIMESJUMPED": "Times Jumped",
 			"STAT_SPENT_LUNARCOIN": "Lunar Coins Spent",
 			
-			
-			"//STAT_SPENT_VOIDTRANS": "Void Transformations",
-			"//STAT_SPENT_VOIDCOIN": "Void Markers Spent",
-			"//STAT_BUFFS_RECIEVED": "Buffs Recieved",
-			"//STAT_SKILLS_USED": "Skill Activations",
+			"STAT_BUFFS_RECIEVED": "Buffs Recieved",
+			"STAT_SKILLS_USED": "Skill Activations",
 			
 			"STAT_DAMAGE_DOT": "Damage Over Time Inflicted",
 			"STAT_DAMAGE_BLOCKED": "Damage Blocked",
-			"//STAT_TELEPORTERTIME": "Time Spent Charging Zones",
+			
+			"STAT_EQUIPMENT_USED": "Equipment Activations",
+			"STAT_EQUIPMENT_HELD": "Equipments Held",
+			"INVENTORY_EQUIPMENT_HISTORY": "Equipment History",
+			
 	
 			"RUN_RECAP": "Run Recap",
 			"LATEST_WAVE": "Last Wave: ",
