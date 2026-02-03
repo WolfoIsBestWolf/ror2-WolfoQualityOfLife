@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
+using WolfoLibrary;
 
 namespace WolfoQoL_Client.DeathScreen
 {
@@ -13,13 +14,13 @@ namespace WolfoQoL_Client.DeathScreen
         public static RunExtraStatTracker instance;
         public bool alreadyCountedDronesForStage = false;
 
-        //public Dictionary<string, int> dic_missedChests;
-        //public Dictionary<string, int> dic_missedDrones;
+        public Dictionary<string, int> missedChests_Dict;
+        public Dictionary<string, int> missedDrones_Dict;
 
         public GameObject latestWaveUiPrefab;
         public int missedChests = 0;
         public int missedShrineChanceItems = 0;
-        //public int missedItems;
+ 
         public int missedDrones;
         public int missedLemurians;
         public bool expectingLoop = false;
@@ -30,14 +31,13 @@ namespace WolfoQoL_Client.DeathScreen
         public void OnEnable()
         {
             instance = this;
-            //dic_missedChests = new Dictionary<string, int>();
-            //dic_missedDrones = new Dictionary<string, int>();
+            missedChests_Dict = new Dictionary<string, int>();
+            missedDrones_Dict = new Dictionary<string, int>();
             visitedScenes = new List<SceneDef>();
-            //visitedScenesTOTAL = new List<List<SceneDef>>();
-            //visitedScenesTOTAL.Add(visitedScenes);
             SceneCatalog.onMostRecentSceneDefChanged += this.HandleMostRecentSceneDefChanged;
 
             isSaveAndContinuedRun = this.GetComponent<Run>().stageClearCount != 0;
+             
         }
         public void OnDisable()
         {
@@ -167,19 +167,19 @@ namespace WolfoQoL_Client.DeathScreen
 
     }
 
-    public class PlayerMaster_ExtraStatTracker : MonoBehaviour
+    public class PerPlayerMaster_ExtraStatTracker : MonoBehaviour
     {
-        public static Dictionary<GameObject, PlayerMaster_ExtraStatTracker> playerBodyToTracker = new Dictionary<GameObject, PlayerMaster_ExtraStatTracker>();
+        public static Dictionary<GameObject, PerPlayerMaster_ExtraStatTracker> playerBodyToTracker = new Dictionary<GameObject, PerPlayerMaster_ExtraStatTracker>();
 
-        public bool gameOverWithDisabled = false;
+        public bool gameOverWhileDisabled = false;
 
         public float timeAliveReal;
 
         //Unused
         /*public int totalBuffsGotten;
-        public float timeSpentInChargeZone;
+        public float timeSpentInChargeZone; */
         public int skillActivations;
-        */
+       
 
         public ulong[] perMinionDamage;
         public BodyIndex strongestMinion = (BodyIndex)(-2); //DeathScreenOnly
@@ -200,15 +200,122 @@ namespace WolfoQoL_Client.DeathScreen
         public ulong damageBlocked; //Definitely Server Only
 
         public string latestDetailedDeathMessage;
+        public float[] itemDurationPercent;
 
+
+        public Dictionary<ItemIndex,int> scrappedItemsDict;
+        public Dictionary<DroneIndex,int> scrappedDronesDict;
+
+        public List<EquipmentIndex> equipmentHistory;
+        public EquipmentIndex lastSeenEquip = EquipmentIndex.None;
+        
         public CharacterMaster master;
         public void OnEnable()
         {
             perMinionDamage = new ulong[BodyCatalog.bodyCount];
             master = this.GetComponent<CharacterMaster>();
-            master.onBodyStart += Master_onBodyStart;
+            master.onBodyStart += OnBodyStart;
+            master.onBodyDeath.AddListener(new UnityAction(this.OnBodyDeath));
 
+            scrappedItemsDict = new Dictionary<ItemIndex,int>();
+            scrappedDronesDict = new Dictionary<DroneIndex,int>();
+            equipmentHistory = new List<EquipmentIndex>();
+            //master.inventory.onInventoryChanged += EquipmentHistoryOrSmth;
+          
         }
+
+        private int checkEquipSwap = 0;
+        private void EquipmentHistoryOrSmth()
+        {
+            if (!master.inventory.wasRecentlyExtraEquipmentSwapped)
+            {
+                if (master.inventory.currentEquipmentIndex != EquipmentIndex.None)
+                {
+                    if (master.inventory.currentEquipmentIndex != lastSeenEquip)
+                    {
+                        equipmentHistory.Add(master.inventory.currentEquipmentIndex);
+
+                        //Fruit | 0
+                        //Pickups Egg | 1
+                        //Pickups Fruit again | 2
+                        //Remove mentions of Egg & Fruit, as swap effectively did not happen
+                        //But some sort of extra use case where, he did swap back and forth, just not like instantly some sort of check reset on body start.
+ 
+                        if (checkEquipSwap < equipmentHistory.Count)
+                        {
+                            //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 3]));
+                            //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 2]));
+                            //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 1]));
+                            if (equipmentHistory[equipmentHistory.Count - 3] == equipmentHistory[equipmentHistory.Count - 1])
+                            {
+                                Log.LogMessage("Swapped Equips");
+                                equipmentHistory.RemoveAt(equipmentHistory.Count - 2);
+                                equipmentHistory.RemoveAt(equipmentHistory.Count - 1);
+                            }
+                        }
+                    }
+                   
+                }
+            }         
+            lastSeenEquip = master.inventory.currentEquipmentIndex;
+        }
+
+        public void OnDisable()
+        {
+            if (master)
+            {
+                master.onBodyDeath.RemoveListener(new UnityAction(this.OnBodyDeath));
+                master.onBodyStart -= OnBodyStart;
+            }
+            //This shit would need to be per profile somehow ig.
+            //AddAllMinionDamageToStats();
+        }
+
+        private GameObject lastSeenBody;
+        private void OnBodyStart(CharacterBody body)
+        {
+            latestDetailedDeathMessage = string.Empty;
+            itemDurationPercent = null;
+            checkEquipSwap = equipmentHistory.Count+2;
+
+            body.gameObject.AddComponent<PerPlayerBody_Tracker>().tracker = this;
+
+            if (lastSeenBody)
+            {
+                playerBodyToTracker.Remove(lastSeenBody);
+            }
+            else
+            {
+                foreach (var key in playerBodyToTracker.Keys.ToArray())
+                {
+                    if (key == null)
+                    {
+                        playerBodyToTracker.Remove(key);
+                    }
+                }
+            }
+            lastSeenBody = body.gameObject;
+            playerBodyToTracker.Add(body.gameObject, this);
+        }
+
+        
+        public void OnBodyDeath()
+        {
+            if (master)
+            {
+                //Needs to happen both on death and on run game over.
+                //If someone died with full temp items in MP, if we only did on GameOver, they'd be gone by then.
+                //If we only check on death, it'd fail if you won.
+                Inventory inventory = master.inventory;
+                if (inventory != null)
+                {
+                    itemDurationPercent = new float[ItemCatalog.itemCount];
+                    inventory.WriteAllTempItemDecayValues(this.itemDurationPercent);
+                }
+            
+            }
+        }
+
 
         //Cannot alter vanilla one because vanilla tracking all server side.
         public void FixedUpdate()
@@ -224,19 +331,30 @@ namespace WolfoQoL_Client.DeathScreen
         {
             if (!master.hasEffectiveAuthority)
             {
+                skillActivations = -1;
                 timesJumped = -1;
                 damageBlocked = 0;
             }
         }
 
-        public void OnDisable()
+        public void CombineSimiliarMinions()
         {
-            if (master)
-            {
-                master.onBodyStart -= Master_onBodyStart;
-            }
-            //This shit would need to be per profile somehow ig.
-            //AddAllMinionDamageToStats();
+            int VoidR = (int)RoR2Content.BodyPrefabs.NullifierAllyBody.bodyIndex;
+            int VoidJ = (int)DLC1Content.BodyPrefabs.VoidJailerAllyBody.bodyIndex;
+            int VoidD = (int)DLC1Content.BodyPrefabs.VoidMegaCrabAllyBody.bodyIndex;
+            ulong VoidDamage = perMinionDamage[VoidR] + perMinionDamage[VoidJ] + perMinionDamage[VoidD];
+            if (perMinionDamage[VoidR] != 0) perMinionDamage[VoidR] = VoidDamage;
+            if (perMinionDamage[VoidJ] != 0) perMinionDamage[VoidJ] = VoidDamage;
+            if (perMinionDamage[VoidD] != 0) perMinionDamage[VoidD] = VoidDamage;
+
+            //Empathy Cores
+            int CoreR = (int)MissedContent.BodyPrefabs.RoboBallRedBuddyBody.bodyIndex;
+            int CoreG = (int)MissedContent.BodyPrefabs.RoboBallGreenBuddyBody.bodyIndex;
+            ulong CoreDamage = perMinionDamage[CoreR] + perMinionDamage[CoreG];
+            perMinionDamage[CoreR] = CoreDamage;
+            perMinionDamage[CoreG] = CoreDamage;
+             
+
         }
 
         public void EvaluateStrongestMinion()
@@ -265,38 +383,9 @@ namespace WolfoQoL_Client.DeathScreen
             }
         }
 
-        private GameObject lastSeenBody;
-        private void Master_onBodyStart(CharacterBody body)
-        {
-            latestDetailedDeathMessage = string.Empty;
-            if (master.hasEffectiveAuthority)
-            {
-                body.onJump += OnJump;
-            }
-            body.gameObject.AddComponent<PlayerBody_DamageBlockedTracker>().tracker = this;
+      
 
-            if (lastSeenBody)
-            {
-                playerBodyToTracker.Remove(lastSeenBody);
-            }
-            else
-            {
-                foreach (var key in playerBodyToTracker.Keys.ToArray())
-                {
-                    if (key == null)
-                    {
-                        playerBodyToTracker.Remove(key);
-                    }
-                }
-            }
-            lastSeenBody = body.gameObject;
-            playerBodyToTracker.Add(body.gameObject, this);
-        }
-
-        public void OnJump()
-        {
-            timesJumped++;
-        }
+       
 
         public class SyncValues : ChatMessageBase
         {
@@ -311,8 +400,9 @@ namespace WolfoQoL_Client.DeathScreen
                 base.Serialize(writer);
                 writer.Write(masterObject);
 
-                var tracker = masterObject.EnsureComponent<PlayerMaster_ExtraStatTracker>();
+                var tracker = masterObject.EnsureComponent<PerPlayerMaster_ExtraStatTracker>();
 
+                writer.Write(tracker.skillActivations);
                 writer.Write(tracker.timesJumped);
                 writer.Write(tracker.damageBlocked);
 
@@ -330,8 +420,9 @@ namespace WolfoQoL_Client.DeathScreen
                     Log.LogWarning("No Master");
                     return;
                 }
-                var tracker = masterObject.EnsureComponent<PlayerMaster_ExtraStatTracker>();
+                var tracker = masterObject.EnsureComponent<PerPlayerMaster_ExtraStatTracker>();
 
+                tracker.skillActivations = Mathf.Max(tracker.skillActivations, reader.ReadInt32());
                 tracker.timesJumped = Mathf.Max(tracker.timesJumped, reader.ReadInt32());
                 tracker.damageBlocked = System.Math.Max(tracker.damageBlocked, reader.ReadUInt64());
 
@@ -340,14 +431,43 @@ namespace WolfoQoL_Client.DeathScreen
 
     }
 
-    public class PlayerBody_DamageBlockedTracker : MonoBehaviour, IOnTakeDamageServerReceiver, IOnIncomingDamageServerReceiver
+    public class PerPlayerBody_Tracker : MonoBehaviour, IOnTakeDamageServerReceiver, IOnIncomingDamageServerReceiver
     {
-        public PlayerMaster_ExtraStatTracker tracker;
+        public PerPlayerMaster_ExtraStatTracker tracker;
+        public CharacterBody body;
         public void OnEnable()
         {
             GetComponent<HealthComponent>().onIncomingDamageReceivers = this.GetComponents<IOnIncomingDamageServerReceiver>();
             GetComponent<HealthComponent>().onTakeDamageReceivers = this.GetComponents<IOnTakeDamageServerReceiver>();
+
+            body = GetComponent<CharacterBody>();
+            if (body.master.hasEffectiveAuthority)
+            {
+                body.onJump += OnJump;
+                body.onSkillActivatedAuthority += onSkillActivatedAuthority;
+            }
+ 
         }
+        public void OnDisable()
+        {
+            if (body && body.master && body.master.hasEffectiveAuthority)
+            {
+                body.onJump -= OnJump;
+                body.onSkillActivatedAuthority -= onSkillActivatedAuthority;
+            }
+
+        }
+
+        private void onSkillActivatedAuthority(GenericSkill obj)
+        {
+            tracker.skillActivations++;
+        }
+
+        public void OnJump()
+        {
+            tracker.timesJumped++;
+        }
+
 
         public void OnIncomingDamageServer(DamageInfo damageInfo)
         {
@@ -371,7 +491,7 @@ namespace WolfoQoL_Client.DeathScreen
     {
         public static Dictionary<GameObject, MinionMaster_ExtraStatsTracker> minionBodyToTracker = new Dictionary<GameObject, MinionMaster_ExtraStatsTracker>();
 
-        public PlayerMaster_ExtraStatTracker tracker;
+        public PerPlayerMaster_ExtraStatTracker tracker;
         public CharacterMaster master;
         public GameObject bodyObject;
         //public HealthComponent body;
@@ -381,7 +501,7 @@ namespace WolfoQoL_Client.DeathScreen
         public void OnEnable()
         {
             master = this.GetComponent<CharacterMaster>();
-            tracker = master.minionOwnership.ownerMaster.GetComponent<PlayerMaster_ExtraStatTracker>();
+            tracker = master.minionOwnership.ownerMaster.GetComponent<PerPlayerMaster_ExtraStatTracker>();
 
             master.onBodyStart += OnBodyStart;
             master.onBodyDeath.AddListener(new UnityAction(this.OnBodyDeath));

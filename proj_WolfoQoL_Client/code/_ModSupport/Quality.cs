@@ -4,10 +4,10 @@ namespace WolfoQoL_Client.ModSupport
 {
     public static class QualitySupport
     {
-        public static bool QualityModInstalled;
+     
         public static bool PreBaseItemIndex(ItemIndex newItem, ItemDef isThisItem)
         {
-            if (QualityModInstalled)
+            if (WQoLMain.QualityModInstalled)
             {
                 return BaseItemIndex(newItem, isThisItem.itemIndex);
             }

@@ -62,10 +62,7 @@ namespace WQoL_Gameplay
                 On.RoR2.MapZone.TryZoneStart += TeleportItems;
                 On.EntityStates.Drone.DeathState.OnEnter += TeleportBrokenDronesUp;
             }
-            /*if (WConfig.CancelGeyserLock_Skill.Value)
-            {
-                GeyserLock.Start();
-            }*/
+ 
             SceneDirector.onGenerateInteractableCardSelection += MORESCANNERS;
 
 
@@ -80,6 +77,27 @@ namespace WQoL_Gameplay
             }
 
             On.PowerOrbKeySpawner.SpawnKey += PowerOrbKeySpawner_SpawnKey;
+
+
+            //Move this somewhere
+            On.EntityStates.Croco.Spawn.OnEnter += (orig, self) =>
+            {
+                orig(self);
+                if (NetworkServer.active)
+                {
+                    self.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+                }
+            };
+            On.EntityStates.Croco.Spawn.OnExit += (orig, self) =>
+            {
+                orig(self);
+                if (NetworkServer.active)
+                {
+                    self.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
+                    self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 3f);
+                }
+            };  
+
         }
 
         private static void PowerOrbKeySpawner_SpawnKey(On.PowerOrbKeySpawner.orig_SpawnKey orig, PowerOrbKeySpawner self, DamageReport damageReport)

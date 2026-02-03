@@ -61,6 +61,10 @@ namespace WolfoQoL_Client.Reminders
 
         private static void SetupRemindersOnStart(Stage obj)
         {
+            if (!SceneInfo.instance)
+            {
+                return;
+            }
             if (WConfig.module_text_reminders.Value == true)
             {
                 if (SceneInfo.instance.countsAsStage || SceneInfo.instance.sceneDef.allowItemsToSpawnObjects)
@@ -358,7 +362,7 @@ namespace WolfoQoL_Client.Reminders
 
             Inventory localInventory = LocalUserManager.GetFirstLocalUser().cachedMaster.inventory;
 
-            if (QualitySupport.QualityModInstalled)
+            if (WQoLMain.QualityModInstalled)
             {
                 localHasSaleStar = QualitySupport.QualiyItemCountPermanent(DLC2Content.Items.LowerPricedChests, localInventory) > 0;
                 localHasRegenScrap = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, localInventory) > 0;
@@ -544,7 +548,7 @@ namespace WolfoQoL_Client.Reminders
             bool HasSaleStar = false;
             bool HasRegenScrap = false;
 
-            if (QualitySupport.QualityModInstalled)
+            if (WQoLMain.QualityModInstalled)
             {
                 HasSaleStar = QualitySupport.QualiyItemCountPermanent(DLC2Content.Items.LowerPricedChests, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory) > 0;
                 HasRegenScrap = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, LocalUserManager.GetFirstLocalUser().cachedMaster.inventory) > 0;

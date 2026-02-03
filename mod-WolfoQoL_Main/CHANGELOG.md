@@ -1,4 +1,14 @@
 ```
+v5.1.7
+Fixed Equipment Drone Seed of Live Self Revive using wrong message.
+Fixed death screen inventory sometimes updating after death.
+Fixed equipment not showing on some victory screens.
+Fixed DroneMessage_Host missing a saftey check.
+Fixed ItemLossMessage_Cauldron no longer showing X amount if multiple of an item was taken.
+Readded some dictionaries.
+Added 2 more stats to the death screen, may need to cut down on stuff later.
+
+
 v5.1.6
 Fixed missing null check related to ItemPingIcons leading to Solus Extractors and other things malfunctioning.
 Changed Equipment Ping Icon to Gear as per request.

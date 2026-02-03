@@ -7,19 +7,15 @@ using UnityEngine;
 
 namespace WolfoQoL_Server
 {
-    public class WConfig
+    public static class WConfig
     {
 
         public static ConfigFile ConfigFile_Server = new ConfigFile(Paths.ConfigPath + "\\Wolfo.WolfoQoL_Server.cfg", true);
-
-
-
-
+ 
         //UI
         public static ConfigEntry<bool> cfgIconsUsedKey;
         public static ConfigEntry<bool> cfgIconsUsedPrayer;
-
-
+ 
         public static ConfigEntry<bool> BuffsAffectNectar;
         public static ConfigEntry<bool> BuffsAffectDeathMark;
         //Buff Timers
@@ -31,6 +27,7 @@ namespace WolfoQoL_Server
 
         public static ConfigEntry<bool> cfgBuff_Headstomper;
         public static ConfigEntry<bool> cfgBuff_Feather;
+        public static ConfigEntry<bool> cfgBuff_VVFeather;
         public static ConfigEntry<bool> cfgBuff_ShieldOpalCooldown;
         public static ConfigEntry<bool> cfgBuff_FrostRelic;
 
@@ -39,14 +36,13 @@ namespace WolfoQoL_Server
         //public static ConfigEntry<bool> cfgBuff_Egg;
         //public static ConfigEntry<bool> cfgBuff_HelfireDuration;
         //
-
-
+ 
         public static void Start()
         {
             Debug.Log("WQoL InitConfig");
             BuffConfig();
             InitConfig();
-
+            RiskConfig();
         }
 
 
@@ -80,15 +76,11 @@ namespace WolfoQoL_Server
 
         public static void RiskConfig()
         {
+            Texture2D modIcon = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/icon.png");
+            ModSettingsManager.SetModIcon(Sprite.Create(modIcon, new Rect(0, 0, 256, 256), new Vector2(0.5f, 0.5f)));
 
             ModSettingsManager.SetModDescription("Random assortment of Quality of Life. Required by every player.");
-
-            List<ConfigEntry<bool>> noResetB = new List<ConfigEntry<bool>>()
-            {
-
-
-            };
-
+ 
 
             var entries = ConfigFile_Server.GetConfigEntries();
             foreach (ConfigEntryBase entry in entries)
@@ -131,8 +123,14 @@ namespace WolfoQoL_Server
             cfgBuff_Feather = ConfigFile_Server.Bind(
                 "Buffs",
                 "Hopoo Feathers",
-                true,
-                "Icon for; Extra jumps granted by Hopoo Feathers, to know how many jumps you have left, useful especially if you have a lot of them.\nAlso works for VanillaVoids Quasi Quill"
+                false,
+                "Icon for; Extra jumps granted by Hopoo Feathers, to know how many jumps you have left mid air at a glance, useful especially if you have a lot of them."
+            );
+            cfgBuff_VVFeather = ConfigFile_Server.Bind(
+                "Buffs",
+                "(Vanilla Voids) Quasitemporal Quill",
+                false,
+                "Buff icon for; How many mid-air dashes you have left granted by this modded item."
             );
 
             cfgBuff_ShieldOpalCooldown = ConfigFile_Server.Bind(

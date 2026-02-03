@@ -137,7 +137,7 @@ namespace WolfoQoL_Client.ModSupport
                 {
                     continue;
                 }
-                var stats = player.EnsureComponent<PlayerMaster_ExtraStatTracker>();
+                var stats = player.EnsureComponent<PerPlayerMaster_ExtraStatTracker>();
 
                 //Debug.Log("FOUND PLAYER");
                 //Debug.Log(playerString);
@@ -175,7 +175,7 @@ namespace WolfoQoL_Client.ModSupport
                 {
                     continue;
                 }
-                var stats = player.GetComponent<PlayerMaster_ExtraStatTracker>();
+                var stats = player.GetComponent<PerPlayerMaster_ExtraStatTracker>();
                 if (!stats)
                 {
                     File.Delete(path);

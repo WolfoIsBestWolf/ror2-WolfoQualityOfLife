@@ -2,9 +2,12 @@ using RoR2;
 using RoR2.Stats;
 using RoR2.UI;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static WolfoQoL_Client.Help;
 
 namespace WolfoQoL_Client.DeathScreen
 {
@@ -48,7 +51,7 @@ namespace WolfoQoL_Client.DeathScreen
                 }
             }
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
-            if (WConfig.DC_CompactStats.Value && extras.compactedStats == false)
+            if (WConfig.DC_CompactStats.Value && extras.compactedStats == false && extras.isLogRunReport == false)
             {
                 extras.compactedStats = true;
                 RectTransform statContentArea = self.statContentArea;
@@ -69,6 +72,7 @@ namespace WolfoQoL_Client.DeathScreen
                 //MakeCombinedStat(statContentArea, "totalLunarPurchases", 2);
                 MakeCombinedStat(statContentArea, "custom_LunarCoinsSpent", 2);
                 MakeCombinedStat(statContentArea, "totalDistanceTraveled", 2);
+                MakeCombinedStat(statContentArea, "custom_EquipUses", 2);
             }
 
         }
@@ -82,7 +86,7 @@ namespace WolfoQoL_Client.DeathScreen
                 return;
             }
             int childIndex = stat.GetSiblingIndex();
-            string newName = string.Empty;
+            StringBuilder newName = new StringBuilder();
 
             GameObject statHolder = GameObject.Instantiate(DeathScreenExpanded.statHolderPrefab, statContentArea);
             for (int i = 0; i < combine; i++)
@@ -90,10 +94,14 @@ namespace WolfoQoL_Client.DeathScreen
                 Transform child = statContentArea.GetChild(childIndex);
                 child.SetParent(statHolder.transform); //Goes down by 1, hopefully just consistent??
                 child.GetChild(1).gameObject.SetActive(false);
-                newName += "+" + child.name;
+                if (i != 0)
+                {
+                    newName.Append("+");
+                }
+                newName.Append(child.name);
             }
             statHolder.transform.SetSiblingIndex(childIndex);
-            statHolder.name = newName;
+            statHolder.name = newName.ToString();
         }
         public static void CombineDifficultyLoadout(RectTransform statContentArea)
         {
@@ -199,9 +207,12 @@ namespace WolfoQoL_Client.DeathScreen
             }
 
             bool isDevotion = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Artifacts.Devotion")).localIndex == 0;
-
+            isDevotion = isDevotion || RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(CU8Content.Artifacts.Devotion);
 
             bool isLog = runReport.FindFirstPlayerInfo().master == null;
+            List<string> list = new List<string>();
+
+           
             self.statsToDisplay = new string[] {
                             IsSimu ? "custom_lastSimuWave" : "",
 
@@ -210,7 +221,6 @@ namespace WolfoQoL_Client.DeathScreen
                             IsSimu ? "highestInfiniteTowerWaveReached" : "totalStagesCompleted",
 
                             "totalItemsCollected",
-                            //"highestItemsCollected",
                             "custom_ItemsScrapped",
 
                             IsSimu ? "null" : "totalDronesPurchased",
@@ -252,6 +262,9 @@ namespace WolfoQoL_Client.DeathScreen
 
                             "custom_DamageBlocked",
                             "highestLevel", //Meh
+
+                            "custom_EquipUses",
+                            "custom_SkillUses",
 
                             "custom_StrongestMinion",
                             //"custom_MostDamagedEnemy",
@@ -327,6 +340,8 @@ namespace WolfoQoL_Client.DeathScreen
                 SetupBodyStat(mostHurtby, "STAT_MOST_HURTBY", "STAT_AMOUNT_HURTBY", playerInfo, PerBodyStatDef.damageTakenFrom);
             }
 
+            ulong equipUses = Help.GetTotalEquipmentAcivations(playerInfo.statSheet);
+
             int highestItemsCollected = (int)playerInfo.statSheet.GetStatValueULong(StatDef.highestItemsCollected);
             int drones = (int)playerInfo.statSheet.GetStatValueULong(StatDef.totalDronesPurchased);
             int turrets = (int)playerInfo.statSheet.GetStatValueULong(StatDef.totalTurretsPurchased);
@@ -347,6 +362,10 @@ namespace WolfoQoL_Client.DeathScreen
                 SetupStat(self, "totalDronesPurchased", "STATNAME_TOTALDRONESPURCHASED", drones + turrets);
             }
             #endregion
+
+            SetupStat(self, "custom_EquipUses", "STAT_EQUIPMENT_USED", equipUses, true);
+
+
 
             if (extras.isLogRunReport)
             {
@@ -406,7 +425,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }*/
-            var playerTracker = playerInfo.master.GetComponent<PlayerMaster_ExtraStatTracker>();
+            var playerTracker = playerInfo.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
 
             if (playerTracker.latestDetailedDeathMessage != string.Empty)
             {
@@ -440,18 +459,19 @@ namespace WolfoQoL_Client.DeathScreen
                 SetupStat(self, "custom_DronesScrapped", "STAT_SCRAPPED_DRONES", playerTracker.scrappedDrones);
             }
 
+            Transform skillActivations = SetupStat(self, "custom_SkillUses", "STAT_SKILLS_USED", playerTracker.skillActivations, true);
 
 
             Transform timesJumped = SetupStat(self, "custom_TimesJumped", "STAT_TIMESJUMPED", playerTracker.timesJumped, true);
             SetupStat(self, "custom_LunarCoinsSpent", "STAT_SPENT_LUNARCOIN", playerTracker.spentLunarCoins);
-            //SetupStat(self, "custom_ItemsVoided", "STAT_SPENT_VOIDSTUFF", playerTracker.itemsVoided);
-
+            
             SetupStat(self, "custom_DotDamage", "STAT_DAMAGE_DOT", playerTracker.dotDamageDone);
             Transform damageBlocked = SetupStat(self, "custom_DamageBlocked", "STAT_DAMAGE_BLOCKED", (int)playerTracker.damageBlocked, true);
             if (playerTracker.timesJumped == -1)
             {
-                timesJumped.gameObject.SetActive(false);
-                damageBlocked.gameObject.SetActive(false);
+                timesJumped?.gameObject.SetActive(false);
+                damageBlocked?.gameObject.SetActive(false);
+                skillActivations?.gameObject.SetActive(false);
             }
 
 
@@ -470,12 +490,12 @@ namespace WolfoQoL_Client.DeathScreen
                 if (ChestsMissed)
                 {
                     TooltipProvider toolTip;
-                    toolTip = AddDetailedTooltip(ChestsMissed, null);
+                    toolTip = AddDetailedTooltip_StringDict(ChestsMissed, runTracker.missedChests_Dict);
                     if (runTracker.missedShrineChanceItems > 0)
                     {
                         toolTip.bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
                     }
-                    AddDetailedTooltip(DronesMissed, null);
+                    AddDetailedTooltip_StringDict(DronesMissed, runTracker.missedDrones_Dict);
                 }
             }
         }
@@ -513,20 +533,36 @@ namespace WolfoQoL_Client.DeathScreen
             tool.overrideBodyText = tool.bodyToken + "\n" + string.Format(Language.GetString("TOTALDAMAGE_PERCENTTIP"), $"{(thisDamage / TotalDamage) * 100f:F2}");
         }
 
-        public static TooltipProvider AddDetailedTooltip(Transform stat, Dictionary<string, int> data)
+        public static TooltipProvider AddDetailedTooltip_StringDict(Transform stat, Dictionary<string, int> data)
         {
             TooltipProvider tip = stat.gameObject.AddComponent<TooltipProvider>();
             tip.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
             tip.titleToken = "STAT_DETAILS";
             string bodyToken = string.Empty;
-            /*for (int i = 0; data.Count > i; i++)
+            for (int i = 0; data.Count > i; i++)
             {
                 var pair = data.ElementAt(i);
                 bodyToken += GetStatFormatted(pair.Key, pair.Value) + "\n";
-            }*/
+            }   
             tip.bodyToken = bodyToken;
             return tip;
         }
+        public static TooltipProvider AddDetailedTooltip_ItemIndex(Transform stat, Dictionary<ItemIndex, int> data)
+        {
+            TooltipProvider tip = stat.gameObject.GetComponent<TooltipProvider>();
+            tip.titleToken = "STAT_DETAILS";
+            string bodyToken = string.Empty;
+            //StringBuilder bodyToken = string.Empty;
+            for (int i = 0; data.Count > i; i++)
+            {
+                var pair = data.ElementAt(i);
+                bodyToken += GetStatFormatted(Help.GetColoredName(pair.Key), pair.Value) + "\n";
+            }
+            tip.bodyToken = bodyToken;
+            return tip;
+        }
+
+
         public static void SetupBodyStat(Transform transform, string displayToken, string displayToken2, RunReport.PlayerInfo playerInfo, PerBodyStatDef stat)
         {
             BodyIndex bodyIndex = Help.FindBodyWithHighestStatNotMasterless(playerInfo.statSheet, stat);
@@ -540,6 +576,7 @@ namespace WolfoQoL_Client.DeathScreen
                 transform.gameObject.SetActive(false);
             }
         }
+
         public static void SetupBodyStat(Transform transform, float value, BodyIndex bodyIndex, string displayToken, string displayToken2)
         {
             if (bodyIndex == BodyIndex.None)

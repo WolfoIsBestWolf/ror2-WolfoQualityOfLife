@@ -39,7 +39,7 @@ namespace WolfoQoL_Client.DeathScreen
 
     public class DeathScreenExpanded : MonoBehaviour
     {
-        public GameObject hideInventory;
+        public GameObject disabledInventory;
 
         public GameObject lastSimuWaveStat;
         public GameObject stageRecap;

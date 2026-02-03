@@ -17,6 +17,9 @@ namespace WolfoQoL_Server
         public static BuffDef bdHeadstompOn;
         public static BuffDef bdHeadstompOff;
         public static BuffDef bdFeather;
+        public static BuffDef bdFeatherVV;
+        public static ItemIndex VV_VoidFeather = ItemIndex.None;
+
         public static BuffDef bdShieldDelay;
         public static BuffDef bdShieldDelayPink;
         //public static BuffDef bdEgg;
@@ -440,15 +443,15 @@ namespace WolfoQoL_Server
             bdFeather.ignoreGrowthNectar = true;
             ContentAddition.AddBuffDef(bdFeather);
 
-            bdVoidFeather = ScriptableObject.CreateInstance<BuffDef>();
-            bdVoidFeather.iconSprite = bdFeather.iconSprite;
+            bdFeatherVV = ScriptableObject.CreateInstance<BuffDef>();
+            bdFeatherVV.iconSprite = bdFeather.iconSprite;
             //bdVoidFeather.buffColor = new Color32(120, 43, 198, 255); //3FC5E3
-            bdVoidFeather.buffColor = new Color(0.7f, 0.45f, 1f, 1f); //3FC5E3
-            bdVoidFeather.name = "wqol_BonusJumpVoid";
-            bdVoidFeather.isDebuff = false;
-            bdVoidFeather.canStack = true;
-            bdVoidFeather.ignoreGrowthNectar = true;
-            ContentAddition.AddBuffDef(bdVoidFeather);
+            bdFeatherVV.buffColor = new Color(0.7f, 0.45f, 1f, 1f); //3FC5E3
+            bdFeatherVV.name = "wqol_BonusJumpVoid";
+            bdFeatherVV.isDebuff = false;
+            bdFeatherVV.canStack = true;
+            bdFeatherVV.ignoreGrowthNectar = true;
+            ContentAddition.AddBuffDef(bdFeatherVV);
             #endregion
 
             //Bro this is so annoying
@@ -485,90 +488,19 @@ namespace WolfoQoL_Server
                 }
             }
         }
-
-        private static void ReplaceBuffOrderIGuess(On.RoR2.BuffCatalog.orig_SetBuffDefs orig, BuffDef[] newBuffDefs)
-        {
-            try
-            {
-                BuffDef[] new2Buffs = new BuffDef[newBuffDefs.Length + 1];
-                int j = 0;
-                for (int i = 0; i < newBuffDefs.Length; i++)
-                {
-                    if (newBuffDefs[i] == DLC1Content.Buffs.OutOfCombatArmorBuff)
-                    {
-                        new2Buffs[j] = newBuffDefs[i];
-                        j++;
-                        new2Buffs[j] = bdOpalCooldown;
-                    }
-                    else
-                    {
-                        new2Buffs[j] = newBuffDefs[i];
-                    }
-                    Debug.Log(newBuffDefs[i]);
-                    Debug.Log(new2Buffs[j]);
-                    j++;
-                }
-                orig(new2Buffs);
-                return;
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogWarning(e);
-                orig(newBuffDefs);
-                return;
-            }
-
-        }
-
-        public static BuffDef bdVoidFeather;
-        public static ItemIndex VV_VoidFeather = ItemIndex.None;
+ 
 
         public static void ModSupport()
         {
-            //Cant add buffs this late don't add buffs here
-
             VV_VoidFeather = ItemCatalog.FindItemIndex("VV_ITEM_DASHQUILL_ITEM");
-            //Debug.LogWarning("Void Feather "+VV_VoidFeather);
 
-
-            if (WConfig.cfgBuff_Feather.Value == true)
+            if (WConfig.cfgBuff_Feather.Value || WConfig.cfgBuff_VVFeather.Value)
             {
-                if (VV_VoidFeather != ItemIndex.None)
-                {
-                    bdVoidFeather.isHidden = false;
-                    On.RoR2.CharacterMotor.OnLanded += (orig, self) =>
-                    {
-                        orig(self);
-                        if (self.body && self.body.isPlayerControlled)
-                        {
-                            self.body.SetBuffCount(bdFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
-                            self.body.SetBuffCount(bdVoidFeather.buffIndex, self.body.inventory.GetItemCount(VV_VoidFeather));
-                            if (!NetworkServer.active)
-                            {
-                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(bdFeather), self.body.GetBuffCount(bdVoidFeather));
-                            }
-                        }
-                    };
-                }
-                else
-                {
-                    On.RoR2.CharacterMotor.OnLanded += (orig, self) =>
-                    {
-                        orig(self);
-                        if (self.body && self.body.isPlayerControlled)
-                        {
-                            self.body.SetBuffCount(bdFeather.buffIndex, self.body.inventory.GetItemCount(RoR2Content.Items.Feather));
-                            if (!NetworkServer.active)
-                            {
-                                self.GetComponent<FeatherTrackerClients>().SetVal(self.body.GetBuffCount(bdFeather), self.body.GetBuffCount(bdVoidFeather));
-                            }
-                        }
-                    };
-                }
+                
 
                 On.EntityStates.GenericCharacterMain.ApplyJumpVelocity += FeatherRemoveBuffs;
                 On.RoR2.CharacterBody.ReadBuffs += FeatherClient;
-                RoR2.CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+                CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             }
 
 
@@ -594,7 +526,7 @@ namespace WolfoQoL_Server
                 if (feather)
                 {
                     self.SetBuffCount(bdFeather.buffIndex, feather.amount);
-                    self.SetBuffCount(bdVoidFeather.buffIndex, feather.amountVoid);
+                    self.SetBuffCount(bdFeatherVV.buffIndex, feather.amountVoid);
                 }
             }
         }
@@ -605,40 +537,55 @@ namespace WolfoQoL_Server
             if (characterBody.isPlayerControlled && characterMotor.jumpCount + 1 > characterBody.baseJumpCount)
             {
                 characterBody.SetBuffCount(bdFeather.buffIndex, characterBody.GetBuffCount(bdFeather) - 1);
-                characterBody.SetBuffCount(bdVoidFeather.buffIndex, characterBody.GetBuffCount(bdVoidFeather) - 1);
+                characterBody.SetBuffCount(bdFeatherVV.buffIndex, characterBody.GetBuffCount(bdFeatherVV) - 1);
                 if (!NetworkServer.active)
                 {
-                    characterBody.GetComponent<FeatherTrackerClients>().SetVal(characterBody.GetBuffCount(bdFeather), characterBody.GetBuffCount(bdVoidFeather));
+                    characterBody.GetComponent<FeatherTrackerClients>().SetVal(characterBody.GetBuffCount(bdFeather), characterBody.GetBuffCount(bdFeatherVV));
                 }
             }
         }
 
-
-
-
-
-        public static void GetDotDef()
-        {
-            DotController.GetDotDef(DotController.DotIndex.Burn).terminalTimedBuff = null;
-            DotController.GetDotDef(DotController.DotIndex.Burn).terminalTimedBuffDuration = 0;
-            DotController.GetDotDef(DotController.DotIndex.StrongerBurn).terminalTimedBuff = null;
-            DotController.GetDotDef(DotController.DotIndex.StrongerBurn).terminalTimedBuffDuration = 0;
-
-            DotController.GetDotDef(DotController.DotIndex.Helfire).associatedBuff = bdHellFire;
-            DotController.GetDotDef(DotController.DotIndex.PercentBurn).associatedBuff = bdPercentBurn;
-        }
-
+ 
 
     }
     public class FeatherTrackerClients : MonoBehaviour
     {
         public int amount = 0;
         public int amountVoid = 0;
+        public CharacterBody body;
+
+        public void Start()
+        {
+            body = GetComponent<CharacterBody>();
+            CharacterMotor motor = this.GetComponent<CharacterMotor>();
+            if (motor)
+            {
+                motor.onHitGroundAuthority += Motor_onHitGroundAuthority;
+            }
+        }
+
+        private void Motor_onHitGroundAuthority(ref CharacterMotor.HitGroundInfo hitGroundInfo)
+        {
+            int hopoo = body.inventory.GetItemCountEffective(RoR2Content.Items.Feather);
+            int voids = body.inventory.GetItemCountEffective(BuffTimers.VV_VoidFeather);
+            if (WConfig.cfgBuff_Feather.Value)
+            {
+                body.SetBuffCount(BuffTimers.bdFeather.buffIndex, hopoo);
+                amount = hopoo;
+            }
+            if (WConfig.cfgBuff_VVFeather.Value)
+            {
+                body.SetBuffCount(BuffTimers.bdFeatherVV.buffIndex, voids);
+                amountVoid = voids;
+            }
+        }
         public void SetVal(int one, int two)
         {
             amount = one;
             amountVoid = two;
         }
+
+
     }
 
 }

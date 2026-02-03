@@ -47,6 +47,7 @@ namespace WolfoQoL_Client
         public static bool ProperSaveInstalled = false;
         public static bool NoMoreMathMod = false;
         public static bool ZetAspects = false;
+        public static bool QualityModInstalled;
 
         public static bool NoHostInfo
         {
@@ -102,7 +103,6 @@ namespace WolfoQoL_Client
             //So work arounds can be added
 
             byte wqolByte = 0;
-
             Networker.message_to_index.Add(typeof(ItemLossMessage), wqolByte);
             Networker.index_to_message.Add(wqolByte, typeof(ItemLossMessage));
             wqolByte++;
@@ -121,8 +121,8 @@ namespace WolfoQoL_Client
             Networker.message_to_index.Add(typeof(HostPingAllClients), wqolByte);
             Networker.index_to_message.Add(wqolByte, typeof(HostPingAllClients));
             wqolByte++;
-            Networker.message_to_index.Add(typeof(PlayerMaster_ExtraStatTracker.SyncValues), wqolByte);
-            Networker.index_to_message.Add(wqolByte, typeof(PlayerMaster_ExtraStatTracker.SyncValues));
+            Networker.message_to_index.Add(typeof(PerPlayerMaster_ExtraStatTracker.SyncValues), wqolByte);
+            Networker.index_to_message.Add(wqolByte, typeof(PerPlayerMaster_ExtraStatTracker.SyncValues));
             wqolByte++;
             Networker.message_to_index.Add(typeof(DevotionDeathMessage), wqolByte);
             Networker.index_to_message.Add(wqolByte, typeof(DevotionDeathMessage));
@@ -157,7 +157,7 @@ namespace WolfoQoL_Client
             ProperSaveInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
             NoMoreMathMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
             ZetAspects = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects");
-            QualitySupport.QualityModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Gorakh.ItemQualities");
+            QualityModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Gorakh.ItemQualities");
  
             if (ProperSaveInstalled)
             {

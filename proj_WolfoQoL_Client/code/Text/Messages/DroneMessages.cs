@@ -49,7 +49,7 @@ namespace WolfoQoL_Client.Text
                         DroneIndex droneIndexFromBodyIndex = DroneCatalog.GetDroneIndexFromBodyIndex(bodyIndex);
                         if (droneIndexFromBodyIndex != DroneIndex.None)
                         {
-                            DroneMessages.DroneMessageClient(minion.group, minion.ownerMaster.playerCharacterMasterController.networkUser, minion.GetComponent<Inventory>().GetItemCountPermanent(DLC3Content.Items.DroneUpgradeHidden), droneIndexFromBodyIndex);
+                            DroneMessages.DroneMessage_Client(minion.group, minion.ownerMaster.playerCharacterMasterController.networkUser, minion.GetComponent<Inventory>().GetItemCountPermanent(DLC3Content.Items.DroneUpgradeHidden), droneIndexFromBodyIndex);
                         }
                     }
                 }
@@ -98,13 +98,13 @@ namespace WolfoQoL_Client.Text
         private static void DroneMessage_RepairHostShop(On.RoR2.DroneVendorTerminalBehavior.orig_NotifySummonerInternal orig, DroneVendorTerminalBehavior self, GameObject summonerBodyObject, GameObject minionBodyObject)
         {
             orig(self, summonerBodyObject, minionBodyObject);
-            DroneMessage(summonerBodyObject, minionBodyObject, self._cachedPickup.upgradeValue, "PURCHASE_DRONE");
+            DroneMessage_Host(summonerBodyObject, minionBodyObject, self._cachedPickup.upgradeValue, "PURCHASE_DRONE");
         }
 
         private static void DroneMessage_RepairHost(On.RoR2.SummonMasterBehavior.orig_NotifySummonerInternal orig, SummonMasterBehavior self, GameObject summonerBodyObject, GameObject minionBodyObject)
         {
             orig(self, summonerBodyObject, minionBodyObject);
-            DroneMessage(summonerBodyObject, minionBodyObject, self.droneUpgradeCount, "REPAIR_DRONE");
+            DroneMessage_Host(summonerBodyObject, minionBodyObject, self.droneUpgradeCount, "REPAIR_DRONE");
         }
 
         private static void DroneMessage_Upgrading(On.EntityStates.DroneCombiner.DroneCombinerCombining.orig_SeatAndHideDrone orig, EntityStates.DroneCombiner.DroneCombinerCombining self, CharacterBody drone)
@@ -143,7 +143,7 @@ namespace WolfoQoL_Client.Text
             }
         }
 
-        public static void DroneMessage(GameObject summonerBodyObject, GameObject minionBodyObject, int upgradeCount, string token)
+        public static void DroneMessage_Host(GameObject summonerBodyObject, GameObject minionBodyObject, int upgradeCount, string token)
         {
             if (!WConfig.DroneMessage_Repair.Value)
             {
@@ -151,11 +151,10 @@ namespace WolfoQoL_Client.Text
             }
             if (!NetworkServer.active)
             {
-                //Just in case
                 return;
             }
             CharacterBody characterBody = (summonerBodyObject != null) ? summonerBodyObject.GetComponent<CharacterBody>() : null;
-            if (characterBody && characterBody.master)
+            if (characterBody && characterBody.master && characterBody.master.playerCharacterMasterController)
             {
                 DroneIndex droneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(minionBodyObject.GetComponent<CharacterBody>().bodyIndex);
                 if (droneIndex != DroneIndex.None)
@@ -184,7 +183,7 @@ namespace WolfoQoL_Client.Text
                             }
                         }
                     }
-
+ 
                     //Debug.Log(quantity);
                     Networker.SendWQoLMessage(new DroneChatMessage
                     {
@@ -201,7 +200,7 @@ namespace WolfoQoL_Client.Text
         }
 
 
-        public static void DroneMessageClient(MinionOwnership.MinionGroup minionGroup, NetworkUser networkUser, int upgradeCount, DroneIndex droneIndex)
+        public static void DroneMessage_Client(MinionOwnership.MinionGroup minionGroup, NetworkUser networkUser, int upgradeCount, DroneIndex droneIndex)
         {
             int quantity = DroneUpgradeUtils.GetDroneCountFromUpgradeCount(upgradeCount);
             if (minionGroup != null)

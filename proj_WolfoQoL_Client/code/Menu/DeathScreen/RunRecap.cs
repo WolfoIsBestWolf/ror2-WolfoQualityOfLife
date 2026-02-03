@@ -21,7 +21,7 @@ namespace WolfoQoL_Client.DeathScreen
         private static void PlayerCharacterMasterController_PreStartClient(On.RoR2.PlayerCharacterMasterController.orig_PreStartClient orig, PlayerCharacterMasterController self)
         {
             orig(self);
-            self.gameObject.AddComponent<PlayerMaster_ExtraStatTracker>();
+            self.gameObject.AddComponent<PerPlayerMaster_ExtraStatTracker>();
         }
 
         private static void SaveLatestWaveUI(On.RoR2.InfiniteTowerWaveController.orig_InstantiateUi orig, InfiniteTowerWaveController self, Transform uiRoot)

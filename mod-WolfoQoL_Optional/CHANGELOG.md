@@ -1,5 +1,13 @@
 ## Changelog:
 ```
+v4.1.0
+Temporary C/Rusted Keys will now give Temp Consumed ones.
+(Quality) Modsupport for Consumed Keys 
+(TODO q beads)
+Disabled feather buff by default.
+
+ 
+
 v4.0.2
 Prayer Beads Blessing checks better to assign description.
 AssetBundle optimizations

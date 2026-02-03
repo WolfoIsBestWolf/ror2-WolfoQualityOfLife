@@ -4,7 +4,8 @@ v1.1.1
 Moved ContentSourceLimit removal here.
 -Removes the limit of 2 dlcs per stage for general interactables like chests/drones.
 -Seperate config for "dlc" heavy interactables.
- 
+
+-Acrid spawn invul or smth idk
 
 Items that miss the map border or exit too horizontally now also get caught and teleported.
 

@@ -392,7 +392,7 @@ namespace WolfoQoL_Client.Text
                     if (newIndex == DLC2Content.Equipment.HealAndReviveConsumed.equipmentIndex)
                     {
                         string player = Util.GetBestMasterName(characterMaster);
-                        if (characterMaster.lostBodyToDeath && !equipmentDrone)
+                        if (characterMaster.lostBodyToDeath)
                         {
                             Chat.AddMessage(string.Format(Language.GetString("ITEM_REVIVE_MESSAGE"), player, Language.GetString("EQUIPMENT_HEALANDREVIVE_NAME")));
                         }

@@ -118,10 +118,34 @@ namespace WolfoQoL_Client.DeathScreen
             setup = true;
             scaleBig = scale * 1.25f;
 
+            //ExtraStats.CombineDifficultyLoadout(panel.statContentArea);
+
+            panel.artifactDisplayPanelController.GetComponent<LayoutElement>().preferredHeight = 58;
+
+
+            Transform ArtifactIconContainer = panel.artifactDisplayPanelController.transform.GetChild(2);
+            GridLayoutGroup artifactGrid = ArtifactIconContainer.GetComponent<GridLayoutGroup>();
             if (panel.artifactDisplayPanelController.gameObject.activeSelf)
             {
+                if (artifactGrid.transform.childCount > 15)
+                {
+                    artifactGrid.constraintCount = 2;
+                    artifactGrid.cellSize = new Vector2(32, 32);
+                    artifactGrid.spacing = new Vector2(-2, -6);
+                    artifactGrid.padding.bottom = 0;
+                    artifactGrid.padding.top = 0;
+
+                }
+                else
+                {
+                    artifactGrid.constraintCount = 1;
+                    artifactGrid.cellSize = new Vector2(36, 36);
+                    artifactGrid.spacing = new Vector2(0, 0);
+                    artifactGrid.padding.bottom = 2;
+                    artifactGrid.padding.top = 2;
+                }
                 ExtraStats.CombineDifficultyLoadout(panel.statContentArea); //
-            }
+            }   
 
         }
 

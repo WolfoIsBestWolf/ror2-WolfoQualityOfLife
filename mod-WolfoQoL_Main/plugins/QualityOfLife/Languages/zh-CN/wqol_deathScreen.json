@@ -7,19 +7,19 @@
 		"STAT_MOST_KILLED": "击杀最多的怪物：<color=#FFFF7F>{0}</color>",
 		"STAT_MOST_HURT": "造成最多伤害对象：<color=#FFFF7F>{0}</color>",
 		"STAT_MOST_HURTBY": "受到最多伤害来自：<color=#FFFF7F>{0}</color>",
-		"//STAT_MOST_FOUNDITEM": "获得最多的物品：<color=#FFFF7F>{0}</color>",
-		"//STAT_MOST_USEDEQUIP": "使用次数最多的装备：<color=#FFFF7F>{0}</color>",
+		"STAT_MOST_FOUNDITEM": "获得最多的物品：<color=#FFFF7F>{0}</color>",
+		"STAT_MOST_USEDEQUIP": "使用次数最多的装备：<color=#FFFF7F>{0}</color>",
 		"STAT_MOST_MVPDRONE": "最强随从：<color=#FFFF7F>{0}</color>",
 
 
 		"STAT_AMOUNT_KILLED": "<color=#FFFF7F>击杀了 {0} 次</color>",
 		"STAT_AMOUNT_HURTBY": "<color=#FFFF7F>受到 {0} 点伤害</color>",
-		"//STAT_AMOUNT_FOUNDITEM": "<color=#FFFF7F>{0} 个</color>",
-		"//STAT_AMOUNT_USEDEQUIP": "<color=#FFFF7F>发动 {0} 次</color>",
+		"STAT_AMOUNT_FOUNDITEM": "<color=#FFFF7F>{0} 个</color>",
+		"STAT_AMOUNT_USEDEQUIP": "<color=#FFFF7F>发动 {0} 次</color>",
 		"STAT_AMOUNT_MVPDRONE": "<color=#FFFF7F>造成 {0} 点伤害</color>",
 
 		"STAT_DEVOTION_SUMMON": "孵化的雷穆里安",
-		"//STAT_DEVOTION_EVOLVES": "雷穆里安进化次数",
+		"STAT_DEVOTION_EVOLVES": "雷穆里安进化次数",
 		"STAT_DEVOTION_DEATHS": "雷穆里安死亡数",
 		"STAT_DEVOTION_MISSED": "未孵化的卵",
 	
@@ -44,14 +44,14 @@
 		"STAT_SPENT_LUNARCOIN": "消耗的月亮币",
 			
 			
-		"//STAT_SPENT_VOIDTRANS": "虚空转化次数",
-		"//STAT_SPENT_VOIDCOIN": "消耗的虚空标记",
-		"//STAT_BUFFS_RECIEVED": "获得的增益效果",
-		"//STAT_SKILLS_USED": "技能发动次数",
+		"STAT_SPENT_VOIDTRANS": "虚空转化次数",
+		"STAT_SPENT_VOIDCOIN": "消耗的虚空标记",
+		"STAT_BUFFS_RECIEVED": "获得的增益效果",
+		"STAT_SKILLS_USED": "技能发动次数",
 			
 		"STAT_DAMAGE_DOT": "造成的持续伤害",
 		"STAT_DAMAGE_BLOCKED": "格挡的伤害",
-		"//STAT_TELEPORTERTIME": "为区域充能所花时间",
+		"STAT_TELEPORTERTIME": "为区域充能所花时间",
 	
 		"RUN_RECAP": "本局回顾",
 		"LATEST_WAVE": "最近一波：",

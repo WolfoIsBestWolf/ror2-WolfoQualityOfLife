@@ -1,12 +1,14 @@
 ﻿using HG;
 using RoR2;
 using RoR2.Stats;
+using System.Text;
 using UnityEngine;
 
 namespace WolfoQoL_Client
 {
     public static class Help
     {
+        private static readonly StringBuilder stringBuilder = new StringBuilder();
 
         public static ItemIndex FindItemWithHighestStat(StatSheet statSheet, PerItemStatDef perItemStatDef)
         {
@@ -39,6 +41,7 @@ namespace WolfoQoL_Client
             string name = body.portraitIcon.name;
             return name == "texMysteryIcon" || name == "texNullIcon";
         }
+
         public static BodyIndex FindBodyWithHighestStatNotMasterless(StatSheet statSheet, PerBodyStatDef perBodyStatDef)
         {
             StatField statField = statSheet.fields[perBodyStatDef.FindStatDef((BodyIndex)0).index];
@@ -64,6 +67,16 @@ namespace WolfoQoL_Client
             return (BodyIndex)result;
         }
 
+        public static ulong GetTotalEquipmentAcivations(StatSheet statSheet)
+        {            
+            ulong totalActivations = 0;
+            for (int i = 0; i < EquipmentCatalog.equipmentCount; i++)
+            {
+                totalActivations += statSheet.GetStatValueULong(PerEquipmentStatDef.totalTimesFired.FindStatDef((EquipmentIndex)i));
+            }
+            Log.LogMessage($"Equipment Activations: {totalActivations}");
+            return totalActivations;
+        }
 
         public static SceneDef ITtoNormal(SceneDef scene)
         {
@@ -95,37 +108,43 @@ namespace WolfoQoL_Client
             {
                 return "Null";
             }
-            string name = ColorUtility.ToHtmlStringRGB(def.baseColor);
-            name = "<color=#" + name + ">" + Language.GetString(def.nameToken);
+            StringBuilder name = stringBuilder;
+            name.Clear();
+            name.Append("<color=#");
+            name.Append(ColorUtility.ToHtmlStringRGB(def.baseColor));
+            name.Append(">"); 
             if (isTemporary)
             {
-                name = Language.GetStringFormatted("ITEM_MODIFIER_TEMP", new object[]
-                {
-                        name
-                });
+                name.Append(Language.GetStringFormatted("ITEM_MODIFIER_TEMP", Language.GetString(def.nameToken)));
             }
-            if (tier > 0)
+            else if (tier > 0)
             {
-                name = Language.GetStringFormatted("DRONE_TIER_SUFFIX", new object[]
-                {
-                    name,
-                    tier+1
-                });
+                name.Append(Language.GetStringFormatted("DRONE_TIER_SUFFIX", Language.GetString(def.nameToken), tier+1));
             }
-            name += "</color>";
-            return name;
+            else
+            {
+                name.Append(Language.GetString(def.nameToken));
+            }
+            name.Append("</color>");
+            return name.ToString();
         }
         public static string GetColoredName(PickupDef def, bool isTemporary)
         {
-            string color = ColorUtility.ToHtmlStringRGB(def.baseColor);
+            StringBuilder name = stringBuilder;
+            name.Clear();
+            name.Append("<color=#");
+            name.Append(ColorUtility.ToHtmlStringRGB(def.baseColor));
+            name.Append(">");
             if (isTemporary)
             {
-                return "<color=#" + color + ">" + Language.GetStringFormatted("ITEM_MODIFIER_TEMP", new object[]
-                {
-                        Language.GetString(def.nameToken)
-                }) + "</color>";
+                name.Append(Language.GetStringFormatted("ITEM_MODIFIER_TEMP", def.nameToken));
             }
-            return "<color=#" + color + ">" + Language.GetString(def.nameToken) + "</color>";
+            else
+            {
+                name.Append(Language.GetString(def.nameToken));
+            }
+            name.Append("</color>");
+            return name.ToString();
         }
 
     }

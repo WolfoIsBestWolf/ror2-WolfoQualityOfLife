@@ -59,6 +59,10 @@ namespace WolfoQoL_Client
         public static void VisualStageChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
         {
             orig(self);
+            if (!SceneInfo.instance)
+            {
+                return;
+            }
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
                 case "foggyswamp":

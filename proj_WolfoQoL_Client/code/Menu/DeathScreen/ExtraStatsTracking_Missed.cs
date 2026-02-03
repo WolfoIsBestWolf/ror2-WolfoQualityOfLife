@@ -104,6 +104,7 @@ namespace WolfoQoL_Client.DeathScreen
     {
         public enum Cases
         {
+            None = -1,
             Chest,
             Drone,
             ShrineChance,
@@ -120,6 +121,13 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }
+            Cases type2 = Cases.None;
+            IDisplayNameProvider nameProvider = GetComponent<IDisplayNameProvider>();
+            if (nameProvider == null)
+            {
+                return;
+            }
+            string name = nameProvider.GetDisplayName();
             if (type < Cases.LemEgg)
             {
                 if (GetComponent<PurchaseInteraction>().available)
@@ -127,10 +135,10 @@ namespace WolfoQoL_Client.DeathScreen
                     switch (type)
                     {
                         case Cases.Chest:
-                            RunExtraStatTracker.instance.missedChests++;
+                            type2 = Cases.Chest;
                             break;
                         case Cases.Drone:
-                            RunExtraStatTracker.instance.missedDrones++;
+                            type2 = Cases.Drone;
                             break;
                         case Cases.ShrineChance:
                             ShrineChanceBehavior shrine = GetComponent<ShrineChanceBehavior>();
@@ -141,16 +149,42 @@ namespace WolfoQoL_Client.DeathScreen
             }
             else if (type == Cases.MultiShop)
             {
-                if (this.GetComponent<MultiShopController>().available)
+                if (GetComponent<MultiShopController>().available)
                 {
-                    RunExtraStatTracker.instance.missedChests++;
+                    type2 = Cases.Chest;
                 }
             }
             else if (type == Cases.Drone)
             {
-                if (this.GetComponent<DroneVendorMultiShopController>().available)
+                if (GetComponent<DroneVendorMultiShopController>().available)
                 {
-                    RunExtraStatTracker.instance.missedDrones++;
+                    type2 = Cases.Drone;
+                }
+            }
+
+     
+            if (type2 == Cases.Chest)
+            {
+                RunExtraStatTracker.instance.missedChests++;
+                if (RunExtraStatTracker.instance.missedChests_Dict.ContainsKey(name))
+                {
+                    RunExtraStatTracker.instance.missedChests_Dict[name]++;
+                }
+                else
+                {
+                    RunExtraStatTracker.instance.missedChests_Dict.Add(name, 1);
+                }
+            }
+            else if (type2 == Cases.Drone)
+            {
+                RunExtraStatTracker.instance.missedDrones++;
+                if (RunExtraStatTracker.instance.missedDrones_Dict.ContainsKey(name))
+                {
+                    RunExtraStatTracker.instance.missedDrones_Dict[name]++;
+                }
+                else
+                {
+                    RunExtraStatTracker.instance.missedDrones_Dict.Add(name, 1);
                 }
             }
 

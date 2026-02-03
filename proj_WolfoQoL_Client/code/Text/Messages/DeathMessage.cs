@@ -199,7 +199,7 @@ namespace WolfoQoL_Client.Text
                 }
                 result += string.Format(Language.GetString(baseToken), victimName, KillerName);
                 result += string.Format(Language.GetString("DEATH_DAMAGE"), damageDone);
-                victimMaster.GetComponent<PlayerMaster_ExtraStatTracker>().latestDetailedDeathMessage = result;
+                victimMaster.GetComponent<PerPlayerMaster_ExtraStatTracker>().latestDetailedDeathMessage = result;
                 if (WConfig.cfgMessageDeath.Value == false)
                 {
                     return null;

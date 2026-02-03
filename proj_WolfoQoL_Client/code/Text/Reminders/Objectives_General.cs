@@ -18,7 +18,11 @@ namespace WolfoQoL_Client.Reminders
             //Goolake Secret Objective
             //Artifact Trial Objective
             orig(self);
-            switch (SceneInfo.instance.sceneDef.baseSceneName)
+            if (!self.sceneDef)
+            {
+                return;
+            }
+            switch (self.sceneDef.baseSceneName)
             {
                 case "goolake":
                     GameObject DoorIsOpenedEffect = GameObject.Find("/HOLDER: Secret Ring Area Content/Entrance/GLRuinGate/DoorIsOpenedEffect/");

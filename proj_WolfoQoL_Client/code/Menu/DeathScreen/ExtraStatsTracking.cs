@@ -38,7 +38,7 @@ namespace WolfoQoL_Client.DeathScreen
         {
             foreach (var player in PlayerCharacterMasterController.instances)
             {
-                var playerTracker = player.GetComponent<PlayerMaster_ExtraStatTracker>();
+                var playerTracker = player.GetComponent<PerPlayerMaster_ExtraStatTracker>();
                 if (playerTracker)
                 {
                     playerTracker.EvaluateStrongestMinion();
@@ -132,7 +132,7 @@ namespace WolfoQoL_Client.DeathScreen
                                 attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)damageEvent.damage;
                             }
                         }   
-                        if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && PlayerMaster_ExtraStatTracker.playerBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerP))
+                        if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && PerPlayerMaster_ExtraStatTracker.playerBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerP))
                         {
                             if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
                             {
@@ -206,7 +206,7 @@ namespace WolfoQoL_Client.DeathScreen
         {
             foreach (var player in PlayerCharacterMasterController.instances)
             {
-                Networker.SendWQoLMessage(new PlayerMaster_ExtraStatTracker.SyncValues
+                Networker.SendWQoLMessage(new PerPlayerMaster_ExtraStatTracker.SyncValues
                 {
                     masterObject = player.gameObject,
                 });
@@ -231,7 +231,7 @@ namespace WolfoQoL_Client.DeathScreen
             orig(self, count);
             if (self.master)
             {
-                self.master.GetComponent<PlayerMaster_ExtraStatTracker>().spentLunarCoins += (int)count;
+                self.master.GetComponent<PerPlayerMaster_ExtraStatTracker>().spentLunarCoins += (int)count;
             }
         }
 

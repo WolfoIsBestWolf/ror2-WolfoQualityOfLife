@@ -23,7 +23,7 @@ namespace WolfoQoL_Client
             }*/
 
             //Already in a call late to ensure mods do their thing
-            if (QualitySupport.QualityModInstalled)
+            if (WQoLMain.QualityModInstalled)
             {
                 ModPing_Quality();
             }

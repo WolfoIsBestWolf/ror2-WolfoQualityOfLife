@@ -31,8 +31,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             On.RoR2.UI.GameEndReportPanelController.AssignStatToStrip += ExtraStats.PointsToolTip;
             On.RoR2.UI.GameEndReportPanelController.AllocateUnlockStrips += ExtraStats.CombineStats;
-
-
+ 
             StatDef.totalEliteKills.pointValue = 20.0;
             Inventory_Minions.Hooks();
 
@@ -48,7 +47,10 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (player.master && player.master.inventory)
                 {
-                    player.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);
+                    PerPlayerMaster_ExtraStatTracker tracker = player.GetComponent<PerPlayerMaster_ExtraStatTracker>();
+                    tracker.itemDurationPercent = new float[ItemCatalog.itemCount];
+                    player.master.inventory.WriteAllTempItemDecayValues(tracker.itemDurationPercent);
+                    //player.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);*/
                 }
             }
         }
@@ -152,16 +154,17 @@ namespace WolfoQoL_Client.DeathScreen
                 unlockArea.GetComponent<LayoutElement>().flexibleHeight = Mathf.Min(0.11f * Mathf.Pow(2, self.unlockStrips.Count), 1);
             }
 
-
-
+            //Words or smth idk
+            if (self.finalMessageLabel)
+            {
+                self.finalMessageLabel.fontSizeMin = self.finalMessageLabel.fontSizeMax;
+            }
         }
 
 
         private static void AddManyExtras(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
         {
-
-
-
+ 
             EquipOnDeathInventory.DeathEquip_Enemy1 = EquipmentIndex.None;
             if (playerInfo == null)
             {
@@ -183,13 +186,7 @@ namespace WolfoQoL_Client.DeathScreen
                 Inventory_Minions.AddMinionInventory(self, playerInfo);
                 Inventory_Killer.AddKillerInventory(self, playerInfo);
                 ExtraStats.AddCustomStats(self, playerInfo);
-
-
-
-                if (self.finalMessageLabel)
-                {
-                    self.finalMessageLabel.fontSizeMin = self.finalMessageLabel.fontSizeMax;
-                }
+ 
                 if (!extras.isLogRunReport)
                 {
                     bool eitherActive = extras.killerInventory.activeSelf || extras.minionInventory.activeSelf;
@@ -198,22 +195,33 @@ namespace WolfoQoL_Client.DeathScreen
 
                 if (playerInfo.master && playerInfo.master.inventory)
                 {
-                    var playerTrack = playerInfo.master.GetComponent<PlayerMaster_ExtraStatTracker>();
-                    playerTrack.gameOverWithDisabled = playerTrack.gameOverWithDisabled || playerInfo.master.inventory.inventoryDisabled;
-                    playerInfo.master.inventory.inventoryDisabled = false;
-
-                    playerInfo.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);
-
-                    self.itemInventoryDisplay.SetSubscribedInventory(playerInfo.master.inventory);
-                    extras.hideInventory.SetActive(playerTrack.gameOverWithDisabled);
-                    //extras.hideInventory.GetComponent<Image>().pixelsPerUnitMultiplier = 500f / self.itemInventoryDisplay.transform.parent.GetComponent<RectTransform>().rect.height;
-                    extras.hideInventory.GetComponent<Image>().pixelsPerUnitMultiplier = extras.bonusInventoyHolder.activeSelf ? 1.32f : 0.8f; //What, ever
+                    var playerTrack = playerInfo.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
+                    
+                    //
+                    //Show temp items on death screen
+                    if (playerTrack.itemDurationPercent != null)
+                    {
+                        playerTrack.itemDurationPercent.CopyTo(self.itemInventoryDisplay.itemDurationPercent, 0);
+                        foreach (ItemIcon itemIcon in self.itemInventoryDisplay.itemIcons)
+                        {
+                            ItemIndex itemIndex = itemIcon.itemIndex;
+                            if (self.itemInventoryDisplay.itemDurationPercent[(int)itemIndex] > 0f)
+                            {
+                                itemIcon.SetItemDuration(self.itemInventoryDisplay.itemDurationPercent[(int)itemIndex]);
+                            }
+                        }
+                    }
+                    //
+                    //Show if died if disabled
+                    playerTrack.gameOverWhileDisabled = playerTrack.gameOverWhileDisabled || playerInfo.master.inventory.inventoryDisabled;
+                    extras.disabledInventory.SetActive(playerTrack.gameOverWhileDisabled);
+                    extras.disabledInventory.GetComponent<Image>().pixelsPerUnitMultiplier = extras.bonusInventoyHolder.activeSelf ? 1.32f : 0.8f; //What, ever
 
                 }
                 else
                 {
-                    extras.hideInventory.SetActive(false);
-                    self.itemInventoryDisplay.SetSubscribedInventory(null);
+                    System.Array.Clear(self.itemInventoryDisplay.itemDurationPercent, 0, self.itemInventoryDisplay.itemDurationPercent.Length);
+                    extras.disabledInventory.SetActive(false);
                 }
             }
             catch (System.Exception ex)
@@ -304,7 +312,7 @@ namespace WolfoQoL_Client.DeathScreen
 
                 GameObject HideInv = scoreboardStrip.GetComponent<HUD>().itemInventoryDisplay.hideInventoryImage;
                 GameObject copyHideInv = GameObject.Instantiate(HideInv, self.itemInventoryDisplay.gameObject.transform.parent);
-                extras.hideInventory = copyHideInv;
+                extras.disabledInventory = copyHideInv;
 
                 //copyHideInv.GetComponent<Image>().pixelsPerUnitMultiplier = 500f / copyHideInv.GetComponent<RectTransform>().rect.height;
                 copyHideInv.GetComponent<Image>().raycastTarget = false;

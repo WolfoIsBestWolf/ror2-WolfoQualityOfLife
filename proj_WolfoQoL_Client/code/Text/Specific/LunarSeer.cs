@@ -33,16 +33,16 @@ namespace WolfoQoL_Client.Text
             if (SceneInfo.instance && SceneInfo.instance.sceneDef.baseSceneName == "bazaar")
             {
                 GameObject ShopPortal = GameObject.Find("/PortalShop");
-                SceneDef tempscenedef = SceneCatalog.GetSceneDef((SceneIndex)self.NetworktargetSceneDefIndex);
+                SceneDef destinationScene = SceneCatalog.GetSceneDef((SceneIndex)self.NetworktargetSceneDefIndex);
                 //WolfoMain.log.LogWarning(tempscenedef);
 
-                if (tempscenedef && ShopPortal)
+                if (destinationScene && ShopPortal)
                 {
                     ShopPortal.transform.localScale = new Vector3(0.7f, 1.26f, 0.7f);
                     ShopPortal.transform.position = new Vector3(12.88f, -5.53f, -7.34f);
                     GameObject portalPrefab = null;
                     GameObject temp = null;
-                    switch (tempscenedef.baseSceneName)
+                    switch (destinationScene.baseSceneName)
                     {
                         case "goldshores":
                             portalPrefab = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalGoldshores/PortalGoldshores.prefab").WaitForCompletion();
@@ -73,6 +73,18 @@ namespace WolfoQoL_Client.Text
                         case "meridian":
                             portalPrefab = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion();
                             break;
+                        case "conduitcanyon":
+                        case "solutionalhaunt":
+                            portalPrefab = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC3/HardwareProgPortal.prefab").WaitForCompletion();
+                            break;
+                        case "computationalexchange":
+                            ShopPortal.transform.localPosition = new Vector3(12.88f, 0f, -7.34f); 
+                            portalPrefab = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC3/CompExchangePortal.prefab").WaitForCompletion();
+                            break;
+                        case "solusweb":
+                            ShopPortal.transform.localPosition = new Vector3(12.88f, 0f, -7.34f); 
+                            portalPrefab = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC3/SolusWebPortal.prefab").WaitForCompletion();
+                            break;
                         default:
                             portalPrefab = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalShop/PortalShop.prefab").WaitForCompletion();
                             break;
@@ -81,7 +93,7 @@ namespace WolfoQoL_Client.Text
                     {
                         temp = Object.Instantiate(portalPrefab, ShopPortal.transform.position, ShopPortal.transform.rotation);
                         NetworkServer.Spawn(temp);
-                        temp.GetComponent<SceneExitController>().destinationScene = tempscenedef;
+                        temp.GetComponent<SceneExitController>().destinationScene = destinationScene;
                         temp.GetComponent<SceneExitController>().useRunNextStageScene = false;
                         temp.name = ShopPortal.name;
                         Object.Destroy(ShopPortal);
