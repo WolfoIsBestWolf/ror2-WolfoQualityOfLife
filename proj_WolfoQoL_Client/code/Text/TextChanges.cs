@@ -178,10 +178,11 @@ namespace WolfoQoL_Client.Text
             {
                 if (Language.currentLanguage.TokenIsRegistered("LUNARGOLEM_BODY_NAME_"))
                 {
-                    LanguageAPI.Add("LUNARGOLEM_BODY_NAME", Language.GetString("LUNARGOLEM_BODY_NAME_"));
-                    LanguageAPI.Add("LUNARWISP_BODY_NAME", Language.GetString("LUNARWISP_BODY_NAME_"));
-                    LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", Language.GetString("LUNAREXPLODER_BODY_NAME_"));
-                    LanguageAPI.Add("ACIDLARVA_BODY_NAME", Language.GetString("ACIDLARVA_BODY_NAME_"));
+                    string lang = Language.currentLanguage.name;
+                    LanguageAPI.Add("LUNARGOLEM_BODY_NAME", Language.GetString("LUNARGOLEM_BODY_NAME_"), lang);
+                    LanguageAPI.Add("LUNARWISP_BODY_NAME", Language.GetString("LUNARWISP_BODY_NAME_"), lang);
+                    LanguageAPI.Add("LUNAREXPLODER_BODY_NAME", Language.GetString("LUNAREXPLODER_BODY_NAME_"), lang);
+                    LanguageAPI.Add("ACIDLARVA_BODY_NAME", Language.GetString("ACIDLARVA_BODY_NAME_"), lang);
 
                     On.EntityStates.Missions.BrotherEncounter.Phase2.OnEnter += MithrixPhase2OverrideLunarChimeraHordeName;
                 }
@@ -242,13 +243,24 @@ namespace WolfoQoL_Client.Text
         private static void MithrixPhase2OverrideLunarChimeraHordeName(On.EntityStates.Missions.BrotherEncounter.Phase2.orig_OnEnter orig, EntityStates.Missions.BrotherEncounter.Phase2 self)
         {
             orig(self);
+            //com.Nuxlar.UmbralMithrix
             if (self.phaseBossGroup)
             {
-                BossGroup boss = self.phaseBossGroup.GetComponent<BossGroup>();
-                boss.lastDisplayedPriority = 0;
-                boss.currentPriority = 0;
-                boss.bestObservedName = Language.GetString("LUNAR_CHIMERA");
-                boss.bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
+                bool likelyUmbral = self.phaseScriptedCombatEncounter.spawns.Length == 1;
+                bool umbralMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Nuxlar.UmbralMithrix");
+                if (!likelyUmbral && !umbralMod) //Umbral Check
+                {
+                    if (Language.currentLanguage.TokenIsRegistered("LUNAR_CHIMERA"))
+                    {
+                        BossGroup boss = self.phaseBossGroup.GetComponent<BossGroup>();
+                        boss.lastDisplayedPriority = 0;
+                        boss.currentPriority = 0;
+                        boss.bestObservedName = Language.GetString("LUNAR_CHIMERA");
+                        boss.bestObservedSubtitle = "<sprite name=\"CloudLeft\" tint=1> " + Language.GetString("LUNARGOLEM_BODY_SUBTITLE") + " <sprite name=\"CloudRight\" tint=1>";
+                    }
+                   
+                }
+              
             }
         }
 

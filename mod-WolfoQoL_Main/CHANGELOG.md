@@ -1,4 +1,8 @@
 ```
+v5.1.8
+Fixed Mithrix Phase 2 with Umbral Mithrix having the wrong name&sub.
+Fixed pinging temp items showing the internal name.
+
 v5.1.7
 Fixed Equipment Drone Seed of Live Self Revive using wrong message.
 Fixed death screen inventory sometimes updating after death.
