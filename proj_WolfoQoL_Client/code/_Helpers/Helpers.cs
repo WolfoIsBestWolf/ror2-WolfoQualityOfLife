@@ -137,7 +137,7 @@ namespace WolfoQoL_Client
             name.Append(">");
             if (isTemporary)
             {
-                name.Append(Language.GetStringFormatted("ITEM_MODIFIER_TEMP", def.nameToken));
+                name.Append(Language.GetStringFormatted("ITEM_MODIFIER_TEMP", Language.GetString(def.nameToken)));
             }
             else
             {
