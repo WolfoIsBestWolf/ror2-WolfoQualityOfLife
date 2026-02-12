@@ -242,7 +242,7 @@ namespace WolfoQoL_Client.Text
         private static void MithrixPhase2OverrideLunarChimeraHordeName(On.EntityStates.Missions.BrotherEncounter.Phase2.orig_OnEnter orig, EntityStates.Missions.BrotherEncounter.Phase2 self)
         {
             orig(self);
-            if (self.phaseBossGroup)
+            if (WConfig.cfgMithrixPhase2TextFix.Value && self.phaseBossGroup)
             {
                 BossGroup boss = self.phaseBossGroup.GetComponent<BossGroup>();
                 boss.lastDisplayedPriority = 0;

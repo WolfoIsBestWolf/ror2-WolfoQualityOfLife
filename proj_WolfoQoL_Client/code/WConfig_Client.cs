@@ -67,6 +67,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgDarkTwisted;
         public static ConfigEntry<bool> cfgTwistedFire;
         public static ConfigEntry<bool> cfgTwistedSound;
+        public static ConfigEntry<bool> cfgMithrixPhase2TextFix;
         public static ConfigEntry<bool> cfgMithrixPhase4SkipFix;
 
         public static ConfigEntry<bool> cfgSmoothCaptain;
@@ -745,6 +746,12 @@ namespace WolfoQoL_Client
                 "Lunar Chimera / Larva name change",
                 true,
                 "Adds Lunar Chimera type to Chimera names\n\nRenames Larva to Acid Larva due to their internal name."
+            );
+            cfgMithrixPhase2TextFix = ConfigFile_Client.Bind(
+                "Text",
+                "Mithrix Phase 2 Boss Name",
+                true,
+                "Fixes the boss name in phase 2 to properly say Lunar Chimera."
             );
             cfgTextOther = ConfigFile_Client.Bind(
                 "Text",
