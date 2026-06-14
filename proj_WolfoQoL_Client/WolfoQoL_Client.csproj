@@ -36,7 +36,7 @@
       <HintPath>..\..\..\..\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\dontdelete\BepInEx\plugins\Risky_Sleeps-EnemiesReturns\Risky_Sleeps-EnemiesReturns\EnemiesReturns.dll</HintPath>
     </Reference>
     <Reference Include="ItemQualities">
-      <HintPath>..\..\..\..\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\dontdelete\BepInEx\plugins\Goorakh-Quality\ItemQualities\ItemQualities.dll</HintPath>
+      <HintPath>..\..\..\..\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\dontdelete\BepInEx\plugins\Goorakh-Quality\Quality\ItemQualities.dll</HintPath>
     </Reference>
     <Reference Include="ProperSave">
       <HintPath>..\..\..\..\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\dontdelete\BepInEx\plugins\KingEnderBrine-ProperSave\ProperSave\ProperSave.dll</HintPath>

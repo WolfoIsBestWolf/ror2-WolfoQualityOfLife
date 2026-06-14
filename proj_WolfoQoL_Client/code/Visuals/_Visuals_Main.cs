@@ -19,12 +19,16 @@ namespace WolfoQoL_Client
                 {
                     PingIcons.AddIcons();
                     PingIcons.AddHooks();
+
+                    GameModeCatalog.availability.CallWhenAvailable(PingIcons.ModSupport);
                 }
                 PingIcons.MiscIcons();
                 BuffIcons.Awake();
 
                 Icon_Colors.Start();
                 MissionPointers.Start();
+
+                
             }
             if (WConfig.module_visuals_skins.Value)
             {
@@ -285,10 +289,6 @@ namespace WolfoQoL_Client
             if (WConfig.cfgColorMain.Value)
             {
                 ColorModule.ModSupport();
-            }
-            if (WConfig.cfgPingIcons.Value)
-            {
-                PingIcons.ModSupport();
             }
             if (WConfig.cfgColorMain.Value == true)
             {

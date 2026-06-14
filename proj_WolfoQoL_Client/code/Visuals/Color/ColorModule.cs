@@ -287,35 +287,53 @@ namespace WolfoQoL_Client
 
         public static void ChangeColorsViaIndex()
         {
+            ItemTierDef tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.FoodTier);
+            if (tempTier)
+            {
+                tempTier.colorIndex = index_Food;
+                tempTier.bgIconTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/FoodBGIcon.png");
+            }
             if (WConfig.cfgColorVoids.Value)
             {
-                ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1).colorIndex = index_Void1;
-                ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3).colorIndex = index_Void3;
-                ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss).colorIndex = index_Void4;
+                tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1);
+                if (tempTier)
+                {
+                    tempTier.colorIndex = index_Void1;
+                }
+                tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3);
+                if (tempTier)
+                {
+                    tempTier.colorIndex = index_Void3;
+                }
+                tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss);
+                if (tempTier)
+                {
+                    tempTier.colorIndex = index_Void4;
+                }
             }
-          
-            ItemTierCatalog.GetItemTierDef(ItemTier.FoodTier).colorIndex = index_Food;
-            ItemTierCatalog.GetItemTierDef(ItemTier.FoodTier).bgIconTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/FoodBGIcon.png");
- 
+
             for (int i = 0; EquipmentCatalog.equipmentDefs.Length > i; i++)
             {
                 EquipmentDef def = EquipmentCatalog.equipmentDefs[i];
-                if (def.passiveBuffDef && def.passiveBuffDef.isElite)
+                if (def)
                 {
-                    def.isBoss = true;
-                }
-                if (def.isBoss)
-                {
-                    def.colorIndex = index_EquipBoss;
-                }
-                else if (def.isLunar)
-                {
-                    def.colorIndex = index_EquipLunar;
-                }
-                else if (def.isConsumed)
-                {
-                    def.colorIndex = index_EquipConsumed;
-                }
+                    if (def.passiveBuffDef && def.passiveBuffDef.isElite)
+                    {
+                        def.isBoss = true;
+                    }
+                    if (def.isBoss)
+                    {
+                        def.colorIndex = index_EquipBoss;
+                    }
+                    else if (def.isLunar)
+                    {
+                        def.colorIndex = index_EquipLunar;
+                    }
+                    else if (def.isConsumed)
+                    {
+                        def.colorIndex = index_EquipConsumed;
+                    }
+                }        
             }
  
         }

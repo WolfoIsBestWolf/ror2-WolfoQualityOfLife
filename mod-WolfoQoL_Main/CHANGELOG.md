@@ -1,4 +1,10 @@
 ```
+v5.1.10
+Saftey check in a PickupCatalog color thing that recently started causing errors somehow.
+
+v5.1.9
+Fixed modded ping icons being locked behind the wrong visual-module config.
+
 v5.1.8
 Fixed Mithrix Phase 2 with Umbral Mithrix having the wrong name&sub.
 Fixed pinging temp items showing the internal name.
