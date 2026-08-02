@@ -473,7 +473,7 @@ namespace WolfoQoL_Client.Reminders
                 if (voidFreeChestSpawned)
                 {
                     Objective_FreeChestVVVoid = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    Objective_FreeChestVVVoid.objectiveToken = Language.GetString("REMINDER_FREECHESTVOID");
+                    Objective_FreeChestVVVoid.objectiveToken = Language.GetString("REMINDER_VV_FREECHESTVOID");
                 }
             }
             if (WConfig.cfgReminders_Quality_Collectors.Value)

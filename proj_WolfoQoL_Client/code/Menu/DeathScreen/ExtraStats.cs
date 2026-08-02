@@ -91,14 +91,23 @@ namespace WolfoQoL_Client.DeathScreen
             GameObject statHolder = GameObject.Instantiate(DeathScreenExpanded.statHolderPrefab, statContentArea);
             for (int i = 0; i < combine; i++)
             {
-                Transform child = statContentArea.GetChild(childIndex);
-                child.SetParent(statHolder.transform); //Goes down by 1, hopefully just consistent??
-                child.GetChild(1).gameObject.SetActive(false);
-                if (i != 0)
+                if (childIndex < statContentArea.childCount)
                 {
-                    newName.Append("+");
+                    Transform child = statContentArea.GetChild(childIndex);
+                    if (child)
+                    {
+                        child.SetParent(statHolder.transform); //Goes down by 1, hopefully just consistent??
+                        if (child.childCount > 1)
+                        {
+                            child.GetChild(1).gameObject.SetActive(false);
+                        }
+                        if (i != 0)
+                        {
+                            newName.Append("+");
+                        }
+                        newName.Append(child.name);
+                    }
                 }
-                newName.Append(child.name);
             }
             statHolder.transform.SetSiblingIndex(childIndex);
             statHolder.name = newName.ToString();

@@ -240,23 +240,65 @@ namespace WolfoQoL_Client
                 //If result needs unavailable DLC -> Dont
                 if (PickupAvailable(recipeEntry.result))
                 {
-                    //If isIngredient && isResult
-                    //ie to Duplicate scrap
-                    //Then only show in "created from"
 
                     if (!(used && recipeEntry.Required(recipeEntry.result) != 0))
                     {
-                        //If ingredient1 is list OR ingredient1 available
+                        //I hate custom recipe mods!!
+                        if (recipeEntry.possibleIngredients == null)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients is null");
+                            continue;
+                        }
+                        if (recipeEntry.possibleIngredients.Length < 2)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients does not have 2 entries");
+                            continue;
+                        }
+                        //Check that both actually exist
+                        if (recipeEntry.possibleIngredients[0] == null)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients[0] is null");
+                            continue;
+                        }
+                        if (recipeEntry.possibleIngredients[1] == null)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients[1] is null");
+                            continue;
+                        }
+                        //Check that both actually have a pickups array
+                        if (recipeEntry.possibleIngredients[0].pickups == null)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients[0].pickups is null");
+                            continue;
+                        }
+                        if (recipeEntry.possibleIngredients[1].pickups == null)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients[1].pickups is null");
+                            continue;
+                        }
+                        //Check that both actually have a pickups array, that as anything in it
+                        if (recipeEntry.possibleIngredients[0].pickups.Length == 0)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients[0].pickups has no entries");
+                            continue;
+                        }
+                        if (recipeEntry.possibleIngredients[1].pickups.Length == 0)
+                        {
+                            Debug.LogWarning("recipeEntry.possibleIngredients[1].pickups has no entries");
+                            continue;
+                        }
+
+                        //Check if they are a list of ingredients
+                        //If not check if the 1 ingredient is from a unavilable DLC
                         if (recipeEntry.possibleIngredients[0].pickups.Length != 1 || PickupAvailable(recipeEntry.possibleIngredients[0].pickups[0]))
                         {
-                            //If ingredient2 needs unavailable DLC -> Dont
                             if (recipeEntry.possibleIngredients[1].pickups.Length != 1 || PickupAvailable(recipeEntry.possibleIngredients[1].pickups[0]))
                             {
                                 newList.Add(recipeEntry);
                             }
                         }
-                    }
 
+                    }
 
                 }
             }

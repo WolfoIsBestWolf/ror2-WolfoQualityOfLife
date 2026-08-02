@@ -66,7 +66,7 @@ namespace WolfoQoL_Client.DeathScreen
                 aaa.root = minionInventory;
 
             }
-            if (playerInfo.master == null)
+            if (!WConfig.DC_DroneInventory.Value || playerInfo.master == null)
             {
                 extras.minionInventory.SetActive(false);
                 return;

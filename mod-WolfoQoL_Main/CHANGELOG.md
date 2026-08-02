@@ -1,6 +1,14 @@
 ```
+v5.1.12
+Added null checks to hopefully fix issues with recipes in log and custom recipes.
+Fixed REMINDER_FREECHESTVOID instead of actual string.
+
+v5.1.11
+Added missing config for Drone Collection.
+Fixed error with disabling death screen extra stats, without also disabling another config.
+
 v5.1.10
-Saftey check in a PickupCatalog color thing that recently started causing errors somehow.
+Null check in a PickupCatalog color thing that recently started causing errors somehow.
 
 v5.1.9
 Fixed modded ping icons being locked behind the wrong visual-module config.

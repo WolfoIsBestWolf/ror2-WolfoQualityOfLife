@@ -787,6 +787,12 @@ namespace WolfoQoL_Client
                 true,
                 "Show the Killers Inventory, if he had any items.\nIf no killer was found, tries to display Items from Artifact of Evolution & Simulacrum"
             );
+            DC_DroneInventory = ConfigFile_Client.Bind(
+                "Death Screen",
+                "Drone Collection",
+                true,
+                "Show the Drones you have collected over the run in a seperate box, like items."
+            );
             DC_StageRecap = ConfigFile_Client.Bind(
                 "Death Screen",
                 "Stage Recap",

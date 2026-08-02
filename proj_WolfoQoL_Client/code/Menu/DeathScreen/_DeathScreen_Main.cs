@@ -183,10 +183,14 @@ namespace WolfoQoL_Client.DeathScreen
                 GeneralQuality(self, playerInfo, extras.isLogRunReport);
                 LoadoutStat.Add_Loadout(self, playerInfo);
                 RunRecap.AddRunRecapV2(self, playerInfo);
+                
                 Inventory_Minions.AddMinionInventory(self, playerInfo);
                 Inventory_Killer.AddKillerInventory(self, playerInfo);
-                ExtraStats.AddCustomStats(self, playerInfo);
- 
+                if (WConfig.DC_MoreStats.Value)
+                {
+                    ExtraStats.AddCustomStats(self, playerInfo);
+                }
+
                 if (!extras.isLogRunReport)
                 {
                     bool eitherActive = extras.killerInventory.activeSelf || extras.minionInventory.activeSelf;
