@@ -1,4 +1,35 @@
 ```
+-----
+v5.2.0 - DLC4 Update
+
+New
+* Ping Icons for DLC4 stuff.
+* New REX skin sprint vines matching it's "flower".
+* Key Item on game end screen.
+* Rental and Disabled items will show as such on the death screen in runs.
+* Reminder to use the Hallowed Shrine if you have any Hexes.
+* Message for Dark Alchemy results. (Only if host has mod atm)
+* Message when Dream Crucible is consumed instead of an item. (Only if host has mod atm)
+* Wake charge indicator now green, smaller and a more fitting icon.
+* Made Page Tier slightly darker shade of blue.
+
+
+Tweaks
+* Green and Gold portals will now only add a Objective after the teleporter is completed.
+* Fixed Hallowed Shrines being revealed by Radar Scanner after being used up.
+* Disabled Mission pointers by default.
+* Charge-inclusive Sprinting crosshair a lot smaller.
+* Lunar Seer should cut "Hidden Realm:" from all languages now.
+
+Removals
+* Removed old Twisted Elite fire effect.
+* Removed "Twisted Armor" buff being made visible.
+* Removed cyan stack number for timed items.
+* Removed Gup from main menu because he keeps breaking every update.
+* Mistery restarting after Solus Wing.
+
+```
+```
 v5.1.12
 Added null checks to hopefully fix issues with recipes in log and custom recipes.
 Fixed REMINDER_FREECHESTVOID instead of actual string.

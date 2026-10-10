@@ -107,6 +107,13 @@ namespace WolfoQoL_Client
                 colorOverride = ColorCatalog.ColorIndex.LunarCoin,
                 bgTextureOverride = LegacyResourcesAPI.Load<Texture>("Textures/ItemIcons/BG/texSurvivorBGIcon"),
             });
+            AllyDefs.Add(RoR2Content.BodyPrefabs.ProliferationFlowerTurretBody.bodyIndex, new AllyDef
+            {
+                desiredSortPosition = 32,
+                tier = ItemTier.VoidTier1,
+                colorOverride = ColorCatalog.ColorIndex.LunarCoin,
+                bgTextureOverride = LegacyResourcesAPI.Load<Texture>("Textures/ItemIcons/BG/texSurvivorBGIcon"),
+            });
 
             AllyDefs.Add(RoR2Content.BodyPrefabs.NullifierAllyBody.bodyIndex, new AllyDef
             {
@@ -126,6 +133,14 @@ namespace WolfoQoL_Client
                 tier = ItemTier.VoidBoss,
                 requiredExpansion = DLCS.DLC1
             });
+
+            AllyDefs.Add(DLC4Content.BodyPrefabs.MiniLynxBody.bodyIndex, new AllyDef
+            {
+                desiredSortPosition = 4,
+                tier = ItemTier.Page,
+                requiredExpansion = DLCS.DLC4
+            });
+
 
             On.RoR2.UI.LogBook.PageBuilder.DroneBody += PageBuilder_DroneBody;
         }

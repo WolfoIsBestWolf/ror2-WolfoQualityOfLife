@@ -37,6 +37,12 @@ namespace WolfoQoL_Client.Skins
             SkinDefParams skinVoidSurvivorDefault_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "105cacfa3b8253c4c8cf34cb95818dff").WaitForCompletion();
             skinVoidSurvivorDefault_params.rendererInfos[3].defaultMaterialAddress = skinVoidSurvivorDefault_params.rendererInfos[0].defaultMaterialAddress;
 
+
+            GameObject MuzzleflashMageEarthLarge = Addressables.LoadAssetAsync<GameObject>(key: "88e2827b571f16d47890d40fb744ed8f").WaitForCompletion();
+            Transform earth = MuzzleflashMageEarthLarge.transform.GetChild(0);
+
+            //earth.GetChild(3).GetComponent<Light>().color = new Color(0.5283 0.3512 0.2517 1);
+            //earth.GetChild(4).GetComponent<ParticleSystemRenderer>().material) = matMageMatrixTri;
         }
 
 
@@ -112,11 +118,11 @@ namespace WolfoQoL_Client.Skins
                     uint skin = temploadout.bodyLoadoutManager.GetSkinIndex(Engi);
                     if (skin == 1)
                     {
-                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.matEngiTurretAlt;
+                        self.gameObject.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.matEngiTurretAlt;
                     }
                     else if (skin == 2)
                     {
-                        self.gameObject.transform.GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.matEngiTurretColossus;
+                        self.gameObject.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponent<SkinnedMeshRenderer>().material = Skins_Engi.matEngiTurretColossus;
                     }
                 }
             }

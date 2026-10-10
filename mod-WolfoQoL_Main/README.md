@@ -35,8 +35,7 @@ Elite Brass contraptions will have colored balls.
 
 Implemented the unused Sulfur Pools Beetle skins.
 
-Twisted Elites are now Dark Blue instead of reusing Overloading colors.\
-Twisted Elites have a fire visual effect again. 
+Twisted Elites are now Dark Blue instead of reusing Overloading colors.
  
 ![Image of Visual changes](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqolFeatures2.png)
 
@@ -52,7 +51,6 @@ Updated Body Icon for Squid Polyp, Ally Aurelionite, Mushroom.
 Buff related : 
 - Gives Unstable Transmitter-Active an icon.
 - Jailer Drone debuff now has a unique icon.
-- Twisted Armor buff made visible
 - Recolors 3 buffs so that they dont use the same color&icon as other ones.
 
 Charge Indicator for Void Field Cell Vents like other Holdout zones.
@@ -94,8 +92,6 @@ Parrying now plays a more noticible sound.
 
 Igniting Oil will play a sound.
 
-Solutional Haunt's music will renable after the boss fight.
-
 # Text
 ## Chat Messages
 
@@ -109,10 +105,13 @@ Many more messages so you have another chance to see what happened, or to see wh
 - Message for Benthic or Egocentrism changing your items.
 - Message for breaking Elixir or Watches.
 - Message reviving using an item.
+- Message when Dream Crucible is consumed instead of an item.
 - Message when Shrine of Shaping activates.
 - Victory quotes displayed in chat.
 - Recycling an item into another.
+- Dark Alchemy downgrading an item.
 - What Sale Star was used on.
+
 
 ![Image of Messages](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqol_messages.png)
 
@@ -125,6 +124,7 @@ Objectives for the following:
 - Leave through Portals
 - Halcyonite Shrine Charge Percentage & Killing.
 - Getting the extra Halcyonite Fragment on Prime Meridian
+- Using the Hallowed Shrine if you have Hexes, either to cleanse yourself or get more Hexes.
 - (Off by default)
 - - Find Newt Shrine, Halcyon Shrine, Access Node
 

@@ -75,13 +75,13 @@ namespace WolfoQoL_Client.Text
                 CharacterBody characterBody = bodyObject.GetComponent<CharacterBody>();
                 if (characterBody && characterBody.bodyIndex == LemurianBruiser)
                 {
-                    if (characterBody.inventory.GetItemCount(RoR2Content.Items.Clover) >= 20)
+                    if (characterBody.inventory.GetItemCountPermanent(RoR2Content.Items.Clover) >= 20)
                     {
-                        if (characterBody.inventory.GetItemCount(RoR2Content.Items.FireRing) > 0)
+                        if (characterBody.inventory.GetItemCountPermanent(RoR2Content.Items.FireRing) > 0)
                         {
                             return "Kjaro";
                         }
-                        else if (characterBody.inventory.GetItemCount(RoR2Content.Items.IceRing) > 0)
+                        else if (characterBody.inventory.GetItemCountPermanent(RoR2Content.Items.IceRing) > 0)
                         {
                             return "Runald";
                         }

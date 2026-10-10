@@ -27,6 +27,11 @@ namespace WolfoQoL_Client.DeathScreen
         private static void MissedCallback_Most(On.RoR2.PurchaseInteraction.orig_Start orig, PurchaseInteraction self)
         {
             orig(self);
+            //Debug.Log(SceneCatalog.mostRecentSceneDef);
+            if (SceneCatalog.mostRecentSceneDef.sceneType != SceneType.Stage)
+            {
+                return;
+            }
             //CANNOT filter for cost type none because Cloaked Chest
             //(which is half the joke of this stat)
             if (self.gameObject.activeInHierarchy)
@@ -65,23 +70,29 @@ namespace WolfoQoL_Client.DeathScreen
             }
         }
 
-
         private static void LemurianEggController_OnDestroy(On.RoR2.CharacterAI.LemurianEggController.orig_OnDestroy orig, LemurianEggController self)
         {
             orig(self);
+            if (SceneCatalog.mostRecentSceneDef.sceneType != SceneType.Stage)
+            {
+                return;
+            }
             if (self.GetComponent<PickupPickerController>().available)
             {
                 if (RunExtraStatTracker.instance)
                 {
                     RunExtraStatTracker.instance.missedLemurians++;
                 }
-
             }
         }
 
         private static void MissedCallback_DroneShop(On.RoR2.DroneVendorMultiShopController.orig_Start orig, DroneVendorMultiShopController self)
         {
             orig(self);
+            if (SceneCatalog.mostRecentSceneDef.sceneType != SceneType.Stage)
+            {
+                return;
+            }
             if (self.gameObject.activeInHierarchy)
             {
                 self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.DroneShop;
@@ -91,6 +102,10 @@ namespace WolfoQoL_Client.DeathScreen
         private static void MissedCallback_Shop(On.RoR2.MultiShopController.orig_Start orig, MultiShopController self)
         {
             orig(self);
+            if (SceneCatalog.mostRecentSceneDef.sceneType != SceneType.Stage)
+            {
+                return;
+            }
             if (self.gameObject.activeInHierarchy)
             {
                 self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.MultiShop;
@@ -116,8 +131,12 @@ namespace WolfoQoL_Client.DeathScreen
 
         public void OnDestroy()
         {
-            //Debug.Log(this);
             if (!RunExtraStatTracker.instance)
+            {
+                return;
+            }
+            //Debug.Log(SceneCatalog.mostRecentSceneDef);
+            if (SceneCatalog.mostRecentSceneDef.sceneType != SceneType.Stage)
             {
                 return;
             }

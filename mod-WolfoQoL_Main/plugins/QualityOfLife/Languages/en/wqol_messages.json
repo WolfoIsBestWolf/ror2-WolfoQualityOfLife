@@ -54,11 +54,12 @@
  
 		
 		
-
+			
 			"ITEM_RECYCLED_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> was recycled into <color=#{2}>{1}</color></style>",
 			"ITEM_TINKER_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> was tinkered into <color=#{2}>{1}</color></style>",
 			"ITEM_TINKER_NONSPECIFIC": "<style=cEvent><color=#{2}>{0}</color> was tinkered with.</style>",
-	 
+			"ITEM_DOWNGRADE_GLOBAL": "<style=cEvent><color=#{2}>{0}</color> was split into 2 <color=#{3}>{1}</color></style>",
+			
 			 
 			"ITEM_USED_STAR_2P": "<style=cEvent>You used <color=#77FF16>Sale Star</color> on: <style=cIsDamage>{1}</style>",			 
 			   "ITEM_USED_STAR": "<style=cEvent>{0} used <color=#77FF16>Sale Star</color> on: <style=cIsDamage>{1}</style>",
@@ -92,6 +93,8 @@
 			
 			"ITEM_USE_WATCH": "<style=cEvent>You broke your <color=#FFFFFF>Delicate Watches</color></style>",
 			"ITEM_USE_WATCH_3P": "<style=cEvent>{0} broke their <color=#FFFFFF>Delicate Watches</color></style>",
+			
+			"ITEM_USE_DREAM": "<style=cEvent><color=#9368F9>Dream Crucible</color> was consumed instead of {1}</style>",
 			
 			"ITEM_USE_VV_VOIDWATCH": "<style=cEvent>{0} ran out of time...</style>",
 			"ITEM_USE_VV_VOIDWATCH_3P": "<style=cEvent>{1}'s {0} ran out of time...</style>",

@@ -144,7 +144,7 @@ namespace WolfoQoL_Client.DeathScreen
                     artifactGrid.padding.bottom = 2;
                     artifactGrid.padding.top = 2;
                 }
-                ExtraStats.CombineDifficultyLoadout(panel.statContentArea); //
+               
             }   
 
         }

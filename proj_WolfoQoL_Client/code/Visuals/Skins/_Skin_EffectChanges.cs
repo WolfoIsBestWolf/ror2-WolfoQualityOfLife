@@ -24,6 +24,7 @@ namespace WolfoQoL_Client.Skins
 
         public static void Start()
         {
+            On.RoR2.ProjectileGhostReplacementManager.TryFindProjectileGhostPrefab += ApplyConditionalProjectileGhostReplacement;
             On.RoR2.ProjectileGhostReplacementManager.FindProjectileGhostPrefab += ApplyConditionalProjectileGhostReplacement;
 
             Mercenary_Main.Start();
@@ -33,6 +34,21 @@ namespace WolfoQoL_Client.Skins
 
         }
 
+        private static bool ApplyConditionalProjectileGhostReplacement(On.RoR2.ProjectileGhostReplacementManager.orig_TryFindProjectileGhostPrefab orig, ProjectileController projectileController, out GameObject ghostResult, out UnityEngine.AddressableAssets.AssetReferenceT<GameObject> ghostReference)
+        {
+            ProjectileGhostReplacer replacer = projectileController.GetComponent<ProjectileGhostReplacer>();
+            if (replacer)
+            {
+                GameObject replacement = replacer.FindReplacement(projectileController);
+                if (replacement != null)
+                {
+                    ghostResult = replacement;
+                    ghostReference = null;
+                    return true;
+                }
+            }
+            return orig(projectileController, out ghostResult, out ghostReference);
+        }
 
         private static GameObject ApplyConditionalProjectileGhostReplacement(On.RoR2.ProjectileGhostReplacementManager.orig_FindProjectileGhostPrefab orig, ProjectileController projectileController)
         {
@@ -169,7 +185,7 @@ namespace WolfoQoL_Client.Skins
                     return ghostPrefab_1;
                 }
             }
-            else if (condition == SkinChanges.Case.Brass)
+            /*else if (condition == SkinChanges.Case.Brass)
             {
                 CharacterBody component = pjC.owner.GetComponent<CharacterBody>();
                 if (component && component.isElite)
@@ -177,7 +193,7 @@ namespace WolfoQoL_Client.Skins
                     ghostPrefab_1.transform.GetChild(0).GetComponent<MeshRenderer>().material = component.inventory.currentEquipmentState.equipmentDef.pickupModelPrefab.GetComponentInChildren<MeshRenderer>().material;
                     return ghostPrefab_1;
                 }
-            }
+            }*/
             return null;
         }
 

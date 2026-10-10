@@ -100,6 +100,20 @@ namespace WolfoQoL_Client
                     {
                         available = viewerProfile.HasUnlockable(DLC2Content.Equipment.HealAndRevive.unlockableDef);
                     }
+                    else if (def == DLC3Content.Equipment.EliteCollectiveEquipment)
+                    {
+                        if (viewerProfile.statSheet.GetStatValueULong(RoR2.Stats.PerBodyStatDef.killsAgainst, "SolusWingBody") > 0UL)
+                        {
+                            available = true;
+                        }
+                    }
+                    else if (def == DLC4Content.Equipment.EliteDeathEquipment)
+                    {
+                        if (viewerProfile.statSheet.GetStatValueULong(RoR2.Stats.PerBodyStatDef.killsAgainst, "ReaperBossMalachiteBody") > 0UL)
+                        {
+                            available = true;
+                        }
+                    }
                     else
                     {
                         EliteDef eliteDef = def.passiveBuffDef.eliteDef;

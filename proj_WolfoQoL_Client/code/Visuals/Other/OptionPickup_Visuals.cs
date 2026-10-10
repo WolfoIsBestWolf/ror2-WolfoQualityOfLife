@@ -63,7 +63,7 @@ namespace WolfoQoL_Client
                 }
                 foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
                 {
-                    if (player && player.master && player.master.inventory.GetItemCount(RoR2Content.Items.TitanGoldDuringTP) > 0)
+                    if (player && player.master && player.master.inventory.GetItemCountEffective(RoR2Content.Items.TitanGoldDuringTP) > 0)
                     {
                         return ItemTier.Tier3;
                     }

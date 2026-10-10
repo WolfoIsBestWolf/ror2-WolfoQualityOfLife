@@ -24,10 +24,10 @@ namespace WolfoQoL_Client.Skins
             GameModeCatalog.availability.CallWhenAvailable(EffectReplacements);
 
 
-            if (WConfig.cfgSkinMakeBlightedAcrid.Value == true)
+            /*if (WConfig.cfgSkinMakeBlightedAcrid.Value == true)
             {
                 BodyCatalog.availability.CallWhenAvailable(CrocoBlightSkin);
-            }
+            }*/
 
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnEnable += SpawnBlightPuddleInLobby;
             On.RoR2.CharacterSelectSurvivorPreviewDisplayController.OnLoadoutChangedGlobal += UpdateBlightPuddleLobby;

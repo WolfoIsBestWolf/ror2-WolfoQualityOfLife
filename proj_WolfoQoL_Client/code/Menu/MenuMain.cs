@@ -90,7 +90,7 @@ namespace WolfoQoL_Client.Menu
                 Object.Destroy(ScavHolder.transform.GetChild(0).gameObject);
                 ScavHolder.SetActive(true);
 
-                if (EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(WolfoLibrary.DLCS.entitlementDLC1))
+                /*if (EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(WolfoLibrary.DLCS.entitlementDLC1))
                 {
 
                     GameObject gupBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/Gup/GupBody.prefab").WaitForCompletion();
@@ -118,7 +118,7 @@ namespace WolfoQoL_Client.Menu
                     mdlGup.transform.localScale = new Vector3(7, 7, 7);
                     mdlGup.transform.localPosition = new Vector3(52f, -1.2f, 160f);
                     mdlGup.transform.localEulerAngles = new Vector3(7f, 157f, 345f);
-                }
+                }*/
                 Transform temp = self.extraGameModeMenuScreen.desiredCameraTransform;
                 self.extraGameModeMenuScreen.desiredCameraTransform = self.moreMenuScreen.desiredCameraTransform;
                 self.moreMenuScreen.desiredCameraTransform = temp;

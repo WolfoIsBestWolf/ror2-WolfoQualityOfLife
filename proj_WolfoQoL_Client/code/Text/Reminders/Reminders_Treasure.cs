@@ -1,4 +1,5 @@
 using RoR2;
+using UnityEngine;
 using WolfoLibrary;
 using WolfoQoL_Client.Text;
 using static WolfoQoL_Client.ModSupport.QualitySupport;
@@ -51,21 +52,13 @@ namespace WolfoQoL_Client.Reminders
             }
             if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
             {
-
-                if (PreBaseItemIndex(newIndex, DLC1Content.Items.RegeneratingScrapConsumed))
-                {
-                    if (TreasureReminder.instance)
-                    {
-                        Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_RegenScrap);
-                    }
-                }
-                else if (newIndex == MoreMessages.VanillaVoids_WatchBrokeItem)
+                if (newIndex == MoreMessages.VanillaVoids_WatchBrokeItem)
                 {
                     TreasureReminder.CheckKeysVoided();
                     TreasureReminder.CheckItemsDestroyed();
                 }
             }
-            else if (transformationType == CharacterMasterNotificationQueue.TransformationType.SaleStarRegen)
+            else if (transformationType == CharacterMasterNotificationQueue.TransformationType.ConsumedItem)
             {
                 //if (newIndex == DLC2Content.Items.LowerPricedChestsConsumed.itemIndex)
                 if (PreBaseItemIndex(newIndex, DLC2Content.Items.LowerPricedChestsConsumed))
@@ -73,6 +66,13 @@ namespace WolfoQoL_Client.Reminders
                     if (TreasureReminder.instance)
                     {
                         Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_SaleStar);
+                    }
+                }
+                else if (PreBaseItemIndex(newIndex, DLC1Content.Items.RegeneratingScrapConsumed))
+                {
+                    if (TreasureReminder.instance)
+                    {
+                        Reminders_Main.CompleteObjective(TreasureReminder.instance.Objective_RegenScrap);
                     }
                 }
             }
@@ -105,7 +105,7 @@ namespace WolfoQoL_Client.Reminders
         public static void KeyReminderUpdater_Host(On.RoR2.PurchaseInteraction.orig_OnInteractionBegin orig, PurchaseInteraction self, Interactor activator)
         {
             CharacterBody body = activator.GetComponent<CharacterBody>();
-            int hadSale = body.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests);
+            int hadSale = body.inventory.GetItemCountEffective(DLC2Content.Items.LowerPricedChests);
             orig(self, activator);
             if (hadSale > 0 && self.saleStarCompatible)
             {

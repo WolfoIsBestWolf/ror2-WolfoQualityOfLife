@@ -100,7 +100,9 @@ namespace WolfoQoL_Client.DeathScreen
                 SceneCatalog.FindSceneDef("goldshores"),
                 SceneCatalog.FindSceneDef("goolake"),
                 SceneCatalog.FindSceneDef("bazaar"),
-                SceneCatalog.FindSceneDef("arena"),
+                SceneCatalog.FindSceneDef("sad1"),
+                SceneCatalog.FindSceneDef("soul1"),
+                SceneCatalog.FindSceneDef("surv2"),
                 SceneCatalog.FindSceneDef("frozenwall"),
                 SceneCatalog.FindSceneDef("bazaar"),
                 SceneCatalog.FindSceneDef("meridian"),
@@ -109,6 +111,8 @@ namespace WolfoQoL_Client.DeathScreen
                 SceneCatalog.FindSceneDef("computationalexchange"),
                 SceneCatalog.FindSceneDef("solusweb"),
                 SceneCatalog.FindSceneDef("skymeadow"),
+                SceneCatalog.FindSceneDef("champrush"),
+                SceneCatalog.FindSceneDef("ultima"),
                 SceneCatalog.FindSceneDef("moon2"),
                 SceneCatalog.FindSceneDef("voidraid"),
             };
@@ -200,8 +204,9 @@ namespace WolfoQoL_Client.DeathScreen
         public ulong damageBlocked; //Definitely Server Only
 
         public string latestDetailedDeathMessage;
-        public float[] itemDurationPercent;
-
+        public float[] tempItemDurations;
+        public int[] rentalItems;
+        public ItemMask disabledItems;
 
         public Dictionary<ItemIndex,int> scrappedItemsDict;
         public Dictionary<DroneIndex,int> scrappedDronesDict;
@@ -225,7 +230,7 @@ namespace WolfoQoL_Client.DeathScreen
         }
 
         private int checkEquipSwap = 0;
-        private void EquipmentHistoryOrSmth()
+        /*private void EquipmentHistoryOrSmth()
         {
             if (!master.inventory.wasRecentlyExtraEquipmentSwapped)
             {
@@ -258,7 +263,7 @@ namespace WolfoQoL_Client.DeathScreen
                 }
             }         
             lastSeenEquip = master.inventory.currentEquipmentIndex;
-        }
+        }*/
 
         public void OnDisable()
         {
@@ -275,7 +280,7 @@ namespace WolfoQoL_Client.DeathScreen
         private void OnBodyStart(CharacterBody body)
         {
             latestDetailedDeathMessage = string.Empty;
-            itemDurationPercent = null;
+            tempItemDurations = null;
             checkEquipSwap = equipmentHistory.Count+2;
 
             body.gameObject.AddComponent<PerPlayerBody_Tracker>().tracker = this;
@@ -301,6 +306,11 @@ namespace WolfoQoL_Client.DeathScreen
         
         public void OnBodyDeath()
         {
+            TrackerWriteValues();
+        }
+
+        public void TrackerWriteValues()
+        {
             if (master)
             {
                 //Needs to happen both on death and on run game over.
@@ -309,10 +319,14 @@ namespace WolfoQoL_Client.DeathScreen
                 Inventory inventory = master.inventory;
                 if (inventory != null)
                 {
-                    itemDurationPercent = new float[ItemCatalog.itemCount];
-                    inventory.WriteAllTempItemDecayValues(this.itemDurationPercent);
+                    tempItemDurations = new float[ItemCatalog.itemCount];
+                    rentalItems = new int[ItemCatalog.itemCount];
+                    inventory.WriteAllTempItemDecayValues(this.tempItemDurations);
+                    inventory.WriteAllRentalItemStacks(this.rentalItems);
+                    inventory.WriteDisabledItemMask(this.disabledItems);
+
                 }
-            
+
             }
         }
 
@@ -335,6 +349,7 @@ namespace WolfoQoL_Client.DeathScreen
                 timesJumped = -1;
                 damageBlocked = 0;
             }
+            this.disabledItems = ItemMask.Rent();
         }
 
         public void CombineSimiliarMinions()

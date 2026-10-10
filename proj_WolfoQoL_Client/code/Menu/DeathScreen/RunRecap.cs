@@ -172,8 +172,6 @@ namespace WolfoQoL_Client.DeathScreen
 
             for (int i = 0; i < RunExtraStatTracker.instance.visitedScenes.Count; i++)
             {
-
-
                 GameObject icon = Object.Instantiate(DeathScreenExpanded.stageIconPrefab, extras.stageRecapContent);
                 TooltipProvider info = icon.GetComponent<TooltipProvider>();
                 if (scenes[i].environmentColor.a != 0)
@@ -187,7 +185,16 @@ namespace WolfoQoL_Client.DeathScreen
                 //icon.name = scenes[i].cachedName;
                 info.titleToken = scenes[i].nameToken;
                 info.bodyToken = scenes[i].subtitleToken;
-                icon.GetComponent<RawImage>().texture = scenes[i].previewTexture;
+
+                RoR2.ContentManagement.AssetOrDirectReference<Texture> assetOrDirectReference = new RoR2.ContentManagement.AssetOrDirectReference<Texture>
+                {
+                    loadOnAssigned = true,
+                };
+                assetOrDirectReference.address = scenes[i].previewTextureReference;
+                assetOrDirectReference.directRef = scenes[i].previewTexture;
+                icon.GetComponent<RawImage>().texture = assetOrDirectReference.WaitForCompletion();
+
+
 
                 icon.GetComponent<LayoutElement>().preferredHeight = iconHeight;
 

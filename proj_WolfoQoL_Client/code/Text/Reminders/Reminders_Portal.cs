@@ -19,7 +19,9 @@ namespace WolfoQoL_Client.Reminders
                 PortalObjective portal;
 
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cDeath>";
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalGoldshores/PortalGoldshores.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cGold>";
+                portal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalGoldshores/PortalGoldshores.prefab").WaitForCompletion().AddComponent<PortalObjective>(); 
+                portal.style = "<style=cGold>";
+                portal.addAfterTP = true;
                 portal = Addressables.LoadAssetAsync<GameObject>(key: "eadfcaf9ea3275e49858ed19f874db5a").WaitForCompletion().AddComponent<PortalObjective>();
                 portal.style = "<style=cMysterySpace>";
                 portal.blacklistedScene = SceneList.MysterySpace;
@@ -34,7 +36,9 @@ namespace WolfoQoL_Client.Reminders
                 portal.blacklistedScene = SceneList.VoidStage;
 
 
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cRebirth>";
+                portal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PortalColossus.prefab").WaitForCompletion().AddComponent<PortalObjective>(); 
+                portal.style = "<style=cRebirth>";
+                portal.addAfterTP = true;
 
                 portal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion().AddComponent<PortalObjective>();
                 portal.style = "<style=cRebirth>";
@@ -45,6 +49,15 @@ namespace WolfoQoL_Client.Reminders
                 //SolusWing portal has reminder
                 //CE Virtual portal is just to leave no reminder
                 Addressables.LoadAssetAsync<GameObject>(key: "9592265fcd09fc643b2495b5e4ebac8f").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#FF269C>";
+
+
+
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/ChampRushPortal.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/ChampRushExitPortal.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntry.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntryDanger.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalExit.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
+           
             }
         }
 
@@ -64,7 +77,7 @@ namespace WolfoQoL_Client.Reminders
         private static void RemoveReminder_Host(On.RoR2.SceneExitController.orig_Begin orig, SceneExitController self)
         {
             orig(self);
-            GenericObjectiveProvider objective = self.GetComponent<GenericObjectiveProvider>();
+            GenericObjectiveProvider objective = self.GetComponent<PortalObjective>();
             if (objective)
             {
                 Object.Destroy(objective);
@@ -92,6 +105,8 @@ namespace WolfoQoL_Client.Reminders
         public string style;
         public bool exit;
         public bool onlyEclipse;
+        public bool addAfterTP;
+        public bool bannedWhenTrial;
         public SceneDef blacklistedScene;
         public void Awake()
         {
@@ -107,9 +122,21 @@ namespace WolfoQoL_Client.Reminders
             {
                 enabled = false;
             }
+            if (addAfterTP)
+            {
+                enabled = false;
+                TeleporterInteraction.onTeleporterChargedGlobal += TeleporterInteraction_onTeleporterChargedGlobal;
+            }
         }
+
+        private void TeleporterInteraction_onTeleporterChargedGlobal(TeleporterInteraction obj)
+        {
+            enabled = true;
+        }
+
         public void Start()
         {
+
             string baseToken = "REMINDER_PORTAL_MAIN";
             if (exit)
             {
@@ -131,6 +158,15 @@ namespace WolfoQoL_Client.Reminders
             else
             {
                 objectiveToken = Language.GetStringFormatted(baseToken, style + Language.english.GetLocalizedStringByToken(nameToken) + "</color>");
+            }
+        }
+    
+
+        public void OnDestroy()
+        {
+            if (addAfterTP)
+            {
+                TeleporterInteraction.onTeleporterChargedGlobal -= TeleporterInteraction_onTeleporterChargedGlobal;
             }
         }
     }

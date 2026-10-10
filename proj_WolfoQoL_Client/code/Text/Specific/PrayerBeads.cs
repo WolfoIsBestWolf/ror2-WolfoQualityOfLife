@@ -111,7 +111,7 @@ namespace WolfoQoL_Client.Text
             float bonusLevels = beadDamage / body.levelDamage;
             if (moffeine != ItemIndex.None)
             {
-                float itemCount = (float)inventory.GetItemCount(moffeine);
+                float itemCount = (float)inventory.GetItemCountEffective(moffeine);
                 bonusLevels = itemCount / 5f;
                 itemCount = itemCount * 0.05f;
                 beadDamage = body.levelDamage * itemCount;

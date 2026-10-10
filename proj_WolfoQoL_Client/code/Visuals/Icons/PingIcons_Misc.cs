@@ -180,7 +180,12 @@ namespace WolfoQoL_Client
 
             }
 
-            if (Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.FocusConvergence.itemIndex, true, false) > 0)
+            if (Util.GetTotalItemCountFromTeam(new Util.GetTotalItemCountFromTeamArgs(RoR2Content.Items.FocusConvergence.itemIndex)
+            {
+                requiresAlive = true,
+                requiredTeam = TeamIndex.Player,
+                requiresConnected = false
+            }) > 0)
             {
                 HoldoutZoneController.sharedColorPropertyBlock.SetColor("_TintColor", HoldoutZoneController.FocusConvergenceController.convergenceMaterialColor);
             }

@@ -28,9 +28,9 @@ namespace WolfoQoL_Client
                 RainCoat.iconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Buffs/texBuffRaincoat.png");
             }
 
-            BuffDef bdBeadArmor = Addressables.LoadAssetAsync<BuffDef>(key: "64016639a97b88f43b182dfebe9fee92").WaitForCompletion();
-            bdBeadArmor.isHidden = false;
-            bdBeadArmor.canStack = false;
+            //BuffDef bdBeadArmor = Addressables.LoadAssetAsync<BuffDef>(key: "64016639a97b88f43b182dfebe9fee92").WaitForCompletion();
+            //bdBeadArmor.isHidden = true;
+            //bdBeadArmor.canStack = false;
 
             BuffDef TeleportOnLowHealthActive = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/DLC2/Items/TeleportOnLowHealth/bdTeleportOnLowHealthActive.asset").WaitForCompletion();
             TeleportOnLowHealthActive.isHidden = false;

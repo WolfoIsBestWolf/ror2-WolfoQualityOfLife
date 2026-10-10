@@ -45,7 +45,7 @@ namespace WolfoQoL_Client.DeathScreen
             Log.LogMessage("Applying Killer Inventory Screen");
 
             #region Detailed Killer Name
-            if (helper.killerName != "")
+            if (!string.IsNullOrEmpty(helper.killerName))
             {
                 string KillerNameOverride = string.Format(Language.GetString("STAT_KILLER_NAME_FORMAT"), helper.killerName);
                 self.killerBodyLabel.SetText(KillerNameOverride);
@@ -113,6 +113,7 @@ namespace WolfoQoL_Client.DeathScreen
                 extras.killerInventory.SetActive(true);
 
                 ItemInventoryDisplay inventoryDisplay = extras.killerInventory.GetComponentInChildren<ItemInventoryDisplay>();
+                inventoryDisplay.itemRentalStacks = helper.itemRentalStacks;
                 inventoryDisplay.SetItems(helper.itemAcquisitionOrder, helper.itemStacks);
                 inventoryDisplay.UpdateDisplay();
             }
@@ -149,7 +150,7 @@ namespace WolfoQoL_Client.DeathScreen
             }
 
             //WolfoMain.log.LogMessage("SendGameEndInvHelper");
-            KillerInventoryInfoStorage.SetupFromData(killerBackupName, attackerObject, victimMaster, itemStacks, primaryEquipment, secondaryEquipment, false);
+            KillerInventoryInfoStorage.SetupFromData(killerBackupName, attackerObject, victimMaster, itemStacks, itemRentalStacks, primaryEquipment, secondaryEquipment, false);
             return null;
         }
 
@@ -158,6 +159,8 @@ namespace WolfoQoL_Client.DeathScreen
         public GameObject victimMaster;
         //public ItemCollection itemStacks = ItemCatalog.RequestItemStackArray();
         public ItemCollection itemStacks = ItemCollection.Create();
+        public ItemCollection itemRentalStacks = ItemCollection.Create();
+
         public EquipmentIndex[] equipmentStacks;
         public EquipmentIndex primaryEquipment = EquipmentIndex.None;
         public EquipmentIndex secondaryEquipment = EquipmentIndex.None;
@@ -171,6 +174,7 @@ namespace WolfoQoL_Client.DeathScreen
             writer.Write(primaryEquipment);
             writer.Write(secondaryEquipment);
             itemStacks.Serialize(writer);
+            itemRentalStacks.Serialize(writer);
             //writer.WriteItemStacks(itemStacks);
         }
 
@@ -187,6 +191,7 @@ namespace WolfoQoL_Client.DeathScreen
             primaryEquipment = reader.ReadEquipmentIndex();
             secondaryEquipment = reader.ReadEquipmentIndex();
             itemStacks.Deserialize(reader);
+            itemRentalStacks.Deserialize(reader);
             //reader.ReadItemStacks(itemStacks);
         }
 
@@ -194,13 +199,13 @@ namespace WolfoQoL_Client.DeathScreen
 
     public class KillerInventoryInfoStorage : MonoBehaviour
     {
-        public string killerName = "The Planet";
+        public string killerName = "";
         public GameObject killerObject;
         public GameObject victimMaster;
 
         public List<ItemIndex> itemAcquisitionOrder = new List<ItemIndex>();
-        //public int[] itemStacks = ItemCatalog.RequestItemStackArray();
         public int[] itemStacks = ItemCatalog.RequestItemStackArray();
+        public int[] itemRentalStacks = ItemCatalog.RequestItemStackArray();
 
         public EquipmentIndex primaryEquipment = EquipmentIndex.None;
         public EquipmentIndex secondaryEquipment = EquipmentIndex.None;
@@ -209,7 +214,7 @@ namespace WolfoQoL_Client.DeathScreen
         private bool overwrittenByWin = false;
         public bool killerNoMaster = false;
 
-        public static void SetupFromData(string killerName, GameObject killerObject, GameObject victimMaster, ItemCollection itemStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment, bool killerNoMaster)
+        public static void SetupFromData(string killerName, GameObject killerObject, GameObject victimMaster, ItemCollection itemStacks, ItemCollection itemRentalStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment, bool killerNoMaster)
         {
             Log.LogMessage("GameEndInventoryHelp : SetupFromData");
             if (victimMaster == null)
@@ -236,7 +241,7 @@ namespace WolfoQoL_Client.DeathScreen
             helper.secondaryEquipment = secondaryEquipment;
 
             helper.AddItemsFrom(itemStacks, ItemFilters.NoTierDeathItemFilterDelegate);
-
+            itemRentalStacks.AddTo(helper.itemRentalStacks);
         }
 
         public void AddItemsFrom(ItemCollection otherItemStacks, Func<ItemIndex, bool> filter)

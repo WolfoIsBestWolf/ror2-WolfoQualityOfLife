@@ -40,7 +40,7 @@ namespace WolfoQoL_Client.Reminders
                             m_ObjectArgument = objective
                         }
                     };
-                    Event.action.m_PersistentCalls.AddListener(newCall);
+                    Event.onPlayerEntered.m_PersistentCalls.AddListener(newCall);
 
                     break;
                 case "artifactworld":
@@ -54,13 +54,16 @@ namespace WolfoQoL_Client.Reminders
                     }
                     GenericPickupController pickup = ArtifactDisplay.GetComponent<GenericPickupController>();
                     string artifactname = "ArtifactIndex.None";
-                    if (pickup.pickupIndex == PickupIndex.none)
+                    if (pickup.pickup.pickupIndex == PickupIndex.none)
                     {
-                        pickup.pickupIndex = PickupCatalog.FindPickupIndex(RoR2Content.Items.BoostHp.itemIndex);
+                        pickup.pickup = new UniquePickup
+                        {
+                            pickupIndex = PickupCatalog.FindPickupIndex(RoR2Content.Items.BoostHp.itemIndex)
+                        };
                     }
-                    else if (pickup.pickupIndex != PickupIndex.none)
+                    else if (pickup.pickup.pickupIndex != PickupIndex.none)
                     {
-                        ArtifactDef tempartifactdef = ArtifactCatalog.GetArtifactDef(pickup.pickupIndex.pickupDef.artifactIndex);
+                        ArtifactDef tempartifactdef = ArtifactCatalog.GetArtifactDef(pickup.pickup.pickupIndex.pickupDef.artifactIndex);
                         if (tempartifactdef)
                         {
                             artifactname = Language.GetString(tempartifactdef.nameToken);
@@ -74,7 +77,7 @@ namespace WolfoQoL_Client.Reminders
                         if (WConfig.ArtifactOutline.Value == true)
                         {
                             Highlight tempartifact = pickup.gameObject.GetComponent<Highlight>();
-                            tempartifact.pickupIndex = pickup.pickupIndex;
+                            tempartifact.pickupState = pickup.pickup;
                             tempartifact.highlightColor = Highlight.HighlightColor.pickup;
                             tempartifact.isOn = true;
                         }
@@ -111,7 +114,6 @@ namespace WolfoQoL_Client.Reminders
                     break;
             }
         }
-
 
     }
 

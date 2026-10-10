@@ -2,6 +2,7 @@
 using MonoMod.Cil;
 using RoR2;
 using System;
+using UnityEngine;
 using UnityEngine.Networking;
 using WolfoLibrary;
 using WolfoQoL_Client.DeathScreen;
@@ -22,10 +23,7 @@ namespace WolfoQoL_Client.Text
                 return;
             }
             IL.RoR2.PurchaseInteraction.OnInteractionBegin += ItemGiveUpMessages;
-
-            //On.RoR2.ScrapperController.BeginScrapping += Old_ScrappingMessage;
-
-            //On.EntityStates.QuestVolatileBattery.CountDown.OnExit += CountDown_OnExit;
+          
         }
 
         private static bool DroneScrapperController_TryDestroyDrone(On.RoR2.DroneScrapperController.orig_TryDestroyDrone orig, DroneScrapperController self, CharacterBody body)
@@ -41,7 +39,7 @@ namespace WolfoQoL_Client.Text
                         source = ItemLossMessage.Source.DroneScrapper,
                         baseToken = "ITEM_LOSS_SCRAP",
                         itemCount = body.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
-                        pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex)),
+                        pickupIndex1 = PickupCatalog.FindPickupIndex(DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex)),
                         subjectAsCharacterBody = component,
                     });
 
@@ -62,7 +60,7 @@ namespace WolfoQoL_Client.Text
                         Networker.SendWQoLMessage(new ItemLossMessage
                         {
                             baseToken = "ITEM_LOSS_LOST",
-                            pickupIndexOnlyOneItem = new PickupIndex(RoR2Content.Equipment.QuestVolatileBattery.equipmentIndex),
+                            pickupIndex1 = new PickupIndex(RoR2Content.Equipment.QuestVolatileBattery.equipmentIndex),
                             subjectAsCharacterBody = self.attachedHealthComponent.body,
                         });
                     }
@@ -94,7 +92,7 @@ namespace WolfoQoL_Client.Text
                                 source = ItemLossMessage.Source.Scrapper,
                                 baseToken = "ITEM_LOSS_SCRAP",
                                 itemCount = tryTransformResult.totalTransformed,
-                                pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(tryTransformResult.takenItem.itemIndex),
+                                pickupIndex1 = PickupCatalog.FindPickupIndex(tryTransformResult.takenItem.itemIndex),
                                 subjectAsCharacterBody = component,
                                 //subjectAsNetworkUser = component.master.playerCharacterMasterController.networkUser,
                             });
@@ -111,31 +109,6 @@ namespace WolfoQoL_Client.Text
             }
         }
 
-
-        //Server only
-        /*private static void Old_ScrappingMessage(On.RoR2.ScrapperController., ScrapperController self, int intPickupIndex)
-        {
-            orig(self, intPickupIndex);
-            if (self.interactor)
-            {
-                CharacterBody component = self.interactor.GetComponent<CharacterBody>();
-                PickupDef pickupDef = PickupCatalog.GetPickupDef(new PickupIndex(intPickupIndex));
-                if (component && component.inventory && pickupDef != null)
-                {
-                    Networking.SendWQoLMessage(new ItemLossMessage
-                    {
-                        baseToken = "ITEM_LOSS_SCRAP",
-                        //itemCount = self.itemsEaten,
-                        pickupIndexOnlyOneItem = new PickupIndex(intPickupIndex),
-                        subjectAsCharacterBody = component,
-                        //subjectAsNetworkUser = component.master.playerCharacterMasterController.networkUser,
-                    });
-
-                }
-            }
-        }*/
-
-
         //Server only
         private static void ItemGiveUpMessages(MonoMod.Cil.ILContext il)
         {
@@ -149,7 +122,11 @@ namespace WolfoQoL_Client.Text
                 c.Emit(OpCodes.Ldarg_1);
                 c.EmitDelegate<Func<CostTypeDef.PayCostResults, PurchaseInteraction, Interactor, CostTypeDef.PayCostResults>>((payResults, purchase, interactor) =>
                 {
-
+                    
+                    if (InstanceTracker.GetInstancesList<TrialController>().Count > 0)
+                    {
+                        return payResults;
+                    }
                     //These 3 should also say used I guess?
                     if (payResults.itemStacksTaken.Count > 0 || payResults.equipmentTaken.Count > 0)
                     {
@@ -157,8 +134,7 @@ namespace WolfoQoL_Client.Text
                         bool usedMessage = false;
                         //string user = interactor.GetComponent<CharacterBody>().GetUserName();
                         if (purchase.costType == CostTypeIndex.TreasureCacheItem ||
-                           purchase.costType == CostTypeIndex.TreasureCacheVoidItem ||
-                           purchase.costType == CostTypeIndex.ArtifactShellKillerItem)
+                           purchase.costType == CostTypeIndex.TreasureCacheVoidItem)
                         {
                             usedMessage = true;
                         }
@@ -170,7 +146,7 @@ namespace WolfoQoL_Client.Text
 
                         if (payResults.equipmentTaken.Count > 0)
                         {
-                            LossMessage.pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(payResults.equipmentTaken[0]);
+                            LossMessage.pickupIndex1 = PickupCatalog.FindPickupIndex(payResults.equipmentTaken[0]);
                         }
                         else if (payResults.itemStacksTaken.Count == 1)
                         {
@@ -181,10 +157,15 @@ namespace WolfoQoL_Client.Text
                             }
                             else if (payResults.itemStacksTaken[0].stackValues.temporaryStacksValue > 0)
                             {
-                                LossMessage.hasTempItems = true;
+                                LossMessage.isTempItem = true;
+                            }
+                            else if (payResults.itemStacksTaken[0].stackValues.rentalStacks > 0)
+                            {
+                                LossMessage.isRentalItem = true;
                             }
                             usedMessage = usedMessage || tempDef.ContainsTag(ItemTag.Scrap) || tempDef.ContainsTag(ItemTag.PriorityScrap);
-                            LossMessage.pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(tempDef.itemIndex);
+                            LossMessage.pickupIndex1 = PickupCatalog.FindPickupIndex(tempDef.itemIndex);
+                            LossMessage.itemCount = payResults.itemStacksTaken[0].stackValues.totalStacks;
                         }
                         else if (payResults.itemStacksTaken.Count > 1)
                         {
@@ -246,74 +227,104 @@ namespace WolfoQoL_Client.Text
             LunarCauldron,
             CleansingPool,
             MealStation,
+            DreamCrucible
         }
         public Source source;
         public override string ConstructChatString()
         {
-            var Tracker = subjectAsNetworkUser.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
+            bool has2nd = true;
+            PerPlayerMaster_ExtraStatTracker Tracker = null;
+            if (subjectAsNetworkUser)
+            {
+                Tracker = subjectAsNetworkUser.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
+            }
+            
+            switch (source)
+            {
+                case Source.Scrapper:
+                    Tracker.scrappedItems += itemCount;
+                    if (!WConfig.cfgMessageScrap.Value)
+                    {
+                        return null;
+                    }
+                    break;
+                case Source.DroneScrapper:
+                    Tracker.scrappedDrones += DroneUpgradeUtils.GetDroneCountFromUpgradeCount(itemCount);
+                    if (!WConfig.cfgMessageScrap.Value)
+                    {
+                        return null;
+                    }
+                    break;
+                case Source.LemurianEgg:
+                    Tracker.lemuriansHatched++;
+                    if (!WConfig.cfgMessageDevotion.Value)
+                    {
+                        return null;
+                    }
+                    break;
+                case Source.DreamCrucible:
+                    if (WConfig.cfgMessageDreamCrucible.Value == WConfig.MessageWho.Off)
+                    {
+                        return null;
+                    }
+                    if (WConfig.cfgMessageDreamCrucible.Value == WConfig.MessageWho.Off)
+                    {
+                        return null;
+                    }
+                    has2nd = false;
+                    break;
+                default:
+                    if (!WConfig.cfgMessagePrint.Value)
+                    {
+                        return null;
+                    }
+                    break;
 
-            if (source == Source.Scrapper)
-            {
-                Tracker.scrappedItems += itemCount;
-                if (!WConfig.cfgMessageScrap.Value)
-                {
-                    return null;
-                }
             }
-            else if (source == Source.DroneScrapper)
-            {
-                Tracker.scrappedDrones += DroneUpgradeUtils.GetDroneCountFromUpgradeCount(itemCount);
-                if (!WConfig.cfgMessageScrap.Value)
-                {
-                    return null;
-                }
-            }
-            else if (source == Source.LemurianEgg)
-            {
-                Tracker.lemuriansHatched++;
-                if (!WConfig.cfgMessageDevotion.Value)
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                if (!WConfig.cfgMessagePrint.Value)
-                {
-                    return null;
-                }
-            }
+
             if (!WConfig.module_text_chat.Value)
             {
                 return null;
             }
 
-            if (base.IsSecondPerson())
+            if (base.IsSecondPerson() && has2nd)
             {
                 baseToken += "_2P";
             }
             string itemsLost = "";
 
-            if (pickupIndex2Cook != PickupIndex.none)
+            if (pickupIndex2 != PickupIndex.none)
             {
-                itemsLost += Help.GetColoredName(pickupIndexOnlyOneItem);
+                itemsLost += Help.GetColoredName(pickupIndex1);
                 itemsLost += " + ";
-                itemsLost += Help.GetColoredName(pickupIndex2Cook);
+                itemsLost += Help.GetColoredName(pickupIndex2);
             }
-            else if (pickupIndexOnlyOneItem != PickupIndex.none)
+            else if (pickupIndex1 != PickupIndex.none)
             {
                 if (source == Source.DroneScrapper)
                 {
-                    itemsLost += Help.GetColoredName(pickupIndexOnlyOneItem, itemCount);
+                    itemsLost += Help.GetColoredName(pickupIndex1, itemCount);
                 }
                 else
                 {
-                    itemsLost += Help.GetColoredName(pickupIndexOnlyOneItem, 0, hasTempItems);
-                    if (itemCount > 1)
+                    if (source == Source.LunarCauldron)
                     {
-                        itemsLost += "(" + this.itemCount + ")";
+                        if (itemCount > 1)
+                        {
+                            itemsLost += this.itemCount + "x " + Help.GetColoredName(pickupIndex1, 0, isTempItem, isRentalItem); ;
+                        }
                     }
+                    else //if (source == Source.Scrapper)
+                    {
+                        itemsLost += Help.GetColoredName(pickupIndex1, 0, isTempItem, isRentalItem);
+                        if (itemCount > 1)
+                        {
+                            itemsLost += "(" + this.itemCount + ")";
+                        }
+                    }
+
                 }
+
             }
             else
             {
@@ -361,9 +372,10 @@ namespace WolfoQoL_Client.Text
 
 
         public int itemCount;
-        public bool hasTempItems;
-        public PickupIndex pickupIndexOnlyOneItem = PickupIndex.none;
-        public PickupIndex pickupIndex2Cook = PickupIndex.none;
+        public bool isTempItem;
+        public bool isRentalItem;
+        public PickupIndex pickupIndex1 = PickupIndex.none;
+        public PickupIndex pickupIndex2 = PickupIndex.none;
 
 
         //Could redo this like how other things do dynamic list length
@@ -374,16 +386,15 @@ namespace WolfoQoL_Client.Text
         {
             base.Serialize(writer);
             writer.Write(itemCount);
-            writer.Write(pickupIndexOnlyOneItem);
-            writer.Write(pickupIndex2Cook);
+            writer.Write(pickupIndex1);
+            writer.Write(pickupIndex2);
             writer.Write((int)source);
-            writer.Write(hasTempItems);
-            if (pickupIndexOnlyOneItem == PickupIndex.none)
+            writer.Write(isTempItem);
+            writer.Write(isRentalItem);
+            if (pickupIndex1 == PickupIndex.none)
             {
                 writer.WriteItemStacks(itemStacks);
- 
             }
-
         }
 
         public override void Deserialize(NetworkReader reader)
@@ -394,11 +405,12 @@ namespace WolfoQoL_Client.Text
             }
             base.Deserialize(reader);
             itemCount = reader.ReadInt32();
-            pickupIndexOnlyOneItem = reader.ReadPickupIndex();
-            pickupIndex2Cook = reader.ReadPickupIndex();
+            pickupIndex1 = reader.ReadPickupIndex();
+            pickupIndex2 = reader.ReadPickupIndex();
             source = (Source)reader.ReadInt32();
-            hasTempItems = reader.ReadBoolean();
-            if (pickupIndexOnlyOneItem == PickupIndex.none)
+            isTempItem = reader.ReadBoolean();
+            isRentalItem = reader.ReadBoolean();
+            if (pickupIndex1 == PickupIndex.none)
             {
                 itemStacks = ItemCatalog.RequestItemStackArray();
                 reader.ReadItemStacks(itemStacks);

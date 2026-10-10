@@ -36,7 +36,7 @@ namespace WolfoQoL_Client
     [BepInDependency("com.KingEnderBrine.ProperSave", BepInDependency.DependencyFlags.SoftDependency)]
 
 
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.1.6")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.2.0")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WQoLMain : BaseUnityPlugin
     {
@@ -126,6 +126,9 @@ namespace WolfoQoL_Client
             wqolByte++;
             Networker.message_to_index.Add(typeof(DevotionDeathMessage), wqolByte);
             Networker.index_to_message.Add(wqolByte, typeof(DevotionDeathMessage));
+            wqolByte++;
+            Networker.message_to_index.Add(typeof(RecycleMessage), wqolByte);
+            Networker.index_to_message.Add(wqolByte, typeof(RecycleMessage));
 
             ClientChecks.Start();
             MenuMain.Start();

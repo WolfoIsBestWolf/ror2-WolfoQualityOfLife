@@ -101,7 +101,8 @@ namespace WolfoQoL_Client
         {
             return GetColoredName(PickupCatalog.FindPickupIndex(index), tier);
         }
-        public static string GetColoredName(PickupIndex index, int tier = 0, bool isTemporary = false)
+
+        public static string GetColoredName(PickupIndex index, int tier = 0, bool isTemporary = false, bool isRental = false)
         {
             PickupDef def = PickupCatalog.GetPickupDef(index);
             if (def == null)
@@ -117,6 +118,10 @@ namespace WolfoQoL_Client
             {
                 name.Append(Language.GetStringFormatted("ITEM_MODIFIER_TEMP", Language.GetString(def.nameToken)));
             }
+            if (isRental)
+            {
+                name.Append(Language.GetStringFormatted("ITEM_MODIFIER_RENTAL", Language.GetString(def.nameToken)));
+            }
             else if (tier > 0)
             {
                 name.Append(Language.GetStringFormatted("DRONE_TIER_SUFFIX", Language.GetString(def.nameToken), tier+1));
@@ -128,25 +133,20 @@ namespace WolfoQoL_Client
             name.Append("</color>");
             return name.ToString();
         }
-        public static string GetColoredName(PickupDef def, bool isTemporary)
+       
+        public static string GetColoredName(UniquePickup pickup)
         {
-            StringBuilder name = stringBuilder;
-            name.Clear();
-            name.Append("<color=#");
-            name.Append(ColorUtility.ToHtmlStringRGB(def.baseColor));
-            name.Append(">");
-            if (isTemporary)
-            {
-                name.Append(Language.GetStringFormatted("ITEM_MODIFIER_TEMP", Language.GetString(def.nameToken)));
-            }
-            else
-            {
-                name.Append(Language.GetString(def.nameToken));
-            }
-            name.Append("</color>");
-            return name.ToString();
+            return GetColoredName(pickup.pickupIndex, pickup.upgradeValue, pickup.isTempItem, pickup.isRental);
         }
-
+    
+    
+        public static void AddToLastChatMessage(string add)
+        {
+            int last = Chat.log.Count - 1;
+            string newMessage = string.Concat(Chat.log[last], add);
+            Chat.log.RemoveAt(last);
+            Chat.AddMessage(newMessage);
+        }
     }
 
 }

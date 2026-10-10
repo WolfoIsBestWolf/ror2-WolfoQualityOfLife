@@ -189,14 +189,14 @@ namespace WolfoQoL_Client
 
             foreach (Entry entry in entries)
             {
-                if (entry.extraData == RoR2Content.BodyPrefabs.BackupDroneBody)
+                if (entry.extraData == (object)RoR2Content.BodyPrefabs.BackupDroneBody)
                 {
                     entry.bgTexture = LegacyResourcesAPI.Load<Texture>("Textures/ItemIcons/BG/texEquipmentBGIcon");
 
                 }
-                else if (entry.extraData == DLC3Content.BodyPrefabs.DTGunnerDroneBody ||
-                    entry.extraData == DLC3Content.BodyPrefabs.DTHaulerDroneBody ||
-                    entry.extraData == DLC3Content.BodyPrefabs.DTHealingDroneBody)
+                else if (entry.extraData == (object)DLC3Content.BodyPrefabs.DTGunnerDroneBody ||
+                    entry.extraData == (object)DLC3Content.BodyPrefabs.DTHaulerDroneBody ||
+                    entry.extraData == (object)DLC3Content.BodyPrefabs.DTHealingDroneBody)
                 {
                     entry.bgTexture = LogBookController.CommonAssets.survivorBgIcon;
                 }
@@ -244,7 +244,6 @@ namespace WolfoQoL_Client
             DLC3Content.DroneDefs.DTHaulerDrone.tier = ItemTier.Tier2;
 
             return newerENTRIES;
-            return entries;
         }
 
         private static void PageBuilder_AddBodyStatsPanel1(On.RoR2.UI.LogBook.PageBuilder.orig_AddBodyStatsPanel orig, PageBuilder self, CharacterBody body)

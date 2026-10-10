@@ -172,7 +172,7 @@ namespace WolfoQoL_Client
                     {
                         //IS checkign for an item less intensive
                         //Or checking for every interactable in a decent radius
-                        if (interactionDriver.characterBody.inventory.GetItemCount(DLC2Content.Items.LowerPricedChests) > 0)
+                        if (interactionDriver.characterBody.inventory.GetItemCountEffective(DLC2Content.Items.LowerPricedChests) > 0)
                         {
                             if (target == null)
                             {

@@ -41,6 +41,7 @@
 			"REMINDER_NEWT": "Find and activate a\n<style=cIsLunar>Newt Altar <sprite name=\"LunarCoin\" tint=1></style>",  
 			"REMINDER_HALCYON": "Find and activate the\n<style=cGold>Halcyon Shrine</style>",  
 			"REMINDER_ACCESSNODE": "Find and activate the\n<style=cDeath>Access Node</style>",  
+			"REMINDER_HALLOWED": "Use the <style=cHumanObjective>Hallowed Shrine</style>",  
 		  
 	 
 	}

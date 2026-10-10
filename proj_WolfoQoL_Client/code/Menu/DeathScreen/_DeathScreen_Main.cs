@@ -48,9 +48,11 @@ namespace WolfoQoL_Client.DeathScreen
                 if (player.master && player.master.inventory)
                 {
                     PerPlayerMaster_ExtraStatTracker tracker = player.GetComponent<PerPlayerMaster_ExtraStatTracker>();
-                    tracker.itemDurationPercent = new float[ItemCatalog.itemCount];
-                    player.master.inventory.WriteAllTempItemDecayValues(tracker.itemDurationPercent);
-                    //player.master.inventory.tempItemsStorage.SetDecayDurationServer(999999);*/
+                    if (!tracker.master)
+                    {
+                        tracker.master = player.master;
+                    }
+                    tracker.TrackerWriteValues();
                 }
             }
         }
@@ -164,8 +166,9 @@ namespace WolfoQoL_Client.DeathScreen
 
         private static void AddManyExtras(On.RoR2.UI.GameEndReportPanelController.orig_SetPlayerInfo orig, GameEndReportPanelController self, RunReport.PlayerInfo playerInfo, int playerIndex)
         {
- 
+
             EquipOnDeathInventory.DeathEquip_Enemy1 = EquipmentIndex.None;
+            EquipOnDeathInventory.DeathKeyItem_Player = KeyItemIndex.None;
             if (playerInfo == null)
             {
                 EquipOnDeathInventory.DeathEquips_Player = System.Array.Empty<EquipmentIndex>();
@@ -173,7 +176,22 @@ namespace WolfoQoL_Client.DeathScreen
                 return;
             }
             EquipOnDeathInventory.DeathEquips_Player = playerInfo.equipment;
+            bool hasInventory = playerInfo.master && playerInfo.master.inventory;
+            PerPlayerMaster_ExtraStatTracker playerTrack = null;
+            if (hasInventory)
+            {
+                EquipOnDeathInventory.DeathKeyItem_Player = playerInfo.master.inventory.keyItemIndex;
+                playerTrack = playerInfo.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
 
+                if (playerTrack && playerTrack.tempItemDurations != null)
+                {
+                    playerTrack.tempItemDurations.CopyTo(self.itemInventoryDisplay.itemDurationPercent, 0);
+                    playerTrack.rentalItems.CopyTo(self.itemInventoryDisplay.itemRentalStacks, 0);
+                    playerTrack.disabledItems.CloneTo(self.itemInventoryDisplay.disabledItems);
+                }
+            }
+
+  
             orig(self, playerInfo, playerIndex);
 
             var extras = self.GetComponent<DeathScreenExpanded>();
@@ -197,15 +215,15 @@ namespace WolfoQoL_Client.DeathScreen
                     extras.bonusInventoyHolder.SetActive(eitherActive);
                 }
 
-                if (playerInfo.master && playerInfo.master.inventory)
-                {
+                if (hasInventory)
+                {/*
                     var playerTrack = playerInfo.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
                     
                     //
                     //Show temp items on death screen
-                    if (playerTrack.itemDurationPercent != null)
+                    if (playerTrack.tempItemDurations != null)
                     {
-                        playerTrack.itemDurationPercent.CopyTo(self.itemInventoryDisplay.itemDurationPercent, 0);
+                        playerTrack.tempItemDurations.CopyTo(self.itemInventoryDisplay.itemDurationPercent, 0);
                         foreach (ItemIcon itemIcon in self.itemInventoryDisplay.itemIcons)
                         {
                             ItemIndex itemIndex = itemIcon.itemIndex;
@@ -215,6 +233,18 @@ namespace WolfoQoL_Client.DeathScreen
                             }
                         }
                     }
+                    if (playerTrack.tempItemDurations != null)
+                    {
+                        self.itemInventoryDisplay.itemDurationPercent = playerTrack.tempItemDurations;
+                    }
+                    if (playerTrack.rentalItems != null)
+                    {
+                        self.itemInventoryDisplay.itemRentalStacks = playerTrack.rentalItems;
+                    }
+                    if (playerTrack.disabledItems != null)
+                    {
+                        self.itemInventoryDisplay.disabledItems = playerTrack.disabledItems;
+                    }*/
                     //
                     //Show if died if disabled
                     playerTrack.gameOverWhileDisabled = playerTrack.gameOverWhileDisabled || playerInfo.master.inventory.inventoryDisabled;
@@ -354,6 +384,7 @@ namespace WolfoQoL_Client.DeathScreen
                 ExtraStats.DifficultyTooltip(self);
                 //ExtraStats.TotalRunTimer(self);
                 MakeChatToggleBotton(extras);
+                ExtraStats.CombineDifficultyAndKarma(self.statContentArea); //
 
 
 

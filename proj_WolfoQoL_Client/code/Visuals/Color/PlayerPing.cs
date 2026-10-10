@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace WolfoQoL_Client
 {
-    public static class PlayerPing
+    public static class PlayerAndColorPing
     {
         public static void Hooks()
         {
             //On.RoR2.UI.PingIndicator.RebuildPing += PlayerPings;
-            IL.RoR2.UI.PingIndicator.RebuildPing += PlayerPing.PlayerPingsIL;
+            IL.RoR2.UI.PingIndicator.RebuildPing += PlayerAndColorPing.PlayerPingsIL;
 
             //Colors in Messages when pinging Items
             On.RoR2.GenericPickupController.GetDisplayName += ColoredItem_Pickup;
@@ -28,8 +28,59 @@ namespace WolfoQoL_Client
         public static void PlayerPingsIL(ILContext il)
         {
             ILCursor c = new ILCursor(il);
+
+
             c.TryGotoNext(MoveType.Before,
-             x => x.MatchLdcI4(1),
+             x => x.MatchLdarg(0),
+             x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType")
+             );
+            if (c.TryGotoNext(MoveType.Before,
+               x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType")
+               ))
+            {
+                c.EmitDelegate<System.Func<PingIndicator, PingIndicator>>((self) =>
+                {
+                    if (WConfig.cfgPlayerPing.Value)
+                    {
+                        if (self.pingTarget)
+                        {
+                            CharacterBody body = self.pingTarget.GetComponent<CharacterBody>();
+                            if (body && body.teamComponent && body.teamComponent.teamIndex == TeamIndex.Player)
+                            {
+                                Debug.LogFormat("Ping playerTeam target {0}", new object[]
+                                    {
+                                    self.pingTarget
+                                    });
+                                self.pingType = playerPingType;
+                                BuildPlayerPing(self);
+                            }
+                        }
+                    }
+                    return self;
+                });
+
+            }
+            else
+            {
+                Log.LogWarning("IL Failed: PlayerPingsILPart2");
+            }
+
+
+
+
+
+
+
+
+            /*
+
+
+            c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdcI4(1),
+            x => x.MatchStfld("RoR2.UI.PingIndicator", "pingType"));
+            
+            c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdcI4(1),
             x => x.MatchStfld("RoR2.UI.PingIndicator", "pingType"));
 
             if (c.TryGotoPrev(MoveType.After,
@@ -63,7 +114,10 @@ namespace WolfoQoL_Client
             {
                 Log.LogWarning("IL Failed: PlayerPingsIL");
             }
-
+            c.TryGotoNext(MoveType.Before,
+               x => x.MatchLdarg(0),
+               x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType")
+               );
             if (c.TryGotoNext(MoveType.Before,
                x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType")
                ))
@@ -80,7 +134,7 @@ namespace WolfoQoL_Client
                 Log.LogWarning("IL Failed: PlayerPingsILPart2");
             }
 
-
+            */
         }
 
         public static void BuildPlayerPing(PingIndicator self)
@@ -160,11 +214,7 @@ namespace WolfoQoL_Client
         {
             if (WConfig.cfgMessagesColoredItemPings.Value)
             {
-                PickupDef pickupDef = PickupCatalog.GetPickupDef(self._pickupState.pickupIndex);
-                if (pickupDef != null)
-                {
-                    return Help.GetColoredName(pickupDef, self._pickupState.isTempItem);
-                }
+                return Help.GetColoredName(self.pickup);
             }
             return orig(self);
         }

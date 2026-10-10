@@ -3,6 +3,7 @@ using EntityStates.Merc.Weapon;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using RoR2.AsyncManagement;
 using System;
 using UnityEngine;
 
@@ -213,11 +214,11 @@ namespace WolfoQoL_Client.Skins
         private static void Finisher_GroundLight2_OnEnter(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.After,
-            x => x.MatchLdsfld("EntityStates.Merc.Weapon.GroundLight2", "comboFinisherSwingEffectPrefab")))
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchStfld("EntityStates.BasicMeleeAttack", "swingEffectPrefab")))
             {
                 c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<Func<GameObject, GroundLight2, GameObject>>((target, entityState) =>
+                c.EmitDelegate<Func<EntityStateGameObject, GroundLight2, GameObject>>((target, entityState) =>
                 {
                     int i = SkinChanges.DetectCaseMerc(entityState.gameObject);
                     EffectReplacer.Activate(entityState.hitEffectPrefab, i);

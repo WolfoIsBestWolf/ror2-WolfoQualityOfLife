@@ -53,59 +53,11 @@ namespace WolfoQoL_Client.Skins
                 //IL.RoR2.CharacterModel.UpdateOverlays += CharacterModel_UpdateOverlays;
             }
 
-            Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion().shaderEliteRampIndex = 0;
-
-            if (WConfig.cfgTwistedFire.Value)
-            {
-                IL.RoR2.AffixBeadBehavior.Update += TwistedFire;
-            }
-            //On.RoR2.AffixBeadBehavior.OnEnable += TwistedSound;
+             //On.RoR2.AffixBeadBehavior.OnEnable += TwistedSound;
             //On.RoR2.WwiseUtils.SoundbankLoader.Start += LoadFalseSonSoundsPermamently;
         }
         
 
-
-        private static void TwistedFire(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.TryGotoNext(MoveType.Before,
-                x => x.MatchStfld("RoR2.AffixBeadBehavior", "affixBeadWard"));
-
-            if (c.TryGotoPrev(MoveType.After,
-                x => x.MatchLdarg(0)))
-            {
-                c.EmitDelegate<System.Func<AffixBeadBehavior, AffixBeadBehavior>>((self) =>
-                {
-                    if (self.beadHolderVFX == null)
-                    {
-                        if (NetworkServer.active)
-                        {
-                            self.beadHolderVFX = UnityEngine.Object.Instantiate<GameObject>(self.beadHolderVFXReference);
-                            self.beadHolderVFX.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(self.body.gameObject, "Head");
-                            self.beadHolderVFX.transform.localScale *= self.body.modelLocator.modelScaleCompensation;
-                        }
-                    }
-                    return self;
-                });
-            }
-            else
-            {
-                Log.LogWarning("TwistedFire FAILED");
-            }
-        }
-
-        /*private static void LoadFalseSonSoundsPermamently(On.RoR2.WwiseUtils.SoundbankLoader.orig_Start orig, RoR2.WwiseUtils.SoundbankLoader self)
-        {
-            //HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "char_Toolbot");
-            HG.ArrayUtils.ArrayAppend(ref self.soundbankStrings, "Boss_FalseSon");
-            orig(self);
-        }*/
-        /*private static void TwistedSound(On.RoR2.AffixBeadBehavior.orig_OnEnable orig, AffixBeadBehavior self)
-        {
-            orig(self);
-            //Util.PlaySound("Play_boss_falseson_skill3plus_lunarGaze_end", self.gameObject);
-            Util.PlaySound("Play_boss_falseson_skill4_primeDevastator_lightning_tether", self.gameObject);
-        }*/
 
     }
 

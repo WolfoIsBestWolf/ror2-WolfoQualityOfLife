@@ -25,11 +25,11 @@ namespace WolfoQoL_Client
 
 
 
-            if (WConfig.cfgTempItemCyanStack.Value)
+            /*if (WConfig.cfgTempItemCyanStack.Value)
             {
-                On.RoR2.UI.ItemIcon.SetItemIndex_ItemIndex_int_float += ShowTemporaryItemStacksDifferently;
+                //On.RoR2.UI.ItemIcon.SetItemIndex_ItemIndex_int_float += ShowTemporaryItemStacksDifferently;
 
-            }
+            }*/
 
         }
 

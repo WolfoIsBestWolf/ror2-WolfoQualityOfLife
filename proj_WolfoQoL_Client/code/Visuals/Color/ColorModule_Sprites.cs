@@ -6,7 +6,7 @@ namespace WolfoQoL_Client
 {
     public static partial class ColorModule
     {
- 
+        [System.Obsolete]
         public static void NewColorOutlineIcons()
         {
             RoR2Content.Equipment.AffixRed.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteFire.png");
@@ -18,12 +18,13 @@ namespace WolfoQoL_Client
 
             MissedContent.Equipment.EliteEarthEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteEarth.png");
             DLC1Content.Equipment.EliteVoidEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteVoid.png");
-            MissedContent.Equipment.EliteSecretSpeedEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteSecret.png");
-
+            
             DLC2Content.Equipment.EliteAurelioniteEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteAurelionite.png");
             DLC2Content.Equipment.EliteBeadEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteBead.png");
 
             DLC3Content.Equipment.EliteCollectiveEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteCollective.png");
+            
+            DLC4Content.Equipment.EliteDeathEquipment.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/EliteDeath.png");
 
             RoR2Content.Equipment.CrippleWard.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarEffigy.png");
             RoR2Content.Equipment.Meteor.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarMeteor.png");
@@ -31,6 +32,8 @@ namespace WolfoQoL_Client
             RoR2Content.Equipment.Tonic.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarPotion.png");
 
             DLC1Content.Equipment.LunarPortalOnUse.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarPortal.png");
+            
+            DLC4Content.Equipment.SpawnAltar.pickupIconSprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/Items/LunarSpawnAltar.png");
 
             #region Junk
 

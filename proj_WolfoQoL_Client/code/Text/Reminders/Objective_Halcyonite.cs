@@ -132,7 +132,7 @@ namespace WolfoQoL_Client.Reminders
             x => x.MatchCall("UnityEngine.Networking.NetworkServer", "get_active"));
 
             if (a && c.TryGotoPrev(MoveType.After,
-               x => x.MatchLdfld("RoR2.HealthComponent", "body")
+               x => x.MatchCallvirt("RoR2.CharacterBody", "get_coreTransform")
                ))
             {
                 c.Emit(OpCodes.Ldarg_0);

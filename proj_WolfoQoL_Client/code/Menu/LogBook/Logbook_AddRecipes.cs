@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Utilities;
 using RoR2;
+using RoR2.ContentManagement;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;
 using RoR2.UI;
@@ -36,6 +37,7 @@ namespace WolfoQoL_Client
 
 
             //Recipe stuff that is unused in game but can easily be reimplemented
+            On.RoR2.UI.CyclingImage.SetSpritesFromPickupIndices += CyclingImage_SetSpritesFromPickupIndices;
             On.RoR2.UI.LogBook.PageBuilder.AddSimplePickup += AddRecipe;
             On.RoR2.UI.RecipeInfoContainer.PopulateRecipes += RemoveUnneededCycleImages;
             On.RoR2.UI.RecipeDisplay.PopulateImages += RemoveDuplicateRecipes;
@@ -62,6 +64,35 @@ namespace WolfoQoL_Client
 
             On.RoR2.UI.LogBook.LogBookPage.SetEntry += LogBookPage_SetEntry;
 
+        }
+
+        private static void CyclingImage_SetSpritesFromPickupIndices(On.RoR2.UI.CyclingImage.orig_SetSpritesFromPickupIndices orig, CyclingImage self, PickupIndex[] pickups)
+        {
+            //These fuckers broke it!!!!!!
+            if (self.sprites == null)
+            {
+                self.sprites = new Sprite[pickups.Length];
+            }
+            if (self.tempAoDRs == null)
+            {
+                self.tempAoDRs = new List<RoR2.ContentManagement.AssetOrDirectReference<Sprite>>();
+            }
+            orig(self,pickups);
+            foreach (var a in self.tempAoDRs)
+            {
+                a.WaitForCompletion();
+            }
+            self.UpdateImage();
+        }
+
+        private static void CyclingImage_Awake(On.RoR2.UI.CyclingImage.orig_Awake orig, CyclingImage self)
+        {
+            if (self.tempAoDRs == null)
+            {
+                self.tempAoDRs = new List<RoR2.ContentManagement.AssetOrDirectReference<Sprite>>();
+            }
+            orig(self);
+           
         }
 
         private static void LogBookPage_SetEntry(On.RoR2.UI.LogBook.LogBookPage.orig_SetEntry orig, LogBookPage self, UserProfile userProfile, Entry entry)
@@ -126,7 +157,6 @@ namespace WolfoQoL_Client
 
         private static void RecipeStrip_PopulateImages(On.RoR2.UI.RecipeStrip.orig_PopulateImages orig, RecipeStrip self)
         {
-
             //If already populated, Don't
             if (self.transform.GetChild(0).childCount != 2)
             {
@@ -149,7 +179,18 @@ namespace WolfoQoL_Client
                 quantity.transform.SetParent(self.resultIcon.transform, false);
                 quantity.transform.localPosition = new Vector3(24, -8, 0);
             }
+            if (self.resultIcon != null)
+            {
+                PickupDef pickupDef = PickupCatalog.GetPickupDef(self.recipe.result);
+                if (pickupDef != null)
+                {
+                    AssetOrDirectReference<Sprite> newInstance = AssetOrDirectReference<Sprite>.GetNewInstance(pickupDef.iconSpriteReference, true, pickupDef.iconSprite, delegate (Sprite sprite)
+                    {
+                        self.resultIcon.sprite = sprite;
+                    }, null);
 
+                }
+            }
 
         }
 

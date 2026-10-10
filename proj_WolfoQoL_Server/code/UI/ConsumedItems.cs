@@ -187,6 +187,7 @@ namespace WolfoQoL_Server
             qualityDef.nameToken = qName;
         }
 
+        //TODO ADD RENTAL AND PERMANENT OR WHATEVER
         public static void UsedKeyGiver(On.RoR2.PurchaseInteraction.orig_OnInteractionBegin orig, PurchaseInteraction self, Interactor activator)
         {
             orig(self, activator);
@@ -194,12 +195,12 @@ namespace WolfoQoL_Server
             {
                 if (self.costType == CostTypeIndex.TreasureCacheItem)
                 {
-                    activator.GetComponent<CharacterBody>().inventory.GiveItem(UsedRustedKey, self.cost);
+                    activator.GetComponent<CharacterBody>().inventory.GiveItemPermanent(UsedRustedKey, self.cost);
                     CharacterMasterNotificationQueue.PushItemTransformNotification(activator.GetComponent<CharacterBody>().master, RoR2Content.Items.TreasureCache.itemIndex, UsedRustedKey.itemIndex, CharacterMasterNotificationQueue.TransformationType.Default);
                 }
                 else if (self.costType == CostTypeIndex.TreasureCacheVoidItem)
                 {
-                    activator.GetComponent<CharacterBody>().inventory.GiveItem(UsedEncrustedKey, self.cost);
+                    activator.GetComponent<CharacterBody>().inventory.GiveItemPermanent(UsedEncrustedKey, self.cost);
                     CharacterMasterNotificationQueue.PushItemTransformNotification(activator.GetComponent<CharacterBody>().master, DLC1Content.Items.TreasureCacheVoid.itemIndex, UsedEncrustedKey.itemIndex, CharacterMasterNotificationQueue.TransformationType.Default);
                 }
             }

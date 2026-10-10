@@ -5,58 +5,6 @@ using UnityEngine.Networking;
 namespace WolfoQoL_Client.Text
 {
 
-    /*public static class CookMessage : RoR2.SubjectChatMessage
-    {
-        public override string ConstructChatString()
-        {
-            baseToken = "MEALPREP_COOKMEAL";
-            if (base.IsSecondPerson())
-            {
-                baseToken += "_2P";
-            }
-            string quantityS = string.Empty;
-            if (quantity > 1)
-            {
-                quantityS = "(" + quantity + ")";
-            }
-            return Language.GetStringFormatted("MEALPREP_COOKMEAL", new object[]
-            {
-                    this.GetSubjectName(),
-                    Help.GetColoredName(reward),
-                    quantityS,
-                    Help.GetColoredName(ingredient1),
-                    Help.GetColoredName(ingredient2),
-            });
-        }
-
-        public PickupIndex ingredient1;
-        public PickupIndex ingredient2;
-        public PickupIndex reward;
-        public int quantity;
-
-        public override void Serialize(NetworkWriter writer)
-        {
-            base.Serialize(writer);
-            writer.Write(ingredient1);
-            writer.Write(ingredient2);
-            writer.Write(reward);
-            writer.Write(quantity);
-        }
-
-        public override void Deserialize(NetworkReader reader)
-        {
-            if (WQoLMain.NoHostInfo == true)
-            {
-                return;
-            }
-            base.Deserialize(reader);
-            ingredient1 = reader.ReadPickupIndex();
-            ingredient2 = reader.ReadPickupIndex();
-            reward = reader.ReadPickupIndex();
-            quantity = reader.ReadInt32();
-        }
-    }*/
-
     public class InteractableMessage : SubjectChatMessage
     {
         public string interactableToken;
@@ -94,48 +42,63 @@ namespace WolfoQoL_Client.Text
     public class RecycleMessage : ChatMessageBase
     {
         public PickupIndex oldPickup;
-        public PickupIndex newPickup;
-        public bool isTemp;
+        public UniquePickup newPickup;
+        public string token;
+        
         public override string ConstructChatString()
         {
+            if (!WConfig.module_text_chat.Value)
+            {
+                return null;
+            }
+
             if (!WConfig.cfgMessagesRecycler.Value)
             {
                 return null;
             }
+         
             string token1 = "";
             string token2 = "";
             string hex = "";
+            string hex2 = "";
 
             PickupDef pickup1 = PickupCatalog.GetPickupDef(oldPickup);
-            PickupDef pickup2 = PickupCatalog.GetPickupDef(newPickup);
+            PickupDef pickup2 = PickupCatalog.GetPickupDef(newPickup.pickupIndex);
             hex = ColorUtility.ToHtmlStringRGB(pickup1.baseColor);
-            if (pickup1.itemIndex != ItemIndex.None)
+            hex2 = ColorUtility.ToHtmlStringRGB(pickup2.baseColor);
+
+            token1 = Language.GetString(pickup1.nameToken);
+            token2 = Language.GetString(pickup2.nameToken);
+
+            string pickupFormat = GenericPickupController.GetPickupFormat(newPickup);
+            if (!string.IsNullOrWhiteSpace(pickupFormat))
             {
-                token1 = ItemCatalog.GetItemDef(pickup1.itemIndex).nameToken;
-                token2 = ItemCatalog.GetItemDef(pickup2.itemIndex).nameToken;
+                token1 = Language.GetStringFormatted(GenericPickupController.GetPickupFormat(newPickup), Language.GetString(token1));
+                token2 = Language.GetStringFormatted(GenericPickupController.GetPickupFormat(newPickup), Language.GetString(token2));
             }
-            else if (pickup1.equipmentIndex != EquipmentIndex.None)
-            {
-                token1 = EquipmentCatalog.GetEquipmentDef(pickup1.equipmentIndex).nameToken;
-                token2 = EquipmentCatalog.GetEquipmentDef(pickup2.equipmentIndex).nameToken;
-            }
-            if (this.isTemp)
-            {
-                token1 = Language.GetStringFormatted("ITEM_MODIFIER_TEMP", Language.GetString(token1));
-                token2 = Language.GetStringFormatted("ITEM_MODIFIER_TEMP", Language.GetString(token2));
-            }
-            else
-            {
-                token1 = Language.GetString(token1);
-                token2 = Language.GetString(token2);
-            }
-            return string.Format(Language.GetString("ITEM_RECYCLED_GLOBAL"), token1, token2, hex);
+
+            return string.Format(Language.GetString(token), token1, token2, hex, hex2);
         }
 
+        public override void Serialize(NetworkWriter writer)
+        {
+            base.Serialize(writer);
+            writer.Write(token);
+            writer.Write(oldPickup);
+            writer.Write(newPickup);
+        }
+        public override void Deserialize(NetworkReader reader)
+        {
+            if (WQoLMain.NoHostInfo == true)
+            {
+                return;
+            }
+            base.Deserialize(reader);
+            token = reader.ReadString();
+            oldPickup = reader.ReadPickupIndex();
+            newPickup = reader.ReadUniquePickup();
+        }
     }
-
-
-
 
 }
 

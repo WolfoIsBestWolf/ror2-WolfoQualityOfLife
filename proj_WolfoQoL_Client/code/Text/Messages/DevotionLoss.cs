@@ -103,7 +103,7 @@ namespace WolfoQoL_Client.Text
             {
                 baseToken = "ITEM_LOSS_EGG",
                 itemCount = 1,
-                pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(itemIndex),
+                pickupIndex1 = PickupCatalog.FindPickupIndex(itemIndex),
                 subjectAsNetworkUser = self._devotionInventoryController.SummonerMaster.playerCharacterMasterController.networkUser,
             });
         }

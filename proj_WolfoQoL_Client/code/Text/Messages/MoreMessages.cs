@@ -35,17 +35,59 @@ namespace WolfoQoL_Client.Text
             On.RoR2.CharacterMasterNotificationQueue.PushItemTransformNotification += TransformItem_Messages;
             On.RoR2.CharacterMasterNotificationQueue.PushEquipmentTransformNotification += TransformEquipment_Messages;
             IL.RoR2.CharacterMasterNotificationQueue.HandleTransformNotification += SendAllTransformsLol;
-
+            IL.RoR2.Items.LowHealthOrbSpawnerBehavior.ProcessRestoration += DreamOrbMessage_Host;
 
             //Tinker Messages I guess?? MAYBE??
             On.RoR2.EquipmentSlot.FireRecycle += RecylerMessage_Host;
             On.RoR2.GenericPickupController.OnDeserialize += RecylerMessage_Client;
+
+            On.RoR2.Items.CursedBookBodyBehavior.AttemptUpgrade += DarkAlchemyMessage_Host;
 
             //On.RoR2.PressurePlateController.SetSwitch += PressurePlateController_SetSwitch;
 
             On.RoR2.MealPrepController.BeginCookingServer += MealPrepController_BeginCookingServer;
             On.EntityStates.MealPrep.WaitToBeginCooking.OnEnter += WaitToBeginCooking_OnEnter;
 
+        }
+
+        private static void DreamOrbMessage_Host(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchStloc(12) //Pretty dgaf but works prob
+            ))
+            {
+                c.EmitDelegate<Func<Inventory.ItemTransformation, Inventory.ItemTransformation>>((trans) =>
+                {
+                    Networker.SendWQoLMessage(new ItemLossMessage
+                    {
+                        baseToken = "ITEM_USE_DREAM",
+                        pickupIndex1 = PickupCatalog.FindPickupIndex(trans.newItemIndex),
+                        source = ItemLossMessage.Source.DreamCrucible
+                    });
+                    return trans;
+                });
+            }
+            else
+            {
+                Log.LogWarning("IL Failed : DreamOrbMessage_Host");
+            }
+        }
+
+        private static bool DarkAlchemyMessage_Host(On.RoR2.Items.CursedBookBodyBehavior.orig_AttemptUpgrade orig, RoR2.Items.CursedBookBodyBehavior self, UniquePickup source, out UniquePickup result)
+        {
+            bool did = orig(self, source, out result);
+            if (did)
+            {
+                Networker.SendWQoLMessage(new RecycleMessage
+                {
+                    oldPickup = source.pickupIndex,
+                    newPickup = result,
+                    token = "ITEM_DOWNGRADE_GLOBAL"
+                });
+            }
+            return did;  
         }
 
         private static void WaitToBeginCooking_OnEnter(On.EntityStates.MealPrep.WaitToBeginCooking.orig_OnEnter orig, EntityStates.MealPrep.WaitToBeginCooking self)
@@ -67,8 +109,8 @@ namespace WolfoQoL_Client.Text
             Networker.SendWQoLMessage(new ItemLossMessage
             {
                 baseToken = "MEALPREP_COOKMEAL",
-                pickupIndexOnlyOneItem = itemsToTake[0],
-                pickupIndex2Cook = itemsToTake[1],
+                pickupIndex1 = itemsToTake[0],
+                pickupIndex2 = itemsToTake[1],
                 source = ItemLossMessage.Source.MealStation,
                 //reward = reward,
                 //quantity = count,
@@ -96,11 +138,15 @@ namespace WolfoQoL_Client.Text
             bool justRecyled = preRecycle == false && self.Recycled == true;
             if (justRecyled && newPickup)
             {
-                Chat.AddMessage(new RecycleMessage
+                if (WConfig.cfgMessagesRecycler.Value)
                 {
-                    oldPickup = pre,
-                    newPickup = self.pickup.pickupIndex
-                });
+                    Chat.AddMessage(new RecycleMessage
+                    {
+                        oldPickup = pre,
+                        newPickup = self.pickup,
+                        token = "ITEM_RECYCLED_GLOBAL"
+                    });
+                }
             }
             else if (newPickup)
             {
@@ -116,11 +162,15 @@ namespace WolfoQoL_Client.Text
                 var has = self.gameObject.GetComponent<StoreLatestPickupindex>();
                 if (has && has.previousIndex != PickupIndex.none)
                 {
-                    Chat.AddMessage(new RecycleMessage
+                    if (WConfig.cfgMessagesRecycler.Value)
                     {
-                        oldPickup = has.previousIndex,
-                        newPickup = self.Network_pickupState.pickupIndex
-                    });
+                        Chat.AddMessage(new RecycleMessage
+                        {
+                            oldPickup = has.previousIndex,
+                            newPickup = self.Network_pickupState,
+                            token = "ITEM_RECYCLED_GLOBAL"
+                        });
+                    }
                 }
 
             }
@@ -136,15 +186,16 @@ namespace WolfoQoL_Client.Text
             }
             UniquePickup initialPickupState = pickupController.pickup;
             bool temp = orig(self);
-
-            Chat.AddMessage(new RecycleMessage
+            if (WConfig.cfgMessagesRecycler.Value)
             {
-                //subjectAsCharacterBody = self.characterBody,
-                oldPickup = initialPickupState.pickupIndex,
-                newPickup = pickupController.pickup.pickupIndex,
-                isTemp = initialPickupState.isTempItem
-            });
-
+                Chat.AddMessage(new RecycleMessage
+                {
+                    //subjectAsCharacterBody = self.characterBody,
+                    oldPickup = initialPickupState.pickupIndex,
+                    newPickup = pickupController.pickup,
+                    token = "ITEM_RECYCLED_GLOBAL"
+                });
+            }
             return temp;
         }
 
@@ -291,16 +342,8 @@ namespace WolfoQoL_Client.Text
             string player = Util.GetBestMasterName(characterMaster);
             //Any player message here
             ItemDef newDef = ItemCatalog.GetItemDef(newIndex);
-            /*if (newDef.tier >= ItemTier.VoidTier1 && newDef.tier <= ItemTier.VoidBoss) 
-            {
-                if (characterMaster.TryGetComponent<PerPlayer_ExtraStatTracker>(out var Stats))
-                {
-            //This doesn't have the item amount, how fix?
-                    Stats.itemsVoided++;
-                }
-            }*/
 
-            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.ConsumedItem)
             {
                 if (WConfig.cfgMessagesRevive.Value)
                 {
@@ -356,7 +399,7 @@ namespace WolfoQoL_Client.Text
                     string hex2 = ColorUtility.ToHtmlStringRGB(PickupCatalog.FindPickupIndex(newIndex).pickupDef.baseColor);
                     string name = Language.GetString(ItemCatalog.GetItemDef(oldIndex).nameToken) + "</color>";
                     string name2 = Language.GetString(newDef.nameToken) + "</color>";
-                    int newitemcount = characterMaster.inventory.GetItemCount(newIndex);
+                    int newitemcount = characterMaster.inventory.GetItemCountEffective(newIndex);
                     if (newitemcount > 1)
                     {
                         name2 += "(" + newitemcount + ")";
@@ -385,7 +428,7 @@ namespace WolfoQoL_Client.Text
             {
                 return;
             }
-            if (transformationType == CharacterMasterNotificationQueue.TransformationType.Default)
+            if (transformationType == CharacterMasterNotificationQueue.TransformationType.ConsumedItem)
             {
                 if (WConfig.cfgMessagesRevive.Value)
                 {

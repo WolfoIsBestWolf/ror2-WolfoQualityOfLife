@@ -1,4 +1,4 @@
-//Optional to translate
+//Takes vanilla already translated objectives and just adds a bit of color.
 //Just adds colors to objectives/chat lines nothing more
 {
 	"strings":
@@ -33,5 +33,8 @@
 			"ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>Collective enemy identified. Integrating analytics...</style>",
 
 			
+			"PORTAL_CHAMP_RUSH_OBJECTIVE": "Proceed through the Ritual Portal",
+			"OBJECTIVE_CHAMPRUSH_EXIT1": "Return to the Mortal Plane",
+			"OBJECTIVE_CHAMPRUSH_EXIT2": "Return to the Mortal Plane or...",
 	}
 }

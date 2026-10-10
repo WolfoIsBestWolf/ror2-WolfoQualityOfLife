@@ -26,11 +26,11 @@ namespace WolfoQoL_Client
             {
                 return true;
             }
-            if (!tempdef.pickupIconSprite || tempdef.pickupIconSprite.name == "texNullIcon")
+            /*if (!tempdef.pickupIconSprite || tempdef.pickupIconSprite.name == "texNullIcon")
             {
                 return false;
-            }
-            return true;
+            }*/
+            return false;
         }
         public static bool AllowAllItemFilter(ItemIndex itemIndex)
         {

@@ -47,6 +47,34 @@ namespace WolfoQoL_Client
             On.RoR2.UI.ScoreboardController.Rebuild += AddDevotedLemurians;
             //On.RoR2.SubjectChatMessage.GetSubjectName += IncludeEliteTypeInSubjectName;
             MealMenu();
+
+
+            //IL.RoR2.UI.CursedBookSpellSlotIcon
+            //IL.RoR2.UI.CursedBookExtraDisplay.UpdateSelectionIndicator += CursedBookExtraDisplay_UpdateSelectionIndicator;
+            //We could remove the weird blurriyness by removing the cloud textures
+            //matCursedBookNotification3
+            //_AlphaBoost 1
+        }
+
+        private static void CursedBookExtraDisplay_UpdateSelectionIndicator(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.After,
+                x => x.MatchCall("RoR2.UI.CursedBookExtraDisplay", "CalcIconAlpha")))
+            {
+                c.EmitDelegate<System.Func<float, float>>((alpha) =>
+                {
+                    if (alpha < 0.5f)
+                    {
+                        return 0.5f;
+                    }
+                    return alpha;
+                });
+            }
+            else
+            {
+                Log.LogWarning("IL Failed: CursedBookExtraDisplay_UpdateSelectionIndicator");
+            }
         }
 
         private static void AddDevotedLemurians(On.RoR2.UI.ScoreboardController.orig_Rebuild orig, ScoreboardController self)
@@ -208,13 +236,13 @@ namespace WolfoQoL_Client
             {
                 return;
             }
-            SprintingCrosshair.transform.localScale = Vector3.one * 1.1f;
+            //SprintingCrosshair.transform.localScale = Vector3.one * 1.1f;
             CrosshairController SprintingCrosshairUI = SprintingCrosshair.GetComponent<RoR2.UI.CrosshairController>();
             RawImage rawMid = SprintingCrosshair.GetComponent<RawImage>();
             SprintingCrosshairUI.maxSpreadAngle = 8;
 
             rawMid.texture = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/UI/texCrosshairDot.png").WaitForCompletion();
-            rawMid.color = new Color(1f, 1f, 1f, 0.9f);
+            rawMid.color = new Color(1f, 1f, 1f, 0.7f);
 
             Texture2D Arrow = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/UI/texCrosshairArrow.png").WaitForCompletion();
             GameObject Right = new GameObject("Right");
@@ -232,22 +260,22 @@ namespace WolfoQoL_Client
             Left.transform.SetParent(SprintingCrosshair.transform);
             Right.transform.SetLocalEulerAngles(new Vector3(0, 0, -90), RotationOrder.OrderXYZ);
             Left.transform.SetLocalEulerAngles(new Vector3(0, 0, 90), RotationOrder.OrderXYZ);
-            Right.transform.localScale = Vector3.one;
-            Left.transform.localScale = Vector3.one;
+            Right.transform.localScale = Vector3.one * 0.8f;
+            Left.transform.localScale = Vector3.one * 0.8f;
 
             SprintingCrosshairUI.spriteSpreadPositions = new RoR2.UI.CrosshairController.SpritePosition[]
             {
                 new CrosshairController.SpritePosition
                 {
-                    onePosition = new Vector3(96,0,0),
+                    onePosition = new Vector3(80,0,0),
                     target = Left.GetComponent<RectTransform>(),
-                    zeroPosition = new Vector3(24,0,0)
+                    zeroPosition = new Vector3(12,0,0)
                 },
                 new CrosshairController.SpritePosition
                 {
-                    onePosition = new Vector3(-96,0,0),
+                    onePosition = new Vector3(-80,0,0),
                     target = Right.GetComponent<RectTransform>(),
-                    zeroPosition = new Vector3(-24,0,0)
+                    zeroPosition = new Vector3(-12,0,0)
                 },
             };
 

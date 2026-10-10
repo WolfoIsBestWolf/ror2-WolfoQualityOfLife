@@ -23,11 +23,24 @@ namespace WolfoQoL_Client
             On.EntityStates.Scrapper.ScrapperBaseState.OnEnter += ScrapperBaseState_OnEnter;
             On.EntityStates.DroneScrapper.DroneScrapperBaseState.OnEnter += ScrappingDroneMessage_Client;
 
-            IL.RoR2.PurchaseInteraction.OnDeserialize += ClientCheck_Purchase;
+            //IL.RoR2.PurchaseInteraction.OnDeserialize += ClientCheck_Purchase;
+            On.RoR2.PurchaseInteraction.OnSyncAvailable += ClientCheck_Purchase;
             IL.RoR2.Inventory.OnDeserialize += Inventory_OnDeserialize;
 
             On.RoR2.SummonMasterBehavior.OnDisable += EquipmentDrone_ForceMessage;
 
+        }
+
+        private static void ClientCheck_Purchase(On.RoR2.PurchaseInteraction.orig_OnSyncAvailable orig, PurchaseInteraction self, bool newAvailable)
+        {
+            orig(self,newAvailable);
+            if (!NetworkServer.active)
+            {
+                if (newAvailable == false)
+                {
+                    CheckInteractable_ClientOnly(self, false);
+                }
+            }
         }
 
         private static void ScrappingDroneMessage_Client(On.EntityStates.DroneScrapper.DroneScrapperBaseState.orig_OnEnter orig, EntityStates.DroneScrapper.DroneScrapperBaseState self)
@@ -503,7 +516,7 @@ namespace WolfoQoL_Client
                 source = ItemLossMessage.Source.DroneScrapper,
                 baseToken = "ITEM_LOSS_SCRAP",
                 itemCount = tier,
-                pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(DroneCatalog.GetDroneIndexFromBodyIndex(lastDeadDrone.GetComponent<CharacterBody>().bodyIndex)),
+                pickupIndex1 = PickupCatalog.FindPickupIndex(DroneCatalog.GetDroneIndexFromBodyIndex(lastDeadDrone.GetComponent<CharacterBody>().bodyIndex)),
                 subjectAsNetworkUser = lastDroneOwner,
             });
         }
@@ -630,7 +643,7 @@ namespace WolfoQoL_Client
                     source = ItemLossMessage.Source.Scrapper,
                     baseToken = "ITEM_LOSS_SCRAP",
                     subjectAsNetworkUser = subjectAsNetworkUser,
-                    pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex((ItemIndex)item),
+                    pickupIndex1 = PickupCatalog.FindPickupIndex((ItemIndex)item),
                     itemCount = itemCount,
                 });
             }
@@ -668,7 +681,7 @@ namespace WolfoQoL_Client
                     source = source,
                     baseToken = token,
                     subjectAsNetworkUser = subjectAsNetworkUser,
-                    pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex((ItemIndex)item),
+                    pickupIndex1 = PickupCatalog.FindPickupIndex((ItemIndex)item),
                 });
             }
             else if (itemsTaken > 0)
@@ -699,7 +712,7 @@ namespace WolfoQoL_Client
                 Chat.AddMessage(new ItemLossMessage
                 {
                     baseToken = token,
-                    pickupIndexOnlyOneItem = PickupCatalog.FindPickupIndex(equip),
+                    pickupIndex1 = PickupCatalog.FindPickupIndex(equip),
                     subjectAsNetworkUser = subjectAsNetworkUser,
                 });
             }

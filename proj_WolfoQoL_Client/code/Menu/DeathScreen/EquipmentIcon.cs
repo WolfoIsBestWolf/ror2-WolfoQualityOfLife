@@ -13,6 +13,7 @@ namespace WolfoQoL_Client.DeathScreen
     {
         public static EquipmentIndex[] DeathEquips_Player = Array.Empty<EquipmentIndex>();
         public static EquipmentIndex DeathEquip_Enemy1 = EquipmentIndex.None;
+        public static KeyItemIndex DeathKeyItem_Player = KeyItemIndex.None;
 
         public static void AddEquipmentIcons(On.RoR2.UI.ItemInventoryDisplay.orig_AllocateIcons orig, global::RoR2.UI.ItemInventoryDisplay self, int desiredItemCount)
         {
@@ -22,21 +23,18 @@ namespace WolfoQoL_Client.DeathScreen
                 //It'd probably be good if this only ran on death screens but uhhhh
                 if (self.name == "Content")
                 {
-                    bool isLog = self.inventory == null;
                     Transform area = self.transform.parent.parent.parent;
                     Transform area2 = self.transform.parent.parent;
 
                     Dictionary<EquipmentIndex, int> equipmentCount = new Dictionary<EquipmentIndex, int>();
+                    bool keyItem = false;
+
                     if (area.name == "KillerItemArea")
                     {
                         if (DeathEquip_Enemy1 != EquipmentIndex.None)
                         {
                             equipmentCount.Add(DeathEquip_Enemy1, 1);
                         }
-                    }
-                    else if (area.name == "EvolutionArea")
-                    {
-
                     }
                     else if (area.name == "ItemArea" || area2.name == "ItemArea")
                     {
@@ -58,20 +56,28 @@ namespace WolfoQoL_Client.DeathScreen
                             }
 
                         }
+                        if (DeathKeyItem_Player != KeyItemIndex.None)
+                        {
+                            keyItem = true;
+                        }
                     }
 
-                    if (equipmentCount.Count == 0)
+                    if (equipmentCount.Count == 0 && !keyItem)
                     {
                         orig(self, desiredItemCount);
                     }
                     else
                     {
-                        orig(self, desiredItemCount + equipmentCount.Count);
+                        orig(self, desiredItemCount + equipmentCount.Count + (keyItem ? 1 : 0));
                         for (int i = 0; i < equipmentCount.Count; i++)
                         {
                             var pair = equipmentCount.ElementAt(i);
                             //WolfoMain.log.LogMessage(pair.Key + " : " + pair.Value);
-                            MakeEquipmentIcon(self.itemIcons[desiredItemCount + i], EquipmentCatalog.GetEquipmentDef(pair.Key), pair.Value);
+                            MakeEquipmentIcon(self.itemIcons[desiredItemCount + i], pair.Key, pair.Value);
+                        }
+                        if (keyItem)
+                        {
+                            MakeKeyItemIcon(self.itemIcons[desiredItemCount + equipmentCount.Count], DeathKeyItem_Player);
                         }
                     }
                     return;
@@ -82,21 +88,51 @@ namespace WolfoQoL_Client.DeathScreen
         }
 
 
-        public static void MakeEquipmentIcon(ItemIcon equipmentIcon, EquipmentDef equipmentDef, int stack)
+        public static void MakeEquipmentIcon(ItemIcon icon, EquipmentIndex index, int stack)
         {
             Log.LogMessage("Making EquipmentIcon");
-            equipmentIcon.GetComponent<ItemIcon>().SetItemIndex(ItemIndex.Count, stack, 0);
+            icon.SetItemIndex(new ItemIcon.SetItemIndexArgs
+            {
+                newItemIndex = (ItemIndex)1,
+                newItemCount = stack,
+                newDurationPercent = 0,
+                isRental = false,
+                isItemDisabled = false
+            });
 
-            //equipmentIcon.GetComponent<UnityEngine.UI.RawImage>().texture = equipmentDef.pickupIconTexture;
-            equipmentIcon.image.texture = equipmentDef.pickupIconTexture;
-            TooltipProvider tempTooltip = equipmentIcon.GetComponent<TooltipProvider>();
-            equipmentIcon.name = "EquipmentIcon";
+            EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(index);
+            icon.name = "EquipmentIcon";
+            icon.asyncRawImage.SetAssetOrDirectReference(equipmentDef.pickupIconSpriteReference, equipmentDef.pickupIconSprite);
 
-            tempTooltip.titleToken = equipmentDef.nameToken;
-            tempTooltip.bodyToken = equipmentDef.descriptionToken;
-            tempTooltip.overrideBodyText = Language.GetString(equipmentDef.descriptionToken);//Fukin lookin glass
-            tempTooltip.bodyColor = new Color(0.6f, 0.6f, 0.6f, 1f);
-            tempTooltip.titleColor = ColorCatalog.GetColor(equipmentDef.colorIndex);
+            TooltipProvider tooltip = icon.GetComponent<TooltipProvider>();
+            tooltip.titleToken = equipmentDef.nameToken;
+            tooltip.bodyToken = equipmentDef.descriptionToken;
+            tooltip.overrideBodyText = Language.GetString(equipmentDef.descriptionToken);
+            tooltip.titleColor = ColorCatalog.GetColor(equipmentDef.colorIndex);
+            tooltip.bodyColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+        }
+        public static void MakeKeyItemIcon(ItemIcon icon, KeyItemIndex index)
+        {
+            Log.LogMessage("Making KeyItemIcon");
+            icon.SetItemIndex(new ItemIcon.SetItemIndexArgs
+            {
+                newItemIndex = (ItemIndex)1,
+                newItemCount = 1,
+                newDurationPercent = 0,
+                isRental = false,
+                isItemDisabled = false
+            });
+
+            KeyItemDef keyItemDef = KeyItemCatalog.GetKeyItemDef(index);
+            icon.name = "KeyItemIcon";
+            icon.asyncRawImage.SetAssetOrDirectReference(keyItemDef.pickupIconSpriteReference, keyItemDef.pickupIconSprite);
+
+            TooltipProvider tooltip = icon.GetComponent<TooltipProvider>();   
+            tooltip.titleToken = keyItemDef.nameToken;
+            tooltip.bodyToken = keyItemDef.descriptionToken;
+            tooltip.overrideBodyText = Language.GetString(keyItemDef.descriptionToken);
+            tooltip.titleColor = ColorCatalog.GetColor(keyItemDef.colorIndex);
+            tooltip.bodyColor = new Color(0.6f, 0.6f, 0.6f, 1f);
         }
     }
 

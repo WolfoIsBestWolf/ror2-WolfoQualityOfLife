@@ -1,5 +1,4 @@
 ﻿using HG;
-using ProperSave;
 using RoR2;
 using System.Collections.Generic;
 using System.IO;
@@ -41,7 +40,7 @@ namespace WolfoQoL_Client.ModSupport
 
         }
 
-        private static void Loading_OnLoadingEnded(SaveFile _)
+        private static void Loading_OnLoadingEnded(ProperSave.SaveFile _)
         {
             string a = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "R_");
             string b = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "P_");

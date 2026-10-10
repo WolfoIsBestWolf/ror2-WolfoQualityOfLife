@@ -51,8 +51,10 @@ namespace WolfoQoL_Client.Text
             }
             string VictimName = Util.GetBestBodyName(victimBody.gameObject);
             string KillerName = "UNIDENTIFIED_KILLER_NAME";
+            bool noKiller = false;
             if (attackerBody != null)
             {
+                noKiller = true;
                 KillerName = Util.GetBestBodyName(attackerBody.gameObject);
                 KillerName = KillerName.Replace("\n", " ");
             }
@@ -145,13 +147,14 @@ namespace WolfoQoL_Client.Text
             };
             KillerInventoryMessage killerInventoryMessage = new KillerInventoryMessage
             {
-                killerBackupName = KillerName,
+                killerBackupName = noKiller ? string.Empty: KillerName,
                 attackerObject = attackerBody ? attackerBody.gameObject : null,
                 victimMaster = victimBody ? victimBody.master.gameObject : null,
             };
             if (attackerMaster)
             {
                 killerInventoryMessage.itemStacks = attackerMaster.inventory.effectiveItemStacks;
+                killerInventoryMessage.itemRentalStacks = attackerMaster.inventory.rentalItemStacks;
                 killerInventoryMessage.primaryEquipment = attackerMaster.inventory.currentEquipmentIndex;
             }
 

@@ -124,8 +124,13 @@ namespace WolfoQoL_Client.Text
             overwrite.checkForLang = false;
 
             string temp = Language.GetString(SceneCatalog.GetSceneDef(index).nameToken);
-            temp = temp.Replace("Hidden Realm: ", "");
-            overwrite.contextToken = Language.GetString("BAZAAR_SEER_CONTEXT") + " of " + temp;
+            string[] split = temp.Split(": ");
+            if (split.Length > 1)
+            {
+                temp = split[1];
+            }
+          
+            overwrite.contextToken = Language.GetString("BAZAAR_SEER_CONTEXT") + " (" + temp + ")";
             overwrite.displayNameToken = Language.GetString("BAZAAR_SEER_NAME") + " (" + temp + ")";
         }
 

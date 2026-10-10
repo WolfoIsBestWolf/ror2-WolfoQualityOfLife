@@ -27,7 +27,6 @@ namespace WolfoQoL_Client.DeathScreen
 
 
             //Host only stat adjustments
-            On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += RemovingItemDeductFromItemsCollectedStats;
             On.EntityStates.BrotherMonster.SpellChannelEnterState.OnEnter += StoreItemAcqOrderOnMithrixP4;
             On.EntityStates.BrotherMonster.TrueDeathState.OnEnter += ReturnItemAcqOrderAfterMithrixP4;
 
@@ -90,27 +89,7 @@ namespace WolfoQoL_Client.DeathScreen
                 player.gameObject.EnsureComponent<ItemAquisitionStorer>().Store();
             }
         }
-
-        private static void RemovingItemDeductFromItemsCollectedStats(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
-        {
-            if (countToAdd < 0)
-            {
-                int itemCountBefore = self.GetItemCountPermanent(itemIndex);
-                orig(self, itemIndex, countToAdd);
-                int itemCountAfter = self.GetItemCountPermanent(itemIndex);
-                StatManager.itemCollectedEvents.Enqueue(new StatManager.ItemCollectedEvent
-                {
-                    inventory = self,
-                    itemIndex = itemIndex,
-                    quantity = (itemCountAfter - itemCountBefore),
-                    newCount = 0
-                });
-                return;
-            }
-            orig(self, itemIndex, countToAdd);
-        }
-
-
+  
         private static void Track_DoTDamage_MinionHurt(ILContext il)
         {
             ILCursor c = new ILCursor(il);

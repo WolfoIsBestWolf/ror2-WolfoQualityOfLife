@@ -20,6 +20,7 @@ namespace WolfoQoL_Client.Reminders
             Objective_Halcyonite.Start();
             InteractableVisuals.Start();
             Reminders_Newt.Start();
+            Reminders_Hex.Start();
 
             //If you scrap it the reminder should vanish
             //But what if you see the reminder and get another key to unlock the box?

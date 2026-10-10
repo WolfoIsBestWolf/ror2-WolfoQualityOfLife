@@ -16,8 +16,6 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<MessageWho> cfgDevotedInventory;
 
-        public static ConfigEntry<bool> SH_Music_Restarter;
-        //public static ConfigEntry<bool> OperatorDroneIndicator;
         public static ConfigEntry<bool> cfgChefMenuTweak;
 
         public static ConfigEntry<bool> RealTimeTimer;
@@ -30,7 +28,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> DroneMessage_Combine;
         public static ConfigEntry<bool> DroneMessage_RemoteOp;
 
-        public static ConfigEntry<bool> cfgTempItemCyanStack;
+        //public static ConfigEntry<bool> cfgTempItemCyanStack;
         public static ConfigEntry<bool> cfgRecipesInLog;
 
         public static ConfigEntry<bool> module_visuals_skins;
@@ -65,7 +63,6 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkipItemDisplays;
 
         public static ConfigEntry<bool> cfgDarkTwisted;
-        public static ConfigEntry<bool> cfgTwistedFire;
         public static ConfigEntry<bool> cfgTwistedSound;
         public static ConfigEntry<bool> cfgMithrixPhase4SkipFix;
 
@@ -81,7 +78,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgSkinBellBalls;
 
 
-        public static ConfigEntry<bool> cfgSkinMakeBlightedAcrid;
+        //public static ConfigEntry<bool> cfgSkinMakeBlightedAcrid;
 
         public static ConfigEntry<bool> cfgSkinOperatorAltChirp;
 
@@ -98,6 +95,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgMessageVictory;
         public static ConfigEntry<bool> cfgMessageVoidTransform;
         public static ConfigEntry<MessageWho> cfgMessageElixirWatch;
+        public static ConfigEntry<MessageWho> cfgMessageDreamCrucible;
         public static ConfigEntry<bool> cfgMessagesColoredItemPings;
         public static ConfigEntry<bool> cfgMessagesVoidQuantity;
         public static ConfigEntry<bool> cfgMessagesShrineRevive;
@@ -123,6 +121,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgRemindersPortal;
         public static ConfigEntry<bool> cfgRemindersSecretGeode;
         public static ConfigEntry<bool> cfgChargeHalcyShrine;
+        public static ConfigEntry<HexShrine> cfgReminder_HexShrine;
 
         public enum ReminderChoice
         {
@@ -148,13 +147,20 @@ namespace WolfoQoL_Client
             White,
             Colored
         }
-        /*public enum AllyExpands
+
+        public enum HexShrine
         {
             Off,
-            EngiTurret,
-            Orbs,
-            All,
-        }*/
+            WhenHex,
+            Always
+        }
+        /*public enum AllyExpands
+{
+    Off,
+    EngiTurret,
+    Orbs,
+    All,
+}*/
         public enum MainMenuTheme
         {
             Default,
@@ -382,6 +388,12 @@ namespace WolfoQoL_Client
                 true,
                 "Reminder, that you have Sale Star, so you hopefully do not waste it."
             );
+            cfgReminder_HexShrine = ConfigFile_Client.Bind(
+                "Reminders",
+                "Hallowed Shrine",
+                HexShrine.WhenHex,
+                "Reminder to use the Hallowed Shrine to either gain more Hexes or exchange them."
+            );
 
             cfgRemindersPortal = ConfigFile_Client.Bind(
                "Reminders",
@@ -485,11 +497,17 @@ namespace WolfoQoL_Client
                 MessageWho.Anybody,
                 "Chat message for when;\nAn Elixir is used\nDelicate Watches are broken\nA random item is eaten by (VanillaVoids) Clockwork Mechanism"
             );
+            cfgMessageDreamCrucible = ConfigFile_Client.Bind(
+                "Chat Messages",
+                "Dream Crucible consumed",
+                MessageWho.Anybody,
+                "Chat message for when Dream Crubiles are consumed instead of another item."
+            );
             cfgMessagesRecycler = ConfigFile_Client.Bind(
                  "Chat Messages",
-                 "Recycler Message",
+                 "Recycler / Dark Alchemy Message",
                  true,
-                 "When an item is Recycled by anyone, a message will be displayed saying what turned into what."
+                 "When an item is Recycled or split with Dark Alchemy by anyone, a message will be displayed saying what turned into what."
               );
             DroneMessage_Repair = ConfigFile_Client.Bind(
                  "Chat Messages",
@@ -569,7 +587,7 @@ namespace WolfoQoL_Client
                 "Menu & Hud",
                 "Main Menu Scav",
                 true,
-                "Should a Scav be readded to the options screen like in a old version of the game, and a Gup added to the alternative game modes screen."
+                "Should a Scav be readded to the options screen like in a old version of the game."
             );
             cfgChefMenuTweak = ConfigFile_Client.Bind(
               "Menu & Hud",
@@ -577,12 +595,12 @@ namespace WolfoQoL_Client
               true,
               "Make the Chef crafting menu quite a bit wider and have more columns." + RestartNotif
             );
-            cfgTempItemCyanStack = ConfigFile_Client.Bind(
+            /*cfgTempItemCyanStack = ConfigFile_Client.Bind(
                "Menu & Hud",
                "Blue Stack Number for Temps",
                true,
                "Item stacks that have temporary items in it, have their stack number slightly blue.\n\nCan't show temp items seperately like in returns."
-           );
+           );*/
 
             cfgUISimuBorder = ConfigFile_Client.Bind(
                "Menu & Hud",
@@ -603,7 +621,7 @@ namespace WolfoQoL_Client
             cfgMissionPointers = ConfigFile_Client.Bind(
                "Icons",
                "Mission Pointers",
-               true,
+               false,
                "Void Fields : Indicator where the next Cell is.\n\nCommencement : Lunar Pillar locations shown briefly after charging one.\n\nGilded Coast : Location of last 3 Halcyon Beacon"
            );
 
@@ -908,12 +926,12 @@ namespace WolfoQoL_Client
                 true,
                 "Attacks that apply blight are colored Purple/Orange instead of Green/Yellow. Includes a variant of the default skin." + RestartNotif
              );
-            cfgSkinMakeBlightedAcrid = ConfigFile_Client.Bind(
+            /*cfgSkinMakeBlightedAcrid = ConfigFile_Client.Bind(
                 "Skins",
                 "Default Acrid Blight Recolor",
                 false,
                 "Simple recolor where instead of green it's more yellow-orange\n\nThis is a seperate skin as of now." + RestartNotif
-            );
+            );*/
             cfgSkinOperatorAltChirp = ConfigFile_Client.Bind(
                 "Skins",
                 "Operator Mastery Recolor Chirp",
@@ -965,24 +983,19 @@ namespace WolfoQoL_Client
                 false,
                 "Makes the armor on the skin smooth instead of battered" + RestartNotif
             );
-            cfgTwistedFire = ConfigFile_Client.Bind(
+            /*cfgTwistedFire = ConfigFile_Client.Bind(
                 "Visuals",
                 "Fire Twisted Elites",
                 true,
                 "Readds the lunar fire visual effect that twisted elites once had." + RestartNotif
-            );
+            );*/
             cfgDarkTwisted = ConfigFile_Client.Bind(
                 "Visuals",
                 "Dark Twisted Elites",
                 true,
                 "Gives Twisted Elites a dark blue coloration instead of reusing Overloading." + RestartNotif
             );
-            SH_Music_Restarter = ConfigFile_Client.Bind(
-                           "Other",
-                           "Restart Solutional Haunt music",
-                           true,
-                           "Re-starts the Solutional Haunt music after the Solus Wing boss fight."
-                       );
+
             cfgPrimordialBlueText = ConfigFile_Client.Bind(
                 "Other",
                 "Primordial | Blue objective",
@@ -1086,11 +1099,11 @@ namespace WolfoQoL_Client
  
                 cfgSmoothCaptain,
                 cfgDarkTwisted,
-                cfgTwistedFire,
+                //cfgTwistedFire,
                 cfgChefMenuTweak,
                 cfgSkinOperatorAltChirp,
                 cfgSkinAcridBlight,
-                cfgSkinMakeBlightedAcrid,
+                //cfgSkinMakeBlightedAcrid,
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();

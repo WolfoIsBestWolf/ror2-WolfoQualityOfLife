@@ -173,8 +173,15 @@ namespace WolfoQoL_Client.DeathScreen
                 int tier = value.Key.Item2;
                 DroneDef droneDef = DroneCatalog.FindDroneDefFromBody(body.gameObject);
 
-                itemIcon.SetItemIndex(ItemIndex.Count, value.Value, 0);
-                itemIcon.image.texture = body.portraitIcon;
+                itemIcon.SetItemIndex(new ItemIcon.SetItemIndexArgs
+                {
+                    newItemIndex = (ItemIndex)1,
+                    newItemCount = value.Value,
+                    newDurationPercent = 0,
+                    isRental = false,
+                    isItemDisabled = false
+                });
+                itemIcon.asyncRawImage.SetImage(body.portraitIcon);
                 var toolTip = itemIcon.GetComponent<TooltipProvider>();
 
                 body.bodyColor.a = 1;
@@ -230,8 +237,15 @@ namespace WolfoQoL_Client.DeathScreen
                 var value = droneCollection.bodyDict_Devotion.ElementAt(i);
                 CharacterBody body = BodyCatalog.GetBodyPrefabBodyComponent(value.Key);
 
-                itemIcon.SetItemIndex(ItemIndex.Count, value.Value, 0);
-                itemIcon.image.texture = body.portraitIcon;
+                itemIcon.SetItemIndex(new ItemIcon.SetItemIndexArgs
+                {
+                    newItemIndex = (ItemIndex)1,
+                    newItemCount = value.Value,
+                    newDurationPercent = 0,
+                    isRental = false,
+                    isItemDisabled = false
+                });
+                itemIcon.asyncRawImage.SetImage(body.portraitIcon);
                 var toolTip = itemIcon.GetComponent<TooltipProvider>();
                 toolTip.titleToken = body.baseNameToken;
                 toolTip.overrideBodyText = "";
@@ -244,7 +258,14 @@ namespace WolfoQoL_Client.DeathScreen
             for (int i = 0; i < droneCollection.itemDict_Devotion.Count; i++)
             {
                 var value = droneCollection.itemDict_Devotion.ElementAt(i);
-                itemDisplay.itemIcons[icon].SetItemIndex(value.Key.itemIndex, value.Value, 0);
+                itemDisplay.itemIcons[icon].SetItemIndex(new ItemIcon.SetItemIndexArgs
+                {
+                    newItemIndex = value.Key.itemIndex,
+                    newItemCount = value.Value,
+                    newDurationPercent = 0,
+                    isRental = false,
+                    isItemDisabled = false
+                });
                 icon++;
             }
             //EQUIPMENT
@@ -252,8 +273,17 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 var value = droneCollection.equipmentDict_Devotion.ElementAt(i);
 
-                itemDisplay.itemIcons[icon].SetItemIndex(ItemIndex.Count, value.Value, 0);
-                itemDisplay.itemIcons[icon].image.texture = value.Key.pickupIconTexture;
+                itemDisplay.itemIcons[icon].SetItemIndex(new ItemIcon.SetItemIndexArgs
+                {
+                    newItemIndex = (ItemIndex)1,
+                    newItemCount = value.Value,
+                    newDurationPercent = 0,
+                    isRental = false,
+                    isItemDisabled = false
+                });
+
+                EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(value.Key);
+                itemDisplay.itemIcons[icon].asyncRawImage.SetAssetOrDirectReference(equipmentDef.pickupIconSpriteReference, equipmentDef.pickupIconSprite);
                 EquipOnDeathInventory.MakeEquipmentIcon(itemDisplay.itemIcons[icon], value.Key, value.Value);
                 icon++;
             }
@@ -295,11 +325,11 @@ namespace WolfoQoL_Client.DeathScreen
         public Dictionary<ValueTuple<BodyIndex, int>, int> droneDict; //Drone, Tier, Quantity
         public List<ValueTuple<BodyIndex, int>> droneList;
 
-        public List<EquipmentDef> equipmentDrones;
+        public List<EquipmentIndex> equipmentDrones;
 
         public Dictionary<BodyIndex, int> bodyDict_Devotion;
         public Dictionary<ItemDef, int> itemDict_Devotion;
-        public Dictionary<EquipmentDef, int> equipmentDict_Devotion;
+        public Dictionary<EquipmentIndex, int> equipmentDict_Devotion;
 
         public bool hasDrones = false;
         public bool hasDevotion = false;
@@ -330,11 +360,11 @@ namespace WolfoQoL_Client.DeathScreen
 
                 droneList = new List<(BodyIndex, int)>();
                 droneDict = new Dictionary<(BodyIndex, int), int>();
-                equipmentDrones = new List<EquipmentDef>();
+                equipmentDrones = new List<EquipmentIndex>();
 
                 bodyDict_Devotion = new Dictionary<BodyIndex, int>();
                 itemDict_Devotion = new Dictionary<ItemDef, int>();
-                equipmentDict_Devotion = new Dictionary<EquipmentDef, int>();
+                equipmentDict_Devotion = new Dictionary<EquipmentIndex, int>();
                 for (int i = 0; i < owner.group.memberCount; i++)
                 {
                     AddToCollection(owner.group.members[i]);
@@ -455,14 +485,14 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (isDevotion)
                 {
-                    if (equipmentDict_Devotion.TryAdd(slot.equipmentDef, 1) == false)
+                    if (equipmentDict_Devotion.TryAdd(slot.equipmentIndex, 1) == false)
                     {
-                        equipmentDict_Devotion[slot.equipmentDef]++;
+                        equipmentDict_Devotion[slot.equipmentIndex]++;
                     }
                 }
                 else
                 {
-                    equipmentDrones.Add(slot.equipmentDef);
+                    equipmentDrones.Add(slot.equipmentIndex);
                 }
             }
         }

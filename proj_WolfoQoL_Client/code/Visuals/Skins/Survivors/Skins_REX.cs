@@ -67,6 +67,14 @@ namespace WolfoQoL_Client.Skins
                 defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
                 renderer = vine
             });
+            SkinDefParams skinTreebotAltHollow_params = Addressables.LoadAssetAsync<SkinDefParams>(key: "6370ac89b57cb0447876035f3ac83500").WaitForCompletion();
+            HG.ArrayUtils.ArrayAppend(ref skinTreebotAltHollow_params.rendererInfos, new CharacterModel.RendererInfo
+            {
+                defaultMaterial = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Treebot/matTreebotAltHollowCrystal.mat").WaitForCompletion(),
+                defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off,
+                renderer = vine
+            });
+
         }
 
         #region Skinned REX attacks (Old)

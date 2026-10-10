@@ -1,9 +1,11 @@
 using HG;
 using RoR2;
+using RoR2.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Assertions.Must;
 using UnityEngine.Networking;
 using static WolfoQoL_Client.Assets;
 
@@ -33,36 +35,34 @@ namespace WolfoQoL_Client
             //-Unused Junk
 
             //Chests are checked double because pickupController, but that is needed to be checked for so uhhh
-
-            Type[] array = ChestRevealer.typesToCheck;
-
-            for (int i = 0; i < array.Length; i++)
+            List<IInteractable> instancesList = InterfaceInstanceTracker<IInteractable>.GetInstancesList();
+            for (int i = 0; i < instancesList.Count; i++)
             {
-                foreach (MonoBehaviour monoBehaviour in InstanceTracker.FindInstancesEnumerable(array[i]))
+                IInteractable interactable = instancesList[i];
+                MonoBehaviour monoBehaviour = interactable as MonoBehaviour;
+                //Debug.Log(monoBehaviour.gameObject.name.Split(" ")[0]);
+                //Debug.Log($"{monoBehaviour} | {monoBehaviour.gameObject.name}");
+                if (monoBehaviour.TryGetComponent<NetworkIdentity>(out var net) && net.sceneId.Value != 0)// && net.sceneId.Value != 0)
                 {
-                    //Debug.Log(monoBehaviour.gameObject.name.Split(" ")[0]);
-                    //Debug.Log($"{monoBehaviour} | {monoBehaviour.gameObject.name}");
-                    if (monoBehaviour.TryGetComponent<NetworkIdentity>(out var net) && net.sceneId.Value != 0)// && net.sceneId.Value != 0)
+                    if (pingIconDict.TryGetValue(monoBehaviour.gameObject.name.Split(" ")[0], out Sprite sprite))
                     {
-                        if (pingIconDict.TryGetValue(monoBehaviour.gameObject.name.Split(" ")[0], out Sprite sprite))
+                        if (sprite == null)
                         {
-                            if (sprite == null)
-                            {
-                                monoBehaviour.gameObject.AddComponent<BlockScanner>();
-                            }
-                            if (monoBehaviour.TryGetComponent<PingInfoProvider>(out var ping))
-                            {
-                                ping.pingIconOverride = sprite;
-                            }
-                            else
-                            {
-                                monoBehaviour.gameObject.AddComponent<PingInfoProvider>().pingIconOverride = sprite;
-                            }
+                            monoBehaviour.gameObject.AddComponent<BlockScanner>();
+                        }
+                        if (monoBehaviour.TryGetComponent<PingInfoProvider>(out var ping))
+                        {
+                            ping.pingIconOverride = sprite;
+                        }
+                        else
+                        {
+                            monoBehaviour.gameObject.AddComponent<PingInfoProvider>().pingIconOverride = sprite;
                         }
                     }
-                    //Debug.Log(monoBehaviour.gameObject.name + " | " + (net ? net.sceneId.Value : "-"));
                 }
+                //Debug.Log(monoBehaviour.gameObject.name + " | " + (net ? net.sceneId.Value : "-"));
             }
+
         }
 
 
@@ -143,12 +143,55 @@ namespace WolfoQoL_Client
             Pings_Drones();
             Pings_Printer();
             Pings_Loot();
+            Pings_DLC4();
         }
+        public static void Pings_DLC4()
+        {
+           
+            GameObject WakeChargingPositionIndicator = Addressables.LoadAssetAsync<GameObject>(key: "4d2d7cd9bc8324f4ea375fbe93d36e49").WaitForCompletion();
+            ChargeIndicatorController wakeIndicator = WakeChargingPositionIndicator.GetComponent<ChargeIndicatorController>();
+            wakeIndicator.iconSprites[0].sprite = Assets.Bundle.LoadAsset<Sprite>($"Assets/WQoL/PingIcons/DLC4/Wake.png"); //Wake Charge Icon
+            //wakeIndicator.flashWhenNotCharging = false; //It's always charging.
+            wakeIndicator.disableTextWhenNotCharging = false;
+            wakeIndicator.spriteBaseColor = new Color(0.498f, 0.7059f, 0.1725f, 1f); //Dark HEX
+            wakeIndicator.spriteChargingColor = new Color(0.8157f, 0.9725f, 0.1255f, 1f); //HEX
+            wakeIndicator.spriteFlashColor = new Color(0.8157f, 0.9725f, 0.1255f, 1f); //HEX
+            wakeIndicator.transform.GetChild(0).GetChild(0).GetChild(0).localPosition = new Vector3(0, 2.4f, 0); //Align Charge text
+
+            SetAllIcons("8de56584aa123374faf97a408f679f44", "DLC4/Chest_Hex"); //Hex Chest
+
+
+            //Fix icons overlapping. Both hands shown on the scanner
+            Addressables.LoadAssetAsync<GameObject>(key: "ad3b9534b8b7f1a40a4f5ad6a116f0da").WaitForCompletion().GetComponent<GrantHexesController>().shouldShowOnScanner = false;
+
+            SetAllIcons("aaebd0975b8b14e4398e8913bb3659df", "DLC4/Hallowed_Shrine", false); //HallowingShrineBase
+            SetAllIcons("2eedb5b6cb80c72498d09bbdc3145b18", "DLC4/Hallowed_Shrine", false); //HallowingShrineBase_Node_StageLeft_Life
+            SetAllIcons("ad3b9534b8b7f1a40a4f5ad6a116f0da", "DLC4/Hallowed_Shrine", false); //HallowingShrineBase_Node_StageRight_Death
+            SetAllIcons("9be2fc81258b1374f8b17a5eeaea6362", "DLC4/Hallowed_Shrine", false); //BetterHallowingShrineBase
+            SetAllIcons("bc0d7b08b1523354e91f8985671d29e2", "DLC4/Hallowed_Shrine", false); //BetterHallowingShrineBase_Node_StageLeft_Life
+
+
+            SetAllIcons("1d2736b176d731948886bd3075979168", "DLC4/Wake2", false); //WakeAltar
+            //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/WakeSacrifice/SacrificeBody.prefab").WaitForCompletion(); //WakeGuys
+
+            SetAllIcons("e66a334f45131c54e9b410860e933645", "DLC4/Potential_DLC4"); //ShrineCatastrophe
+            //Compulsion Shrine
+            //Trial Gong
+                                                                                  
+            SetAllIcons("4a66ffedde78d784987f49283135e153", "DLC4/SanctumSconce");  //Sanctum Sconce
+
+
+        }
+
 
         public static void Pings_Loot()
         {
             SetAllIcons("f8e3413a378bd7c44aa09bed0020eaf5", "DLC1/Loot_Potential");
             SetAllIcons("cda6217a2c0775c42a3f456b3bb5e073", "DLC2/Loot_Fragment");
+
+            //TrialPotentialInitialPickup (has no eye)
+            //TrialPotentialBlessingPickup(
+            //UltimaPotentialPickup
         }
 
         public static void Pings_Dictionary()
@@ -168,8 +211,7 @@ namespace WolfoQoL_Client
             pingIconDict.Add("ShrineRestack", Load("ShrineOrderIcon"));
             pingIconDict.Add("TemporaryItemsShopTerminal", Load("DLC3/TempVendor"));
 
-
-
+          
             ////Other Stage Specific
             //pingIconDict.Add("GLPressurePlate", Load(""));
             pingIconDict.Add("HumanFan", ExclamationIcon);
@@ -179,7 +221,7 @@ namespace WolfoQoL_Client
             pingIconDict.Add("PortalDialer", QuestionMarkIcon); //Shows up as Chest
             //pingIconDict.Add("ChefWok", Load(""));
             pingIconDict.Add("NullSafeZone", Load("Void_Cell"));
-            pingIconDict.Add("TripleShopEquipment", Load("TrippleShop_Equipment"));
+            pingIconDict.Add("TripleShopEquipment", Load("TripleShop_Equipment"));
             //pingIconDict.Add("MSObelisk", Load("")); //QuestionMark
             pingIconDict.Add("ShrineRebirth", Load("SotsIcon3_Shrunk"));
             //Geodes dont use spaces so would need to be found differently ig
@@ -249,6 +291,9 @@ namespace WolfoQoL_Client
             SetAllIcons("624679952282b144a8ad63c93b0d8abc", "ChestCategoryHealing");
             SetAllIcons("6722ebff89fcfc94e84212a1ba51d46a", "ChestCategoryUtility");
 
+            SetAllIcons("853eb6d8b2b13c3439536c696d15e990", "ChestCategoryDamage"); //TrialCategoryChestDamage
+            SetAllIcons("5a7c61f995757dc498117a68dcc59d09", "ChestCategory2Damage"); //TrialCategoryChest2Damage
+  
             SetAllIcons("RoR2/DLC1/CategoryChest2/CategoryChest2Damage Variant.prefab", "ChestCategory2Damage");
             SetAllIcons("RoR2/DLC1/CategoryChest2/CategoryChest2Healing Variant.prefab", "ChestCategory2Healing");
             SetAllIcons("RoR2/DLC1/CategoryChest2/CategoryChest2Utility Variant.prefab", "ChestCategory2Utility");
@@ -262,6 +307,7 @@ namespace WolfoQoL_Client
             SetAllIcons("341c368b343432b4dbe8ff30752fbbb4", "DLC1/ChestVoidPotential");
 
             SetAllIcons("RoR2/Base/TreasureCache/Lockbox.prefab", "LockedIcon");
+            SetAllIcons("RoR2/DLC4/LockboxTrial.prefab", "LockedIcon");
             SetAllIcons("RoR2/DLC1/TreasureCacheVoid/LockboxVoid.prefab", "LockedIconAlt");
 
             //SetAllIcons("RoR2/DLC1/FreeChestMultiShop/FreeChestMultiShop.prefab", "PingIconShippingDrone");
@@ -274,12 +320,19 @@ namespace WolfoQoL_Client
 
             SetAllIcons("664d4964dd9d5cf408168f09b05a0cb3", "ChestTimedIcon");
 
-            SetAllIcons("063fc18c1e1408b42a2c4aa3a789e906", "TrippleShop_Small");   //Terminal
-            SetAllIcons("9eb9c2d7c9f1cb54c9aee8bb625259f5", "TrippleShop_Small");   //Shop
-            SetAllIcons("c87d4eb171e0ee44cb2d4ec714c58c72", "TrippleShop_Large");
-            SetAllIcons("c814170ba819d7b45934c0fc54fd99d1", "TrippleShop_Large");
-            SetAllIcons("e992781bd4b52804c8d340a56db49a06", "TrippleShop_Equipment");
-            SetAllIcons("63251d66a257b1a4c8eed4de5dd89561", "TrippleShop_Equipment");
+            SetAllIcons("063fc18c1e1408b42a2c4aa3a789e906", "TripleShop_Small");   //Terminal
+            SetAllIcons("9eb9c2d7c9f1cb54c9aee8bb625259f5", "TripleShop_Small");   //Shop
+            SetAllIcons("c87d4eb171e0ee44cb2d4ec714c58c72", "TripleShop_Large");
+            SetAllIcons("c814170ba819d7b45934c0fc54fd99d1", "TripleShop_Large");
+            SetAllIcons("e992781bd4b52804c8d340a56db49a06", "TripleShop_Equipment");
+            SetAllIcons("63251d66a257b1a4c8eed4de5dd89561", "TripleShop_Equipment");
+
+
+            //Trial variant
+            SetAllIcons("e741619db6386be43b3dc0e9c9b38431", "TripleShop_Small"); //TrialTripleShop
+            SetAllIcons("8882b57b880589d4088d33d0a3c3f295", "TripleShop_Small"); //TrialMultiShopTerminal
+            SetAllIcons("51aacf2ae7078b248bf2dd5e4c963506", "TripleShop_Large"); //TrialTripleShopLarge
+            SetAllIcons("fba3c0cf54a8b494dacfeccef37f9819", "TripleShop_Large"); //TrialMultiShopLargeTerminal
 
             SetAllIcons("d31df5066858329458b33f21b3b22d2e", "DLC3/TempVendor");
 
@@ -302,6 +355,8 @@ namespace WolfoQoL_Client
             SetAllIcons("d59b10d76f9ca41489a04053300576c1", "ShrineOrderIcon");
             SetAllIcons("7cb2ac171b983124b851c8b883e6754f", "ShrineOrderIcon");
             SetAllIcons("36f43f9ec00ade748927e89df4b0e743", "ShrineOrderIcon");
+            SetAllIcons("1fda66deec48c3b49ba232cee9c91991", "ShrineOrderIcon"); // ShrineRestackQuest Variant.prefab
+
 
             SetAllIcons("9f0ac77d429ca5d40b3870b5feaec1b5", "ShrineHealIcon");
 
@@ -399,7 +454,7 @@ namespace WolfoQoL_Client
             SetAllIcons("452b7f73a60721b4eb546e2efe29d6d2", "LemurianEgg");
 
             SetAllIcons("e69e4c37270ee1f4a8ecd2e60c03faad", "DLC1/VendingMachine");
-            //SetAllIcons("RoR2/DLC1/VendingMachine/VendingMachine.prefab", "DLC1/VendingMachine");
+            SetAllIcons("1ba61b9301f1a704d80fa3cd92a708b5", "DLC1/VendingMachine"); //HauntedVendingMachine
 
             Addressables.LoadAssetAsync<GameObject>(key: "be6e220724818e54493d5447cc8caa4e").WaitForCompletion().GetComponent<SpecialObjectAttributes>().portraitIcon = texBarrelIcon.texture;
             SetAllIcons("3a7dc0d37d5875c4a9eafc8d7097c000", "DLC1/VoidStalk");

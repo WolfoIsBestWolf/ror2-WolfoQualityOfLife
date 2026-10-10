@@ -76,6 +76,7 @@ namespace WolfoQoL_Client
             Addressables.LoadAssetAsync<SceneDef>(key: "6a2712b5c8cf36f44b34c128f2759522").WaitForCompletion().previewTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SimuPreview/texSkymeadowPreview.png");
             itmoon.previewTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SimuPreview/texMoonPreview.png");
 
+            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/Base/goldshores/goldshores.asset").WaitForCompletion().previewTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SimuPreview/texGoldshoresPreview.png");
 
             On.RoR2.UI.LogBook.LogBookController.GetStageStatus += ITStageIfCompletedOnce;
         }

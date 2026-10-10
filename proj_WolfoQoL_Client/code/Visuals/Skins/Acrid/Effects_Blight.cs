@@ -32,6 +32,7 @@ namespace WolfoQoL_Client.Skins
 
         public static GameObject lobbyPool = null;
 
+        public static GameObject GASPOISOn = null;
 
         public static void GhostReplacements()
         {

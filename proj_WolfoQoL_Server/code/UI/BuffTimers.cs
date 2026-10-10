@@ -114,7 +114,7 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        float tempdur = EntityStates.GhostUtilitySkillState.baseDuration * self.outer.GetComponentInParent<CharacterBody>().inventory.GetItemCount(RoR2Content.Items.LunarUtilityReplacement);
+                        float tempdur = EntityStates.GhostUtilitySkillState.baseDuration * self.outer.GetComponentInParent<CharacterBody>().inventory.GetItemCountEffective(RoR2Content.Items.LunarUtilityReplacement);
                         self.outer.GetComponentInParent<CharacterBody>().AddTimedBuff(bdStrides, tempdur);
                     }
                 };
@@ -147,7 +147,7 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        if (self.inventory && self.inventory.GetItemCount(RoR2Content.Items.SprintArmor) > 0)
+                        if (self.inventory && self.inventory.GetItemCountEffective(RoR2Content.Items.SprintArmor) > 0)
                         {
                             self.AddBuff(bdRoseBuckle);
                         }
@@ -159,7 +159,7 @@ namespace WolfoQoL_Server
                     orig(self);
                     if (NetworkServer.active)
                     {
-                        if (self.inventory && self.inventory.GetItemCount(RoR2Content.Items.SprintArmor) > 0)
+                        if (self.inventory && self.inventory.GetItemCountEffective(RoR2Content.Items.SprintArmor) > 0)
                         {
                             if (!self.HasBuff(bdRoseBuckle)) { return; }
                             self.RemoveBuff(bdRoseBuckle);
@@ -480,7 +480,7 @@ namespace WolfoQoL_Server
                     if (self.inventory)
                     {
                         float duration = 7f - self.outOfDangerStopwatch;
-                        if (self.inventory.GetItemCount(DLC1Content.Items.OutOfCombatArmor) > 0)
+                        if (self.inventory.GetItemCountEffective(DLC1Content.Items.OutOfCombatArmor) > 0)
                         {
                             self.AddTimedBuff(bdOpalCooldown, duration);
                         }

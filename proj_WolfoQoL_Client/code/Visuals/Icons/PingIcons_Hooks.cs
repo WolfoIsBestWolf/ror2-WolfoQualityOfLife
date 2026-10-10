@@ -26,9 +26,18 @@ namespace WolfoQoL_Client
             On.RoR2.GenericInteraction.ShouldShowOnScanner += BlockScanner_Generic;
 
             On.RoR2.Stage.PreStartClient += PingIconsOnStage;
+
+            //Stop showing on scanner if no longer usable
+            On.RoR2.GrantHexesController.ShouldShowOnScanner += GrantHexesController_ShouldShowOnScanner;
+
         }
 
 
+        private static bool GrantHexesController_ShouldShowOnScanner(On.RoR2.GrantHexesController.orig_ShouldShowOnScanner orig, GrantHexesController self)
+        {
+            //Show when available rather than always
+            return self.Available && orig(self);
+        }
         private static void GeodePingIcon(On.RoR2.GeodeController.orig_PreStartClient orig, GeodeController self)
         {
             //Name differs heavily so cant really use the dict

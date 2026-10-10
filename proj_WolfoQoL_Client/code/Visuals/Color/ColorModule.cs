@@ -90,7 +90,7 @@ namespace WolfoQoL_Client
                 On.RoR2.EquipmentDef.CreatePickupDef += EquipmentDef_CreatePickupDef;
             }
 
-            PlayerPing.Hooks();
+            PlayerAndColorPing.Hooks();
 
            
             //On.RoR2.Highlight.ResetHighlight += Highlight_ResetHighlight;
@@ -198,6 +198,16 @@ namespace WolfoQoL_Client
             SceneCatalog.FindSceneDef("solusweb").environmentColor = new Color32(255, 0, 148, 255);
 
 
+            //HC
+            SceneCatalog.FindSceneDef("mire").environmentColor = new Color32(120, 74, 49, 255);
+            SceneCatalog.FindSceneDef("fungal").environmentColor = new Color32(184, 174, 224, 255);
+            SceneCatalog.FindSceneDef("sanctum").environmentColor = new Color32(79, 102, 105, 255);
+            SceneCatalog.FindSceneDef("sad1").environmentColor = new Color32(154, 173, 96, 255);
+            SceneCatalog.FindSceneDef("surv2").environmentColor = new Color32(156, 195, 181, 255);
+            SceneCatalog.FindSceneDef("soul1").environmentColor = new Color32(140, 162, 5, 255);
+            SceneCatalog.FindSceneDef("champrush").environmentColor = new Color32(123, 133, 42, 255);
+            SceneCatalog.FindSceneDef("ultima").environmentColor = new Color32(0, 111, 74, 255);
+
 
         }
 
@@ -293,12 +303,15 @@ namespace WolfoQoL_Client
                 tempTier.colorIndex = index_Food;
                 tempTier.bgIconTexture = Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/General/FoodBGIcon.png");
             }
+
+            //0.1373 0.5294 1 1 : Vanilla
+            ColorCatalog.indexToColor32[(int)ColorCatalog.ColorIndex.KeyItem] = new Color(0.135f, 0.46f, 1f, 1f);
             if (WConfig.cfgColorVoids.Value)
             {
                 tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1);
                 if (tempTier)
                 {
-                    tempTier.colorIndex = index_Void1;
+                    tempTier.colorIndex = index_Void1; 
                 }
                 tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3);
                 if (tempTier)

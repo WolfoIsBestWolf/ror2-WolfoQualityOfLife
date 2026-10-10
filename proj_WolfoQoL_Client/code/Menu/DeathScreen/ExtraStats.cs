@@ -58,7 +58,6 @@ namespace WolfoQoL_Client.DeathScreen
 
                 MakeCombinedStat(statContentArea, "totalTimeAlive", 3); //+Stages / Waves
                 MakeCombinedStat(statContentArea, "totalItemsCollected");
-                //MakeCombinedStat(statContentArea, "highestItemsCollected");
                 MakeCombinedStat(statContentArea, "totalDronesPurchased", 2);
                 MakeCombinedStat(statContentArea, "totalDamageDealt", 2);
                 MakeCombinedStat(statContentArea, "totalKills", 2);
@@ -69,7 +68,6 @@ namespace WolfoQoL_Client.DeathScreen
                 MakeCombinedStat(statContentArea, "totalDeaths");
                 MakeCombinedStat(statContentArea, "totalPurchases", 2);
                 MakeCombinedStat(statContentArea, "custom_ChestsMissed", 2);
-                //MakeCombinedStat(statContentArea, "totalLunarPurchases", 2);
                 MakeCombinedStat(statContentArea, "custom_LunarCoinsSpent", 2);
                 MakeCombinedStat(statContentArea, "totalDistanceTraveled", 2);
                 MakeCombinedStat(statContentArea, "custom_EquipUses", 2);
@@ -112,18 +110,18 @@ namespace WolfoQoL_Client.DeathScreen
             statHolder.transform.SetSiblingIndex(childIndex);
             statHolder.name = newName.ToString();
         }
-        public static void CombineDifficultyLoadout(RectTransform statContentArea)
+        public static void CombineDifficultyAndKarma(RectTransform statContentArea)
         {
-            string newName = string.Empty;
             GameObject statHolder = GameObject.Instantiate(DeathScreenExpanded.statHolderPrefab, statContentArea);
-            for (int i = 0; i < 2; i++)
-            {
-                Transform child = statContentArea.GetChild(0);
-                child.SetParent(statHolder.transform); //Goes down by 1, hopefully just consistent??
-                newName += "+" + child.name;
-            }
+            Transform diffi = statContentArea.Find("SelectedDifficultyStrip");
+            Transform karma = statContentArea.Find("KarmaStrip");
+            diffi.SetParent(statHolder.transform);
+            karma.SetParent(statHolder.transform);
             statHolder.transform.SetSiblingIndex(0);
-            statHolder.name = newName;
+            statHolder.name = "Difficulty+Karma";
+
+
+            karma.gameObject.GetComponent<LayoutElement>().preferredWidth = 300;
         }
         public static void DifficultyTooltip(GameEndReportPanelController self)
         {
@@ -544,7 +542,7 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static TooltipProvider AddDetailedTooltip_StringDict(Transform stat, Dictionary<string, int> data)
         {
-            TooltipProvider tip = stat.gameObject.AddComponent<TooltipProvider>();
+            TooltipProvider tip = stat.gameObject.GetComponent<TooltipProvider>();
             tip.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
             tip.titleToken = "STAT_DETAILS";
             string bodyToken = string.Empty;

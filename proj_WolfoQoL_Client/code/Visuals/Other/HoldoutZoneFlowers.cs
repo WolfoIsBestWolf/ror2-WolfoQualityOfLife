@@ -48,7 +48,12 @@ namespace WolfoQoL_Client
                 orig(self);
                 if (self.applyHealingNova)
                 {
-                    if (Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.TPHealingNova.itemIndex, false, true) > 0)
+                    if (Util.GetTotalItemCountFromTeam(new Util.GetTotalItemCountFromTeamArgs(RoR2Content.Items.TPHealingNova.itemIndex)
+                    {
+                        requiresAlive = false,
+                        requiredTeam = TeamIndex.Player,
+                        requiresConnected = true
+                    }) > 0)
                     {
                         if (self.healingNovaItemEffect)
                         {

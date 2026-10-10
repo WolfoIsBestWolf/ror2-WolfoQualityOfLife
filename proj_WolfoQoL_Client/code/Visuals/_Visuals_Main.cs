@@ -296,7 +296,7 @@ namespace WolfoQoL_Client
                 ColorModule.ChangeColorsPost();
             }
              
-            DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
+            //DLC2Content.Equipment.HealAndReviveConsumed.pickupModelPrefab.AddComponent<ModelPanelParameters>();
             //DLC2Content.Buffs.ExtraLifeBuff.iconSprite = DLC2Content.Buffs.HealAndReviveRegenBuff.iconSprite;
 
             RoR2Content.Items.MinHealthPercentage.hidden = false;
