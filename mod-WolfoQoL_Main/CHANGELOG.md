@@ -1,5 +1,15 @@
 ```
------
+v5.2.2
+Fixed Void Quantity not working.
+Fixed an error upon Tinkering Aurelionite Fragments which made it not work.
+Fixed Aurelionite Fragments not having tiered particles.
+```
+```
+v5.2.1
+Fixed Blue Mercenary skins' M1 not working or hard crashing the game.
+Fixed Stage 1 Halcyonite not counting for the optional objective.
+```
+```
 v5.2.0 - DLC4 Update
 
 New
@@ -26,8 +36,7 @@ Removals
 * Removed "Twisted Armor" buff being made visible.
 * Removed cyan stack number for timed items.
 * Removed Gup from main menu because he keeps breaking every update.
-* Mistery restarting after Solus Wing.
-
+* Mistery restarting after Solus Wing, due to being added officially.
 ```
 ```
 v5.1.12

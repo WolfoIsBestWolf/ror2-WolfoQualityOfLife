@@ -696,7 +696,7 @@ namespace WolfoQoL_Client
             cfgFragmentColor = ConfigFile_Client.Bind(
                "Visuals",
                "Fragment Gold Outline",
-               true,
+               false,
                "Should Aurelionite Fragments have a gold outline like it's sprite."
            );
 

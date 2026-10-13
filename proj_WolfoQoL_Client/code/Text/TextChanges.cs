@@ -53,10 +53,7 @@ namespace WolfoQoL_Client.Text
             {
                 On.RoR2.Chat.PlayerPickupChatMessage.ConstructChatString += AddVoidQuantity;
             }
-            //On.RoR2.GenericPickupController.HandlePickupMessage += AddVoidQuantity_;
-            //IL.RoR2.GenericPickupController.HandlePickupMessage += IL_PICKUP;
-
-            OptionPickup_Visuals.Start();
+            On.RoR2.GenericPickupController.PickupMessage.Reset += PickupMessage_Reset;
 
             On.RoR2.PurchaseInteraction.GetDisplayName += PurchaseTokenOverwrite_PurchaseInteraction_GetDisplayName;
             IL.RoR2.PurchaseInteraction.GetContextString += PurchaseTokenOverwrite_PurchaseInteraction_GetContextString;
@@ -92,6 +89,11 @@ namespace WolfoQoL_Client.Text
             */
         }
 
+        private static void PickupMessage_Reset(On.RoR2.GenericPickupController.PickupMessage.orig_Reset orig, GenericPickupController.PickupMessage self)
+        {
+  
+        }
+
         private static string AddVoidQuantity(On.RoR2.Chat.PlayerPickupChatMessage.orig_ConstructChatString orig, Chat.PlayerPickupChatMessage self)
         {
             if (!self.subjectAsCharacterBody)
@@ -102,6 +104,7 @@ namespace WolfoQoL_Client.Text
             {
                 return orig(self);
             }
+            
             PickupDef pickupDef = PickupCatalog.GetPickupDef(GenericPickupController.pickupMessageInstance.pickupState.pickupIndex);
             ItemDef itemDef = ItemCatalog.GetItemDef((pickupDef != null) ? pickupDef.itemIndex : ItemIndex.None);
             if (itemDef)
@@ -150,7 +153,6 @@ namespace WolfoQoL_Client.Text
                 }
 
             }
-
             return orig(self);
         }
         /*

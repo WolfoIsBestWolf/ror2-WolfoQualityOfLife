@@ -21,7 +21,7 @@ namespace WolfoQoL_Client.Skins
 
             //Primary
             On.EntityStates.Merc.Weapon.GroundLight2.OnEnter += GroundLight2_OnEnter;
-            IL.EntityStates.Merc.Weapon.GroundLight2.OnEnter += Finisher_GroundLight2_OnEnter;
+            //IL.EntityStates.Merc.Weapon.GroundLight2.OnEnter += Finisher_GroundLight2_OnEnter;
 
             //Secondary
             IL.EntityStates.Merc.WhirlwindBase.OnEnter += WhirlwindBase_OnEnter;
@@ -174,7 +174,27 @@ namespace WolfoQoL_Client.Skins
                     self.swingEffectPrefab = Merc_Pink.MercSwordSlash_Pink;
                 }
             }
+            //Cannot do finisher pre because it gets overrwritte in the middle
             orig(self);
+            //But apparently works fine post?
+            if (self.isComboFinisher)
+            {
+                int i = SkinChanges.DetectCaseMerc(self.gameObject);
+                EffectReplacer.Activate(self.hitEffectPrefab, i);
+                SetExposeColor(i);
+                if (i == 1)
+                {
+                    self.swingEffectPrefab = Merc_Red.MercSwordFinisherSlash_Red;
+                }
+                else if (i == 2)
+                {
+                    self.swingEffectPrefab = Merc_Green.MercSwordFinisherSlash_Green;
+                }
+                else if (i == 3)
+                {
+                    self.swingEffectPrefab = Merc_Pink.MercSwordFinisherSlash_Pink;
+                }
+            }
         }
 
         private static void Evis_OnExit(ILContext il)
@@ -235,7 +255,7 @@ namespace WolfoQoL_Client.Skins
                     {
                         return Merc_Pink.MercSwordFinisherSlash_Pink;
                     }
-                    return target;
+                    return (GameObject)target;
                 });
                 //Log.LogMessage("IL Found: Red Merc: GroundLight2_OnEnter");
             }

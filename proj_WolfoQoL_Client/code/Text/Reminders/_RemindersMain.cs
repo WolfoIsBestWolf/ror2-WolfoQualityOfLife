@@ -51,6 +51,7 @@ namespace WolfoQoL_Client.Reminders
             Addressables.LoadAssetAsync<GameObject>(key: "357435043113a944c9a477d63dc9a893").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.freeChest;
             Addressables.LoadAssetAsync<GameObject>(key: "f21b2c8a9cc028046935ea871dc4af54").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.greenPrinter;
             Addressables.LoadAssetAsync<GameObject>(key: "c10fd181efcffc24f8fed4c2f246fac8").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.halcyonShrine;
+            Addressables.LoadAssetAsync<GameObject>(key: "98ee933fa2ace7141b3c0948538669a6").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.halcyonShrine;
 
         }
 
