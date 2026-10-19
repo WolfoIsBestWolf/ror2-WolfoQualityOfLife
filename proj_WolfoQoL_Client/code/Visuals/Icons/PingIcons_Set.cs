@@ -171,7 +171,7 @@ namespace WolfoQoL_Client
             SetAllIcons("bc0d7b08b1523354e91f8985671d29e2", "DLC4/Hallowed_Shrine", false); //BetterHallowingShrineBase_Node_StageLeft_Life
 
 
-            SetAllIcons("1d2736b176d731948886bd3075979168", "DLC4/Wake2", false); //WakeAltar
+            SetAllIcons("1d2736b176d731948886bd3075979168", "DLC4/Wake", false); //WakeAltar
             //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/WakeSacrifice/SacrificeBody.prefab").WaitForCompletion(); //WakeGuys
 
             SetAllIcons("e66a334f45131c54e9b410860e933645", "DLC4/Potential_DLC4"); //ShrineCatastrophe
@@ -368,6 +368,7 @@ namespace WolfoQoL_Client
 
             SetAllIcons("50f9b823c49c5a8468dadcd770415e2f", "DLC2/ShrineShaping");
             SetAllIcons("c10fd181efcffc24f8fed4c2f246fac8", "DLC2/SotsIcon3_Shrunk");
+            SetAllIcons("98ee933fa2ace7141b3c0948538669a6", "DLC2/SotsIcon3_Shrunk");
             SetAllIcons("59244efe276f7bb47ae34fbbb0095b5f", "DLC2/SotsIcon3_Shrunk"); //Rebirth
 
 

@@ -26,8 +26,8 @@ namespace WolfoQoL_Client.DeathScreen
                 TooltipProvider tool = destStatStrip.gameObject.GetComponent<TooltipProvider>();
                 if (tool == null)
                 {
-                    tool = destStatStrip.gameObject.AddComponent<TooltipProvider>();
-                    tool.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
+                   tool = destStatStrip.gameObject.AddComponent<TooltipProvider>();
+                   tool.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
                 }
                 tool.titleToken = Language.GetString(statDef.displayToken);
                 tool.bodyToken = destStatStrip.transform.GetChild(1).GetComponent<HGTextMeshProUGUI>().text;
@@ -43,11 +43,11 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (self.statStrips[j] != null)
                 {
-                    self.statStrips[j].name = self.statsToDisplay[j];
-                    if (StatDef.Find(self.statsToDisplay[j]) == null)
-                    {
-                        self.statStrips[j].SetActive(false);
-                    }
+                   self.statStrips[j].name = self.statsToDisplay[j];
+                   if (StatDef.Find(self.statsToDisplay[j]) == null)
+                   {
+                       self.statStrips[j].SetActive(false);
+                   }
                 }
             }
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
@@ -91,20 +91,20 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (childIndex < statContentArea.childCount)
                 {
-                    Transform child = statContentArea.GetChild(childIndex);
-                    if (child)
-                    {
-                        child.SetParent(statHolder.transform); //Goes down by 1, hopefully just consistent??
-                        if (child.childCount > 1)
-                        {
-                            child.GetChild(1).gameObject.SetActive(false);
-                        }
-                        if (i != 0)
-                        {
-                            newName.Append("+");
-                        }
-                        newName.Append(child.name);
-                    }
+                   Transform child = statContentArea.GetChild(childIndex);
+                   if (child)
+                   {
+                       child.SetParent(statHolder.transform); //Goes down by 1, hopefully just consistent??
+                       if (child.childCount > 1)
+                       {
+                           child.GetChild(1).gameObject.SetActive(false);
+                       }
+                       if (i != 0)
+                       {
+                           newName.Append("+");
+                       }
+                       newName.Append(child.name);
+                   }
                 }
             }
             statHolder.transform.SetSiblingIndex(childIndex);
@@ -221,65 +221,65 @@ namespace WolfoQoL_Client.DeathScreen
 
            
             self.statsToDisplay = new string[] {
-                            IsSimu ? "custom_lastSimuWave" : "",
+                           IsSimu ? "custom_lastSimuWave" : "",
 
-                            "totalTimeAlive",
-                            IsSimu ? "": "runTime",
-                            IsSimu ? "highestInfiniteTowerWaveReached" : "totalStagesCompleted",
+                           "totalTimeAlive",
+                           IsSimu ? "": "runTime",
+                           IsSimu ? "highestInfiniteTowerWaveReached" : "totalStagesCompleted",
 
-                            "totalItemsCollected",
-                            "custom_ItemsScrapped",
+                           "totalItemsCollected",
+                           "custom_ItemsScrapped",
 
-                            IsSimu ? "null" : "totalDronesPurchased",
-                            IsSimu ? "null" : isDevotion ? "devotion_Evolved" : DLC3 ? "custom_DronesScrapped" : "null",
+                           IsSimu ? "null" : "totalDronesPurchased",
+                           IsSimu ? "null" : isDevotion ? "devotion_Evolved" : DLC3 ? "custom_DronesScrapped" : "null",
 
-                            "totalKills",
-                            "totalMinionKills",
+                           "totalKills",
+                           "totalMinionKills",
 
-                            "totalDamageDealt",
-                            "totalMinionDamageDealt",
+                           "totalDamageDealt",
+                           "totalMinionDamageDealt",
 
 
-                            "totalDamageTaken",
-                            "custom_MinionDamageTaken",
+                           "totalDamageTaken",
+                           "custom_MinionDamageTaken",
 
-                            "totalHealthHealed",
-                            "custom_MinionHealthHealed",
+                           "totalHealthHealed",
+                           "custom_MinionHealthHealed",
 
-                            "totalDeaths",
-                            IsSimu ? "null" : "custom_DroneDeaths",
+                           "totalDeaths",
+                           IsSimu ? "null" : "custom_DroneDeaths",
 
-                            "totalPurchases",
-                            "totalGoldCollected",
+                           "totalPurchases",
+                           "totalGoldCollected",
 
-                            IsSimu ? "null" : "custom_ChestsMissed",
-                            IsSimu ? "null" : "custom_DronesMissed",
+                           IsSimu ? "null" : "custom_ChestsMissed",
+                           IsSimu ? "null" : "custom_DronesMissed",
 
-                            isLog ? "totalLunarPurchases" : "custom_LunarCoinsSpent",
-                            //DLC1 && !isLog ? "custom_ItemsVoided" : "totalBloodPurchases",
-                            "totalBloodPurchases",
-                            //"totalEliteKills", //Remove?
+                           isLog ? "totalLunarPurchases" : "custom_LunarCoinsSpent",
+                           //DLC1 && !isLog ? "custom_ItemsVoided" : "totalBloodPurchases",
+                           "totalBloodPurchases",
+                           //"totalEliteKills", //Remove?
    
-                            "totalDistanceTraveled",
-                            "custom_TimesJumped",
+                           "totalDistanceTraveled",
+                           "custom_TimesJumped",
 
 
-                            "custom_DotDamage",
-                            "highestDamageDealt", //Funny big number
+                           "custom_DotDamage",
+                           "highestDamageDealt", //Funny big number
 
-                            "custom_DamageBlocked",
-                            "highestLevel", //Meh
+                           "custom_DamageBlocked",
+                           "highestLevel", //Meh
 
-                            "custom_EquipUses",
-                            "custom_SkillUses",
+                           "custom_EquipUses",
+                           "custom_SkillUses",
 
-                            "custom_StrongestMinion",
-                            //"custom_MostDamagedEnemy",
-                            //"custom_MostKilledEnemy",
-                            "custom_EnemyMostHurtBy",
-                            //"custom_HighestStackedItem" //This would almost always be WhiteScrap
-                            
-                    };
+                           "custom_StrongestMinion",
+                           //"custom_MostDamagedEnemy",
+                           //"custom_MostKilledEnemy",
+                           "custom_EnemyMostHurtBy",
+                           //"custom_HighestStackedItem" //This would almost always be WhiteScrap
+                           
+                   };
         }
 
         public static Transform FindStatStrip(GameEndReportPanelController self, string statName)
@@ -288,15 +288,15 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (self.statsToDisplay[i] == statName)
                 {
-                    if (self.statStrips[i])
-                    {
-                        return self.statStrips[i].transform;
-                    }
-                    else
-                    {
-                        //Log.LogMessage(statName + " Stat does not exist.");
-                        return null;
-                    }
+                   if (self.statStrips[i])
+                   {
+                       return self.statStrips[i].transform;
+                   }
+                   else
+                   {
+                       //Log.LogMessage(statName + " Stat does not exist.");
+                       return null;
+                   }
                 }
             }
             return null;
@@ -408,18 +408,18 @@ namespace WolfoQoL_Client.DeathScreen
 
                 try
                 {
-                    if (waveUI.transform.GetChild(0).childCount == 4)
-                    {
-                        GameObject Sprite2 = GameObject.Instantiate(newSprite.gameObject, lastWaveStat.transform);
-                        waveSprite = waveUIRoot.GetChild(3).GetChild(0).GetComponent<Image>();
-                        newSprite = Sprite2.GetComponent<Image>();
-                        newSprite.sprite = waveSprite.sprite;
-                        newSprite.color = waveSprite.color;
-                    }
+                   if (waveUI.transform.GetChild(0).childCount == 4)
+                   {
+                       GameObject Sprite2 = GameObject.Instantiate(newSprite.gameObject, lastWaveStat.transform);
+                       waveSprite = waveUIRoot.GetChild(3).GetChild(0).GetComponent<Image>();
+                       newSprite = Sprite2.GetComponent<Image>();
+                       newSprite.sprite = waveSprite.sprite;
+                       newSprite.color = waveSprite.color;
+                   }
                 }
                 catch (System.Exception e)
                 {
-                    Log.LogError(e);
+                   Log.LogError(e);
                 }
 
 
@@ -496,13 +496,13 @@ namespace WolfoQoL_Client.DeathScreen
                 var DronesMissed = SetupStat(self, "custom_DronesMissed", extras.isDevotionRun ? "STAT_DEVOTION_MISSED" : "STAT_MISSED_DRONE", extras.isDevotionRun ? runTracker.missedLemurians : runTracker.missedDrones);
                 if (ChestsMissed)
                 {
-                    TooltipProvider toolTip;
-                    toolTip = AddDetailedTooltip_StringDict(ChestsMissed, runTracker.missedChests_Dict);
-                    if (runTracker.missedShrineChanceItems > 0)
-                    {
-                        toolTip.bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
-                    }
-                    AddDetailedTooltip_StringDict(DronesMissed, runTracker.missedDrones_Dict);
+                   TooltipProvider toolTip;
+                   toolTip = AddDetailedTooltip_StringDict(ChestsMissed, runTracker.missedChests_Dict);
+                   if (runTracker.missedShrineChanceItems > 0)
+                   {
+                       toolTip.bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
+                   }
+                   AddDetailedTooltip_StringDict(DronesMissed, runTracker.missedDrones_Dict);
                 }
             }
         }

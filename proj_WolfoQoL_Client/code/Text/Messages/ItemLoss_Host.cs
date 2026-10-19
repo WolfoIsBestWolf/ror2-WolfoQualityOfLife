@@ -34,6 +34,9 @@ namespace WolfoQoL_Client.Text
                 CharacterBody component = self.interactor.GetComponent<CharacterBody>();
                 if (component && component.inventory)
                 {
+                    Debug.Log(body);
+                    Debug.Log(body?.inventory);
+
                     Networker.SendWQoLMessage(new ItemLossMessage
                     {
                         source = ItemLossMessage.Source.DroneScrapper,
@@ -41,6 +44,7 @@ namespace WolfoQoL_Client.Text
                         itemCount = body.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
                         pickupIndex1 = PickupCatalog.FindPickupIndex(DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex)),
                         subjectAsCharacterBody = component,
+                        
                     });
 
                 }
@@ -296,7 +300,7 @@ namespace WolfoQoL_Client.Text
             if (pickupIndex2 != PickupIndex.none)
             {
                 itemsLost += Help.GetColoredName(pickupIndex1);
-                itemsLost += " + ";
+                itemsLost += " & ";
                 itemsLost += Help.GetColoredName(pickupIndex2);
             }
             else if (pickupIndex1 != PickupIndex.none)

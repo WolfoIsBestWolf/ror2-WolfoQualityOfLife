@@ -48,26 +48,26 @@ namespace WolfoQoL_Client
                 orig(self);
                 if (self.applyHealingNova)
                 {
-                    if (Util.GetTotalItemCountFromTeam(new Util.GetTotalItemCountFromTeamArgs(RoR2Content.Items.TPHealingNova.itemIndex)
-                    {
-                        requiresAlive = false,
-                        requiredTeam = TeamIndex.Player,
-                        requiresConnected = true
-                    }) > 0)
-                    {
-                        if (self.healingNovaItemEffect)
-                        {
-                            self.healingNovaItemEffect.SetActive(true);
-                            self.healingNovaItemEffect = null;
-                        }
-                    }
-                    else
-                    {
-                        if (self.healingNovaItemEffect)
-                        {
-                            self.healingNovaItemEffect.SetActive(false);
-                        }
-                    }
+                   if (Util.GetTotalItemCountFromTeam(new Util.GetTotalItemCountFromTeamArgs(RoR2Content.Items.TPHealingNova.itemIndex)
+                   {
+                       requiresAlive = false,
+                       requiredTeam = TeamIndex.Player,
+                       requiresConnected = true
+                   }) > 0)
+                   {
+                       if (self.healingNovaItemEffect)
+                       {
+                           self.healingNovaItemEffect.SetActive(true);
+                           self.healingNovaItemEffect = null;
+                       }
+                   }
+                   else
+                   {
+                       if (self.healingNovaItemEffect)
+                       {
+                           self.healingNovaItemEffect.SetActive(false);
+                       }
+                   }
                 }
                 //WolfoMain.log.LogWarning("HoldoutZoneController.Start");
             };
@@ -82,43 +82,43 @@ namespace WolfoQoL_Client
             {
                 if (!self.healingNovaItemEffect)
                 {
-                    if (self.name.StartsWith("InfiniteTowerSafeWard"))
-                    {
-                        self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(0).GetChild(1).GetChild(0));
-                        self.healingNovaItemEffect.transform.rotation = new Quaternion(0, -0.7071f, -0.7071f, 0);
-                        self.healingNovaItemEffect.transform.localScale = new Vector3(0.1928f, 0.1928f, 0.1928f);
-                        self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4193f, 0);
-                    }
-                    else if (self.name.StartsWith("MoonBattery"))
-                    {
-                        self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
-                        //self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.683f, -0.183f, -0.183f, 0.683f);
-                        //self.healingNovaItemEffect.transform.localScale = new Vector3(0.6f, 0.6f, 0.55f);
-                        //self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -2.4f, 0f);
-                    }
-                    else if (self.name.StartsWith("NullSafeZone"))
-                    {
-                        self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform);
-                        self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.5649f, -0.4254f, -0.4254f, 0.5649f);
-                        self.healingNovaItemEffect.transform.localScale = new Vector3(0.275f, 0.275f, 0.225f);
-                        self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.3f, 0f);
-                    }
-                    else if (self.name.StartsWith("DeepVoidPortalBattery(Clone)"))
-                    {
-                        self.healingNovaItemEffect = self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetChild(0));
-                        self.healingNovaItemEffect.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
-                        self.healingNovaItemEffect.transform.localScale = new Vector3(0.375f, 0.375f, 0.375f);
-                        self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4f, 0f);
-                    }
+                   if (self.name.StartsWith("InfiniteTowerSafeWard"))
+                   {
+                       self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform.GetChild(0).GetChild(0).GetChild(8).GetChild(0).GetChild(1).GetChild(0));
+                       self.healingNovaItemEffect.transform.rotation = new Quaternion(0, -0.7071f, -0.7071f, 0);
+                       self.healingNovaItemEffect.transform.localScale = new Vector3(0.1928f, 0.1928f, 0.1928f);
+                       self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4193f, 0);
+                   }
+                   else if (self.name.StartsWith("MoonBattery"))
+                   {
+                       self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(1));
+                       //self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.683f, -0.183f, -0.183f, 0.683f);
+                       //self.healingNovaItemEffect.transform.localScale = new Vector3(0.6f, 0.6f, 0.55f);
+                       //self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -2.4f, 0f);
+                   }
+                   else if (self.name.StartsWith("NullSafeZone"))
+                   {
+                       self.healingNovaItemEffect = Object.Instantiate(LeptonDaisyTeleporterDecoration, self.transform);
+                       self.healingNovaItemEffect.transform.rotation = new Quaternion(-0.5649f, -0.4254f, -0.4254f, 0.5649f);
+                       self.healingNovaItemEffect.transform.localScale = new Vector3(0.275f, 0.275f, 0.225f);
+                       self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.3f, 0f);
+                   }
+                   else if (self.name.StartsWith("DeepVoidPortalBattery(Clone)"))
+                   {
+                       self.healingNovaItemEffect = self.healingNovaItemEffect = Object.Instantiate(GlowFlowerForPillar, self.transform.GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetChild(0));
+                       self.healingNovaItemEffect.transform.localEulerAngles = new Vector3(270f, 0f, 0f);
+                       self.healingNovaItemEffect.transform.localScale = new Vector3(0.375f, 0.375f, 0.375f);
+                       self.healingNovaItemEffect.transform.localPosition = new Vector3(0f, -0.4f, 0f);
+                   }
 
                 }
                 if (Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.TPHealingNova.itemIndex, false, true) > 0)
                 {
-                    if (self.healingNovaItemEffect)
-                    {
-                        self.healingNovaItemEffect.SetActive(true);
-                        self.healingNovaItemEffect = null;
-                    }
+                   if (self.healingNovaItemEffect)
+                   {
+                       self.healingNovaItemEffect.SetActive(true);
+                       self.healingNovaItemEffect = null;
+                   }
                 }
             }
         }

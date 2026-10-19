@@ -34,8 +34,8 @@ namespace WolfoQoL_Client
                 //FireMeatBallExplosion
                 EffectManager.SpawnEffect(FireMeatBallExplosion, new EffectData
                 {
-                    origin = self.transform.position,
-                    scale = 25, //Scale does not work
+                   origin = self.transform.position,
+                   scale = 25, //Scale does not work
 
                 }, false);
             }
@@ -47,8 +47,8 @@ namespace WolfoQoL_Client
                 EffectManager.SpawnEffect(ChefIceBoxExplosionVFX, new EffectData
                 //EffectManager.SpawnEffect(Addressables.LoadAssetAsync<GameObject>(key: "893c0492eea544c49921724592c84974").WaitForCompletion(), new EffectData
                 {
-                    origin = self.transform.position,
-                    scale = 10, //Scale does not work
+                   origin = self.transform.position,
+                   scale = 10, //Scale does not work
                 }, false);
             }
         }

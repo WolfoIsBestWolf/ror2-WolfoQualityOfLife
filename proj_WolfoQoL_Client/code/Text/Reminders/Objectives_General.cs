@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using HG;
+using RoR2;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,14 +11,13 @@ namespace WolfoQoL_Client.Reminders
 
         public static void Start()
         {
-            On.RoR2.Stage.PreStartClient += ObjectivesOnStage;
+            Stage.onStageStartGlobal += Stage_onStageStartGlobal;
         }
-
-        public static void ObjectivesOnStage(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
+        
+        private static void Stage_onStageStartGlobal(Stage self)
         {
             //Goolake Secret Objective
             //Artifact Trial Objective
-            orig(self);
             if (!self.sceneDef)
             {
                 return;
@@ -113,6 +113,7 @@ namespace WolfoQoL_Client.Reminders
                     //GameObject TripleShopEquipment = GameObject.Find("/HOLDER: Stage Events/GROUP: Secrets/UESLootContainer1 (1)/GROUP: Loot/TripleShopEquipment (1)");
                     break;
             }
+        
         }
 
     }

@@ -32,7 +32,7 @@ namespace WolfoQoL_Client
                 c.Remove();
                 c.EmitDelegate<System.Func<RoR2.UI.ChargeIndicatorController, Color>>((charg) =>
                 {
-                    return charg.spriteFlashColor;
+                   return charg.spriteFlashColor;
                 });
             }
             else

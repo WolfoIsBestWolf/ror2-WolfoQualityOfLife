@@ -44,7 +44,7 @@
 			 
 			"EQUIPMENT_AFFIXCOLLECTIVE_DESC": "Gain a <style=cIsUtility>30m</style> dome that <style=cIsUtility>blocks</style> all outside attacks and reduces <style=cIsUtility>skill cooldowns</style> of all allies within by <style=cIsUtility>25%</style>.\nGetting hit by a survivors skill, disables the dome for 8 seconds.\n<style=cIsHealth>On Death</style>, explode for <style=cIsDamage>100%</style> damage and disable items for <style=cIsDamage>2.5s</style>.",
 
-			"EQUIPMENT_AFFIXDEATH_DESC": "Allies and players that die within a <style=cIsUtility>60m</style> radius leave a <style=cIsUtility>ghost</style> which lasts <style=cIsUtility>15s</style>. This has a cooldown of 1 second. Can have up to <style=cIsUtility>3</style> ghosts.",
+			"EQUIPMENT_AFFIXDEATH_DESC": "Allies and players that die within a <style=cIsUtility>60m</style> radius leave a <style=cIsUtility>ghost</style> which lasts <style=cIsUtility>15s</style>. This has a cooldown of 1 second. Ghosts have their <style=cIsUtility>movement speed</style> increased by <style=cIsUtility>45%</style> and <style=cIsUtility>skill cooldowns</style> reduced by <style=cIsUtility>70%</style>. Can have up to <style=cIsUtility>3</style> ghosts.",
 
 	}
 }

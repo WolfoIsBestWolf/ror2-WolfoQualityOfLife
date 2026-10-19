@@ -30,11 +30,11 @@ namespace WolfoQoL_Client.DeathScreen
                 RunExtraStatTracker.instance.alreadyCountedDronesForStage = true;
                 foreach (PlayerCharacterMasterController player in PlayerCharacterMasterController.instances)
                 {
-                    if (player)
-                    {
-                        player.gameObject.EnsureComponent<DroneCollection>().CountDrones();
+                   if (player)
+                   {
+                       player.gameObject.EnsureComponent<DroneCollection>().CountDrones();
 
-                    }
+                   }
                 }
             }
         }
@@ -175,11 +175,11 @@ namespace WolfoQoL_Client.DeathScreen
 
                 itemIcon.SetItemIndex(new ItemIcon.SetItemIndexArgs
                 {
-                    newItemIndex = (ItemIndex)1,
-                    newItemCount = value.Value,
-                    newDurationPercent = 0,
-                    isRental = false,
-                    isItemDisabled = false
+                   newItemIndex = (ItemIndex)1,
+                   newItemCount = value.Value,
+                   newDurationPercent = 0,
+                   isRental = false,
+                   isItemDisabled = false
                 });
                 itemIcon.asyncRawImage.SetImage(body.portraitIcon);
                 var toolTip = itemIcon.GetComponent<TooltipProvider>();
@@ -191,35 +191,36 @@ namespace WolfoQoL_Client.DeathScreen
                 toolTip.overrideBodyText = string.Empty;
                 if (droneDef)
                 {
-                    toolTip.bodyToken = droneDef.skillDescriptionToken;
+                   toolTip.bodyToken = droneDef.skillDescriptionToken;
                 }
                 else
                 {
-                    toolTip.bodyToken = string.Empty;
+                   toolTip.bodyToken = string.Empty;
                 }
 
                 if (tier > 0)
                 {
-                    tier++;
-                    toolTip.overrideTitleText = Language.GetStringFormatted("DRONE_TIER_SUFFIX", new object[] { Language.GetString(body.baseNameToken), tier });
-                    itemIcon.stackText.gameObject.SetActive(true);
-                    itemIcon.stackText.text = "T" + tier;
-                    itemIcon.stackText.transform.localPosition = new Vector3(63.8f, -104, 0);
-                    itemIcon.stackText.fontSizeMax = 18;
+                   tier++;
+                   toolTip.overrideTitleText = Language.GetStringFormatted("DRONE_TIER_SUFFIX", new object[] { Language.GetString(body.baseNameToken), tier });
+                   itemIcon.stackText.gameObject.SetActive(true);
+                   itemIcon.stackText.text = "T" + tier;
+                   itemIcon.stackText.transform.localPosition = new Vector3(63.8f, -104, 0);
+                   itemIcon.stackText.fontSizeMax = 18;
+                    itemIcon.stackText.transform.SetAsLastSibling();
                 }
                 else
                 {
-                    itemIcon.stackText.gameObject.SetActive(false);
+                   itemIcon.stackText.gameObject.SetActive(false);
                 }
 
 
                 if (droneDef == RoR2Content.DroneDefs.EquipmentDrone)
                 {
-                    foreach (var equipDef in droneCollection.equipmentDrones)
-                    {
-                        EquipOnDeathInventory.MakeEquipmentIcon(itemDisplay.itemIcons[icon], equipDef, 1);
-                        icon++;
-                    }
+                   foreach (var equipDef in droneCollection.equipmentDrones)
+                   {
+                       EquipOnDeathInventory.MakeEquipmentIcon(itemDisplay.itemIcons[icon], equipDef, 1);
+                       icon++;
+                   }
                 }
 
 
@@ -239,11 +240,11 @@ namespace WolfoQoL_Client.DeathScreen
 
                 itemIcon.SetItemIndex(new ItemIcon.SetItemIndexArgs
                 {
-                    newItemIndex = (ItemIndex)1,
-                    newItemCount = value.Value,
-                    newDurationPercent = 0,
-                    isRental = false,
-                    isItemDisabled = false
+                   newItemIndex = (ItemIndex)1,
+                   newItemCount = value.Value,
+                   newDurationPercent = 0,
+                   isRental = false,
+                   isItemDisabled = false
                 });
                 itemIcon.asyncRawImage.SetImage(body.portraitIcon);
                 var toolTip = itemIcon.GetComponent<TooltipProvider>();
@@ -260,11 +261,11 @@ namespace WolfoQoL_Client.DeathScreen
                 var value = droneCollection.itemDict_Devotion.ElementAt(i);
                 itemDisplay.itemIcons[icon].SetItemIndex(new ItemIcon.SetItemIndexArgs
                 {
-                    newItemIndex = value.Key.itemIndex,
-                    newItemCount = value.Value,
-                    newDurationPercent = 0,
-                    isRental = false,
-                    isItemDisabled = false
+                   newItemIndex = value.Key.itemIndex,
+                   newItemCount = value.Value,
+                   newDurationPercent = 0,
+                   isRental = false,
+                   isItemDisabled = false
                 });
                 icon++;
             }
@@ -275,11 +276,11 @@ namespace WolfoQoL_Client.DeathScreen
 
                 itemDisplay.itemIcons[icon].SetItemIndex(new ItemIcon.SetItemIndexArgs
                 {
-                    newItemIndex = (ItemIndex)1,
-                    newItemCount = value.Value,
-                    newDurationPercent = 0,
-                    isRental = false,
-                    isItemDisabled = false
+                   newItemIndex = (ItemIndex)1,
+                   newItemCount = value.Value,
+                   newDurationPercent = 0,
+                   isRental = false,
+                   isItemDisabled = false
                 });
 
                 EquipmentDef equipmentDef = EquipmentCatalog.GetEquipmentDef(value.Key);
@@ -346,15 +347,15 @@ namespace WolfoQoL_Client.DeathScreen
                 var owner = this.GetComponent<MinionOwnership.MinionGroup.MinionGroupDestroyer>();
                 if (owner == null)
                 {
-                    return;
+                   return;
                 }
                 if (owner.group == null)
                 {
-                    return;
+                   return;
                 }
                 if (owner.group.memberCount == 0)
                 {
-                    return;
+                   return;
                 }
                 //noMinions = false;
 
@@ -367,17 +368,17 @@ namespace WolfoQoL_Client.DeathScreen
                 equipmentDict_Devotion = new Dictionary<EquipmentIndex, int>();
                 for (int i = 0; i < owner.group.memberCount; i++)
                 {
-                    AddToCollection(owner.group.members[i]);
+                   AddToCollection(owner.group.members[i]);
                 }
 
 
                 foreach (var devotion in DevotionInventoryController.InstanceList)
                 {
-                    if (devotion.SummonerMaster == master)
-                    {
-                        hasDevotion = true;
-                        AddItemsFrom(devotion._devotionMinionInventory, true);
-                    }
+                   if (devotion.SummonerMaster == master)
+                   {
+                       hasDevotion = true;
+                       AddItemsFrom(devotion._devotionMinionInventory, true);
+                   }
                 }
 
                 //hasDrones = droneList.Count > 0;
@@ -435,7 +436,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (bodyDict_Devotion.TryAdd(index, 1) == false)
                 {
-                    bodyDict_Devotion[index]++;
+                   bodyDict_Devotion[index]++;
                 }
             }
             else
@@ -443,7 +444,7 @@ namespace WolfoQoL_Client.DeathScreen
                 ValueTuple<BodyIndex, int> drone = new(index, master.inventory.GetItemCountPermanent(DLC3Content.Items.DroneUpgradeHidden));
                 if (droneDict.TryAdd(drone, 1) == false)
                 {
-                    droneDict[drone]++;
+                   droneDict[drone]++;
                 }
                 //droneList.Add(new(index, master.inventory.GetItemCountPermanent(DLC3Content.Items.DroneUpgradeHidden)));
             }
@@ -458,21 +459,21 @@ namespace WolfoQoL_Client.DeathScreen
                 int num = inventory.GetItemCountPermanent(itemIndex);
                 if (num > 0)
                 {
-                    ItemDef def = ItemCatalog.GetItemDef(itemIndex);
-                    if (def.hidden == false && def.tier != ItemTier.NoTier)
-                    {
-                        if (isDevotion)
-                        {
-                            if (itemDict_Devotion.TryAdd(def, num) == false)
-                            {
-                                itemDict_Devotion[def] += num;
-                            }
-                        }
-                        else
-                        {
-                            //Cut
-                        }
-                    }
+                   ItemDef def = ItemCatalog.GetItemDef(itemIndex);
+                   if (def.hidden == false && def.tier != ItemTier.NoTier)
+                   {
+                       if (isDevotion)
+                       {
+                           if (itemDict_Devotion.TryAdd(def, num) == false)
+                           {
+                               itemDict_Devotion[def] += num;
+                           }
+                       }
+                       else
+                       {
+                           //Cut
+                       }
+                   }
                 }
             }
 
@@ -485,14 +486,14 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (isDevotion)
                 {
-                    if (equipmentDict_Devotion.TryAdd(slot.equipmentIndex, 1) == false)
-                    {
-                        equipmentDict_Devotion[slot.equipmentIndex]++;
-                    }
+                   if (equipmentDict_Devotion.TryAdd(slot.equipmentIndex, 1) == false)
+                   {
+                       equipmentDict_Devotion[slot.equipmentIndex]++;
+                   }
                 }
                 else
                 {
-                    equipmentDrones.Add(slot.equipmentIndex);
+                   equipmentDrones.Add(slot.equipmentIndex);
                 }
             }
         }

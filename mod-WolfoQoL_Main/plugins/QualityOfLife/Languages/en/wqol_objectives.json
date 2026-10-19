@@ -7,10 +7,13 @@
 	{
 			"REMINDER_PORTAL_MAIN": "Proceed through the {0}",
 			"REMINDER_PORTAL_EXIT": "Leave through the {0}",
+			
+			"REMINDER_PORTAL_TRIAL": "Continue to another <color=#C8F30D>Trial of N'kuhana</color> ({0})",
 				 
  
 		    "OBJECTIVE_CHARGE_HALCSHRINE": "Charge the <style=cGold>Halcyon Shrine</color> ({0}%)",
             "OBJECTIVE_KILL_HALCSHRINE": "Defeat the <style=cGold>Guardian</color>",
+		    "OBJECTIVE_CHARGE_SACRIFICE": "Feed the <style=cIsLunar>Totem of Sacrifice</color> ({0}%)",
 			
 			"OBJECTIVE_ARTIFACT_TRIAL": "Complete the \n<style=cArtifact>Trial of {0}</style>",
 			"OBJECTIVE_GLASS_YOURSELF": "<style=cMysterySpace>Obliterate</color> yourself from existence",

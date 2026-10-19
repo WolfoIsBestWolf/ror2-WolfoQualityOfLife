@@ -68,9 +68,9 @@ namespace WolfoQoL_Client.Text
                 //Cannot use LemEgg decereal
                 if (self.GetComponent<LemurianEggController>())
                 {
-                    PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.LemurianEgg;
-                    PlayerItemLoss_ClientListener.token = "ITEM_LOSS_EGG";
-                    PlayerItemLoss_ClientListener.TryMessage();
+                   PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.LemurianEgg;
+                   PlayerItemLoss_ClientListener.token = "ITEM_LOSS_EGG";
+                   PlayerItemLoss_ClientListener.TryMessage();
                 }
             }
         }

@@ -49,16 +49,16 @@ namespace WolfoQoL_Client.Skins
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<string, RoR2.Orbs.LightningOrb, string>>((target, orb) =>
                 {
-                    if (orb.damageType == DamageType.BlightOnHit)
-                    {
-                        //Technically should also activae Impact here, but probably fine;
-                        EffectReplacer.Activate(CrocoDiseaseOrbEffect, 1);
-                    }
-                    else
-                    {
-                        EffectReplacer.Activate(CrocoDiseaseOrbEffect, 0);
-                    }
-                    return target;
+                   if (orb.damageType == DamageType.BlightOnHit)
+                   {
+                       //Technically should also activae Impact here, but probably fine;
+                       EffectReplacer.Activate(CrocoDiseaseOrbEffect, 1);
+                   }
+                   else
+                   {
+                       EffectReplacer.Activate(CrocoDiseaseOrbEffect, 0);
+                   }
+                   return target;
                 });
             }
             else
@@ -76,7 +76,7 @@ namespace WolfoQoL_Client.Skins
             {
                 if (self.outer.GetComponent<ColorThisAcrid>())
                 {
-                    self.fistEffectPrefab = Effects_Blight.CrocoFistEffectBlight;
+                   self.fistEffectPrefab = Effects_Blight.CrocoFistEffectBlight;
                 }
                 ;
             }
@@ -111,11 +111,11 @@ namespace WolfoQoL_Client.Skins
             {
                 if (self.isComboFinisher)
                 {
-                    self.swingEffectPrefab = Effects_Blight.CrocoComboFinisherSlashBlight;
+                   self.swingEffectPrefab = Effects_Blight.CrocoComboFinisherSlashBlight;
                 }
                 else
                 {
-                    self.swingEffectPrefab = Effects_Blight.CrocoSlashBlight;
+                   self.swingEffectPrefab = Effects_Blight.CrocoSlashBlight;
                 }
             }
             ;

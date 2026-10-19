@@ -79,10 +79,10 @@ namespace WolfoQoL_Client
                 CharacterBody body = GetComponent<CharacterBody>();
                 if (body && body.teamComponent)
                 {
-                    if (body.teamComponent.teamIndex == TeamIndex.Player)
-                    {
-                        body.portraitIcon = portraitIcon;
-                    }
+                   if (body.teamComponent.teamIndex == TeamIndex.Player)
+                   {
+                       body.portraitIcon = portraitIcon;
+                   }
                 }
             }
         }

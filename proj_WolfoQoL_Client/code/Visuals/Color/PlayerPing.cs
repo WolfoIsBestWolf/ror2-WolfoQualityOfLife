@@ -29,7 +29,9 @@ namespace WolfoQoL_Client
         {
             ILCursor c = new ILCursor(il);
 
-
+            c.TryGotoNext(MoveType.Before,
+             x => x.MatchLdarg(0),
+             x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType"));
             c.TryGotoNext(MoveType.Before,
              x => x.MatchLdarg(0),
              x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType")
@@ -38,6 +40,7 @@ namespace WolfoQoL_Client
                x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType")
                ))
             {
+                Debug.Log(c);
                 c.EmitDelegate<System.Func<PingIndicator, PingIndicator>>((self) =>
                 {
                     if (WConfig.cfgPlayerPing.Value)
@@ -52,9 +55,9 @@ namespace WolfoQoL_Client
                                     self.pingTarget
                                     });
                                 self.pingType = playerPingType;
-                                BuildPlayerPing(self);
                             }
                         }
+                        BuildPlayerPing(self);
                     }
                     return self;
                 });

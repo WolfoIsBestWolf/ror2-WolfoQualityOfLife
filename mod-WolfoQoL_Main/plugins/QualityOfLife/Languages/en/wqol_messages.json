@@ -3,6 +3,22 @@
 	"strings":
 	{
 	 
+
+			"DEATH_DRONE_1": "<style=cDeath>{0}'s {1} has died.</color>",
+			"DEATH_DRONE_2": "<style=cDeath>{0}'s {1} was killed.</color>",
+			"DEATH_DRONE_3": "<style=cDeath>{0}'s {1} has lost it's signal.</color>",
+			"DEATH_DRONE_4": "<style=cDeath>{0}'s {1} has lost connection.</color>",
+			"DEATH_DRONE_5": "<style=cDeath>{0}'s {1} has been broken.</color>",
+			"DEATH_DRONE_6": "<style=cDeath>{0}'s {1} has run out of energy.</color>",
+			
+			"DEATH_DRONE_1_2P": "<style=cDeath>Your {1} has died.</color>",
+			"DEATH_DRONE_2_2P": "<style=cDeath>Your {1} was killed.</color>",
+			"DEATH_DRONE_3_2P": "<style=cDeath>Your {1} has lost it's signal.</color>",
+			"DEATH_DRONE_4_2P": "<style=cDeath>Your {1} has lost connection.</color>",
+			"DEATH_DRONE_5_2P": "<style=cDeath>Your {1} has been broken.</color>",
+			"DEATH_DRONE_6_2P": "<style=cDeath>Your {1} has run out of energy.</color>",
+			
+			   
 			"REPAIR_DRONE_2P": "<style=cEvent>You repaired {1}{2}</color>",
 			   "REPAIR_DRONE": "<style=cEvent>{0} repaired {1}{2}</color>",
 			"PURCHASE_DRONE_2P": "<style=cEvent>You purchased {1}{2}</color>",
@@ -11,9 +27,7 @@
 			"UPGRADE_DRONE_2P": "<style=cEvent>You upgraded {1} to Tier {2}</color>",
 				"UPGRADE_DRONE": "<style=cEvent>{0} upgraded {1} to Tier {2}</color>",
 			
-			"UPGRADE_DRONE_ITEM_2P": "<style=cEvent>You combined drones for {1}</color>",
-				"UPGRADE_DRONE_ITEM": "<style=cEvent>{0} combined drones for {1}</color>",
-			
+
 			"REMOTEOP_DRONE_2P": "<style=cEvent>You started a remote operation as {1}</color>",
 				"REMOTEOP_DRONE": "<style=cEvent>{0} started a remote operation as {1}</color>",
 			
@@ -27,9 +41,7 @@
 			"DRONE_DAMAGE_DEALT": "\nDamage Dealt: <style=cEvent>{0}</color>",
 			"DRONE_BEST_RUN": "Best Run: <style=cEvent>{0}</color>",
  
- 
- 
-			 
+
 			"DEVOTED_LEMURIAN_DEATH_2P": "<style=cDeath>You lost a devotee. Your pack loses {1}{2}</style>",
 			"DEVOTED_LEMURIAN_DEATH": "<style=cDeath>{0} lost a devotee. Their pack loses {1}{2}</style>",
 			

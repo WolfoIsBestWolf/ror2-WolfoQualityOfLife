@@ -13,6 +13,7 @@ namespace WolfoQoL_Client.Reminders
             On.RoR2.SceneExitController.Begin += RemoveReminder_Host;
             On.RoR2.GenericInteraction.OnDeserialize += RemoveReminder_Client;
             On.RoR2.ArenaMissionController.MissionCompleted.OnEnter += MissionCompleted_OnEnter;
+            On.EntityStates.NkuhanaChest.OpenPageReward.OnEnter += TrialPortalObjectives;
 
             if (WConfig.cfgRemindersPortal.Value)
             {
@@ -56,10 +57,33 @@ namespace WolfoQoL_Client.Reminders
                 //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/ChampRushExitPortal.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
                 //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntry.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
                 //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntryDanger.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalExit.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
+                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalExit.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#F7A2AA>";
            
             }
         }
+
+        private static void TrialPortalObjectives(On.EntityStates.NkuhanaChest.OpenPageReward.orig_OnEnter orig, EntityStates.NkuhanaChest.OpenPageReward self)
+        {
+            orig(self);
+            if (WConfig.cfgRemindersPortal.Value)
+            {
+
+                string time = System.TimeSpan.FromSeconds((double)DLC4ProgressionController.instance.trialSelector.GetRemainingTrialTimeServer()).ToString("mm\\:ss");
+
+                GameObject holder = ClassicStageInfo.instance.gameObject;
+                GameObject More = new GameObject("TrialObjectiveTrial");
+                GameObject Exit = new GameObject("TrialObjectiveLeave");
+
+                More.transform.SetParent(holder.transform);
+                Exit.transform.SetParent(holder.transform);
+
+                More.AddComponent<GenericObjectiveProvider>().objectiveToken = Language.GetStringFormatted("REMINDER_PORTAL_TRIAL", time);
+                Exit.AddComponent<GenericObjectiveProvider>().objectiveToken = Language.GetString("OBJECTIVE_CHAMPRUSH_EXIT1");
+
+            }
+        }
+
+
 
         private static void MissionCompleted_OnEnter(On.RoR2.ArenaMissionController.MissionCompleted.orig_OnEnter orig, ArenaMissionController.MissionCompleted self)
         {
@@ -77,11 +101,7 @@ namespace WolfoQoL_Client.Reminders
         private static void RemoveReminder_Host(On.RoR2.SceneExitController.orig_Begin orig, SceneExitController self)
         {
             orig(self);
-            GenericObjectiveProvider objective = self.GetComponent<PortalObjective>();
-            if (objective)
-            {
-                Object.Destroy(objective);
-            }
+            RemoveReminder(self);
         }
 
         private static void RemoveReminder_Client(On.RoR2.GenericInteraction.orig_OnDeserialize orig, GenericInteraction self, NetworkReader reader, bool initialState)
@@ -90,18 +110,48 @@ namespace WolfoQoL_Client.Reminders
             orig(self, reader, initialState);
             if (available == Interactability.Available && self.interactability != Interactability.Available)
             {
-                //Probably means used
-                GenericObjectiveProvider objective = self.GetComponent<GenericObjectiveProvider>();
-                if (objective)
+                SceneExitController sceneExitController = self.GetComponent<SceneExitController>();
+                if (sceneExitController != null)
                 {
-                    Object.Destroy(objective);
+                    RemoveReminder(sceneExitController);
                 }
+            }
+        }
+
+        private static void RemoveReminder(SceneExitController self)
+        {
+            GenericObjectiveProvider objective = self.GetComponent<PortalObjective>();
+            if (objective)
+            {
+                Object.Destroy(objective);
+                return;
+            }
+            if (InstanceTracker.Any<TrialController>())
+            {
+                Transform TrialObjectiveTrial = ClassicStageInfo.instance.transform.Find("TrialObjectiveTrial");
+                Transform TrialObjectiveLeave = ClassicStageInfo.instance.transform.Find("TrialObjectiveLeave");
+                if (TrialObjectiveTrial == null || TrialObjectiveTrial == null)
+                {
+                    return;
+                }
+                if (self.useRunNextStageScene)
+                {
+                    TrialObjectiveTrial.GetComponent<GenericObjectiveProvider>().markCompletedOnRetired = false;
+                }
+                else
+                {
+                    TrialObjectiveLeave.GetComponent<GenericObjectiveProvider>().markCompletedOnRetired = false;
+                }
+                TrialObjectiveTrial.gameObject.SetActive(false);
+                TrialObjectiveLeave.gameObject.SetActive(false);
+
             }
         }
 
     }
     public class PortalObjective : GenericObjectiveProvider
     {
+        
         public string style;
         public bool exit;
         public bool onlyEclipse;
@@ -124,7 +174,10 @@ namespace WolfoQoL_Client.Reminders
             }
             if (addAfterTP)
             {
-                enabled = false;
+                if (TeleporterInteraction.instance)
+                {
+                    enabled = false;
+                }
                 TeleporterInteraction.onTeleporterChargedGlobal += TeleporterInteraction_onTeleporterChargedGlobal;
             }
         }
@@ -136,7 +189,6 @@ namespace WolfoQoL_Client.Reminders
 
         public void Start()
         {
-
             string baseToken = "REMINDER_PORTAL_MAIN";
             if (exit)
             {
@@ -145,6 +197,11 @@ namespace WolfoQoL_Client.Reminders
                     baseToken = "REMINDER_PORTAL_EXIT";
                 }
             }
+            if (!string.IsNullOrEmpty(this.objectiveToken))
+            {
+                baseToken = this.objectiveToken;
+            }
+          
             string nameToken = this.GetComponent<GenericDisplayNameProvider>().displayToken;
             if (Language.currentLanguage == null)
             {

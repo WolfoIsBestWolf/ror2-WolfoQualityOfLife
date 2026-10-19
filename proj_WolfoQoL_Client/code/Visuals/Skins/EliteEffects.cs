@@ -17,19 +17,19 @@ namespace WolfoQoL_Client.Skins
                 ProjectileController proj = GetComponent<ProjectileController>();
                 if (proj.ghost && proj.owner)
                 {
-                    ModelLocator component = proj.owner.GetComponent<ModelLocator>();
-                    if (component)
-                    {
-                        Transform modelTransform = component.modelTransform;
-                        if (modelTransform)
-                        {
-                            CharacterModel component2 = modelTransform.GetComponent<CharacterModel>();
-                            if (component2)
-                            {
-                                proj.ghost.GetComponentInChildren<MeshRenderer>().material.SetFloat("_EliteIndex", component2.shaderEliteRampIndex + 1);
-                            }
-                        }
-                    }
+                   ModelLocator component = proj.owner.GetComponent<ModelLocator>();
+                   if (component)
+                   {
+                       Transform modelTransform = component.modelTransform;
+                       if (modelTransform)
+                       {
+                           CharacterModel component2 = modelTransform.GetComponent<CharacterModel>();
+                           if (component2)
+                           {
+                               proj.ghost.GetComponentInChildren<MeshRenderer>().material.SetFloat("_EliteIndex", component2.shaderEliteRampIndex + 1);
+                           }
+                       }
+                   }
 
                 }
 
@@ -52,20 +52,20 @@ namespace WolfoQoL_Client.Skins
                 if (proj.ghost && proj.owner)
                 {
 
-                    ModelLocator component = proj.owner.GetComponent<ModelLocator>();
-                    if (component)
-                    {
-                        Transform modelTransform = component.modelTransform;
-                        if (modelTransform)
-                        {
-                            CharacterModel component2 = modelTransform.GetComponent<CharacterModel>();
-                            if (component2)
-                            {
-                                renderer.material = material;
-                                renderer.material.SetFloat("_EliteIndex", component2.shaderEliteRampIndex + 1);
-                            }
-                        }
-                    }
+                   ModelLocator component = proj.owner.GetComponent<ModelLocator>();
+                   if (component)
+                   {
+                       Transform modelTransform = component.modelTransform;
+                       if (modelTransform)
+                       {
+                           CharacterModel component2 = modelTransform.GetComponent<CharacterModel>();
+                           if (component2)
+                           {
+                               renderer.material = material;
+                               renderer.material.SetFloat("_EliteIndex", component2.shaderEliteRampIndex + 1);
+                           }
+                       }
+                   }
 
                 }
 
@@ -102,21 +102,21 @@ namespace WolfoQoL_Client.Skins
             ILCursor c = new ILCursor(il);
 
             if (c.TryGotoNext(MoveType.Before,
-                 //x => x.MatchLdsfld("EntityStates.Bell.BellWeapon.ChargeTrioBomb", "preppedBombPrefab")
-                 x => x.MatchStloc(1)
+                //x => x.MatchLdsfld("EntityStates.Bell.BellWeapon.ChargeTrioBomb", "preppedBombPrefab")
+                x => x.MatchStloc(1)
                 ))
             {
                 //This is instance right
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<GameObject, EntityStates.Bell.BellWeapon.ChargeTrioBomb, GameObject>>((ballPrep, entityState) =>
                 {
-                    //Instance of Object not base Object
-                    if (entityState.characterBody.isElite)
-                    {
-                        ballPrep.transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_EliteIndex", entityState.GetModelTransform().GetComponent<CharacterModel>().shaderEliteRampIndex + 1);
-                        //Debug.Log(ballPrep.transform.GetChild(0).GetComponent<Renderer>().material.GetFloat("_EliteIndex"));
-                    }
-                    return ballPrep;
+                   //Instance of Object not base Object
+                   if (entityState.characterBody.isElite)
+                   {
+                       ballPrep.transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("_EliteIndex", entityState.GetModelTransform().GetComponent<CharacterModel>().shaderEliteRampIndex + 1);
+                       //Debug.Log(ballPrep.transform.GetChild(0).GetComponent<Renderer>().material.GetFloat("_EliteIndex"));
+                   }
+                   return ballPrep;
                 });
 
             }

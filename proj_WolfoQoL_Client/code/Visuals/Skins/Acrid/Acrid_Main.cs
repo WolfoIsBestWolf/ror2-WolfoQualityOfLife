@@ -48,20 +48,20 @@ namespace WolfoQoL_Client.Skins
 
                 if (temploadout != null && self.networkUser.bodyIndexPreference == Croco)
                 {
-                    uint skill = temploadout.bodyLoadoutManager.GetSkillVariant(Croco, 0);
-                    bool isBlight = (skill == 1);
-                    bool firstSelected = justSpawned;
-                    justSpawned = false;
+                   uint skill = temploadout.bodyLoadoutManager.GetSkillVariant(Croco, 0);
+                   bool isBlight = (skill == 1);
+                   bool firstSelected = justSpawned;
+                   justSpawned = false;
 
-                    Transform poison = self.transform.GetChild(0).Find("CrocoDisplaySpawnEffect(Clone)");
-                    Transform blight = self.transform.GetChild(0).Find("SpawnEffect_Blight");
+                   Transform poison = self.transform.GetChild(0).Find("CrocoDisplaySpawnEffect(Clone)");
+                   Transform blight = self.transform.GetChild(0).Find("SpawnEffect_Blight");
 
-                    poison.gameObject.SetActive(!isBlight);
-                    blight.gameObject.SetActive(isBlight);
-                    //Play_MULT_m1_sawblade_impact_loop
-                    //Play_MULT_m1_sawblade_impact_loop
-                    poison.GetChild(1).gameObject.SetActive(firstSelected);
-                    blight.GetChild(1).gameObject.SetActive(firstSelected);
+                   poison.gameObject.SetActive(!isBlight);
+                   blight.gameObject.SetActive(isBlight);
+                   //Play_MULT_m1_sawblade_impact_loop
+                   //Play_MULT_m1_sawblade_impact_loop
+                   poison.GetChild(1).gameObject.SetActive(firstSelected);
+                   blight.GetChild(1).gameObject.SetActive(firstSelected);
                 }
 
             }

@@ -22,9 +22,9 @@ namespace WolfoQoL_Client.Text
                 EquipmentDroneNameComponent drone = null;
                 if (self.sourceMaster.TryGetComponent<EquipmentDroneNameComponent>(out drone))
                 {
-                    //self.GetComponent<LayoutElement>().preferredWidth += 12;
-                    self.transform.GetChild(1).GetComponent<VerticalLayoutGroup>().spacing = 0;
-                    //self.nameLabel.text
+                   //self.GetComponent<LayoutElement>().preferredWidth += 12;
+                   self.transform.GetChild(1).GetComponent<VerticalLayoutGroup>().spacing = 0;
+                   //self.nameLabel.text
                 }
             }
         }
@@ -98,23 +98,23 @@ namespace WolfoQoL_Client.Text
             {
                 if (lastEquipmentIndex != EquipmentIndex.None)
                 {
-                    if (lastEquipmentIndex == DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
-                    {
-                        body.baseNameToken = "EQUIPMENTDRONE_BODY_NAME";
-                        return;
-                    }
-                    else
-                    {
-                        if (WConfig.cfgEquipmentDroneName.Value == WConfig.ColorOrNot.Colored)
-                        {
-                            body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Help.GetColoredName(inventory.currentEquipmentIndex) + ")";
-                        }
-                        else
-                        {
-                            EquipmentDef equip = EquipmentCatalog.GetEquipmentDef(inventory.currentEquipmentIndex);
-                            body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(equip.nameToken) + ")";
-                        }
-                    }
+                   if (lastEquipmentIndex == DLC1Content.Equipment.BossHunterConsumed.equipmentIndex)
+                   {
+                       body.baseNameToken = "EQUIPMENTDRONE_BODY_NAME";
+                       return;
+                   }
+                   else
+                   {
+                       if (WConfig.cfgEquipmentDroneName.Value == WConfig.ColorOrNot.Colored)
+                       {
+                           body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Help.GetColoredName(inventory.currentEquipmentIndex) + ")";
+                       }
+                       else
+                       {
+                           EquipmentDef equip = EquipmentCatalog.GetEquipmentDef(inventory.currentEquipmentIndex);
+                           body.baseNameToken = Language.GetString("EQUIPMENTDRONE_BODY_NAME") + "\n(" + Language.GetString(equip.nameToken) + ")";
+                       }
+                   }
                 }
             }
         }

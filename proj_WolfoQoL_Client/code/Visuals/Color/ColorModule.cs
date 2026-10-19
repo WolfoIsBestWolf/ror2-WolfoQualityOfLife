@@ -104,11 +104,11 @@ namespace WolfoQoL_Client
                 PickupDef pickupDef = PickupCatalog.GetPickupDef(self.pickupState.pickupIndex);
                 if (pickupDef != null)
                 {
-                    float m1 = 0.6f;
-                    float multT = 0.4f;
-                    Color og = pickupDef.baseColor;
-                    self.highlightColor = Highlight.HighlightColor.custom;
-                    self.CustomColor = new Color(og.r * m1 + Color_Temp.r * multT, og.g * m1 + Color_Temp.g * multT, og.b *m1 + Color_Temp.b * multT);
+                   float m1 = 0.6f;
+                   float multT = 0.4f;
+                   Color og = pickupDef.baseColor;
+                   self.highlightColor = Highlight.HighlightColor.custom;
+                   self.CustomColor = new Color(og.r * m1 + Color_Temp.r * multT, og.g * m1 + Color_Temp.g * multT, og.b *m1 + Color_Temp.b * multT);
                 }
       
             }
@@ -126,18 +126,18 @@ namespace WolfoQoL_Client
                 PickupDef temppickdef = PickupCatalog.GetPickupDef(tempind);
                 if (temppickdef.equipmentIndex != EquipmentIndex.None)
                 {
-                    EquipmentDef tempeqdef = EquipmentCatalog.GetEquipmentDef(temppickdef.equipmentIndex);
-                    if (WConfig.cfgColorMain.Value)
-                    {
-                        if (tempeqdef.isBoss == true)
-                        {
-                            array[i].bgTexture = ColorModule.texEquipmentBossBG;
-                        }
-                        else if (tempeqdef.isLunar == true)
-                        {
-                            array[i].bgTexture = ColorModule.texEquipmentLunarBG;
-                        }
-                    }
+                   EquipmentDef tempeqdef = EquipmentCatalog.GetEquipmentDef(temppickdef.equipmentIndex);
+                   if (WConfig.cfgColorMain.Value)
+                   {
+                       if (tempeqdef.isBoss == true)
+                       {
+                           array[i].bgTexture = ColorModule.texEquipmentBossBG;
+                       }
+                       else if (tempeqdef.isLunar == true)
+                       {
+                           array[i].bgTexture = ColorModule.texEquipmentLunarBG;
+                       }
+                   }
                 }
             }
             return array;
@@ -247,13 +247,13 @@ namespace WolfoQoL_Client
             {
                 new GradientColorKey
                 {
-                    color = ColorEquip_Boss,
-                    time = 0f,
+                   color = ColorEquip_Boss,
+                   time = 0f,
                 },
                 new GradientColorKey
                 {
-                     color = ColorEquip_Boss,
-                     time = 1
+                    color = ColorEquip_Boss,
+                    time = 1
                 }
             };
             EquipmentBossOrb.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().colorOverLifetime.color.gradient.colorKeys = colorKeysB;
@@ -268,13 +268,13 @@ namespace WolfoQoL_Client
              {
                 new GradientColorKey
                 {
-                    color = ColorEquip_Lunar,
-                    time = 0f,
+                   color = ColorEquip_Lunar,
+                   time = 0f,
                 },
                 new GradientColorKey
                 {
-                     color = ColorEquip_Lunar,
-                     time = 1
+                    color = ColorEquip_Lunar,
+                    time = 1
                 }
              };
             EquipmentLunarOrb.transform.GetChild(0).GetChild(0).GetComponent<ParticleSystem>().colorOverLifetime.color.gradient.colorKeys = colorKeysL;
@@ -311,17 +311,17 @@ namespace WolfoQoL_Client
                 tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier1);
                 if (tempTier)
                 {
-                    tempTier.colorIndex = index_Void1; 
+                   tempTier.colorIndex = index_Void1; 
                 }
                 tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidTier3);
                 if (tempTier)
                 {
-                    tempTier.colorIndex = index_Void3;
+                   tempTier.colorIndex = index_Void3;
                 }
                 tempTier = ItemTierCatalog.GetItemTierDef(ItemTier.VoidBoss);
                 if (tempTier)
                 {
-                    tempTier.colorIndex = index_Void4;
+                   tempTier.colorIndex = index_Void4;
                 }
             }
 
@@ -330,22 +330,22 @@ namespace WolfoQoL_Client
                 EquipmentDef def = EquipmentCatalog.equipmentDefs[i];
                 if (def)
                 {
-                    if (def.passiveBuffDef && def.passiveBuffDef.isElite)
-                    {
-                        def.isBoss = true;
-                    }
-                    if (def.isBoss)
-                    {
-                        def.colorIndex = index_EquipBoss;
-                    }
-                    else if (def.isLunar)
-                    {
-                        def.colorIndex = index_EquipLunar;
-                    }
-                    else if (def.isConsumed)
-                    {
-                        def.colorIndex = index_EquipConsumed;
-                    }
+                   if (def.passiveBuffDef && def.passiveBuffDef.isElite)
+                   {
+                       def.isBoss = true;
+                   }
+                   if (def.isBoss)
+                   {
+                       def.colorIndex = index_EquipBoss;
+                   }
+                   else if (def.isLunar)
+                   {
+                       def.colorIndex = index_EquipLunar;
+                   }
+                   else if (def.isConsumed)
+                   {
+                       def.colorIndex = index_EquipConsumed;
+                   }
                 }        
             }
  

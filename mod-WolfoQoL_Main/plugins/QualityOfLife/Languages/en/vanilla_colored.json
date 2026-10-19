@@ -33,8 +33,17 @@
 			"ACCESSCODES_SOLUS_FIGHT_DEFEATED": "<style=cWorldEvent>Collective enemy identified. Integrating analytics...</style>",
 
 			
-			"PORTAL_CHAMP_RUSH_OBJECTIVE": "Proceed through the Ritual Portal",
-			"OBJECTIVE_CHAMPRUSH_EXIT1": "Return to the Mortal Plane",
-			"OBJECTIVE_CHAMPRUSH_EXIT2": "Return to the Mortal Plane or...",
+			"PORTAL_CHAMP_RUSH_OBJECTIVE": "Proceed through the <style=cHumanObjective>Ritual Portal</color>",
+			"OBJECTIVE_CHAMPRUSH_EXIT1": "Return to the <style=cHumanObjective>Mortal Plane</color>",
+			"OBJECTIVE_CHAMPRUSH_EXIT2": "Return to the <style=cHumanObjective>Mortal Plane</color> or...",
+			"OBJECTIVE_WAKE_DEFENDTOWERS": "Defend the <style=cHumanObjective>Soul Conduits</color> ({0}%)",
+        
+			
 	}
 }
+
+//Wake
+//Alive Portal: F7A2AA
+//Mortal Portal: #FFFF57
+//Trial Portal: #C8F30D
+

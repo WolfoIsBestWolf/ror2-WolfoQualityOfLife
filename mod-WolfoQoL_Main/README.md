@@ -99,9 +99,7 @@ Many more messages so you have another chance to see what happened, or to see wh
 - On death, a detailed death message is sent, so you know what you died to.
 - Message for items used/lost to printing/cauldron/cleansing.
 - Message for items scrapped.
-- Message for repairing drones.
-- Message for combining drones.
-- Message for scrapping drones.
+- Message for repairing drones, combining drones, scrapping drones, drones dying.
 - Message for Benthic or Egocentrism changing your items.
 - Message for breaking Elixir or Watches.
 - Message reviving using an item.
@@ -117,24 +115,22 @@ Many more messages so you have another chance to see what happened, or to see wh
 
 ## Reminders
 
-
 Objectives for the following:
 - Reminders to make full use of your items. 
 - - (Rusted Keys, Sale Star, Regen Scrap, Shipping Form)
 - Leave through Portals
-- Halcyonite Shrine Charge Percentage & Killing.
+- Halcyonite Shrine charge percentage & Killing.
 - Getting the extra Halcyonite Fragment on Prime Meridian
 - Using the Hallowed Shrine if you have Hexes, either to cleanse yourself or get more Hexes.
+- Totem of Sacrifice leveling percentage after using it.
 - (Off by default)
 - - Find Newt Shrine, Halcyon Shrine, Access Node
-
 
 Conduit Canyon shows how many keys were installed.
 
 ![Image of Objectives](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-WolfoQualityoLlife/main/modPageImages/wqol_objectives.png)
 
 ## General Text Info
-
 
 Picking up a void will show how many it corrupted on pickup.\
 Picking up a normal will show how many of the void you have that it gets absorbed into.
@@ -172,9 +168,9 @@ Updated Death Screen including.
 - - Button to open/close chat
 - - Last Simu Wave encountered.
 - Inventory Side : 
-- - Temp Items still show up as Temp.
-- - Item Order should no longer get jumbled up by Mithrix P4.
+- - Temp, Ethereal, Disabled item stacks will keep those icons.
 - - Shows if died while Item Disabled
+- - Item Order should no longer get jumbled up by Mithrix P4.
 - - Players Equipment shown
 - - Drones that you had.
 - - Devoted Lemurians and their shared items.

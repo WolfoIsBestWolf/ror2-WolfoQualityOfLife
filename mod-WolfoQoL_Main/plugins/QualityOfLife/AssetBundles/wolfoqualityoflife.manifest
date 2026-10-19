@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1704425405
+CRC: 2607473392
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3a824592748a0e2a7aa6952f7db3cfc2
+    Hash: f9e5c4c09e18d22910c0cf0708fa2870
   TypeTreeHash:
     serializedVersion: 2
     Hash: 299d7093a10754f7aaab607a8b58134c
@@ -215,13 +215,14 @@ Assets:
 - Assets/WQoL/Buffs/texBuffHeadStompOn.png
 - Assets/WQoL/PingIcons/ChestCategory2Utility.png
 - Assets/WQoL/Items/Modded/AffixVarietyGold.png
+- Assets/WQoL/UI/texBarrierBarPlaceholder.png
 - Assets/WQoL/SkinScalable/texDTHauler_Mastery.png
-- Assets/WQoL/Buffs/texBuffEgg.png
 - Assets/WQoL/Items/Quality/UsedKey_Q1.png
 - Assets/WQoL/PingIcons/Lunar_Recycler.png
 - Assets/WQoL/PingIcons/LemurianEgg_Old.png
 - Assets/WQoL/Body/texBodySquidTurret.png
 - Assets/WQoL/PingIcons/Mod/EnemyReturn/ShrineLynx.png
+- Assets/WQoL/Buffs/texBuffEgg.png
 - Assets/WQoL/PingIcons/Loot_ArtifactKey.png
 - Assets/WQoL/Items/LunarPortal.png
 - Assets/WQoL/Items/Beta/betaWicked.png
@@ -261,6 +262,7 @@ Assets:
 - Assets/WQoL/SkinRamps/texRampHuntressRed.png
 - Assets/WQoL/PingIcons/CleanseIcon.png
 - Assets/WQoL/PingIcons/ShrineHealIcon.png
+- Assets/WQoL/SkinRamps/texRampEarth.png
 - Assets/WQoL/PingIcons/DLC4/Shrine_Descent.png
 - Assets/WQoL/General/OldDuplicatorIdle.anim
 - Assets/WQoL/Items/EliteAurelionite.png

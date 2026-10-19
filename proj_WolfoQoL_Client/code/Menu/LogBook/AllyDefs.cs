@@ -10,9 +10,6 @@ namespace WolfoQoL_Client
 {
     public struct AllyDef
     {
-
-
-
         public ItemTier tier;
         public float desiredSortPosition;
         //public string nameToken;
@@ -154,7 +151,7 @@ namespace WolfoQoL_Client
                 string allyDesc = characterBody.name.Replace("Body", "_SKILL_DESCRIPTION").ToUpper();
                 if (Language.english.TokenIsRegistered(allyDesc))
                 {
-                    builder.AddDescriptionPanel(Language.GetString(allyDesc));
+                   builder.AddDescriptionPanel(Language.GetString(allyDesc));
                 }
                 builder.AddSimpleBody(characterBody);
                 builder.AddDronePanel(characterBody);

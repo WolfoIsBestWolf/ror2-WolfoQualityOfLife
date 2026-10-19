@@ -1,4 +1,5 @@
-﻿using MonoMod.Cil;
+﻿using HG;
+using MonoMod.Cil;
 using RoR2;
 using RoR2.UI;
 using System.Collections.Generic;
@@ -17,8 +18,6 @@ namespace WolfoQoL_Client
 
         public static void Start()
         {
-
-
             On.RoR2.UI.ChatBox.Awake += AllowMoreChatMessages;
 
             On.RoR2.UI.CrosshairManager.OnEnable += CrosshairManager_OnEnable;
@@ -37,10 +36,10 @@ namespace WolfoQoL_Client
 
             AllowScrolling(ChatBoxRun);
             AllowScrolling(ChatBoxLobby);
+            AllowScrolling(GameEndReportPanel.transform.Find("SafeArea (JUICED)/BodyArea/StatsAndChatArea/ChatArea/ChatBox").gameObject);
+            AllowScrolling(InfiniteTowerGameEndReportPanel.transform.Find("SafeArea (JUICED)/BodyArea/StatsAndChatArea/ChatArea/ChatBox").gameObject);
             DifficultyStat = GameEndReportPanel.GetComponent<GameEndReportPanelController>().statContentArea.GetChild(0).gameObject;
             UnlockContainer = GameEndReportPanel.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-
-
 
             IL.RoR2.UI.ScoreboardController.Rebuild += ScoreboardForDeadPeopleToo;
 
@@ -54,6 +53,19 @@ namespace WolfoQoL_Client
             //We could remove the weird blurriyness by removing the cloud textures
             //matCursedBookNotification3
             //_AlphaBoost 1
+
+
+            if (WConfig.BarrierHPBarChange.Value)
+            {
+                HealthBarStyle CombatHealthBar = Addressables.LoadAssetAsync<HealthBarStyle>(key: "RoR2/Base/Common/CombatHealthBar.asset").WaitForCompletion();
+                HealthBarStyle HUDHealthBar = Addressables.LoadAssetAsync<HealthBarStyle>(key: "RoR2/Base/Common/HUDHealthBar.asset").WaitForCompletion();
+                CombatHealthBar.barrierBarStyle.sprite = HUDHealthBar.barrierBarStyle.sprite;
+                CombatHealthBar.barrierBarStyle.sprite = Assets.Bundle.LoadAsset<Sprite>("Assets/WQoL/UI/texBarrierBarPlaceholder.png");
+                CombatHealthBar.barrierBarStyle.imageType = HUDHealthBar.barrierBarStyle.imageType;
+                CombatHealthBar.barrierBarStyle.sizeDelta = 9;
+                CombatHealthBar.barrierBarStyle.baseColor = new Color(1f, 1f, 1f, 0.88f);
+            }
+
         }
 
         private static void CursedBookExtraDisplay_UpdateSelectionIndicator(ILContext il)
@@ -173,6 +185,11 @@ namespace WolfoQoL_Client
 
         public static void AllowScrolling(GameObject chatBox)
         {
+            if (chatBox.transform.parent)
+            {
+                chatBox.transform.parent.EnsureComponent<GraphicRaycaster>();
+            }
+
             ChatBox chat = chatBox.GetComponent<ChatBox>();
             chat.scrollRect.vertical = true;
             chat.scrollRect.scrollSensitivity = 6;
@@ -182,6 +199,8 @@ namespace WolfoQoL_Client
             TMPro.TMP_InputField input = MessageArea.GetComponent<TMPro.TMP_InputField>();
             input.image.enabled = true;
             input.image.color = new Color(0, 0, 0, 0);
+
+            
         }
 
 
@@ -242,7 +261,7 @@ namespace WolfoQoL_Client
             SprintingCrosshairUI.maxSpreadAngle = 8;
 
             rawMid.texture = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/UI/texCrosshairDot.png").WaitForCompletion();
-            rawMid.color = new Color(1f, 1f, 1f, 0.7f);
+            rawMid.color = new Color(1f, 1f, 1f, 0.8f);
 
             Texture2D Arrow = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/UI/texCrosshairArrow.png").WaitForCompletion();
             GameObject Right = new GameObject("Right");

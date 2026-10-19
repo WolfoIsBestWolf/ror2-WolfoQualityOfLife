@@ -40,7 +40,7 @@ namespace WolfoQoL_Client.DeathScreen
                 var playerTracker = player.GetComponent<PerPlayerMaster_ExtraStatTracker>();
                 if (playerTracker)
                 {
-                    playerTracker.EvaluateStrongestMinion();
+                   playerTracker.EvaluateStrongestMinion();
                 }
             }
             MinionMaster_ExtraStatsTracker.minionBodyToTracker.Clear();
@@ -55,10 +55,10 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(obj.attacker, out var attackerM))
                 {
-                    if (attackerM.bodyIndex != -1)
-                    {
-                        attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)obj.damage;
-                    }
+                   if (attackerM.bodyIndex != -1)
+                   {
+                       attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)obj.damage;
+                   }
                 }
             }
            
@@ -95,35 +95,35 @@ namespace WolfoQoL_Client.DeathScreen
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.Before,
 
-                x => x.MatchStloc(1)
+                x => x.MatchStloc(2)
                 ))
             {
                 c.Emit(OpCodes.Ldloc_0);
                 c.EmitDelegate<System.Func<HealthComponent, DamageDealtMessage, HealthComponent>>((self, damageEvent) =>
                 {
-                    //This is past nullCheck of victim
-                    if (damageEvent.attacker)
-                    {
-                        if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerM))
-                        {
-                            if (attackerM.bodyIndex != -1)
-                            {
-                                attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)damageEvent.damage;
-                            }
-                        }   
-                        if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && PerPlayerMaster_ExtraStatTracker.playerBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerP))
-                        {
-                            if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
-                            {
-                                attackerP.dotDamageDone += (ulong)damageEvent.damage;
-                            }
-                        }
-                    }
-                    if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(damageEvent.victim, out var victim))
-                    {
-                        victim.tracker.minionDamageTaken += (ulong)damageEvent.damage;
-                    }
-                    return self;
+                   //This is past nullCheck of victim
+                   if (damageEvent.attacker)
+                   {
+                       if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerM))
+                       {
+                           if (attackerM.bodyIndex != -1)
+                           {
+                               attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)damageEvent.damage;
+                           }
+                       }   
+                       if ((damageEvent.damageType & DamageType.DoT) != 0UL && self && PerPlayerMaster_ExtraStatTracker.playerBodyToTracker.TryGetValue(damageEvent.attacker, out var attackerP))
+                       {
+                           if (self.health != 1 || (damageEvent.damageType & DamageType.NonLethal) == 0UL)
+                           {
+                               attackerP.dotDamageDone += (ulong)damageEvent.damage;
+                           }
+                       }
+                   }
+                   if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(damageEvent.victim, out var victim))
+                   {
+                       victim.tracker.minionDamageTaken += (ulong)damageEvent.damage;
+                   }
+                   return self;
                 });
             }
             else
@@ -138,17 +138,17 @@ namespace WolfoQoL_Client.DeathScreen
             ILCursor c = new ILCursor(il);
 
             if (c.TryGotoNext(MoveType.Before,
-                 x => x.MatchCallvirt("RoR2.Inventory", "RemoveItem")
-                 ))
+                x => x.MatchCallvirt("RoR2.Inventory", "RemoveItem")
+                ))
             {
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<System.Func<int, Inventory, int>>((count, inventory) =>
                 {
-                    if (inventory.TryGetComponent<PerPlayerMaster_ExtraStatTracker>(out var a))
-                    {
-                        //a.itemsVoided += count;
-                    }
-                    return count;
+                   if (inventory.TryGetComponent<PerPlayerMaster_ExtraStatTracker>(out var a))
+                   {
+                       //a.itemsVoided += count;
+                   }
+                   return count;
                 });
             }
             else
@@ -168,11 +168,11 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 c.EmitDelegate<System.Func<HealthComponent.HealMessage, HealthComponent.HealMessage>>((healEvent) =>
                 {
-                    if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(healEvent.target, out var a))
-                    {
-                        a.tracker.minionHealing += (ulong)healEvent.amount;
-                    }
-                    return healEvent;
+                   if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(healEvent.target, out var a))
+                   {
+                       a.tracker.minionHealing += (ulong)healEvent.amount;
+                   }
+                   return healEvent;
                 });
             }
             else
@@ -187,7 +187,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 Networker.SendWQoLMessage(new PerPlayerMaster_ExtraStatTracker.SyncValues
                 {
-                    masterObject = player.gameObject,
+                   masterObject = player.gameObject,
                 });
             }
 
@@ -199,7 +199,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (self.GetComponent<MinionMaster_ExtraStatsTracker>() == null)
                 {
-                    self.gameObject.AddComponent<MinionMaster_ExtraStatsTracker>();
+                   self.gameObject.AddComponent<MinionMaster_ExtraStatsTracker>();
                 }
             }
         }

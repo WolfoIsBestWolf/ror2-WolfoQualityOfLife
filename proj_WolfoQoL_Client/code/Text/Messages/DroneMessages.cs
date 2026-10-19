@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using EntityStates.AffixVoid;
+using RoR2;
 using UnityEngine;
 using UnityEngine.Networking;
 using WolfoLibrary;
@@ -19,9 +20,79 @@ namespace WolfoQoL_Client.Text
             On.RoR2.SummonMasterBehavior.NotifySummonerInternal += DroneMessage_RepairHost;
             On.RoR2.DroneVendorTerminalBehavior.NotifySummonerInternal += DroneMessage_RepairHostShop;
             //On.RoR2.CharacterMasterNotificationQueue.PushDroneNotification //Technically better but LookingGlass used this without purchasing a drone so uhh
+
+            On.EntityStates.Drone.DeathState.OnEnter += DeathState_OnEnter;
+            On.EntityStates.Drone.MegaDroneDeathState.OnEnter += MegaDroneDeathState_OnEnter;
+            On.EntityStates.Turret1.DeathState.OnEnter += DeathState_OnEnter1;
         }
 
+        private static void MegaDroneDeathState_OnEnter(On.EntityStates.Drone.MegaDroneDeathState.orig_OnEnter orig, EntityStates.Drone.MegaDroneDeathState self)
+        {
+            orig(self);
+            DroneDeathMessage(self.characterBody);
+        }
 
+        private static void DeathState_OnEnter(On.EntityStates.Drone.DeathState.orig_OnEnter orig, EntityStates.Drone.DeathState self)
+        {
+            orig(self);
+            DroneDeathMessage(self.characterBody);
+        }
+        private static void DeathState_OnEnter1(On.EntityStates.Turret1.DeathState.orig_OnEnter orig, EntityStates.Turret1.DeathState self)
+        {
+            orig(self);
+            DroneDeathMessage(self.characterBody);
+        }
+
+        public static void DroneDeathMessage(CharacterBody body)
+        {
+            if (!WConfig.DroneMessage_Death.Value)
+            {
+                return;
+            }
+            if (!body || !body.inventory)
+            {
+                return;
+            }
+            if (NetworkServer.active && body.master.IsDeadAndOutOfLivesServer() == false || Util.HasReviveItemOrEquipment(body.inventory))
+            {
+                return;
+            }
+            if (body.master.GetComponent<SetDontDestroyOnLoad>() == null)
+            {
+                return;
+            }
+            DroneIndex drone = DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex);
+            if (drone == DroneIndex.None)
+            {
+                return;
+            }
+            if (!DroneCatalog.GetDroneDef(drone).droneBrokenSpawnCard)
+            {
+                return;
+            }
+            if (!body.master || !body.master.minionOwnership || !body.master.minionOwnership.ownerMaster || !body.master.minionOwnership.ownerMaster.playerCharacterMasterController)
+            {
+                //No owner
+                return;
+            }
+            if (drone == DroneIndex.None)
+            {
+                return;
+            }
+
+            int random = UnityEngine.Random.Range(1, 7);
+
+            Chat.AddMessage(new DroneChatMessage
+            {
+                baseToken = "DEATH_DRONE_"+ random,
+                DroneTier = body.inventory.GetItemCountPermanent(DLC3Content.Items.DroneUpgradeHidden),
+                _DroneIndex = drone,
+                subjectNetworkUserObject = body.master.minionOwnership.ownerMaster.playerCharacterMasterController.networkUser.gameObject,
+                pickupQuantity = 1,
+                droneMaster = body.masterObject
+            });
+        }
+        
 
         public static void DroneMessage_ClientOnly(On.RoR2.MinionOwnership.MinionGroup.orig_AddMinion orig, NetworkInstanceId ownerId, MinionOwnership minion)
         {
@@ -39,19 +110,19 @@ namespace WolfoQoL_Client.Text
                 //Apparently works fine for clients, but so lets just do this for Client HostNotModded
                 if (!WQoLMain.HostHasMod)
                 {
-                    minion.gameObject.AddComponent<DroneLoss_ClientListener>();
-                    //If Perma
-                    //If Player
+                   minion.gameObject.AddComponent<DroneLoss_ClientListener>();
+                   //If Perma
+                   //If Player
 
-                    if (DroneCollection.isPermamentMinion(minion.gameObject))
-                    {
-                        BodyIndex bodyIndex = BodyCatalog.FindBodyIndex(minion.GetComponent<CharacterMaster>().bodyPrefab);
-                        DroneIndex droneIndexFromBodyIndex = DroneCatalog.GetDroneIndexFromBodyIndex(bodyIndex);
-                        if (droneIndexFromBodyIndex != DroneIndex.None)
-                        {
-                            DroneMessages.DroneMessage_Client(minion.group, minion.ownerMaster.playerCharacterMasterController.networkUser, minion.GetComponent<Inventory>().GetItemCountPermanent(DLC3Content.Items.DroneUpgradeHidden), droneIndexFromBodyIndex);
-                        }
-                    }
+                   if (DroneCollection.isPermamentMinion(minion.gameObject))
+                   {
+                       BodyIndex bodyIndex = BodyCatalog.FindBodyIndex(minion.GetComponent<CharacterMaster>().bodyPrefab);
+                       DroneIndex droneIndexFromBodyIndex = DroneCatalog.GetDroneIndexFromBodyIndex(bodyIndex);
+                       if (droneIndexFromBodyIndex != DroneIndex.None)
+                       {
+                           DroneMessages.DroneMessage_Client(minion.group, minion.ownerMaster.playerCharacterMasterController.networkUser, minion.GetComponent<Inventory>().GetItemCountPermanent(DLC3Content.Items.DroneUpgradeHidden), droneIndexFromBodyIndex);
+                       }
+                   }
                 }
             }
         }
@@ -77,20 +148,20 @@ namespace WolfoQoL_Client.Text
             {
                 var newMsg = new DroneChatMessage
                 {
-                    baseToken = "UPGRADE_DRONE",
-                    DroneTier = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
-                    pickupQuantity = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden) + 2,
-                    _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(drone.bodyIndex),
-                    subjectAsCharacterBody = owner,
-                    noBracketQuantity = true,
+                   baseToken = "UPGRADE_DRONE",
+                   DroneTier = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
+                   pickupQuantity = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden) + 2,
+                   _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(drone.bodyIndex),
+                   subjectAsCharacterBody = owner,
+                   noBracketQuantity = true,
                 };
                 if (self.vehicleSeat.netId.Value == 0)
                 {
-                    Networker.SendWQoLMessage(newMsg);
+                   Networker.SendWQoLMessage(newMsg);
                 }
                 else
                 {
-                    Chat.AddMessage(newMsg);
+                   Chat.AddMessage(newMsg);
                 }
             }
         }
@@ -115,12 +186,12 @@ namespace WolfoQoL_Client.Text
             {
                 Networker.SendWQoLMessage(new DroneChatMessage
                 {
-                    baseToken = "UPGRADE_DRONE",
-                    DroneTier = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
-                    pickupQuantity = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden) + 2,
-                    _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(drone.bodyIndex),
-                    subjectAsCharacterBody = owner,
-                    noBracketQuantity = true,
+                   baseToken = "UPGRADE_DRONE",
+                   DroneTier = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden),
+                   pickupQuantity = drone.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden) + 2,
+                   _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(drone.bodyIndex),
+                   subjectAsCharacterBody = owner,
+                   noBracketQuantity = true,
                 });
             }
         }
@@ -136,9 +207,9 @@ namespace WolfoQoL_Client.Text
             {
                 Networker.SendWQoLMessage(new DroneChatMessage
                 {
-                    baseToken = "REMOTEOP_DRONE",
-                    _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(BodyCatalog.FindBodyIndexCaseInsensitive(droneBodyToSpawn)),
-                    subjectAsNetworkUser = self.playerCharacterMasterController.networkUser,
+                   baseToken = "REMOTEOP_DRONE",
+                   _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(BodyCatalog.FindBodyIndexCaseInsensitive(droneBodyToSpawn)),
+                   subjectAsNetworkUser = self.playerCharacterMasterController.networkUser,
                 });
             }
         }
@@ -159,40 +230,40 @@ namespace WolfoQoL_Client.Text
                 DroneIndex droneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(minionBodyObject.GetComponent<CharacterBody>().bodyIndex);
                 if (droneIndex != DroneIndex.None)
                 {
-                    int quantity = 0;
-                    MinionOwnership.MinionGroup minionGroup = MinionOwnership.MinionGroup.FindGroup(characterBody.master.netId);
-                    if (minionGroup != null)
-                    {
-                        foreach (MinionOwnership minionOwnership in minionGroup.members)
-                        {
-                            if (minionOwnership)
-                            {
-                                CharacterMaster droneMaster = minionOwnership.GetComponent<CharacterMaster>();
-                                if (droneMaster)
-                                {
-                                    //Debug.Log(droneMaster);
-                                    CharacterBody body = droneMaster.GetBody();
-                                    if (body && droneMaster.inventory)
-                                    {
-                                        if (droneIndex == DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex))
-                                        {
-                                            quantity += DroneUpgradeUtils.GetDroneCountFromUpgradeCount(droneMaster.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                   int quantity = 0;
+                   MinionOwnership.MinionGroup minionGroup = MinionOwnership.MinionGroup.FindGroup(characterBody.master.netId);
+                   if (minionGroup != null)
+                   {
+                       foreach (MinionOwnership minionOwnership in minionGroup.members)
+                       {
+                           if (minionOwnership)
+                           {
+                               CharacterMaster droneMaster = minionOwnership.GetComponent<CharacterMaster>();
+                               if (droneMaster)
+                               {
+                                  //Debug.Log(droneMaster);
+                                  CharacterBody body = droneMaster.GetBody();
+                                  if (body && droneMaster.inventory)
+                                  {
+                                      if (droneIndex == DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex))
+                                      {
+                                          quantity += DroneUpgradeUtils.GetDroneCountFromUpgradeCount(droneMaster.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden));
+                                      }
+                                  }
+                               }
+                           }
+                       }
+                   }
  
-                    //Debug.Log(quantity);
-                    Networker.SendWQoLMessage(new DroneChatMessage
-                    {
-                        baseToken = token,
-                        DroneTier = upgradeCount,
-                        _DroneIndex = droneIndex,
-                        subjectAsNetworkUser = characterBody.master.playerCharacterMasterController.networkUser,
-                        pickupQuantity = quantity
-                    });
+                   //Debug.Log(quantity);
+                   Networker.SendWQoLMessage(new DroneChatMessage
+                   {
+                       baseToken = token,
+                       DroneTier = upgradeCount,
+                       _DroneIndex = droneIndex,
+                       subjectAsNetworkUser = characterBody.master.playerCharacterMasterController.networkUser,
+                       pickupQuantity = quantity
+                   });
 
 
                 }
@@ -207,22 +278,22 @@ namespace WolfoQoL_Client.Text
             {
                 foreach (MinionOwnership minionOwnership in minionGroup.members)
                 {
-                    if (minionOwnership)
-                    {
-                        CharacterMaster droneMaster = minionOwnership.GetComponent<CharacterMaster>();
-                        if (droneMaster)
-                        {
-                            //Debug.Log(droneMaster);
-                            CharacterBody body = droneMaster.GetBody();
-                            if (body && droneMaster.inventory)
-                            {
-                                if (droneIndex == DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex))
-                                {
-                                    quantity += DroneUpgradeUtils.GetDroneCountFromUpgradeCount(droneMaster.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden));
-                                }
-                            }
-                        }
-                    }
+                   if (minionOwnership)
+                   {
+                       CharacterMaster droneMaster = minionOwnership.GetComponent<CharacterMaster>();
+                       if (droneMaster)
+                       {
+                           //Debug.Log(droneMaster);
+                           CharacterBody body = droneMaster.GetBody();
+                           if (body && droneMaster.inventory)
+                           {
+                               if (droneIndex == DroneCatalog.GetDroneIndexFromBodyIndex(body.bodyIndex))
+                               {
+                                  quantity += DroneUpgradeUtils.GetDroneCountFromUpgradeCount(droneMaster.inventory.GetItemCountEffective(DLC3Content.Items.DroneUpgradeHidden));
+                               }
+                           }
+                       }
+                   }
                 }
             }
             Chat.AddMessage(new DroneChatMessage
@@ -252,13 +323,26 @@ namespace WolfoQoL_Client.Text
             {
                 baseToken += "_2P";
             }
-            string droneUpraded = "";
+            string droneText = "";
 
             if (_DroneIndex != DroneIndex.None)
             {
-                droneUpraded += Help.GetColoredName(_DroneIndex, DroneTier);
+                droneText += Help.GetColoredName(_DroneIndex, DroneTier);
             }
             string quantity = "";
+            
+            if (_DroneIndex == RoR2Content.DroneDefs.EquipmentDrone.droneIndex)
+            {
+                if (droneMaster)
+                {
+                    Inventory inv = droneMaster.GetComponent<Inventory>();
+                    if (inv && inv.currentEquipmentIndex != EquipmentIndex.None)
+                    {
+                        droneText += " (" + Language.GetString(EquipmentCatalog.GetEquipmentDef(inv.currentEquipmentIndex).nameToken) + ")";
+                    }
+                }
+            }
+
             if (noBracketQuantity)
             {
                 quantity = pickupQuantity.ToString();
@@ -267,7 +351,7 @@ namespace WolfoQoL_Client.Text
             {
                 quantity = "(" + pickupQuantity + ")";
             }
-            string result = string.Format(Language.GetString(baseToken), this.GetSubjectName(), droneUpraded, quantity);
+            string result = string.Format(Language.GetString(baseToken), this.GetSubjectName(), droneText, quantity);
 
             return result;
         }
@@ -277,6 +361,7 @@ namespace WolfoQoL_Client.Text
         public int DroneTier;
         public int pickupQuantity;
         public bool noBracketQuantity = false;
+        public GameObject droneMaster;
 
         public override void Serialize(NetworkWriter writer)
         {
@@ -285,6 +370,7 @@ namespace WolfoQoL_Client.Text
             writer.Write(DroneTier);
             writer.Write(pickupQuantity);
             writer.Write(noBracketQuantity);
+            writer.Write(droneMaster);
         }
 
         public override void Deserialize(NetworkReader reader)
@@ -298,7 +384,7 @@ namespace WolfoQoL_Client.Text
             DroneTier = reader.ReadInt32();
             pickupQuantity = reader.ReadInt32();
             noBracketQuantity = reader.ReadBoolean();
-
+            droneMaster = reader.ReadGameObject();
         }
     }
 

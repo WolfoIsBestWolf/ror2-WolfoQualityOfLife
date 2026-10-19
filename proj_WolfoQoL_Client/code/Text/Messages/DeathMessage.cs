@@ -72,11 +72,11 @@ namespace WolfoQoL_Client.Text
                 //Voidtouched Dot Death
                 if (isDoT && dmgColor == DamageColorIndex.Void)
                 {
-                    token = "DEATH_DOT_FRACTURE";
+                   token = "DEATH_DOT_FRACTURE";
                 }
                 else
                 {
-                    token = "DEATH_DOT_GENERIC";
+                   token = "DEATH_DOT_GENERIC";
                 }
             }
             else if (damageType.damageType.HasFlag(DamageType.BypassArmor | DamageType.BypassBlock) && dmgColor == DamageColorIndex.Void)
@@ -95,30 +95,30 @@ namespace WolfoQoL_Client.Text
             {
                 if (attackerBody == victimBody)
                 {
-                    token = "DEATH_FRIENDLY_SUICIDE";
+                   token = "DEATH_FRIENDLY_SUICIDE";
                 }
                 else
                 {
-                    token = "DEATH_FRIENDLY";
+                   token = "DEATH_FRIENDLY";
                 }
             }
             else
             {
                 if (echo)
                 {
-                    token = "DEATH_ECHO";
+                   token = "DEATH_ECHO";
                 }
                 else if (attackerBody == null && victimBody.inLava)
                 {
-                    token = "DEATH_LAVA";
+                   token = "DEATH_LAVA";
                 }
                 else if (victimBody.isGlass)
                 {
-                    token = "DEATH_GLASS";
+                   token = "DEATH_GLASS";
                 }
                 else
                 {
-                    token = "DEATH_GENERIC";
+                   token = "DEATH_GENERIC";
                 }
             }
             string damageVal = string.Empty;
@@ -165,7 +165,7 @@ namespace WolfoQoL_Client.Text
                 Networker.SendWQoLMessage(deathMessage);
                 if (victimBody.master.IsDeadAndOutOfLivesServer())
                 {
-                    Networker.SendWQoLMessage(killerInventoryMessage);
+                   Networker.SendWQoLMessage(killerInventoryMessage);
                 }
             }
             else
@@ -182,30 +182,30 @@ namespace WolfoQoL_Client.Text
             {
                 if (!WConfig.module_text_chat.Value)
                 {
-                    return null;
+                   return null;
                 }
                 string KillerName = "";
                 if (attackerObject != null)
                 {
-                    KillerName = Util.GetBestBodyName(attackerObject);
-                    KillerName = KillerName.Replace("\n", " ");
+                   KillerName = Util.GetBestBodyName(attackerObject);
+                   KillerName = KillerName.Replace("\n", " ");
                 }
                 else
                 {
-                    KillerName = Language.GetString(killerBackupName);
+                   KillerName = Language.GetString(killerBackupName);
                 }
 
                 string result = string.Empty;
                 if (base.IsSecondPerson())
                 {
-                    baseToken += "_2P";
+                   baseToken += "_2P";
                 }
                 result += string.Format(Language.GetString(baseToken), victimName, KillerName);
                 result += string.Format(Language.GetString("DEATH_DAMAGE"), damageDone);
                 victimMaster.GetComponent<PerPlayerMaster_ExtraStatTracker>().latestDetailedDeathMessage = result;
                 if (WConfig.cfgMessageDeath.Value == false)
                 {
-                    return null;
+                   return null;
                 }
                 result = "<style=cDeath>" + result;
                 return result;
@@ -235,7 +235,7 @@ namespace WolfoQoL_Client.Text
             {
                 if (WQoLMain.NoHostInfo == true)
                 {
-                    return;
+                   return;
                 }
                 base.Deserialize(reader);
                 victimName = reader.ReadString();

@@ -1,4 +1,25 @@
 ```
+v5.2.3
+
+Message when a Drone dies because I keep not noticing.
+Objective showing how much time remains at the end of a trial.
+Score % for Totem of Sacrifice for Host.
+Barrier on enemies health bar is more visible.
+
+Allowed scrolling on game end screen's chat.
+Broken Gunner Drone's smoke now angled upwards like other drones.
+Ritual Sconce will no longer appear on Scanner once activated.
+
+Fixed temporary items displaying their name twice.
+Fixed missing ping icon for Stage 1 Halcyonite shrine.
+Fixed DoT damage stat not being tracked.
+Fixed Drones left on the Moon counting as "Missed" when entering "the ending".
+Fixed an issue with a blue Primordial Teleporter config not working.
+Fixed some stage based custom objectives not working. (ie Sentry Key amount)
+Fixed portal objectives sometimes not appearing in the bazaar
+Fixed friendly ping indicator effects not disappearing properly when repinging.
+```
+```
 v5.2.2
 Fixed Void Quantity not working.
 Fixed an error upon Tinkering Aurelionite Fragments which made it not work.

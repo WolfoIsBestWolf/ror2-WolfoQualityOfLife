@@ -24,14 +24,23 @@ namespace WolfoQoL_Client
 
             On.RoR2.PurchaseInteraction.ShouldShowOnScanner += BlockScanner_Purchase;
             On.RoR2.GenericInteraction.ShouldShowOnScanner += BlockScanner_Generic;
-
+          
             On.RoR2.Stage.PreStartClient += PingIconsOnStage;
 
             //Stop showing on scanner if no longer usable
             On.RoR2.GrantHexesController.ShouldShowOnScanner += GrantHexesController_ShouldShowOnScanner;
 
+            On.EntityStates.Sconce.SconceBaseState.OnEnter += DisableSconceScannerWhenActive;
         }
 
+        private static void DisableSconceScannerWhenActive(On.EntityStates.Sconce.SconceBaseState.orig_OnEnter orig, EntityStates.Sconce.SconceBaseState self)
+        {
+            orig(self);
+            if (self.isActive)
+            {
+                self.gameObject.GetComponent<DummyPingableInteraction>().interactability = Interactability.Disabled;
+            }
+        }
 
         private static bool GrantHexesController_ShouldShowOnScanner(On.RoR2.GrantHexesController.orig_ShouldShowOnScanner orig, GrantHexesController self)
         {
@@ -115,27 +124,9 @@ namespace WolfoQoL_Client
             {
                 if (self.teleporterChargeIndicatorController)
                 {
-                    if (WConfig.cfgPrimordialBlueHighlight.Value)
+                    if (WConfig.cfgPingIcons.Value)
                     {
-                        Highlight highlight = self.GetComponent<Highlight>();
-                        highlight.CustomColor = new Color(0.5223f, 0.8071f, 0.9151f, 1);
-                        highlight.highlightColor = Highlight.HighlightColor.custom;
-
-                        Transform prong = self.transform.GetChild(0).GetChild(8);
-
-                        //Check both cases
-                        highlight = prong.GetComponent<InstantiatePrefabBehavior>().prefab.GetComponent<Highlight>();
-                        if (highlight)
-                        {
-                            highlight.CustomColor = new Color(0.5223f, 0.8071f, 0.9151f, 1);
-                            highlight.highlightColor = Highlight.HighlightColor.custom;
-                        }
-                        if (prong.childCount > 0)
-                        {
-                            highlight = prong.GetChild(0).GetComponent<Highlight>();
-                            highlight.CustomColor = new Color(0.5223f, 0.8071f, 0.9151f, 1);
-                            highlight.highlightColor = Highlight.HighlightColor.custom;
-                        }
+                        self.teleporterChargeIndicatorController.iconSprites[0].sprite = PingIcons.PrimordialTeleporterChargedIcon;
                     }
                     if (WConfig.cfgPrimordialBlueIcon.Value)
                     {
@@ -143,10 +134,35 @@ namespace WolfoQoL_Client
                         self.teleporterChargeIndicatorController.spriteChargingColor = new Color(0.5223f, 0.8071f, 0.9151f, 1);
                         self.teleporterChargeIndicatorController.spriteBaseColor = new Color(0.1745f, 0.4115f, 1f, 1f);
                     }
-                    if (WConfig.cfgPingIcons.Value)
+                    if (WConfig.cfgPrimordialBlueHighlight.Value)
                     {
-                        self.teleporterChargeIndicatorController.iconSprites[0].sprite = PingIcons.PrimordialTeleporterChargedIcon;
+                        Highlight highlight = self.GetComponent<Highlight>();
+                        highlight.CustomColor = new Color(0.5223f, 0.8071f, 0.9151f, 1);
+                        highlight.highlightColor = Highlight.HighlightColor.custom;
+
+                        Transform ProngContainer = self.transform.GetChild(0).Find("ProngContainer");
+                        //Check both cases
+                        if (!ProngContainer)
+                        {
+                            return;
+                        }
+                        if (ProngContainer.childCount > 0)
+                        {
+                            highlight = ProngContainer.GetChild(0).GetComponent<Highlight>();
+                            highlight.CustomColor = new Color(0.5223f, 0.8071f, 0.9151f, 1);
+                            highlight.highlightColor = Highlight.HighlightColor.custom;
+                        }
+                        else
+                        {
+                            highlight = ProngContainer.GetComponent<InstantiatePrefabBehavior>().prefab.GetComponent<Highlight>();
+                            if (highlight)
+                            {
+                                highlight.CustomColor = new Color(0.5223f, 0.8071f, 0.9151f, 1);
+                                highlight.highlightColor = Highlight.HighlightColor.custom;
+                            }
+                        }
                     }
+
                 }
             }
         }

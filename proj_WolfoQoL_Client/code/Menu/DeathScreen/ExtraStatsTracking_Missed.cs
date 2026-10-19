@@ -32,38 +32,42 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }
+            if (SceneCatalog.mostRecentSceneDef == WolfoLibrary.SceneList.Moon2)
+            {
+                return;
+            }
             //CANNOT filter for cost type none because Cloaked Chest
             //(which is half the joke of this stat)
             if (self.gameObject.activeInHierarchy)
             {
                 if (self.TryGetComponent<ShrineChanceBehavior>(out var chance))
                 {
-                    self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.ShrineChance;
+                   self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.ShrineChance;
 
                 }
                 else if (self.GetComponent<SummonMasterBehavior>())
                 {
-                    self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.Drone;
+                   self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.Drone;
                 }
                 else if (self.costType != CostTypeIndex.LunarCoin)
                 {
-                    bool realChest = false;
-                    if (self.TryGetComponent<ChestBehavior>(out var chest))
-                    {
-                        //Filter out frozenwall fan because hopoo james
-                        if (chest.dropTable)
-                        {
-                            realChest = true;
-                        }
-                        if (SceneCatalog.mostRecentSceneDef.isFinalStage)
-                        {
-                            realChest = self.costType == CostTypeIndex.TreasureCacheItem;
-                        }
-                    }
-                    if (realChest || self.GetComponent<OptionChestBehavior>())
-                    {
-                        self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.Chest;
-                    }
+                   bool realChest = false;
+                   if (self.TryGetComponent<ChestBehavior>(out var chest))
+                   {
+                       //Filter out frozenwall fan because hopoo james
+                       if (chest.dropTable)
+                       {
+                           realChest = true;
+                       }
+                       if (SceneCatalog.mostRecentSceneDef.isFinalStage)
+                       {
+                           realChest = self.costType == CostTypeIndex.TreasureCacheItem;
+                       }
+                   }
+                   if (realChest || self.GetComponent<OptionChestBehavior>())
+                   {
+                       self.gameObject.AddComponent<OnDestroyMissedInteractable>().type = OnDestroyMissedInteractable.Cases.Chest;
+                   }
                 }
 
 
@@ -81,7 +85,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (RunExtraStatTracker.instance)
                 {
-                    RunExtraStatTracker.instance.missedLemurians++;
+                   RunExtraStatTracker.instance.missedLemurians++;
                 }
             }
         }
@@ -140,6 +144,11 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 return;
             }
+            if (SceneCatalog.mostRecentSceneDef == WolfoLibrary.SceneList.Moon2)
+            {
+                return;
+            }
+
             Cases type2 = Cases.None;
             IDisplayNameProvider nameProvider = GetComponent<IDisplayNameProvider>();
             if (nameProvider == null)
@@ -151,33 +160,33 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (GetComponent<PurchaseInteraction>().available)
                 {
-                    switch (type)
-                    {
-                        case Cases.Chest:
-                            type2 = Cases.Chest;
-                            break;
-                        case Cases.Drone:
-                            type2 = Cases.Drone;
-                            break;
-                        case Cases.ShrineChance:
-                            ShrineChanceBehavior shrine = GetComponent<ShrineChanceBehavior>();
-                            RunExtraStatTracker.instance.missedShrineChanceItems += (shrine.maxPurchaseCount - shrine.successfulPurchaseCount);
-                            break;
-                    }
+                   switch (type)
+                   {
+                       case Cases.Chest:
+                           type2 = Cases.Chest;
+                           break;
+                       case Cases.Drone:
+                           type2 = Cases.Drone;
+                           break;
+                       case Cases.ShrineChance:
+                           ShrineChanceBehavior shrine = GetComponent<ShrineChanceBehavior>();
+                           RunExtraStatTracker.instance.missedShrineChanceItems += (shrine.maxPurchaseCount - shrine.successfulPurchaseCount);
+                           break;
+                   }
                 }
             }
             else if (type == Cases.MultiShop)
             {
                 if (GetComponent<MultiShopController>().available)
                 {
-                    type2 = Cases.Chest;
+                   type2 = Cases.Chest;
                 }
             }
             else if (type == Cases.Drone)
             {
                 if (GetComponent<DroneVendorMultiShopController>().available)
                 {
-                    type2 = Cases.Drone;
+                   type2 = Cases.Drone;
                 }
             }
 
@@ -187,11 +196,11 @@ namespace WolfoQoL_Client.DeathScreen
                 RunExtraStatTracker.instance.missedChests++;
                 if (RunExtraStatTracker.instance.missedChests_Dict.ContainsKey(name))
                 {
-                    RunExtraStatTracker.instance.missedChests_Dict[name]++;
+                   RunExtraStatTracker.instance.missedChests_Dict[name]++;
                 }
                 else
                 {
-                    RunExtraStatTracker.instance.missedChests_Dict.Add(name, 1);
+                   RunExtraStatTracker.instance.missedChests_Dict.Add(name, 1);
                 }
             }
             else if (type2 == Cases.Drone)
@@ -199,11 +208,11 @@ namespace WolfoQoL_Client.DeathScreen
                 RunExtraStatTracker.instance.missedDrones++;
                 if (RunExtraStatTracker.instance.missedDrones_Dict.ContainsKey(name))
                 {
-                    RunExtraStatTracker.instance.missedDrones_Dict[name]++;
+                   RunExtraStatTracker.instance.missedDrones_Dict[name]++;
                 }
                 else
                 {
-                    RunExtraStatTracker.instance.missedDrones_Dict.Add(name, 1);
+                   RunExtraStatTracker.instance.missedDrones_Dict.Add(name, 1);
                 }
             }
 

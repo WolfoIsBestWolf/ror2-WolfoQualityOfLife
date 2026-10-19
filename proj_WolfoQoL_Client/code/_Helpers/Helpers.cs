@@ -19,8 +19,8 @@ namespace WolfoQoL_Client
                 ref StatField ptr = ref statSheet.fields[perItemStatDef.FindStatDef((ItemIndex)i).index];
                 if (statField.CompareTo(ptr) < 0)
                 {
-                    statField = ptr;
-                    result = (ItemIndex)i;
+                   statField = ptr;
+                   result = (ItemIndex)i;
                 }
             }
             if (statField.IsDefault())
@@ -52,12 +52,12 @@ namespace WolfoQoL_Client
                 if (ptr.ulongValue > (ulong)0 && statField.CompareTo(ptr) < 0)
                 //if (statField.ulongValue < ptr.ulongValue) //??
                 {
-                    //Only check if Is Bigger, not check every body
-                    if (!IconIsNotSuitable(BodyCatalog.bodyPrefabBodyComponents[bodyIndex]))
-                    {
-                        statField = ptr;
-                        result = bodyIndex;
-                    }
+                   //Only check if Is Bigger, not check every body
+                   if (!IconIsNotSuitable(BodyCatalog.bodyPrefabBodyComponents[bodyIndex]))
+                   {
+                       statField = ptr;
+                       result = bodyIndex;
+                   }
                 }
             }
             if (statField.IsDefault())
@@ -101,13 +101,17 @@ namespace WolfoQoL_Client
         {
             return GetColoredName(PickupCatalog.FindPickupIndex(index), tier);
         }
+        public static string GetColoredName(UniquePickup pickup)
+        {
+            return GetColoredName(pickup.pickupIndex, pickup.upgradeValue, pickup.isTempItem, pickup.isRental);
+        }
 
         public static string GetColoredName(PickupIndex index, int tier = 0, bool isTemporary = false, bool isRental = false)
         {
             PickupDef def = PickupCatalog.GetPickupDef(index);
             if (def == null)
             {
-                return "Null";
+                return "???";
             }
             StringBuilder name = stringBuilder;
             name.Clear();
@@ -118,7 +122,7 @@ namespace WolfoQoL_Client
             {
                 name.Append(Language.GetStringFormatted("ITEM_MODIFIER_TEMP", Language.GetString(def.nameToken)));
             }
-            if (isRental)
+            else if (isRental)
             {
                 name.Append(Language.GetStringFormatted("ITEM_MODIFIER_RENTAL", Language.GetString(def.nameToken)));
             }
@@ -134,11 +138,7 @@ namespace WolfoQoL_Client
             return name.ToString();
         }
        
-        public static string GetColoredName(UniquePickup pickup)
-        {
-            return GetColoredName(pickup.pickupIndex, pickup.upgradeValue, pickup.isTempItem, pickup.isRental);
-        }
-    
+   
     
         public static void AddToLastChatMessage(string add)
         {

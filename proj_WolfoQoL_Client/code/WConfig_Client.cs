@@ -24,10 +24,6 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgHelminthLightingFix;
         public static ConfigEntry<bool> cfgSofterShadows;
 
-        public static ConfigEntry<bool> DroneMessage_Repair;
-        public static ConfigEntry<bool> DroneMessage_Combine;
-        public static ConfigEntry<bool> DroneMessage_RemoteOp;
-
         //public static ConfigEntry<bool> cfgTempItemCyanStack;
         public static ConfigEntry<bool> cfgRecipesInLog;
 
@@ -57,6 +53,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> DC_KillerInventory_EvenIfJustElite;
 
         public static ConfigEntry<bool> LogbookSimuStages;
+        public static ConfigEntry<bool> BarrierHPBarChange;
 
 
 
@@ -88,10 +85,17 @@ namespace WolfoQoL_Client
         //public static ConfigEntry<float> cfgObjectiveFontSize;
 
         //MoreMessages
+
+
+
+        public static ConfigEntry<bool> DroneMessage_Repair;
+        public static ConfigEntry<bool> DroneMessage_Combine;
+        public static ConfigEntry<bool> DroneMessage_RemoteOp;
+        public static ConfigEntry<bool> DroneMessage_Death;
+
         public static ConfigEntry<bool> cfgMessageDeath;
         public static ConfigEntry<bool> cfgMessagePrint;
         public static ConfigEntry<bool> cfgMessageScrap;
-        public static ConfigEntry<bool> cfgMessageDroneScrap;
         public static ConfigEntry<bool> cfgMessageVictory;
         public static ConfigEntry<bool> cfgMessageVoidTransform;
         public static ConfigEntry<MessageWho> cfgMessageElixirWatch;
@@ -232,6 +236,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgColorMain;
         public static ConfigEntry<bool> cfgColorVoids;
 
+        //public static ConfigEntry<bool> cfgBrokenDroneVisual;
         public static ConfigEntry<bool> ArtifactOutline;
         public static ConfigEntry<bool> cfgBuff_RepeatColors;
         public static ConfigEntry<bool> cfgFragmentColor;
@@ -255,7 +260,6 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> cfgAurFragment_ItemsInPing;
         public static ConfigEntry<bool> cfgPlayerPing;
         public static ConfigEntry<bool> SulfurPoolsSkin;
-        public static ConfigEntry<bool> ArtificerBazaarAlways;
         public static ConfigEntry<float> ObjectiveHudSpacing;
 
         public enum Player
@@ -415,11 +419,11 @@ namespace WolfoQoL_Client
                 "Shows percent. To match other waiting sections in the game." + RestartNotif
             );
             cfgReminder_Halcyon = ConfigFile_Client.Bind(
-             "Reminders",
-             "Find Halcyon Shrine",
-             false,
-             "Reminder to find the Halcyon Shrine, if one spawned."
-           );
+                "Reminders",
+                "Find Halcyon Shrine",
+                false,
+                "Reminder to find the Halcyon Shrine, if one spawned."
+            );
 
             cfgRemindersNewt = ConfigFile_Client.Bind(
               "Reminders",
@@ -480,16 +484,16 @@ namespace WolfoQoL_Client
                 "Chat message for when;\nEgocentrism eats an item\nBenthic Bloom upgrades an item.\n(VanillaVoids) Enhancement Vials corrupts an item."
             );
             cfgMessagesRevive = ConfigFile_Client.Bind(
-                 "Chat Messages",
-                 "Revive Messages",
-                 true,
-                 "Message for when someone dies and revives using an item.\n\nWith more ways to revive, might be good to know when it's because of an item."
+                "Chat Messages",
+                "Revive Messages",
+                true,
+                "Message for when someone dies and revives using an item.\n\nWith more ways to revive, might be good to know when it's because of an item."
               );
             cfgMessagesSaleStar = ConfigFile_Client.Bind(
-                 "Chat Messages",
-                 "Sale Star Message",
-                 true,
-                 "Message to show when and on what someone used their Sale Stars on."
+                "Chat Messages",
+                "Sale Star Message",
+                true,
+                "Message to show when and on what someone used their Sale Stars on."
               );
             cfgMessageElixirWatch = ConfigFile_Client.Bind(
                 "Chat Messages",
@@ -504,23 +508,29 @@ namespace WolfoQoL_Client
                 "Chat message for when Dream Crubiles are consumed instead of another item."
             );
             cfgMessagesRecycler = ConfigFile_Client.Bind(
-                 "Chat Messages",
-                 "Recycler / Dark Alchemy Message",
-                 true,
-                 "When an item is Recycled or split with Dark Alchemy by anyone, a message will be displayed saying what turned into what."
+                "Chat Messages",
+                "Recycler / Dark Alchemy Message",
+                true,
+                "When an item is Recycled or split with Dark Alchemy by anyone, a message will be displayed saying what turned into what."
               );
             DroneMessage_Repair = ConfigFile_Client.Bind(
-                 "Chat Messages",
-                 "Drone Repair Message",
-                 true,
-                 "Message for repairing drones and purchasing them from a Drone Triple Shop."
+                "Chat Messages",
+                "Drone Repair Message",
+                true,
+                "Message for repairing drones and purchasing them from a Drone Triple Shop."
               );
+            DroneMessage_Death = ConfigFile_Client.Bind(
+                "Chat Messages",
+                "Drone Death Message",
+                true,
+                "Message for when a drone dies."
+             );
             DroneMessage_Combine = ConfigFile_Client.Bind(
                 "Chat Messages",
                 "Drone Combiner Message",
                 true,
                 "Message for combining/upgrading drones at the Drone CombinerStation."
-             );
+              );
             DroneMessage_RemoteOp = ConfigFile_Client.Bind(
                 "Chat Messages",
                 "Drone RemoteOp Message",
@@ -614,7 +624,13 @@ namespace WolfoQoL_Client
                 true,
                 "In Eclipse lobby & pre-screen\nShow what the next eclipse level to beat is, as number under each character, or a border if Eclipse 8 was beaten."
             );
-
+            BarrierHPBarChange = ConfigFile_Client.Bind(
+               "Menu & Hud",
+               "Enemy HP Bar Barrier",
+               true,
+               "More visible barrier on enemies' hp bar."
+           );
+            
             #endregion
 
             #region Icon Related
@@ -626,10 +642,10 @@ namespace WolfoQoL_Client
            );
 
             cfgBuff_RepeatColors = ConfigFile_Client.Bind(
-                 "Icons",
-                 "Buff Recolors",
-                 true,
-                 "Recolors buffs that use the same sprite and color as other buffs to be distinguishable.\n\nRed Whip -> Orange\nSmall Armor -> Dark Yellow\nCelestial Cloaking -> Greener."
+                "Icons",
+                "Buff Recolors",
+                true,
+                "Recolors buffs that use the same sprite and color as other buffs to be distinguishable.\n\nRed Whip -> Orange\nSmall Armor -> Dark Yellow\nCelestial Cloaking -> Greener."
              );
             cfgTpIconDiscoveredRed = ConfigFile_Client.Bind(
               "Icons",
@@ -712,13 +728,19 @@ namespace WolfoQoL_Client
                 true,
                 "Abyssal Depths will have lava-like instead of water\nSulfur Pools will have greener Geysers"
             );
+            /*cfgBrokenDroneVisual = ConfigFile_Client.Bind(
+               "Visuals",
+               "Broken drone visual tweak",
+               true,
+               "" + RestartNotif
+           );*/
             OldModelDuplcators = ConfigFile_Client.Bind(
                "Visuals",
                "Large and Mili Printer Old Model",
                true,
                "Change the model of Green and Red Printers to the bigger bulkier one used before 1.0.\n\nUncommon 3D printers are the only interactable that looks exactly the same as a different one." + RestartNotif
            );
- 
+
             #endregion
 
             #region Text Stuff Other
@@ -735,22 +757,22 @@ namespace WolfoQoL_Client
                "Show the equipment a Equipment Drone is holding in its name."
             );
             cfgVoidPotential_ItemsInPing = ConfigFile_Client.Bind(
-                 "Text",
-                 "Void Potential contents in Ping",
-                 true,
-                 "When pinged, the items inside will be in the ping message. Requested for more easy sharing in Simulacrum"
+                "Text",
+                "Void Potential contents in Ping",
+                true,
+                "When pinged, the items inside will be in the ping message. Requested for more easy sharing in Simulacrum"
              );
             cfgAurFragment_ItemsInPing = ConfigFile_Client.Bind(
-                 "Text",
-                 "Aurelionite Fragment contents in Ping",
-                 true,
-                 "When pinged, the items inside will be in the ping message."
+                "Text",
+                "Aurelionite Fragment contents in Ping",
+                true,
+                "When pinged, the items inside will be in the ping message."
              );
             cfgPlayerPing = ConfigFile_Client.Bind(
-                 "Text",
-                 "Player Ping",
-                 true,
-                 "When pinging a player or ally, it will be blue and friendly instead of attack:"
+                "Text",
+                "Player Ping",
+                true,
+                "When pinging a player or ally, it will be blue and friendly instead of attack:"
              );
             cfgMessagesColoredItemPings = ConfigFile_Client.Bind(
               "Text",
@@ -971,12 +993,7 @@ namespace WolfoQoL_Client
             #endregion
 
             #region OTHER
-            ArtificerBazaarAlways = ConfigFile_Client.Bind(
-                "Other",
-                "Artificer Always in Bazaar",
-                false,
-                "I just think she's a nice Decoration and REX is always there."
-            );
+   
             cfgSmoothCaptain = ConfigFile_Client.Bind(
                 "Skins",
                 "Colossus Captain Smooth",
@@ -1034,10 +1051,10 @@ namespace WolfoQoL_Client
             #region Test
 
             cfgTestClient = ConfigFile_Client.Bind(
-                 "Testing",
-                 "Client Test",
-                 false,
-                 "Client work arounds wont get removed if host has mod."
+                "Testing",
+                "Client Test",
+                false,
+                "Client work arounds wont get removed if host has mod."
              );
             cfgTestDisableHostInfo = ConfigFile_Client.Bind(
                 "Testing",
@@ -1068,15 +1085,15 @@ namespace WolfoQoL_Client
             List<ConfigEntryBase> resetNeeded = new List<ConfigEntryBase>()
             {
                 module_menu_deathscreen,
-                 module_menu_logbook,
-                 module_menu_other,
-                 module_text_chat,
-                 module_text_general,
-                 module_text_reminders,
-                 module_visuals_icons,
-                 module_visuals_other,
-                 module_visuals_skins,
-                 cfgMessagesVoidQuantity,
+                module_menu_logbook,
+                module_menu_other,
+                module_text_chat,
+                module_text_general,
+                module_text_reminders,
+                module_visuals_icons,
+                module_visuals_other,
+                module_visuals_skins,
+                cfgMessagesVoidQuantity,
                 SulfurPoolsSkin,
                 cfgRemindersPortal,
                 cfgChargeHalcyShrine,
@@ -1104,6 +1121,9 @@ namespace WolfoQoL_Client
                 cfgSkinOperatorAltChirp,
                 cfgSkinAcridBlight,
                 //cfgSkinMakeBlightedAcrid,
+
+                //cfgBrokenDroneVisual,
+                BarrierHPBarChange,
             };
 
             var entries = ConfigFile_Client.GetConfigEntries();
@@ -1112,23 +1132,23 @@ namespace WolfoQoL_Client
             {
                 if (entry.SettingType == typeof(bool))
                 {
-                    ModSettingsManager.AddOption(new CheckBoxOption((ConfigEntry<bool>)entry, resetNeeded.Contains(entry)));
+                   ModSettingsManager.AddOption(new CheckBoxOption((ConfigEntry<bool>)entry, resetNeeded.Contains(entry)));
                 }
                 else if (entry.SettingType == typeof(int))
                 {
-                    ModSettingsManager.AddOption(new IntFieldOption((ConfigEntry<int>)entry, false));
+                   ModSettingsManager.AddOption(new IntFieldOption((ConfigEntry<int>)entry, false));
                 }
                 else if (entry.SettingType == typeof(float))
                 {
-                    ModSettingsManager.AddOption(new SliderOption(ObjectiveHudSpacing, new SliderConfig { max = 0, min = -8, FormatString = "{0:0}" }));
+                   ModSettingsManager.AddOption(new SliderOption(ObjectiveHudSpacing, new SliderConfig { max = 0, min = -8, FormatString = "{0:0}" }));
                 }
                 else if (entry.SettingType.IsEnum)
                 {
-                    ModSettingsManager.AddOption(new ChoiceOption(entry, false));
+                   ModSettingsManager.AddOption(new ChoiceOption(entry, false));
                 }
                 else
                 {
-                    Log.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
+                   Log.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
                 }
             }
 

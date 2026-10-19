@@ -3,6 +3,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace WolfoQoL_Client.Reminders
 {
@@ -16,7 +17,32 @@ namespace WolfoQoL_Client.Reminders
             {
                 IL.RoR2.GoldSiphonNearbyBodyController.DrainGold += Update_Objective;
             }
+
+            On.RoR2.SpawnAltarZoneController.Start += TotemSacrifice_Add;
+            On.RoR2.SpawnAltarZoneController.AddScoreServer += TotemSacrifice_UpdateCharge;
         }
+
+        private static void TotemSacrifice_Add(On.RoR2.SpawnAltarZoneController.orig_Start orig, SpawnAltarZoneController self)
+        {
+            orig(self);
+            if (NetworkServer.active)
+            {
+                GenericObjectiveProvider obj = self.gameObject.AddComponent<GenericObjectiveProvider>();
+                obj.objectiveToken = Language.GetStringFormatted("OBJECTIVE_CHARGE_SACRIFICE", 0);
+            }
+        }
+
+        private static void TotemSacrifice_UpdateCharge(On.RoR2.SpawnAltarZoneController.orig_AddScoreServer orig, SpawnAltarZoneController self, float scoreToAdd)
+        {
+            orig(self, scoreToAdd);
+            if (NetworkServer.active)
+            {
+                GenericObjectiveProvider obj = self.GetComponent<GenericObjectiveProvider>();
+                int charge = System.Math.Min((int)(self._currPoints / (self._adjustedPointsPerLevel * 3f) * 100f), 100);
+                obj.objectiveToken = Language.GetStringFormatted("OBJECTIVE_CHARGE_SACRIFICE", charge);
+            }
+        }
+
 
         private static void HalcyoniteObjectives(On.EntityStates.ShrineHalcyonite.ShrineHalcyoniteBaseState.orig_OnEnter orig, EntityStates.ShrineHalcyonite.ShrineHalcyoniteBaseState self)
         {
@@ -193,6 +219,27 @@ namespace WolfoQoL_Client.Reminders
             this.enabled = false;
         }
         public GenericObjectiveProvider killObjective;
+    }
+
+    public class TotemSacrificeObjective : GenericObjectiveProvider
+    {
+        public SpawnAltarZoneController totem;
+        public HoldoutZoneController holdout;
+
+        public int lastSeenScore;
+
+        public void Awake()
+        {
+      
+        }
+
+    
+        public void FixedUpdate()
+        {
+
+            int a = (int)(holdout.baseChargeDuration * holdout.charge);
+        }
+      
     }
 
 }

@@ -15,4 +15,3 @@ v5.2.X TODO
 
 are the engi harpoons not too colored for sots skin
 
-regen scrap reminder if you pick it up mid stage'?? probably not right

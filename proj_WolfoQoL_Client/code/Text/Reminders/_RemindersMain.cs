@@ -280,8 +280,8 @@ namespace WolfoQoL_Client.Reminders
                     TreasureReminder.instance.qualityCollectors++;
                     break;
             }
-
         }
+
         public void OnDisable()
         {
             if (interactable == Interactable.newtAltar)
@@ -294,6 +294,8 @@ namespace WolfoQoL_Client.Reminders
             }
         }
     }
+
+
 
     public class TreasureReminder : MonoBehaviour
     {

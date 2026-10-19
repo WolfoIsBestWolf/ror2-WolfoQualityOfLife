@@ -58,14 +58,14 @@ namespace WolfoQoL_Client.DeathScreen
                 var def = UnlockableCatalog.GetUnlockableDef((UnlockableIndex)random);
                 if (!def.hidden)
                 {
-                    done++;
-                    foreach (NetworkUser networkUser in NetworkUser.readOnlyInstancesList)
-                    {
-                        if (networkUser.isParticipating)
-                        {
-                            networkUser.ServerHandleUnlock(def);
-                        }
-                    }
+                   done++;
+                   foreach (NetworkUser networkUser in NetworkUser.readOnlyInstancesList)
+                   {
+                       if (networkUser.isParticipating)
+                       {
+                           networkUser.ServerHandleUnlock(def);
+                       }
+                   }
                 }
 
             }
@@ -80,13 +80,13 @@ namespace WolfoQoL_Client.DeathScreen
                 SceneDef def = SceneCatalog.allStageSceneDefs[Run.instance.runRNG.RangeInt(0, SceneCatalog.allStageSceneDefs.Length)];
                 while (def.stageOrder != lookingFor)
                 {
-                    def = SceneCatalog.allStageSceneDefs[Run.instance.runRNG.RangeInt(0, SceneCatalog.allStageSceneDefs.Length)];
+                   def = SceneCatalog.allStageSceneDefs[Run.instance.runRNG.RangeInt(0, SceneCatalog.allStageSceneDefs.Length)];
                 }
                 done++;
                 lookingFor++;
                 if (lookingFor == 6)
                 {
-                    lookingFor = 1;
+                   lookingFor = 1;
                 }
                 visitedScenes.Add(def);
             }
@@ -138,31 +138,31 @@ namespace WolfoQoL_Client.DeathScreen
                 //If 5 -> 1 then consider loop, only then.
                 if (newSceneDef.stageOrder == 5)
                 {
-                    expectingLoop = true;
-                    lastSeenLoopCount = Run.instance.loopClearCount;
+                   expectingLoop = true;
+                   lastSeenLoopCount = Run.instance.loopClearCount;
                 }
                 else if (newSceneDef.stageOrder == 1 && expectingLoop)
                 {
-                    expectingLoop = false;
-                    //visitedScenes = new List<SceneDef>();
-                    //visitedScenesTOTAL.Add(visitedScenes);
+                   expectingLoop = false;
+                   //visitedScenes = new List<SceneDef>();
+                   //visitedScenesTOTAL.Add(visitedScenes);
                 }
             }
             else
             {
                 if (lastSeenLoopCount != Run.instance.loopClearCount)
                 {
-                    expectingLoop = true;
-                    lastSeenLoopCount = Run.instance.loopClearCount;
+                   expectingLoop = true;
+                   lastSeenLoopCount = Run.instance.loopClearCount;
                 }
                 if (expectingLoop)
                 {
-                    if (newSceneDef.stageOrder < 6)
-                    {
-                        expectingLoop = false;
-                        //visitedScenes = new List<SceneDef>();
-                        //visitedScenesTOTAL.Add(visitedScenes);
-                    }
+                   if (newSceneDef.stageOrder < 6)
+                   {
+                       expectingLoop = false;
+                       //visitedScenes = new List<SceneDef>();
+                       //visitedScenesTOTAL.Add(visitedScenes);
+                   }
                 }
             }
             visitedScenes.Add(newSceneDef);
@@ -236,30 +236,30 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (master.inventory.currentEquipmentIndex != EquipmentIndex.None)
                 {
-                    if (master.inventory.currentEquipmentIndex != lastSeenEquip)
-                    {
-                        equipmentHistory.Add(master.inventory.currentEquipmentIndex);
+                   if (master.inventory.currentEquipmentIndex != lastSeenEquip)
+                   {
+                       equipmentHistory.Add(master.inventory.currentEquipmentIndex);
 
-                        //Fruit | 0
-                        //Pickups Egg | 1
-                        //Pickups Fruit again | 2
-                        //Remove mentions of Egg & Fruit, as swap effectively did not happen
-                        //But some sort of extra use case where, he did swap back and forth, just not like instantly some sort of check reset on body start.
+                       //Fruit | 0
+                       //Pickups Egg | 1
+                       //Pickups Fruit again | 2
+                       //Remove mentions of Egg & Fruit, as swap effectively did not happen
+                       //But some sort of extra use case where, he did swap back and forth, just not like instantly some sort of check reset on body start.
  
-                        if (checkEquipSwap < equipmentHistory.Count)
-                        {
-                            //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 3]));
-                            //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 2]));
-                            //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 1]));
-                            if (equipmentHistory[equipmentHistory.Count - 3] == equipmentHistory[equipmentHistory.Count - 1])
-                            {
-                                Log.LogMessage("Swapped Equips");
-                                equipmentHistory.RemoveAt(equipmentHistory.Count - 2);
-                                equipmentHistory.RemoveAt(equipmentHistory.Count - 1);
-                            }
-                        }
-                    }
-                   
+                       if (checkEquipSwap < equipmentHistory.Count)
+                       {
+                           //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 3]));
+                           //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 2]));
+                           //Debug.Log(EquipmentCatalog.GetEquipmentDef(equipmentHistory[equipmentHistory.Count - 1]));
+                           if (equipmentHistory[equipmentHistory.Count - 3] == equipmentHistory[equipmentHistory.Count - 1])
+                           {
+                               Log.LogMessage("Swapped Equips");
+                               equipmentHistory.RemoveAt(equipmentHistory.Count - 2);
+                               equipmentHistory.RemoveAt(equipmentHistory.Count - 1);
+                           }
+                       }
+                   }
+                  
                 }
             }         
             lastSeenEquip = master.inventory.currentEquipmentIndex;
@@ -293,10 +293,10 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 foreach (var key in playerBodyToTracker.Keys.ToArray())
                 {
-                    if (key == null)
-                    {
-                        playerBodyToTracker.Remove(key);
-                    }
+                   if (key == null)
+                   {
+                       playerBodyToTracker.Remove(key);
+                   }
                 }
             }
             lastSeenBody = body.gameObject;
@@ -319,11 +319,11 @@ namespace WolfoQoL_Client.DeathScreen
                 Inventory inventory = master.inventory;
                 if (inventory != null)
                 {
-                    tempItemDurations = new float[ItemCatalog.itemCount];
-                    rentalItems = new int[ItemCatalog.itemCount];
-                    inventory.WriteAllTempItemDecayValues(this.tempItemDurations);
-                    inventory.WriteAllRentalItemStacks(this.rentalItems);
-                    inventory.WriteDisabledItemMask(this.disabledItems);
+                   tempItemDurations = new float[ItemCatalog.itemCount];
+                   rentalItems = new int[ItemCatalog.itemCount];
+                   inventory.WriteAllTempItemDecayValues(this.tempItemDurations);
+                   inventory.WriteAllRentalItemStacks(this.rentalItems);
+                   inventory.WriteDisabledItemMask(this.disabledItems);
 
                 }
 
@@ -380,8 +380,8 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (perMinionDamage[i] > val)
                 {
-                    val = perMinionDamage[i];
-                    chosen = i;
+                   val = perMinionDamage[i];
+                   chosen = i;
                 }
             }
             strongestMinion = (BodyIndex)chosen;
@@ -393,7 +393,7 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (perMinionDamage[i] > 0)
                 {
-                    WStats.AddStat(i, perMinionDamage[i]);
+                   WStats.AddStat(i, perMinionDamage[i]);
                 }
             }
         }
@@ -426,14 +426,14 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (WQoLMain.NoHostInfo == true)
                 {
-                    return;
+                   return;
                 }
                 base.Deserialize(reader);
                 masterObject = reader.ReadGameObject();
                 if (masterObject == null)
                 {
-                    Log.LogWarning("No Master");
-                    return;
+                   Log.LogWarning("No Master");
+                   return;
                 }
                 var tracker = masterObject.EnsureComponent<PerPlayerMaster_ExtraStatTracker>();
 
@@ -538,10 +538,10 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 foreach (var key in minionBodyToTracker.Keys.ToArray())
                 {
-                    if (key == null)
-                    {
-                        minionBodyToTracker.Remove(key);
-                    }
+                   if (key == null)
+                   {
+                       minionBodyToTracker.Remove(key);
+                   }
                 }
             }
             bodyObject = newBody.gameObject;
@@ -557,8 +557,8 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 if (DroneCollection.isPermamentMinion(this.gameObject))
                 {
-                    Log.LogMessage(this.gameObject.name + " died");
-                    tracker.minionDeaths++;
+                   Log.LogMessage(this.gameObject.name + " died");
+                   tracker.minionDeaths++;
                 }
             }
         }

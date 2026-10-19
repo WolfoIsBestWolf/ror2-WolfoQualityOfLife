@@ -88,7 +88,6 @@ namespace WolfoQoL_Client.Reminders
 
         }
 
-
         private static void FreeChestReminderUpdater_Host(On.RoR2.MultiShopController.orig_OnPurchase orig, MultiShopController self, CostTypeDef.PayCostContext payCostContext, CostTypeDef.PayCostResults payCostResult)
         {
             orig(self, payCostContext, payCostResult);

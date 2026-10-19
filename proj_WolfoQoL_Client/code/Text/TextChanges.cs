@@ -89,9 +89,11 @@ namespace WolfoQoL_Client.Text
             */
         }
 
+        private static PickupIndex latestPickup;
         private static void PickupMessage_Reset(On.RoR2.GenericPickupController.PickupMessage.orig_Reset orig, GenericPickupController.PickupMessage self)
         {
-  
+            latestPickup = GenericPickupController.pickupMessageInstance.pickupState.pickupIndex;
+            orig(self);
         }
 
         private static string AddVoidQuantity(On.RoR2.Chat.PlayerPickupChatMessage.orig_ConstructChatString orig, Chat.PlayerPickupChatMessage self)
@@ -105,7 +107,7 @@ namespace WolfoQoL_Client.Text
                 return orig(self);
             }
             
-            PickupDef pickupDef = PickupCatalog.GetPickupDef(GenericPickupController.pickupMessageInstance.pickupState.pickupIndex);
+            PickupDef pickupDef = PickupCatalog.GetPickupDef(latestPickup);
             ItemDef itemDef = ItemCatalog.GetItemDef((pickupDef != null) ? pickupDef.itemIndex : ItemIndex.None);
             if (itemDef)
             {

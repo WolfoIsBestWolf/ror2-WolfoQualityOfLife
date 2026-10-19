@@ -38,7 +38,7 @@ namespace WolfoQoL_Client
             {
                 if (newAvailable == false)
                 {
-                    CheckInteractable_ClientOnly(self, false);
+                   CheckInteractable_ClientOnly(self, false);
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace WolfoQoL_Client
             {
                 if (self is EntityStates.DroneScrapper.DroneScrapping)
                 {
-                    DroneLoss_ClientListener.SendMessage();
+                   DroneLoss_ClientListener.SendMessage();
                 }
             }
         }
@@ -75,9 +75,9 @@ namespace WolfoQoL_Client
                 var purchasse = self.GetComponent<PurchaseInteraction>();
                 if (purchasse && purchasse.costType == CostTypeIndex.Equipment)
                 {
-                    PlayerItemLoss_ClientListener.forceEquip = true;
-                    PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
-                    PlayerItemLoss_ClientListener.TryMessage();
+                   PlayerItemLoss_ClientListener.forceEquip = true;
+                   PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
+                   PlayerItemLoss_ClientListener.TryMessage();
                 }
             }
         }
@@ -94,11 +94,11 @@ namespace WolfoQoL_Client
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<bool, PurchaseInteraction, bool>>((t, pur) =>
                 {
-                    if (t == false)
-                    {
-                        CheckInteractable_ClientOnly(pur, false);
-                    }
-                    return t;
+                   if (t == false)
+                   {
+                       CheckInteractable_ClientOnly(pur, false);
+                   }
+                   return t;
                 });
             }
             else
@@ -116,14 +116,14 @@ namespace WolfoQoL_Client
             {
                 c.EmitDelegate<Func<Inventory, Inventory>>((inventory) =>
                 {
-                    PlayerItemLoss_ClientListener a;
-                    if (inventory.TryGetComponent<PlayerItemLoss_ClientListener>(out a))
-                    {
-                        //WolfoMain.log.LogMessage("Desearal Items");
-                        inventory.WriteAllPermanentItemStacks(a.prevItems);
-                        a.prevEquip = inventory.currentEquipmentIndex;
-                    }
-                    return inventory;
+                   PlayerItemLoss_ClientListener a;
+                   if (inventory.TryGetComponent<PlayerItemLoss_ClientListener>(out a))
+                   {
+                       //WolfoMain.log.LogMessage("Desearal Items");
+                       inventory.WriteAllPermanentItemStacks(a.prevItems);
+                       a.prevEquip = inventory.currentEquipmentIndex;
+                   }
+                   return inventory;
                 });
             }
             else
@@ -140,13 +140,13 @@ namespace WolfoQoL_Client
             {
                 c.EmitDelegate<Func<Inventory, Inventory>>((inventory) =>
                 {
-                    //Latest equipment
-                    PlayerItemLoss_ClientListener a;
-                    if (inventory.TryGetComponent<PlayerItemLoss_ClientListener>(out a))
-                    {
-                        a.prevEquip = inventory.currentEquipmentIndex;
-                    }
-                    return inventory;
+                   //Latest equipment
+                   PlayerItemLoss_ClientListener a;
+                   if (inventory.TryGetComponent<PlayerItemLoss_ClientListener>(out a))
+                   {
+                       a.prevEquip = inventory.currentEquipmentIndex;
+                   }
+                   return inventory;
                 });
             }
             else
@@ -162,8 +162,8 @@ namespace WolfoQoL_Client
             {
                 if (self is EntityStates.Scrapper.WaitToBeginScrapping)
                 {
-                    PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.Scrapper;
-                    PlayerItemLoss_ClientListener.TryMessage();
+                   PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.Scrapper;
+                   PlayerItemLoss_ClientListener.TryMessage();
                 }
             }
         }
@@ -198,58 +198,58 @@ namespace WolfoQoL_Client
             {
                 if (TreasureReminder.instance.Objective_FreeChest)
                 {
-                    TreasureReminder.Deduct(TreasureReminder.instance.Objective_FreeChest, ref TreasureReminder.instance.freeChestCount);
+                   TreasureReminder.Deduct(TreasureReminder.instance.Objective_FreeChest, ref TreasureReminder.instance.freeChestCount);
                 }
             }
             else
             {
                 if (purchase.saleStarCompatible)
                 {
-                    PlayerItemLoss_ClientListener.TrySaleStar(purchase);
+                   PlayerItemLoss_ClientListener.TrySaleStar(purchase);
                 }
                 switch (purchase.costType)
                 {
-                    case CostTypeIndex.WhiteItem:
-                    case CostTypeIndex.GreenItem:
-                    case CostTypeIndex.RedItem:
-                    case CostTypeIndex.BossItem:
+                   case CostTypeIndex.WhiteItem:
+                   case CostTypeIndex.GreenItem:
+                   case CostTypeIndex.RedItem:
+                   case CostTypeIndex.BossItem:
 
-                        if (purchase.gameObject.name.StartsWith("LunarCauldron"))
-                        {
-                            PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.LunarCauldron;
-                            PlayerItemLoss_ClientListener.token = "ITEM_LOSS_CAULDRON";
-                        }
-                        else
-                        {
-                            PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
-                        }
-                        PlayerItemLoss_ClientListener.TryMessage();
-                        break;
-                    case CostTypeIndex.Equipment:
-                        PlayerItemLoss_ClientListener.checkEquip = true;
-                        PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
-                        PlayerItemLoss_ClientListener.TryMessage();
-                        break;
-                    case CostTypeIndex.LunarItemOrEquipment:
-                        PlayerItemLoss_ClientListener.checkEquip = true;
-                        PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.CleansingPool;
-                        PlayerItemLoss_ClientListener.token = "ITEM_LOSS_CLEANSING";
-                        PlayerItemLoss_ClientListener.TryMessage();
-                        break;
-                    case CostTypeIndex.TreasureCacheItem:
-                        if (TreasureReminder.instance)
-                        {
-                            TreasureReminder.Deduct(TreasureReminder.instance.Objective_Lockbox, ref TreasureReminder.instance.lockboxCount);
-                        }
-                        break;
-                    case CostTypeIndex.TreasureCacheVoidItem:
-                        if (TreasureReminder.instance)
-                        {
-                            TreasureReminder.Deduct(TreasureReminder.instance.Objective_LockboxVoid, ref TreasureReminder.instance.lockboxVoidCount);
-                        }
-                        break;
-                    case CostTypeIndex.None:
-                        break;
+                       if (purchase.gameObject.name.StartsWith("LunarCauldron"))
+                       {
+                           PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.LunarCauldron;
+                           PlayerItemLoss_ClientListener.token = "ITEM_LOSS_CAULDRON";
+                       }
+                       else
+                       {
+                           PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
+                       }
+                       PlayerItemLoss_ClientListener.TryMessage();
+                       break;
+                   case CostTypeIndex.Equipment:
+                       PlayerItemLoss_ClientListener.checkEquip = true;
+                       PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
+                       PlayerItemLoss_ClientListener.TryMessage();
+                       break;
+                   case CostTypeIndex.LunarItemOrEquipment:
+                       PlayerItemLoss_ClientListener.checkEquip = true;
+                       PlayerItemLoss_ClientListener.source = ItemLossMessage.Source.CleansingPool;
+                       PlayerItemLoss_ClientListener.token = "ITEM_LOSS_CLEANSING";
+                       PlayerItemLoss_ClientListener.TryMessage();
+                       break;
+                   case CostTypeIndex.TreasureCacheItem:
+                       if (TreasureReminder.instance)
+                       {
+                           TreasureReminder.Deduct(TreasureReminder.instance.Objective_Lockbox, ref TreasureReminder.instance.lockboxCount);
+                       }
+                       break;
+                   case CostTypeIndex.TreasureCacheVoidItem:
+                       if (TreasureReminder.instance)
+                       {
+                           TreasureReminder.Deduct(TreasureReminder.instance.Objective_LockboxVoid, ref TreasureReminder.instance.lockboxVoidCount);
+                       }
+                       break;
+                   case CostTypeIndex.None:
+                       break;
                 }
 
 
@@ -325,7 +325,7 @@ namespace WolfoQoL_Client
                 attackerBody = latestDmg.attacker.GetComponent<CharacterBody>();
                 if (attackerBody)
                 {
-                    attackerMaster = attackerBody.master;
+                   attackerMaster = attackerBody.master;
                 }
             }
             DeathMessage.DeathAndKillerInventoryMessage(latestDmg.damage, charBody, attackerBody, attackerMaster, latestDmg.damageType, latestDmg.damageColorIndex, latestDmg.delayedHit, false);
@@ -350,13 +350,13 @@ namespace WolfoQoL_Client
             {
                 if (!WConfig.DroneMessage_RemoteOp.Value)
                 {
-                    return;
+                   return;
                 }
                 Chat.AddMessage(new DroneChatMessage
                 {
-                    baseToken = "REMOTEOP_DRONE",
-                    _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(obj.bodyIndex),
-                    subjectAsNetworkUser = playerMaster.playerCharacterMasterController.networkUser,
+                   baseToken = "REMOTEOP_DRONE",
+                   _DroneIndex = DroneCatalog.GetDroneIndexFromBodyIndex(obj.bodyIndex),
+                   subjectAsNetworkUser = playerMaster.playerCharacterMasterController.networkUser,
                 });
             }
         }
@@ -460,10 +460,10 @@ namespace WolfoQoL_Client
             {
                 if (prevItems[i] > now.GetStackValue((ItemIndex)i))
                 {
-                    send = true;
-                    item = i;
-                    itemCount = prevItems[i] - now.GetStackValue((ItemIndex)i);
-                    break;
+                   send = true;
+                   item = i;
+                   itemCount = prevItems[i] - now.GetStackValue((ItemIndex)i);
+                   break;
                 }
             }
             if (send)
@@ -472,12 +472,12 @@ namespace WolfoQoL_Client
                 Log.LogMessage(def.internalName);
                 Chat.AddMessage(new DevotionDeathMessage
                 {
-                    //subjectAsNetworkUser = self._devotionInventoryController.SummonerMaster.playerCharacterMasterController.networkUserObject.GetComponent<NetworkUser>(),
-                    subjectAsNetworkUser = subjectAsNetworkUser,
-                    baseToken = "DEVOTED_LEMURIAN_DEATH",
-                    pickupToken = def.nameToken,
-                    pickupColor = def.baseColor,
-                    pickupQuantity = (uint)itemCount
+                   //subjectAsNetworkUser = self._devotionInventoryController.SummonerMaster.playerCharacterMasterController.networkUserObject.GetComponent<NetworkUser>(),
+                   subjectAsNetworkUser = subjectAsNetworkUser,
+                   baseToken = "DEVOTED_LEMURIAN_DEATH",
+                   pickupToken = def.nameToken,
+                   pickupColor = def.baseColor,
+                   pickupQuantity = (uint)itemCount
                 });
             }
             inventory.WriteAllPermanentItemStacks(prevItems);
@@ -569,12 +569,12 @@ namespace WolfoQoL_Client
 
                 if (salePre > 0 && salePost == 0)
                 {
-                    latest.prevItems[index] = 0;
-                    Chat.AddMessage(new InteractableMessage
-                    {
-                        interactableToken = purchase.displayNameToken,
-                        subjectAsNetworkUser = latest.subjectAsNetworkUser,
-                    });
+                   latest.prevItems[index] = 0;
+                   Chat.AddMessage(new InteractableMessage
+                   {
+                       interactableToken = purchase.displayNameToken,
+                       subjectAsNetworkUser = latest.subjectAsNetworkUser,
+                   });
                 }
 
 
@@ -594,7 +594,7 @@ namespace WolfoQoL_Client
                 //Since summonMaster might happen before or after inventory deserial ig?
                 if (prevEquip == EquipmentIndex.None)
                 {
-                    prevEquip = inventory.currentEquipmentIndex;
+                   prevEquip = inventory.currentEquipmentIndex;
                 }
                 succeeded = EquipmentMessage();
             }
@@ -630,21 +630,21 @@ namespace WolfoQoL_Client
             {
                 if (prevItems[i] > now.GetStackValue((ItemIndex)i))
                 {
-                    send = true;
-                    item = i;
-                    itemCount = prevItems[i] - now.GetStackValue((ItemIndex)i);
-                    break;
+                   send = true;
+                   item = i;
+                   itemCount = prevItems[i] - now.GetStackValue((ItemIndex)i);
+                   break;
                 }
             }
             if (send)
             {
                 Chat.AddMessage(new ItemLossMessage
                 {
-                    source = ItemLossMessage.Source.Scrapper,
-                    baseToken = "ITEM_LOSS_SCRAP",
-                    subjectAsNetworkUser = subjectAsNetworkUser,
-                    pickupIndex1 = PickupCatalog.FindPickupIndex((ItemIndex)item),
-                    itemCount = itemCount,
+                   source = ItemLossMessage.Source.Scrapper,
+                   baseToken = "ITEM_LOSS_SCRAP",
+                   subjectAsNetworkUser = subjectAsNetworkUser,
+                   pickupIndex1 = PickupCatalog.FindPickupIndex((ItemIndex)item),
+                   itemCount = itemCount,
                 });
             }
             inventory.WriteAllPermanentItemStacks(prevItems);
@@ -661,36 +661,36 @@ namespace WolfoQoL_Client
             {
                 if (prevItems[i] > now.GetStackValue((ItemIndex)i))
                 {
-                    itemsTaken++;
-                    item = i;
-                    itemLosses[i] = prevItems[i] - now.GetStackValue((ItemIndex)i);
+                   itemsTaken++;
+                   item = i;
+                   itemLosses[i] = prevItems[i] - now.GetStackValue((ItemIndex)i);
                 }
             }
             if (itemsTaken == 1)
             {
                 if (token != "ITEM_LOSS_CAULDRON")
                 {
-                    ItemDef tempDef = ItemCatalog.GetItemDef((ItemIndex)item);
-                    if (tempDef.ContainsTag(ItemTag.Scrap))
-                    {
-                        token = "ITEM_LOSS_USED";
-                    }
+                   ItemDef tempDef = ItemCatalog.GetItemDef((ItemIndex)item);
+                   if (tempDef.ContainsTag(ItemTag.Scrap))
+                   {
+                       token = "ITEM_LOSS_USED";
+                   }
                 }
                 Chat.AddMessage(new ItemLossMessage
                 {
-                    source = source,
-                    baseToken = token,
-                    subjectAsNetworkUser = subjectAsNetworkUser,
-                    pickupIndex1 = PickupCatalog.FindPickupIndex((ItemIndex)item),
+                   source = source,
+                   baseToken = token,
+                   subjectAsNetworkUser = subjectAsNetworkUser,
+                   pickupIndex1 = PickupCatalog.FindPickupIndex((ItemIndex)item),
                 });
             }
             else if (itemsTaken > 0)
             {
                 Chat.AddMessage(new ItemLossMessage
                 {
-                    baseToken = token,
-                    subjectAsNetworkUser = subjectAsNetworkUser,
-                    itemStacks = itemLosses,
+                   baseToken = token,
+                   subjectAsNetworkUser = subjectAsNetworkUser,
+                   itemStacks = itemLosses,
                 });
             }
             inventory.WriteAllPermanentItemStacks(prevItems);
@@ -711,9 +711,9 @@ namespace WolfoQoL_Client
                 succeeded = true;
                 Chat.AddMessage(new ItemLossMessage
                 {
-                    baseToken = token,
-                    pickupIndex1 = PickupCatalog.FindPickupIndex(equip),
-                    subjectAsNetworkUser = subjectAsNetworkUser,
+                   baseToken = token,
+                   pickupIndex1 = PickupCatalog.FindPickupIndex(equip),
+                   subjectAsNetworkUser = subjectAsNetworkUser,
                 });
             }
             else

@@ -67,6 +67,8 @@ namespace WolfoQoL_Client.Skins
             GameObject EngiHarpoonProjectile = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoon.prefab").WaitForCompletion();
             GameObject EngiHarpoonGhostSkin_Alt = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Alt", false);
             GameObject EngiHarpoonGhostSkin_Sots = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_Sots", false);
+            GameObject EngiHarpoonGhostSkin_AC = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_AC", false);
+            GameObject EngiHarpoonGhostSkin_HC = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Engi/EngiHarpoonGhost.prefab").WaitForCompletion(), "EngiHarpoonGhostSkin_HC", false);
 
 
             HG.ArrayUtils.ArrayAppend(ref skinEngiAlt.projectileGhostReplacements, new SkinDefParams.ProjectileGhostReplacement
@@ -102,17 +104,12 @@ namespace WolfoQoL_Client.Skins
             #endregion
             #region Colossus
             particleSystem = EngiHarpoonGhostSkin_Sots.transform.GetChild(0).GetComponent<ParticleSystemRenderer>(); //matEngiHarpoonRing 
-            //newRings = GameObject.Instantiate(particleSystem.material);
-            //newRings.SetColor("_TintColor", new Color(1f, 0.6f, 0.1f, 1f)); //0.1533 1 0.0047 1
-            //particleSystem.material = newRings;
+
             EngiHarpoonGhostSkin_Sots.transform.GetChild(1).GetComponent<MeshRenderer>().material = matEngiTurretColossusProjectiles;
             trailRender = EngiHarpoonGhostSkin_Sots.transform.GetChild(1).GetChild(0).GetComponent<TrailRenderer>(); //matEngiHarpoonTrail 
             trailRender.startColor = new Color32(255, 160, 60, 0);
             trailRender.endColor = new Color32(255, 160, 60, 0);
-            /*trailRender.startColor = new Color(1, 1, 0, 0);
-            trailRender.endColor = new Color32(1, 1, 1, 0);*/
-            //trailRender.startColor = new Color(1f, 0.75f, 0.25f, 0f);
-            //trailRender.endColor = trailRender.startColor * 0.75f;
+
             newTrail = GameObject.Instantiate(trailRender.material);
             newTrail.SetTexture("_RemapTex", Assets.Bundle.LoadAsset<Texture2D>("Assets/WQoL/SkinRamps/texRampEngiColossus.png"));
             trailRender.material = newTrail;

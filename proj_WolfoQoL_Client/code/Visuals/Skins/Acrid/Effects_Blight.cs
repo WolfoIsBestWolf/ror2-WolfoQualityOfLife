@@ -26,7 +26,7 @@ namespace WolfoQoL_Client.Skins
 
         public static GameObject CrocoLeapExplosion_Blight = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/effects/impacteffects/CrocoLeapExplosion"), "CrocoLeapExplosion_Blight", false); //CrocoLeapExplosion //Leap
         public static GameObject CrocoFistEffectBlight = null; //CrocoFistEffect //Leap
-                                                               //public static GameObject CrocoChainableFistEffect = null; //CrocoFistEffect //Leap
+                                                            //public static GameObject CrocoChainableFistEffect = null; //CrocoFistEffect //Leap
 
         public static GameObject CrocoLeapAcid_GhostBlight = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Croco/CrocoLeapAcidGhost.prefab").WaitForCompletion(), "CrocoLeapAcidGhost_Blight", false); //CrocoLeapAcid //Leap
 

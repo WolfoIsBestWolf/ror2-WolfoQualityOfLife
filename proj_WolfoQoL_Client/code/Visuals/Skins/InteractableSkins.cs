@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RoR2;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace WolfoQoL_Client.Skins
@@ -24,6 +25,32 @@ namespace WolfoQoL_Client.Skins
             Material newCloaked = Object.Instantiate(CloakedChest.material);
             newCloaked.SetFloat("_Magnitude", 2);
             CloakedChest.material = newCloaked;
+
+            //On.RoR2.SummonMasterBehavior.PreStartClient += SummonMasterBehavior_PreStartClient;
+        }
+
+        private static void SummonMasterBehavior_PreStartClient(On.RoR2.SummonMasterBehavior.orig_PreStartClient orig, RoR2.SummonMasterBehavior self)
+        {
+            orig(self);
+            DroneAvailability drone = self.GetComponent<DroneAvailability>();
+            if (drone)
+            {
+                if (drone.droneDef && drone.droneDef.displayPrefab)
+                {
+
+
+                   Renderer renderOG = drone.droneDef.displayPrefab.GetComponentInChildren<Renderer>();
+                   Renderer renderThis = self.GetComponentInChildren<Renderer>();
+                   if (renderOG && renderThis)
+                   {
+                       renderThis.material = renderOG.material;
+                   }
+
+
+                }
+            }
+
+
 
         }
     }

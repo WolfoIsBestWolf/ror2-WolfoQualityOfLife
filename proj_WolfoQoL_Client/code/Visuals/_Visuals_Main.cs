@@ -35,6 +35,7 @@ namespace WolfoQoL_Client
                 SkinChanges.Start();
                 SkinTouchups.Start();
 
+                BrokenDrone.Start();
             }
             if (WConfig.module_visuals_other.Value)
             {
@@ -172,7 +173,6 @@ namespace WolfoQoL_Client
                     }
                     break;
                 case "skymeadow":
-                    GameObject.Find("/HOLDER: Zones/OOB Zone").GetComponent<MapZone>().zoneType = MapZone.ZoneType.OutOfBounds;
                     Material CorrectGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser (2)/mdlGeyser").GetComponent<MeshRenderer>().material;
                     Transform WrongGeyser = GameObject.Find("/HOLDER: Randomization/GROUP: Plateau 13 and Underground/Underground/Geyser").transform;
                     WrongGeyser.GetChild(0).GetComponent<MeshRenderer>().material = CorrectGeyser;
@@ -187,7 +187,6 @@ namespace WolfoQoL_Client
                     }
                     break;
                 case "moon2":
-
                     GameObject Elevators = GameObject.Find("/HOLDER: Elevators");
                     if (Elevators)
                     {
@@ -212,18 +211,6 @@ namespace WolfoQoL_Client
                     }
                     GameObject PortalArena = GameObject.Find("/HOLDER: Starting Cave/HOLDER: Arena Entrance/Trigger/PortalArena/");
                     PortalArena.transform.parent.GetChild(2).gameObject.GetComponent<SphereCollider>().radius = 130;
-
-
-
-                    if (WConfig.ArtificerBazaarAlways.Value)
-                    {
-                        GameObject Artificer = GameObject.Find("/HOLDER: Store/HOLDER: Store Platforms/LockedMage/");
-                        Artificer.GetComponent<GameObjectUnlockableFilter>().enabled = false;
-                        if (Artificer.GetComponent<GameObjectUnlockableFilter>().ShouldShowGameObject() == false)
-                        {
-                            Artificer.GetComponent<PurchaseInteraction>().Networkavailable = false;
-                        }
-                    }
 
                     break;
                 case "meridian":
