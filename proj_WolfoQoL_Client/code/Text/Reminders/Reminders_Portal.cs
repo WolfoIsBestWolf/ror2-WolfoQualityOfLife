@@ -14,7 +14,7 @@ namespace WolfoQoL_Client.Reminders
             On.RoR2.GenericInteraction.OnDeserialize += RemoveReminder_Client;
             On.RoR2.ArenaMissionController.MissionCompleted.OnEnter += MissionCompleted_OnEnter;
             On.EntityStates.NkuhanaChest.OpenPageReward.OnEnter += TrialPortalObjectives;
-
+            
             if (WConfig.cfgRemindersPortal.Value)
             {
                 PortalObjective portal;
@@ -22,7 +22,7 @@ namespace WolfoQoL_Client.Reminders
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<style=cDeath>";
                 portal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/PortalGoldshores/PortalGoldshores.prefab").WaitForCompletion().AddComponent<PortalObjective>(); 
                 portal.style = "<style=cGold>";
-                portal.addAfterTP = true;
+                portal.addAfterTP = true;   
                 portal = Addressables.LoadAssetAsync<GameObject>(key: "eadfcaf9ea3275e49858ed19f874db5a").WaitForCompletion().AddComponent<PortalObjective>();
                 portal.style = "<style=cMysterySpace>";
                 portal.blacklistedScene = SceneList.MysterySpace;
@@ -45,31 +45,31 @@ namespace WolfoQoL_Client.Reminders
                 portal.style = "<style=cRebirth>";
                 portal.onlyEclipse = true;
 
-                Addressables.LoadAssetAsync<GameObject>(key: "7a6f6b9396b554745b555c02bf58ea0b").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#c6d5ff>";
-                Addressables.LoadAssetAsync<GameObject>(key: "aa32c88c45d3b974aba3b2cafedb5cb5").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#c6d5ff>";
+                Addressables.LoadAssetAsync<GameObject>(key: "7a6f6b9396b554745b555c02bf58ea0b").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#99D9FF>";
+                Addressables.LoadAssetAsync<GameObject>(key: "aa32c88c45d3b974aba3b2cafedb5cb5").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#99D9FF>";
                 //SolusWing portal has reminder
                 //CE Virtual portal is just to leave no reminder
                 Addressables.LoadAssetAsync<GameObject>(key: "9592265fcd09fc643b2495b5e4ebac8f").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#FF269C>";
 
-
-
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/ChampRushPortal.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/ChampRushExitPortal.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntry.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntryDanger.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "";
-                //Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalExit.prefab").WaitForCompletion().AddComponent<PortalObjective>().style = "<color=#F7A2AA>";
-           
+                portal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntry.prefab").WaitForCompletion().AddComponent<PortalObjective>();
+                portal.style = "<color=#C8F30D>";
+                portal.addAfterTP = true;
+                portal.trialPortal = true;
+                portal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC4/TrialPortalEntryDanger.prefab").WaitForCompletion().AddComponent<PortalObjective>();
+                portal.style = "<color=#C8F30D>";
+                portal.addAfterTP = true;
+                portal.trialPortal = true;
+                
             }
         }
 
+        //We tried putting it somewhere else
+        //But the timer gets set so late and then needs to desereliaze that it's feesible.
         private static void TrialPortalObjectives(On.EntityStates.NkuhanaChest.OpenPageReward.orig_OnEnter orig, EntityStates.NkuhanaChest.OpenPageReward self)
         {
             orig(self);
             if (WConfig.cfgRemindersPortal.Value)
             {
-
-                string time = System.TimeSpan.FromSeconds((double)DLC4ProgressionController.instance.trialSelector.GetRemainingTrialTimeServer()).ToString("mm\\:ss");
-
                 GameObject holder = ClassicStageInfo.instance.gameObject;
                 GameObject More = new GameObject("TrialObjectiveTrial");
                 GameObject Exit = new GameObject("TrialObjectiveLeave");
@@ -77,6 +77,11 @@ namespace WolfoQoL_Client.Reminders
                 More.transform.SetParent(holder.transform);
                 Exit.transform.SetParent(holder.transform);
 
+                string time = System.TimeSpan.FromSeconds((double)DLC4ProgressionController.instance.trialSelector.GetRemainingTrialTimeServer()).ToString("mm\\:ss");
+                if (DLC4ProgressionController.instance.trialSelector.GetRemainingTrialTimeServer() <= 60)
+                {
+                    time = string.Format("<style=cDeath>{0}</style>", time);
+                }
                 More.AddComponent<GenericObjectiveProvider>().objectiveToken = Language.GetStringFormatted("REMINDER_PORTAL_TRIAL", time);
                 Exit.AddComponent<GenericObjectiveProvider>().objectiveToken = Language.GetString("OBJECTIVE_CHAMPRUSH_EXIT1");
 
@@ -121,7 +126,7 @@ namespace WolfoQoL_Client.Reminders
         private static void RemoveReminder(SceneExitController self)
         {
             GenericObjectiveProvider objective = self.GetComponent<PortalObjective>();
-            if (objective)
+            if (objective && objective.enabled)
             {
                 Object.Destroy(objective);
                 return;
@@ -130,7 +135,7 @@ namespace WolfoQoL_Client.Reminders
             {
                 Transform TrialObjectiveTrial = ClassicStageInfo.instance.transform.Find("TrialObjectiveTrial");
                 Transform TrialObjectiveLeave = ClassicStageInfo.instance.transform.Find("TrialObjectiveLeave");
-                if (TrialObjectiveTrial == null || TrialObjectiveTrial == null)
+                if (TrialObjectiveTrial == null || TrialObjectiveLeave == null)
                 {
                     return;
                 }
@@ -156,29 +161,47 @@ namespace WolfoQoL_Client.Reminders
         public bool exit;
         public bool onlyEclipse;
         public bool addAfterTP;
-        public bool bannedWhenTrial;
+        public bool trialPortal;
         public SceneDef blacklistedScene;
+        public bool blacklistedInHidden;
         public void Awake()
         {
+            if (WConfig.cfgRemindersPortal.Value == false)
+            {
+                enabled = false;
+                return;
+            }
             if (onlyEclipse && Run.instance && !(Run.instance.selectedDifficulty >= DifficultyIndex.Eclipse1))
             {
                 enabled = false;
             }
-            if (blacklistedScene && !exit && blacklistedScene == SceneInfo.instance.sceneDef)
+            if (blacklistedScene && blacklistedScene == SceneInfo.instance.sceneDef)
             {
-                enabled = false;
-            }
-            if (WConfig.cfgRemindersPortal.Value == false)
-            {
-                enabled = false;
-            }
-            if (addAfterTP)
-            {
-                if (TeleporterInteraction.instance)
+                if (!exit)
                 {
                     enabled = false;
                 }
-                TeleporterInteraction.onTeleporterChargedGlobal += TeleporterInteraction_onTeleporterChargedGlobal;
+            }
+            if (blacklistedInHidden && SceneInfo.instance.sceneDef.stageOrder > 5)
+            {
+                enabled = false;
+                return;
+            }
+            if (trialPortal)
+            {
+                if (InstanceTracker.Any<TrialController>())
+                {
+                    enabled = false;
+                    return;
+                }
+            }
+            if (addAfterTP)
+            {
+                if (TeleporterInteraction.instance && !TeleporterInteraction.instance.isCharged)
+                {
+                    enabled = false;
+                    TeleporterInteraction.onTeleporterChargedGlobal += TeleporterInteraction_onTeleporterChargedGlobal;
+                }
             }
         }
 
@@ -215,6 +238,18 @@ namespace WolfoQoL_Client.Reminders
             else
             {
                 objectiveToken = Language.GetStringFormatted(baseToken, style + Language.english.GetLocalizedStringByToken(nameToken) + "</color>");
+            }
+            if (this.trialPortal)
+            {
+                string time = System.TimeSpan.FromSeconds((double)DLC4ProgressionController.instance.trialSelector.GetRemainingTrialTimeServer()).ToString("mm\\:ss");
+                if (DLC4ProgressionController.instance.trialSelector.GetRemainingTrialTimeServer() <= 60)
+                {
+                    objectiveToken = string.Format("{0} <style=cDeath>({1})</style>", objectiveToken, time);
+                }
+                else
+                {
+                    objectiveToken = string.Format("{0} ({1})", objectiveToken, time);
+                }
             }
         }
     

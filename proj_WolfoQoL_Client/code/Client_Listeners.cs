@@ -23,7 +23,6 @@ namespace WolfoQoL_Client
             On.EntityStates.Scrapper.ScrapperBaseState.OnEnter += ScrapperBaseState_OnEnter;
             On.EntityStates.DroneScrapper.DroneScrapperBaseState.OnEnter += ScrappingDroneMessage_Client;
 
-            //IL.RoR2.PurchaseInteraction.OnDeserialize += ClientCheck_Purchase;
             On.RoR2.PurchaseInteraction.OnSyncAvailable += ClientCheck_Purchase;
             IL.RoR2.Inventory.OnDeserialize += Inventory_OnDeserialize;
 
@@ -69,41 +68,21 @@ namespace WolfoQoL_Client
         {
             //EquipmentDrone purchaseInteraction does not get Deserealized before being Destroyed
             //So we kinda just have to force it?
+
+            //What gets desereal first, this or uhhh the inventory with the just spent equipment
             orig(self);
             if (self.callOnEquipmentSpentOnPurchase)
             {
                 var purchasse = self.GetComponent<PurchaseInteraction>();
                 if (purchasse && purchasse.costType == CostTypeIndex.Equipment)
                 {
-                   PlayerItemLoss_ClientListener.forceEquip = true;
-                   PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
-                   PlayerItemLoss_ClientListener.TryMessage();
+                    PlayerItemLoss_ClientListener.checkEquip = true;
+                    PlayerItemLoss_ClientListener.checkOnlyEquip = true;
+                    PlayerItemLoss_ClientListener.token = "ITEM_LOSS_GENERIC";
+                    PlayerItemLoss_ClientListener.TryMessage();
+                    PlayerItemLoss_ClientListener.checkEquip = true;
+                    PlayerItemLoss_ClientListener.checkOnlyEquip = true;
                 }
-            }
-        }
-
-        private static void ClientCheck_Purchase(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.TryGotoNext(MoveType.Before,
-            x => x.MatchStfld("RoR2.PurchaseInteraction", "available"));
-            if (c.TryGotoNext(MoveType.Before,
-            x => x.MatchStfld("RoR2.PurchaseInteraction", "available")
-            ))
-            {
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<Func<bool, PurchaseInteraction, bool>>((t, pur) =>
-                {
-                   if (t == false)
-                   {
-                       CheckInteractable_ClientOnly(pur, false);
-                   }
-                   return t;
-                });
-            }
-            else
-            {
-                Log.LogWarning("IL Failed : PurchaseInteraction_OnDeserialize");
             }
         }
 
@@ -392,6 +371,7 @@ namespace WolfoQoL_Client
 
         public int[] prevItems = ItemCatalog.RequestItemStackArray();
         public EquipmentIndex prevEquip = EquipmentIndex.None;
+        public ItemIndex lastConsumedItemIndex;
 
         public virtual void OnEnable()
         {
@@ -524,11 +504,13 @@ namespace WolfoQoL_Client
 
     public class PlayerItemLoss_ClientListener : ItemLossBase_ClientListener
     {
+        
         //Used for all players at once ig?
 
-        public static bool forceEquip = false;
+        public static bool checkOnlyEquip = false;
         public static bool checkEquip = false;
-        public static bool checkSaleStar = false;
+        public bool checkDreamCrucible = false;
+        //public bool checkEquipLocal = false;
         public static string token = "ITEM_LOSS_GENERIC";
         public static ItemLossMessage.Source source;
 
@@ -548,9 +530,13 @@ namespace WolfoQoL_Client
             }*/
             //Seems more like summon master happens first, before removing the equipment
             //But might be lag dependent, again, which sucks,
-            if (forceEquip)
+            if (checkOnlyEquip)
             {
                 TryMessage();
+            }
+            if (checkDreamCrucible)
+            {
+                TryDreamCrucible();
             }
         }
 
@@ -576,42 +562,66 @@ namespace WolfoQoL_Client
                        subjectAsNetworkUser = latest.subjectAsNetworkUser,
                    });
                 }
-
-
             }
+        }
+
+        //If a consumable item locked in
+        //And there is a dream crucible
+        //We allow it to do the thing?
+        public void TryDreamCrucible()
+        {
+            int index = (int)DLC4Content.Items.LowHealthOrbSpawner.itemIndex;
+            int dreamPre = this.prevItems[index];
+            if (dreamPre != 0)
+            {
+                int index2 = (int)DLC4Content.Items.LowHealthOrbSpawnerConsumed.itemIndex;
+                int dreamPost = this.inventory.GetItemCountEffective((ItemIndex)index);
+                int dreamCPre = this.prevItems[index2];
+                int dreamCPost = this.inventory.GetItemCountEffective((ItemIndex)index2);
+
+                //If had Dream && NoLongerHas && Consumed NowMoreThan Pre
+                if (dreamPost == 0 && dreamCPost > dreamCPre)
+                {
+                    Chat.AddMessage(new ItemLossMessage
+                    {
+                        baseToken = "ITEM_USE_DREAM",
+                        pickupIndex1 = PickupCatalog.FindPickupIndex(this.lastConsumedItemIndex),
+                        source = ItemLossMessage.Source.DreamCrucible,
+                        subjectAsNetworkUser = this.subjectAsNetworkUser
+                    });
+                    //this.lastConsumedItemIndex = ItemIndex.None;
+                }
+            }
+            checkDreamCrucible = false;
+
         }
 
         public override void TryMessageInstance()
         {
             base.TryMessageInstance();
             bool succeeded = false;
-            if (source == ItemLossMessage.Source.Scrapper)
+            if (checkEquip && inventory.currentEquipmentIndex == EquipmentIndex.None && prevEquip != EquipmentIndex.None)
             {
-                succeeded = ItemScrapMessage(inventory.permanentItemStacks);
+                //If either current equip == 0 && prev not or when it gets flipped to that?? no idk
+                succeeded = EquipmentMessage();
             }
-            else if (forceEquip)
+            else if (!checkOnlyEquip) 
             {
-                //Since summonMaster might happen before or after inventory deserial ig?
-                if (prevEquip == EquipmentIndex.None)
+                if (source == ItemLossMessage.Source.Scrapper)
                 {
-                   prevEquip = inventory.currentEquipmentIndex;
+                    succeeded = ItemScrapMessage(inventory.permanentItemStacks);
                 }
-                succeeded = EquipmentMessage();
+                else
+                {
+                    succeeded = ItemMessage(inventory.permanentItemStacks);
+                }
             }
-            else if (checkEquip && inventory.currentEquipmentIndex == EquipmentIndex.None)
+            /*if (!succeeded)
             {
-                succeeded = EquipmentMessage();
-            }
-            else
-            {
-                succeeded = ItemMessage(inventory.permanentItemStacks);
-            }
-            if (!succeeded)
-            {
-                //WolfoMain.log.LogMessage("Attempted message with no differences.");
-            }
+                WolfoMain.log.LogMessage("Attempted message with no differences.");
+            }*/
             //Always set?
-            forceEquip = false;
+            checkOnlyEquip = false;
             checkEquip = false;
             source = ItemLossMessage.Source.Default;
 
@@ -701,18 +711,13 @@ namespace WolfoQoL_Client
         public bool EquipmentMessage()
         {
             bool succeeded = false;
-            EquipmentIndex equip = inventory.currentEquipmentIndex;
-            if (equip == EquipmentIndex.None)
-            {
-                equip = prevEquip;
-            }
-            if (equip != EquipmentIndex.None)
+            if (prevEquip != EquipmentIndex.None)
             {
                 succeeded = true;
                 Chat.AddMessage(new ItemLossMessage
                 {
                    baseToken = token,
-                   pickupIndex1 = PickupCatalog.FindPickupIndex(equip),
+                   pickupIndex1 = PickupCatalog.FindPickupIndex(prevEquip),
                    subjectAsNetworkUser = subjectAsNetworkUser,
                 });
             }
@@ -720,7 +725,7 @@ namespace WolfoQoL_Client
             {
                 Log.LogWarning("EquipmentMessage but without Equipment?");
             }
-            prevEquip = inventory.currentEquipmentIndex;
+            prevEquip = EquipmentIndex.None;
             return succeeded;
         }
 

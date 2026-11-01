@@ -155,14 +155,7 @@ namespace WolfoQoL_Client.Text
                    subjectAsCharacterBody = owner,
                    noBracketQuantity = true,
                 };
-                if (self.vehicleSeat.netId.Value == 0)
-                {
-                   Networker.SendWQoLMessage(newMsg);
-                }
-                else
-                {
-                   Chat.AddMessage(newMsg);
-                }
+                Chat.AddMessage(newMsg);
             }
         }
 

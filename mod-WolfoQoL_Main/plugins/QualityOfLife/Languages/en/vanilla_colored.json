@@ -20,11 +20,8 @@
 			"OBJECTIVE_MERIDIAN_REACH_ARENA": "Ascend to the <style=cRebirth>Prime Meridian</color>",
 		
 	
-			"OBJECTIVE_SOLUSWING_ESCAPE": "Escape through the <color=#c6d5ff>Mainline Portal</color>!",
-			"//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILL": "<color=#c6d5ff>REJECT:</color> Extinguish \nSolus Heart.",
-			"//DOESNTWORKBECAUSEGLITCHEDSTRINGS_OBJECTIVE_SOLUSHEART_KILLOBJECTIVE_SOLUSHEART_SPARE": "<color=#F8B651>ACCEPT:</color> Decompile & evolve.",
-			
-			
+			"OBJECTIVE_SOLUSWING_ESCAPE": "Escape through the <color=#99D9FF>Mainline Portal</color>!",
+		
 			"CONDUITCANYON_P1" : "Install <color=#F8B651>Sentry Keys</color> to hack the barrier",
 			"CONDUITCANYON_P2" : "Install <color=#F8B651>Sentry Keys</color> to reprogram encrypted teleporter",
 			 
@@ -41,7 +38,7 @@
 			
 	}
 }
-
+//AC Color: 99D9FF
 //Wake
 //Alive Portal: F7A2AA
 //Mortal Portal: #FFFF57

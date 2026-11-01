@@ -80,35 +80,6 @@ namespace WolfoQoL_Client
             return dead;
         }
 
-        private static void RezEffectOnDead(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.Before,
-             x => x.MatchLdsfld("RoR2.RoR2Content/Buffs", "Immune")
-            ))
-            {
-                c.EmitDelegate<Func<CharacterBody, CharacterBody>>((body) =>
-                {
-                    if (body)
-                    {
-                        //WolfoMain.log.LogMessage(body + " : " + body.transform.position);
-                        GameObject gameObject = LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/HippoRezEffect");
-                        EffectManager.SpawnEffect(gameObject, new EffectData
-                        {
-                            origin = body.transform.position,
-                            rotation = body.transform.rotation
-                        }, true);
-                        Util.PlaySound("Play_item_proc_extraLife", body.gameObject);
-                    }
-                    return body;
-                });
-            }
-            else
-            {
-                Log.LogWarning("IL Failed : bro they forgot to make a rez effect2");
-            }
-        }
-
         internal static void PriceTransformStuff()
         {
             //Price Tag Transform things
@@ -169,7 +140,7 @@ namespace WolfoQoL_Client
                 }
                 var body = master.GetBodyObject();
 
-                Log.LogMessage(master.lostBodyToDeath + " " + body);
+                Log.LogMessage("ShrineShaping"+master.lostBodyToDeath + " " + body);
 
 
                 //Extra SFX & VFX
@@ -225,60 +196,8 @@ namespace WolfoQoL_Client
         }
 
 
-        /* private static void MountainStack_Host(On.RoR2.TeleporterInteraction.orig_AddShrineStack orig, TeleporterInteraction self)
-         {
-             orig(self);
-             ShrineBoss_IconStack.AddShrineIcon_Static();
-         }*/
+        
     }
 
 
-    /*
-    public static class ShrineBoss_IconStack : MonoBehaviour
-    {
-        public int shrineStacks;
-
-        public static void AddShrineIcon_Static()
-        {
-            if (!TeleporterInteraction.instance)
-            {
-                return;
-            }
-            var boss = TeleporterInteraction.instance.GetComponent<ShrineBoss_IconStack>();
-            if (!boss)
-            {
-                boss = TeleporterInteraction.instance.gameObject.AddComponent<ShrineBoss_IconStack>();
-            }
-            boss.AddShrineIcon();
-        }
-
-        public void AddShrineIcon()
-        {
-            shrineStacks++;
-            WolfoMain.log.LogMessage("WQoL ExtraMountainIcon");
-            if (shrineStacks == 1)
-            {
-                GameObject tempbossicon = TeleporterInteraction.instance.bossShrineIndicator;
-                GameObject tempbossiconclone = GameObject.Instantiate(tempbossicon, tempbossicon.transform);
-
-                GameObject.Destroy(tempbossicon.GetComponent<MeshRenderer>());
-                GameObject.Destroy(tempbossicon.GetComponent<Billboard>());
-                tempbossicon.transform.localPosition = new Vector3(0, 0, 6);
-                tempbossiconclone.transform.localScale = new Vector3(1, 1, 1);
-                tempbossiconclone.transform.localPosition = new Vector3(0, 0, 0);
-                tempbossiconclone.SetActive(true);
-            }
-            if (shrineStacks > 1)
-            {
-                GameObject tempbossicon = TeleporterInteraction.instance.bossShrineIndicator.transform.GetChild(0).gameObject;
-                GameObject tempbossiconclone = GameObject.Instantiate(tempbossicon, tempbossicon.transform.parent);
-                tempbossiconclone.transform.localPosition = new Vector3(0, (shrineStacks - 1), 0);
-            }
-        }
-
-
-
-
-    }
-    */
 }

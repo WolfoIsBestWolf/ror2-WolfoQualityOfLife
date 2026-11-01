@@ -15,20 +15,18 @@ namespace WolfoQoL_Client
 
             //Fix fukin Lunar Coin background being purple
             //Color lunarCoin = new Color(0.52 0.584 0.66 0.1333f);
-            Color lunarCoin = new Color(0.561f, 0.639f, 0.796f, 0.1333f);
-
+            //Color lunarCoin = new Color(0.561f, 0.639f, 0.796f, 0.1333f);
+            Color lunarCoin = new Color32(145, 162, 196, 34);
+           
             GameObject hud = LegacyResourcesAPI.Load<GameObject>("Prefabs/HUDSimple");
             hud.GetComponent<HUD>().lunarCoinContainer.transform.GetChild(0).GetComponent<RawImage>().color = lunarCoin;//0.6288 0.4514 0.6509 0.1333
 
             GameObject AchievementNotificationPanel = Addressables.LoadAssetAsync<GameObject>(key: "a27b8dde5bc73be4fae7f40a46e3cdff").WaitForCompletion(); //0.6784 0.7412 0.9804 1
             AchievementNotificationPanel.GetComponent<AchievementNotificationPanel>().rewardArea.transform.GetChild(0).GetComponent<RawImage>().color = lunarCoin;//0.6288 0.4514 0.6509 0.1333
 
-
-
             /*if (WConfig.cfgTempItemCyanStack.Value)
             {
                 //On.RoR2.UI.ItemIcon.SetItemIndex_ItemIndex_int_float += ShowTemporaryItemStacksDifferently;
-
             }*/
 
         }

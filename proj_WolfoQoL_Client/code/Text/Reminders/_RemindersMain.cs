@@ -1,7 +1,9 @@
-﻿using RoR2;
+﻿using HG;
+using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 using WolfoLibrary;
 using WolfoQoL_Client.ModSupport;
 
@@ -11,6 +13,10 @@ namespace WolfoQoL_Client.Reminders
     {
         public static void Start()
         {
+            //Clients get all objects in order
+            //And really late clients do OnEnable, Start immedietedly
+
+
             //UIBorders.UpdateHuds();
 
             Reminders_Treasure.Start();
@@ -43,8 +49,7 @@ namespace WolfoQoL_Client.Reminders
                 EntityStates.MeridianEvent.MeridianEventStart.OnMeridianEventStart += ClearReminders_OnFalseSon;
             }
             On.RoR2.SceneInfo.Awake += AddReminderObject;
-            Stage.onStageStartGlobal += SetupRemindersOnStart;
-
+            Stage.onStageStartGlobal += Stage_onServerStageBegin;
 
             Addressables.LoadAssetAsync<GameObject>(key: "e97c0cb6c5d2e3f4fb7a64cb62fe971f").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.lockbox;
             Addressables.LoadAssetAsync<GameObject>(key: "7cf417baadd2e8948a9645da22a57b3c").WaitForCompletion().AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.lockboxVoid;
@@ -55,26 +60,15 @@ namespace WolfoQoL_Client.Reminders
 
         }
 
+        private static void Stage_onServerStageBegin(Stage obj)
+        {
+            TreasureReminder.SetupRemindersStatic(false);
+        }
+
         private static void AddReminderObject(On.RoR2.SceneInfo.orig_Awake orig, SceneInfo self)
         {
             orig(self);
             TreasureReminder.Replace();
-        }
-
-        private static void SetupRemindersOnStart(Stage obj)
-        {
-            if (!SceneInfo.instance)
-            {
-                return;
-            }
-            if (WConfig.module_text_reminders.Value == true)
-            {
-                if (SceneInfo.instance.countsAsStage || SceneInfo.instance.sceneDef.allowItemsToSpawnObjects)
-                {
-                    TreasureReminder.SetupRemindersStatic();
-                }
-            }
-            Log.LogMessage("CurrentStage: " + SceneInfo.instance.sceneDef.baseSceneName);
         }
 
 
@@ -102,11 +96,6 @@ namespace WolfoQoL_Client.Reminders
                     }
                 }
             }
-        }
-
-        private static void Run_onRunStartGlobal(Run obj)
-        {
-            obj.gameObject.AddComponent<TreasureReminder>();
         }
 
         private static void IsFreeVoidChest_ClearNewt(On.RoR2.HoldoutZoneController.orig_OnEnable orig, HoldoutZoneController self)
@@ -247,6 +236,7 @@ namespace WolfoQoL_Client.Reminders
         {
             if (!TreasureReminder.instance)
             {
+                Debug.LogWarning("WQoL SpawnListener no reminder?");
                 enabled = false;
                 return;
             }
@@ -279,6 +269,16 @@ namespace WolfoQoL_Client.Reminders
                 case Interactable.QualityCollectorsBarrel:
                     TreasureReminder.instance.qualityCollectors++;
                     break;
+            }
+            if (!NetworkServer.active || WConfig.cfgTestClient.Value)
+            {
+                //Clients have variable lag, and just can't be accounted for.
+                //This shit sucks ass so we just do it every time I guess.
+                //If stage has started anyways how would we check ideally
+                if (TreasureReminder.instance.alreadySetup)
+                {
+                    TreasureReminder.SetupRemindersStatic(false);
+                }
             }
         }
 
@@ -330,18 +330,31 @@ namespace WolfoQoL_Client.Reminders
 
         public GenericObjectiveProvider Objective_SecretGeode;
 
+        public bool alreadySetup = false;
         public void Awake()
         {
             instance = this;
         }
 
-        public static void SetupRemindersStatic()
+        public static void SetupRemindersStatic(bool force)
         {
-            if (instance == null)
+            if (!WConfig.module_text_reminders.Value)
             {
-                Replace();
+                return;
             }
-            instance.SetupReminders();
+            if (!SceneInfo.instance)
+            {
+                return;
+            }
+            if (SceneInfo.instance.countsAsStage || SceneInfo.instance.sceneDef.allowItemsToSpawnObjects || force)
+            {
+                if (instance == null)
+                {
+                    Replace();
+                }
+                instance.SetupReminders();
+            }
+        
         }
 
         public static void Replace()
@@ -355,6 +368,10 @@ namespace WolfoQoL_Client.Reminders
 
         public void SetupReminders()
         {
+            if (alreadySetup)
+            {
+                //return;
+            }
             bool isSimu = Run.instance is InfiniteTowerRun;
             if (isSimu && WConfig.cfgRemindersNOTINSIMU.Value)
             {
@@ -363,14 +380,20 @@ namespace WolfoQoL_Client.Reminders
 
             int maximumKeys = 0;
             int maximumKeysVoid = 0;
-
-            Inventory localInventory = LocalUserManager.GetFirstLocalUser().cachedMaster.inventory;
-
+            LocalUser user = LocalUserManager.GetFirstLocalUser();
+            Inventory localInventory = null;
+            if (user != null && user.cachedMaster)
+            {
+                localInventory = user.cachedMaster.inventory;
+            }
             if (WQoLMain.QualityModInstalled)
             {
-                localHasSaleStar = QualitySupport.QualiyItemCountPermanent(DLC2Content.Items.LowerPricedChests, localInventory) > 0;
-                localHasRegenScrap = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, localInventory) > 0;
-                localHasRegenScrapQuality = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, localInventory, true) > 0;
+                if (localInventory)
+                {
+                    localHasSaleStar = QualitySupport.QualiyItemCountPermanent(DLC2Content.Items.LowerPricedChests, localInventory) > 0;
+                    localHasRegenScrap = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, localInventory) > 0;
+                    localHasRegenScrapQuality = QualitySupport.QualiyItemCountPermanent(DLC1Content.Items.RegeneratingScrap, localInventory, true) > 0;
+                }
                 using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
                 {
                     while (enumerator.MoveNext())
@@ -382,8 +405,11 @@ namespace WolfoQoL_Client.Reminders
             }
             else
             {
-                localHasSaleStar = localInventory.GetItemCountPermanent(DLC2Content.Items.LowerPricedChests) > 0;
-                localHasRegenScrap = localInventory.GetItemCountPermanent(DLC1Content.Items.RegeneratingScrap) > 0;
+                if (localInventory)
+                {
+                    localHasSaleStar = localInventory.GetItemCountPermanent(DLC2Content.Items.LowerPricedChests) > 0;
+                    localHasRegenScrap = localInventory.GetItemCountPermanent(DLC1Content.Items.RegeneratingScrap) > 0;
+                }
                 using (IEnumerator<PlayerCharacterMasterController> enumerator = PlayerCharacterMasterController.instances.GetEnumerator())
                 {
                     while (enumerator.MoveNext())
@@ -394,133 +420,120 @@ namespace WolfoQoL_Client.Reminders
                 }
 
             }
+            
             lockboxCount = Mathf.Min(lockboxCount, maximumKeys);
             lockboxVoidCount = Mathf.Min(lockboxVoidCount, maximumKeysVoid);
+            bool mainStage = SceneCatalog.mostRecentSceneDef.stageOrder <= 5;
 
-            if (!isSimu && SceneCatalog.mostRecentSceneDef.stageOrder > 5)
-            {
-                localHasSaleStar = false;
-                localHasRegenScrap = false;
-            }
             //Simplify this
             if (!isSimu && WConfig.cfgReminder_AccessNode.Value && AccessCodesMissionController.instance)
             {
                 if (AccessCodesMissionController.instance.nodes[0].node.activeSelf)
                 {
-                    Objective_AccessNode = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    Objective_AccessNode.objectiveToken = Language.GetString("REMINDER_ACCESSNODE");
+                    Objective_AccessNode = Create(Objective_AccessNode, "REMINDER_ACCESSNODE");
                 }
             }
             if (!isSimu && WConfig.cfgRemindersNewt.Value != WConfig.ReminderChoice.Off)
             {
-                if (newtShrineSpawned > 0 || WConfig.cfgRemindersNewt.Value == WConfig.ReminderChoice.Always)
+                if (newtShrineSpawned > 0)
                 {
                     if (TeleporterInteraction.instance && !TeleporterInteraction.instance.shouldAttemptToSpawnShopPortal)
                     {
-                        Objective_NewtShrine = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                        Objective_NewtShrine.objectiveToken = Language.GetString("REMINDER_NEWT");
+                        Objective_NewtShrine = Create(Objective_NewtShrine, "REMINDER_NEWT");
                     }
                 }
             }
-            if (WConfig.cfgReminder_Halcyon.Value)
+            if (!isSimu && WConfig.cfgReminder_Halcyon.Value)
             {
-                if (halcyonSpawned && !isSimu)
+                if (halcyonSpawned)
                 {
-                    Objective_Halcyon = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    Objective_Halcyon.objectiveToken = Language.GetString("REMINDER_HALCYON");
+                    Objective_Halcyon = Create(Objective_Halcyon, "REMINDER_HALCYON");
                 }
             }
             if (WConfig.cfgRemindersKeys.Value)
             {
                 if (lockboxVoidCount > 0)
                 {
-                    Objective_LockboxVoid = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    if (lockboxVoidCount > 1)
-                    {
-                        Objective_LockboxVoid.objectiveToken = string.Format(Language.GetString("REMINDER_KEYVOID_MANY"), lockboxVoidCount);
-                    }
-                    else
-                    {
-                        Objective_LockboxVoid.objectiveToken = Language.GetString("REMINDER_KEYVOID");
-                    }
+                    Objective_LockboxVoid = CreatePlural(Objective_LockboxVoid, "REMINDER_KEYVOID", "REMINDER_KEYVOID_MANY", lockboxVoidCount);
                 }
                 if (lockboxCount > 0)
                 {
-                    Objective_Lockbox = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    if (lockboxCount > 1)
-                    {
-                        Objective_Lockbox.objectiveToken = string.Format(Language.GetString("REMINDER_KEY_MANY"), lockboxCount);
-                    }
-                    else
-                    {
-                        Objective_Lockbox.objectiveToken = Language.GetString("REMINDER_KEY");
-                    }
+                    Objective_Lockbox = CreatePlural(Objective_Lockbox, "REMINDER_KEY", "REMINDER_KEY_MANY", lockboxCount);
                 }
             }
             if (WConfig.cfgRemindersFreechest.Value)
             {
                 if (freeChestCount > 0)
                 {
-                    Objective_FreeChest = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    if (freeChestCount > 1)
-                    {
-                        Objective_FreeChest.objectiveToken = string.Format(Language.GetString("REMINDER_FREECHEST_MANY"), freeChestCount);
-                    }
-                    else
-                    {
-                        Objective_FreeChest.objectiveToken = Language.GetString("REMINDER_FREECHEST");
-                    }
+                    Objective_FreeChest = CreatePlural(Objective_FreeChest, "REMINDER_FREECHEST", "REMINDER_FREECHEST_MANY", freeChestCount);
                 }
             }
             if (WConfig.cfgReminders_VV_FreechestVoid.Value)
             {
                 if (voidFreeChestSpawned)
                 {
-                    Objective_FreeChestVVVoid = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    Objective_FreeChestVVVoid.objectiveToken = Language.GetString("REMINDER_VV_FREECHESTVOID");
+                    Objective_FreeChestVVVoid = Create(Objective_FreeChestVVVoid, "REMINDER_VV_FREECHESTVOID");
                 }
             }
             if (WConfig.cfgReminders_Quality_Collectors.Value)
             {
                 if (qualityCollectors > 0)
                 {
-                    Objective_Quality_Collectors = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    if (qualityCollectors > 1)
-                    {
-                        Objective_Quality_Collectors.objectiveToken = string.Format(Language.GetString("REMINDER_QUALITY_COOLBARREL2"), qualityCollectors);
-                    }
-                    else
-                    {
-                        Objective_Quality_Collectors.objectiveToken = Language.GetString("REMINDER_QUALITY_COOLBARREL");
-                    }
+                    Objective_Quality_Collectors = CreatePlural(Objective_Quality_Collectors, "REMINDER_QUALITY_COOLBARREL", "REMINDER_QUALITY_COOLBARREL2", qualityCollectors);
                 }
             }
 
-            if (WConfig.cfgRemindersRegenScrap.Value != WConfig.ReminderChoice.Off)
+            if (!isSimu && WConfig.cfgRemindersRegenScrap.Value != WConfig.ReminderChoice.Off)
             {
-                if (!isSimu && localHasRegenScrap)
+                if (localHasRegenScrap)
                 {
                     //If normal printer
                     //Or quality printer && quality regen
-                    //Or always. (Idk if anyone has ever chose this config tbh)
-                    if (greenPrinterSpawned || (localHasRegenScrapQuality && greenQualityPrinterSpawned) || WConfig.cfgRemindersRegenScrap.Value == WConfig.ReminderChoice.Always)
+                    if (greenPrinterSpawned || (localHasRegenScrapQuality && greenQualityPrinterSpawned))
                     {
-                        Objective_RegenScrap = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                        Objective_RegenScrap.objectiveToken = Language.GetString("REMINDER_REGENSCRAP");
+                        Objective_RegenScrap = Create(Objective_RegenScrap, "REMINDER_REGENSCRAP");
                     }
                 }
             }
-            if (WConfig.cfgRemindersSaleStar.Value)
+            if (mainStage && !isSimu && WConfig.cfgRemindersSaleStar.Value)
             {
                 if (localHasSaleStar)
                 {
-                    Objective_SaleStar = instance.gameObject.AddComponent<GenericObjectiveProvider>();
-                    Objective_SaleStar.objectiveToken = Language.GetString("REMINDER_SALESTAR");
+                    Objective_SaleStar = Create(Objective_SaleStar, "REMINDER_SALESTAR");
                 }
             }
 
 
+            alreadySetup = true;
 
+        }
+
+
+        public GenericObjectiveProvider CreatePlural(GenericObjectiveProvider input, string token, string altToken, int count = 0)
+        {
+            if (!input)
+            {
+                input = this.gameObject.AddComponent<GenericObjectiveProvider>();
+            }
+            if (count > 1)
+            {
+                input.objectiveToken = string.Format(Language.GetString(altToken), count);
+            }
+            else
+            {
+                input.objectiveToken = Language.GetString(token);
+            }
+            return input;
+        }
+
+        public GenericObjectiveProvider Create(GenericObjectiveProvider input, string token)
+        {
+            if (!input)
+            {
+                input = this.gameObject.AddComponent<GenericObjectiveProvider>();
+            }
+            input.objectiveToken = Language.GetString(token);
+            return input;
         }
 
 
@@ -650,6 +663,5 @@ namespace WolfoQoL_Client.Reminders
         }
 
     }
-
 
 }

@@ -74,7 +74,6 @@ namespace WolfoQoL_Client
                     GameObjectUnlockableFilter[] dummylist = Object.FindObjectsOfType(typeof(RoR2.GameObjectUnlockableFilter)) as RoR2.GameObjectUnlockableFilter[];
                     for (var i = 0; i < dummylist.Length; i++)
                     {
-                        Log.LogMessage(dummylist[i]);
                         Object.Destroy(dummylist[i]);
                     }
                     break;
@@ -87,7 +86,7 @@ namespace WolfoQoL_Client
                         {
                             if (sun.shadowStrength == 1f)
                             {
-                                sun.shadowStrength = 0.8f;
+                                sun.shadowStrength = 0.85f;
                             }
                         }
                     }
@@ -142,7 +141,7 @@ namespace WolfoQoL_Client
                         {
                             if (sun.shadowStrength == 1f)
                             {
-                                sun.shadowStrength = 0.8f; //1f
+                                sun.shadowStrength = 0.85f; //1f
                             }
                         }
                     }
@@ -157,7 +156,7 @@ namespace WolfoQoL_Client
                             //sun.intensity = 0.8f; //0.7f
                             if (sun.shadowStrength == 1f)
                             {
-                                sun.shadowStrength = 0.6f; //1f
+                                sun.shadowStrength = 0.7f; //1f
                             }
                         }
                     }
@@ -179,11 +178,21 @@ namespace WolfoQoL_Client
                     WrongGeyser.GetChild(1).GetComponent<MeshRenderer>().material = CorrectGeyser;
                     break;
                 case "helminthroost":
-                    if (WConfig.cfgHelminthLightingFix.Value)
+                    if (WConfig.cfgHelminthLightingFix.Value > WConfig.Helminth.Off)
                     {
-                        GameObject lighting = GameObject.Find("/HOLDER: Lighting/Weather, Helminthroost/PP + Amb");
-                        var PP = lighting.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessVolume>();
-                        PP.priority = 2.1f;
+                        GameObject ppAmb = GameObject.Find("/HOLDER: Lighting/Weather, Helminthroost/PP + Amb");
+                        if (WConfig.cfgHelminthLightingFix.Value == WConfig.Helminth.Brighter)
+                        {
+                            SetAmbientLight light = ppAmb.GetComponent<SetAmbientLight>();
+                            light.ambientIntensity = 0.37f; //0.3
+                            light.ApplyLighting();
+                        }
+                        if (WConfig.cfgHelminthLightingFix.Value == WConfig.Helminth.UnusedOrange)
+                        {
+                            //Still no idea what the hell could've caused this bug.
+                            var PP = ppAmb.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessVolume>();
+                            PP.priority = 2.1f;
+                        }
                     }
                     break;
                 case "moon2":
@@ -221,7 +230,7 @@ namespace WolfoQoL_Client
 
                     GameObject MeridianEventTriggerCore = GameObject.Find("/HOLDER: Design/MeridianEventTriggerCore/");
                     MeridianEventTriggerCore.GetComponent<NetworkIdentity>().isPingable = false;
-
+                    /*
                     GameObject PMHead = GameObject.Find("/HOLDER: Art/Colossus Statue/PMHead/");
                     SphereCollider ping = PMHead.AddComponent<SphereCollider>();
                     ping.isTrigger = true;
@@ -232,7 +241,7 @@ namespace WolfoQoL_Client
                     modelLocator.autoUpdateModelTransform = false;
                     modelLocator._modelTransform = PMHead.transform;
                     CharacterModel characterModel = PMHead.AddComponent<CharacterModel>();
-                    /*characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
+                    characterModel.baseRendererInfos = new CharacterModel.RendererInfo[]
                     {
                         new CharacterModel.RendererInfo
                         {

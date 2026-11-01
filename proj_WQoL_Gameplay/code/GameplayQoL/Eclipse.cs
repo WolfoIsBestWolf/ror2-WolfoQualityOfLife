@@ -24,7 +24,7 @@ namespace WQoL_Gameplay
             {
                 c.EmitDelegate<Func<int, int>>((damageCoeff) =>
                 {
-                    if (WConfig.EclipseAllowArtifacts.Value == WConfig.EclipseArtifact.Blacklist)
+                    if (WConfig.EclipseAllowArtifacts.Value >= WConfig.EclipseArtifact.Blacklist)
                     {
                         return 0;
                     }
@@ -47,17 +47,6 @@ namespace WQoL_Gameplay
         {
             WGQoLMain.log.LogMessage("EclipseRuleoverride");
             orig(self, mustInclude, mustExclude, runSeed);
-
-            if (WConfig.EclipseAllowArtifacts.Value == WConfig.EclipseArtifact.VanillaWhitelist)
-            {
-                ReverseForceChoice(RoR2Content.Artifacts.EliteOnly, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.TeamDeath, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.MixEnemy, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.MonsterTeamGainsItems, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.ShadowClone, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.Bomb, mustInclude, mustExclude);
-                ReverseForceChoice(DLC3Content.Artifacts.Prestige, mustInclude, mustExclude);
-            }
             if (WConfig.EclipseAllowArtifacts.Value == WConfig.EclipseArtifact.Blacklist)
             {
                 ForceChoiceOff(RoR2Content.Artifacts.Command, mustInclude, mustExclude);

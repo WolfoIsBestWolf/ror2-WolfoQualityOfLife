@@ -1,4 +1,20 @@
 ```
+v5.2.4
+Disabled unused Helminth lighting by default.
+* Default setting now vanilla Helminth that's just brigther. 
+ 
+Animal Portal reminder post TP if you hit the gong.
+Dark Alchemy and Dream Crucible message should now work for modded-to-unmoddedHost.
+Fixed Treasure reminders often not appearing for high lag clients.
+Fixed Drone Combining message not working on clients.
+Fixed Halcyon Objective % being off for clients.  
+Fixed Hallowed Shrine objective not being cleared for clients.
+Fixed "Real Time Stat on death screen" config not working without also enabling other extra stat config.
+Equipment loss message should be less prone to be wrong in modded-to-unmoddedHost.
+Nullcheck for minions healing in modded-to-unmoddedHost.
+Removed log spam about transformations.
+```
+```
 v5.2.3
 
 Message when a Drone dies because I keep not noticing.

@@ -21,7 +21,7 @@ namespace WolfoQoL_Client
         public static ConfigEntry<bool> RealTimeTimer;
         public static ConfigEntry<bool> DC_RealTimeTimerStat;
 
-        public static ConfigEntry<bool> cfgHelminthLightingFix;
+        public static ConfigEntry<Helminth> cfgHelminthLightingFix;
         public static ConfigEntry<bool> cfgSofterShadows;
 
         //public static ConfigEntry<bool> cfgTempItemCyanStack;
@@ -110,7 +110,6 @@ namespace WolfoQoL_Client
 
         //Reminders
 
-
         public static ConfigEntry<bool> cfgReminder_Halcyon;
         public static ConfigEntry<bool> cfgReminder_AccessNode;
 
@@ -131,7 +130,6 @@ namespace WolfoQoL_Client
         {
             Off,
             IfSpawned,
-            Always
         }
         public enum MessageWho
         {
@@ -157,6 +155,12 @@ namespace WolfoQoL_Client
             Off,
             WhenHex,
             Always
+        }
+        public enum Helminth
+        {
+            Off,
+            Brighter,
+            UnusedOrange
         }
         /*public enum AllyExpands
 {
@@ -687,8 +691,8 @@ namespace WolfoQoL_Client
             cfgHelminthLightingFix = ConfigFile_Client.Bind(
                "Visuals",
                "Brighter Helminth Hatchery",
-               true,
-               "Change Helminths lighting to be considerably brighter and to what is seemingly intended.\n\nThis happens because the lighting is set to a too low priority and/or gets improperly loaded."
+               Helminth.Brighter,
+               "Change Helminths lighting to be a bit brigther, or to the unused much warmer and brighter variant."
            );
             cfgSofterShadows = ConfigFile_Client.Bind(
                "Visuals",
@@ -809,18 +813,18 @@ namespace WolfoQoL_Client
                 true,
                 "Add various custom stats and make some more vanilla stats viewable."
             );
-            DC_CompactStats = ConfigFile_Client.Bind(
-                "Death Screen",
-                "Compact Stats",
-                true,
-                "Combine most stats into 2 per column and hide the score. Score per stat will be shown by hovering over it."
-            );
             DC_RealTimeTimerStat = ConfigFile_Client.Bind(
                 "Death Screen",
                 "Total Run Time",
                 true,
                 "Show the total time spent in a run in the top middle."
             );
+            DC_CompactStats = ConfigFile_Client.Bind(
+                  "Death Screen",
+                  "Compact Stats",
+                  true,
+                  "Combine most stats into 2 per column and hide the score. Score per stat will be shown by hovering over it."
+              );
             DC_KillerInventory = ConfigFile_Client.Bind(
                 "Death Screen",
                 "Killer Inventory",

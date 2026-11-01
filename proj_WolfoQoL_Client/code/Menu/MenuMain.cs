@@ -31,6 +31,8 @@ namespace WolfoQoL_Client.Menu
                 UI_RealTimeTimer.Start();
 
                 UI_Color.Start();
+
+                //UI_InspectableSurvivor.Start();
             }
 
             GameModeCatalog.availability.CallWhenAvailable(CallLate);

@@ -208,7 +208,7 @@ namespace WolfoQoL_Client.DeathScreen
                 {
                     ExtraStats.AddCustomStats(self, playerInfo);
                 }
-
+                ExtraStats.AddCustomStats2(self, playerInfo);
                 if (!extras.isLogRunReport)
                 {
                     bool eitherActive = extras.killerInventory.activeSelf || extras.minionInventory.activeSelf;
@@ -331,10 +331,10 @@ namespace WolfoQoL_Client.DeathScreen
                 extras.ItemArea = self.itemInventoryDisplay.transform.parent.parent.parent;
 
                 extras.isDevotionRun = newDisplayData.runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Artifacts.Devotion")).localIndex == 0 || (RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(CU8Content.Artifacts.Devotion));
-
+                ExtraStats.ChangeStats(self, newDisplayData.runReport);
                 if (WConfig.DC_MoreStats.Value)
                 {
-                    ExtraStats.ChangeStats(self, newDisplayData.runReport);
+                    
                 }
                 extras.ItemArea.GetChild(1).gameObject.AddComponent<InventoryDisplayFitter>();
                 if (Run.instance)

@@ -32,10 +32,9 @@ namespace WolfoQoL_Client.Text
 
             Run.onClientGameOverGlobal += WinMessage_Client;
 
-            On.RoR2.CharacterMasterNotificationQueue.PushItemTransformNotification += TransformItem_Messages;
-            On.RoR2.CharacterMasterNotificationQueue.PushEquipmentTransformNotification += TransformEquipment_Messages;
-            IL.RoR2.CharacterMasterNotificationQueue.HandleTransformNotification += SendAllTransformsLol;
+            IL.RoR2.CharacterMasterNotificationQueue.HandleTransformNotification += TransformMessages;
             IL.RoR2.Items.LowHealthOrbSpawnerBehavior.ProcessRestoration += DreamOrbMessage_Host;
+            IL.RoR2.CharacterMasterNotificationQueue.HandleCustomNotificationMessage += CustomNotifMessages_Client;
 
             //Tinker Messages I guess?? MAYBE??
             On.RoR2.EquipmentSlot.FireRecycle += RecylerMessage_Host;
@@ -50,10 +49,35 @@ namespace WolfoQoL_Client.Text
 
         }
 
+        private static void CustomNotifMessages_Client(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchCallvirt("UnityEngine.Networking.NetworkBehaviour","get_hasAuthority") 
+            ))
+            {
+                c.EmitDelegate<Func<CharacterMaster, CharacterMaster>>((master) =>
+                {
+                    if (CharacterMasterNotificationQueue.customNotificationMessageInstance.pickupIndex == PickupCatalog.FindPickupIndex(DLC4Content.Items.LowHealthOrbSpawner.itemIndex))
+                    {
+                        if (master.TryGetComponent<PlayerItemLoss_ClientListener>(out var a))
+                        {
+                            a.TryDreamCrucible();
+                            a.checkDreamCrucible = true;
+                        }
+                    }
+                    return master;
+                });
+            }
+            else
+            {
+                Log.LogWarning("IL Failed : CharacterMasterNotificationQueue_HandleCustomNotificationMessage");
+            }
+        }
+
         private static void DreamOrbMessage_Host(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-
             if (c.TryGotoNext(MoveType.Before,
             x => x.MatchStloc(12) //Pretty dgaf but works prob
             ))
@@ -64,7 +88,8 @@ namespace WolfoQoL_Client.Text
                     {
                         baseToken = "ITEM_USE_DREAM",
                         pickupIndex1 = PickupCatalog.FindPickupIndex(trans.newItemIndex),
-                        source = ItemLossMessage.Source.DreamCrucible
+                        source = ItemLossMessage.Source.DreamCrucible,
+                        //subjectAsNetworkUser = trans.a //get body from behavior item, if we need it
                     });
                     return trans;
                 });
@@ -130,19 +155,20 @@ namespace WolfoQoL_Client.Text
             //Sometimes the new Index and Recycle bool come together
             //Sometimes, they do not?
             bool preRecycle = self.Recycled;
-            PickupIndex pre = self.pickup.pickupIndex;
+            PickupIndex prePickup = self.pickup.pickupIndex;
             orig(self, reader, initialState);
             //WolfoMain.log.LogMessage(pre + " | "+self.NetworkpickupIndex + " | "+self.Recycled);
 
-            bool newPickup = pre != PickupIndex.none && pre != self.pickup.pickupIndex;
+            bool newPickup = prePickup != PickupIndex.none && prePickup != self.pickup.pickupIndex;
             bool justRecyled = preRecycle == false && self.Recycled == true;
+
             if (justRecyled && newPickup)
             {
                 if (WConfig.cfgMessagesRecycler.Value)
                 {
                     Chat.AddMessage(new RecycleMessage
                     {
-                        oldPickup = pre,
+                        oldPickup = prePickup,
                         newPickup = self.pickup,
                         token = "ITEM_RECYCLED_GLOBAL"
                     });
@@ -155,7 +181,27 @@ namespace WolfoQoL_Client.Text
                 {
                     has = self.gameObject.AddComponent<StoreLatestPickupindex>();
                 }
-                has.previousIndex = pre;
+                has.previousIndex = prePickup;
+
+                //If both are items
+                if (prePickup.isItem && self.pickup.pickupIndex.isItem)
+                {
+                    //And their item tiers are different
+                    if (prePickup.pickupDef.itemTier != self.pickup.pickupIndex.pickupDef.itemTier)
+                    {
+                        //And ideally some check that it's actually Dark Alchemy
+                        if (WConfig.cfgMessagesRecycler.Value)
+                        {
+                            Chat.AddMessage(new RecycleMessage
+                            {
+                                oldPickup = prePickup,
+                                newPickup = self.pickup,
+                                token = "ITEM_DOWNGRADE_GLOBAL"
+                            });
+                        }
+                    }
+                }
+
             }
             else if (justRecyled)
             {
@@ -199,26 +245,34 @@ namespace WolfoQoL_Client.Text
             return temp;
         }
 
-        private static void Interactor_RpcInteractionResult(On.RoR2.Interactor.orig_RpcInteractionResult orig, Interactor self, bool anyInteractionSucceeded)
-        {
-            orig(self, anyInteractionSucceeded);
-            if (anyInteractionSucceeded)
-            {
-                InteractionDriver driver = self.GetComponent<InteractionDriver>();
-            }
-        }
-
-        private static void SendAllTransformsLol(ILContext il)
+     
+        private static void TransformMessages(ILContext il)
         {
             ILCursor c = new ILCursor(il);
 
-            if (c.TryGotoNext(MoveType.After,
+            if (c.TryGotoNext(MoveType.Before,
             x => x.MatchCallvirt("UnityEngine.Networking.NetworkBehaviour", "get_hasAuthority")
             ))
             {
-                c.EmitDelegate<Func<bool, bool>>((t) =>
+                c.EmitDelegate<Func<CharacterMaster, CharacterMaster>>((master) =>
                 {
-                    return true;
+                    if (master)
+                    {
+                        PickupDef oldPickup = PickupCatalog.GetPickupDef(CharacterMasterNotificationQueue.transformNotificationMessageInstance.oldIndex);
+                        PickupDef newPickup = PickupCatalog.GetPickupDef(CharacterMasterNotificationQueue.transformNotificationMessageInstance.newIndex);
+                        if (oldPickup != null && newPickup != null)
+                        {
+                            if (newPickup.itemIndex != ItemIndex.None)
+                            {
+                                TransformItem_Messages(master, oldPickup.itemIndex, newPickup.itemIndex, CharacterMasterNotificationQueue.transformNotificationMessageInstance.transformationType);
+                            }
+                            else if (newPickup.equipmentIndex != EquipmentIndex.None)
+                            {
+                                TransformEquipment_Messages(master, oldPickup.equipmentIndex, newPickup.equipmentIndex, CharacterMasterNotificationQueue.transformNotificationMessageInstance.transformationType);
+                            }
+                        }
+                    }
+                    return master;
                 });
             }
             else
@@ -325,16 +379,8 @@ namespace WolfoQoL_Client.Text
         }
 
         public static ItemIndex VanillaVoids_WatchBrokeItem = (ItemIndex)(-3);
-        private static void TransformItem_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushItemTransformNotification orig, CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
+        private static void TransformItem_Messages(CharacterMaster characterMaster, ItemIndex oldIndex, ItemIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
-            /*WolfoMain.log.LogMessage(characterMaster + " | " +
-                oldIndex + " | " +
-                newIndex + " | " +
-                transformationType);*/
-
-            //Cannot get Watch / old Benthic item count because this is after those items were removed.
-
-            orig(characterMaster, oldIndex, newIndex, transformationType);
             if (!characterMaster.playerCharacterMasterController)
             {
                 return;
@@ -374,6 +420,14 @@ namespace WolfoQoL_Client.Text
                         Chat.AddMessage(result);
                     }
                 }
+
+
+                if (characterMaster.TryGetComponent<PlayerItemLoss_ClientListener>(out var client))
+                {
+                    client.lastConsumedItemIndex = oldIndex;
+                    client.TryDreamCrucible();
+                    client.checkDreamCrucible = true;
+                }
             }
             else if (transformationType == CharacterMasterNotificationQueue.TransformationType.LunarSun)
             {
@@ -412,17 +466,8 @@ namespace WolfoQoL_Client.Text
 
         }
 
-        private static void TransformEquipment_Messages(On.RoR2.CharacterMasterNotificationQueue.orig_PushEquipmentTransformNotification orig, CharacterMaster characterMaster, EquipmentIndex oldIndex, EquipmentIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
+        private static void TransformEquipment_Messages(CharacterMaster characterMaster, EquipmentIndex oldIndex, EquipmentIndex newIndex, CharacterMasterNotificationQueue.TransformationType transformationType)
         {
-            /*WolfoMain.log.LogMessage(characterMaster + " | " +
-                  oldIndex + " | " +
-                  newIndex + " | " +
-                  transformationType);*/
-
-            orig(characterMaster, oldIndex, newIndex, transformationType);
-            //Debug.Log(characterMaster);
-
-            //Any player message here OR equipment drone
             bool equipmentDrone = characterMaster.GetComponent<AIFireEquipmentOnOwnerDeath>();
             if (!(characterMaster.playerCharacterMasterController || equipmentDrone))
             {
@@ -445,6 +490,7 @@ namespace WolfoQoL_Client.Text
                         }
                     }
                 }
+          
             }
             if (!characterMaster.hasAuthority)
             {

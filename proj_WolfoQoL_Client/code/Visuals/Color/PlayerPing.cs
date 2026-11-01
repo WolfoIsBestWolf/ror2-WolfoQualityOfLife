@@ -40,7 +40,6 @@ namespace WolfoQoL_Client
                x => x.MatchLdfld("RoR2.UI.PingIndicator", "pingType")
                ))
             {
-                Debug.Log(c);
                 c.EmitDelegate<System.Func<PingIndicator, PingIndicator>>((self) =>
                 {
                     if (WConfig.cfgPlayerPing.Value)

@@ -2,17 +2,16 @@
 using RoR2.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using WolfoLibrary;
 
 namespace WolfoQoL_Client
 {
     public static class UI_RealTimeTimer
     {
-        public static bool scoreboardOpen = false;
-
         public static void Start()
         {
-            On.RoR2.UI.ScoreboardController.OnEnable += ScoreboardController_OnEnable;
-            On.RoR2.UI.ScoreboardController.OnDisable += ScoreboardController_OnDisable;
+            ScoreboardController.onScoreboardOpen += ScoreboardController_onScoreboardOpen;
+            ExtraActions.onScoreboardClosed += ExtraActions_onScoreboardClosed;
             On.RoR2.Run.InstantiateUi += Run_InstantiateUi;
 
             //Classic Hud && Simu Hud??
@@ -42,19 +41,14 @@ namespace WolfoQoL_Client
                 }
             };
 
-            GameObject Timer = Addressables.LoadAssetAsync<GameObject>(key: "23b0bcee7bc7a0c4d91d884c778cc70a").WaitForCompletion().transform.GetChild(0).GetChild(1).gameObject;
-
-
         }
-        private static GameObject Timer = Addressables.LoadAssetAsync<GameObject>(key: "23b0bcee7bc7a0c4d91d884c778cc70a").WaitForCompletion().transform.GetChild(0).GetChild(1).gameObject;
-
+        
         private static GameObject Run_InstantiateUi(On.RoR2.Run.orig_InstantiateUi orig, Run self, Transform uiRoot)
         {
             GameObject UI = orig(self, uiRoot);
+            GameObject Timer = Addressables.LoadAssetAsync<GameObject>(key: "23b0bcee7bc7a0c4d91d884c778cc70a").WaitForCompletion().transform.GetChild(0).GetChild(1).gameObject;
 
-            UI.transform.GetChild(0);
-
-            GameObject RealTimeTimer = GameObject.Instantiate(Timer, UI.transform.GetChild(0));
+            GameObject RealTimeTimer = GameObject.Instantiate(Timer, UI .transform.GetChild(0));
 
             Object.Destroy(RealTimeTimer.GetComponent<RunTimerUIController>());
             var rl = RealTimeTimer.AddComponent<RealTimerUIController>();
@@ -65,19 +59,15 @@ namespace WolfoQoL_Client
             return UI;
         }
 
-        private static void ScoreboardController_OnDisable(On.RoR2.UI.ScoreboardController.orig_OnDisable orig, ScoreboardController self)
+        private static void ScoreboardController_onScoreboardOpen()
         {
-            orig(self);
             if (RealTimerUIController.instance)
             {
                 RealTimerUIController.instance.SetActive(false);
             }
-
         }
-
-        private static void ScoreboardController_OnEnable(On.RoR2.UI.ScoreboardController.orig_OnEnable orig, ScoreboardController self)
+        private static void ExtraActions_onScoreboardClosed()
         {
-            orig(self);
             if (RealTimerUIController.instance)
             {
                 if (WConfig.RealTimeTimer.Value)
@@ -85,8 +75,8 @@ namespace WolfoQoL_Client
                     RealTimerUIController.instance.SetActive(true);
                 }
             }
-
         }
+
     }
     public class RealTimerUIController : MonoBehaviour
     {
@@ -106,8 +96,6 @@ namespace WolfoQoL_Client
         {
             realTimer.localPosition -= new Vector3(0, 2, 0);
         }
-
-
 
         public void Setup()
         {
@@ -130,4 +118,5 @@ namespace WolfoQoL_Client
         }
         public TimerText runStopwatchTimerTextController;
     }
+
 }

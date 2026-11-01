@@ -65,7 +65,7 @@ Item Stacks with temporary items turn light blue, similiar to Returns.
 Reformed Altar & Prime Meridian will have pink leaves during loops, to match Golden Dieback.\
 *(As they are directly connected to that stage)
 
-Helminth Hatcheries Lighting is now what was seemingly originally intended. [(Brighter, Warmer)](https://github.com/WolfoIsBestWolf/ror2-WolfoQualityOfLife/blob/main/modPageImages/helminth.png?raw=true)\
+Helminth Hatcheries lighting is brighter.
 Sundered Groves, Abyssal Depths & Scorched Acres have slightly less dark shadows.\
 Sundered Groves pink mushrooms are visible at lower settings.
  

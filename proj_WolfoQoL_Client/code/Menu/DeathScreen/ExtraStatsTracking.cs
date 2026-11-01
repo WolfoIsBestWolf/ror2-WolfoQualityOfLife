@@ -48,21 +48,6 @@ namespace WolfoQoL_Client.DeathScreen
 
         }
 
-        private static void GlobalEventManager_onClientDamageNotified(DamageDealtMessage obj)
-        {
-            Debug.Log(obj.victim);
-            if (obj.attacker)
-            {
-                if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(obj.attacker, out var attackerM))
-                {
-                   if (attackerM.bodyIndex != -1)
-                   {
-                       attackerM.tracker.perMinionDamage[attackerM.bodyIndex] += (ulong)obj.damage;
-                   }
-                }
-            }
-           
-        }
 
         private static void ReturnItemAcqOrderAfterMithrixP4(On.EntityStates.BrotherMonster.TrueDeathState.orig_OnEnter orig, EntityStates.BrotherMonster.TrueDeathState self)
         {
@@ -132,32 +117,6 @@ namespace WolfoQoL_Client.DeathScreen
             }
         }
 
-        /*
-        private static void Host_TrackVoidedItems(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchCallvirt("RoR2.Inventory", "RemoveItem")
-                ))
-            {
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<System.Func<int, Inventory, int>>((count, inventory) =>
-                {
-                   if (inventory.TryGetComponent<PerPlayerMaster_ExtraStatTracker>(out var a))
-                   {
-                       //a.itemsVoided += count;
-                   }
-                   return count;
-                });
-            }
-            else
-            {
-                Log.LogWarning("IL Failed: Host_TrackVoidedItems");
-            }
-        }
-       */
-
 
         private static void Track_MinionHealing(ILContext il)
         {
@@ -168,11 +127,17 @@ namespace WolfoQoL_Client.DeathScreen
             {
                 c.EmitDelegate<System.Func<HealthComponent.HealMessage, HealthComponent.HealMessage>>((healEvent) =>
                 {
-                   if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(healEvent.target, out var a))
-                   {
-                       a.tracker.minionHealing += (ulong)healEvent.amount;
-                   }
-                   return healEvent;
+                    if (healEvent.target)
+                    {
+                        if (MinionMaster_ExtraStatsTracker.minionBodyToTracker.TryGetValue(healEvent.target, out var a))
+                        {
+                            if (a)
+                            {
+                                a.tracker.minionHealing += (ulong)healEvent.amount;
+                            }
+                        }
+                    }
+                    return healEvent;
                 });
             }
             else

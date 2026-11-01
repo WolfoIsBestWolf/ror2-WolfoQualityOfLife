@@ -271,7 +271,7 @@ namespace WolfoQoL_Client.Text
                     {
                         return null;
                     }
-                    if (WConfig.cfgMessageDreamCrucible.Value == WConfig.MessageWho.Off)
+                    else if (WConfig.cfgMessageDreamCrucible.Value == WConfig.MessageWho.Your && base.IsSecondPerson())
                     {
                         return null;
                     }
@@ -328,7 +328,6 @@ namespace WolfoQoL_Client.Text
                     }
 
                 }
-
             }
             else
             {

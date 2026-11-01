@@ -34,9 +34,6 @@ namespace WolfoQoL_Client.Text
         public static R2API.LanguageAPI.LanguageOverlay TPLunar2;
         public static R2API.LanguageAPI.LanguageOverlay TPLunar3;
         public static R2API.LanguageAPI.LanguageOverlay TPLunar4;
-        public static bool LunaredAllOverIt = false;
-        //public static R2API.LanguageAPI.LanguageOverlay TPLunar3;
-        //public static R2API.LanguageAPI.LanguageOverlay TPLunar4;
 
         public static void Main()
         {
@@ -47,8 +44,8 @@ namespace WolfoQoL_Client.Text
             }
 
             On.RoR2.TeleporterInteraction.Start += BlueTeleporterObjective;
+            On.RoR2.TeleporterInteraction.OnDestroy += UnBlueTeleporterObjective;
 
-            //On.RoR2.Chat.PlayerPickupChatMessage.ConstructChatString += AddDuplicatorQuantity;
             if (WConfig.cfgMessagesVoidQuantity.Value)
             {
                 On.RoR2.Chat.PlayerPickupChatMessage.ConstructChatString += AddVoidQuantity;
@@ -87,6 +84,21 @@ namespace WolfoQoL_Client.Text
             TMP_Settings.defaultSpriteAsset.fallbackSpriteAssets.Add(tempItemAsset); 
             LanguageAPI.Add("ITEM_MODIFIER_TEMP", "{0} <style=cIsTemporary>(<sprite name=\"TempClock\" tint=1>)</color>");
             */
+        }
+
+        private static void UnBlueTeleporterObjective(On.RoR2.TeleporterInteraction.orig_OnDestroy orig, TeleporterInteraction self)
+        {
+            orig(self);
+            if (TPLunar1 != null)
+            {
+                if (self.name.StartsWith("Lunar"))
+                {
+                    TPLunar1.Remove();
+                    TPLunar2.Remove();
+                    TPLunar3.Remove();
+                    TPLunar4.Remove();
+                }
+            }
         }
 
         private static PickupIndex latestPickup;
@@ -357,31 +369,17 @@ namespace WolfoQoL_Client.Text
         private static void BlueTeleporterObjective(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
         {
             orig(self);
-            if (WConfig.cfgPrimordialBlueText.Value == false)
+            if (WConfig.cfgPrimordialBlueText.Value)
             {
-                return;
-            }
-            if (self.name.StartsWith("Lunar"))
-            {
-                if (TPLunar1 == null)
+                if (self.name.StartsWith("Lunar"))
                 {
-                    LunaredAllOverIt = true;
                     TPLunar1 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", Language.GetString("OBJECTIVE_FIND_TELEPORTER").Replace("cDeath", "cLunarObjective"));
                     TPLunar2 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER", Language.GetString("OBJECTIVE_CHARGE_TELEPORTER").Replace("cDeath", "cLunarObjective"));
                     TPLunar3 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER_OOB", Language.GetString("OBJECTIVE_CHARGE_TELEPORTER_OOB").Replace("cDeath", "cLunarObjective"));
                     TPLunar4 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", Language.GetString("OBJECTIVE_FINISH_TELEPORTER").Replace("cDeath", "cLunarObjective"));
-
                 }
             }
-            else if (TPLunar1 != null)
-            {
-                TPLunar1.Remove();
-                TPLunar2.Remove();
-                TPLunar3.Remove();
-                TPLunar4.Remove();
-
-            }
-
+         
         }
 
 

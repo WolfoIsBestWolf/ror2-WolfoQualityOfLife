@@ -42,8 +42,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             }
 
-            Log.LogMessage("Applying Killer Inventory Screen");
-
+            
             #region Detailed Killer Name
             if (!string.IsNullOrEmpty(helper.killerName))
             {
@@ -51,12 +50,13 @@ namespace WolfoQoL_Client.DeathScreen
                 self.killerBodyLabel.SetText(KillerNameOverride);
             }
             self.playerBodyLabel.alignment = TMPro.TextAlignmentOptions.Left;
+            #endregion
             if (!WConfig.DC_KillerInventory.Value)
             {
                 extras.killerInventory.SetActive(false);
                 return;
             }
-            #endregion
+            Log.LogMessage("Applying Killer Inventory Screen");
 
 
             //Make it so this can run without a Helper present too
@@ -211,7 +211,6 @@ namespace WolfoQoL_Client.DeathScreen
         public EquipmentIndex secondaryEquipment = EquipmentIndex.None;
         //public EquipmentIndex[] equipment = Array.Empty<EquipmentIndex>();
 
-        private bool overwrittenByWin = false;
         public bool killerNoMaster = false;
 
         public static void SetupFromData(string killerName, GameObject killerObject, GameObject victimMaster, ItemCollection itemStacks, ItemCollection itemRentalStacks, EquipmentIndex primaryEquipment, EquipmentIndex secondaryEquipment, bool killerNoMaster)

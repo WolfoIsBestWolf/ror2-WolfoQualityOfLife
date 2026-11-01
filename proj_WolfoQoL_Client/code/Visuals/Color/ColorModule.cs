@@ -92,29 +92,7 @@ namespace WolfoQoL_Client
 
             PlayerAndColorPing.Hooks();
 
-           
-            //On.RoR2.Highlight.ResetHighlight += Highlight_ResetHighlight;
         }
-
-        /*private static void Highlight_ResetHighlight(On.RoR2.Highlight.orig_ResetHighlight orig, Highlight self)
-        {
-            orig(self);
-            if (self.pickupState.isTempItem)
-            {
-                PickupDef pickupDef = PickupCatalog.GetPickupDef(self.pickupState.pickupIndex);
-                if (pickupDef != null)
-                {
-                   float m1 = 0.6f;
-                   float multT = 0.4f;
-                   Color og = pickupDef.baseColor;
-                   self.highlightColor = Highlight.HighlightColor.custom;
-                   self.CustomColor = new Color(og.r * m1 + Color_Temp.r * multT, og.g * m1 + Color_Temp.g * multT, og.b *m1 + Color_Temp.b * multT);
-                }
-      
-            }
-        }*/
-    
-
 
         public static Entry[] EquipmentAddBG(On.RoR2.UI.LogBook.LogBookController.orig_BuildPickupEntries orig, Dictionary<ExpansionDef, bool> expansionAvailability)
         {
@@ -372,7 +350,7 @@ namespace WolfoQoL_Client
             Sprite texUICornerTier3 = Addressables.LoadAssetAsync<Sprite>(key: "43a45be290137ab439552af4ff6eb6c4").WaitForCompletion();
 
 
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightLunarItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().highlightColor = new Color32(55, 101, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightLunarItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().highlightColor = new Color32(66, 112, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightVoidBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
 

@@ -7,6 +7,7 @@ using WolfoQoL_Client.DeathScreen;
 
 namespace WolfoQoL_Client.ModSupport
 {
+
     public static class AddProperSaveSupport
     {
         //Taken / Learnt from CommandQueue+ProperSave mod
@@ -21,10 +22,10 @@ namespace WolfoQoL_Client.ModSupport
         public static void Start()
         {
             //Make this like, not work with uhh when config disabled
-
             ProperSave.SaveFile.OnGatherSaveData += SaveFile_OnGatherSaveData;
             ProperSave.Loading.OnLoadingEnded += Loading_OnLoadingEnded;
         }
+
         private static void SaveFile_OnGatherSaveData(System.Collections.Generic.Dictionary<string, object> obj)
         {
             string a = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "R_");
@@ -37,9 +38,9 @@ namespace WolfoQoL_Client.ModSupport
             {
                 Debug.Log(a);
             }
-
         }
 
+        //Is the error because this is static? uhhh fuck
         private static void Loading_OnLoadingEnded(ProperSave.SaveFile _)
         {
             string a = ReturnPath(LocalUserManager.GetFirstLocalUser().userProfile.fileName, "R_");
@@ -211,4 +212,5 @@ namespace WolfoQoL_Client.ModSupport
             File.WriteAllText(path, textToWrite);
         }
     }
+
 }

@@ -19,21 +19,19 @@ namespace WolfoQoL_Client.DeathScreen
             orig(self, srcStatSheet, statDef, destStatStrip);
             if (statDef.pointValue == 0.0)
             {
-                destStatStrip.transform.Find("PointValueLabel").gameObject.SetActive(false);
-            }
-            else
-            {
-                TooltipProvider tool = destStatStrip.gameObject.GetComponent<TooltipProvider>();
-                if (tool == null)
+                if (WConfig.DC_MoreStats.Value)
                 {
-                   tool = destStatStrip.gameObject.AddComponent<TooltipProvider>();
-                   tool.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
+                    destStatStrip.transform.Find("PointValueLabel").gameObject.SetActive(false);
                 }
-                tool.titleToken = Language.GetString(statDef.displayToken);
-                tool.bodyToken = destStatStrip.transform.GetChild(1).GetComponent<HGTextMeshProUGUI>().text;
-
-
             }
+            TooltipProvider tool = destStatStrip.gameObject.GetComponent<TooltipProvider>();
+            if (tool == null)
+            {
+                tool = destStatStrip.gameObject.AddComponent<TooltipProvider>();
+                tool.titleColor = new Color(0.5339f, 0.4794f, 0.5943f, 1f);
+            }
+            tool.titleToken = Language.GetString(statDef.displayToken);
+            tool.bodyToken = destStatStrip.transform.GetChild(1).GetComponent<HGTextMeshProUGUI>().text;
         }
 
         public static void CombineStats(On.RoR2.UI.GameEndReportPanelController.orig_AllocateUnlockStrips orig, GameEndReportPanelController self, int count)
@@ -51,28 +49,34 @@ namespace WolfoQoL_Client.DeathScreen
                 }
             }
             DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
-            if (WConfig.DC_CompactStats.Value && extras.compactedStats == false && extras.isLogRunReport == false)
+            if ( extras.compactedStats == false && extras.isLogRunReport == false)
             {
                 extras.compactedStats = true;
                 RectTransform statContentArea = self.statContentArea;
-
-                MakeCombinedStat(statContentArea, "totalTimeAlive", 3); //+Stages / Waves
-                MakeCombinedStat(statContentArea, "totalItemsCollected");
-                MakeCombinedStat(statContentArea, "totalDronesPurchased", 2);
-                MakeCombinedStat(statContentArea, "totalDamageDealt", 2);
-                MakeCombinedStat(statContentArea, "totalKills", 2);
-                MakeCombinedStat(statContentArea, "totalDamageTaken");
-                MakeCombinedStat(statContentArea, "totalHealthHealed");
-                MakeCombinedStat(statContentArea, "custom_DotDamage");
-                MakeCombinedStat(statContentArea, "custom_DamageBlocked");
-                MakeCombinedStat(statContentArea, "totalDeaths");
-                MakeCombinedStat(statContentArea, "totalPurchases", 2);
-                MakeCombinedStat(statContentArea, "custom_ChestsMissed", 2);
-                MakeCombinedStat(statContentArea, "custom_LunarCoinsSpent", 2);
-                MakeCombinedStat(statContentArea, "totalDistanceTraveled", 2);
-                MakeCombinedStat(statContentArea, "custom_EquipUses", 2);
+                if (WConfig.DC_CompactStats.Value)
+                {
+                    MakeCombinedStat(statContentArea, "totalTimeAlive", 3); //+Stages / Waves
+                    MakeCombinedStat(statContentArea, "totalItemsCollected");
+                    MakeCombinedStat(statContentArea, "totalDronesPurchased", 2);
+                    MakeCombinedStat(statContentArea, "totalDamageDealt", 2);
+                    MakeCombinedStat(statContentArea, "totalKills", 2);
+                    MakeCombinedStat(statContentArea, "totalDamageTaken");
+                    MakeCombinedStat(statContentArea, "totalHealthHealed");
+                    MakeCombinedStat(statContentArea, "custom_DotDamage");
+                    MakeCombinedStat(statContentArea, "custom_DamageBlocked");
+                    MakeCombinedStat(statContentArea, "totalDeaths");
+                    MakeCombinedStat(statContentArea, "totalPurchases", 2);
+                    MakeCombinedStat(statContentArea, "custom_ChestsMissed", 2);
+                    MakeCombinedStat(statContentArea, "custom_LunarCoinsSpent", 2);
+                    MakeCombinedStat(statContentArea, "totalDistanceTraveled", 2);
+                    MakeCombinedStat(statContentArea, "custom_EquipUses", 2);
+                }
+                else
+                {
+                    MakeCombinedStat(statContentArea, "totalTimeAlive", 2); //+Stages / Waves
+                }
             }
-
+           
         }
 
         public static void MakeCombinedStat(RectTransform statContentArea, string name, int combine = 2)
@@ -152,66 +156,13 @@ namespace WolfoQoL_Client.DeathScreen
 
         }
 
-        public static void TotalRunTimer(GameEndReportPanelController self)
-        {
-            if (Run.instance == null)
-            {
-                return;
-            }
-            if (WConfig.DC_RealTimeTimerStat.Value == false)
-            {
-                return;
-            }
-            DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
-            if (extras == null)
-            {
-                return;
-            }
-            Transform HeaderArea = self.GetComponent<ChildLocator>().FindChild("HeaderArea");
-            //Transform ResultLabel = HeaderArea.Find("ResultArea").GetChild(0);
-            Transform DeathFlavorText = HeaderArea.Find("DeathFlavorText");
-
-            GameObject TotalRunTimer = GameObject.Instantiate(DeathFlavorText.gameObject, HeaderArea);
-            TotalRunTimer.name = "TotalRunTimer";
-            var Text = TotalRunTimer.GetComponent<TextMeshProUGUI>();
-
-            Text.fontStyle = FontStyles.Normal;
-            Text.horizontalAlignment = HorizontalAlignmentOptions.Center;
-            Text.fontSizeMax = 24;
-            Text.fontSize = 24;
-            //Text.color = new Color(1f, 1f, 1f, 0.3f);
-            Text.color = new Color(0.7f, 0.75f, 0.8f, 1f);
-            TotalRunTimer.transform.localPosition = new Vector3(0, -50, 0);
-
-            ulong num = (ulong)extras.deathTimeStamp;
-            ulong num2 = num / 60UL;
-            ulong num3 = num - num2 * 60UL;
-
-
-            TotalRunTimer.GetComponent<TextMeshProUGUI>().text = string.Format("{2}: {0:00}:{1:00}", num2, num3, Language.GetString("STAT_TOTAL_RUN_TIME"));
-            //TotalRunTimer.GetComponent<TextMeshProUGUI>().text = string.Format("<style=cEvent>{2} {0:00}:{1:00}</color>", num2, num3, Language.GetString("STAT_TOTAL_RUN_TIME"));
-
-            //bool show = Run.instance.GetRunStopwatch() > 600 || extras.deathTimeStamp > 600; //Don't bother showing if run is very short
-            //show = show && extras.deathTimeStamp - Run.instance.GetRunStopwatch() > 120;
-
-            TotalRunTimer.gameObject.SetActive(true);
-
-
-        }
-
-
         public static void ChangeStats(GameEndReportPanelController self, RunReport runReport)
         {
             bool IsSimu = runReport.gameMode is InfiniteTowerRun;
             bool DLC1 = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Expansions.DLC1")).localIndex == 0;
             //bool DLC2 = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Expansions.DLC2")).localIndex == 0;
             bool DLC3 = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Expansions.DLC3")).localIndex == 0;
-            bool SS2 = false;
-            var ruleSS2 = RuleCatalog.FindRuleDef("Expansions.SS2");
-            if (ruleSS2 != null)
-            {
-                SS2 = runReport.ruleBook.GetRuleChoice(ruleSS2).localIndex == 0;
-            }
+    
 
             bool isDevotion = runReport.ruleBook.GetRuleChoice(RuleCatalog.FindRuleDef("Artifacts.Devotion")).localIndex == 0;
             isDevotion = isDevotion || RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(CU8Content.Artifacts.Devotion);
@@ -219,7 +170,6 @@ namespace WolfoQoL_Client.DeathScreen
             bool isLog = runReport.FindFirstPlayerInfo().master == null;
             List<string> list = new List<string>();
 
-           
             self.statsToDisplay = new string[] {
                            IsSimu ? "custom_lastSimuWave" : "",
 
@@ -274,10 +224,7 @@ namespace WolfoQoL_Client.DeathScreen
                            "custom_SkillUses",
 
                            "custom_StrongestMinion",
-                           //"custom_MostDamagedEnemy",
-                           //"custom_MostKilledEnemy",
                            "custom_EnemyMostHurtBy",
-                           //"custom_HighestStackedItem" //This would almost always be WhiteScrap
                            
                    };
         }
@@ -329,7 +276,6 @@ namespace WolfoQoL_Client.DeathScreen
                 mostHurtby = MakeBigStat(self, baseLongStat, mostHurtby);
                 mvpMinion = MakeBigStat(self, baseLongStat, mvpMinion);
                 //mostDamage = MakeBigStat(baseLongStat, mostDamage);
-
 
             }
             mvpMinion.gameObject.SetActive(false);
@@ -408,18 +354,18 @@ namespace WolfoQoL_Client.DeathScreen
 
                 try
                 {
-                   if (waveUI.transform.GetChild(0).childCount == 4)
-                   {
-                       GameObject Sprite2 = GameObject.Instantiate(newSprite.gameObject, lastWaveStat.transform);
-                       waveSprite = waveUIRoot.GetChild(3).GetChild(0).GetComponent<Image>();
-                       newSprite = Sprite2.GetComponent<Image>();
-                       newSprite.sprite = waveSprite.sprite;
-                       newSprite.color = waveSprite.color;
-                   }
+                    if (waveUI.transform.GetChild(0).childCount == 4)
+                    {
+                        GameObject Sprite2 = GameObject.Instantiate(newSprite.gameObject, lastWaveStat.transform);
+                        waveSprite = waveUIRoot.GetChild(3).GetChild(0).GetComponent<Image>();
+                        newSprite = Sprite2.GetComponent<Image>();
+                        newSprite.sprite = waveSprite.sprite;
+                        newSprite.color = waveSprite.color;
+                    }
                 }
                 catch (System.Exception e)
                 {
-                   Log.LogError(e);
+                    Log.LogError(e);
                 }
 
 
@@ -434,22 +380,10 @@ namespace WolfoQoL_Client.DeathScreen
             }*/
             var playerTracker = playerInfo.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
 
-            if (playerTracker.latestDetailedDeathMessage != string.Empty)
-            {
-                string newFinal = self.finalMessageLabel.text + "\n" + playerTracker.latestDetailedDeathMessage;
-                self.finalMessageLabel.SetText(newFinal, true);
-            }
-            SetupTimerStat(self, "totalTimeAlive", "PERBODYSTATNAME_TOTALTIMEALIVE", playerTracker.timeAliveReal);
-            SetupTimerStat(self, "runTime", "STAT_RUN_TIME", Run.instance.GetRunStopwatch());
-
-
-            
             if (playerTracker.strongestMinion != BodyIndex.None)
             {
                 SetupBodyStat(mvpMinion, playerTracker.strongestMinionDamage, playerTracker.strongestMinion, "STAT_MOST_MVPDRONE", "STAT_AMOUNT_MVPDRONE");
             }
-
-
 
             SetupStat(self, "custom_MinionDamageTaken", "STAT_MINION_DAMAGETAKEN", playerTracker.minionDamageTaken);
             SetupStat(self, "custom_MinionHealthHealed", "STAT_MINION_HEALTHHEALED", playerTracker.minionHealing);
@@ -471,7 +405,7 @@ namespace WolfoQoL_Client.DeathScreen
 
             Transform timesJumped = SetupStat(self, "custom_TimesJumped", "STAT_TIMESJUMPED", playerTracker.timesJumped, true);
             SetupStat(self, "custom_LunarCoinsSpent", "STAT_SPENT_LUNARCOIN", playerTracker.spentLunarCoins);
-            
+
             SetupStat(self, "custom_DotDamage", "STAT_DAMAGE_DOT", playerTracker.dotDamageDone);
             Transform damageBlocked = SetupStat(self, "custom_DamageBlocked", "STAT_DAMAGE_BLOCKED", (int)playerTracker.damageBlocked, true);
             if (playerTracker.timesJumped == -1)
@@ -496,15 +430,41 @@ namespace WolfoQoL_Client.DeathScreen
                 var DronesMissed = SetupStat(self, "custom_DronesMissed", extras.isDevotionRun ? "STAT_DEVOTION_MISSED" : "STAT_MISSED_DRONE", extras.isDevotionRun ? runTracker.missedLemurians : runTracker.missedDrones);
                 if (ChestsMissed)
                 {
-                   TooltipProvider toolTip;
-                   toolTip = AddDetailedTooltip_StringDict(ChestsMissed, runTracker.missedChests_Dict);
-                   if (runTracker.missedShrineChanceItems > 0)
-                   {
-                       toolTip.bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
-                   }
-                   AddDetailedTooltip_StringDict(DronesMissed, runTracker.missedDrones_Dict);
+                    TooltipProvider toolTip;
+                    toolTip = AddDetailedTooltip_StringDict(ChestsMissed, runTracker.missedChests_Dict);
+                    if (runTracker.missedShrineChanceItems > 0)
+                    {
+                        toolTip.bodyToken += GetStatFormatted("STAT_MISSED_SHRINECHANCE", runTracker.missedShrineChanceItems) + "\n";
+                    }
+                    AddDetailedTooltip_StringDict(DronesMissed, runTracker.missedDrones_Dict);
                 }
             }
+        }
+
+        public static void AddCustomStats2(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
+        {
+          
+            DeathScreenExpanded extras = self.GetComponent<DeathScreenExpanded>();
+        
+            if (extras.isLogRunReport)
+            {
+                //All custom stats get auto disabled
+                return;
+            }
+           
+            var playerTracker = playerInfo.master.GetComponent<PerPlayerMaster_ExtraStatTracker>();
+
+            if (playerTracker.latestDetailedDeathMessage != string.Empty)
+            {
+                string newFinal = self.finalMessageLabel.text + "\n" + playerTracker.latestDetailedDeathMessage;
+                self.finalMessageLabel.SetText(newFinal, true);
+            }
+            if (WConfig.DC_RealTimeTimerStat.Value)
+            {
+                SetupTimerStat(self, "totalTimeAlive", "PERBODYSTATNAME_TOTALTIMEALIVE", playerTracker.timeAliveReal);
+                SetupTimerStat(self, "runTime", "STAT_RUN_TIME", Run.instance.GetRunStopwatch());
+            }
+
         }
 
         public static Transform MakeBigStat(GameEndReportPanelController panel, GameObject toInstantiate, Transform location)
@@ -661,6 +621,7 @@ namespace WolfoQoL_Client.DeathScreen
             ulong num3 = num - num2 * 60UL;
             stat.gameObject.SetActive(true);
             stat.GetChild(0).GetComponent<TextMeshProUGUI>().text = string.Format("{2}: <color=#FFFF7F>{0:00}:{1:00}</color>", num2, num3, Language.GetString(statStr));
+            stat.GetChild(1).gameObject.SetActive(false) ;
 
         }
 

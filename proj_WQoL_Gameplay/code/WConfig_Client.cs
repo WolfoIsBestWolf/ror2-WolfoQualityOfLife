@@ -26,8 +26,8 @@ namespace WQoL_Gameplay
         public enum EclipseArtifact
         {
             Off,
-            VanillaWhitelist,
             Blacklist,
+            All,
         }
 
         public static void Start()
@@ -64,7 +64,7 @@ namespace WQoL_Gameplay
             EclipseAllowArtifacts = ConfigFile_Client.Bind(
                 "Game",
                 "Eclipse Artifacts",
-                EclipseArtifact.VanillaWhitelist,
+                EclipseArtifact.Blacklist,
                 "Allows some artifacts to be voted for in Eclipse.\nJust ones that are purely challenge or variety. (And are compatible with the mode).\n\nOption to enable most artifacts if desired."
             );
             cfgPrismatic = ConfigFile_Client.Bind(

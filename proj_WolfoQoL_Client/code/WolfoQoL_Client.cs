@@ -36,7 +36,7 @@ namespace WolfoQoL_Client
     [BepInDependency("com.KingEnderBrine.ProperSave", BepInDependency.DependencyFlags.SoftDependency)]
 
 
-    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.2.3")]
+    [BepInPlugin("Wolfo.WolfoQoL_Client", "WolfoQualityOfLife", "5.2.4")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class WQoLMain : BaseUnityPlugin
     {
@@ -44,7 +44,6 @@ namespace WolfoQoL_Client
         public static readonly System.Random random = new System.Random();
 
         public static bool ServerModInstalled = false;
-        public static bool ProperSaveInstalled = false;
         public static bool NoMoreMathMod = false;
         public static bool ZetAspects = false;
         public static bool QualityModInstalled;
@@ -157,7 +156,7 @@ namespace WolfoQoL_Client
         public void Start()
         {
             ServerModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Wolfo.WolfoQoL_Server");
-            ProperSaveInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
+            bool ProperSaveInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
             NoMoreMathMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.NoMoreMath");
             ZetAspects = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects");
             QualityModInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Gorakh.ItemQualities");

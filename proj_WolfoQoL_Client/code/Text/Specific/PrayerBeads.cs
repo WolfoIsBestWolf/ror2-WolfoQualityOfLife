@@ -7,13 +7,9 @@ namespace WolfoQoL_Client.Text
 
     public static class PrayerBeads
     {
-        public static LanguageAPI.LanguageOverlay BeadsOverlay_Pickup;
-        public static LanguageAPI.LanguageOverlay BeadsOverlay_Desc;
         public static ItemIndex moffeine = (ItemIndex)(-2);
         public static ItemIndex usedBeads = (ItemIndex)(-2);
-        public static bool justRemovedBeadsLocal = false;
-
-
+       
         internal static void SetDescription(ItemIcon self)
         {
             ItemInventoryDisplay display = self.GetComponentInParent<ItemInventoryDisplay>();
@@ -49,11 +45,7 @@ namespace WolfoQoL_Client.Text
                 On.RoR2.UI.ItemIcon.SetItemIndex_ItemIndex_int_float += Consumed_OverrideTooltip;
                 On.RoR2.UI.ItemIcon.ItemClicked += Consumed_OverrideInspect;
             }
-            else
-            {
-                On.RoR2.UI.GenericNotification.SetItem += GenericNotification_SetItem;
-            }
-            On.RoR2.CharacterMaster.OnBeadReset += OverlayForTransformationMessage;
+             On.RoR2.CharacterMaster.OnBeadReset += OverlayForTransformationMessage;
         }
 
         private static void Consumed_OverrideTooltip(On.RoR2.UI.ItemIcon.orig_SetItemIndex_ItemIndex_int_float orig, ItemIcon self, ItemIndex newItemIndex, int newItemCount, float newDurationPercent)
@@ -62,23 +54,6 @@ namespace WolfoQoL_Client.Text
             if (newItemIndex == usedBeads)
             {
                 SetDescription(self);
-            }
-        }
-
-        private static void GenericNotification_SetItem(On.RoR2.UI.GenericNotification.orig_SetItem orig, GenericNotification self, ItemDef itemDef)
-        {
-            orig(self, itemDef);
-            if (justRemovedBeadsLocal && itemDef == DLC2Content.Items.ExtraStatsOnLevelUp)
-            {
-                justRemovedBeadsLocal = false;
-                self.titleText.token = itemDef.nameToken;
-                self.descriptionText.token = Language.GetString("BEADS_TEMP_");
-                if (itemDef.pickupIconTexture != null)
-                {
-                    self.iconImage.gameObject.SetActive(false);
-
-                }
-                self.titleTMP.color = ColorCatalog.GetColor(itemDef.colorIndex);
             }
         }
 
@@ -137,32 +112,26 @@ namespace WolfoQoL_Client.Text
             {
                 return;
             }
-            if (BeadsOverlay_Pickup != null)
+            CharacterMasterNotificationQueue.CustomOverrideInfo overrideInfo = new CharacterMasterNotificationQueue.CustomOverrideInfo
             {
-                BeadsOverlay_Pickup.Remove();
-            }
-            if (BeadsOverlay_Desc != null)
+                titleText = "ITEM_EXTRASTATSONLEVELUP_CONSUMED_NAME",
+                descriptionText = GetPrayerBeadsToken(inventory, body, "OVERLAY_EXTRASTATSONLEVELUP_DESC"),
+            };
+            CharacterMasterNotificationQueue notificationQueueForMaster = CharacterMasterNotificationQueue.GetNotificationQueueForMaster(master);
+            if (notificationQueueForMaster)
             {
-                BeadsOverlay_Desc.Remove();
+                if (WQoLMain.ServerModInstalled == true)
+                {
+                    notificationQueueForMaster.PushNotification(new CharacterMasterNotificationQueue.NotificationInfo(usedBeads, null, overrideInfo, false), 12f);
+                }
+                else if (WQoLMain.ServerModInstalled == false)
+                {
+                    overrideInfo.iconColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Unaffordable);
+                    notificationQueueForMaster.PushNotification(new CharacterMasterNotificationQueue.NotificationInfo(DLC2Content.Items.ExtraStatsOnLevelUp, null, overrideInfo, false), 12f);
+                }
             }
-            if (WQoLMain.ServerModInstalled == true)
-            {
-                string tokenFull = GetPrayerBeadsToken(inventory, body, "OVERLAY_EXTRASTATSONLEVELUP_CONSUMED_PICKUP");
-                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_CONSUMED_PICKUP", tokenFull);
-                BeadsOverlay_Desc = LanguageAPI.AddOverlay("ITEM_EXTRASTATSONLEVELUP_CONSUMED_DESC", tokenFull);
-                CharacterMasterNotificationQueue.PushItemTransformNotification(master, DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex, usedBeads, CharacterMasterNotificationQueue.TransformationType.Default);
-            }
-            else if (WQoLMain.ServerModInstalled == false)
-            {
-                justRemovedBeadsLocal = true;
-                //latestBeader = inventory;
-                string tokenFull = GetPrayerBeadsToken(inventory, body, "OVERLAY_EXTRASTATSONLEVELUP_DESC");
-                BeadsOverlay_Pickup = LanguageAPI.AddOverlay("BEADS_TEMP_", tokenFull);
-                CharacterMasterNotificationQueue notificationQueueForMaster = CharacterMasterNotificationQueue.GetNotificationQueueForMaster(master);
-                CharacterMasterNotificationQueue.TransformationInfo transformation = new CharacterMasterNotificationQueue.TransformationInfo(CharacterMasterNotificationQueue.TransformationType.Default, DLC2Content.Items.ExtraStatsOnLevelUp);
-                CharacterMasterNotificationQueue.NotificationInfo info = new CharacterMasterNotificationQueue.NotificationInfo(ItemCatalog.GetItemDef(DLC2Content.Items.ExtraStatsOnLevelUp.itemIndex), transformation);
-                notificationQueueForMaster.PushNotification(info, 12f);
-            }
+           
+           
         }
 
 

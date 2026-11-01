@@ -112,8 +112,23 @@ namespace WolfoQoL_Client.Reminders
 
                     //GameObject TripleShopEquipment = GameObject.Find("/HOLDER: Stage Events/GROUP: Secrets/UESLootContainer1 (1)/GROUP: Loot/TripleShopEquipment (1)");
                     break;
+                case "computationalexchange":
+                    GameObject GreenPrinter = GameObject.Find("/HOLDER: Interactables/GROUP: Printer Zone + Toggle Group/DuplicatorLarge");
+                    if (GreenPrinter)
+                    {
+                        if (GreenPrinter.activeInHierarchy)
+                        {
+                            if (TreasureReminder.instance)
+                            {
+                                TreasureReminder.instance.greenPrinterSpawned = true;
+                            }
+                            TreasureReminder.SetupRemindersStatic(true);
+                            DuplicatorModel.MakeOld(GreenPrinter);
+                        }
+                    }     
+                    break;
             }
-        
+            Log.LogMessage("CurrentStage: " + SceneInfo.instance.sceneDef.baseSceneName);
         }
 
     }
