@@ -348,9 +348,10 @@ namespace WolfoQoL_Client
         {
             GameObject Tier2 = Addressables.LoadAssetAsync<GameObject>(key: "730ea84bde179504e985c5f3c66db36b").WaitForCompletion();
             Sprite texUICornerTier3 = Addressables.LoadAssetAsync<Sprite>(key: "43a45be290137ab439552af4ff6eb6c4").WaitForCompletion();
-
-
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightLunarItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().highlightColor = new Color32(66, 112, 255, 255);//new Color(0.3f, 0.6f, 1, 1);
+            //0.1882 0.498 1 1
+            //0.7925 0.1948 0.1458 1
+            //0.9059 0.3294 0.2275 1
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightLunarItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().highlightColor = new Color(0.2258f, 0.5976f, 1f,1f);//new Color(0.3f, 0.6f, 1, 1);
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/UI/HighlightVoidBossItem.prefab").WaitForCompletion().GetComponent<HighlightRect>().cornerImage = texUICornerTier3;
 

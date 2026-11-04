@@ -54,6 +54,7 @@ namespace WolfoQoL_Client
 
         public static ConfigEntry<bool> LogbookSimuStages;
         public static ConfigEntry<bool> BarrierHPBarChange;
+        public static ConfigEntry<bool> cfg_UI_InspectableSurv;
 
 
 

@@ -32,7 +32,7 @@ namespace WolfoQoL_Client.Menu
 
                 UI_Color.Start();
 
-                //UI_InspectableSurvivor.Start();
+               UI_InspectableSurvivor.Start();
             }
 
             GameModeCatalog.availability.CallWhenAvailable(CallLate);

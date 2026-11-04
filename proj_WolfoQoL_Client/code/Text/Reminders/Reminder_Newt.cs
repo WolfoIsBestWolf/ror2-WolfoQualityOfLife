@@ -54,8 +54,13 @@ namespace WolfoQoL_Client.Reminders
             orig(self);
             if (self.portalType == PortalStatueBehavior.PortalType.Shop)
             {
-                TreasureReminder.instance.newtShrineSpawned++;
+                if (TreasureReminder.instance)
+                {
+                    TreasureReminder.instance.newtShrineSpawned++;
+                }
+                //
                 //Adds -> OnEnable -> only then sees NewtAltar bool
+                //No Awake or OnEnable here so yeah.
                 self.gameObject.AddComponent<SpawnListener>().interactable = SpawnListener.Interactable.newtAltar;
             }
         }

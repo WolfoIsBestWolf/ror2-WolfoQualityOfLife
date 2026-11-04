@@ -252,7 +252,7 @@ namespace WolfoQoL_Client.Reminders
                     TreasureReminder.instance.voidFreeChestSpawned = true;
                     break;
                 case Interactable.newtAltar:
-                    TreasureReminder.instance.newtShrineSpawned++;
+                    //TreasureReminder.instance.newtShrineSpawned++;
                     break;
                 case Interactable.halcyonShrine:
                     TreasureReminder.instance.halcyonSpawned = true;

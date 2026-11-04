@@ -42,7 +42,7 @@ Twisted Elites are now Dark Blue instead of reusing Overloading colors.
 
 ## Icons
 A Unique Ping Icon for the vast majority of Interactables.\
-Different Icons for different loot types. (Equipment/Temp Items)
+Different Icons for different loot types. (Equipment/Temp Items)\
 (Supports some mods too)
 
 Unique Body Icon for Engineer Walker Turrets, Empathy Cores, Devoted Lemurians.\
@@ -77,10 +77,15 @@ Geysers in Sulfur Pools and Abyssal Depths have different fluid color to match t
 
 ## Other
 
-Readds the old chunky printer Model for Uncommon and Mili Tech Printers.
+Readds the old chunky printer Model for Uncommon and Mili-Tech Printers.
 
-Lunar/Elite/Constumed Equipment, Void White/Red/Boss, Lunar Coins now use their own color.
- 
+Gave certain groups of items a different outline color:
+- Lunar Coins now use the Lunar Coin color.
+- Lunar/Elite/Consumed Equipment can now be differentiated easily.
+- Void White/Red/Boss are slightly less/more pink.
+- Meal items are slightly lighter orange.
+- Page items are slightly darker blue.
+
 Void Potentials & Aurelionite Fragments now have tiered particle effects.
 
 Chef Oil will spawn a little effect when changing states.
@@ -88,7 +93,6 @@ Chef Oil will spawn a little effect when changing states.
 
 
 ## Audio
-Parrying now plays a more noticible sound.
 
 Igniting Oil will play a sound.
 
@@ -122,7 +126,7 @@ Objectives for the following:
 - Halcyonite Shrine charge percentage & Killing.
 - Getting the extra Halcyonite Fragment on Prime Meridian
 - Using the Hallowed Shrine if you have Hexes, either to cleanse yourself or get more Hexes.
-- Totem of Sacrifice leveling percentage after using it.
+- Totem of Sacrifice souls absorbed percentage.
 - (Off by default)
 - - Find Newt Shrine, Halcyon Shrine, Access Node
 
@@ -139,21 +143,21 @@ Item names will be colored in pings.\
 Pinging a Ally will be blue with a friendly message.\
 Pings last twice as long.
 
-Equipment Drones equipment will be shown under their name
+Equipment Drone's equipment will be shown under their name-
 
-Lunar Seers destination Stages will shown when pinged and in the pre-purchase line.
+Lunar Seer's destination stage will be shown when pinged and in the pre-purchase line.
 
 Uncommon 3D Printers & Multi Shops will be referred to as Large instead of reusing the same name.
 
 Changes the name of Lunar Chimera to include their type.\
 Adds descriptions to items lacking one. (Elite Equipment, Tonic Debuff, Fuel Array)
  
-Cleansing Pools, Lockboxes and Lunar Recycler now show their Cost in world.
+Cleansing Pools, Lockboxes and Lunar Recycler now show a cost hologram like most interactables.
 
 
-Void Potentials & Aurelionite Fragments display their items in ping messages
+Void Potentials & Aurelionite Fragments display the items they contain in ping messages
 
-Limbo & Void no longer reuse standard quote.
+Limbo & Void no longer reuse standard win quote.
 
 
 # Menus
@@ -204,22 +208,24 @@ Logbook additions:
 - *(Default Off)* Simulacrum Stages
 
 ## Other Menus / UI
-Adds an inventory display during Devotion for Devoted Lemurians, in the scoreboard.
 
-Sprinting Crosshair is different to support charging attacks.
+Sprinting Crosshair now has a extra element to show charge/bloom of attacks.
 
-Real-Time timer underneath Run timer, when Scoreboard is open.
- 
+Scoreboard:
+- Dead players will continue showing their inventories.
+- Inspectable survivor loadouts by clicking the icon, so you can reread your or other people's loadout.
+- Adds an inventory display during Devotion for Devoted Lemurians, in the scoreboard.
+
+Real-Time timer underneath Run timer, when Scoreboard is open, to know how much time was spent in Hidden Realms.
+
 Teleporter Discovered different color from Completed.
-
-Tab Scoreboard now shows dead peoples inventory too.  
 
 Eclipse lobbies will show the Eclipse Level on the character select icon.\
 Simulacrum lobbies will show a Pink Border on the characters you beat Wave 50 on.
 
-Main Menu theme now changes randomly.
+Main Menu theme now changes randomly between default, Siren's Call and Scorched Acres themes.
 
-Lobby and run Chat can be scrolled.\
+Lobby, Run and Death Screen chat can be scrolled.\
 Chat box displays more messages and is wider.
 
 Crafting Menu is wider to fit more items more easily.
@@ -244,15 +250,14 @@ Void Allies have cyan eyes for slighty easier identification in the dark.
 Elite Children have stronger colors so you can distinguish them easier.\
 Some Lunar Seer destinations look less bright.
 
-
 Lunar Seers replace the Blue Portal with a Green/Gold/Void when going to those places.
 
-Sale Star effect does a little effect instead of vanishing.\
-False Sons Aurelionite Fragment now has Green or Red tiered visuals.
+Sale Star effect shrinks instead of vanishing instantly.\
+False Sons Aurelionite Fragment now has Green or Red tiered visuals depending on reward.
  
-Twisted Scavs get Beads of Fealty for decor.
+Twisted Scavengers hold Beads of Fealty for decor.
 
-Burrowed Scorch Worms trail particles even midair.
+Burrowed Scorch Worms leave a trail of particles even midair, so that they are not literally invisible.
 
 ##
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\

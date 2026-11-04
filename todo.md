@@ -17,6 +17,8 @@ how do we fix the no price thing port to other thing as well the other the drone
 
 gummy equip drones count for the quantity maybe dont?
 
+or maybe we Can just implant it into the circle radius like we do in uh uh elder lemr
+what if we just make it so the mortal portal spawns both of them??
 
 
 always fix drone combiner client stuff too
@@ -25,12 +27,29 @@ always fix drone combiner client stuff too
 reviving from the shrine of shaping buff like the items?
 * if died with x buff revived by shrine seeker
 
+disable sprint corsshair for huntress
+
+
+
+how did we make real timer again 
+
+did chef message not work in cleint uhh
+
+
+remove MidasFrozen stacking
 
 
 
 
-or maybe we Can just implant it into the circle radius like we do in uh uh elder lemr
-what if we just make it so the mortal portal spawns both of them??
+grid 3 if too many? just recheck sizes with 4 player, 8 player
+test it in mp and ship it
+
+
+
+seperate mission pointers
+
+
+recycler message when recycler didn't even fire (????)
 
 
 
@@ -38,5 +57,3 @@ what if we just make it so the mortal portal spawns both of them??
 
 
 
-
- 

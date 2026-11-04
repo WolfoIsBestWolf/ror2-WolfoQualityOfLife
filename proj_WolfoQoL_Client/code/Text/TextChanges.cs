@@ -19,10 +19,12 @@ namespace WolfoQoL_Client.Text
         public bool checkForLang = true;
         public void OnEnable()
         {
-            if (checkForLang && !Language.currentLanguage.TokenIsRegistered(displayNameToken))
+            if (checkForLang)
             {
-                Destroy(this);
-                return;
+                if (!string.IsNullOrEmpty(displayNameToken) && !Language.currentLanguage.TokenIsRegistered(displayNameToken))
+                {
+                    Destroy(this);
+                }
             }
         }
     }
@@ -203,13 +205,13 @@ namespace WolfoQoL_Client.Text
                     On.EntityStates.Missions.BrotherEncounter.Phase2.OnEnter += MithrixPhase2OverrideLunarChimeraHordeName;
                 }
             }
+            LanguageAPI.Add("PROPER_SAVE_CHAT_SAVE", "<style=cEvent>" + Language.GetString("PROPER_SAVE_CHAT_SAVE").Replace("<b>", "") + "</style>");
             if (!WConfig.cfgTextOther.Value)
             {
                 return;
             }
             #region Speech Colors
 
-            LanguageAPI.Add("PROPER_SAVE_CHAT_SAVE", "<style=cEvent>" + Language.GetString("PROPER_SAVE_CHAT_SAVE").Replace("<b>", "") + "</style>");
             LanguageAPI.Add("VULTUREHUNTER_DIALOGUE_FORMAT", Language.GetString("VULTUREHUNTER_DIALOGUE_FORMAT").Replace("c6d5ff", "87E5C0"));
             //LanguageAPI.Add("FALSESONBOSS_DIALOGUE_FORMAT", Language.GetString("FALSESONBOSS_DIALOGUE_FORMAT").Replace("c6d5ff", "FFA288"));
             #endregion

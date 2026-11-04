@@ -226,13 +226,13 @@ namespace WolfoQoL_Client.Text
         private static bool RecylerMessage_Host(On.RoR2.EquipmentSlot.orig_FireRecycle orig, EquipmentSlot self)
         {
             GenericPickupController pickupController = self.currentTarget.pickupController;
-            if (!pickupController || pickupController.Recycled)
+            if (!pickupController)
             {
                 return false;
             }
             UniquePickup initialPickupState = pickupController.pickup;
             bool temp = orig(self);
-            if (WConfig.cfgMessagesRecycler.Value)
+            if (temp && WConfig.cfgMessagesRecycler.Value)
             {
                 Chat.AddMessage(new RecycleMessage
                 {

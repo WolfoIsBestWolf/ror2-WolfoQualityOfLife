@@ -120,16 +120,28 @@ namespace WolfoQoL_Client.Text
         //Client sided not whatever weird
         public static void SeerName(GameObject self, SceneIndex index)
         {
+            if (index == SceneIndex.Invalid)
+            {
+                return;
+            }
+            SceneDef sceneDef = SceneCatalog.GetSceneDef(index);
+            if (sceneDef == null)
+            {
+                return;
+            }
             PurchaseTokenOverwrite overwrite = self.EnsureComponent<PurchaseTokenOverwrite>();
             overwrite.checkForLang = false;
 
-            string temp = Language.GetString(SceneCatalog.GetSceneDef(index).nameToken);
-            string[] split = temp.Split(": ");
-            if (split.Length > 1)
+            string temp = Language.GetString(sceneDef.nameToken);
+            if (temp != null)
             {
-                temp = split[1];
+                string[] split = temp.Split(": ");
+                if (split.Length > 1)
+                {
+                    temp = split[1];
+                }
             }
-          
+            
             overwrite.contextToken = Language.GetString("BAZAAR_SEER_CONTEXT") + " (" + temp + ")";
             overwrite.displayNameToken = Language.GetString("BAZAAR_SEER_NAME") + " (" + temp + ")";
         }

@@ -66,9 +66,35 @@ namespace WolfoQoL_Client
                 CombatHealthBar.barrierBarStyle.baseColor = new Color(1f, 1f, 1f, 0.88f);
             }
 
+            On.RoR2.UI.CurrentDifficultyIconController.Start += CurrentDifficultyIconController_Start;
         }
 
-        private static void CursedBookExtraDisplay_UpdateSelectionIndicator(ILContext il)
+        private static void CurrentDifficultyIconController_Start(On.RoR2.UI.CurrentDifficultyIconController.orig_Start orig, CurrentDifficultyIconController self)
+        {
+            orig(self);
+            if (self.GetComponent<TooltipProvider>() == null) //Huddle up does the same uhhh welp
+            {
+                if (Run.instance)
+                {
+                    DifficultyDef difficultyDef = DifficultyCatalog.GetDifficultyDef(Run.instance.selectedDifficulty);
+                    TooltipProvider provider = self.gameObject.AddComponent<TooltipProvider>();
+                    provider.titleColor = difficultyDef.color;
+                    provider.titleToken = difficultyDef.nameToken;
+                    provider.bodyToken = difficultyDef.descriptionToken;
+
+                    var image = self.GetComponent<Image>();
+                    image.raycastTarget = true;
+                    if (image.canvas)
+                    {
+                        image.canvas.EnsureComponent<GraphicRaycaster>();
+                    }
+                }
+               
+
+            }
+        }
+
+        /*private static void CursedBookExtraDisplay_UpdateSelectionIndicator(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.After,
@@ -87,7 +113,7 @@ namespace WolfoQoL_Client
             {
                 Log.LogWarning("IL Failed: CursedBookExtraDisplay_UpdateSelectionIndicator");
             }
-        }
+        }*/
 
         private static void AddDevotedLemurians(On.RoR2.UI.ScoreboardController.orig_Rebuild orig, ScoreboardController self)
         {

@@ -15,8 +15,6 @@ namespace WolfoQoL_Client.DeathScreen
 
         public static void Add_Loadout(GameEndReportPanelController self, RunReport.PlayerInfo playerInfo)
         {
-
-
             if (WConfig.DC_Loadout.Value == false)
             {
                 return;
@@ -151,8 +149,6 @@ namespace WolfoQoL_Client.DeathScreen
 
         public void SetLoadout(Loadout.BodyLoadoutManager.BodyLoadout loadout, int[] inventory)
         {
-
-
             latest = loadout;
             if (!setup)
             {

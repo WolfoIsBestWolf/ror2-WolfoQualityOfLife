@@ -63,17 +63,17 @@ namespace WolfoQoL_Client
         {
             if (RealTimerUIController.instance)
             {
-                RealTimerUIController.instance.SetActive(false);
+                if (WConfig.RealTimeTimer.Value)
+                {
+                    RealTimerUIController.instance.SetActive(true);
+                }
             }
         }
         private static void ExtraActions_onScoreboardClosed()
         {
             if (RealTimerUIController.instance)
             {
-                if (WConfig.RealTimeTimer.Value)
-                {
-                    RealTimerUIController.instance.SetActive(true);
-                }
+                RealTimerUIController.instance.SetActive(false);
             }
         }
 
@@ -89,7 +89,8 @@ namespace WolfoQoL_Client
 
         public void OnEnable()
         {
-            runStartingOffset = 0.2f;
+            //Starting time vs fixed age vs smth?
+            runStartingOffset = 0.2833f;
             realTimer.localPosition += new Vector3(0, 2, 0);
         }
         public void OnDisable()
@@ -101,7 +102,8 @@ namespace WolfoQoL_Client
         {
             this.runStopwatchTimerTextController.format = format;
             HGTextMeshProUGUI hgtextMeshProUGUI = this.GetComponent<HGTextMeshProUGUI>();
-            hgtextMeshProUGUI.color = hgtextMeshProUGUI.color.AlphaMultiplied(0.25f);
+            //hgtextMeshProUGUI.color = hgtextMeshProUGUI.color.AlphaMultiplied(0.5f);
+            hgtextMeshProUGUI.color = new Color(0.5992f, 0.6777f, 0.753f, 1f);
             hgtextMeshProUGUI.alignment = TMPro.TextAlignmentOptions.Right;
             this.transform.localPosition = new Vector3(-32.5f, -10f, 0f);
             this.transform.localScale = Vector3.one * 0.5f;

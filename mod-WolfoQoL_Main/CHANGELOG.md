@@ -1,4 +1,17 @@
 ```
+v5.2.5
+Survivor loadout inspectable in scoreboard.
+* Re-read what your abilities do.
+** Keywords when hovering/as tooltips.
+* Check what other people are using directly.
+
+Made real time timer less transparent.
+Fixed real time timer open state being inverted.
+Fixed a null-ref related to Newt Reminder.
+Fixed a null-ref related to purchase context text.
+Fixed rare case where a recycler message happened despite no recycling being done.
+```
+```
 v5.2.4
 Disabled unused Helminth lighting by default.
 * Default setting now vanilla Helminth that's just brigther. 
